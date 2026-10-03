@@ -145,6 +145,13 @@ real-world accuracy claim. Benchmarks generate fixed inputs in memory and use
 See [benchmark results](docs/benchmarks.md), [CONTRIBUTING.md](CONTRIBUTING.md),
 [ROADMAP.md](ROADMAP.md), and [MAINTAINERS.md](MAINTAINERS.md).
 
+Stage 1 now adds a separate development-only evaluation package with 40 synthetic
+families, 200 schema pairs and 1,200 labeled source decisions. The
+[evaluation report](docs/evaluation.md) records the unchanged matcher's results,
+including substantial false-proposal rates; the roadmap's precision and coverage
+targets are not yet met. The full reproduction guide is in
+[evaluation/](https://github.com/limadog9/fieldkin/tree/main/evaluation).
+
 ## License
 
 Licensed under either [MIT](LICENSE-MIT) or [Apache License 2.0](LICENSE-APACHE),
