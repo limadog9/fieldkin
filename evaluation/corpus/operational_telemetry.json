@@ -1,0 +1,1983 @@
+[
+  {
+    "id": "telemetry_01",
+    "domain": "operational_telemetry",
+    "title": "A pump station uses explicit engineering units",
+    "tags": [
+      "renamed",
+      "misleading_names",
+      "units",
+      "unequal_sizes",
+      "no_match"
+    ],
+    "rationale": "Original synthetic pump-station feed. Correspondences preserve quantity and unit. Celsius and Fahrenheit temperatures, and kilopascals versus pascals, are different representations requiring conversion and are not accepted as direct field correspondences.",
+    "source": [
+      {
+        "id": "s1",
+        "name": "Temp_C",
+        "data_type": "Float",
+        "concept": "fluid temperature in degrees Celsius",
+        "samples": [
+          18.2,
+          19.3,
+          20.4
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "Humidity_Pct",
+        "data_type": "Float",
+        "concept": "enclosure relative humidity in percent",
+        "samples": [
+          41,
+          42,
+          43
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "Pressure_kPa",
+        "data_type": "Float",
+        "concept": "line pressure in kilopascals",
+        "samples": [
+          120,
+          130,
+          140
+        ]
+      },
+      {
+        "id": "s4",
+        "name": "Flow_Lpm",
+        "data_type": "Float",
+        "concept": "volumetric flow in litres per minute",
+        "samples": [
+          3.2,
+          3.4,
+          3.6
+        ]
+      },
+      {
+        "id": "s5",
+        "name": "BatteryV",
+        "data_type": "Float",
+        "concept": "backup battery voltage in volts",
+        "samples": [
+          12.2,
+          12.3,
+          12.4
+        ]
+      },
+      {
+        "id": "s6",
+        "name": "SampleTime",
+        "data_type": "Timestamp",
+        "concept": "sensor observation time",
+        "samples": [
+          "2026-05-01T10:00:00Z",
+          "2026-05-01T10:01:00Z",
+          "2026-05-01T10:02:00Z"
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "temperature_c",
+        "data_type": "Float",
+        "concept": "fluid temperature in degrees Celsius",
+        "samples": [
+          18.2,
+          19.3,
+          20.4
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "humidity_pct",
+        "data_type": "Float",
+        "concept": "enclosure relative humidity in percent",
+        "samples": [
+          41,
+          42,
+          43
+        ]
+      },
+      {
+        "id": "t3",
+        "name": "pressure_pa",
+        "data_type": "Float",
+        "concept": "line pressure in pascals",
+        "samples": [
+          120000,
+          130000,
+          140000
+        ]
+      },
+      {
+        "id": "t4",
+        "name": "flow_lpm",
+        "data_type": "Float",
+        "concept": "volumetric flow in litres per minute",
+        "samples": [
+          3.2,
+          3.4,
+          3.6
+        ]
+      },
+      {
+        "id": "t5",
+        "name": "battery_v",
+        "data_type": "Float",
+        "concept": "backup battery voltage in volts",
+        "samples": [
+          12.2,
+          12.3,
+          12.4
+        ]
+      },
+      {
+        "id": "t6",
+        "name": "sample_time",
+        "data_type": "Timestamp",
+        "concept": "sensor observation time",
+        "samples": [
+          "2026-05-01T10:00:00Z",
+          "2026-05-01T10:01:00Z",
+          "2026-05-01T10:02:00Z"
+        ]
+      },
+      {
+        "id": "t7",
+        "name": "temperature_f",
+        "data_type": "Float",
+        "concept": "fluid temperature in degrees Fahrenheit",
+        "samples": [
+          64.76,
+          66.74,
+          68.72
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "match",
+        "targets": [
+          "t1"
+        ],
+        "rationale": "The same fluid temperature is stored in Celsius; Fahrenheit would require conversion."
+      },
+      {
+        "source": "s2",
+        "kind": "match",
+        "targets": [
+          "t2"
+        ],
+        "rationale": "Both fields measure enclosure relative humidity in percent."
+      },
+      {
+        "source": "s3",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "The destination has pressure only in pascals; a kilopascal-to-pascal transformation is outside direct correspondence."
+      },
+      {
+        "source": "s4",
+        "kind": "match",
+        "targets": [
+          "t4"
+        ],
+        "rationale": "Both fields measure the same flow in litres per minute."
+      },
+      {
+        "source": "s5",
+        "kind": "match",
+        "targets": [
+          "t5"
+        ],
+        "rationale": "Both fields report backup battery voltage in volts."
+      },
+      {
+        "source": "s6",
+        "kind": "match",
+        "targets": [
+          "t6"
+        ],
+        "rationale": "Both timestamps identify when the sensor observation was made."
+      }
+    ]
+  },
+  {
+    "id": "telemetry_02",
+    "domain": "operational_telemetry",
+    "title": "Host resource counters cannot be substituted for gauges or rates",
+    "tags": [
+      "misleading_names",
+      "units",
+      "incompatible_types",
+      "no_match"
+    ],
+    "rationale": "Original synthetic host-monitoring export. CPU utilization and load average are distinct measurements; a cumulative request counter is not a request rate. Values include superficially similar magnitudes, but semantics and units establish the labels.",
+    "source": [
+      {
+        "id": "s1",
+        "name": "CPUPercent",
+        "data_type": "Float",
+        "concept": "processor utilization in percent",
+        "samples": [
+          35,
+          42,
+          57
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "LoadAverage",
+        "data_type": "Float",
+        "concept": "one-minute runnable-process load",
+        "samples": [
+          0.35,
+          0.42,
+          0.57
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "RequestTotal",
+        "data_type": "Integer",
+        "concept": "cumulative accepted-request count",
+        "samples": [
+          1200,
+          1220,
+          1250
+        ]
+      },
+      {
+        "id": "s4",
+        "name": "MemoryBytes",
+        "data_type": "Integer",
+        "concept": "resident memory use in bytes",
+        "samples": [
+          4096,
+          8192,
+          16384
+        ]
+      },
+      {
+        "id": "s5",
+        "name": "UptimeSeconds",
+        "data_type": "Integer",
+        "concept": "elapsed host uptime in seconds",
+        "samples": [
+          10,
+          20,
+          30
+        ]
+      },
+      {
+        "id": "s6",
+        "name": "Status",
+        "data_type": "Text",
+        "concept": "multistate collector health label",
+        "samples": [
+          "ok",
+          "warning",
+          "offline"
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "cpu_utilization_percent",
+        "data_type": "Float",
+        "concept": "processor utilization in percent",
+        "samples": [
+          35,
+          42,
+          57
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "cpu_load",
+        "data_type": "Float",
+        "concept": "one-minute runnable-process load",
+        "samples": [
+          0.35,
+          0.42,
+          0.57
+        ]
+      },
+      {
+        "id": "t3",
+        "name": "request_rate",
+        "data_type": "Float",
+        "concept": "accepted requests per second",
+        "samples": [
+          20,
+          30,
+          25
+        ]
+      },
+      {
+        "id": "t4",
+        "name": "memory_bytes",
+        "data_type": "Integer",
+        "concept": "resident memory use in bytes",
+        "samples": [
+          4096,
+          8192,
+          16384
+        ]
+      },
+      {
+        "id": "t5",
+        "name": "uptime_ms",
+        "data_type": "Integer",
+        "concept": "elapsed host uptime in milliseconds",
+        "samples": [
+          10000,
+          20000,
+          30000
+        ]
+      },
+      {
+        "id": "t6",
+        "name": "status",
+        "data_type": "Boolean",
+        "concept": "collector is reachable",
+        "samples": [
+          true,
+          true,
+          false
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "match",
+        "targets": [
+          "t1"
+        ],
+        "rationale": "Both gauges measure CPU utilization in percent."
+      },
+      {
+        "source": "s2",
+        "kind": "match",
+        "targets": [
+          "t2"
+        ],
+        "rationale": "Both gauges measure one-minute load, which is not CPU percent."
+      },
+      {
+        "source": "s3",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "A cumulative counter cannot directly map to a per-second rate."
+      },
+      {
+        "source": "s4",
+        "kind": "match",
+        "targets": [
+          "t4"
+        ],
+        "rationale": "Both gauges measure the same resident byte count."
+      },
+      {
+        "source": "s5",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Only a millisecond representation exists in the target; direct matching excludes conversion."
+      },
+      {
+        "source": "s6",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "A three-state health label and a reachability boolean represent different information."
+      }
+    ]
+  },
+  {
+    "id": "telemetry_03",
+    "domain": "operational_telemetry",
+    "title": "Tracing, process and deployment identifiers use independent scopes",
+    "tags": [
+      "identifier_scope",
+      "misleading_names",
+      "no_match",
+      "low_cardinality"
+    ],
+    "rationale": "Original synthetic distributed tracing envelope. Short example IDs collide across scopes. Trace, span, host and process identifiers are retained, while boot and event identifiers must not be confused with deployment and container identifiers.",
+    "source": [
+      {
+        "id": "s1",
+        "name": "TraceID",
+        "data_type": "Text",
+        "concept": "distributed trace identifier",
+        "samples": [
+          "a1",
+          "b2",
+          "c3"
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "SpanID",
+        "data_type": "Text",
+        "concept": "span identifier within a trace",
+        "samples": [
+          "a1",
+          "b2",
+          "c3"
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "HostID",
+        "data_type": "Text",
+        "concept": "physical host identifier",
+        "samples": [
+          "h1",
+          "h2",
+          "h3"
+        ]
+      },
+      {
+        "id": "s4",
+        "name": "ProcessID",
+        "data_type": "Integer",
+        "concept": "operating-system process identifier",
+        "samples": [
+          101,
+          102,
+          103
+        ]
+      },
+      {
+        "id": "s5",
+        "name": "BootID",
+        "data_type": "Text",
+        "concept": "host boot-session identifier",
+        "samples": [
+          "a1",
+          "b2",
+          "c3"
+        ]
+      },
+      {
+        "id": "s6",
+        "name": "EventID",
+        "data_type": "Text",
+        "concept": "individual telemetry event identifier",
+        "samples": [
+          "a1",
+          "b2",
+          "c3"
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "trace_id",
+        "data_type": "Text",
+        "concept": "distributed trace identifier",
+        "samples": [
+          "a1",
+          "b2",
+          "c3"
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "span_id",
+        "data_type": "Text",
+        "concept": "span identifier within a trace",
+        "samples": [
+          "a1",
+          "b2",
+          "c3"
+        ]
+      },
+      {
+        "id": "t3",
+        "name": "host_id",
+        "data_type": "Text",
+        "concept": "physical host identifier",
+        "samples": [
+          "h1",
+          "h2",
+          "h3"
+        ]
+      },
+      {
+        "id": "t4",
+        "name": "process_id",
+        "data_type": "Integer",
+        "concept": "operating-system process identifier",
+        "samples": [
+          101,
+          102,
+          103
+        ]
+      },
+      {
+        "id": "t5",
+        "name": "boot_id",
+        "data_type": "Text",
+        "concept": "software deployment identifier",
+        "samples": [
+          "a1",
+          "b2",
+          "c3"
+        ]
+      },
+      {
+        "id": "t6",
+        "name": "event_id",
+        "data_type": "Text",
+        "concept": "container instance identifier",
+        "samples": [
+          "a1",
+          "b2",
+          "c3"
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "match",
+        "targets": [
+          "t1"
+        ],
+        "rationale": "Both IDs identify the full distributed trace."
+      },
+      {
+        "source": "s2",
+        "kind": "match",
+        "targets": [
+          "t2"
+        ],
+        "rationale": "Both IDs identify the span inside a trace, not the enclosing trace."
+      },
+      {
+        "source": "s3",
+        "kind": "match",
+        "targets": [
+          "t3"
+        ],
+        "rationale": "Both IDs identify the same physical host namespace."
+      },
+      {
+        "source": "s4",
+        "kind": "match",
+        "targets": [
+          "t4"
+        ],
+        "rationale": "Both integer IDs identify operating-system processes."
+      },
+      {
+        "source": "s5",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "The destination's historical boot_id name actually refers to software deployment, not host boot sessions."
+      },
+      {
+        "source": "s6",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "The destination's historical event_id name actually identifies containers, not events."
+      }
+    ]
+  },
+  {
+    "id": "telemetry_04",
+    "domain": "operational_telemetry",
+    "title": "Duplicate sensor display names and one lost pressure-probe location",
+    "tags": [
+      "duplicate_names",
+      "ambiguous",
+      "renamed",
+      "unequal_sizes"
+    ],
+    "rationale": "Original synthetic rack telemetry import. Distinct stable IDs preserve two temperature channels whose names collide; their sampled readings differ. A pressure channel has lost inlet-versus-outlet metadata, and identical observations cannot establish its target probe.",
+    "source": [
+      {
+        "id": "s1",
+        "name": "Temperature",
+        "data_type": "Float",
+        "concept": "rack A temperature in Celsius",
+        "samples": [
+          21.1,
+          21.2,
+          21.3
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "Temperature",
+        "data_type": "Float",
+        "concept": "rack B temperature in Celsius",
+        "samples": [
+          28.1,
+          28.2,
+          28.3
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "Pressure",
+        "data_type": "Float",
+        "concept": "pressure probe with lost location in kilopascals",
+        "samples": [
+          101,
+          101.1,
+          101.2
+        ]
+      },
+      {
+        "id": "s4",
+        "name": "SupplyVoltage",
+        "data_type": "Float",
+        "concept": "rack power-supply voltage",
+        "samples": [
+          47.8,
+          47.9,
+          48
+        ]
+      },
+      {
+        "id": "s5",
+        "name": "Humidity",
+        "data_type": "Float",
+        "concept": "rack room relative humidity in percent",
+        "samples": [
+          31,
+          32,
+          33
+        ]
+      },
+      {
+        "id": "s6",
+        "name": "ObservedAt",
+        "data_type": "Timestamp",
+        "concept": "rack observation timestamp",
+        "samples": [
+          "2026-05-02T00:00:00Z",
+          "2026-05-02T00:01:00Z",
+          "2026-05-02T00:02:00Z"
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "t2",
+        "name": "Temperature",
+        "data_type": "Float",
+        "concept": "rack B temperature in Celsius",
+        "samples": [
+          28.1,
+          28.2,
+          28.3
+        ]
+      },
+      {
+        "id": "t3",
+        "name": "Pressure",
+        "data_type": "Float",
+        "concept": "inlet pressure in kilopascals",
+        "samples": [
+          101,
+          101.1,
+          101.2
+        ]
+      },
+      {
+        "id": "t1",
+        "name": "Temperature",
+        "data_type": "Float",
+        "concept": "rack A temperature in Celsius",
+        "samples": [
+          21.1,
+          21.2,
+          21.3
+        ]
+      },
+      {
+        "id": "t4",
+        "name": "Pressure",
+        "data_type": "Float",
+        "concept": "outlet pressure in kilopascals",
+        "samples": [
+          101,
+          101.1,
+          101.2
+        ]
+      },
+      {
+        "id": "t5",
+        "name": "supply_voltage",
+        "data_type": "Float",
+        "concept": "rack power-supply voltage",
+        "samples": [
+          47.8,
+          47.9,
+          48
+        ]
+      },
+      {
+        "id": "t6",
+        "name": "humidity",
+        "data_type": "Float",
+        "concept": "rack room relative humidity in percent",
+        "samples": [
+          31,
+          32,
+          33
+        ]
+      },
+      {
+        "id": "t7",
+        "name": "observed_at",
+        "data_type": "Timestamp",
+        "concept": "rack observation timestamp",
+        "samples": [
+          "2026-05-02T00:00:00Z",
+          "2026-05-02T00:01:00Z",
+          "2026-05-02T00:02:00Z"
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "match",
+        "targets": [
+          "t1"
+        ],
+        "rationale": "Installation records identify rack A; disjoint samples provide evidence despite duplicate display names."
+      },
+      {
+        "source": "s2",
+        "kind": "match",
+        "targets": [
+          "t2"
+        ],
+        "rationale": "Installation records identify rack B; stable IDs keep this separate from rack A."
+      },
+      {
+        "source": "s3",
+        "kind": "ambiguous",
+        "targets": [
+          "t3",
+          "t4"
+        ],
+        "rationale": "The source probe location is lost, and the two target pressure channels have identical observed evidence."
+      },
+      {
+        "source": "s4",
+        "kind": "match",
+        "targets": [
+          "t5"
+        ],
+        "rationale": "Both fields measure the rack power supply."
+      },
+      {
+        "source": "s5",
+        "kind": "match",
+        "targets": [
+          "t6"
+        ],
+        "rationale": "Both fields measure room relative humidity in percent."
+      },
+      {
+        "source": "s6",
+        "kind": "match",
+        "targets": [
+          "t7"
+        ],
+        "rationale": "Both timestamps describe the rack observation time."
+      }
+    ]
+  },
+  {
+    "id": "telemetry_05",
+    "domain": "operational_telemetry",
+    "title": "Application log envelopes move into a structured event catalog",
+    "tags": [
+      "renamed",
+      "inconsistent_types",
+      "unequal_sizes",
+      "reordered"
+    ],
+    "rationale": "Original synthetic application log export. The envelope contains six retained facts. The source declares its ISO timestamp as Text while the catalog declares Timestamp; log severity must remain separate from an extra destination error code.",
+    "source": [
+      {
+        "id": "s1",
+        "name": "@timestamp",
+        "data_type": "Text",
+        "concept": "application log event time",
+        "samples": [
+          "2026-06-01T08:01:00Z",
+          "2026-06-01T08:02:00Z",
+          "2026-06-01T08:03:00Z"
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "Level",
+        "data_type": "Text",
+        "concept": "log severity",
+        "samples": [
+          "INFO",
+          "WARN",
+          "ERROR"
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "Message",
+        "data_type": "Text",
+        "concept": "log message body",
+        "samples": [
+          "queue opened",
+          "queue nearing limit",
+          "queue stopped"
+        ]
+      },
+      {
+        "id": "s4",
+        "name": "Trace",
+        "data_type": "Text",
+        "concept": "distributed trace identifier",
+        "samples": [
+          "trace-71",
+          "trace-72",
+          "trace-73"
+        ]
+      },
+      {
+        "id": "s5",
+        "name": "Span",
+        "data_type": "Text",
+        "concept": "distributed span identifier",
+        "samples": [
+          "span-81",
+          "span-82",
+          "span-83"
+        ]
+      },
+      {
+        "id": "s6",
+        "name": "Logger",
+        "data_type": "Text",
+        "concept": "logger category",
+        "samples": [
+          "queue.reader",
+          "queue.writer",
+          "queue.supervisor"
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "t3",
+        "name": "message",
+        "data_type": "Text",
+        "concept": "log message body",
+        "samples": [
+          "queue opened",
+          "queue nearing limit",
+          "queue stopped"
+        ]
+      },
+      {
+        "id": "t1",
+        "name": "event_timestamp",
+        "data_type": "Timestamp",
+        "concept": "application log event time",
+        "samples": [
+          "2026-06-01T08:01:00Z",
+          "2026-06-01T08:02:00Z",
+          "2026-06-01T08:03:00Z"
+        ]
+      },
+      {
+        "id": "t6",
+        "name": "logger_name",
+        "data_type": "Text",
+        "concept": "logger category",
+        "samples": [
+          "queue.reader",
+          "queue.writer",
+          "queue.supervisor"
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "severity",
+        "data_type": "Text",
+        "concept": "log severity",
+        "samples": [
+          "INFO",
+          "WARN",
+          "ERROR"
+        ]
+      },
+      {
+        "id": "t4",
+        "name": "trace_id",
+        "data_type": "Text",
+        "concept": "distributed trace identifier",
+        "samples": [
+          "trace-71",
+          "trace-72",
+          "trace-73"
+        ]
+      },
+      {
+        "id": "t5",
+        "name": "span_id",
+        "data_type": "Text",
+        "concept": "distributed span identifier",
+        "samples": [
+          "span-81",
+          "span-82",
+          "span-83"
+        ]
+      },
+      {
+        "id": "t7",
+        "name": "error_code",
+        "data_type": "Integer",
+        "concept": "application numeric error code",
+        "samples": [
+          0,
+          17,
+          29
+        ]
+      },
+      {
+        "id": "t8",
+        "name": "ingested_at",
+        "data_type": "Timestamp",
+        "concept": "catalog ingestion time",
+        "samples": [
+          "2026-06-01T08:01:01Z",
+          "2026-06-01T08:02:01Z",
+          "2026-06-01T08:03:01Z"
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "match",
+        "targets": [
+          "t1"
+        ],
+        "rationale": "Both fields identify when the application event occurred despite differing declarations."
+      },
+      {
+        "source": "s2",
+        "kind": "match",
+        "targets": [
+          "t2"
+        ],
+        "rationale": "Both fields hold textual severity, not a numeric error code."
+      },
+      {
+        "source": "s3",
+        "kind": "match",
+        "targets": [
+          "t3"
+        ],
+        "rationale": "Both fields preserve the message body."
+      },
+      {
+        "source": "s4",
+        "kind": "match",
+        "targets": [
+          "t4"
+        ],
+        "rationale": "Both fields identify the enclosing trace."
+      },
+      {
+        "source": "s5",
+        "kind": "match",
+        "targets": [
+          "t5"
+        ],
+        "rationale": "Both fields identify the individual span."
+      },
+      {
+        "source": "s6",
+        "kind": "match",
+        "targets": [
+          "t6"
+        ],
+        "rationale": "Both fields record the logger category."
+      }
+    ]
+  },
+  {
+    "id": "telemetry_06",
+    "domain": "operational_telemetry",
+    "title": "Intermittent equipment health collection includes an unidentified error channel",
+    "tags": [
+      "null_heavy",
+      "unknown_types",
+      "empty_samples",
+      "constant_samples",
+      "ambiguous",
+      "no_match"
+    ],
+    "rationale": "Original synthetic intermittent equipment-health feed. Each missingness form is deliberate. A constant-zero error channel lost its subsystem definition and could describe either host or firmware errors; an exporter-only binary debug frame has no destination.",
+    "source": [
+      {
+        "id": "s1",
+        "name": "FanRPM",
+        "data_type": "Unknown",
+        "concept": "cooling fan speed in revolutions per minute",
+        "samples": [
+          null,
+          null,
+          920,
+          null
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "Temperature",
+        "data_type": "Float",
+        "concept": "controller temperature in Celsius",
+        "samples": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "PowerGood",
+        "data_type": "Boolean",
+        "concept": "power rail healthy flag",
+        "samples": []
+      },
+      {
+        "id": "s4",
+        "name": "ErrorCode",
+        "data_type": "Integer",
+        "concept": "error code from an unidentified subsystem",
+        "samples": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "s5",
+        "name": "HeartbeatAt",
+        "data_type": "Timestamp",
+        "concept": "latest device heartbeat time",
+        "samples": null
+      },
+      {
+        "id": "s6",
+        "name": "DebugFrame",
+        "data_type": "Binary",
+        "concept": "opaque private collector debug frame",
+        "samples": null
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "fan_rpm",
+        "data_type": "Integer",
+        "concept": "cooling fan speed in revolutions per minute",
+        "samples": [
+          null,
+          null,
+          920,
+          null
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "temperature",
+        "data_type": "Float",
+        "concept": "controller temperature in Celsius",
+        "samples": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "id": "t3",
+        "name": "power_good",
+        "data_type": "Boolean",
+        "concept": "power rail healthy flag",
+        "samples": []
+      },
+      {
+        "id": "t4",
+        "name": "ErrorCode",
+        "data_type": "Integer",
+        "concept": "host subsystem error code",
+        "samples": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "t5",
+        "name": "heartbeat_at",
+        "data_type": "Timestamp",
+        "concept": "latest device heartbeat time",
+        "samples": null
+      },
+      {
+        "id": "t6",
+        "name": "uptime_seconds",
+        "data_type": "Integer",
+        "concept": "elapsed device uptime",
+        "samples": null
+      },
+      {
+        "id": "t7",
+        "name": "ErrorCode",
+        "data_type": "Integer",
+        "concept": "firmware subsystem error code",
+        "samples": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "match",
+        "targets": [
+          "t1"
+        ],
+        "rationale": "The fan speed fact is identical despite the unknown source type and one observed value."
+      },
+      {
+        "source": "s2",
+        "kind": "match",
+        "targets": [
+          "t2"
+        ],
+        "rationale": "Both fields measure the same controller temperature, although all sampled observations are missing."
+      },
+      {
+        "source": "s3",
+        "kind": "match",
+        "targets": [
+          "t3"
+        ],
+        "rationale": "Both flags describe power-rail health despite an empty observed sample."
+      },
+      {
+        "source": "s4",
+        "kind": "ambiguous",
+        "targets": [
+          "t4",
+          "t7"
+        ],
+        "rationale": "Constant zero and duplicated names do not identify whether the missing subsystem designation is host or firmware."
+      },
+      {
+        "source": "s5",
+        "kind": "match",
+        "targets": [
+          "t5"
+        ],
+        "rationale": "Both timestamps identify the latest device heartbeat."
+      },
+      {
+        "source": "s6",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "No target retains the collector's private binary debug frame."
+      }
+    ]
+  },
+  {
+    "id": "telemetry_07",
+    "domain": "operational_telemetry",
+    "title": "Scientific and multilingual labels preserve physical quantities",
+    "tags": [
+      "unicode",
+      "units",
+      "renamed"
+    ],
+    "rationale": "Original synthetic laboratory monitoring export. Micro-sign and Greek-mu spellings, combining accents, Japanese characters and a Greek delta occur in names. Labels require the same units and physical quantity on each accepted correspondence.",
+    "source": [
+      {
+        "id": "s1",
+        "name": "latency_µs",
+        "data_type": "Integer",
+        "concept": "instrument response latency in microseconds",
+        "samples": [
+          110,
+          120,
+          130
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "Δpressure_kPa",
+        "data_type": "Float",
+        "concept": "differential pressure in kilopascals",
+        "samples": [
+          1.2,
+          1.3,
+          1.4
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "温度",
+        "data_type": "Float",
+        "concept": "chamber temperature in Celsius",
+        "samples": [
+          24.1,
+          24.2,
+          24.3
+        ]
+      },
+      {
+        "id": "s4",
+        "name": "Spannung_V",
+        "data_type": "Float",
+        "concept": "sensor voltage in volts",
+        "samples": [
+          4.8,
+          4.9,
+          5
+        ]
+      },
+      {
+        "id": "s5",
+        "name": "état",
+        "data_type": "Text",
+        "concept": "instrument operational state",
+        "samples": [
+          "prêt",
+          "mesure",
+          "arrêt"
+        ]
+      },
+      {
+        "id": "s6",
+        "name": "débit_L_min",
+        "data_type": "Float",
+        "concept": "coolant flow in litres per minute",
+        "samples": [
+          0.7,
+          0.8,
+          0.9
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "latency_μs",
+        "data_type": "Integer",
+        "concept": "instrument response latency in microseconds",
+        "samples": [
+          110,
+          120,
+          130
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "Δpressure_kPa",
+        "data_type": "Float",
+        "concept": "differential pressure in kilopascals",
+        "samples": [
+          1.2,
+          1.3,
+          1.4
+        ]
+      },
+      {
+        "id": "t3",
+        "name": "temperature_c",
+        "data_type": "Float",
+        "concept": "chamber temperature in Celsius",
+        "samples": [
+          24.1,
+          24.2,
+          24.3
+        ]
+      },
+      {
+        "id": "t4",
+        "name": "spannung_v",
+        "data_type": "Float",
+        "concept": "sensor voltage in volts",
+        "samples": [
+          4.8,
+          4.9,
+          5
+        ]
+      },
+      {
+        "id": "t5",
+        "name": "état",
+        "data_type": "Text",
+        "concept": "instrument operational state",
+        "samples": [
+          "prêt",
+          "mesure",
+          "arrêt"
+        ]
+      },
+      {
+        "id": "t6",
+        "name": "débit_l_min",
+        "data_type": "Float",
+        "concept": "coolant flow in litres per minute",
+        "samples": [
+          0.7,
+          0.8,
+          0.9
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "match",
+        "targets": [
+          "t1"
+        ],
+        "rationale": "Micro sign and Greek mu both denote the same stated microsecond unit here."
+      },
+      {
+        "source": "s2",
+        "kind": "match",
+        "targets": [
+          "t2"
+        ],
+        "rationale": "Both fields describe differential pressure, not absolute pressure."
+      },
+      {
+        "source": "s3",
+        "kind": "match",
+        "targets": [
+          "t3"
+        ],
+        "rationale": "The Japanese and English names denote the same chamber Celsius measurement."
+      },
+      {
+        "source": "s4",
+        "kind": "match",
+        "targets": [
+          "t4"
+        ],
+        "rationale": "Case and separator changes preserve the voltage quantity and unit."
+      },
+      {
+        "source": "s5",
+        "kind": "match",
+        "targets": [
+          "t5"
+        ],
+        "rationale": "Composed and decomposed accent spellings describe the same operational state."
+      },
+      {
+        "source": "s6",
+        "kind": "match",
+        "targets": [
+          "t6"
+        ],
+        "rationale": "Both accented names describe coolant flow in litres per minute."
+      }
+    ]
+  },
+  {
+    "id": "telemetry_08",
+    "domain": "operational_telemetry",
+    "title": "A sensor bus is accidentally paired with a deployment audit table",
+    "tags": [
+      "unrelated_schemas",
+      "misleading_names",
+      "no_match",
+      "low_cardinality"
+    ],
+    "rationale": "Original synthetic wrong-destination test. The source describes sensor-bus observations; the destination describes software deployment audit events. Generic field names and even complete sample overlap deliberately provide no semantic correspondence.",
+    "source": [
+      {
+        "id": "s1",
+        "name": "ID",
+        "data_type": "Text",
+        "concept": "sensor bus address",
+        "samples": [
+          "01",
+          "02",
+          "03"
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "Time",
+        "data_type": "Timestamp",
+        "concept": "sensor observation time",
+        "samples": [
+          "2026-06-02T00:00:00Z",
+          "2026-06-02T00:01:00Z",
+          "2026-06-02T00:02:00Z"
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "Value",
+        "data_type": "Float",
+        "concept": "measured sensor voltage",
+        "samples": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "id": "s4",
+        "name": "Status",
+        "data_type": "Text",
+        "concept": "sensor health code",
+        "samples": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "id": "s5",
+        "name": "Location",
+        "data_type": "Text",
+        "concept": "physical sensor bay",
+        "samples": [
+          "A",
+          "B",
+          "C"
+        ]
+      },
+      {
+        "id": "s6",
+        "name": "Count",
+        "data_type": "Integer",
+        "concept": "received sensor-packet count",
+        "samples": [
+          10,
+          20,
+          30
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "ID",
+        "data_type": "Text",
+        "concept": "deployment audit event key",
+        "samples": [
+          "01",
+          "02",
+          "03"
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "Time",
+        "data_type": "Timestamp",
+        "concept": "software deployment start time",
+        "samples": [
+          "2026-06-02T00:00:00Z",
+          "2026-06-02T00:01:00Z",
+          "2026-06-02T00:02:00Z"
+        ]
+      },
+      {
+        "id": "t3",
+        "name": "Value",
+        "data_type": "Float",
+        "concept": "deployed application version number",
+        "samples": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "id": "t4",
+        "name": "Status",
+        "data_type": "Text",
+        "concept": "deployment execution result",
+        "samples": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      },
+      {
+        "id": "t5",
+        "name": "Location",
+        "data_type": "Text",
+        "concept": "deployment release ring",
+        "samples": [
+          "A",
+          "B",
+          "C"
+        ]
+      },
+      {
+        "id": "t6",
+        "name": "Count",
+        "data_type": "Integer",
+        "concept": "number of deployment attempts",
+        "samples": [
+          10,
+          20,
+          30
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "A physical bus address is not a deployment audit event key."
+      },
+      {
+        "source": "s2",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Sensor observation time and deployment start time describe different events."
+      },
+      {
+        "source": "s3",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Measured voltage is not a software version number."
+      },
+      {
+        "source": "s4",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Sensor health and deployment execution result are different states."
+      },
+      {
+        "source": "s5",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "A physical sensor bay is not a software release ring."
+      },
+      {
+        "source": "s6",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Packet counts and deployment-attempt counts measure different events."
+      }
+    ]
+  },
+  {
+    "id": "telemetry_09",
+    "domain": "operational_telemetry",
+    "title": "Opaque industrial channels are sampled across different operating windows",
+    "tags": [
+      "opaque_identifiers",
+      "disjoint_samples",
+      "ambiguous",
+      "unequal_sizes"
+    ],
+    "rationale": "Original synthetic industrial acquisition card. The labeling dictionary recovers five channels' meanings but is withheld from matcher inputs. Source and target samples cover different operating windows for some channels. A sixth channel has no surviving probe-location definition and legitimately has two alternatives.",
+    "source": [
+      {
+        "id": "s1",
+        "name": "ch_0A",
+        "data_type": "Float",
+        "concept": "ambient pressure in hectopascals",
+        "samples": [
+          1010,
+          1011,
+          1012
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "ch_0B",
+        "data_type": "Integer",
+        "concept": "shaft speed in revolutions per minute",
+        "samples": [
+          1400,
+          1410,
+          1420
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "ch_0C",
+        "data_type": "Float",
+        "concept": "sound pressure level in decibels",
+        "samples": [
+          61,
+          62,
+          63
+        ]
+      },
+      {
+        "id": "s4",
+        "name": "ch_0D",
+        "data_type": "Integer",
+        "concept": "cumulative accepted-item count",
+        "samples": [
+          701,
+          702,
+          703
+        ]
+      },
+      {
+        "id": "s5",
+        "name": "ch_0E",
+        "data_type": "Float",
+        "concept": "coolant temperature in Celsius",
+        "samples": [
+          22,
+          23,
+          24
+        ]
+      },
+      {
+        "id": "s6",
+        "name": "ch_0F",
+        "data_type": "Float",
+        "concept": "probe reading with lost A-versus-B designation",
+        "samples": null
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "ambient_pressure_hpa",
+        "data_type": "Float",
+        "concept": "ambient pressure in hectopascals",
+        "samples": [
+          990,
+          991,
+          992
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "shaft_rpm",
+        "data_type": "Integer",
+        "concept": "shaft speed in revolutions per minute",
+        "samples": [
+          1400,
+          1410,
+          1420
+        ]
+      },
+      {
+        "id": "t3",
+        "name": "noise_db",
+        "data_type": "Float",
+        "concept": "sound pressure level in decibels",
+        "samples": [
+          65,
+          66,
+          67
+        ]
+      },
+      {
+        "id": "t4",
+        "name": "accepted_total",
+        "data_type": "Integer",
+        "concept": "cumulative accepted-item count",
+        "samples": [
+          701,
+          702,
+          703
+        ]
+      },
+      {
+        "id": "t5",
+        "name": "coolant_temperature_c",
+        "data_type": "Float",
+        "concept": "coolant temperature in Celsius",
+        "samples": [
+          20,
+          21,
+          22
+        ]
+      },
+      {
+        "id": "t6",
+        "name": "probe_reading",
+        "data_type": "Float",
+        "concept": "auxiliary probe A reading",
+        "samples": null
+      },
+      {
+        "id": "t7",
+        "name": "probe_reading",
+        "data_type": "Float",
+        "concept": "auxiliary probe B reading",
+        "samples": null
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "match",
+        "targets": [
+          "t1"
+        ],
+        "rationale": "The original acquisition dictionary identifies ambient pressure; disjoint operating-window samples are not contrary semantics."
+      },
+      {
+        "source": "s2",
+        "kind": "match",
+        "targets": [
+          "t2"
+        ],
+        "rationale": "The dictionary identifies shaft speed and the observations happen to overlap."
+      },
+      {
+        "source": "s3",
+        "kind": "match",
+        "targets": [
+          "t3"
+        ],
+        "rationale": "The dictionary identifies sound pressure despite fully disjoint observations."
+      },
+      {
+        "source": "s4",
+        "kind": "match",
+        "targets": [
+          "t4"
+        ],
+        "rationale": "Both fields count cumulative accepted items."
+      },
+      {
+        "source": "s5",
+        "kind": "match",
+        "targets": [
+          "t5"
+        ],
+        "rationale": "Both fields measure coolant temperature in Celsius, with only partial overlap."
+      },
+      {
+        "source": "s6",
+        "kind": "ambiguous",
+        "targets": [
+          "t6",
+          "t7"
+        ],
+        "rationale": "No surviving location metadata or samples distinguish auxiliary probe A from B."
+      }
+    ]
+  },
+  {
+    "id": "telemetry_10",
+    "domain": "operational_telemetry",
+    "title": "A gateway exposes two aliases for one physical pressure channel",
+    "tags": [
+      "assignment_collision",
+      "unequal_sizes",
+      "renamed"
+    ],
+    "rationale": "Original synthetic gateway firmware migration. Two source fields are verified aliases for a single physical line-pressure measurement. The target consolidates them; their shared unique correspondence creates a one-to-one capacity conflict. Other fields have independent retained meanings.",
+    "source": [
+      {
+        "id": "s1",
+        "name": "Pressure",
+        "data_type": "Float",
+        "concept": "line pressure in kilopascals",
+        "samples": [
+          210,
+          220,
+          230
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "LinePressure",
+        "data_type": "Float",
+        "concept": "redundant line pressure in kilopascals",
+        "samples": [
+          210,
+          220,
+          230
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "HeartbeatAt",
+        "data_type": "Timestamp",
+        "concept": "latest gateway heartbeat time",
+        "samples": [
+          "2026-07-01T12:00:00Z",
+          "2026-07-01T12:01:00Z",
+          "2026-07-01T12:02:00Z"
+        ]
+      },
+      {
+        "id": "s4",
+        "name": "EventCount",
+        "data_type": "Integer",
+        "concept": "cumulative gateway event count",
+        "samples": [
+          4001,
+          4002,
+          4003
+        ]
+      },
+      {
+        "id": "s5",
+        "name": "SignalDBm",
+        "data_type": "Float",
+        "concept": "radio received signal strength in dBm",
+        "samples": [
+          -70,
+          -71,
+          -72
+        ]
+      },
+      {
+        "id": "s6",
+        "name": "DeviceID",
+        "data_type": "Text",
+        "concept": "gateway hardware identifier",
+        "samples": [
+          "gw-101",
+          "gw-102",
+          "gw-103"
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "line_pressure",
+        "data_type": "Float",
+        "concept": "line pressure in kilopascals",
+        "samples": [
+          210,
+          220,
+          230
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "heartbeat_at",
+        "data_type": "Timestamp",
+        "concept": "latest gateway heartbeat time",
+        "samples": [
+          "2026-07-01T12:00:00Z",
+          "2026-07-01T12:01:00Z",
+          "2026-07-01T12:02:00Z"
+        ]
+      },
+      {
+        "id": "t3",
+        "name": "event_count",
+        "data_type": "Integer",
+        "concept": "cumulative gateway event count",
+        "samples": [
+          4001,
+          4002,
+          4003
+        ]
+      },
+      {
+        "id": "t4",
+        "name": "signal_dbm",
+        "data_type": "Float",
+        "concept": "radio received signal strength in dBm",
+        "samples": [
+          -70,
+          -71,
+          -72
+        ]
+      },
+      {
+        "id": "t5",
+        "name": "device_id",
+        "data_type": "Text",
+        "concept": "gateway hardware identifier",
+        "samples": [
+          "gw-101",
+          "gw-102",
+          "gw-103"
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "match",
+        "targets": [
+          "t1"
+        ],
+        "rationale": "The physical pressure channel is retained once; one-to-one selection competes with the redundant alias s2."
+      },
+      {
+        "source": "s2",
+        "kind": "match",
+        "targets": [
+          "t1"
+        ],
+        "rationale": "This alias measures the same physical pressure channel; one-to-one selection competes with s1."
+      },
+      {
+        "source": "s3",
+        "kind": "match",
+        "targets": [
+          "t2"
+        ],
+        "rationale": "Both timestamps record the gateway heartbeat."
+      },
+      {
+        "source": "s4",
+        "kind": "match",
+        "targets": [
+          "t3"
+        ],
+        "rationale": "Both counters count cumulative gateway events."
+      },
+      {
+        "source": "s5",
+        "kind": "match",
+        "targets": [
+          "t4"
+        ],
+        "rationale": "Both fields measure radio received signal strength in dBm."
+      },
+      {
+        "source": "s6",
+        "kind": "match",
+        "targets": [
+          "t5"
+        ],
+        "rationale": "Both IDs identify gateway hardware."
+      }
+    ]
+  }
+]

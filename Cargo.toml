@@ -18,6 +18,11 @@ unicode-normalization = "0.1.24"
 [dev-dependencies]
 proptest = { version = "=1.6.0", default-features = false, features = ["std"] }
 
+[workspace]
+members = ["evaluation"]
+default-members = [".", "evaluation"]
+resolver = "2"
+
 [[bench]]
 name = "matching"
 harness = false

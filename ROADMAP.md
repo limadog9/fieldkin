@@ -9,13 +9,16 @@ unsupported proposals, predictable costs, and an API that is easy to adopt.
 Success includes knowing when to leave a field unmatched.
 
 This is the intended development sequence, not a claim that these capabilities
-already exist or a guarantee of release dates. All stages below are **planned**.
+already exist or a guarantee of release dates. **Stage 1 is complete as of
+October 3, 2026**; later stages remain planned. See the
+[evaluation evidence and limitations](docs/evaluation.md). Stages may finish
+earlier than their planning dates.
 We will run one primary workstream at a time, reserve capacity for regression
 fixes and documentation, and review scope at each stage boundary. @limadog9 owns
 each milestone; outside contributions are welcome but are not a staffing
 assumption. Stretch work starts only after the core stage meets its exit criteria.
 
-## Starting point
+## Starting point before Stage 1
 
 The implementation on main already provides stable field IDs, normalized names,
 coarse type compatibility, exact sampled-value overlap, missing-evidence
@@ -33,7 +36,7 @@ cases and one timing run do not establish general accuracy or performance.
 
 | Stage | Target dates | Main outcome |
 | --- | --- | --- |
-| 1. Establish evidence | Oct 3-16 | A reproducible evaluation corpus and trustworthy comparison harness |
+| 1. Establish evidence | Oct 3-16; completed Oct 3 | A reproducible evaluation corpus and comparison harness; [results](docs/evaluation.md) |
 | 2. Reduce repeated work | Oct 17-30 | Prepared names/samples and measured performance improvements without changing decisions |
 | 3. Improve matching evidence | Oct 31-Nov 13 | More reliable samples, exact numeric options, and explicit domain hints |
 | 4. Explain global decisions | Nov 14-27 | Bounded diagnostics for competing assignments and clearer abstention reasons |
@@ -47,6 +50,14 @@ release. Later stages depend on the earlier exit criteria; missed dates do not
 justify skipping evaluation or lowering quality requirements.
 
 ## Stage 1: establish evidence
+
+**Completed:** 40 separately specified families, 200 pairs and 1,200 labels;
+32/8 family development/holdout split; six models under two assignment policies;
+frozen protocol, reproducible artifacts and development-only snapshot CI. The
+matching algorithm is unchanged. This completes measurement infrastructure, not
+the quarter's accuracy targets. External Valentine comparison remains stretch
+work and was not included. The requirements below are retained as the stage's
+original acceptance criteria.
 
 Replace the demonstration-sized comparison with a repeatable evaluation system.
 
