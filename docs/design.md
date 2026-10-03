@@ -48,10 +48,19 @@ remain unmatched. The objective is not a likelihood or a mapping confidence.
 
 With `n` source and `m` target fields, assignment takes `O(n²(m+n))` time and
 `O(m+n)` auxiliary space beyond the candidate matrix. Pair evaluation and reports
-take `O(nm)` signal calls/storage; individual signal cost depends on bounded name
-and sample lengths. Built-in sample sets are currently recomputed per pair. This
-favors a small extension API over preprocessing machinery; benchmarks make this
-cost visible. A future prepared-signal API should be justified by measured need.
+take `O(nm)` signal evaluations; individual signal cost depends on bounded name
+and sample lengths. Within each match call, concrete built-in name and sample
+matchers prepare each field once. The private cache holds normalized, expanded
+name tokens, joined strings and distinct sample sets; sample text is borrowed,
+not copied. It is discarded when the call returns. No cross-call cache or public
+prepared-schema abstraction is introduced.
+
+The existing custom `Matcher::evaluate` path remains pair-by-pair, in the same
+sorted order. A defaulted, hidden `as_any` hook identifies concrete built-ins by
+Rust type, never by a signal's name. Custom implementations need not change and
+should leave that hook at its default. Wrapping a built-in in a custom matcher
+uses the ordinary path. Preparation retains errors until that signal would have
+been evaluated, preserving error precedence and disabled-signal behavior.
 
 Fields and targets are sorted by their stable IDs before evaluation. Candidates
 are sorted by descending score then target ID. Hungarian rows/columns use that
@@ -97,9 +106,12 @@ oversize input yields `MatchError`; samples are never silently truncated.
 Name matching additionally bounds normalized/expanded names to 1,024 bytes.
 The public normalization utility alone is a pure string utility and has no budget.
 
-Reports retain every evaluated candidate until final selection, then truncate
-rankings. This makes global decisions independent of display settings, at the
-cost of bounded `O(nm)` report construction. At most 64 signals and 4,096 bytes per
+Global assignment retains every evaluated candidate until final selection, then
+truncates rankings. Independent mode finishes each source's decision and drops
+undisplayed candidates before processing the next source; it allocates no
+assignment matrix. Both modes evaluate all pairs and charge their full explanation
+bytes, including discarded reports. This makes decisions independent of display
+settings, with bounded `O(nm)` worst-case report storage. At most 64 signals and 4,096 bytes per
 signal explanation are accepted. Defaults also cap total signal evaluations at
 65,536 and aggregate explanation text at 16 MiB, including candidates later
 truncated. Raising budgets is an explicit caller choice.

@@ -100,12 +100,17 @@ All ablation counts are published rather than selecting only favorable compariso
 
 ```text
 cargo +1.85.0 run --locked --release -p fieldkin-eval -- --split all --acknowledge-holdout --output target/evaluation-full
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --check --output evaluation/results/baseline-v1
+cargo +1.85.0 run --locked --release -p fieldkin-eval -- --check-behavior --output evaluation/results/baseline-v1
 cargo +1.85.0 test --locked --all-features
 cargo +1.85.0 clippy --locked --workspace --all-targets --all-features -- -D warnings
 ```
 
-The first command reproduces both partitions; the second checks development only.
+The first command evaluates both partitions; the second checks development only.
+After Stage 2, `--check-behavior` compares the frozen results while allowing engine
+and evaluator source hashes to change. It still compares configuration, corpus,
+dependencies, every development prediction and aggregate result. The historical
+`--check` mode also compares implementation provenance and is appropriate at the
+original baseline revision. The original result files remain unchanged.
 Baseline generation used Rust 1.85.0 on Windows x86_64. Source hashes normalize
 line endings so CI can verify the same deterministic artifacts on Linux. Compiler
 metadata is recorded separately and is not required to be byte-identical across

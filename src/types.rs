@@ -207,6 +207,13 @@ pub trait Matcher: Send + Sync {
     fn name(&self) -> &str;
     /// Evaluate one pair. Do not treat absence of evidence as evidence of agreement.
     fn evaluate(&self, source: &Field, target: &Field) -> Result<Evidence, String>;
+
+    /// Internal optimization hook for concrete built-in matchers. Custom matchers
+    /// should keep the default; no preparation interface is required of them.
+    #[doc(hidden)]
+    fn as_any(&self) -> Option<&dyn std::any::Any> {
+        None
+    }
 }
 
 /// Contribution retained with each candidate.

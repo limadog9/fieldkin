@@ -1,5 +1,9 @@
 # Reproducible validation and benchmark record
 
+This is the historical initial-release record. For repeated, same-session
+measurements before and after per-field preparation, see the
+[Stage 2 performance report](stage2-performance.md).
+
 Run on 2026-10-03 on an AMD Ryzen 5 5625U (6 cores / 12 logical processors),
 Windows 11 Home 10.0.26200, `x86_64-pc-windows-msvc`, Rust 1.85.0
 (`4d91de4e4`, 2025-02-17). Timings use Cargo's optimized bench profile and the
@@ -81,5 +85,5 @@ These include all 24 engine/workload combinations. The noisier 128-field result
 and apparent reversals between assignment modes demonstrate why this run cannot
 justify fine-grained comparisons. Re-run on your deployment hardware with
 representative sizes, longer samples and contention patterns. No assertion of
-being the fastest matcher is made. Samples are currently prepared per pair,
-which is a clear future profiling target.
+being the fastest matcher is made. This historical implementation prepared
+samples per pair; Stage 2 replaces that repeated work with a per-call cache.

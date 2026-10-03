@@ -27,6 +27,13 @@ library. Their exact versions and transitive packages are frozen in `Cargo.lock`
 and copied into evaluation result metadata. No third-party fixture data is used;
 all 40 evaluation families are original synthetic Fieldkin content.
 
+The unpublished, isolated `performance/` package optionally uses
+[`stats_alloc` 0.1.10](https://github.com/neoeinstein/stats_alloc), licensed MIT,
+for allocation instrumentation in benchmark executables. It is absent from the
+library's dependency graph and ordinary timing builds. Its exact version and
+license accompany the package in the Cargo registry; the performance lockfile
+records the separate dependency graph. No dependency source is vendored here.
+
 ## Runtime dependency notices
 
 
