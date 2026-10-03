@@ -206,6 +206,14 @@ default precision is nearly unchanged and recall is lower on the original
 development corpus. Profiles remain opt-in and the 95% precision target is still
 unmet. See the [migration guide](docs/stage3-migration.md) for API changes.
 
+## Release qualification
+
+The remaining roadmap implementation and release qualification are recorded in
+the [candidate scorecard](docs/release-scorecard.md). One million generated cases
+passed, but held-out precision is **37.5%** and unique-field coverage **40%**:
+the planned quality bar is unmet. Fieldkin remains experimental and unpublished.
+See the [changelog](docs/changelog.md) for delivered features and deferred work.
+
 ## License
 
 Licensed under either [MIT](LICENSE-MIT) or [Apache License 2.0](LICENSE-APACHE),

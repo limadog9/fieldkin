@@ -9,8 +9,11 @@ unsupported proposals, predictable costs, and an API that is easy to adopt.
 Success includes knowing when to leave a field unmatched.
 
 This is the intended development sequence, not a claim that these capabilities
-already exist or a guarantee of release dates. **Stages 1 through 3 are complete as of
-October 3, 2026**; later stages remain planned. See the
+already exist or a guarantee of release dates. **Implementation and qualification
+work for stages 1 through 6 is complete as of October 3, 2026.** The final
+[candidate scorecard](docs/release-scorecard.md) records missed quality targets:
+37.5% held-out precision and 40% unique coverage. The library remains experimental
+and unpublished; publication/version remain the maintainer's decision. See the
 [evaluation evidence and limitations](docs/evaluation.md) and
 [performance measurements](docs/stage2-performance.md), and
 [Stage 3 evidence evaluation](docs/stage3-evaluation.md). Stages may finish
@@ -41,10 +44,10 @@ cases and one timing run do not establish general accuracy or performance.
 | 1. Establish evidence | Oct 3-16; completed Oct 3 | A reproducible evaluation corpus and comparison harness; [results](docs/evaluation.md) |
 | 2. Reduce repeated work | Oct 17-30; completed Oct 3 | Prepared names/samples and measured performance improvements without changing decisions; [results](docs/stage2-performance.md) |
 | 3. Improve matching evidence | Oct 31-Nov 13; completed Oct 3 | Distinct-aware samples, exact numeric options, explicit hints and development ablations; [results](docs/stage3-evaluation.md) |
-| 4. Explain global decisions | Nov 14-27 | Bounded diagnostics for competing assignments and clearer abstention reasons |
-| 5. Harden the public API | Nov 28-Dec 11 | Structured reports/errors and realistic embedding examples |
-| 6. Qualify a release | Dec 12-25 | Cross-platform validation, adversarial testing, and a release candidate |
-| Release buffer and review | Dec 26-Jan 3 | Resolve blockers, publish the scorecard, and make the maintainer's release decision |
+| 4. Explain global decisions | Nov 14-27; completed Oct 3 | Bounded alternatives and typed reasons; [diagnostics](docs/stage4-diagnostics.md) |
+| 5. Harden the public API | Nov 28-Dec 11; completed Oct 3 | Typed errors, two consumers and [migration guide](docs/migration.md) |
+| 6. Qualify a release | Dec 12-25; qualification completed Oct 3 | Frozen holdout results, million-case campaign, platform checks and candidate archive; quality targets missed |
+| Release buffer and review | Review recorded Oct 3 | [Scorecard and corrective work](docs/release-scorecard.md); experimental status retained; no publication |
 
 Stages 1-2 establish the measurement and execution foundation. Stages 3-4 improve
 decision quality. Stages 5-6 turn those improvements into a maintainable library
@@ -190,6 +193,14 @@ data rewriting remain outside scope.
 
 ## Stage 4: explain global decisions
 
+**Completed:** typed local/global reasons, target competition records and opt-in
+edge-exclusion probes with explicit solve/work accounting, completeness and
+stable-ID witnesses. Oracle tests cover tied, fractional and rectangular graphs;
+diagnostics preserve selections and ignore displayed top-k limits. Five-process
+cost measurements expose the expensive dense 128-field case (about 957 ms for
+complete analysis on the recorded machine); default diagnostics remain disabled.
+Confirmed/forbidden pairs remain deferred. Original acceptance criteria follow.
+
 Show when one-to-one assignment is supported and when several mappings remain
 equally plausible.
 
@@ -216,6 +227,15 @@ Conflicting confirmations must return an error, never overwrite a decision.
 This is mapping metadata only; it does not execute a migration or rewrite data.
 
 ## Stage 5: harden the public API
+
+**Completed:** non-exhaustive typed errors and important candidate/source reasons,
+privacy-preserving error formatting, importer/catalog review examples, supported
+compiler policy, migration notes and a usage guide. Custom matchers retain their
+pairwise contract. Source breaks are accepted within the delegated unpublished
+implementation scope and documented; this is not a stable-API or publication
+decision. Optional serialization is deferred because the examples need no wire
+format, and accidental sample export deserves a separate report-only design.
+Independent downstream adoption remains a learning target, not a completed claim.
 
 Make the richer engine straightforward to embed and maintain.
 
@@ -247,6 +267,16 @@ are available. Adoption is a learning target, not a release promise or reason to
 add collaborators, services or integrations without the owner's authorization.
 
 ## Stage 6: qualify a release
+
+**Qualification performed:** features frozen at `5d5c374` before held-out scoring;
+full scenario results and name-only comparisons published without tuning;
+1,000,000 generated cases passed; dependency licenses/advisories inspected; Rust
+1.85/1.99 platform CI, packaging and consumer checks established. The sampled
+128-field runtime target is met against Stage 1 (2.87x independent, 2.11x global
+median speedup in the same session). Precision and coverage targets fail on the
+holdout, so the candidate remains experimental. The final scorecard records
+release limits, deferred features and corrective work; no crate was published.
+The original acceptance criteria below remain visible.
 
 Prove that the selected feature set is supportable before expanding it again.
 

@@ -120,6 +120,15 @@ than one noisy timing run. These deliberately contested fixtures show the cost o
 enabled analysis; they do not establish a general production workload latency or
 a performance comparison against another library.
 
+Five-process measurements for the frozen candidate are now in the
+[release scorecard](release-scorecard.md#cost-measurements) and
+[raw artifacts](https://github.com/limadog9/fieldkin/tree/main/performance/results/diagnostics-v1).
+Reproduce with `python performance/diagnostics.py build --output FRESH_DIR`, then
+`python performance/diagnostics.py run --output FRESH_DIR` while builds/tests are
+idle. The runner captures Cargo's actual executable, source/binary hashes,
+compiler and machine. Timings exclude input/engine setup, assertions and the
+destruction of the returned report.
+
 ## Tests and limits
 
 The unit oracle exhaustively checks rectangular matrices up to 3 × 3 over absent,

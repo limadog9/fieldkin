@@ -1,0 +1,154 @@
+{
+  "execution": [
+    {
+      "file": "timing-baseline-run-1.jsonl",
+      "mode": "timing",
+      "revision": "baseline",
+      "run": 1,
+      "started_utc": "2026-10-03T23:42:10.309996+00:00"
+    },
+    {
+      "file": "timing-candidate-run-1.jsonl",
+      "mode": "timing",
+      "revision": "candidate",
+      "run": 1,
+      "started_utc": "2026-10-03T23:42:26.662917+00:00"
+    },
+    {
+      "file": "timing-candidate-run-2.jsonl",
+      "mode": "timing",
+      "revision": "candidate",
+      "run": 2,
+      "started_utc": "2026-10-03T23:42:32.638321+00:00"
+    },
+    {
+      "file": "timing-baseline-run-2.jsonl",
+      "mode": "timing",
+      "revision": "baseline",
+      "run": 2,
+      "started_utc": "2026-10-03T23:42:38.760973+00:00"
+    },
+    {
+      "file": "timing-baseline-run-3.jsonl",
+      "mode": "timing",
+      "revision": "baseline",
+      "run": 3,
+      "started_utc": "2026-10-03T23:42:53.196574+00:00"
+    },
+    {
+      "file": "timing-candidate-run-3.jsonl",
+      "mode": "timing",
+      "revision": "candidate",
+      "run": 3,
+      "started_utc": "2026-10-03T23:43:07.805589+00:00"
+    },
+    {
+      "file": "timing-candidate-run-4.jsonl",
+      "mode": "timing",
+      "revision": "candidate",
+      "run": 4,
+      "started_utc": "2026-10-03T23:43:13.638933+00:00"
+    },
+    {
+      "file": "timing-baseline-run-4.jsonl",
+      "mode": "timing",
+      "revision": "baseline",
+      "run": 4,
+      "started_utc": "2026-10-03T23:43:19.622045+00:00"
+    },
+    {
+      "file": "timing-baseline-run-5.jsonl",
+      "mode": "timing",
+      "revision": "baseline",
+      "run": 5,
+      "started_utc": "2026-10-03T23:43:34.310506+00:00"
+    },
+    {
+      "file": "timing-candidate-run-5.jsonl",
+      "mode": "timing",
+      "revision": "candidate",
+      "run": 5,
+      "started_utc": "2026-10-03T23:43:48.292936+00:00"
+    },
+    {
+      "file": "allocations-baseline-run-1.jsonl",
+      "mode": "allocations",
+      "revision": "baseline",
+      "run": 1,
+      "started_utc": "2026-10-03T23:43:54.157552+00:00"
+    },
+    {
+      "file": "allocations-candidate-run-1.jsonl",
+      "mode": "allocations",
+      "revision": "candidate",
+      "run": 1,
+      "started_utc": "2026-10-03T23:43:57.641068+00:00"
+    },
+    {
+      "file": "allocations-candidate-run-2.jsonl",
+      "mode": "allocations",
+      "revision": "candidate",
+      "run": 2,
+      "started_utc": "2026-10-03T23:43:59.123690+00:00"
+    },
+    {
+      "file": "allocations-baseline-run-2.jsonl",
+      "mode": "allocations",
+      "revision": "baseline",
+      "run": 2,
+      "started_utc": "2026-10-03T23:44:00.600031+00:00"
+    },
+    {
+      "file": "allocations-baseline-run-3.jsonl",
+      "mode": "allocations",
+      "revision": "baseline",
+      "run": 3,
+      "started_utc": "2026-10-03T23:44:03.964073+00:00"
+    },
+    {
+      "file": "allocations-candidate-run-3.jsonl",
+      "mode": "allocations",
+      "revision": "candidate",
+      "run": 3,
+      "started_utc": "2026-10-03T23:44:07.429329+00:00"
+    },
+    {
+      "file": "allocations-candidate-run-4.jsonl",
+      "mode": "allocations",
+      "revision": "candidate",
+      "run": 4,
+      "started_utc": "2026-10-03T23:44:08.855904+00:00"
+    },
+    {
+      "file": "allocations-baseline-run-4.jsonl",
+      "mode": "allocations",
+      "revision": "baseline",
+      "run": 4,
+      "started_utc": "2026-10-03T23:44:10.257536+00:00"
+    },
+    {
+      "file": "allocations-baseline-run-5.jsonl",
+      "mode": "allocations",
+      "revision": "baseline",
+      "run": 5,
+      "started_utc": "2026-10-03T23:44:13.725557+00:00"
+    },
+    {
+      "file": "allocations-candidate-run-5.jsonl",
+      "mode": "allocations",
+      "revision": "candidate",
+      "run": 5,
+      "started_utc": "2026-10-03T23:44:17.439691+00:00"
+    }
+  ],
+  "finished_utc": "2026-10-03T23:44:18.961186+00:00",
+  "machine": {
+    "cpu": "{\"Name\":\"AMD Ryzen 5 5625U with Radeon Graphics         \",\"NumberOfCores\":6,\"NumberOfLogicalProcessors\":12}",
+    "logical_cpus": 12,
+    "machine": "AMD64",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+    "python": "3.10.11"
+  },
+  "started_utc": "2026-10-03T23:42:10.309996+00:00"
+}
