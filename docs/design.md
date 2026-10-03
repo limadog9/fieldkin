@@ -18,7 +18,7 @@ fully supported. The consequence is intentional: with unknown types and no
 samples, even an exact name scores only 0.65 and abstains by default. Tune weights
 and thresholds using representative labeled data for your domain.
 
-Declared types are coarse. All numeric pairs score 0.85, exact types score 1,
+Declared types are coarse. Different numeric types score 0.85, identical known types score 1,
 date/timestamp pairs score 0.70, unknown types provide no evidence, and other
 known pairs score zero. The default type veto applies independently of configured
 signals, so a custom name-only baseline must explicitly disable it. No conversion
@@ -114,6 +114,9 @@ field, text sample length and aggregate text bytes. All input is checked before
 any matcher is called, including when the opposite schema is empty. Invalid or
 oversize input yields `MatchError`; samples are never silently truncated.
 Name matching additionally bounds normalized/expanded names to 1,024 bytes.
+Semantic hint labels have a fixed 128-byte limit. The optional profile matcher
+also has fixed caps of 65,536 samples per field and 1,024 bytes per text sample;
+raising engine limits does not raise these caps.
 The public normalization utility alone is a pure string utility and has no budget.
 
 Global assignment retains every evaluated candidate until final selection, then
@@ -127,7 +130,8 @@ signal explanation are accepted. Defaults also cap total signal evaluations at
 truncated. Raising budgets is an explicit caller choice.
 
 Built-in matchers do not log samples. Sample `Debug` representations are redacted;
-reports contain counts, scores and generic reasons. Field names and IDs are not
-redacted. Custom matcher errors are suppressed by the engine, but custom
+reports contain counts, scores, reasons and applied token aliases. Field names,
+IDs and applied aliases are not redacted; semantic hint values are redacted.
+Custom matcher errors are suppressed by the engine, but custom
 explanations are returned verbatim. Custom code must enforce its own work bounds,
 determinism and privacy: Fieldkin does not catch its panics or sandbox it.

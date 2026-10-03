@@ -169,9 +169,9 @@ real-world accuracy claim. Benchmarks generate fixed inputs in memory and use
 See [benchmark results](docs/benchmarks.md), [CONTRIBUTING.md](CONTRIBUTING.md),
 [ROADMAP.md](ROADMAP.md), and [MAINTAINERS.md](MAINTAINERS.md).
 
-Stage 1 now adds a separate development-only evaluation package with 40 synthetic
+Stage 1 added a separate development-only evaluation package with 40 synthetic
 families, 200 schema pairs and 1,200 labeled source decisions. The
-[evaluation report](docs/evaluation.md) records the unchanged matcher's results,
+[evaluation report](docs/evaluation.md) records the initial matcher's results,
 including substantial false-proposal rates; the roadmap's precision and coverage
 targets are not yet met. The full reproduction guide is in
 [evaluation/](https://github.com/limadog9/fieldkin/tree/main/evaluation).
@@ -179,8 +179,15 @@ targets are not yet met. The full reproduction guide is in
 Stage 2 prepares built-in names and samples once per field within each call.
 The [performance report](docs/stage2-performance.md) records five-run before/after
 measurements, allocation costs and the slower report-budget rejection path.
-The frozen development decisions remain identical; performance work does not
-change the matching-quality limitations above.
+Stage 2 preserved all frozen development decisions; those measurements precede
+the deliberate scoring changes in Stage 3.
+
+Stage 3 adds distinct-aware sample reliability, exact integers/decimals, verified
+semantic hints, inspectable aliases and optional sample profiles. Its
+[development evaluation](docs/stage3-evaluation.md) reports the full tradeoff:
+default precision is nearly unchanged and recall is lower on the original
+development corpus. Profiles remain opt-in and the 95% precision target is still
+unmet. See the [migration guide](docs/stage3-migration.md) for API changes.
 
 ## License
 
