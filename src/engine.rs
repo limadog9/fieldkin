@@ -1,9 +1,11 @@
 use std::collections::BTreeSet;
 
+use crate::profile::PreparedProfile;
 use crate::signals::{type_compatibility, PreparedName, PreparedSamples};
 use crate::{
     assignment, Candidate, Config, Decision, Field, FieldMatch, MatchError, MatchReport, Matcher,
-    NameMatcher, SampleMatcher, SampleValue, Schema, SignalReport, TypeMatcher,
+    NameMatcher, SampleMatcher, SampleProfileMatcher, SampleValue, Schema, SignalReport,
+    TypeMatcher,
 };
 
 /// A signal and its relative weight. Zero-weight signals are disabled.
@@ -44,6 +46,11 @@ enum PreparedSignal<'a> {
         source: Vec<PreparedSamples<'a>>,
         target: Vec<PreparedSamples<'a>>,
     },
+    Profiles {
+        matcher: &'a SampleProfileMatcher,
+        source: Vec<PreparedProfile>,
+        target: Vec<PreparedProfile>,
+    },
     Direct,
 }
 
@@ -69,6 +76,14 @@ impl<'a> PreparedSignal<'a> {
             }
         } else if let Some(matcher) = concrete.and_then(|m| m.downcast_ref::<SampleMatcher>()) {
             Self::Samples {
+                matcher,
+                source: source.iter().map(|field| matcher.prepare(field)).collect(),
+                target: target.iter().map(|field| matcher.prepare(field)).collect(),
+            }
+        } else if let Some(matcher) =
+            concrete.and_then(|m| m.downcast_ref::<SampleProfileMatcher>())
+        {
+            Self::Profiles {
                 matcher,
                 source: source.iter().map(|field| matcher.prepare(field)).collect(),
                 target: target.iter().map(|field| matcher.prepare(field)).collect(),
@@ -312,6 +327,11 @@ impl MatchEngine {
                     target,
                 } => matcher.evaluate_prepared(&source[source_index], &target[target_index]),
                 PreparedSignal::Direct => signal.matcher.evaluate(source, target),
+                PreparedSignal::Profiles {
+                    matcher,
+                    source,
+                    target,
+                } => matcher.evaluate_prepared(&source[source_index], &target[target_index]),
             }
             .map_err(|_| {
                 MatchError(format!(
@@ -358,11 +378,13 @@ impl MatchEngine {
                     .into(),
             );
         }
+        let semantic_conflict = source.hints.compare(&target.hints, &mut warnings);
         Ok(Candidate {
             target: target.id.clone(),
             score,
             eligible: score > 0.0
                 && score >= self.config.min_score
+                && !semantic_conflict
                 && !(incompatible && self.config.reject_incompatible_types),
             signals,
             warnings,
@@ -376,6 +398,7 @@ impl MatchEngine {
         }
         let mut ids = BTreeSet::new();
         for field in &schema.fields {
+            field.hints.validate()?;
             if field.id.0.is_empty() || !ids.insert(&field.id) {
                 return Err(MatchError(
                     "field IDs must be nonempty and unique within each schema".into(),

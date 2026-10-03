@@ -9,10 +9,11 @@ unsupported proposals, predictable costs, and an API that is easy to adopt.
 Success includes knowing when to leave a field unmatched.
 
 This is the intended development sequence, not a claim that these capabilities
-already exist or a guarantee of release dates. **Stages 1 and 2 are complete as of
+already exist or a guarantee of release dates. **Stages 1 through 3 are complete as of
 October 3, 2026**; later stages remain planned. See the
 [evaluation evidence and limitations](docs/evaluation.md) and
-[performance measurements](docs/stage2-performance.md). Stages may finish
+[performance measurements](docs/stage2-performance.md), and
+[Stage 3 evidence evaluation](docs/stage3-evaluation.md). Stages may finish
 earlier than their planning dates.
 We will run one primary workstream at a time, reserve capacity for regression
 fixes and documentation, and review scope at each stage boundary. @limadog9 owns
@@ -39,7 +40,7 @@ cases and one timing run do not establish general accuracy or performance.
 | --- | --- | --- |
 | 1. Establish evidence | Oct 3-16; completed Oct 3 | A reproducible evaluation corpus and comparison harness; [results](docs/evaluation.md) |
 | 2. Reduce repeated work | Oct 17-30; completed Oct 3 | Prepared names/samples and measured performance improvements without changing decisions; [results](docs/stage2-performance.md) |
-| 3. Improve matching evidence | Oct 31-Nov 13 | More reliable samples, exact numeric options, and explicit domain hints |
+| 3. Improve matching evidence | Oct 31-Nov 13; completed Oct 3 | Distinct-aware samples, exact numeric options, explicit hints and development ablations; [results](docs/stage3-evaluation.md) |
 | 4. Explain global decisions | Nov 14-27 | Bounded diagnostics for competing assignments and clearer abstention reasons |
 | 5. Harden the public API | Nov 28-Dec 11 | Structured reports/errors and realistic embedding examples |
 | 6. Qualify a release | Dec 12-25 | Cross-platform validation, adversarial testing, and a release candidate |
@@ -143,6 +144,18 @@ its own work budget. Do not raise the default 128-field limit until measurements
 justify the change.
 
 ## Stage 3: improve matching evidence
+
+**Completed:** exact integer/decimal samples, distinct-aware overlap, optional
+bounded profiles, checked/inspectable aliases, verified semantic constraints and
+source migration guidance. A protocol and 12 new development families were frozen
+before scoring; seven models, two assignment modes and 21 thresholds are recorded
+alongside full-report regression digests. Holdout families were not scored.
+On original development, default independent precision is nearly unchanged
+(76.03% to 76.07%) while recall falls (45.62% to 43.97%); matched-precision results
+do not establish superiority over the original combined policy. Profiles remain
+optional. The 95% precision target is still unmet. The original acceptance
+criteria below are retained; completing the evidence stage is not release
+qualification.
 
 Make evidence more informative while keeping uncertainty visible.
 

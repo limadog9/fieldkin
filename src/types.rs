@@ -36,7 +36,7 @@ pub enum DataType {
     Integer,
     /// Floating point numbers.
     Float,
-    /// Fixed precision numeric values; precision/scale are outside v0.1.
+    /// Decimal logical type; precision/scale constraints of the field are unspecified.
     Decimal,
     /// Unicode text.
     Text,
@@ -57,6 +57,10 @@ pub enum SampleValue {
     Boolean(bool),
     /// Numeric sample (non-finite values are rejected).
     Number(f64),
+    /// Exact signed integer. Kept distinct from floating point, decimal and text samples.
+    Integer(i128),
+    /// Exact base-ten sample. Trailing decimal zeros are canonicalized; no float coercion.
+    Decimal(crate::ExactDecimal),
     /// Text sample, also suitable for caller-encoded dates and timestamps.
     Text(String),
 }
@@ -67,7 +71,20 @@ impl fmt::Debug for SampleValue {
             Self::Null => "Null",
             Self::Boolean(_) => "Boolean(<redacted>)",
             Self::Number(_) => "Number(<redacted>)",
+            Self::Integer(_) => "Integer(<redacted>)",
+            Self::Decimal(_) => "Decimal(<redacted>)",
             Self::Text(_) => "Text(<redacted>)",
+        })
+    }
+}
+
+impl SampleValue {
+    /// Convert an unsigned integer without truncation. Values greater than
+    /// `i128::MAX` return an error; use an explicit caller-owned text representation
+    /// if the signed exact-integer range does not cover your domain.
+    pub fn from_unsigned(value: u128) -> Result<Self, MatchError> {
+        i128::try_from(value).map(Self::Integer).map_err(|_| {
+            MatchError("unsigned sample exceeds the exact signed integer range".into())
         })
     }
 }
@@ -83,6 +100,8 @@ pub struct Field {
     pub data_type: DataType,
     /// None means unavailable; an empty vector means an observed empty sample.
     pub samples: Option<Vec<SampleValue>>,
+    /// Optional caller-verified semantics. Conflicting supplied hints exclude a pair.
+    pub hints: crate::SemanticHints,
 }
 
 impl Field {
@@ -93,12 +112,20 @@ impl Field {
             name: name.into(),
             data_type,
             samples: None,
+            hints: crate::SemanticHints::default(),
         }
     }
 
     /// Attach a caller-selected, ordered sample. Selection is the caller's responsibility.
     pub fn with_samples(mut self, samples: Vec<SampleValue>) -> Self {
         self.samples = Some(samples);
+        self
+    }
+
+    /// Attach verified metadata. Labels compare exactly; Fieldkin does not infer
+    /// units, currency, identifier namespaces or conversion rules.
+    pub fn with_hints(mut self, hints: crate::SemanticHints) -> Self {
+        self.hints = hints;
         self
     }
 }
@@ -234,7 +261,7 @@ pub struct Candidate {
     pub target: FieldId,
     /// Weighted sum in [0, 1], not a probability.
     pub score: f64,
-    /// Passes threshold and the type veto; ambiguity is a source-level decision.
+    /// Passes threshold, type veto and semantic-hint constraints; ambiguity is source-level.
     pub eligible: bool,
     /// Individual scores, missing evidence and contributions.
     pub signals: Vec<SignalReport>,

@@ -4,9 +4,17 @@ mod corpus;
 mod metrics;
 mod model;
 mod runner;
+mod stage3;
 
 fn main() {
-    if let Err(error) = runner::run(std::env::args().skip(1).collect()) {
+    let mut args: Vec<_> = std::env::args().skip(1).collect();
+    let result = if args.first().is_some_and(|arg| arg == "--stage3") {
+        args.remove(0);
+        stage3::run(args)
+    } else {
+        runner::run(args)
+    };
+    if let Err(error) = result {
         eprintln!("fieldkin-eval: {error}");
         std::process::exit(1);
     }

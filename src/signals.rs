@@ -4,7 +4,7 @@ use std::collections::{BTreeMap, BTreeSet};
 
 use unicode_normalization::{char::is_combining_mark, UnicodeNormalization};
 
-use crate::{DataType, Evidence, Field, Matcher, SampleValue};
+use crate::{DataType, Evidence, Field, MatchError, Matcher, SampleValue};
 
 /// Split a name at separators, case/acronym boundaries and letter-digit boundaries.
 ///
@@ -82,12 +82,34 @@ struct NameTokens {
     distinct: Vec<String>,
     joined: String,
     substitutions: usize,
+    applied_aliases: BTreeSet<String>,
 }
 
 impl NameMatcher {
-    fn tokens(&self, name: &str) -> Result<(Vec<String>, usize), String> {
+    /// Add a caller-verified token alias after validating both sides. Each side
+    /// must be one already-normalized token of at most 256 bytes. Aliases apply
+    /// to every occurrence; they do not establish units or identifier scope.
+    pub fn with_alias(
+        mut self,
+        from: impl Into<String>,
+        to: impl Into<String>,
+    ) -> Result<Self, MatchError> {
+        let from = from.into();
+        let to = to.into();
+        for token in [&from, &to] {
+            if token.len() > 256 || normalize_name(token).as_slice() != [token.as_str()] {
+                return Err(MatchError(
+                    "aliases must be single normalized tokens of at most 256 bytes".into(),
+                ));
+            }
+        }
+        self.aliases.insert(from, to);
+        Ok(self)
+    }
+    fn tokens(&self, name: &str) -> Result<(Vec<String>, usize, BTreeSet<String>), String> {
         let mut tokens = normalize_name(name);
         let mut substitutions = 0;
+        let mut applied_aliases = BTreeSet::new();
         let mut expanded_bytes = 0usize;
         for (index, token) in tokens.iter_mut().enumerate() {
             if let Some(replacement) = self.aliases.get(token) {
@@ -100,6 +122,7 @@ impl NameMatcher {
                     );
                 }
                 if replacement != token {
+                    applied_aliases.insert(format!("{token} -> {replacement}"));
                     *token = replacement.clone();
                     substitutions += 1;
                 }
@@ -114,23 +137,26 @@ impl NameMatcher {
                 );
             }
         }
-        Ok((tokens, substitutions))
+        Ok((tokens, substitutions, applied_aliases))
     }
 
     pub(crate) fn prepare(&self, name: &str) -> PreparedName {
         PreparedName {
-            value: self.tokens(name).map(|(mut tokens, substitutions)| {
-                // Keep original token order for character similarity and exact
-                // equality, and a sorted set for allocation-free intersections.
-                let joined = tokens.join(" ");
-                tokens.sort_unstable();
-                tokens.dedup();
-                NameTokens {
-                    distinct: tokens,
-                    joined,
-                    substitutions,
-                }
-            }),
+            value: self
+                .tokens(name)
+                .map(|(mut tokens, substitutions, applied_aliases)| {
+                    // Keep original token order for character similarity and exact
+                    // equality, and a sorted set for allocation-free intersections.
+                    let joined = tokens.join(" ");
+                    tokens.sort_unstable();
+                    tokens.dedup();
+                    NameTokens {
+                        distinct: tokens,
+                        joined,
+                        substitutions,
+                        applied_aliases,
+                    }
+                }),
         }
     }
 
@@ -173,14 +199,34 @@ impl NameMatcher {
         } else {
             0.65 * token_score + 0.35 * character_score
         };
-        Ok(Evidence {
-            score: Some(score),
-            explanation: format!(
-                "Token Jaccard {token_score:.3} (weight 0.65); Jaro-Winkler \
+        let mut explanation = format!(
+            "Token Jaccard {token_score:.3} (weight 0.65); Jaro-Winkler \
                  {character_score:.3} (weight 0.35); {} alias substitutions. \
                  Lexical agreement does not establish semantic equivalence",
-                source.substitutions + target.substitutions,
-            ),
+            source.substitutions + target.substitutions,
+        );
+        let aliases: BTreeSet<_> = source
+            .applied_aliases
+            .iter()
+            .chain(&target.applied_aliases)
+            .collect();
+        if !aliases.is_empty() {
+            explanation.push_str(". Applied token aliases: ");
+            for (index, alias) in aliases.into_iter().enumerate() {
+                if explanation.len() + alias.len() > 2800 {
+                    explanation
+                        .push_str("; further alias details omitted to bound explanation size");
+                    break;
+                }
+                if index > 0 {
+                    explanation.push_str("; ");
+                }
+                explanation.push_str(alias);
+            }
+        }
+        Ok(Evidence {
+            score: Some(score),
+            explanation,
         })
     }
 }
@@ -234,22 +280,42 @@ impl Matcher for TypeMatcher {
     }
 }
 
-/// Exact typed-value set overlap, attenuated by the lower non-null coverage.
+/// Reliability policy applied to exact sample overlap.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub enum SampleReliability {
+    /// Stage 1 behavior: observation sufficiency and null coverage only.
+    /// Repeated constants can produce full agreement; use for historical comparisons.
+    Legacy,
+    /// Attenuate by `min((lower distinct count - 1) / 2, 1)` in addition to
+    /// observation sufficiency and coverage. Constants score zero; two-value
+    /// columns receive half weight; three or more distinct values receive full
+    /// weight. This is a conservative heuristic, not a reliability probability.
+    #[default]
+    Distinct,
+}
+
+/// Exact typed-value set overlap, attenuated by null coverage and distinct support.
 ///
 /// Text is case-sensitive and untrimmed. Numeric `-0.0` equals `0.0`; no coercion
-/// between numbers, booleans and text is performed. Repetition affects sample
-/// sufficiency and coverage but not set overlap. Shared values can be misleading
+/// between numeric kinds, booleans and text is performed. Repetition affects sample
+/// sufficiency and coverage but cannot increase distinct support. Shared values can be misleading
 /// for low-cardinality fields; absent overlap does not prove unrelated meaning.
 #[derive(Clone, Copy, Debug)]
 pub struct SampleMatcher {
     /// Required non-null observations on each side, including repetitions.
     /// Must be positive. The default is three; this is not a statistical guarantee.
     pub min_non_null: usize,
+    /// Low-cardinality attenuation. The default is `Distinct`; `Legacy` is available
+    /// for reproducing the original heuristic, with its constant-column limitation.
+    pub reliability: SampleReliability,
 }
 
 impl Default for SampleMatcher {
     fn default() -> Self {
-        Self { min_non_null: 3 }
+        Self {
+            min_non_null: 3,
+            reliability: SampleReliability::Distinct,
+        }
     }
 }
 
@@ -257,6 +323,8 @@ impl Default for SampleMatcher {
 enum SampleKey<'a> {
     Boolean(bool),
     Number(u64),
+    Integer(i128),
+    Decimal(i128, u8),
     Text(&'a str),
 }
 
@@ -267,6 +335,8 @@ fn sample_set(samples: &[SampleValue]) -> Result<(BTreeSet<SampleKey<'_>>, usize
         let key = match sample {
             SampleValue::Null => continue,
             SampleValue::Boolean(value) => SampleKey::Boolean(*value),
+            SampleValue::Integer(value) => SampleKey::Integer(*value),
+            SampleValue::Decimal(value) => SampleKey::Decimal(value.coefficient(), value.scale()),
             SampleValue::Number(value) => {
                 if !value.is_finite() {
                     return Err("Sample contains a non-finite number".to_owned());
@@ -352,6 +422,21 @@ impl SampleMatcher {
         let target_observations = target.observations.unwrap_or_default();
         let coverage = (*source_non_null as f64 / source_observations as f64)
             .min(*target_non_null as f64 / target_observations as f64);
+        if self.reliability == SampleReliability::Distinct {
+            let support = (source_values
+                .len()
+                .min(target_values.len())
+                .saturating_sub(1) as f64
+                / 2.0)
+                .min(1.0);
+            return Ok(Evidence {
+                score: Some(jaccard * coverage * support),
+                explanation: format!(
+                    "Exact typed-value Jaccard {jaccard:.3}; lower non-null coverage {coverage:.3}; distinct support {support:.3}; source {source_non_null}/{source_observations} and target {target_non_null}/{target_observations} non-null observations; source {} and target {} distinct; {overlap}/{union} shared/union distinct values. Constants and low-cardinality samples are attenuated; overlap does not establish meaning",
+                    source_values.len(), target_values.len(),
+                ),
+            });
+        }
         Ok(Evidence {
             score: Some(jaccard * coverage),
             explanation: format!(
@@ -505,10 +590,12 @@ mod tests {
 
     #[test]
     fn samples_attenuate_null_heavy_data_without_exposing_values() {
-        let value = SampleValue::Text("private sample value".to_owned());
-        let full = field("").with_samples(vec![value.clone(); 3]);
+        let values: Vec<_> = (0..3)
+            .map(|i| SampleValue::Text(format!("private sample value{i}")))
+            .collect();
+        let full = field("").with_samples(values.clone());
         let mut sparse_values = vec![SampleValue::Null; 27];
-        sparse_values.extend(vec![value; 3]);
+        sparse_values.extend(values);
         let sparse = field("").with_samples(sparse_values);
         let matcher = SampleMatcher::default();
         assert_eq!(matcher.evaluate(&full, &full).unwrap().score, Some(1.0));
@@ -519,7 +606,10 @@ mod tests {
 
     #[test]
     fn samples_compare_typed_values_without_coercion_and_canonicalize_zero() {
-        let matcher = SampleMatcher::default();
+        let matcher = SampleMatcher {
+            reliability: SampleReliability::Legacy,
+            ..SampleMatcher::default()
+        };
         let numbers = field("").with_samples(vec![SampleValue::Number(0.0); 3]);
         let negative_zero = field("").with_samples(vec![SampleValue::Number(-0.0); 3]);
         let text = field("").with_samples(vec![SampleValue::Text("0".to_owned()); 3]);
@@ -538,9 +628,12 @@ mod tests {
         let invalid = field("").with_samples(vec![SampleValue::Number(f64::NAN); 3]);
         let valid = field("").with_samples(vec![SampleValue::Number(1.0); 3]);
         assert!(SampleMatcher::default().evaluate(&invalid, &valid).is_err());
-        assert!(SampleMatcher { min_non_null: 0 }
-            .evaluate(&valid, &valid)
-            .is_err());
+        assert!(SampleMatcher {
+            min_non_null: 0,
+            ..SampleMatcher::default()
+        }
+        .evaluate(&valid, &valid)
+        .is_err());
     }
 
     #[test]
@@ -570,8 +663,8 @@ mod tests {
                 // Check the cached representation against the original ordered
                 // tokens and set semantics, including repeated and reordered tokens.
                 if source != "invalid" && target != "invalid" {
-                    let (source_tokens, _) = matcher.tokens(source).unwrap();
-                    let (target_tokens, _) = matcher.tokens(target).unwrap();
+                    let (source_tokens, _, _) = matcher.tokens(source).unwrap();
+                    let (target_tokens, _, _) = matcher.tokens(target).unwrap();
                     let expected = if source_tokens.is_empty() || target_tokens.is_empty() {
                         None
                     } else if source_tokens == target_tokens {
@@ -622,7 +715,10 @@ mod tests {
             field("").with_samples(vec![SampleValue::Number(f64::NEG_INFINITY)]),
         ];
         for min_non_null in [0, 3] {
-            let matcher = SampleMatcher { min_non_null };
+            let matcher = SampleMatcher {
+                min_non_null,
+                ..SampleMatcher::default()
+            };
             for source in &cases {
                 for target in &cases {
                     let prepared = matcher

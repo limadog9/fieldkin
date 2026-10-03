@@ -1,10 +1,36 @@
 # Fieldkin evaluation protocol v1
 
 This development-only workspace package records the frozen Stage 1 matcher
-baseline and checks subsequent implementations against it. It is not a runtime
+baseline and the separate Stage 3 evidence evaluation. It is not a runtime
 dependency of `fieldkin` and is not published to crates.io. All fixtures are
 original synthetic data under MIT OR Apache-2.0, copyright 2026 Fieldkin
 contributors. No external dataset, personal record or Valentine fixture is used.
+
+## Stage 3 evidence evaluation
+
+The [Stage 3 report](../docs/stage3-evaluation.md) compares current defaults,
+historical sample reliability, name-only matching, optional profiles and signal
+ablations. Its [protocol](stage3-protocol.json) and 12 new development families
+were committed before scoring. Original development and new extension results
+are kept separate; no held-out family is scored.
+
+```text
+cargo +1.85.0 run --locked --release -p fieldkin-eval -- --stage3 --output target/fieldkin-stage3
+cargo +1.85.0 run --locked --release -p fieldkin-eval -- --stage3 --check --output evaluation/results/stage3-v1
+```
+
+The second command is the current-default CI gate. It compares all 588 aggregate
+threshold rows, per-family results, matched-precision operating points, complete
+source/dependency provenance and 2,408 full-report digests at the default threshold.
+Digests include explanations, warnings and alternatives without sample values.
+There are no implementation-hash exceptions in this check. Generation refuses
+to overwrite changed artifacts; use a new versioned directory for future changes.
+The Stage 3 CLI accepts only `--output` and `--check`, not holdout options.
+
+The sections below describe the original v1 protocol. Since Stage 3, that runner
+explicitly selects `SampleReliability::Legacy`. Its `combined` model is the
+historical baseline, **not today's default**. Keeping both gates distinguishes
+compatibility of the legacy policy from intentional changes to default evidence.
 
 ## Reproduce
 
@@ -25,14 +51,15 @@ Routine development deliberately defaults to the development partition:
 cargo +1.85.0 run --locked --release -p fieldkin-eval
 ```
 
-Verify that the current implementation preserves the committed development
-behavior without writing files or evaluating holdout outcomes:
+Verify that the historical models preserve the committed development behavior
+without writing files or evaluating holdout outcomes:
 
 ```text
 cargo +1.85.0 run --locked --release -p fieldkin-eval -- --check-behavior --output evaluation/results/baseline-v1
 ```
 
-This is the CI regression command for Stage 2 performance work. It compares the
+This was the current-default CI regression command for Stage 2 performance work;
+it now checks historical models using `Legacy` sample reliability. It compares the
 exact corpus, readable tables and prediction records, including ranks, scores,
 eligibility, decisions and alternatives. It compares every aggregate count,
 metric, inventory entry and frozen configuration in JSON. Only these two
@@ -144,7 +171,7 @@ recorded in `protocol.json`; no thresholds were tuned for this baseline.
 
 | Model | Evidence and veto |
 | --- | --- |
-| `combined` | Name 0.65, type 0.20, samples 0.15, incompatible-type veto; matches current defaults |
+| `combined` | Name 0.65, type 0.20, samples 0.15, incompatible-type veto; historical `Legacy` sample policy |
 | `name_only` | Name weight 1.0; no type/sample evidence and no type veto |
 | `no_name` | Name weight remains 0.65 but its evidence is absent; type/sample signals and veto remain |
 | `no_samples` | Sample weight remains 0.15 but its evidence is absent; names/types and veto remain |

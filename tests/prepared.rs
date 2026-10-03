@@ -163,7 +163,10 @@ fn custom_aliases_and_sample_minimum_preserve_explanations_and_errors() {
             let names = NameMatcher {
                 aliases: aliases.clone(),
             };
-            let samples = SampleMatcher { min_non_null };
+            let samples = SampleMatcher {
+                min_non_null,
+                ..SampleMatcher::default()
+            };
             assert_eq!(
                 engine(Config::default(), names.clone(), samples, true)
                     .match_schemas(&source, &target),
@@ -183,7 +186,10 @@ fn empty_products_and_disabled_builtins_do_not_validate_unused_evidence() {
         let invalid = engine(
             Config::default(),
             invalid_names.clone(),
-            SampleMatcher { min_non_null: 0 },
+            SampleMatcher {
+                min_non_null: 0,
+                ..SampleMatcher::default()
+            },
             cached,
         );
         assert!(invalid.match_schemas(&schema, &Schema::default()).is_ok());
@@ -193,7 +199,13 @@ fn empty_products_and_disabled_builtins_do_not_validate_unused_evidence() {
         Config::default(),
         vec![
             WeightedMatcher::new(0.0, invalid_names),
-            WeightedMatcher::new(0.0, SampleMatcher { min_non_null: 0 }),
+            WeightedMatcher::new(
+                0.0,
+                SampleMatcher {
+                    min_non_null: 0,
+                    ..SampleMatcher::default()
+                },
+            ),
             WeightedMatcher::new(1.0, TypeMatcher),
         ],
     )
