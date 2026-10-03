@@ -245,12 +245,14 @@ mod tests {
             eligible,
             signals: Vec::new(),
             warnings: Vec::new(),
+            issues: Vec::new(),
         }
     }
 
     fn field(source: &str, selected: Option<&str>, ranked: &[&str]) -> FieldMatch {
         FieldMatch {
             source: source.into(),
+            diagnostics: Vec::new(),
             candidates: ranked
                 .iter()
                 .map(|target| candidate(target, true))
@@ -275,6 +277,8 @@ mod tests {
             fields,
             unmatched_targets: Vec::new(),
             one_to_one,
+            target_competition: Vec::new(),
+            assignment_diagnostics: Default::default(),
         }
     }
 

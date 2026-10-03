@@ -271,6 +271,7 @@ fn engine(
 ) -> Result<MatchEngine, String> {
     let limits = &protocol["limits"];
     let config = Config {
+        global_diagnostics: Default::default(),
         min_score: threshold,
         ambiguity_margin: number(protocol, "ambiguity_margin")?,
         max_candidates: size(protocol, "max_candidates")?,

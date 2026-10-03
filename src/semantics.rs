@@ -1,4 +1,4 @@
-use crate::MatchError;
+use crate::{InputError, MatchError};
 
 /// Caller-verified semantic labels. No inference, conversion or synonym lookup
 /// is performed. Use a shared vocabulary on both sides (for example `USD` and
@@ -42,9 +42,7 @@ impl SemanticHints {
     pub(crate) fn validate(&self) -> Result<(), MatchError> {
         for (_, label) in self.entries() {
             if label.is_some_and(|s| s.is_empty() || s.len() > 128 || s.trim() != s) {
-                return Err(MatchError(
-                    "semantic hints must be nonempty, trimmed labels of at most 128 bytes".into(),
-                ));
+                return Err(MatchError::InvalidInput(InputError::SemanticHint));
             }
         }
         Ok(())

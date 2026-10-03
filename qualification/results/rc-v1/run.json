@@ -1,0 +1,23 @@
+{
+  "build_sha256": "36ccd1e65fa2423a39a82b6caebf37713c416eb5c92c531fd55d381fec0b6593",
+  "campaign": {
+    "cases": 1000000,
+    "categories": {
+      "assignment_oracle": 200000,
+      "configuration_and_limits": 200000,
+      "default_report_invariants": 200000,
+      "malformed_schemas": 200000,
+      "normalization": 200000
+    },
+    "elapsed_seconds": 17.462779,
+    "passed": true,
+    "protocol": "fieldkin-qualification-v1",
+    "seed": 20261003
+  },
+  "exit_code": 0,
+  "requested_cases": 1000000,
+  "seed": 20261003,
+  "started_utc": "2026-10-03T23:41:18.887680+00:00",
+  "stderr": "completed 100000 generated cases\ncompleted 200000 generated cases\ncompleted 300000 generated cases\ncompleted 400000 generated cases\ncompleted 500000 generated cases\ncompleted 600000 generated cases\ncompleted 700000 generated cases\ncompleted 800000 generated cases\ncompleted 900000 generated cases\ncompleted 1000000 generated cases\n",
+  "wall_seconds": 17.674727600067854
+}

@@ -216,7 +216,7 @@ pub fn cases(families: &[Family]) -> Result<Vec<Case>, String> {
                             // Existing emptiness remains empty. For observed values append three
                             // missing observations per original sample; never create agreement.
                             let missing = samples.len() * 3;
-                            samples.extend(std::iter::repeat(Value::Null).take(missing));
+                            samples.extend(std::iter::repeat_n(Value::Null, missing));
                         }
                     }
                 }

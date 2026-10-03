@@ -230,7 +230,7 @@ fn unsigned_conversion_is_checked_and_does_not_echo_overflow_values() {
     for invalid in [i128::MAX as u128 + 1, u128::MAX] {
         let error = SampleValue::from_unsigned(invalid).unwrap_err();
         assert_eq!(
-            error.0,
+            error.to_string(),
             "unsigned sample exceeds the exact signed integer range"
         );
         assert!(!format!("{error:?}").contains(&invalid.to_string()));
@@ -396,7 +396,7 @@ fn invalid_hints_fail_before_custom_matchers_and_valid_byte_boundaries_pass() {
                 .match_schemas(&source, &Schema::new(vec![field("t")]))
                 .unwrap_err();
             assert_eq!(
-                error.0,
+                error.to_string(),
                 "semantic hints must be nonempty, trimmed labels of at most 128 bytes"
             );
         }

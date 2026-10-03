@@ -213,7 +213,7 @@ fn invoke(engine: &MatchEngine, workload: &Workload) -> Result<(), Box<dyn std::
         black_box(engine.match_schemas(black_box(&workload.source), black_box(&workload.target)));
     match (result, workload.expected_error) {
         (Ok(report), None) => drop(black_box(report)),
-        (Err(error), Some(expected)) if error.0 == expected => drop(black_box(error)),
+        (Err(error), Some(expected)) if error.to_string() == expected => drop(black_box(error)),
         (Err(error), _) => return Err(error.into()),
         (Ok(_), Some(_)) => return Err("expected budget rejection".into()),
     }

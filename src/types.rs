@@ -1,3 +1,4 @@
+use crate::{InputError, MatchError};
 use std::fmt;
 
 /// Stable caller-supplied identity, unique within one schema. Names need not be unique.
@@ -83,9 +84,9 @@ impl SampleValue {
     /// `i128::MAX` return an error; use an explicit caller-owned text representation
     /// if the signed exact-integer range does not cover your domain.
     pub fn from_unsigned(value: u128) -> Result<Self, MatchError> {
-        i128::try_from(value).map(Self::Integer).map_err(|_| {
-            MatchError("unsigned sample exceeds the exact signed integer range".into())
-        })
+        i128::try_from(value)
+            .map(Self::Integer)
+            .map_err(|_| MatchError::InvalidInput(InputError::UnsignedRange))
     }
 }
 
@@ -196,6 +197,8 @@ pub struct Config {
     pub abstain_on_ambiguity: bool,
     /// Exclude pairs with incompatible known declared types, even with strong names.
     pub reject_incompatible_types: bool,
+    /// Optional bounded alternative-assignment analysis; never changes selection.
+    pub global_diagnostics: crate::GlobalDiagnosticsConfig,
     /// Resource budgets.
     pub limits: Limits,
 }
@@ -209,6 +212,7 @@ impl Default for Config {
             one_to_one: false,
             abstain_on_ambiguity: true,
             reject_incompatible_types: true,
+            global_diagnostics: crate::GlobalDiagnosticsConfig::default(),
             limits: Limits::default(),
         }
     }
@@ -267,6 +271,69 @@ pub struct Candidate {
     pub signals: Vec<SignalReport>,
     /// Reasons for caution, without sample values.
     pub warnings: Vec<String>,
+    /// Structured counterparts of important caution and exclusion reasons.
+    pub issues: Vec<CandidateIssue>,
+}
+
+/// Caller-verified semantic category; never contains a supplied label value.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[non_exhaustive]
+pub enum SemanticAxis {
+    /// Physical or application-defined unit.
+    Unit,
+    /// Currency vocabulary.
+    Currency,
+    /// Identifier namespace.
+    IdentifierScope,
+}
+
+/// Machine-readable candidate reasons. These are not probability estimates.
+#[derive(Clone, Debug, PartialEq, Eq)]
+#[non_exhaustive]
+pub enum CandidateIssue {
+    /// Incompatible declared types, regardless of whether the type veto is enabled.
+    IncompatibleTypes,
+    /// At least one active signal returned absent evidence.
+    MissingEvidence,
+    /// Score is zero or below the configured threshold.
+    InsufficientScore,
+    /// Supplied semantics conflict; this always excludes the pair.
+    SemanticConflict(SemanticAxis),
+    /// Supplied labels agree, without increasing the score.
+    SemanticAgreement(SemanticAxis),
+    /// Only one side supplied this category.
+    SemanticMissing(SemanticAxis),
+    /// Other assignable sources compete for the selected target.
+    TargetCompetition,
+}
+
+/// Source-level reasons, independent of displayed candidate truncation.
+#[derive(Clone, Debug, PartialEq, Eq)]
+#[non_exhaustive]
+pub enum FieldDiagnostic {
+    /// No candidate passes the score and semantic/type constraints.
+    NoEligibleTarget,
+    /// Several eligible candidates are within the local ambiguity margin.
+    LocalAmbiguity,
+    /// Another assignable source also has an eligible edge to this target.
+    TargetCompetition(FieldId),
+    /// Global assignment selected a different target from the first ranked eligible one.
+    Displaced {
+        /// Highest ranked eligible target, before global assignment.
+        preferred_target: FieldId,
+    },
+    /// Global constraints left this otherwise assignable source unmatched.
+    UnassignedByGlobalConstraint,
+}
+
+/// Competing sources for a target in the actual assignment graph. Locally
+/// ambiguous sources excluded by policy are not part of this graph.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct TargetCompetition {
+    /// Contested target identity.
+    pub target: FieldId,
+    /// Competing sources in stable ID order.
+    pub sources: Vec<FieldId>,
 }
 
 /// Outcome for a source field.
@@ -296,6 +363,8 @@ pub struct FieldMatch {
     pub selected: Option<Candidate>,
     /// Why a proposal was or was not selected.
     pub decision: Decision,
+    /// Structured local and global reasons, in deterministic order.
+    pub diagnostics: Vec<FieldDiagnostic>,
 }
 
 /// Reproducible report; collections are ordered by stable field ID.
@@ -309,19 +378,8 @@ pub struct MatchReport {
     pub unmatched_targets: Vec<FieldId>,
     /// Whether optional global one-to-one assignment was requested.
     pub one_to_one: bool,
+    /// Competitions in the one-to-one graph, before display truncation.
+    pub target_competition: Vec<TargetCompetition>,
+    /// Bounded analysis of other eligible assignments, separate from selections.
+    pub assignment_diagnostics: crate::AssignmentDiagnostics,
 }
-
-/// Validation or extension failure. Built-in errors never contain sample values.
-#[derive(Clone, Debug, PartialEq, Eq)]
-pub struct MatchError(
-    /// Human-readable reason, without sample values.
-    pub String,
-);
-
-impl fmt::Display for MatchError {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        self.0.fmt(f)
-    }
-}
-
-impl std::error::Error for MatchError {}

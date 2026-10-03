@@ -96,6 +96,7 @@ impl Matcher for MissingSignal {
 fn engine(protocol: &Value, model: &str, one_to_one: bool) -> Result<MatchEngine, String> {
     let limits = &protocol["limits"];
     let config = Config {
+        global_diagnostics: Default::default(),
         min_score: number(protocol, "min_score")?,
         ambiguity_margin: number(protocol, "ambiguity_margin")?,
         max_candidates: size(protocol, "max_candidates")?,

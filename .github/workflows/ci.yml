@@ -1,7 +1,7 @@
 name: CI
 on:
   push:
-    branches: [main, "feat/**"]
+    branches: [main]
   pull_request:
   workflow_dispatch:
 
@@ -9,6 +9,48 @@ permissions:
   contents: read
 
 jobs:
+  platform:
+    name: ${{ matrix.os }} / Rust ${{ matrix.rust }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        rust: [1.85.0, 1.99.0]
+    env:
+      RUSTDOCFLAGS: -D warnings
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - run: rustup toolchain install ${{ matrix.rust }} --profile minimal --component rustfmt --component clippy
+      - run: cargo +${{ matrix.rust }} fmt --all -- --check
+      - run: cargo +${{ matrix.rust }} fmt --manifest-path performance/Cargo.toml -- --check
+      - run: cargo +${{ matrix.rust }} fmt --manifest-path qualification/Cargo.toml -- --check
+      - run: cargo +${{ matrix.rust }} test --locked --all-features
+      - run: cargo +${{ matrix.rust }} test --locked --manifest-path performance/Cargo.toml --all-features
+      - run: cargo +${{ matrix.rust }} test --locked --manifest-path qualification/Cargo.toml
+      - run: cargo +${{ matrix.rust }} clippy --locked --workspace --all-targets --all-features -- -D warnings
+      - run: cargo +${{ matrix.rust }} doc --locked --no-deps --all-features
+      - run: cargo +${{ matrix.rust }} run --locked --example import_review
+      - run: cargo +${{ matrix.rust }} run --locked --example catalog_review
+      - run: cargo +${{ matrix.rust }} package --locked -p fieldkin
+      - name: Verify original decisions with historical sample reliability
+        run: cargo +${{ matrix.rust }} run --locked --release -p fieldkin-eval -- --check-behavior --output evaluation/results/baseline-v1
+      - name: Verify current full development reports
+        run: cargo +${{ matrix.rust }} run --locked --release -p fieldkin-eval -- --stage3 --check --output evaluation/results/rc-v1/stage3-development
+      - name: Verify release development evaluation (holdout is never run in CI)
+        run: cargo +${{ matrix.rust }} run --locked --release -p fieldkin-eval -- --release --check --output evaluation/results/rc-v1/release
+  test:
+    name: test
+    needs: platform
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require every platform and compiler check
+        env:
+          PLATFORM_RESULT: ${{ needs.platform.result }}
+        run: test "$PLATFORM_RESULT" = success
   format:
     name: format
     runs-on: ubuntu-latest
@@ -19,6 +61,7 @@ jobs:
       - run: rustup toolchain install 1.85.0 --profile minimal --component rustfmt
       - run: cargo +1.85.0 fmt --all -- --check
       - run: cargo +1.85.0 fmt --manifest-path performance/Cargo.toml -- --check
+      - run: cargo +1.85.0 fmt --manifest-path qualification/Cargo.toml -- --check
   clippy:
     name: clippy
     runs-on: ubuntu-latest
@@ -27,22 +70,9 @@ jobs:
         with:
           persist-credentials: false
       - run: rustup toolchain install 1.85.0 --profile minimal --component clippy
-      - run: cargo +1.85.0 clippy --locked --all-targets --all-features -- -D warnings
+      - run: cargo +1.85.0 clippy --locked --workspace --all-targets --all-features -- -D warnings
       - run: cargo +1.85.0 clippy --locked --manifest-path performance/Cargo.toml --all-targets --all-features -- -D warnings
-  test:
-    name: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          persist-credentials: false
-      - run: rustup toolchain install 1.85.0 --profile minimal
-      - run: cargo +1.85.0 test --locked --all-features
-      - run: cargo +1.85.0 test --locked --manifest-path performance/Cargo.toml --all-features
-      - name: Verify historical development behavior with legacy sample reliability
-        run: cargo +1.85.0 run --locked --release -p fieldkin-eval -- --check-behavior --output evaluation/results/baseline-v1
-      - name: Verify Stage 3 development results and report digests
-        run: cargo +1.85.0 run --locked --release -p fieldkin-eval -- --stage3 --check --output evaluation/results/stage3-v1
+      - run: cargo +1.85.0 clippy --locked --manifest-path qualification/Cargo.toml --all-targets -- -D warnings
   docs:
     name: docs
     runs-on: ubuntu-latest
