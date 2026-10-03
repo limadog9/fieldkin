@@ -12,16 +12,18 @@ Tests should exercise observable behavior or meaningful invariants. Include a
 reproduction for bug fixes and a before/after benchmark for performance claims.
 Avoid adding runtime services or dependencies without a clear core-library need.
 
-All files are owned by @limadog9, including CODEOWNERS and workflows. Main requires
-a PR, one code-owner approval, resolved conversations and passing required checks;
-stale approvals are dismissed on reviewable changes. Do not request bypasses.
+All files are owned by @limadog9, including CODEOWNERS and workflows. Outside
+contributions require a PR, one code-owner approval, resolved conversations and
+passing required checks; stale approvals are dismissed on reviewable changes.
 The owner has final authority over API design, scope and releases. Contribution
 does not imply maintainer status, write access or crate publishing ownership.
 
-GitHub does not allow authors to approve their own PRs. A PR authored as
-`limadog9` cannot satisfy the sole-code-owner review rule. Such work must remain
-unmerged until submitted through a separately authorized contributor identity;
-do not disable protection or manufacture an approval check to route around this.
+The owner explicitly permits an administrator exception for their own work.
+@limadog9 is the only repository administrator and can merge without a separate
+reviewer. GitHub still prohibits authors from approving their own PRs; the owner
+uses the administrator exception, not a self-approval. Outside contributors have
+no bypass. Granting another account administrator access would extend this
+exception and requires the owner's explicit decision.
 
 Unless you explicitly state otherwise, contributions intentionally submitted for
 inclusion are licensed under MIT OR Apache-2.0, without additional terms. Preserve

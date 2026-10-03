@@ -8,6 +8,11 @@ admin access. The API did not disclose a paid plan name. All requested protectio
 settings were accepted and independently read back, establishing their availability
 on this public repository rather than assuming it from the account plan.
 
+The owner subsequently requested that their own account be allowed to merge
+while outside contributions still require their approval. Only administrator
+enforcement was disabled for that policy; the other protection requirements
+remain configured. @limadog9 is the sole administrator.
+
 ## Bootstrap ordering
 
 Main was created with only `.gitignore`, `Cargo.toml`, `Cargo.lock`, a placeholder
@@ -28,13 +33,13 @@ any substantive implementation push.
 | CODEOWNERS on main | `* @limadog9`; API reports no errors |
 | Dismiss stale approvals | `true` |
 | Required conversation resolution | `true` |
-| Enforce administrators | `true` |
+| Enforce administrators | `false`, owner-requested administrator exception |
 | Allow force pushes | `false` |
 | Allow branch deletion | `false` |
 | Required checks | `format`, `clippy`, `test`, `docs` |
 | Check source | GitHub Actions app ID `15368` for all four |
 | Require branch up to date | `true` |
-| Bypass actors | None configured; no bypass allowances returned |
+| Bypass actors | Administrator exception; only `limadog9` is an administrator. No explicit PR bypass allowances configured |
 | Additional rulesets | None (`[]`); classic branch protection is used |
 | Repository collaborators | Only `limadog9` |
 | Default workflow token permissions | `read` |
@@ -46,19 +51,17 @@ persisting checkout credentials. It uses `pull_request`, never
 credentials are supplied to contributor code. No external service integration,
 new credential, collaborator or publishing owner was added.
 
-## Identity limitation
+## Owner exception and identity boundary
 
-This verification does **not** mean a PR authored as `limadog9` can receive the
-required human approval. GitHub cannot distinguish agent actions authenticated
-as that account from the account holder, and
+Outside contributions still require a code-owner review from @limadog9. The
+owner can merge their own work using the administrator exception. This is not a
+self-approval: GitHub cannot distinguish agent actions authenticated as that
+account from the account holder, and
 [authors cannot approve their own PRs](https://docs.github.com/en/pull-requests/how-tos/review-pull-requests/approving-a-pull-request-with-required-reviews).
-The implementation therefore remains in a draft PR. A separately authorized
-contributor identity, for example submitting from its own fork, is needed before
-@limadog9 can provide a qualifying personal review. Creating such an identity or
-granting persistent access requires the user's authorization.
 
-No approval, merge, bypass, weakened rule or synthetic approval check was used.
-Administrative enforcement covers branch operations, but the account owner can
-still edit repository settings; it cannot distinguish two people using the same
-credentials. Protection should be re-read before future maintenance or release
+The administrator exception is role-based, not a special allowance tied to a
+particular username. Granting another account administrator access would extend
+it; no such access was granted. No self-approval or synthetic approval check was
+used. Creating an identity or granting persistent access requires the owner's
+authorization. Protection should be re-read before future maintenance or release
 claims because these settings are mutable.

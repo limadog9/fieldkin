@@ -5,14 +5,14 @@ flat schemas. Embed it in an importer, migration tool, catalog, or integration
 service. It returns ranked candidates, individual signal explanations, ambiguous
 alternatives, and unmatched fields. It does not rewrite data.
 
-**Status:** first-release implementation under review; not yet published to
+**Status:** first-release implementation; not yet published to
 crates.io. The API is experimental. Rust 1.85 or later; MIT OR Apache-2.0.
 The sole maintainer and final decision-maker is [@limadog9](https://github.com/limadog9).
 
 ## Quick start
 
-While the initial PR is under review, use a local checkout of its feature branch
-and `fieldkin = { path = "../fieldkin" }`. Run `cargo run --example basic` to see
+Use a local checkout of `main` and `fieldkin = { path = "../fieldkin" }`.
+Run `cargo run --example basic` to see
 the complete report. Both Rust examples below are compiled as library doctests.
 
 ```rust
