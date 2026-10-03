@@ -186,7 +186,9 @@ fn empty_missing_and_insufficient_samples_remain_absent_evidence() {
 #[test]
 fn null_heavy_samples_attenuate_evidence_and_do_not_expose_values() {
     let secret = "synthetic-private-value-123";
-    let values = vec![SampleValue::Text(secret.to_owned()); 3];
+    let values = (0..3)
+        .map(|i| SampleValue::Text(format!("{secret}-{i}")))
+        .collect::<Vec<_>>();
     let source = Schema::new(vec![
         field("s", "value", DataType::Text).with_samples(values.clone())
     ]);

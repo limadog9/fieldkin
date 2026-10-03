@@ -4,8 +4,8 @@ use std::path::{Path, PathBuf};
 use std::process::Command;
 
 use fieldkin::{
-    Config, Evidence, Field, Limits, MatchEngine, Matcher, NameMatcher, SampleMatcher, TypeMatcher,
-    WeightedMatcher,
+    Config, Evidence, Field, Limits, MatchEngine, Matcher, NameMatcher, SampleMatcher,
+    SampleReliability, TypeMatcher, WeightedMatcher,
 };
 use serde::Serialize;
 use serde_json::{json, Value};
@@ -128,6 +128,7 @@ fn engine(protocol: &Value, model: &str, one_to_one: bool) -> Result<MatchEngine
     let names = NameMatcher { aliases };
     let samples = SampleMatcher {
         min_non_null: size(protocol, "sample_min_non_null")?,
+        reliability: SampleReliability::Legacy,
     };
     let weights = &protocol["weights"];
     let mut matchers = Vec::new();
@@ -619,7 +620,7 @@ mod tests {
     }
 
     #[test]
-    fn combined_protocol_reproduces_current_defaults_and_ablation_scale() {
+    fn historical_protocol_preserves_no_sample_defaults_and_ablation_scale() {
         let protocol = corpus::protocol().unwrap();
         let schema =
             fieldkin::Schema::new(vec![Field::new("x", "amount", fieldkin::DataType::Decimal)]);

@@ -25,14 +25,24 @@ signals, so a custom name-only baseline must explicitly disable it. No conversio
 is performed or promised.
 
 Sample agreement is exact typed distinct-value Jaccard, multiplied by the lower
-non-null fraction. Three non-null observations are required by default. Repeated
-values count toward that minimum but do not increase distinct overlap. This is a
-small heuristic, not a statistical sufficiency test. It avoids treating shared
-nulls as matching evidence; it cannot distinguish unrelated boolean flags or
-code lists that happen to share values. `f64` numeric samples cannot preserve
-every large integer or exact decimal. Supply canonical text when exactness matters.
+non-null fraction and `min((lower distinct count - 1) / 2, 1)`. Three non-null
+observations are required by default. Repeated values count toward that minimum
+but cannot increase distinct support; constants score zero and two-value sets
+receive half support. This is a heuristic, not a statistical sufficiency test.
+Unrelated three-value code lists can still agree fully. `SampleReliability::Legacy`
+retains the historical observation/coverage-only behavior for comparisons.
+Exact integer and decimal samples preserve equality without floating-point casts;
+all numeric sample kinds remain distinct. See [exact numeric samples](exact-numbers.md).
 
-Candidates that pass the threshold and type veto are eligible. If two or more
+Optional `SemanticHints` supplies verified units, currency and identifier scope.
+Any jointly supplied conflict excludes a pair independently of configured signals;
+agreement does not add score, and missing labels do not assert agreement. Labels
+compare exactly in a caller-chosen vocabulary. Warnings identify the affected
+category without printing hint values. This relies on supplied facts; it cannot
+infer a hidden gross/net distinction. Optional sample profiles compare kind/length
+distributions, with reliability attenuation, but are not default evidence.
+
+Candidates that pass the threshold, type veto and hint constraints are eligible. If two or more
 eligible targets are within the configured absolute margin of the best, the
 source is locally ambiguous. By default it gets no selection. Alternatives are
 computed before top-k truncation and returned in stable target-ID order.

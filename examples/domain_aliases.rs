@@ -7,9 +7,9 @@ use fieldkin::{
 fn main() -> Result<(), fieldkin::MatchError> {
     // The application owner has verified these synonyms for this particular schema pair.
     // Aliases apply to every occurrence of these tokens, so keep them domain-specific.
-    let mut names = NameMatcher::default();
-    names.aliases.insert("sku".into(), "product".into());
-    names.aliases.insert("code".into(), "id".into());
+    let names = NameMatcher::default()
+        .with_alias("sku", "product")?
+        .with_alias("code", "id")?;
     let engine = MatchEngine::with_matchers(
         Config::default(),
         vec![

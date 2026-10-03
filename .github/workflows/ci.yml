@@ -39,8 +39,10 @@ jobs:
       - run: rustup toolchain install 1.85.0 --profile minimal
       - run: cargo +1.85.0 test --locked --all-features
       - run: cargo +1.85.0 test --locked --manifest-path performance/Cargo.toml --all-features
-      - name: Verify frozen development behavior
+      - name: Verify historical development behavior with legacy sample reliability
         run: cargo +1.85.0 run --locked --release -p fieldkin-eval -- --check-behavior --output evaluation/results/baseline-v1
+      - name: Verify Stage 3 development results and report digests
+        run: cargo +1.85.0 run --locked --release -p fieldkin-eval -- --stage3 --check --output evaluation/results/stage3-v1
   docs:
     name: docs
     runs-on: ubuntu-latest

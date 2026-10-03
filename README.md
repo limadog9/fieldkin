@@ -13,7 +13,7 @@ The sole maintainer and final decision-maker is [@limadog9](https://github.com/l
 
 Use a local checkout of `main` and `fieldkin = { path = "../fieldkin" }`.
 Run `cargo run --example basic` to see
-the complete report. Both Rust examples below are compiled as library doctests.
+the complete report. Rust examples below are compiled as library doctests.
 
 ```rust
 use fieldkin::{Config, DataType, Field, MatchEngine, Schema};
@@ -65,12 +65,14 @@ needs domain review.
 | --- | --- | --- |
 | Name | Unicode NFKC, lowercase, separator/camel-case/acronym/digit tokenization; token Jaccard plus Jaro-Winkler | Only `amt → amount` and `trans → transaction` are default aliases; no ontology or language model |
 | Type | Exact coarse types, numeric compatibility, date/timestamp compatibility | Unknown types supply no evidence; incompatible known types veto selection by default; compatibility is not a conversion guarantee |
-| Samples | Exact typed value-set overlap, attenuated by non-null coverage | Requires at least three non-null observations per side; nulls never match each other; sample overlap does not establish meaning |
+| Samples | Exact typed value-set overlap, attenuated by non-null coverage and distinct support | Requires at least three non-null observations per side; constants score zero, two-value columns receive half support; sample overlap does not establish meaning |
 
-Use `Field::with_samples` with `SampleValue::{Null, Boolean, Number, Text}`.
+Use `Field::with_samples` with `SampleValue::{Null, Boolean, Number, Integer, Decimal, Text}`.
 `None`, empty samples, and insufficient non-null values are explained separately.
 Text values compare exactly; Fieldkin does not parse dates or cast strings to numbers.
-Numeric samples use `f64`; use text for exact large integers or decimal representations.
+`Number` retains `f64` measurements. Use `Integer(i128)` and
+`Decimal(ExactDecimal)` for exact values; numeric kinds are not implicitly cast.
+See [exact numeric samples](docs/exact-numbers.md) for scale and range rules.
 Callers are responsible for representative sampling and truthful declared types.
 
 `SKU_Code → product_id` needs domain evidence, such as caller-defined token aliases
@@ -79,6 +81,28 @@ under the defaults. Likewise, gross/net amounts, currencies, units, timezones,
 identifier scope, and similarly shaped unrelated data can fool lexical or value
 evidence. Fieldkin has no general semantic guarantee. See
 [design and failure cases](docs/design.md).
+
+Verified metadata can rule out an otherwise convincing candidate:
+
+```rust
+use fieldkin::{Config, DataType, Field, MatchEngine, Schema, SemanticHints};
+
+let source = Schema::new(vec![Field::new("s", "price", DataType::Decimal)
+    .with_hints(SemanticHints { currency: Some("USD".into()), ..Default::default() })]);
+let target = Schema::new(vec![Field::new("t", "price", DataType::Decimal)
+    .with_hints(SemanticHints { currency: Some("EUR".into()), ..Default::default() })]);
+let report = MatchEngine::new(Config::default())?.match_schemas(&source, &target)?;
+assert!(!report.fields[0].candidates[0].eligible);
+assert!(report.fields[0].selected.is_none());
+# Ok::<(), fieldkin::MatchError>(())
+```
+
+`SemanticHints` accepts caller-verified `unit`, `currency` and `identifier_scope`.
+Conflicts exclude a pair; missing hints imply no agreement. Labels compare
+exactly, without conversions or guessing. `NameMatcher::with_alias` validates
+explicit token replacements, which are listed in explanations. Optional
+`SampleProfileMatcher` compares sample shapes but is disabled by default because
+unrelated fields can have identical profiles. See [Stage 3 migration and limits](docs/stage3-migration.md).
 
 ## API and customization
 
