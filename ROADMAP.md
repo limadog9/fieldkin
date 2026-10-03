@@ -9,9 +9,10 @@ unsupported proposals, predictable costs, and an API that is easy to adopt.
 Success includes knowing when to leave a field unmatched.
 
 This is the intended development sequence, not a claim that these capabilities
-already exist or a guarantee of release dates. **Stage 1 is complete as of
+already exist or a guarantee of release dates. **Stages 1 and 2 are complete as of
 October 3, 2026**; later stages remain planned. See the
-[evaluation evidence and limitations](docs/evaluation.md). Stages may finish
+[evaluation evidence and limitations](docs/evaluation.md) and
+[performance measurements](docs/stage2-performance.md). Stages may finish
 earlier than their planning dates.
 We will run one primary workstream at a time, reserve capacity for regression
 fixes and documentation, and review scope at each stage boundary. @limadog9 owns
@@ -37,7 +38,7 @@ cases and one timing run do not establish general accuracy or performance.
 | Stage | Target dates | Main outcome |
 | --- | --- | --- |
 | 1. Establish evidence | Oct 3-16; completed Oct 3 | A reproducible evaluation corpus and comparison harness; [results](docs/evaluation.md) |
-| 2. Reduce repeated work | Oct 17-30 | Prepared names/samples and measured performance improvements without changing decisions |
+| 2. Reduce repeated work | Oct 17-30; completed Oct 3 | Prepared names/samples and measured performance improvements without changing decisions; [results](docs/stage2-performance.md) |
 | 3. Improve matching evidence | Oct 31-Nov 13 | More reliable samples, exact numeric options, and explicit domain hints |
 | 4. Explain global decisions | Nov 14-27 | Bounded diagnostics for competing assignments and clearer abstention reasons |
 | 5. Harden the public API | Nov 28-Dec 11 | Structured reports/errors and realistic embedding examples |
@@ -99,6 +100,16 @@ suite from the current package. This must not add Python or a service dependency
 to the Rust library. Lack of a fair external comparison does not block the core.
 
 ## Stage 2: reduce repeated work
+
+**Completed:** private per-call preparation for names and samples; fewer report
+allocations; identical frozen development predictions; 50 timing/allocation
+workloads with five independent runs per revision and measurement mode. The
+128-by-128 sampled combined workload improved 3.84× in independent mode and
+2.28× with assignment, meeting the stretch target on the recorded machine.
+All 24 core medians improved. Report-budget rejection became slower because of
+eager preparation; this tradeoff is explicitly recorded. No public prepared-schema
+API or candidate pruning was added. The requirements below remain the original
+acceptance criteria.
 
 Prepare reusable evidence once per field instead of rebuilding it for every pair.
 

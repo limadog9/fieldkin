@@ -1,19 +1,23 @@
 # Fieldkin evaluation protocol v1
 
-This development-only workspace package measures the unchanged initial matcher
-before Stage 2 optimization or Stage 3 scoring changes. It is not a runtime
+This development-only workspace package records the frozen Stage 1 matcher
+baseline and checks subsequent implementations against it. It is not a runtime
 dependency of `fieldkin` and is not published to crates.io. All fixtures are
 original synthetic data under MIT OR Apache-2.0, copyright 2026 Fieldkin
 contributors. No external dataset, personal record or Valentine fixture is used.
 
 ## Reproduce
 
-From the repository root, one command regenerates the complete corpus and both
-baseline reports with the locked dependencies:
+From the repository root, one command generates the complete corpus and both
+partition reports for the current checkout with its locked dependencies:
 
 ```text
 cargo +1.85.0 run --locked --release -p fieldkin-eval -- --split all --acknowledge-holdout --output target/evaluation-full
 ```
+
+Use the Stage 1 checkout to reproduce the historical baseline with its original
+source hashes. Running this command at a later revision records that revision's
+implementation provenance; it does not recreate the historical source metadata.
 
 Routine development deliberately defaults to the development partition:
 
@@ -21,12 +25,28 @@ Routine development deliberately defaults to the development partition:
 cargo +1.85.0 run --locked --release -p fieldkin-eval
 ```
 
-Verify the committed development snapshot without writing files or evaluating
-holdout outcomes:
+Verify that the current implementation preserves the committed development
+behavior without writing files or evaluating holdout outcomes:
 
 ```text
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --check --output evaluation/results/baseline-v1
+cargo +1.85.0 run --locked --release -p fieldkin-eval -- --check-behavior --output evaluation/results/baseline-v1
 ```
+
+This is the CI regression command for Stage 2 performance work. It compares the
+exact corpus, readable tables and prediction records, including ranks, scores,
+eligibility, decisions and alternatives. It compares every aggregate count,
+metric, inventory entry and frozen configuration in JSON. Only these two
+implementation provenance entries in `development.json` are excluded:
+`engine_source_sha256` and `evaluator_source_sha256`. Manifests and the complete
+dependency lockfile must still match. Source changes require ordinary review;
+this command does not establish source provenance equality. It is restricted
+to the development split.
+
+`--check` retains the original stricter meaning: compare all deterministic
+artifacts, including implementation provenance. To reproduce the original
+snapshot with that command, use the frozen Stage 1 checkout. It is expected to
+fail after source changes, including performance-only changes. The two check
+flags cannot be combined. Neither rewrites the baseline or creates artifacts.
 
 `--split holdout` and `--split all` require `--acknowledge-holdout`. The flag is a
 procedural safeguard, not secrecy: this is a public synthetic corpus. CI runs
@@ -169,7 +189,11 @@ bug fix cannot silently masquerade as an algorithm improvement.
 The runner reads the workspace sources to record their hashes. Run it through
 Cargo from this checkout; it is not a standalone distributed benchmark binary.
 `--check` verifies corpus, summary and development prediction snapshots without
-rewriting them. Generation refuses to overwrite an existing deterministic
+rewriting them; `--check-behavior` makes only the explicit provenance exception
+described above. Neither command evaluates holdout data by default. Regression
+tests also compare complete reports from built-in matchers with uncached custom
+wrappers, including signal explanations, warnings and unmatched IDs that are not
+stored in the prediction snapshot. Generation refuses to overwrite an existing deterministic
 artifact with different contents; choose a new output directory. Future deliberate algorithm or protocol changes should create a
 new versioned result directory, preserve this baseline, and explain differences.
 

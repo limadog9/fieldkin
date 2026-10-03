@@ -1,0 +1,125 @@
+{
+  "allocations_warmup_calls": 1,
+  "build_environment": {},
+  "built_utc": "2026-10-03T22:28:39.745333+00:00",
+  "checkouts": {
+    "baseline": {
+      "binaries": {
+        "allocations": {
+          "command": [
+            "cargo",
+            "+1.85.0",
+            "build",
+            "--release",
+            "--locked",
+            "--manifest-path",
+            "C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\stage2-baseline\\performance\\Cargo.toml",
+            "--target-dir",
+            "C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\stage2-baseline\\performance\\target\\allocations",
+            "--features",
+            "allocations"
+          ],
+          "path": "C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\stage2-baseline\\performance\\target\\allocations\\release\\fieldkin-performance.exe",
+          "sha256": "7493f5ee9b194c9c405467f7b3b325504df3048e3162b79b203a136dc196aa2e"
+        },
+        "timing": {
+          "command": [
+            "cargo",
+            "+1.85.0",
+            "build",
+            "--release",
+            "--locked",
+            "--manifest-path",
+            "C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\stage2-baseline\\performance\\Cargo.toml",
+            "--target-dir",
+            "C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\stage2-baseline\\performance\\target\\timing"
+          ],
+          "path": "C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\stage2-baseline\\performance\\target\\timing\\release\\fieldkin-performance.exe",
+          "sha256": "8da60e2b13f24f916e4d0a8552b2c6a1e49b70c816f8d957416f64598eef280f"
+        }
+      },
+      "commit": "00b12b58a8f43be5cfc4410bfd2f9a8f69dfb113",
+      "git_status": "?? performance/",
+      "path": "C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\stage2-baseline",
+      "source_sha256": {
+        "Cargo.lock": "36a2b9f878563262ae34b8be3318d67c41eaa62ef8cf795c65622ef7e8d964d6",
+        "Cargo.toml": "10e7b8d86706a745bd34b7fbc3af2cbbf8833ca1f3713069b03ce0cf27b010e9",
+        "performance/Cargo.lock": "5433ce6ade0f2aaaccf59f23f75d781ab9761f00d43b5672c4cf03c06adcd264",
+        "performance/Cargo.toml": "81475e7c84b2df2c08eb01b1557210e9c2c83f00716605469d23f95825219477",
+        "performance/run.py": "e064e4cfbb6073dce29e672710a8694ddde751b5fd04685c31578f87c5795c26",
+        "performance/src/main.rs": "d20d1ede683dcb929172f2ae258316116914c93774c6f65cc8e23b4464379c9d",
+        "src/assignment.rs": "871a44b62b100860e45caf0f3fc8adbde783e220f14487b28942fa549eb49cbc",
+        "src/engine.rs": "b99230146c7f216fc4918066b5457843a3c07be1d41d3548cb65b6dc99849196",
+        "src/lib.rs": "95c507ea73b293586ccab8479f7f25197e1b8fad7551b79b644499d26225f2bd",
+        "src/signals.rs": "ed31b03b9e9136d523184544e27320256899485c66617996ece6ae68d0d8d954",
+        "src/types.rs": "e5a876924e14a5fddfe81a69f73de21fc44473d87ea3728a8f6f435cea08ce47"
+      }
+    },
+    "candidate": {
+      "binaries": {
+        "allocations": {
+          "command": [
+            "cargo",
+            "+1.85.0",
+            "build",
+            "--release",
+            "--locked",
+            "--manifest-path",
+            "C:\\Users\\jakew\\Downloads\\fieldkin\\performance\\Cargo.toml",
+            "--target-dir",
+            "C:\\Users\\jakew\\Downloads\\fieldkin\\performance\\target\\allocations",
+            "--features",
+            "allocations"
+          ],
+          "path": "C:\\Users\\jakew\\Downloads\\fieldkin\\performance\\target\\allocations\\release\\fieldkin-performance.exe",
+          "sha256": "7e26dc3848271f7342610c8acc5c18a0f27a558607ff35d6b0a448b15b7f00af"
+        },
+        "timing": {
+          "command": [
+            "cargo",
+            "+1.85.0",
+            "build",
+            "--release",
+            "--locked",
+            "--manifest-path",
+            "C:\\Users\\jakew\\Downloads\\fieldkin\\performance\\Cargo.toml",
+            "--target-dir",
+            "C:\\Users\\jakew\\Downloads\\fieldkin\\performance\\target\\timing"
+          ],
+          "path": "C:\\Users\\jakew\\Downloads\\fieldkin\\performance\\target\\timing\\release\\fieldkin-performance.exe",
+          "sha256": "307169bcf729641f99050153bdaaae2fa7e7d748ed9d3c5771f082e270f38726"
+        }
+      },
+      "commit": "0c8adfd3d2feca0c8e7bc43697245c31a5646ca7",
+      "git_status": "",
+      "path": "C:\\Users\\jakew\\Downloads\\fieldkin",
+      "source_sha256": {
+        "Cargo.lock": "36a2b9f878563262ae34b8be3318d67c41eaa62ef8cf795c65622ef7e8d964d6",
+        "Cargo.toml": "10e7b8d86706a745bd34b7fbc3af2cbbf8833ca1f3713069b03ce0cf27b010e9",
+        "performance/Cargo.lock": "5433ce6ade0f2aaaccf59f23f75d781ab9761f00d43b5672c4cf03c06adcd264",
+        "performance/Cargo.toml": "81475e7c84b2df2c08eb01b1557210e9c2c83f00716605469d23f95825219477",
+        "performance/run.py": "e064e4cfbb6073dce29e672710a8694ddde751b5fd04685c31578f87c5795c26",
+        "performance/src/main.rs": "d20d1ede683dcb929172f2ae258316116914c93774c6f65cc8e23b4464379c9d",
+        "src/assignment.rs": "871a44b62b100860e45caf0f3fc8adbde783e220f14487b28942fa549eb49cbc",
+        "src/engine.rs": "a8e1586ecebc3d267313d72583df5cb85893f12d7a2136e88ccacc915c904a76",
+        "src/lib.rs": "95c507ea73b293586ccab8479f7f25197e1b8fad7551b79b644499d26225f2bd",
+        "src/signals.rs": "2a94dc4e0b7a3de9437910149d86c7ea9ac919e4d06c16f88f51a9afa11e7412",
+        "src/types.rs": "63955accf9d7d7f815e3b44ea4e7a07dc82d1c9a0051e4e7824abafa832359ca"
+      }
+    }
+  },
+  "compiler": "rustc 1.85.0 (4d91de4e4 2025-02-17)\nbinary: rustc\ncommit-hash: 4d91de4e48198da2e33413efdcd9cd2cc0c46688\ncommit-date: 2025-02-17\nhost: x86_64-pc-windows-msvc\nrelease: 1.85.0\nLLVM version: 19.1.7",
+  "machine": {
+    "cpu": "{\"Name\":\"AMD Ryzen 5 5625U with Radeon Graphics         \",\"NumberOfCores\":6,\"NumberOfLogicalProcessors\":12}",
+    "logical_cpus": 12,
+    "machine": "AMD64",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+    "python": "3.10.11"
+  },
+  "protocol": "fieldkin-stage2-v1",
+  "revision_order": "baseline,candidate on odd runs; candidate,baseline on even runs",
+  "runs_per_revision": 5,
+  "timing_instrumented": false,
+  "warmup_calls": 3
+}

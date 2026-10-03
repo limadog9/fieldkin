@@ -19,6 +19,7 @@ struct Options {
     output: PathBuf,
     split: String,
     check: bool,
+    check_behavior: bool,
     acknowledge_holdout: bool,
 }
 
@@ -28,6 +29,7 @@ impl Options {
             output: root().join("target/fieldkin-eval"),
             split: "development".into(),
             check: false,
+            check_behavior: false,
             acknowledge_holdout: false,
         };
         let mut args = args.into_iter();
@@ -36,17 +38,28 @@ impl Options {
                 "--output" => result.output = args.next().ok_or("--output needs a directory")?.into(),
                 "--split" => result.split = args.next().ok_or("--split needs development, holdout, or all")?,
                 "--check" => result.check = true,
+                "--check-behavior" => result.check_behavior = true,
                 "--acknowledge-holdout" => result.acknowledge_holdout = true,
-                _ => return Err(format!("unknown argument {arg}; use --output DIR, --split development|holdout|all, --check, --acknowledge-holdout")),
+                _ => return Err(format!("unknown argument {arg}; use --output DIR, --split development|holdout|all, --check, --check-behavior, --acknowledge-holdout")),
             }
         }
         if !["development", "holdout", "all"].contains(&result.split.as_str()) {
             return Err("invalid split".into());
         }
+        if result.check && result.check_behavior {
+            return Err("--check and --check-behavior are mutually exclusive".into());
+        }
+        if result.check_behavior && result.split != "development" {
+            return Err("--check-behavior is restricted to development data".into());
+        }
         if result.split != "development" && !result.acknowledge_holdout {
             return Err("holdout evaluation requires --acknowledge-holdout; do not use holdout results for tuning".into());
         }
         Ok(result)
+    }
+
+    fn checking(&self) -> bool {
+        self.check || self.check_behavior
     }
 }
 
@@ -357,10 +370,41 @@ fn markdown(report: &Report) -> String {
     text
 }
 
+// Behavioral regression intentionally permits reviewed implementation changes.
+// Everything else, including protocol, reference configuration, corpus hashes,
+// inventory, counts and metrics, remains part of the comparison.
+const IMPLEMENTATION_PROVENANCE: &[&str] = &["engine_source_sha256", "evaluator_source_sha256"];
+
+fn behavioral_document(text: &str) -> Result<Value, String> {
+    let mut document: Value = serde_json::from_str(text).map_err(|e| e.to_string())?;
+    let metadata = document["metadata"]
+        .as_object_mut()
+        .ok_or("behavioral snapshot has no metadata object")?;
+    for key in IMPLEMENTATION_PROVENANCE {
+        metadata
+            .remove(*key)
+            .ok_or_else(|| format!("behavioral snapshot is missing provenance field {key}"))?;
+    }
+    Ok(document)
+}
+
+fn snapshot_matches(
+    name: &str,
+    expected: &str,
+    actual: &str,
+    behavior: bool,
+) -> Result<bool, String> {
+    if behavior && name == "development.json" {
+        Ok(behavioral_document(expected)? == behavioral_document(actual)?)
+    } else {
+        Ok(normalized(expected) == normalized(actual))
+    }
+}
+
 fn artifact(options: &Options, name: &str, text: &str) -> Result<(), String> {
     let path = options.output.join(name);
-    if options.check {
-        if read(&path)? != normalized(text) {
+    if options.checking() {
+        if !snapshot_matches(name, &read(&path)?, text, options.check_behavior)? {
             return Err(format!(
                 "snapshot differs: {}; investigate before updating a frozen baseline",
                 path.display()
@@ -388,7 +432,7 @@ pub fn run(args: Vec<String>) -> Result<(), String> {
     let mut corpus_text = serde_json::to_string(&corpus_document).map_err(|e| e.to_string())?;
     corpus_text.push('\n');
     let metadata = metadata(&protocol, corpus_text.as_bytes())?;
-    if !options.check {
+    if !options.checking() {
         fs::create_dir_all(&options.output).map_err(|e| e.to_string())?;
     }
     artifact(&options, "corpus.json", &corpus_text)?;
@@ -413,7 +457,7 @@ pub fn run(args: Vec<String>) -> Result<(), String> {
             report.inventory["source_decisions"]
         );
     }
-    if !options.check {
+    if !options.checking() {
         let output = Command::new("rustc")
             .arg("-Vv")
             .output()
@@ -435,7 +479,9 @@ pub fn run(args: Vec<String>) -> Result<(), String> {
     }
     println!(
         "{} {}",
-        if options.check {
+        if options.check_behavior {
+            "Verified development behavior (implementation provenance excluded) in"
+        } else if options.check {
             "Verified frozen artifacts in"
         } else {
             "Wrote deterministic artifacts to"
@@ -461,6 +507,115 @@ mod tests {
         assert!(Options::parse(vec!["--output".into()]).is_err());
         assert!(Options::parse(vec!["--split".into(), "other".into()]).is_err());
         assert_eq!(Options::parse(Vec::new()).unwrap().split, "development");
+    }
+
+    #[test]
+    fn behavioral_checks_are_explicit_and_development_only() {
+        assert!(Options::parse(vec!["--check".into(), "--check-behavior".into()]).is_err());
+        for split in ["holdout", "all"] {
+            assert!(Options::parse(vec![
+                "--check-behavior".into(),
+                "--split".into(),
+                split.into(),
+                "--acknowledge-holdout".into(),
+            ])
+            .is_err());
+        }
+        let options = Options::parse(vec!["--check-behavior".into()]).unwrap();
+        assert!(options.checking());
+        assert_eq!(options.split, "development");
+    }
+
+    #[test]
+    fn behavioral_checks_ignore_only_the_named_implementation_provenance() {
+        let mut expected = json!({
+            "metadata": {
+                "protocol": {"min_score": 0.70, "baseline_commit": "frozen"},
+                "protocol_sha256": "protocol",
+                "generated_corpus_sha256": "corpus",
+                "family_file_sha256": {"family.json": "fixture"},
+                "library_manifest_sha256": "library manifest",
+                "evaluator_manifest_sha256": "evaluator manifest",
+                "dependency_lock_sha256": "locked dependencies",
+                "dependency_lock": "lockfile",
+            },
+            "split": "development",
+            "inventory": {"families": 32},
+            "results": [{"counts": {"proposals": 438}, "metrics": {"precision": 0.76}}],
+        });
+        for key in IMPLEMENTATION_PROVENANCE {
+            expected["metadata"][*key] = json!("old implementation");
+        }
+        let mut implementation_change = expected.clone();
+        for key in IMPLEMENTATION_PROVENANCE {
+            implementation_change["metadata"][*key] = json!("new implementation");
+        }
+        let expected_text = expected.to_string();
+        assert!(snapshot_matches(
+            "development.json",
+            &expected_text,
+            &implementation_change.to_string(),
+            true,
+        )
+        .unwrap());
+        assert!(!snapshot_matches(
+            "development.json",
+            &expected_text,
+            &implementation_change.to_string(),
+            false,
+        )
+        .unwrap());
+
+        for pointer in [
+            "/metadata/protocol/min_score",
+            "/metadata/protocol/baseline_commit",
+            "/metadata/protocol_sha256",
+            "/metadata/generated_corpus_sha256",
+            "/metadata/family_file_sha256/family.json",
+            "/metadata/library_manifest_sha256",
+            "/metadata/evaluator_manifest_sha256",
+            "/metadata/dependency_lock_sha256",
+            "/metadata/dependency_lock",
+            "/inventory/families",
+            "/results/0/counts/proposals",
+            "/results/0/metrics/precision",
+        ] {
+            let mut changed = implementation_change.clone();
+            *changed.pointer_mut(pointer).unwrap() = json!("changed");
+            assert!(
+                !snapshot_matches(
+                    "development.json",
+                    &expected_text,
+                    &changed.to_string(),
+                    true
+                )
+                .unwrap(),
+                "behavioral comparison failed to detect {pointer}",
+            );
+        }
+        let mut missing = expected.clone();
+        missing["metadata"]
+            .as_object_mut()
+            .unwrap()
+            .remove(IMPLEMENTATION_PROVENANCE[0]);
+        assert!(behavioral_document(&missing.to_string()).is_err());
+        let mut additional = expected.clone();
+        additional["metadata"]["future_provenance"] = json!("must not be silently ignored");
+        assert!(!snapshot_matches(
+            "development.json",
+            &expected_text,
+            &additional.to_string(),
+            true
+        )
+        .unwrap());
+        for artifact in [
+            "corpus.json",
+            "development.md",
+            "development-predictions.jsonl",
+        ] {
+            assert!(!snapshot_matches(artifact, "before", "after", true).unwrap());
+            assert!(snapshot_matches(artifact, "same\r\n", "same\n", true).unwrap());
+        }
     }
 
     #[test]

@@ -1,6 +1,6 @@
 use std::collections::BTreeSet;
 
-use crate::signals::type_compatibility;
+use crate::signals::{type_compatibility, PreparedName, PreparedSamples};
 use crate::{
     assignment, Candidate, Config, Decision, Field, FieldMatch, MatchError, MatchReport, Matcher,
     NameMatcher, SampleMatcher, SampleValue, Schema, SignalReport, TypeMatcher,
@@ -28,6 +28,55 @@ impl WeightedMatcher {
 pub struct MatchEngine {
     config: Config,
     matchers: Vec<WeightedMatcher>,
+}
+
+// This cache borrows validated fields and lives only for one match call. It is
+// deliberately private: callers still pass ordinary schemas and custom matchers
+// retain their original pair-by-pair evaluation order.
+enum PreparedSignal<'a> {
+    Names {
+        matcher: &'a NameMatcher,
+        source: Vec<PreparedName>,
+        target: Vec<PreparedName>,
+    },
+    Samples {
+        matcher: &'a SampleMatcher,
+        source: Vec<PreparedSamples<'a>>,
+        target: Vec<PreparedSamples<'a>>,
+    },
+    Direct,
+}
+
+impl<'a> PreparedSignal<'a> {
+    fn new(signal: &'a WeightedMatcher, source: &[&'a Field], target: &[&'a Field]) -> Self {
+        // Empty products and disabled signals never evaluate evidence, including
+        // invalid aliases or matcher-specific settings.
+        if signal.weight == 0.0 || source.is_empty() || target.is_empty() {
+            return Self::Direct;
+        }
+        let concrete = signal.matcher.as_any();
+        if let Some(matcher) = concrete.and_then(|m| m.downcast_ref::<NameMatcher>()) {
+            Self::Names {
+                matcher,
+                source: source
+                    .iter()
+                    .map(|field| matcher.prepare(&field.name))
+                    .collect(),
+                target: target
+                    .iter()
+                    .map(|field| matcher.prepare(&field.name))
+                    .collect(),
+            }
+        } else if let Some(matcher) = concrete.and_then(|m| m.downcast_ref::<SampleMatcher>()) {
+            Self::Samples {
+                matcher,
+                source: source.iter().map(|field| matcher.prepare(field)).collect(),
+                target: target.iter().map(|field| matcher.prepare(field)).collect(),
+            }
+        } else {
+            Self::Direct
+        }
+    }
 }
 
 impl MatchEngine {
@@ -111,14 +160,31 @@ impl MatchEngine {
         let mut explanation_bytes = 0usize;
         let mut sources: Vec<_> = source.fields.iter().collect();
         let mut targets: Vec<_> = target.fields.iter().collect();
-        sources.sort_by(|a, b| a.id.cmp(&b.id));
-        targets.sort_by(|a, b| a.id.cmp(&b.id));
+        sources.sort_unstable_by(|a, b| a.id.cmp(&b.id));
+        targets.sort_unstable_by(|a, b| a.id.cmp(&b.id));
+        let prepared: Vec<_> = self
+            .matchers
+            .iter()
+            .map(|signal| PreparedSignal::new(signal, &sources, &targets))
+            .collect();
         let mut fields = Vec::with_capacity(sources.len());
-        let mut matrix = Vec::with_capacity(sources.len());
-        for source in sources {
+        let mut matrix = Vec::new();
+        if self.config.one_to_one {
+            matrix.reserve(sources.len());
+        }
+        for (source_index, source) in sources.iter().enumerate() {
             let mut candidates = targets
                 .iter()
-                .map(|target| self.evaluate(source, target, &mut explanation_bytes))
+                .enumerate()
+                .map(|(target_index, target)| {
+                    self.evaluate(
+                        source,
+                        target,
+                        &prepared,
+                        (source_index, target_index),
+                        &mut explanation_bytes,
+                    )
+                })
                 .collect::<Result<Vec<_>, _>>()?;
             let best_score = candidates
                 .iter()
@@ -135,25 +201,35 @@ impl MatchEngine {
                 .map(|c| c.target.clone())
                 .collect();
             let abstain = self.config.abstain_on_ambiguity && alternatives.len() > 1;
-            matrix.push(
-                candidates
-                    .iter()
-                    .map(|c| (c.eligible && !abstain).then_some(c.score))
-                    .collect::<Vec<_>>(),
-            );
-            candidates.sort_by(|a, b| b.score.total_cmp(&a.score).then(a.target.cmp(&b.target)));
-            let selected = if abstain {
+            if self.config.one_to_one {
+                matrix.push(
+                    candidates
+                        .iter()
+                        .map(|c| (c.eligible && !abstain).then_some(c.score))
+                        .collect::<Vec<_>>(),
+                );
+            }
+            // IDs are unique, so this comparator defines a total order even when
+            // scores tie; an unstable sort needs no auxiliary allocation.
+            candidates
+                .sort_unstable_by(|a, b| b.score.total_cmp(&a.score).then(a.target.cmp(&b.target)));
+            let selected = if abstain || self.config.one_to_one {
                 None
             } else {
                 candidates.iter().find(|c| c.eligible).cloned()
             };
             let decision = if abstain {
                 Decision::Ambiguous
-            } else if selected.is_some() {
+            } else if best_score.is_some() {
                 Decision::Proposed
             } else {
                 Decision::BelowThreshold
             };
+            // Independent decisions are complete now. Drop undisplayed reports
+            // before the next source, while charging all evaluated explanations.
+            if !self.config.one_to_one {
+                candidates.truncate(self.config.max_candidates);
+            }
             fields.push(FieldMatch {
                 source: source.id.clone(),
                 candidates,
@@ -187,7 +263,7 @@ impl MatchEngine {
         }
         let used: BTreeSet<_> = fields
             .iter()
-            .filter_map(|f| f.selected.as_ref().map(|c| c.target.clone()))
+            .filter_map(|f| f.selected.as_ref().map(|c| &c.target))
             .collect();
         let unmatched_sources = fields
             .iter()
@@ -214,15 +290,30 @@ impl MatchEngine {
         &self,
         source: &Field,
         target: &Field,
+        prepared: &[PreparedSignal<'_>],
+        (source_index, target_index): (usize, usize),
         explanation_bytes: &mut usize,
     ) -> Result<Candidate, MatchError> {
         let mut signals = Vec::with_capacity(self.matchers.len());
         let mut score = 0.0;
-        for signal in &self.matchers {
+        for (signal, prepared) in self.matchers.iter().zip(prepared) {
             if signal.weight == 0.0 {
                 continue;
             }
-            let evidence = signal.matcher.evaluate(source, target).map_err(|_| {
+            let evidence = match prepared {
+                PreparedSignal::Names {
+                    matcher,
+                    source,
+                    target,
+                } => matcher.evaluate_prepared(&source[source_index], &target[target_index]),
+                PreparedSignal::Samples {
+                    matcher,
+                    source,
+                    target,
+                } => matcher.evaluate_prepared(&source[source_index], &target[target_index]),
+                PreparedSignal::Direct => signal.matcher.evaluate(source, target),
+            }
+            .map_err(|_| {
                 MatchError(format!(
                     "matcher '{}' failed (details suppressed to protect sample values)",
                     signal.matcher.name()

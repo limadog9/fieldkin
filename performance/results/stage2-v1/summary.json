@@ -1,0 +1,4552 @@
+[
+  {
+    "baseline": {
+      "allocations_per_call": 1.0,
+      "allocations_range": [
+        1.0,
+        1.0
+      ],
+      "bytes_allocated_per_call": 21.0,
+      "bytes_allocated_range": [
+        21.0,
+        21.0
+      ],
+      "bytes_deallocated_per_call": 21.0,
+      "bytes_deallocated_range": [
+        21.0,
+        21.0
+      ],
+      "bytes_reallocated_per_call": 0.0,
+      "bytes_reallocated_range": [
+        0.0,
+        0.0
+      ],
+      "deallocations_per_call": 1.0,
+      "deallocations_range": [
+        1.0,
+        1.0
+      ],
+      "max_us": 0.0572,
+      "median_absolute_deviation_us": 0.0013999999999999985,
+      "median_us": 0.053200000000000004,
+      "min_us": 0.0494,
+      "process_means_us": [
+        0.0494,
+        0.053200000000000004,
+        0.053200000000000004,
+        0.0572,
+        0.0546
+      ],
+      "reallocations_per_call": 0.0,
+      "reallocations_range": [
+        0.0,
+        0.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 1.0,
+      "allocations_range": [
+        1.0,
+        1.0
+      ],
+      "bytes_allocated_per_call": 21.0,
+      "bytes_allocated_range": [
+        21.0,
+        21.0
+      ],
+      "bytes_deallocated_per_call": 21.0,
+      "bytes_deallocated_range": [
+        21.0,
+        21.0
+      ],
+      "bytes_reallocated_per_call": 0.0,
+      "bytes_reallocated_range": [
+        0.0,
+        0.0
+      ],
+      "deallocations_per_call": 1.0,
+      "deallocations_range": [
+        1.0,
+        1.0
+      ],
+      "max_us": 0.0584,
+      "median_absolute_deviation_us": 0.003600000000000006,
+      "median_us": 0.054799999999999995,
+      "min_us": 0.0494,
+      "process_means_us": [
+        0.055200000000000006,
+        0.054799999999999995,
+        0.0508,
+        0.0494,
+        0.0584
+      ],
+      "reallocations_per_call": 0.0,
+      "reallocations_range": [
+        0.0,
+        0.0
+      ]
+    },
+    "median_latency_change_percent": 3.007518796992459,
+    "median_speedup": 0.9708029197080293,
+    "workload": "budget-input"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 7.0,
+      "allocations_range": [
+        7.0,
+        7.0
+      ],
+      "bytes_allocated_per_call": 850.0,
+      "bytes_allocated_range": [
+        850.0,
+        850.0
+      ],
+      "bytes_deallocated_per_call": 850.0,
+      "bytes_deallocated_range": [
+        850.0,
+        850.0
+      ],
+      "bytes_reallocated_per_call": 0.0,
+      "bytes_reallocated_range": [
+        0.0,
+        0.0
+      ],
+      "deallocations_per_call": 7.0,
+      "deallocations_range": [
+        7.0,
+        7.0
+      ],
+      "max_us": 1.5977999999999999,
+      "median_absolute_deviation_us": 0.07659999999999978,
+      "median_us": 1.4855999999999998,
+      "min_us": 1.409,
+      "process_means_us": [
+        1.409,
+        1.4855999999999998,
+        1.5782,
+        1.5977999999999999,
+        1.4362000000000001
+      ],
+      "reallocations_per_call": 0.0,
+      "reallocations_range": [
+        0.0,
+        0.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 7.0,
+      "allocations_range": [
+        7.0,
+        7.0
+      ],
+      "bytes_allocated_per_call": 850.0,
+      "bytes_allocated_range": [
+        850.0,
+        850.0
+      ],
+      "bytes_deallocated_per_call": 850.0,
+      "bytes_deallocated_range": [
+        850.0,
+        850.0
+      ],
+      "bytes_reallocated_per_call": 0.0,
+      "bytes_reallocated_range": [
+        0.0,
+        0.0
+      ],
+      "deallocations_per_call": 7.0,
+      "deallocations_range": [
+        7.0,
+        7.0
+      ],
+      "max_us": 1.7222,
+      "median_absolute_deviation_us": 0.027800000000000047,
+      "median_us": 1.4754,
+      "min_us": 1.4476,
+      "process_means_us": [
+        1.559,
+        1.4754,
+        1.461,
+        1.4476,
+        1.7222
+      ],
+      "reallocations_per_call": 0.0,
+      "reallocations_range": [
+        0.0,
+        0.0
+      ]
+    },
+    "median_latency_change_percent": -0.6865912762520021,
+    "median_speedup": 1.0069133794225293,
+    "workload": "budget-pairs"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 30.0,
+      "allocations_range": [
+        30.0,
+        30.0
+      ],
+      "bytes_allocated_per_call": 5658.0,
+      "bytes_allocated_range": [
+        5658.0,
+        5658.0
+      ],
+      "bytes_deallocated_per_call": 5658.0,
+      "bytes_deallocated_range": [
+        5658.0,
+        5658.0
+      ],
+      "bytes_reallocated_per_call": 160.0,
+      "bytes_reallocated_range": [
+        160.0,
+        160.0
+      ],
+      "deallocations_per_call": 30.0,
+      "deallocations_range": [
+        30.0,
+        30.0
+      ],
+      "max_us": 5.7614,
+      "median_absolute_deviation_us": 0.07639999999999958,
+      "median_us": 5.603800000000001,
+      "min_us": 5.232600000000001,
+      "process_means_us": [
+        5.232600000000001,
+        5.603800000000001,
+        5.6802,
+        5.7614,
+        5.5382
+      ],
+      "reallocations_per_call": 5.0,
+      "reallocations_range": [
+        5.0,
+        5.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 306.0,
+      "allocations_range": [
+        306.0,
+        306.0
+      ],
+      "bytes_allocated_per_call": 45512.0,
+      "bytes_allocated_range": [
+        45512.0,
+        45512.0
+      ],
+      "bytes_deallocated_per_call": 45512.0,
+      "bytes_deallocated_range": [
+        45512.0,
+        45512.0
+      ],
+      "bytes_reallocated_per_call": 2560.0,
+      "bytes_reallocated_range": [
+        2560.0,
+        2560.0
+      ],
+      "deallocations_per_call": 306.0,
+      "deallocations_range": [
+        306.0,
+        306.0
+      ],
+      "max_us": 59.8018,
+      "median_absolute_deviation_us": 2.472200000000008,
+      "median_us": 49.1358,
+      "min_us": 46.663599999999995,
+      "process_means_us": [
+        52.5486,
+        49.1358,
+        47.2992,
+        46.663599999999995,
+        59.8018
+      ],
+      "reallocations_per_call": 80.0,
+      "reallocations_range": [
+        80.0,
+        80.0
+      ]
+    },
+    "median_latency_change_percent": 776.8300082087155,
+    "median_speedup": 0.1140471916606629,
+    "workload": "budget-report"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 7.0,
+      "allocations_range": [
+        7.0,
+        7.0
+      ],
+      "bytes_allocated_per_call": 849.0,
+      "bytes_allocated_range": [
+        849.0,
+        849.0
+      ],
+      "bytes_deallocated_per_call": 849.0,
+      "bytes_deallocated_range": [
+        849.0,
+        849.0
+      ],
+      "bytes_reallocated_per_call": 0.0,
+      "bytes_reallocated_range": [
+        0.0,
+        0.0
+      ],
+      "deallocations_per_call": 7.0,
+      "deallocations_range": [
+        7.0,
+        7.0
+      ],
+      "max_us": 1.6942000000000002,
+      "median_absolute_deviation_us": 0.08220000000000005,
+      "median_us": 1.612,
+      "min_us": 1.4145999999999999,
+      "process_means_us": [
+        1.4145999999999999,
+        1.612,
+        1.6238,
+        1.6942000000000002,
+        1.5282
+      ],
+      "reallocations_per_call": 0.0,
+      "reallocations_range": [
+        0.0,
+        0.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 7.0,
+      "allocations_range": [
+        7.0,
+        7.0
+      ],
+      "bytes_allocated_per_call": 849.0,
+      "bytes_allocated_range": [
+        849.0,
+        849.0
+      ],
+      "bytes_deallocated_per_call": 849.0,
+      "bytes_deallocated_range": [
+        849.0,
+        849.0
+      ],
+      "bytes_reallocated_per_call": 0.0,
+      "bytes_reallocated_range": [
+        0.0,
+        0.0
+      ],
+      "deallocations_per_call": 7.0,
+      "deallocations_range": [
+        7.0,
+        7.0
+      ],
+      "max_us": 1.819,
+      "median_absolute_deviation_us": 0.0696000000000001,
+      "median_us": 1.5272000000000001,
+      "min_us": 1.4576,
+      "process_means_us": [
+        1.6182,
+        1.5272000000000001,
+        1.518,
+        1.4576,
+        1.819
+      ],
+      "reallocations_per_call": 0.0,
+      "reallocations_range": [
+        0.0,
+        0.0
+      ]
+    },
+    "median_latency_change_percent": -5.260545905707192,
+    "median_speedup": 1.0555264536406495,
+    "workload": "budget-signals"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 446145.0,
+      "allocations_range": [
+        446145.0,
+        446145.0
+      ],
+      "bytes_allocated_per_call": 32837872.0,
+      "bytes_allocated_range": [
+        32837872.0,
+        32837872.0
+      ],
+      "bytes_deallocated_per_call": 32837872.0,
+      "bytes_deallocated_range": [
+        32837872.0,
+        32837872.0
+      ],
+      "bytes_reallocated_per_call": 4021152.0,
+      "bytes_reallocated_range": [
+        4021152.0,
+        4021152.0
+      ],
+      "deallocations_per_call": 446145.0,
+      "deallocations_range": [
+        446145.0,
+        446145.0
+      ],
+      "max_us": 91428.28,
+      "median_absolute_deviation_us": 2132.7400000000052,
+      "median_us": 73278.04,
+      "min_us": 70576.2,
+      "process_means_us": [
+        91428.28,
+        73278.04,
+        72771.08,
+        75410.78,
+        70576.2
+      ],
+      "reallocations_per_call": 82565.0,
+      "reallocations_range": [
+        82565.0,
+        82565.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 184006.0,
+      "allocations_range": [
+        184006.0,
+        184006.0
+      ],
+      "bytes_allocated_per_call": 15903344.0,
+      "bytes_allocated_range": [
+        15903344.0,
+        15903344.0
+      ],
+      "bytes_deallocated_per_call": 15903344.0,
+      "bytes_deallocated_range": [
+        15903344.0,
+        15903344.0
+      ],
+      "bytes_reallocated_per_call": 1418208.0,
+      "bytes_reallocated_range": [
+        1418208.0,
+        1418208.0
+      ],
+      "deallocations_per_call": 184006.0,
+      "deallocations_range": [
+        184006.0,
+        184006.0
+      ],
+      "max_us": 51443.74,
+      "median_absolute_deviation_us": 3148.980000000003,
+      "median_us": 43356.94,
+      "min_us": 40207.96,
+      "process_means_us": [
+        51309.74,
+        40207.96,
+        43356.94,
+        42183.12,
+        51443.74
+      ],
+      "reallocations_per_call": 1285.0,
+      "reallocations_range": [
+        1285.0,
+        1285.0
+      ]
+    },
+    "median_latency_change_percent": -40.83228754480878,
+    "median_speedup": 1.6901109718536407,
+    "workload": "core-128-empty-assignment-combined"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 346305.0,
+      "allocations_range": [
+        346305.0,
+        346305.0
+      ],
+      "bytes_allocated_per_call": 25484784.0,
+      "bytes_allocated_range": [
+        25484784.0,
+        25484784.0
+      ],
+      "bytes_deallocated_per_call": 25484784.0,
+      "bytes_deallocated_range": [
+        25484784.0,
+        25484784.0
+      ],
+      "bytes_reallocated_per_call": 4021152.0,
+      "bytes_reallocated_range": [
+        4021152.0,
+        4021152.0
+      ],
+      "deallocations_per_call": 346305.0,
+      "deallocations_range": [
+        346305.0,
+        346305.0
+      ],
+      "max_us": 87373.2,
+      "median_absolute_deviation_us": 1782.239999999998,
+      "median_us": 56856.6,
+      "min_us": 55074.36,
+      "process_means_us": [
+        87373.2,
+        55074.36,
+        56856.6,
+        60049.2,
+        55131.48
+      ],
+      "reallocations_per_call": 82565.0,
+      "reallocations_range": [
+        82565.0,
+        82565.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 84932.0,
+      "allocations_range": [
+        84932.0,
+        84932.0
+      ],
+      "bytes_allocated_per_call": 8583280.0,
+      "bytes_allocated_range": [
+        8583280.0,
+        8583280.0
+      ],
+      "bytes_deallocated_per_call": 8583280.0,
+      "bytes_deallocated_range": [
+        8583280.0,
+        8583280.0
+      ],
+      "bytes_reallocated_per_call": 1418208.0,
+      "bytes_reallocated_range": [
+        1418208.0,
+        1418208.0
+      ],
+      "deallocations_per_call": 84932.0,
+      "deallocations_range": [
+        84932.0,
+        84932.0
+      ],
+      "max_us": 28308.88,
+      "median_absolute_deviation_us": 2543.5200000000004,
+      "median_us": 21579.64,
+      "min_us": 19036.12,
+      "process_means_us": [
+        19036.12,
+        26164.78,
+        21579.64,
+        28308.88,
+        19794.8
+      ],
+      "reallocations_per_call": 1285.0,
+      "reallocations_range": [
+        1285.0,
+        1285.0
+      ]
+    },
+    "median_latency_change_percent": -62.04549691680473,
+    "median_speedup": 2.6347334802619504,
+    "workload": "core-128-empty-assignment-name-only"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 444603.0,
+      "allocations_range": [
+        444603.0,
+        444603.0
+      ],
+      "bytes_allocated_per_call": 32455376.0,
+      "bytes_allocated_range": [
+        32455376.0,
+        32455376.0
+      ],
+      "bytes_deallocated_per_call": 32455376.0,
+      "bytes_deallocated_range": [
+        32455376.0,
+        32455376.0
+      ],
+      "bytes_reallocated_per_call": 4021152.0,
+      "bytes_reallocated_range": [
+        4021152.0,
+        4021152.0
+      ],
+      "deallocations_per_call": 444603.0,
+      "deallocations_range": [
+        444603.0,
+        444603.0
+      ],
+      "max_us": 80610.62,
+      "median_absolute_deviation_us": 3319.0,
+      "median_us": 77116.02,
+      "min_us": 70439.38,
+      "process_means_us": [
+        80610.62,
+        80197.3,
+        73797.02,
+        77116.02,
+        70439.38
+      ],
+      "reallocations_per_call": 82565.0,
+      "reallocations_range": [
+        82565.0,
+        82565.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 183615.0,
+      "allocations_range": [
+        183615.0,
+        183615.0
+      ],
+      "bytes_allocated_per_call": 15332688.0,
+      "bytes_allocated_range": [
+        15332688.0,
+        15332688.0
+      ],
+      "bytes_deallocated_per_call": 15332688.0,
+      "bytes_deallocated_range": [
+        15332688.0,
+        15332688.0
+      ],
+      "bytes_reallocated_per_call": 1418208.0,
+      "bytes_reallocated_range": [
+        1418208.0,
+        1418208.0
+      ],
+      "deallocations_per_call": 183615.0,
+      "deallocations_range": [
+        183615.0,
+        183615.0
+      ],
+      "max_us": 23076.06,
+      "median_absolute_deviation_us": 573.4200000000019,
+      "median_us": 20365.18,
+      "min_us": 19791.76,
+      "process_means_us": [
+        20365.18,
+        21476.24,
+        23076.06,
+        20337.56,
+        19791.76
+      ],
+      "reallocations_per_call": 1285.0,
+      "reallocations_range": [
+        1285.0,
+        1285.0
+      ]
+    },
+    "median_latency_change_percent": -73.5915053707388,
+    "median_speedup": 3.786660368334579,
+    "workload": "core-128-empty-independent-combined"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 345531.0,
+      "allocations_range": [
+        345531.0,
+        345531.0
+      ],
+      "bytes_allocated_per_call": 25149776.0,
+      "bytes_allocated_range": [
+        25149776.0,
+        25149776.0
+      ],
+      "bytes_deallocated_per_call": 25149776.0,
+      "bytes_deallocated_range": [
+        25149776.0,
+        25149776.0
+      ],
+      "bytes_reallocated_per_call": 4021152.0,
+      "bytes_reallocated_range": [
+        4021152.0,
+        4021152.0
+      ],
+      "deallocations_per_call": 345531.0,
+      "deallocations_range": [
+        345531.0,
+        345531.0
+      ],
+      "max_us": 59443.66,
+      "median_absolute_deviation_us": 1092.9800000000032,
+      "median_us": 56177.86,
+      "min_us": 55084.88,
+      "process_means_us": [
+        55084.88,
+        56177.86,
+        57711.2,
+        59443.66,
+        55452.0
+      ],
+      "reallocations_per_call": 82565.0,
+      "reallocations_range": [
+        82565.0,
+        82565.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 84541.0,
+      "allocations_range": [
+        84541.0,
+        84541.0
+      ],
+      "bytes_allocated_per_call": 8012624.0,
+      "bytes_allocated_range": [
+        8012624.0,
+        8012624.0
+      ],
+      "bytes_deallocated_per_call": 8012624.0,
+      "bytes_deallocated_range": [
+        8012624.0,
+        8012624.0
+      ],
+      "bytes_reallocated_per_call": 1418208.0,
+      "bytes_reallocated_range": [
+        1418208.0,
+        1418208.0
+      ],
+      "deallocations_per_call": 84541.0,
+      "deallocations_range": [
+        84541.0,
+        84541.0
+      ],
+      "max_us": 16351.2,
+      "median_absolute_deviation_us": 231.04000000000087,
+      "median_us": 14948.1,
+      "min_us": 14717.06,
+      "process_means_us": [
+        14948.1,
+        16351.2,
+        15899.38,
+        14717.06,
+        14833.82
+      ],
+      "reallocations_per_call": 1285.0,
+      "reallocations_range": [
+        1285.0,
+        1285.0
+      ]
+    },
+    "median_latency_change_percent": -73.391474862161,
+    "median_speedup": 3.758194017968839,
+    "workload": "core-128-empty-independent-name-only"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 511169.0,
+      "allocations_range": [
+        511169.0,
+        511169.0
+      ],
+      "bytes_allocated_per_call": 65568496.0,
+      "bytes_allocated_range": [
+        65568496.0,
+        65568496.0
+      ],
+      "bytes_deallocated_per_call": 65568496.0,
+      "bytes_deallocated_range": [
+        65568496.0,
+        65568496.0
+      ],
+      "bytes_reallocated_per_call": 4021152.0,
+      "bytes_reallocated_range": [
+        4021152.0,
+        4021152.0
+      ],
+      "deallocations_per_call": 511169.0,
+      "deallocations_range": [
+        511169.0,
+        511169.0
+      ],
+      "max_us": 103469.66,
+      "median_absolute_deviation_us": 3149.3800000000047,
+      "median_us": 96586.12,
+      "min_us": 92517.64,
+      "process_means_us": [
+        103469.66,
+        96586.12,
+        94886.48,
+        99735.5,
+        92517.64
+      ],
+      "reallocations_per_call": 82565.0,
+      "reallocations_range": [
+        82565.0,
+        82565.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 151750.0,
+      "allocations_range": [
+        151750.0,
+        151750.0
+      ],
+      "bytes_allocated_per_call": 18196848.0,
+      "bytes_allocated_range": [
+        18196848.0,
+        18196848.0
+      ],
+      "bytes_deallocated_per_call": 18196848.0,
+      "bytes_deallocated_range": [
+        18196848.0,
+        18196848.0
+      ],
+      "bytes_reallocated_per_call": 1418208.0,
+      "bytes_reallocated_range": [
+        1418208.0,
+        1418208.0
+      ],
+      "deallocations_per_call": 151750.0,
+      "deallocations_range": [
+        151750.0,
+        151750.0
+      ],
+      "max_us": 44714.6,
+      "median_absolute_deviation_us": 2396.739999999998,
+      "median_us": 42317.86,
+      "min_us": 38558.36,
+      "process_means_us": [
+        42317.86,
+        43724.52,
+        44714.6,
+        38558.36,
+        39301.0
+      ],
+      "reallocations_per_call": 1285.0,
+      "reallocations_range": [
+        1285.0,
+        1285.0
+      ]
+    },
+    "median_latency_change_percent": -56.18639614056347,
+    "median_speedup": 2.2823961325076456,
+    "workload": "core-128-sampled-assignment-combined"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 346305.0,
+      "allocations_range": [
+        346305.0,
+        346305.0
+      ],
+      "bytes_allocated_per_call": 25484784.0,
+      "bytes_allocated_range": [
+        25484784.0,
+        25484784.0
+      ],
+      "bytes_deallocated_per_call": 25484784.0,
+      "bytes_deallocated_range": [
+        25484784.0,
+        25484784.0
+      ],
+      "bytes_reallocated_per_call": 4021152.0,
+      "bytes_reallocated_range": [
+        4021152.0,
+        4021152.0
+      ],
+      "deallocations_per_call": 346305.0,
+      "deallocations_range": [
+        346305.0,
+        346305.0
+      ],
+      "max_us": 60416.74,
+      "median_absolute_deviation_us": 427.3600000000006,
+      "median_us": 56431.28,
+      "min_us": 55664.88,
+      "process_means_us": [
+        60416.74,
+        55664.88,
+        56003.92,
+        56493.38,
+        56431.28
+      ],
+      "reallocations_per_call": 82565.0,
+      "reallocations_range": [
+        82565.0,
+        82565.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 84932.0,
+      "allocations_range": [
+        84932.0,
+        84932.0
+      ],
+      "bytes_allocated_per_call": 8583280.0,
+      "bytes_allocated_range": [
+        8583280.0,
+        8583280.0
+      ],
+      "bytes_deallocated_per_call": 8583280.0,
+      "bytes_deallocated_range": [
+        8583280.0,
+        8583280.0
+      ],
+      "bytes_reallocated_per_call": 1418208.0,
+      "bytes_reallocated_range": [
+        1418208.0,
+        1418208.0
+      ],
+      "deallocations_per_call": 84932.0,
+      "deallocations_range": [
+        84932.0,
+        84932.0
+      ],
+      "max_us": 22592.86,
+      "median_absolute_deviation_us": 993.2199999999975,
+      "median_us": 20284.46,
+      "min_us": 19291.24,
+      "process_means_us": [
+        19291.24,
+        19515.66,
+        21519.84,
+        22592.86,
+        20284.46
+      ],
+      "reallocations_per_call": 1285.0,
+      "reallocations_range": [
+        1285.0,
+        1285.0
+      ]
+    },
+    "median_latency_change_percent": -64.05458107631087,
+    "median_speedup": 2.78199567550726,
+    "workload": "core-128-sampled-assignment-name-only"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 509883.0,
+      "allocations_range": [
+        509883.0,
+        509883.0
+      ],
+      "bytes_allocated_per_call": 65180112.0,
+      "bytes_allocated_range": [
+        65180112.0,
+        65180112.0
+      ],
+      "bytes_deallocated_per_call": 65180112.0,
+      "bytes_deallocated_range": [
+        65180112.0,
+        65180112.0
+      ],
+      "bytes_reallocated_per_call": 4021152.0,
+      "bytes_reallocated_range": [
+        4021152.0,
+        4021152.0
+      ],
+      "deallocations_per_call": 509883.0,
+      "deallocations_range": [
+        509883.0,
+        509883.0
+      ],
+      "max_us": 105643.96,
+      "median_absolute_deviation_us": 2693.540000000008,
+      "median_us": 96174.8,
+      "min_us": 91527.42,
+      "process_means_us": [
+        105643.96,
+        96533.82,
+        96174.8,
+        93481.26,
+        91527.42
+      ],
+      "reallocations_per_call": 82565.0,
+      "reallocations_range": [
+        82565.0,
+        82565.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 151359.0,
+      "allocations_range": [
+        151359.0,
+        151359.0
+      ],
+      "bytes_allocated_per_call": 17626192.0,
+      "bytes_allocated_range": [
+        17626192.0,
+        17626192.0
+      ],
+      "bytes_deallocated_per_call": 17626192.0,
+      "bytes_deallocated_range": [
+        17626192.0,
+        17626192.0
+      ],
+      "bytes_reallocated_per_call": 1418208.0,
+      "bytes_reallocated_range": [
+        1418208.0,
+        1418208.0
+      ],
+      "deallocations_per_call": 151359.0,
+      "deallocations_range": [
+        151359.0,
+        151359.0
+      ],
+      "max_us": 29767.42,
+      "median_absolute_deviation_us": 417.4400000000023,
+      "median_us": 25055.2,
+      "min_us": 24637.76,
+      "process_means_us": [
+        29767.42,
+        25055.2,
+        26090.58,
+        24715.5,
+        24637.76
+      ],
+      "reallocations_per_call": 1285.0,
+      "reallocations_range": [
+        1285.0,
+        1285.0
+      ]
+    },
+    "median_latency_change_percent": -73.94826919317742,
+    "median_speedup": 3.838516555445576,
+    "workload": "core-128-sampled-independent-combined"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 345531.0,
+      "allocations_range": [
+        345531.0,
+        345531.0
+      ],
+      "bytes_allocated_per_call": 25149776.0,
+      "bytes_allocated_range": [
+        25149776.0,
+        25149776.0
+      ],
+      "bytes_deallocated_per_call": 25149776.0,
+      "bytes_deallocated_range": [
+        25149776.0,
+        25149776.0
+      ],
+      "bytes_reallocated_per_call": 4021152.0,
+      "bytes_reallocated_range": [
+        4021152.0,
+        4021152.0
+      ],
+      "deallocations_per_call": 345531.0,
+      "deallocations_range": [
+        345531.0,
+        345531.0
+      ],
+      "max_us": 60028.12,
+      "median_absolute_deviation_us": 655.3800000000047,
+      "median_us": 55477.9,
+      "min_us": 53805.76,
+      "process_means_us": [
+        60028.12,
+        53805.76,
+        55977.26,
+        54822.52,
+        55477.9
+      ],
+      "reallocations_per_call": 82565.0,
+      "reallocations_range": [
+        82565.0,
+        82565.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 84541.0,
+      "allocations_range": [
+        84541.0,
+        84541.0
+      ],
+      "bytes_allocated_per_call": 8012624.0,
+      "bytes_allocated_range": [
+        8012624.0,
+        8012624.0
+      ],
+      "bytes_deallocated_per_call": 8012624.0,
+      "bytes_deallocated_range": [
+        8012624.0,
+        8012624.0
+      ],
+      "bytes_reallocated_per_call": 1418208.0,
+      "bytes_reallocated_range": [
+        1418208.0,
+        1418208.0
+      ],
+      "deallocations_per_call": 84541.0,
+      "deallocations_range": [
+        84541.0,
+        84541.0
+      ],
+      "max_us": 15573.28,
+      "median_absolute_deviation_us": 212.76000000000022,
+      "median_us": 14926.42,
+      "min_us": 14713.66,
+      "process_means_us": [
+        14926.42,
+        15573.28,
+        15532.12,
+        14886.12,
+        14713.66
+      ],
+      "reallocations_per_call": 1285.0,
+      "reallocations_range": [
+        1285.0,
+        1285.0
+      ]
+    },
+    "median_latency_change_percent": -73.09483596170728,
+    "median_speedup": 3.7167586065513367,
+    "workload": "core-128-sampled-independent-name-only"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 7380.0,
+      "allocations_range": [
+        7380.0,
+        7380.0
+      ],
+      "bytes_allocated_per_call": 515064.0,
+      "bytes_allocated_range": [
+        515064.0,
+        515064.0
+      ],
+      "bytes_deallocated_per_call": 515064.0,
+      "bytes_deallocated_range": [
+        515064.0,
+        515064.0
+      ],
+      "bytes_reallocated_per_call": 58144.0,
+      "bytes_reallocated_range": [
+        58144.0,
+        58144.0
+      ],
+      "deallocations_per_call": 7380.0,
+      "deallocations_range": [
+        7380.0,
+        7380.0
+      ],
+      "max_us": 1076.0366666666666,
+      "median_absolute_deviation_us": 55.7166666666667,
+      "median_us": 966.1,
+      "min_us": 880.0633333333334,
+      "process_means_us": [
+        1076.0366666666666,
+        880.0633333333334,
+        966.1,
+        910.3833333333333,
+        992.52
+      ],
+      "reallocations_per_call": 1314.0,
+      "reallocations_range": [
+        1314.0,
+        1314.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 3305.0,
+      "allocations_range": [
+        3305.0,
+        3305.0
+      ],
+      "bytes_allocated_per_call": 273608.0,
+      "bytes_allocated_range": [
+        273608.0,
+        273608.0
+      ],
+      "bytes_deallocated_per_call": 273608.0,
+      "bytes_deallocated_range": [
+        273608.0,
+        273608.0
+      ],
+      "bytes_reallocated_per_call": 19552.0,
+      "bytes_reallocated_range": [
+        19552.0,
+        19552.0
+      ],
+      "deallocations_per_call": 3305.0,
+      "deallocations_range": [
+        3305.0,
+        3305.0
+      ],
+      "max_us": 431.03,
+      "median_absolute_deviation_us": 7.986666666666679,
+      "median_us": 366.61,
+      "min_us": 358.62333333333333,
+      "process_means_us": [
+        366.61,
+        392.4566666666667,
+        431.03,
+        358.62333333333333,
+        365.7966666666667
+      ],
+      "reallocations_per_call": 114.0,
+      "reallocations_range": [
+        114.0,
+        114.0
+      ]
+    },
+    "median_latency_change_percent": -62.05258254839043,
+    "median_speedup": 2.635225443932244,
+    "workload": "core-16-empty-assignment-combined"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 5652.0,
+      "allocations_range": [
+        5652.0,
+        5652.0
+      ],
+      "bytes_allocated_per_call": 389784.0,
+      "bytes_allocated_range": [
+        389784.0,
+        389784.0
+      ],
+      "bytes_deallocated_per_call": 389784.0,
+      "bytes_deallocated_range": [
+        389784.0,
+        389784.0
+      ],
+      "bytes_reallocated_per_call": 58144.0,
+      "bytes_reallocated_range": [
+        58144.0,
+        58144.0
+      ],
+      "deallocations_per_call": 5652.0,
+      "deallocations_range": [
+        5652.0,
+        5652.0
+      ],
+      "max_us": 893.7433333333333,
+      "median_absolute_deviation_us": 49.196666666666715,
+      "median_us": 842.6966666666666,
+      "min_us": 780.15,
+      "process_means_us": [
+        893.7433333333333,
+        806.2433333333333,
+        891.8933333333333,
+        780.15,
+        842.6966666666666
+      ],
+      "reallocations_per_call": 1314.0,
+      "reallocations_range": [
+        1314.0,
+        1314.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 1671.0,
+      "allocations_range": [
+        1671.0,
+        1671.0
+      ],
+      "bytes_allocated_per_call": 152344.0,
+      "bytes_allocated_range": [
+        152344.0,
+        152344.0
+      ],
+      "bytes_deallocated_per_call": 152344.0,
+      "bytes_deallocated_range": [
+        152344.0,
+        152344.0
+      ],
+      "bytes_reallocated_per_call": 19552.0,
+      "bytes_reallocated_range": [
+        19552.0,
+        19552.0
+      ],
+      "deallocations_per_call": 1671.0,
+      "deallocations_range": [
+        1671.0,
+        1671.0
+      ],
+      "max_us": 340.6033333333333,
+      "median_absolute_deviation_us": 8.449999999999989,
+      "median_us": 271.33,
+      "min_us": 262.88,
+      "process_means_us": [
+        262.88,
+        283.4733333333333,
+        340.6033333333333,
+        271.33,
+        268.6466666666667
+      ],
+      "reallocations_per_call": 114.0,
+      "reallocations_range": [
+        114.0,
+        114.0
+      ]
+    },
+    "median_latency_change_percent": -67.80217476434778,
+    "median_speedup": 3.1057998255506822,
+    "workload": "core-16-empty-assignment-name-only"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 7182.0,
+      "allocations_range": [
+        7182.0,
+        7182.0
+      ],
+      "bytes_allocated_per_call": 499480.0,
+      "bytes_allocated_range": [
+        499480.0,
+        499480.0
+      ],
+      "bytes_deallocated_per_call": 499480.0,
+      "bytes_deallocated_range": [
+        499480.0,
+        499480.0
+      ],
+      "bytes_reallocated_per_call": 58144.0,
+      "bytes_reallocated_range": [
+        58144.0,
+        58144.0
+      ],
+      "deallocations_per_call": 7182.0,
+      "deallocations_range": [
+        7182.0,
+        7182.0
+      ],
+      "max_us": 1193.6833333333332,
+      "median_absolute_deviation_us": 77.22666666666657,
+      "median_us": 956.0566666666666,
+      "min_us": 870.1433333333333,
+      "process_means_us": [
+        1193.6833333333332,
+        878.83,
+        992.18,
+        870.1433333333333,
+        956.0566666666666
+      ],
+      "reallocations_per_call": 1314.0,
+      "reallocations_range": [
+        1314.0,
+        1314.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 3250.0,
+      "allocations_range": [
+        3250.0,
+        3250.0
+      ],
+      "bytes_allocated_per_call": 263176.0,
+      "bytes_allocated_range": [
+        263176.0,
+        263176.0
+      ],
+      "bytes_deallocated_per_call": 263176.0,
+      "bytes_deallocated_range": [
+        263176.0,
+        263176.0
+      ],
+      "bytes_reallocated_per_call": 19552.0,
+      "bytes_reallocated_range": [
+        19552.0,
+        19552.0
+      ],
+      "deallocations_per_call": 3250.0,
+      "deallocations_range": [
+        3250.0,
+        3250.0
+      ],
+      "max_us": 404.53,
+      "median_absolute_deviation_us": 2.193333333333328,
+      "median_us": 349.7733333333333,
+      "min_us": 347.58,
+      "process_means_us": [
+        349.35,
+        374.56666666666666,
+        404.53,
+        349.7733333333333,
+        347.58
+      ],
+      "reallocations_per_call": 114.0,
+      "reallocations_range": [
+        114.0,
+        114.0
+      ]
+    },
+    "median_latency_change_percent": -63.414999808240104,
+    "median_speedup": 2.733360652613121,
+    "workload": "core-16-empty-independent-combined"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 5550.0,
+      "allocations_range": [
+        5550.0,
+        5550.0
+      ],
+      "bytes_allocated_per_call": 380136.0,
+      "bytes_allocated_range": [
+        380136.0,
+        380136.0
+      ],
+      "bytes_deallocated_per_call": 380136.0,
+      "bytes_deallocated_range": [
+        380136.0,
+        380136.0
+      ],
+      "bytes_reallocated_per_call": 58144.0,
+      "bytes_reallocated_range": [
+        58144.0,
+        58144.0
+      ],
+      "deallocations_per_call": 5550.0,
+      "deallocations_range": [
+        5550.0,
+        5550.0
+      ],
+      "max_us": 1040.6633333333334,
+      "median_absolute_deviation_us": 65.82333333333338,
+      "median_us": 852.2233333333334,
+      "min_us": 760.58,
+      "process_means_us": [
+        1040.6633333333334,
+        760.58,
+        873.6,
+        786.4,
+        852.2233333333334
+      ],
+      "reallocations_per_call": 1314.0,
+      "reallocations_range": [
+        1314.0,
+        1314.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 1616.0,
+      "allocations_range": [
+        1616.0,
+        1616.0
+      ],
+      "bytes_allocated_per_call": 141912.0,
+      "bytes_allocated_range": [
+        141912.0,
+        141912.0
+      ],
+      "bytes_deallocated_per_call": 141912.0,
+      "bytes_deallocated_range": [
+        141912.0,
+        141912.0
+      ],
+      "bytes_reallocated_per_call": 19552.0,
+      "bytes_reallocated_range": [
+        19552.0,
+        19552.0
+      ],
+      "deallocations_per_call": 1616.0,
+      "deallocations_range": [
+        1616.0,
+        1616.0
+      ],
+      "max_us": 309.89,
+      "median_absolute_deviation_us": 12.406666666666638,
+      "median_us": 266.9233333333333,
+      "min_us": 254.51666666666665,
+      "process_means_us": [
+        254.51666666666665,
+        285.4033333333333,
+        309.89,
+        266.9233333333333,
+        261.31666666666666
+      ],
+      "reallocations_per_call": 114.0,
+      "reallocations_range": [
+        114.0,
+        114.0
+      ]
+    },
+    "median_latency_change_percent": -68.67918034005172,
+    "median_speedup": 3.192764464203205,
+    "workload": "core-16-empty-independent-name-only"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 8340.0,
+      "allocations_range": [
+        8340.0,
+        8340.0
+      ],
+      "bytes_allocated_per_call": 1027768.0,
+      "bytes_allocated_range": [
+        1027768.0,
+        1027768.0
+      ],
+      "bytes_deallocated_per_call": 1027768.0,
+      "bytes_deallocated_range": [
+        1027768.0,
+        1027768.0
+      ],
+      "bytes_reallocated_per_call": 58144.0,
+      "bytes_reallocated_range": [
+        58144.0,
+        58144.0
+      ],
+      "deallocations_per_call": 8340.0,
+      "deallocations_range": [
+        8340.0,
+        8340.0
+      ],
+      "max_us": 1389.3866666666668,
+      "median_absolute_deviation_us": 68.82999999999993,
+      "median_us": 1320.5566666666668,
+      "min_us": 1219.5033333333333,
+      "process_means_us": [
+        1371.3633333333332,
+        1219.5033333333333,
+        1389.3866666666668,
+        1239.28,
+        1320.5566666666668
+      ],
+      "reallocations_per_call": 1314.0,
+      "reallocations_range": [
+        1314.0,
+        1314.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 2857.0,
+      "allocations_range": [
+        2857.0,
+        2857.0
+      ],
+      "bytes_allocated_per_call": 336296.0,
+      "bytes_allocated_range": [
+        336296.0,
+        336296.0
+      ],
+      "bytes_deallocated_per_call": 336296.0,
+      "bytes_deallocated_range": [
+        336296.0,
+        336296.0
+      ],
+      "bytes_reallocated_per_call": 19552.0,
+      "bytes_reallocated_range": [
+        19552.0,
+        19552.0
+      ],
+      "deallocations_per_call": 2857.0,
+      "deallocations_range": [
+        2857.0,
+        2857.0
+      ],
+      "max_us": 502.88,
+      "median_absolute_deviation_us": 14.683333333333337,
+      "median_us": 488.19666666666666,
+      "min_us": 447.3566666666667,
+      "process_means_us": [
+        447.3566666666667,
+        502.88,
+        493.31666666666666,
+        452.87333333333333,
+        488.19666666666666
+      ],
+      "reallocations_per_call": 114.0,
+      "reallocations_range": [
+        114.0,
+        114.0
+      ]
+    },
+    "median_latency_change_percent": -63.03099450484267,
+    "median_speedup": 2.7049686260318593,
+    "workload": "core-16-sampled-assignment-combined"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 5652.0,
+      "allocations_range": [
+        5652.0,
+        5652.0
+      ],
+      "bytes_allocated_per_call": 389784.0,
+      "bytes_allocated_range": [
+        389784.0,
+        389784.0
+      ],
+      "bytes_deallocated_per_call": 389784.0,
+      "bytes_deallocated_range": [
+        389784.0,
+        389784.0
+      ],
+      "bytes_reallocated_per_call": 58144.0,
+      "bytes_reallocated_range": [
+        58144.0,
+        58144.0
+      ],
+      "deallocations_per_call": 5652.0,
+      "deallocations_range": [
+        5652.0,
+        5652.0
+      ],
+      "max_us": 870.4,
+      "median_absolute_deviation_us": 17.856666666666797,
+      "median_us": 787.6533333333334,
+      "min_us": 769.7966666666666,
+      "process_means_us": [
+        839.3633333333333,
+        769.7966666666666,
+        870.4,
+        776.4233333333334,
+        787.6533333333334
+      ],
+      "reallocations_per_call": 1314.0,
+      "reallocations_range": [
+        1314.0,
+        1314.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 1671.0,
+      "allocations_range": [
+        1671.0,
+        1671.0
+      ],
+      "bytes_allocated_per_call": 152344.0,
+      "bytes_allocated_range": [
+        152344.0,
+        152344.0
+      ],
+      "bytes_deallocated_per_call": 152344.0,
+      "bytes_deallocated_range": [
+        152344.0,
+        152344.0
+      ],
+      "bytes_reallocated_per_call": 19552.0,
+      "bytes_reallocated_range": [
+        19552.0,
+        19552.0
+      ],
+      "deallocations_per_call": 1671.0,
+      "deallocations_range": [
+        1671.0,
+        1671.0
+      ],
+      "max_us": 300.07,
+      "median_absolute_deviation_us": 6.813333333333276,
+      "median_us": 274.0333333333333,
+      "min_us": 267.22,
+      "process_means_us": [
+        268.5933333333333,
+        300.07,
+        288.24666666666667,
+        267.22,
+        274.0333333333333
+      ],
+      "reallocations_per_call": 114.0,
+      "reallocations_range": [
+        114.0,
+        114.0
+      ]
+    },
+    "median_latency_change_percent": -65.20889054406338,
+    "median_speedup": 2.8742975307140255,
+    "workload": "core-16-sampled-assignment-name-only"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 8174.0,
+      "allocations_range": [
+        8174.0,
+        8174.0
+      ],
+      "bytes_allocated_per_call": 1011448.0,
+      "bytes_allocated_range": [
+        1011448.0,
+        1011448.0
+      ],
+      "bytes_deallocated_per_call": 1011448.0,
+      "bytes_deallocated_range": [
+        1011448.0,
+        1011448.0
+      ],
+      "bytes_reallocated_per_call": 58144.0,
+      "bytes_reallocated_range": [
+        58144.0,
+        58144.0
+      ],
+      "deallocations_per_call": 8174.0,
+      "deallocations_range": [
+        8174.0,
+        8174.0
+      ],
+      "max_us": 1389.4066666666668,
+      "median_absolute_deviation_us": 56.5,
+      "median_us": 1321.3166666666668,
+      "min_us": 1247.0233333333333,
+      "process_means_us": [
+        1302.47,
+        1377.8166666666668,
+        1389.4066666666668,
+        1247.0233333333333,
+        1321.3166666666668
+      ],
+      "reallocations_per_call": 1314.0,
+      "reallocations_range": [
+        1314.0,
+        1314.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 2802.0,
+      "allocations_range": [
+        2802.0,
+        2802.0
+      ],
+      "bytes_allocated_per_call": 325864.0,
+      "bytes_allocated_range": [
+        325864.0,
+        325864.0
+      ],
+      "bytes_deallocated_per_call": 325864.0,
+      "bytes_deallocated_range": [
+        325864.0,
+        325864.0
+      ],
+      "bytes_reallocated_per_call": 19552.0,
+      "bytes_reallocated_range": [
+        19552.0,
+        19552.0
+      ],
+      "deallocations_per_call": 2802.0,
+      "deallocations_range": [
+        2802.0,
+        2802.0
+      ],
+      "max_us": 467.32,
+      "median_absolute_deviation_us": 6.1200000000000045,
+      "median_us": 461.2,
+      "min_us": 428.99666666666667,
+      "process_means_us": [
+        428.99666666666667,
+        461.75666666666666,
+        467.32,
+        438.69666666666666,
+        461.2
+      ],
+      "reallocations_per_call": 114.0,
+      "reallocations_range": [
+        114.0,
+        114.0
+      ]
+    },
+    "median_latency_change_percent": -65.09542249523834,
+    "median_speedup": 2.8649537438566064,
+    "workload": "core-16-sampled-independent-combined"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 5550.0,
+      "allocations_range": [
+        5550.0,
+        5550.0
+      ],
+      "bytes_allocated_per_call": 380136.0,
+      "bytes_allocated_range": [
+        380136.0,
+        380136.0
+      ],
+      "bytes_deallocated_per_call": 380136.0,
+      "bytes_deallocated_range": [
+        380136.0,
+        380136.0
+      ],
+      "bytes_reallocated_per_call": 58144.0,
+      "bytes_reallocated_range": [
+        58144.0,
+        58144.0
+      ],
+      "deallocations_per_call": 5550.0,
+      "deallocations_range": [
+        5550.0,
+        5550.0
+      ],
+      "max_us": 896.5133333333333,
+      "median_absolute_deviation_us": 59.3033333333334,
+      "median_us": 831.22,
+      "min_us": 759.49,
+      "process_means_us": [
+        831.22,
+        771.9166666666666,
+        847.97,
+        759.49,
+        896.5133333333333
+      ],
+      "reallocations_per_call": 1314.0,
+      "reallocations_range": [
+        1314.0,
+        1314.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 1616.0,
+      "allocations_range": [
+        1616.0,
+        1616.0
+      ],
+      "bytes_allocated_per_call": 141912.0,
+      "bytes_allocated_range": [
+        141912.0,
+        141912.0
+      ],
+      "bytes_deallocated_per_call": 141912.0,
+      "bytes_deallocated_range": [
+        141912.0,
+        141912.0
+      ],
+      "bytes_reallocated_per_call": 19552.0,
+      "bytes_reallocated_range": [
+        19552.0,
+        19552.0
+      ],
+      "deallocations_per_call": 1616.0,
+      "deallocations_range": [
+        1616.0,
+        1616.0
+      ],
+      "max_us": 319.19666666666666,
+      "median_absolute_deviation_us": 13.510000000000048,
+      "median_us": 279.7066666666667,
+      "min_us": 258.9533333333333,
+      "process_means_us": [
+        266.19666666666666,
+        282.39,
+        279.7066666666667,
+        258.9533333333333,
+        319.19666666666666
+      ],
+      "reallocations_per_call": 114.0,
+      "reallocations_range": [
+        114.0,
+        114.0
+      ]
+    },
+    "median_latency_change_percent": -66.34986325321015,
+    "median_speedup": 2.9717561254647724,
+    "workload": "core-16-sampled-independent-name-only"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 112486.0,
+      "allocations_range": [
+        112486.0,
+        112486.0
+      ],
+      "bytes_allocated_per_call": 8263944.0,
+      "bytes_allocated_range": [
+        8263944.0,
+        8263944.0
+      ],
+      "bytes_deallocated_per_call": 8263944.0,
+      "bytes_deallocated_range": [
+        8263944.0,
+        8263944.0
+      ],
+      "bytes_reallocated_per_call": 994720.0,
+      "bytes_reallocated_range": [
+        994720.0,
+        994720.0
+      ],
+      "deallocations_per_call": 112486.0,
+      "deallocations_range": [
+        112486.0,
+        112486.0
+      ],
+      "max_us": 20597.96,
+      "median_absolute_deviation_us": 819.7000000000007,
+      "median_us": 16762.13,
+      "min_us": 15792.14,
+      "process_means_us": [
+        17535.41,
+        15942.43,
+        20597.96,
+        16762.13,
+        15792.14
+      ],
+      "reallocations_per_call": 20740.0,
+      "reallocations_range": [
+        20740.0,
+        20740.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 46955.0,
+      "allocations_range": [
+        46955.0,
+        46955.0
+      ],
+      "bytes_allocated_per_call": 4031864.0,
+      "bytes_allocated_range": [
+        4031864.0,
+        4031864.0
+      ],
+      "bytes_deallocated_per_call": 4031864.0,
+      "bytes_deallocated_range": [
+        4031864.0,
+        4031864.0
+      ],
+      "bytes_reallocated_per_call": 348640.0,
+      "bytes_reallocated_range": [
+        348640.0,
+        348640.0
+      ],
+      "deallocations_per_call": 46955.0,
+      "deallocations_range": [
+        46955.0,
+        46955.0
+      ],
+      "max_us": 8660.62,
+      "median_absolute_deviation_us": 281.75,
+      "median_us": 7269.03,
+      "min_us": 6892.71,
+      "process_means_us": [
+        7529.87,
+        6987.28,
+        8660.62,
+        7269.03,
+        6892.71
+      ],
+      "reallocations_per_call": 580.0,
+      "reallocations_range": [
+        580.0,
+        580.0
+      ]
+    },
+    "median_latency_change_percent": -56.63421056870458,
+    "median_speedup": 2.305965170043321,
+    "workload": "core-64-empty-assignment-combined"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 87142.0,
+      "allocations_range": [
+        87142.0,
+        87142.0
+      ],
+      "bytes_allocated_per_call": 6401928.0,
+      "bytes_allocated_range": [
+        6401928.0,
+        6401928.0
+      ],
+      "bytes_deallocated_per_call": 6401928.0,
+      "bytes_deallocated_range": [
+        6401928.0,
+        6401928.0
+      ],
+      "bytes_reallocated_per_call": 994720.0,
+      "bytes_reallocated_range": [
+        994720.0,
+        994720.0
+      ],
+      "deallocations_per_call": 87142.0,
+      "deallocations_range": [
+        87142.0,
+        87142.0
+      ],
+      "max_us": 24311.11,
+      "median_absolute_deviation_us": 431.4599999999991,
+      "median_us": 13699.57,
+      "min_us": 12601.75,
+      "process_means_us": [
+        13837.06,
+        12601.75,
+        24311.11,
+        13268.11,
+        13699.57
+      ],
+      "reallocations_per_call": 20740.0,
+      "reallocations_range": [
+        20740.0,
+        20740.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 21993.0,
+      "allocations_range": [
+        21993.0,
+        21993.0
+      ],
+      "bytes_allocated_per_call": 2186296.0,
+      "bytes_allocated_range": [
+        2186296.0,
+        2186296.0
+      ],
+      "bytes_deallocated_per_call": 2186296.0,
+      "bytes_deallocated_range": [
+        2186296.0,
+        2186296.0
+      ],
+      "bytes_reallocated_per_call": 348640.0,
+      "bytes_reallocated_range": [
+        348640.0,
+        348640.0
+      ],
+      "deallocations_per_call": 21993.0,
+      "deallocations_range": [
+        21993.0,
+        21993.0
+      ],
+      "max_us": 4803.75,
+      "median_absolute_deviation_us": 143.10999999999967,
+      "median_us": 4479.65,
+      "min_us": 4336.54,
+      "process_means_us": [
+        4419.95,
+        4336.54,
+        4803.75,
+        4479.65,
+        4764.26
+      ],
+      "reallocations_per_call": 580.0,
+      "reallocations_range": [
+        580.0,
+        580.0
+      ]
+    },
+    "median_latency_change_percent": -67.30079849221545,
+    "median_speedup": 3.058178652350072,
+    "workload": "core-64-empty-assignment-name-only"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 111712.0,
+      "allocations_range": [
+        111712.0,
+        111712.0
+      ],
+      "bytes_allocated_per_call": 8146408.0,
+      "bytes_allocated_range": [
+        8146408.0,
+        8146408.0
+      ],
+      "bytes_deallocated_per_call": 8146408.0,
+      "bytes_deallocated_range": [
+        8146408.0,
+        8146408.0
+      ],
+      "bytes_reallocated_per_call": 994720.0,
+      "bytes_reallocated_range": [
+        994720.0,
+        994720.0
+      ],
+      "deallocations_per_call": 111712.0,
+      "deallocations_range": [
+        111712.0,
+        111712.0
+      ],
+      "max_us": 19005.99,
+      "median_absolute_deviation_us": 831.7299999999996,
+      "median_us": 17053.77,
+      "min_us": 15874.1,
+      "process_means_us": [
+        19005.99,
+        17058.57,
+        17053.77,
+        16222.04,
+        15874.1
+      ],
+      "reallocations_per_call": 20740.0,
+      "reallocations_range": [
+        20740.0,
+        20740.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 46756.0,
+      "allocations_range": [
+        46756.0,
+        46756.0
+      ],
+      "bytes_allocated_per_call": 3885784.0,
+      "bytes_allocated_range": [
+        3885784.0,
+        3885784.0
+      ],
+      "bytes_deallocated_per_call": 3885784.0,
+      "bytes_deallocated_range": [
+        3885784.0,
+        3885784.0
+      ],
+      "bytes_reallocated_per_call": 348640.0,
+      "bytes_reallocated_range": [
+        348640.0,
+        348640.0
+      ],
+      "deallocations_per_call": 46756.0,
+      "deallocations_range": [
+        46756.0,
+        46756.0
+      ],
+      "max_us": 5702.83,
+      "median_absolute_deviation_us": 189.48999999999978,
+      "median_us": 5156.59,
+      "min_us": 4967.1,
+      "process_means_us": [
+        5156.59,
+        5103.26,
+        5413.65,
+        5702.83,
+        4967.1
+      ],
+      "reallocations_per_call": 580.0,
+      "reallocations_range": [
+        580.0,
+        580.0
+      ]
+    },
+    "median_latency_change_percent": -69.76275627031443,
+    "median_speedup": 3.3071797447538005,
+    "workload": "core-64-empty-independent-combined"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 86752.0,
+      "allocations_range": [
+        86752.0,
+        86752.0
+      ],
+      "bytes_allocated_per_call": 6308136.0,
+      "bytes_allocated_range": [
+        6308136.0,
+        6308136.0
+      ],
+      "bytes_deallocated_per_call": 6308136.0,
+      "bytes_deallocated_range": [
+        6308136.0,
+        6308136.0
+      ],
+      "bytes_reallocated_per_call": 994720.0,
+      "bytes_reallocated_range": [
+        994720.0,
+        994720.0
+      ],
+      "deallocations_per_call": 86752.0,
+      "deallocations_range": [
+        86752.0,
+        86752.0
+      ],
+      "max_us": 14611.67,
+      "median_absolute_deviation_us": 641.0900000000001,
+      "median_us": 13660.22,
+      "min_us": 12851.18,
+      "process_means_us": [
+        14611.67,
+        13781.38,
+        13660.22,
+        12851.18,
+        13019.13
+      ],
+      "reallocations_per_call": 20740.0,
+      "reallocations_range": [
+        20740.0,
+        20740.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 21794.0,
+      "allocations_range": [
+        21794.0,
+        21794.0
+      ],
+      "bytes_allocated_per_call": 2040216.0,
+      "bytes_allocated_range": [
+        2040216.0,
+        2040216.0
+      ],
+      "bytes_deallocated_per_call": 2040216.0,
+      "bytes_deallocated_range": [
+        2040216.0,
+        2040216.0
+      ],
+      "bytes_reallocated_per_call": 348640.0,
+      "bytes_reallocated_range": [
+        348640.0,
+        348640.0
+      ],
+      "deallocations_per_call": 21794.0,
+      "deallocations_range": [
+        21794.0,
+        21794.0
+      ],
+      "max_us": 4108.44,
+      "median_absolute_deviation_us": 121.51000000000022,
+      "median_us": 3948.5,
+      "min_us": 3814.81,
+      "process_means_us": [
+        3948.5,
+        3835.09,
+        4108.44,
+        4070.01,
+        3814.81
+      ],
+      "reallocations_per_call": 580.0,
+      "reallocations_range": [
+        580.0,
+        580.0
+      ]
+    },
+    "median_latency_change_percent": -71.09490183906262,
+    "median_speedup": 3.4595973154362416,
+    "workload": "core-64-empty-independent-name-only"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 128614.0,
+      "allocations_range": [
+        128614.0,
+        128614.0
+      ],
+      "bytes_allocated_per_call": 16449544.0,
+      "bytes_allocated_range": [
+        16449544.0,
+        16449544.0
+      ],
+      "bytes_deallocated_per_call": 16449544.0,
+      "bytes_deallocated_range": [
+        16449544.0,
+        16449544.0
+      ],
+      "bytes_reallocated_per_call": 994720.0,
+      "bytes_reallocated_range": [
+        994720.0,
+        994720.0
+      ],
+      "deallocations_per_call": 128614.0,
+      "deallocations_range": [
+        128614.0,
+        128614.0
+      ],
+      "max_us": 25396.48,
+      "median_absolute_deviation_us": 1588.6800000000003,
+      "median_us": 23779.25,
+      "min_us": 22057.37,
+      "process_means_us": [
+        23779.25,
+        22190.57,
+        24037.99,
+        25396.48,
+        22057.37
+      ],
+      "reallocations_per_call": 20740.0,
+      "reallocations_range": [
+        20740.0,
+        20740.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 39019.0,
+      "allocations_range": [
+        39019.0,
+        39019.0
+      ],
+      "bytes_allocated_per_call": 4666616.0,
+      "bytes_allocated_range": [
+        4666616.0,
+        4666616.0
+      ],
+      "bytes_deallocated_per_call": 4666616.0,
+      "bytes_deallocated_range": [
+        4666616.0,
+        4666616.0
+      ],
+      "bytes_reallocated_per_call": 348640.0,
+      "bytes_reallocated_range": [
+        348640.0,
+        348640.0
+      ],
+      "deallocations_per_call": 39019.0,
+      "deallocations_range": [
+        39019.0,
+        39019.0
+      ],
+      "max_us": 9822.47,
+      "median_absolute_deviation_us": 14.729999999999563,
+      "median_us": 8288.81,
+      "min_us": 8274.08,
+      "process_means_us": [
+        9346.04,
+        8274.08,
+        9822.47,
+        8288.81,
+        8285.58
+      ],
+      "reallocations_per_call": 580.0,
+      "reallocations_range": [
+        580.0,
+        580.0
+      ]
+    },
+    "median_latency_change_percent": -65.14267691369578,
+    "median_speedup": 2.8688376256664108,
+    "workload": "core-64-sampled-assignment-combined"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 87142.0,
+      "allocations_range": [
+        87142.0,
+        87142.0
+      ],
+      "bytes_allocated_per_call": 6401928.0,
+      "bytes_allocated_range": [
+        6401928.0,
+        6401928.0
+      ],
+      "bytes_deallocated_per_call": 6401928.0,
+      "bytes_deallocated_range": [
+        6401928.0,
+        6401928.0
+      ],
+      "bytes_reallocated_per_call": 994720.0,
+      "bytes_reallocated_range": [
+        994720.0,
+        994720.0
+      ],
+      "deallocations_per_call": 87142.0,
+      "deallocations_range": [
+        87142.0,
+        87142.0
+      ],
+      "max_us": 18139.73,
+      "median_absolute_deviation_us": 238.71999999999935,
+      "median_us": 13646.05,
+      "min_us": 13407.33,
+      "process_means_us": [
+        13646.05,
+        16678.73,
+        13587.11,
+        18139.73,
+        13407.33
+      ],
+      "reallocations_per_call": 20740.0,
+      "reallocations_range": [
+        20740.0,
+        20740.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 21993.0,
+      "allocations_range": [
+        21993.0,
+        21993.0
+      ],
+      "bytes_allocated_per_call": 2186296.0,
+      "bytes_allocated_range": [
+        2186296.0,
+        2186296.0
+      ],
+      "bytes_deallocated_per_call": 2186296.0,
+      "bytes_deallocated_range": [
+        2186296.0,
+        2186296.0
+      ],
+      "bytes_reallocated_per_call": 348640.0,
+      "bytes_reallocated_range": [
+        348640.0,
+        348640.0
+      ],
+      "deallocations_per_call": 21993.0,
+      "deallocations_range": [
+        21993.0,
+        21993.0
+      ],
+      "max_us": 4950.36,
+      "median_absolute_deviation_us": 126.60999999999967,
+      "median_us": 4823.75,
+      "min_us": 4185.56,
+      "process_means_us": [
+        4823.75,
+        4934.73,
+        4950.36,
+        4185.56,
+        4227.72
+      ],
+      "reallocations_per_call": 580.0,
+      "reallocations_range": [
+        580.0,
+        580.0
+      ]
+    },
+    "median_latency_change_percent": -64.65094294686008,
+    "median_speedup": 2.828929774552993,
+    "workload": "core-64-sampled-assignment-name-only"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 127968.0,
+      "allocations_range": [
+        127968.0,
+        127968.0
+      ],
+      "bytes_allocated_per_call": 16329064.0,
+      "bytes_allocated_range": [
+        16329064.0,
+        16329064.0
+      ],
+      "bytes_deallocated_per_call": 16329064.0,
+      "bytes_deallocated_range": [
+        16329064.0,
+        16329064.0
+      ],
+      "bytes_reallocated_per_call": 994720.0,
+      "bytes_reallocated_range": [
+        994720.0,
+        994720.0
+      ],
+      "deallocations_per_call": 127968.0,
+      "deallocations_range": [
+        127968.0,
+        127968.0
+      ],
+      "max_us": 33161.85,
+      "median_absolute_deviation_us": 1224.4799999999996,
+      "median_us": 24389.02,
+      "min_us": 23164.54,
+      "process_means_us": [
+        23362.25,
+        24389.02,
+        33161.85,
+        23164.54,
+        27653.92
+      ],
+      "reallocations_per_call": 20740.0,
+      "reallocations_range": [
+        20740.0,
+        20740.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 38820.0,
+      "allocations_range": [
+        38820.0,
+        38820.0
+      ],
+      "bytes_allocated_per_call": 4520536.0,
+      "bytes_allocated_range": [
+        4520536.0,
+        4520536.0
+      ],
+      "bytes_deallocated_per_call": 4520536.0,
+      "bytes_deallocated_range": [
+        4520536.0,
+        4520536.0
+      ],
+      "bytes_reallocated_per_call": 348640.0,
+      "bytes_reallocated_range": [
+        348640.0,
+        348640.0
+      ],
+      "deallocations_per_call": 38820.0,
+      "deallocations_range": [
+        38820.0,
+        38820.0
+      ],
+      "max_us": 7059.52,
+      "median_absolute_deviation_us": 157.3100000000004,
+      "median_us": 6262.87,
+      "min_us": 6086.41,
+      "process_means_us": [
+        6262.87,
+        6420.18,
+        7059.52,
+        6224.62,
+        6086.41
+      ],
+      "reallocations_per_call": 580.0,
+      "reallocations_range": [
+        580.0,
+        580.0
+      ]
+    },
+    "median_latency_change_percent": -74.32094442499124,
+    "median_speedup": 3.894224213499562,
+    "workload": "core-64-sampled-independent-combined"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 86752.0,
+      "allocations_range": [
+        86752.0,
+        86752.0
+      ],
+      "bytes_allocated_per_call": 6308136.0,
+      "bytes_allocated_range": [
+        6308136.0,
+        6308136.0
+      ],
+      "bytes_deallocated_per_call": 6308136.0,
+      "bytes_deallocated_range": [
+        6308136.0,
+        6308136.0
+      ],
+      "bytes_reallocated_per_call": 994720.0,
+      "bytes_reallocated_range": [
+        994720.0,
+        994720.0
+      ],
+      "deallocations_per_call": 86752.0,
+      "deallocations_range": [
+        86752.0,
+        86752.0
+      ],
+      "max_us": 14845.84,
+      "median_absolute_deviation_us": 136.22999999999956,
+      "median_us": 13146.18,
+      "min_us": 13009.95,
+      "process_means_us": [
+        13593.94,
+        13009.95,
+        14845.84,
+        13146.18,
+        13027.52
+      ],
+      "reallocations_per_call": 20740.0,
+      "reallocations_range": [
+        20740.0,
+        20740.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 21794.0,
+      "allocations_range": [
+        21794.0,
+        21794.0
+      ],
+      "bytes_allocated_per_call": 2040216.0,
+      "bytes_allocated_range": [
+        2040216.0,
+        2040216.0
+      ],
+      "bytes_deallocated_per_call": 2040216.0,
+      "bytes_deallocated_range": [
+        2040216.0,
+        2040216.0
+      ],
+      "bytes_reallocated_per_call": 348640.0,
+      "bytes_reallocated_range": [
+        348640.0,
+        348640.0
+      ],
+      "deallocations_per_call": 21794.0,
+      "deallocations_range": [
+        21794.0,
+        21794.0
+      ],
+      "max_us": 4085.56,
+      "median_absolute_deviation_us": 117.24000000000024,
+      "median_us": 3898.57,
+      "min_us": 3710.94,
+      "process_means_us": [
+        3710.94,
+        3898.57,
+        4085.56,
+        3781.33,
+        3917.04
+      ],
+      "reallocations_per_call": 580.0,
+      "reallocations_range": [
+        580.0,
+        580.0
+      ]
+    },
+    "median_latency_change_percent": -70.34446508415373,
+    "median_speedup": 3.3720518036100415,
+    "workload": "core-64-sampled-independent-name-only"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 108390.0,
+      "allocations_range": [
+        108390.0,
+        108390.0
+      ],
+      "bytes_allocated_per_call": 8539400.0,
+      "bytes_allocated_range": [
+        8539400.0,
+        8539400.0
+      ],
+      "bytes_deallocated_per_call": 8539400.0,
+      "bytes_deallocated_range": [
+        8539400.0,
+        8539400.0
+      ],
+      "bytes_reallocated_per_call": 1419168.0,
+      "bytes_reallocated_range": [
+        1419168.0,
+        1419168.0
+      ],
+      "deallocations_per_call": 108390.0,
+      "deallocations_range": [
+        108390.0,
+        108390.0
+      ],
+      "max_us": 19415.1,
+      "median_absolute_deviation_us": 581.9799999999996,
+      "median_us": 18148.48,
+      "min_us": 16696.4,
+      "process_means_us": [
+        18148.48,
+        18338.68,
+        19415.1,
+        16696.4,
+        17566.5
+      ],
+      "reallocations_per_call": 33348.0,
+      "reallocations_range": [
+        33348.0,
+        33348.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 50923.0,
+      "allocations_range": [
+        50923.0,
+        50923.0
+      ],
+      "bytes_allocated_per_call": 4172280.0,
+      "bytes_allocated_range": [
+        4172280.0,
+        4172280.0
+      ],
+      "bytes_deallocated_per_call": 4172280.0,
+      "bytes_deallocated_range": [
+        4172280.0,
+        4172280.0
+      ],
+      "bytes_reallocated_per_call": 450528.0,
+      "bytes_reallocated_range": [
+        450528.0,
+        450528.0
+      ],
+      "deallocations_per_call": 50923.0,
+      "deallocations_range": [
+        50923.0,
+        50923.0
+      ],
+      "max_us": 8865.62,
+      "median_absolute_deviation_us": 326.72000000000116,
+      "median_us": 8499.4,
+      "min_us": 7956.1,
+      "process_means_us": [
+        8826.12,
+        8345.68,
+        7956.1,
+        8499.4,
+        8865.62
+      ],
+      "reallocations_per_call": 1092.0,
+      "reallocations_range": [
+        1092.0,
+        1092.0
+      ]
+    },
+    "median_latency_change_percent": -53.167427795606024,
+    "median_speedup": 2.1352660187777963,
+    "workload": "extended-competition-assignment"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 107610.0,
+      "allocations_range": [
+        107610.0,
+        107610.0
+      ],
+      "bytes_allocated_per_call": 8410354.0,
+      "bytes_allocated_range": [
+        8410354.0,
+        8410354.0
+      ],
+      "bytes_deallocated_per_call": 8410354.0,
+      "bytes_deallocated_range": [
+        8410354.0,
+        8410354.0
+      ],
+      "bytes_reallocated_per_call": 1416000.0,
+      "bytes_reallocated_range": [
+        1416000.0,
+        1416000.0
+      ],
+      "deallocations_per_call": 107610.0,
+      "deallocations_range": [
+        107610.0,
+        107610.0
+      ],
+      "max_us": 17976.2,
+      "median_absolute_deviation_us": 150.95999999999913,
+      "median_us": 16396.3,
+      "min_us": 15973.92,
+      "process_means_us": [
+        17976.2,
+        16396.3,
+        16245.34,
+        15973.92,
+        16491.96
+      ],
+      "reallocations_per_call": 33288.0,
+      "reallocations_range": [
+        33288.0,
+        33288.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 50718.0,
+      "allocations_range": [
+        50718.0,
+        50718.0
+      ],
+      "bytes_allocated_per_call": 4015746.0,
+      "bytes_allocated_range": [
+        4015746.0,
+        4015746.0
+      ],
+      "bytes_deallocated_per_call": 4015746.0,
+      "bytes_deallocated_range": [
+        4015746.0,
+        4015746.0
+      ],
+      "bytes_reallocated_per_call": 447360.0,
+      "bytes_reallocated_range": [
+        447360.0,
+        447360.0
+      ],
+      "deallocations_per_call": 50718.0,
+      "deallocations_range": [
+        50718.0,
+        50718.0
+      ],
+      "max_us": 6196.88,
+      "median_absolute_deviation_us": 212.15999999999985,
+      "median_us": 5984.72,
+      "min_us": 5215.68,
+      "process_means_us": [
+        5280.72,
+        6196.88,
+        5215.68,
+        5984.72,
+        6015.14
+      ],
+      "reallocations_per_call": 1032.0,
+      "reallocations_range": [
+        1032.0,
+        1032.0
+      ]
+    },
+    "median_latency_change_percent": -63.49957002494465,
+    "median_speedup": 2.7396937534253896,
+    "workload": "extended-competition-independent"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 382566.0,
+      "allocations_range": [
+        382566.0,
+        382566.0
+      ],
+      "bytes_allocated_per_call": 90702600.0,
+      "bytes_allocated_range": [
+        90702600.0,
+        90702600.0
+      ],
+      "bytes_deallocated_per_call": 90702600.0,
+      "bytes_deallocated_range": [
+        90702600.0,
+        90702600.0
+      ],
+      "bytes_reallocated_per_call": 994720.0,
+      "bytes_reallocated_range": [
+        994720.0,
+        994720.0
+      ],
+      "deallocations_per_call": 382566.0,
+      "deallocations_range": [
+        382566.0,
+        382566.0
+      ],
+      "max_us": 103214.26,
+      "median_absolute_deviation_us": 1690.300000000003,
+      "median_us": 98607.96,
+      "min_us": 96917.66,
+      "process_means_us": [
+        103214.26,
+        100687.74,
+        98607.96,
+        97761.1,
+        96917.66
+      ],
+      "reallocations_per_call": 20740.0,
+      "reallocations_range": [
+        20740.0,
+        20740.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 42987.0,
+      "allocations_range": [
+        42987.0,
+        42987.0
+      ],
+      "bytes_allocated_per_call": 5827192.0,
+      "bytes_allocated_range": [
+        5827192.0,
+        5827192.0
+      ],
+      "bytes_deallocated_per_call": 5827192.0,
+      "bytes_deallocated_range": [
+        5827192.0,
+        5827192.0
+      ],
+      "bytes_reallocated_per_call": 348640.0,
+      "bytes_reallocated_range": [
+        348640.0,
+        348640.0
+      ],
+      "deallocations_per_call": 42987.0,
+      "deallocations_range": [
+        42987.0,
+        42987.0
+      ],
+      "max_us": 13298.24,
+      "median_absolute_deviation_us": 158.71999999999935,
+      "median_us": 9794.54,
+      "min_us": 9620.74,
+      "process_means_us": [
+        13298.24,
+        9620.74,
+        9749.96,
+        9794.54,
+        9953.26
+      ],
+      "reallocations_per_call": 580.0,
+      "reallocations_range": [
+        580.0,
+        580.0
+      ]
+    },
+    "median_latency_change_percent": -90.06719133019281,
+    "median_speedup": 10.067645851668379,
+    "workload": "extended-dense-assignment"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 381920.0,
+      "allocations_range": [
+        381920.0,
+        381920.0
+      ],
+      "bytes_allocated_per_call": 90581736.0,
+      "bytes_allocated_range": [
+        90581736.0,
+        90581736.0
+      ],
+      "bytes_deallocated_per_call": 90581736.0,
+      "bytes_deallocated_range": [
+        90581736.0,
+        90581736.0
+      ],
+      "bytes_reallocated_per_call": 994720.0,
+      "bytes_reallocated_range": [
+        994720.0,
+        994720.0
+      ],
+      "deallocations_per_call": 381920.0,
+      "deallocations_range": [
+        381920.0,
+        381920.0
+      ],
+      "max_us": 104703.38,
+      "median_absolute_deviation_us": 2297.0800000000017,
+      "median_us": 98495.76,
+      "min_us": 96176.12,
+      "process_means_us": [
+        104703.38,
+        98495.76,
+        100792.84,
+        96681.66,
+        96176.12
+      ],
+      "reallocations_per_call": 20740.0,
+      "reallocations_range": [
+        20740.0,
+        20740.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 42788.0,
+      "allocations_range": [
+        42788.0,
+        42788.0
+      ],
+      "bytes_allocated_per_call": 5681112.0,
+      "bytes_allocated_range": [
+        5681112.0,
+        5681112.0
+      ],
+      "bytes_deallocated_per_call": 5681112.0,
+      "bytes_deallocated_range": [
+        5681112.0,
+        5681112.0
+      ],
+      "bytes_reallocated_per_call": 348640.0,
+      "bytes_reallocated_range": [
+        348640.0,
+        348640.0
+      ],
+      "deallocations_per_call": 42788.0,
+      "deallocations_range": [
+        42788.0,
+        42788.0
+      ],
+      "max_us": 8331.16,
+      "median_absolute_deviation_us": 150.76000000000022,
+      "median_us": 8050.66,
+      "min_us": 7758.8,
+      "process_means_us": [
+        8331.16,
+        7758.8,
+        7899.9,
+        8050.66,
+        8165.14
+      ],
+      "reallocations_per_call": 580.0,
+      "reallocations_range": [
+        580.0,
+        580.0
+      ]
+    },
+    "median_latency_change_percent": -91.82638927807653,
+    "median_speedup": 12.234495060032344,
+    "workload": "extended-dense-independent"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 152.0,
+      "allocations_range": [
+        152.0,
+        152.0
+      ],
+      "bytes_allocated_per_call": 7464.0,
+      "bytes_allocated_range": [
+        7464.0,
+        7464.0
+      ],
+      "bytes_deallocated_per_call": 7464.0,
+      "bytes_deallocated_range": [
+        7464.0,
+        7464.0
+      ],
+      "bytes_reallocated_per_call": 2976.0,
+      "bytes_reallocated_range": [
+        2976.0,
+        2976.0
+      ],
+      "deallocations_per_call": 152.0,
+      "deallocations_range": [
+        152.0,
+        152.0
+      ],
+      "max_us": 12.84,
+      "median_absolute_deviation_us": 0.09999999999999964,
+      "median_us": 11.9,
+      "min_us": 11.8,
+      "process_means_us": [
+        11.8,
+        12.84,
+        11.9,
+        12.56,
+        11.82
+      ],
+      "reallocations_per_call": 5.0,
+      "reallocations_range": [
+        5.0,
+        5.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 153.0,
+      "allocations_range": [
+        153.0,
+        153.0
+      ],
+      "bytes_allocated_per_call": 7656.0,
+      "bytes_allocated_range": [
+        7656.0,
+        7656.0
+      ],
+      "bytes_deallocated_per_call": 7656.0,
+      "bytes_deallocated_range": [
+        7656.0,
+        7656.0
+      ],
+      "bytes_reallocated_per_call": 2976.0,
+      "bytes_reallocated_range": [
+        2976.0,
+        2976.0
+      ],
+      "deallocations_per_call": 153.0,
+      "deallocations_range": [
+        153.0,
+        153.0
+      ],
+      "max_us": 16.1,
+      "median_absolute_deviation_us": 0.3800000000000008,
+      "median_us": 11.98,
+      "min_us": 11.6,
+      "process_means_us": [
+        12.46,
+        11.62,
+        11.98,
+        11.6,
+        16.1
+      ],
+      "reallocations_per_call": 5.0,
+      "reallocations_range": [
+        5.0,
+        5.0
+      ]
+    },
+    "median_latency_change_percent": 0.6722689075630228,
+    "median_speedup": 0.993322203672788,
+    "workload": "extended-empty-source-assignment"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 151.0,
+      "allocations_range": [
+        151.0,
+        151.0
+      ],
+      "bytes_allocated_per_call": 7336.0,
+      "bytes_allocated_range": [
+        7336.0,
+        7336.0
+      ],
+      "bytes_deallocated_per_call": 7336.0,
+      "bytes_deallocated_range": [
+        7336.0,
+        7336.0
+      ],
+      "bytes_reallocated_per_call": 2976.0,
+      "bytes_reallocated_range": [
+        2976.0,
+        2976.0
+      ],
+      "deallocations_per_call": 151.0,
+      "deallocations_range": [
+        151.0,
+        151.0
+      ],
+      "max_us": 12.62,
+      "median_absolute_deviation_us": 0.4599999999999991,
+      "median_us": 12.16,
+      "min_us": 11.64,
+      "process_means_us": [
+        11.64,
+        12.58,
+        12.16,
+        12.62,
+        11.68
+      ],
+      "reallocations_per_call": 5.0,
+      "reallocations_range": [
+        5.0,
+        5.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 152.0,
+      "allocations_range": [
+        152.0,
+        152.0
+      ],
+      "bytes_allocated_per_call": 7528.0,
+      "bytes_allocated_range": [
+        7528.0,
+        7528.0
+      ],
+      "bytes_deallocated_per_call": 7528.0,
+      "bytes_deallocated_range": [
+        7528.0,
+        7528.0
+      ],
+      "bytes_reallocated_per_call": 2976.0,
+      "bytes_reallocated_range": [
+        2976.0,
+        2976.0
+      ],
+      "deallocations_per_call": 152.0,
+      "deallocations_range": [
+        152.0,
+        152.0
+      ],
+      "max_us": 24.58,
+      "median_absolute_deviation_us": 0.6600000000000001,
+      "median_us": 12.34,
+      "min_us": 11.56,
+      "process_means_us": [
+        12.42,
+        11.68,
+        12.34,
+        11.56,
+        24.58
+      ],
+      "reallocations_per_call": 5.0,
+      "reallocations_range": [
+        5.0,
+        5.0
+      ]
+    },
+    "median_latency_change_percent": 1.4802631578947345,
+    "median_speedup": 0.9854132901134522,
+    "workload": "extended-empty-source-independent"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 542.0,
+      "allocations_range": [
+        542.0,
+        542.0
+      ],
+      "bytes_allocated_per_call": 187464.0,
+      "bytes_allocated_range": [
+        187464.0,
+        187464.0
+      ],
+      "bytes_deallocated_per_call": 187464.0,
+      "bytes_deallocated_range": [
+        187464.0,
+        187464.0
+      ],
+      "bytes_reallocated_per_call": 2976.0,
+      "bytes_reallocated_range": [
+        2976.0,
+        2976.0
+      ],
+      "deallocations_per_call": 542.0,
+      "deallocations_range": [
+        542.0,
+        542.0
+      ],
+      "max_us": 2570.38,
+      "median_absolute_deviation_us": 112.16000000000031,
+      "median_us": 2458.22,
+      "min_us": 2253.66,
+      "process_means_us": [
+        2253.66,
+        2462.72,
+        2458.22,
+        2570.38,
+        2320.62
+      ],
+      "reallocations_per_call": 5.0,
+      "reallocations_range": [
+        5.0,
+        5.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 543.0,
+      "allocations_range": [
+        543.0,
+        543.0
+      ],
+      "bytes_allocated_per_call": 187656.0,
+      "bytes_allocated_range": [
+        187656.0,
+        187656.0
+      ],
+      "bytes_deallocated_per_call": 187656.0,
+      "bytes_deallocated_range": [
+        187656.0,
+        187656.0
+      ],
+      "bytes_reallocated_per_call": 2976.0,
+      "bytes_reallocated_range": [
+        2976.0,
+        2976.0
+      ],
+      "deallocations_per_call": 543.0,
+      "deallocations_range": [
+        543.0,
+        543.0
+      ],
+      "max_us": 3103.04,
+      "median_absolute_deviation_us": 149.22000000000025,
+      "median_us": 2509.4,
+      "min_us": 2360.18,
+      "process_means_us": [
+        2767.16,
+        2363.5,
+        2509.4,
+        2360.18,
+        3103.04
+      ],
+      "reallocations_per_call": 5.0,
+      "reallocations_range": [
+        5.0,
+        5.0
+      ]
+    },
+    "median_latency_change_percent": 2.0819942885502707,
+    "median_speedup": 0.979604686379214,
+    "workload": "extended-empty-target-assignment"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 281.0,
+      "allocations_range": [
+        281.0,
+        281.0
+      ],
+      "bytes_allocated_per_call": 32680.0,
+      "bytes_allocated_range": [
+        32680.0,
+        32680.0
+      ],
+      "bytes_deallocated_per_call": 32680.0,
+      "bytes_deallocated_range": [
+        32680.0,
+        32680.0
+      ],
+      "bytes_reallocated_per_call": 2976.0,
+      "bytes_reallocated_range": [
+        2976.0,
+        2976.0
+      ],
+      "deallocations_per_call": 281.0,
+      "deallocations_range": [
+        281.0,
+        281.0
+      ],
+      "max_us": 32.04,
+      "median_absolute_deviation_us": 1.2000000000000028,
+      "median_us": 29.42,
+      "min_us": 28.18,
+      "process_means_us": [
+        28.18,
+        32.04,
+        29.42,
+        30.16,
+        28.22
+      ],
+      "reallocations_per_call": 5.0,
+      "reallocations_range": [
+        5.0,
+        5.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 281.0,
+      "allocations_range": [
+        281.0,
+        281.0
+      ],
+      "bytes_allocated_per_call": 29800.0,
+      "bytes_allocated_range": [
+        29800.0,
+        29800.0
+      ],
+      "bytes_deallocated_per_call": 29800.0,
+      "bytes_deallocated_range": [
+        29800.0,
+        29800.0
+      ],
+      "bytes_reallocated_per_call": 2976.0,
+      "bytes_reallocated_range": [
+        2976.0,
+        2976.0
+      ],
+      "deallocations_per_call": 281.0,
+      "deallocations_range": [
+        281.0,
+        281.0
+      ],
+      "max_us": 51.64,
+      "median_absolute_deviation_us": 1.379999999999999,
+      "median_us": 29.38,
+      "min_us": 27.74,
+      "process_means_us": [
+        30.36,
+        27.74,
+        29.38,
+        28.0,
+        51.64
+      ],
+      "reallocations_per_call": 5.0,
+      "reallocations_range": [
+        5.0,
+        5.0
+      ]
+    },
+    "median_latency_change_percent": -0.13596193065942286,
+    "median_speedup": 1.0013614703880191,
+    "workload": "extended-empty-target-independent"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 229984.0,
+      "allocations_range": [
+        229984.0,
+        229984.0
+      ],
+      "bytes_allocated_per_call": 28520960.0,
+      "bytes_allocated_range": [
+        28520960.0,
+        28520960.0
+      ],
+      "bytes_deallocated_per_call": 28520960.0,
+      "bytes_deallocated_range": [
+        28520960.0,
+        28520960.0
+      ],
+      "bytes_reallocated_per_call": 15375168.0,
+      "bytes_reallocated_range": [
+        15375168.0,
+        15375168.0
+      ],
+      "deallocations_per_call": 229984.0,
+      "deallocations_range": [
+        229984.0,
+        229984.0
+      ],
+      "max_us": 162876.64,
+      "median_absolute_deviation_us": 613.1600000000035,
+      "median_us": 162263.48,
+      "min_us": 154239.82,
+      "process_means_us": [
+        162876.64,
+        159472.44,
+        162509.24,
+        162263.48,
+        154239.82
+      ],
+      "reallocations_per_call": 197128.0,
+      "reallocations_range": [
+        197128.0,
+        197128.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 52261.0,
+      "allocations_range": [
+        52261.0,
+        52261.0
+      ],
+      "bytes_allocated_per_call": 5963840.0,
+      "bytes_allocated_range": [
+        5963840.0,
+        5963840.0
+      ],
+      "bytes_deallocated_per_call": 5963840.0,
+      "bytes_deallocated_range": [
+        5963840.0,
+        5963840.0
+      ],
+      "bytes_reallocated_per_call": 666432.0,
+      "bytes_reallocated_range": [
+        666432.0,
+        666432.0
+      ],
+      "deallocations_per_call": 52261.0,
+      "deallocations_range": [
+        52261.0,
+        52261.0
+      ],
+      "max_us": 107362.92,
+      "median_absolute_deviation_us": 451.0,
+      "median_us": 97074.12,
+      "min_us": 96623.12,
+      "process_means_us": [
+        107362.92,
+        97074.12,
+        99168.08,
+        96623.12,
+        96654.76
+      ],
+      "reallocations_per_call": 3592.0,
+      "reallocations_range": [
+        3592.0,
+        3592.0
+      ]
+    },
+    "median_latency_change_percent": -40.175004258505986,
+    "median_speedup": 1.6715421164775948,
+    "workload": "extended-long-assignment"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 229850.0,
+      "allocations_range": [
+        229850.0,
+        229850.0
+      ],
+      "bytes_allocated_per_call": 28441952.0,
+      "bytes_allocated_range": [
+        28441952.0,
+        28441952.0
+      ],
+      "bytes_deallocated_per_call": 28441952.0,
+      "bytes_deallocated_range": [
+        28441952.0,
+        28441952.0
+      ],
+      "bytes_reallocated_per_call": 15375168.0,
+      "bytes_reallocated_range": [
+        15375168.0,
+        15375168.0
+      ],
+      "deallocations_per_call": 229850.0,
+      "deallocations_range": [
+        229850.0,
+        229850.0
+      ],
+      "max_us": 173773.64,
+      "median_absolute_deviation_us": 2243.0200000000186,
+      "median_us": 159706.42,
+      "min_us": 155605.3,
+      "process_means_us": [
+        173773.64,
+        155605.3,
+        159706.42,
+        160176.82,
+        157463.4
+      ],
+      "reallocations_per_call": 197128.0,
+      "reallocations_range": [
+        197128.0,
+        197128.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 52062.0,
+      "allocations_range": [
+        52062.0,
+        52062.0
+      ],
+      "bytes_allocated_per_call": 5817760.0,
+      "bytes_allocated_range": [
+        5817760.0,
+        5817760.0
+      ],
+      "bytes_deallocated_per_call": 5817760.0,
+      "bytes_deallocated_range": [
+        5817760.0,
+        5817760.0
+      ],
+      "bytes_reallocated_per_call": 666432.0,
+      "bytes_reallocated_range": [
+        666432.0,
+        666432.0
+      ],
+      "deallocations_per_call": 52062.0,
+      "deallocations_range": [
+        52062.0,
+        52062.0
+      ],
+      "max_us": 96578.3,
+      "median_absolute_deviation_us": 1556.7799999999988,
+      "median_us": 92305.74,
+      "min_us": 90515.82,
+      "process_means_us": [
+        93862.52,
+        96578.3,
+        92305.74,
+        91433.94,
+        90515.82
+      ],
+      "reallocations_per_call": 3592.0,
+      "reallocations_range": [
+        3592.0,
+        3592.0
+      ]
+    },
+    "median_latency_change_percent": -42.20286197636889,
+    "median_speedup": 1.7301894768407686,
+    "workload": "extended-long-independent"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 135712.0,
+      "allocations_range": [
+        135712.0,
+        135712.0
+      ],
+      "bytes_allocated_per_call": 16871936.0,
+      "bytes_allocated_range": [
+        16871936.0,
+        16871936.0
+      ],
+      "bytes_deallocated_per_call": 16871936.0,
+      "bytes_deallocated_range": [
+        16871936.0,
+        16871936.0
+      ],
+      "bytes_reallocated_per_call": 996160.0,
+      "bytes_reallocated_range": [
+        996160.0,
+        996160.0
+      ],
+      "deallocations_per_call": 135712.0,
+      "deallocations_range": [
+        135712.0,
+        135712.0
+      ],
+      "max_us": 25704.32,
+      "median_absolute_deviation_us": 510.619999999999,
+      "median_us": 25193.7,
+      "min_us": 23528.18,
+      "process_means_us": [
+        25193.7,
+        25704.32,
+        25243.0,
+        23528.18,
+        24559.3
+      ],
+      "reallocations_per_call": 20744.0,
+      "reallocations_range": [
+        20744.0,
+        20744.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 46693.0,
+      "allocations_range": [
+        46693.0,
+        46693.0
+      ],
+      "bytes_allocated_per_call": 5133120.0,
+      "bytes_allocated_range": [
+        5133120.0,
+        5133120.0
+      ],
+      "bytes_deallocated_per_call": 5133120.0,
+      "bytes_deallocated_range": [
+        5133120.0,
+        5133120.0
+      ],
+      "bytes_reallocated_per_call": 351040.0,
+      "bytes_reallocated_range": [
+        351040.0,
+        351040.0
+      ],
+      "deallocations_per_call": 46693.0,
+      "deallocations_range": [
+        46693.0,
+        46693.0
+      ],
+      "max_us": 10511.44,
+      "median_absolute_deviation_us": 298.119999999999,
+      "median_us": 10095.74,
+      "min_us": 9797.62,
+      "process_means_us": [
+        10028.8,
+        10440.78,
+        9797.62,
+        10095.74,
+        10511.44
+      ],
+      "reallocations_per_call": 584.0,
+      "reallocations_range": [
+        584.0,
+        584.0
+      ]
+    },
+    "median_latency_change_percent": -59.92752156293042,
+    "median_speedup": 2.4954782908434647,
+    "workload": "extended-rejected-assignment"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 135578.0,
+      "allocations_range": [
+        135578.0,
+        135578.0
+      ],
+      "bytes_allocated_per_call": 16792928.0,
+      "bytes_allocated_range": [
+        16792928.0,
+        16792928.0
+      ],
+      "bytes_deallocated_per_call": 16792928.0,
+      "bytes_deallocated_range": [
+        16792928.0,
+        16792928.0
+      ],
+      "bytes_reallocated_per_call": 996160.0,
+      "bytes_reallocated_range": [
+        996160.0,
+        996160.0
+      ],
+      "deallocations_per_call": 135578.0,
+      "deallocations_range": [
+        135578.0,
+        135578.0
+      ],
+      "max_us": 24026.3,
+      "median_absolute_deviation_us": 268.96000000000276,
+      "median_us": 22771.6,
+      "min_us": 22468.36,
+      "process_means_us": [
+        24026.3,
+        22638.22,
+        22771.6,
+        22468.36,
+        23040.56
+      ],
+      "reallocations_per_call": 20744.0,
+      "reallocations_range": [
+        20744.0,
+        20744.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 46494.0,
+      "allocations_range": [
+        46494.0,
+        46494.0
+      ],
+      "bytes_allocated_per_call": 4987040.0,
+      "bytes_allocated_range": [
+        4987040.0,
+        4987040.0
+      ],
+      "bytes_deallocated_per_call": 4987040.0,
+      "bytes_deallocated_range": [
+        4987040.0,
+        4987040.0
+      ],
+      "bytes_reallocated_per_call": 351040.0,
+      "bytes_reallocated_range": [
+        351040.0,
+        351040.0
+      ],
+      "deallocations_per_call": 46494.0,
+      "deallocations_range": [
+        46494.0,
+        46494.0
+      ],
+      "max_us": 10462.0,
+      "median_absolute_deviation_us": 201.60000000000036,
+      "median_us": 6787.56,
+      "min_us": 6490.82,
+      "process_means_us": [
+        6805.84,
+        6787.56,
+        10462.0,
+        6585.96,
+        6490.82
+      ],
+      "reallocations_per_call": 584.0,
+      "reallocations_range": [
+        584.0,
+        584.0
+      ]
+    },
+    "median_latency_change_percent": -70.1928718227968,
+    "median_speedup": 3.3549022034427685,
+    "workload": "extended-rejected-independent"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 104294.0,
+      "allocations_range": [
+        104294.0,
+        104294.0
+      ],
+      "bytes_allocated_per_call": 7215368.0,
+      "bytes_allocated_range": [
+        7215368.0,
+        7215368.0
+      ],
+      "bytes_deallocated_per_call": 7215368.0,
+      "bytes_deallocated_range": [
+        7215368.0,
+        7215368.0
+      ],
+      "bytes_reallocated_per_call": 339360.0,
+      "bytes_reallocated_range": [
+        339360.0,
+        339360.0
+      ],
+      "deallocations_per_call": 104294.0,
+      "deallocations_range": [
+        104294.0,
+        104294.0
+      ],
+      "max_us": 11108.04,
+      "median_absolute_deviation_us": 350.21999999999935,
+      "median_us": 9862.42,
+      "min_us": 9512.2,
+      "process_means_us": [
+        10410.14,
+        9512.2,
+        9649.96,
+        9862.42,
+        11108.04
+      ],
+      "reallocations_per_call": 260.0,
+      "reallocations_range": [
+        260.0,
+        260.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 46827.0,
+      "allocations_range": [
+        46827.0,
+        46827.0
+      ],
+      "bytes_allocated_per_call": 3920760.0,
+      "bytes_allocated_range": [
+        3920760.0,
+        3920760.0
+      ],
+      "bytes_deallocated_per_call": 3920760.0,
+      "bytes_deallocated_range": [
+        3920760.0,
+        3920760.0
+      ],
+      "bytes_reallocated_per_call": 338400.0,
+      "bytes_reallocated_range": [
+        338400.0,
+        338400.0
+      ],
+      "deallocations_per_call": 46827.0,
+      "deallocations_range": [
+        46827.0,
+        46827.0
+      ],
+      "max_us": 6103.46,
+      "median_absolute_deviation_us": 96.07999999999993,
+      "median_us": 6007.38,
+      "min_us": 5616.62,
+      "process_means_us": [
+        6103.46,
+        6015.76,
+        5630.84,
+        5616.62,
+        6007.38
+      ],
+      "reallocations_per_call": 260.0,
+      "reallocations_range": [
+        260.0,
+        260.0
+      ]
+    },
+    "median_latency_change_percent": -39.08817511320751,
+    "median_speedup": 1.641717354320852,
+    "workload": "extended-short-assignment"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 103520.0,
+      "allocations_range": [
+        103520.0,
+        103520.0
+      ],
+      "bytes_allocated_per_call": 7097832.0,
+      "bytes_allocated_range": [
+        7097832.0,
+        7097832.0
+      ],
+      "bytes_deallocated_per_call": 7097832.0,
+      "bytes_deallocated_range": [
+        7097832.0,
+        7097832.0
+      ],
+      "bytes_reallocated_per_call": 339360.0,
+      "bytes_reallocated_range": [
+        339360.0,
+        339360.0
+      ],
+      "deallocations_per_call": 103520.0,
+      "deallocations_range": [
+        103520.0,
+        103520.0
+      ],
+      "max_us": 10945.04,
+      "median_absolute_deviation_us": 481.8199999999997,
+      "median_us": 10005.22,
+      "min_us": 9301.88,
+      "process_means_us": [
+        10945.04,
+        9301.88,
+        9523.4,
+        10146.1,
+        10005.22
+      ],
+      "reallocations_per_call": 260.0,
+      "reallocations_range": [
+        260.0,
+        260.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 46628.0,
+      "allocations_range": [
+        46628.0,
+        46628.0
+      ],
+      "bytes_allocated_per_call": 3774680.0,
+      "bytes_allocated_range": [
+        3774680.0,
+        3774680.0
+      ],
+      "bytes_deallocated_per_call": 3774680.0,
+      "bytes_deallocated_range": [
+        3774680.0,
+        3774680.0
+      ],
+      "bytes_reallocated_per_call": 338400.0,
+      "bytes_reallocated_range": [
+        338400.0,
+        338400.0
+      ],
+      "deallocations_per_call": 46628.0,
+      "deallocations_range": [
+        46628.0,
+        46628.0
+      ],
+      "max_us": 3613.18,
+      "median_absolute_deviation_us": 29.5,
+      "median_us": 3553.5,
+      "min_us": 3514.66,
+      "process_means_us": [
+        3543.68,
+        3583.0,
+        3613.18,
+        3514.66,
+        3553.5
+      ],
+      "reallocations_per_call": 260.0,
+      "reallocations_range": [
+        260.0,
+        260.0
+      ]
+    },
+    "median_latency_change_percent": -64.48353959233279,
+    "median_speedup": 2.815595891374701,
+    "workload": "extended-short-independent"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 69.0,
+      "allocations_range": [
+        69.0,
+        69.0
+      ],
+      "bytes_allocated_per_call": 6480.0,
+      "bytes_allocated_range": [
+        6480.0,
+        6480.0
+      ],
+      "bytes_deallocated_per_call": 6480.0,
+      "bytes_deallocated_range": [
+        6480.0,
+        6480.0
+      ],
+      "bytes_reallocated_per_call": 160.0,
+      "bytes_reallocated_range": [
+        160.0,
+        160.0
+      ],
+      "deallocations_per_call": 69.0,
+      "deallocations_range": [
+        69.0,
+        69.0
+      ],
+      "max_us": 7.38,
+      "median_absolute_deviation_us": 0.20000000000000018,
+      "median_us": 7.18,
+      "min_us": 6.84,
+      "process_means_us": [
+        6.86,
+        7.38,
+        7.2,
+        7.18,
+        6.84
+      ],
+      "reallocations_per_call": 5.0,
+      "reallocations_range": [
+        5.0,
+        5.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 61.0,
+      "allocations_range": [
+        61.0,
+        61.0
+      ],
+      "bytes_allocated_per_call": 5594.0,
+      "bytes_allocated_range": [
+        5594.0,
+        5594.0
+      ],
+      "bytes_deallocated_per_call": 5594.0,
+      "bytes_deallocated_range": [
+        5594.0,
+        5594.0
+      ],
+      "bytes_reallocated_per_call": 160.0,
+      "bytes_reallocated_range": [
+        160.0,
+        160.0
+      ],
+      "deallocations_per_call": 61.0,
+      "deallocations_range": [
+        61.0,
+        61.0
+      ],
+      "max_us": 13.48,
+      "median_absolute_deviation_us": 0.2400000000000002,
+      "median_us": 6.54,
+      "min_us": 6.24,
+      "process_means_us": [
+        6.78,
+        6.52,
+        6.54,
+        6.24,
+        13.48
+      ],
+      "reallocations_per_call": 5.0,
+      "reallocations_range": [
+        5.0,
+        5.0
+      ]
+    },
+    "median_latency_change_percent": -8.913649025069637,
+    "median_speedup": 1.0978593272171253,
+    "workload": "extended-single-pair-assignment"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 53.0,
+      "allocations_range": [
+        53.0,
+        53.0
+      ],
+      "bytes_allocated_per_call": 5700.0,
+      "bytes_allocated_range": [
+        5700.0,
+        5700.0
+      ],
+      "bytes_deallocated_per_call": 5700.0,
+      "bytes_deallocated_range": [
+        5700.0,
+        5700.0
+      ],
+      "bytes_reallocated_per_call": 160.0,
+      "bytes_reallocated_range": [
+        160.0,
+        160.0
+      ],
+      "deallocations_per_call": 53.0,
+      "deallocations_range": [
+        53.0,
+        53.0
+      ],
+      "max_us": 6.82,
+      "median_absolute_deviation_us": 0.20000000000000018,
+      "median_us": 6.62,
+      "min_us": 6.22,
+      "process_means_us": [
+        6.22,
+        6.78,
+        6.62,
+        6.82,
+        6.32
+      ],
+      "reallocations_per_call": 5.0,
+      "reallocations_range": [
+        5.0,
+        5.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 51.0,
+      "allocations_range": [
+        51.0,
+        51.0
+      ],
+      "bytes_allocated_per_call": 5350.0,
+      "bytes_allocated_range": [
+        5350.0,
+        5350.0
+      ],
+      "bytes_deallocated_per_call": 5350.0,
+      "bytes_deallocated_range": [
+        5350.0,
+        5350.0
+      ],
+      "bytes_reallocated_per_call": 160.0,
+      "bytes_reallocated_range": [
+        160.0,
+        160.0
+      ],
+      "deallocations_per_call": 51.0,
+      "deallocations_range": [
+        51.0,
+        51.0
+      ],
+      "max_us": 13.74,
+      "median_absolute_deviation_us": 0.13999999999999968,
+      "median_us": 6.5,
+      "min_us": 6.02,
+      "process_means_us": [
+        6.64,
+        6.46,
+        6.5,
+        6.02,
+        13.74
+      ],
+      "reallocations_per_call": 5.0,
+      "reallocations_range": [
+        5.0,
+        5.0
+      ]
+    },
+    "median_latency_change_percent": -1.812688821752273,
+    "median_speedup": 1.0184615384615385,
+    "workload": "extended-single-pair-independent"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 112230.0,
+      "allocations_range": [
+        112230.0,
+        112230.0
+      ],
+      "bytes_allocated_per_call": 11075080.0,
+      "bytes_allocated_range": [
+        11075080.0,
+        11075080.0
+      ],
+      "bytes_deallocated_per_call": 11075080.0,
+      "bytes_deallocated_range": [
+        11075080.0,
+        11075080.0
+      ],
+      "bytes_reallocated_per_call": 994720.0,
+      "bytes_reallocated_range": [
+        994720.0,
+        994720.0
+      ],
+      "deallocations_per_call": 112230.0,
+      "deallocations_range": [
+        112230.0,
+        112230.0
+      ],
+      "max_us": 20307.06,
+      "median_absolute_deviation_us": 550.4199999999983,
+      "median_us": 19660.92,
+      "min_us": 18621.22,
+      "process_means_us": [
+        20045.7,
+        20307.06,
+        19660.92,
+        18621.22,
+        19110.5
+      ],
+      "reallocations_per_call": 20740.0,
+      "reallocations_range": [
+        20740.0,
+        20740.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 38763.0,
+      "allocations_range": [
+        38763.0,
+        38763.0
+      ],
+      "bytes_allocated_per_call": 4582392.0,
+      "bytes_allocated_range": [
+        4582392.0,
+        4582392.0
+      ],
+      "bytes_deallocated_per_call": 4582392.0,
+      "bytes_deallocated_range": [
+        4582392.0,
+        4582392.0
+      ],
+      "bytes_reallocated_per_call": 348640.0,
+      "bytes_reallocated_range": [
+        348640.0,
+        348640.0
+      ],
+      "deallocations_per_call": 38763.0,
+      "deallocations_range": [
+        38763.0,
+        38763.0
+      ],
+      "max_us": 8849.5,
+      "median_absolute_deviation_us": 169.1199999999999,
+      "median_us": 7794.12,
+      "min_us": 7625.0,
+      "process_means_us": [
+        8849.5,
+        7625.0,
+        7794.12,
+        8283.96,
+        7731.08
+      ],
+      "reallocations_per_call": 580.0,
+      "reallocations_range": [
+        580.0,
+        580.0
+      ]
+    },
+    "median_latency_change_percent": -60.35729762391586,
+    "median_speedup": 2.5225323705562652,
+    "workload": "extended-sparse-assignment"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 111584.0,
+      "allocations_range": [
+        111584.0,
+        111584.0
+      ],
+      "bytes_allocated_per_call": 10954856.0,
+      "bytes_allocated_range": [
+        10954856.0,
+        10954856.0
+      ],
+      "bytes_deallocated_per_call": 10954856.0,
+      "bytes_deallocated_range": [
+        10954856.0,
+        10954856.0
+      ],
+      "bytes_reallocated_per_call": 994720.0,
+      "bytes_reallocated_range": [
+        994720.0,
+        994720.0
+      ],
+      "deallocations_per_call": 111584.0,
+      "deallocations_range": [
+        111584.0,
+        111584.0
+      ],
+      "max_us": 20248.92,
+      "median_absolute_deviation_us": 151.36000000000058,
+      "median_us": 19409.68,
+      "min_us": 18188.56,
+      "process_means_us": [
+        19258.32,
+        20248.92,
+        19528.72,
+        18188.56,
+        19409.68
+      ],
+      "reallocations_per_call": 20740.0,
+      "reallocations_range": [
+        20740.0,
+        20740.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 38564.0,
+      "allocations_range": [
+        38564.0,
+        38564.0
+      ],
+      "bytes_allocated_per_call": 4436312.0,
+      "bytes_allocated_range": [
+        4436312.0,
+        4436312.0
+      ],
+      "bytes_deallocated_per_call": 4436312.0,
+      "bytes_deallocated_range": [
+        4436312.0,
+        4436312.0
+      ],
+      "bytes_reallocated_per_call": 348640.0,
+      "bytes_reallocated_range": [
+        348640.0,
+        348640.0
+      ],
+      "deallocations_per_call": 38564.0,
+      "deallocations_range": [
+        38564.0,
+        38564.0
+      ],
+      "max_us": 6647.26,
+      "median_absolute_deviation_us": 184.15999999999985,
+      "median_us": 5938.62,
+      "min_us": 5754.46,
+      "process_means_us": [
+        6647.26,
+        5754.46,
+        6465.8,
+        5929.56,
+        5938.62
+      ],
+      "reallocations_per_call": 580.0,
+      "reallocations_range": [
+        580.0,
+        580.0
+      ]
+    },
+    "median_latency_change_percent": -69.4038232469572,
+    "median_speedup": 3.2683822167439573,
+    "workload": "extended-sparse-independent"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 64583.0,
+      "allocations_range": [
+        64583.0,
+        64583.0
+      ],
+      "bytes_allocated_per_call": 8180856.0,
+      "bytes_allocated_range": [
+        8180856.0,
+        8180856.0
+      ],
+      "bytes_deallocated_per_call": 8180856.0,
+      "bytes_deallocated_range": [
+        8180856.0,
+        8180856.0
+      ],
+      "bytes_reallocated_per_call": 466112.0,
+      "bytes_reallocated_range": [
+        466112.0,
+        466112.0
+      ],
+      "deallocations_per_call": 64583.0,
+      "deallocations_range": [
+        64583.0,
+        64583.0
+      ],
+      "max_us": 14211.42,
+      "median_absolute_deviation_us": 254.42000000000007,
+      "median_us": 13957.0,
+      "min_us": 12794.92,
+      "process_means_us": [
+        13445.76,
+        14211.42,
+        13990.82,
+        13957.0,
+        12794.92
+      ],
+      "reallocations_per_call": 10503.0,
+      "reallocations_range": [
+        10503.0,
+        10503.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 20684.0,
+      "allocations_range": [
+        20684.0,
+        20684.0
+      ],
+      "bytes_allocated_per_call": 2579416.0,
+      "bytes_allocated_range": [
+        2579416.0,
+        2579416.0
+      ],
+      "bytes_deallocated_per_call": 2579416.0,
+      "bytes_deallocated_range": [
+        2579416.0,
+        2579416.0
+      ],
+      "bytes_reallocated_per_call": 146176.0,
+      "bytes_reallocated_range": [
+        146176.0,
+        146176.0
+      ],
+      "deallocations_per_call": 20684.0,
+      "deallocations_range": [
+        20684.0,
+        20684.0
+      ],
+      "max_us": 8425.16,
+      "median_absolute_deviation_us": 407.8800000000001,
+      "median_us": 6907.04,
+      "min_us": 6385.28,
+      "process_means_us": [
+        7314.92,
+        6801.6,
+        6907.04,
+        6385.28,
+        8425.16
+      ],
+      "reallocations_per_call": 567.0,
+      "reallocations_range": [
+        567.0,
+        567.0
+      ]
+    },
+    "median_latency_change_percent": -50.51200114637816,
+    "median_speedup": 2.020691931710255,
+    "workload": "extended-unequal-tall-assignment"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 64193.0,
+      "allocations_range": [
+        64193.0,
+        64193.0
+      ],
+      "bytes_allocated_per_call": 7996872.0,
+      "bytes_allocated_range": [
+        7996872.0,
+        7996872.0
+      ],
+      "bytes_deallocated_per_call": 7996872.0,
+      "bytes_deallocated_range": [
+        7996872.0,
+        7996872.0
+      ],
+      "bytes_reallocated_per_call": 466112.0,
+      "bytes_reallocated_range": [
+        466112.0,
+        466112.0
+      ],
+      "deallocations_per_call": 64193.0,
+      "deallocations_range": [
+        64193.0,
+        64193.0
+      ],
+      "max_us": 12729.16,
+      "median_absolute_deviation_us": 879.119999999999,
+      "median_us": 11206.48,
+      "min_us": 10163.58,
+      "process_means_us": [
+        11805.32,
+        12729.16,
+        11206.48,
+        10327.36,
+        10163.58
+      ],
+      "reallocations_per_call": 10503.0,
+      "reallocations_range": [
+        10503.0,
+        10503.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 20293.0,
+      "allocations_range": [
+        20293.0,
+        20293.0
+      ],
+      "bytes_allocated_per_call": 2369960.0,
+      "bytes_allocated_range": [
+        2369960.0,
+        2369960.0
+      ],
+      "bytes_deallocated_per_call": 2369960.0,
+      "bytes_deallocated_range": [
+        2369960.0,
+        2369960.0
+      ],
+      "bytes_reallocated_per_call": 146176.0,
+      "bytes_reallocated_range": [
+        146176.0,
+        146176.0
+      ],
+      "deallocations_per_call": 20293.0,
+      "deallocations_range": [
+        20293.0,
+        20293.0
+      ],
+      "max_us": 3554.16,
+      "median_absolute_deviation_us": 11.579999999999927,
+      "median_us": 3517.62,
+      "min_us": 3445.88,
+      "process_means_us": [
+        3526.72,
+        3445.88,
+        3554.16,
+        3517.62,
+        3506.04
+      ],
+      "reallocations_per_call": 567.0,
+      "reallocations_range": [
+        567.0,
+        567.0
+      ]
+    },
+    "median_latency_change_percent": -68.61083944289376,
+    "median_speedup": 3.1858131350174266,
+    "workload": "extended-unequal-tall-independent"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 64039.0,
+      "allocations_range": [
+        64039.0,
+        64039.0
+      ],
+      "bytes_allocated_per_call": 8190168.0,
+      "bytes_allocated_range": [
+        8190168.0,
+        8190168.0
+      ],
+      "bytes_deallocated_per_call": 8190168.0,
+      "bytes_deallocated_range": [
+        8190168.0,
+        8190168.0
+      ],
+      "bytes_reallocated_per_call": 505536.0,
+      "bytes_reallocated_range": [
+        505536.0,
+        505536.0
+      ],
+      "deallocations_per_call": 64039.0,
+      "deallocations_range": [
+        64039.0,
+        64039.0
+      ],
+      "max_us": 13447.06,
+      "median_absolute_deviation_us": 375.1399999999994,
+      "median_us": 10710.8,
+      "min_us": 10335.66,
+      "process_means_us": [
+        10710.8,
+        13447.06,
+        11571.58,
+        10335.66,
+        10588.96
+      ],
+      "reallocations_per_call": 10327.0,
+      "reallocations_range": [
+        10327.0,
+        10327.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 20124.0,
+      "allocations_range": [
+        20124.0,
+        20124.0
+      ],
+      "bytes_allocated_per_call": 2415672.0,
+      "bytes_allocated_range": [
+        2415672.0,
+        2415672.0
+      ],
+      "bytes_deallocated_per_call": 2415672.0,
+      "bytes_deallocated_range": [
+        2415672.0,
+        2415672.0
+      ],
+      "bytes_reallocated_per_call": 192768.0,
+      "bytes_reallocated_range": [
+        192768.0,
+        192768.0
+      ],
+      "deallocations_per_call": 20124.0,
+      "deallocations_range": [
+        20124.0,
+        20124.0
+      ],
+      "max_us": 4266.34,
+      "median_absolute_deviation_us": 22.340000000000146,
+      "median_us": 4056.58,
+      "min_us": 4034.24,
+      "process_means_us": [
+        4266.34,
+        4087.68,
+        4056.58,
+        4034.24,
+        4036.98
+      ],
+      "reallocations_per_call": 503.0,
+      "reallocations_range": [
+        503.0,
+        503.0
+      ]
+    },
+    "median_latency_change_percent": -62.12626507823879,
+    "median_speedup": 2.640352217878114,
+    "workload": "extended-unequal-wide-assignment"
+  },
+  {
+    "baseline": {
+      "allocations_per_call": 63873.0,
+      "allocations_range": [
+        63873.0,
+        63873.0
+      ],
+      "bytes_allocated_per_call": 8154920.0,
+      "bytes_allocated_range": [
+        8154920.0,
+        8154920.0
+      ],
+      "bytes_deallocated_per_call": 8154920.0,
+      "bytes_deallocated_range": [
+        8154920.0,
+        8154920.0
+      ],
+      "bytes_reallocated_per_call": 505536.0,
+      "bytes_reallocated_range": [
+        505536.0,
+        505536.0
+      ],
+      "deallocations_per_call": 63873.0,
+      "deallocations_range": [
+        63873.0,
+        63873.0
+      ],
+      "max_us": 11679.28,
+      "median_absolute_deviation_us": 444.10000000000036,
+      "median_us": 10909.54,
+      "min_us": 9735.86,
+      "process_means_us": [
+        11679.28,
+        10909.54,
+        11291.8,
+        9735.86,
+        10465.44
+      ],
+      "reallocations_per_call": 10327.0,
+      "reallocations_range": [
+        10327.0,
+        10327.0
+      ]
+    },
+    "candidate": {
+      "allocations_per_call": 20069.0,
+      "allocations_range": [
+        20069.0,
+        20069.0
+      ],
+      "bytes_allocated_per_call": 2357640.0,
+      "bytes_allocated_range": [
+        2357640.0,
+        2357640.0
+      ],
+      "bytes_deallocated_per_call": 2357640.0,
+      "bytes_deallocated_range": [
+        2357640.0,
+        2357640.0
+      ],
+      "bytes_reallocated_per_call": 192768.0,
+      "bytes_reallocated_range": [
+        192768.0,
+        192768.0
+      ],
+      "deallocations_per_call": 20069.0,
+      "deallocations_range": [
+        20069.0,
+        20069.0
+      ],
+      "max_us": 3408.9,
+      "median_absolute_deviation_us": 55.90000000000009,
+      "median_us": 3171.4,
+      "min_us": 3086.8,
+      "process_means_us": [
+        3408.9,
+        3171.4,
+        3086.8,
+        3171.82,
+        3115.5
+      ],
+      "reallocations_per_call": 503.0,
+      "reallocations_range": [
+        503.0,
+        503.0
+      ]
+    },
+    "median_latency_change_percent": -70.9300300470964,
+    "median_speedup": 3.4399760358201426,
+    "workload": "extended-unequal-wide-independent"
+  }
+]

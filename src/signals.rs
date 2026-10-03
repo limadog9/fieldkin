@@ -74,6 +74,16 @@ impl Default for NameMatcher {
     }
 }
 
+pub(crate) struct PreparedName {
+    value: Result<NameTokens, String>,
+}
+
+struct NameTokens {
+    distinct: Vec<String>,
+    joined: String,
+    substitutions: usize,
+}
+
 impl NameMatcher {
     fn tokens(&self, name: &str) -> Result<(Vec<String>, usize), String> {
         let mut tokens = normalize_name(name);
@@ -106,30 +116,59 @@ impl NameMatcher {
         }
         Ok((tokens, substitutions))
     }
-}
 
-impl Matcher for NameMatcher {
-    fn name(&self) -> &str {
-        "name"
+    pub(crate) fn prepare(&self, name: &str) -> PreparedName {
+        PreparedName {
+            value: self.tokens(name).map(|(mut tokens, substitutions)| {
+                // Keep original token order for character similarity and exact
+                // equality, and a sorted set for allocation-free intersections.
+                let joined = tokens.join(" ");
+                tokens.sort_unstable();
+                tokens.dedup();
+                NameTokens {
+                    distinct: tokens,
+                    joined,
+                    substitutions,
+                }
+            }),
+        }
     }
 
-    fn evaluate(&self, source: &Field, target: &Field) -> Result<Evidence, String> {
-        let (source_tokens, source_aliases) = self.tokens(&source.name)?;
-        let (target_tokens, target_aliases) = self.tokens(&target.name)?;
-        if source_tokens.is_empty() || target_tokens.is_empty() {
+    pub(crate) fn evaluate_prepared(
+        &self,
+        source: &PreparedName,
+        target: &PreparedName,
+    ) -> Result<Evidence, String> {
+        let source = source.value.as_ref().map_err(Clone::clone)?;
+        let target = target.value.as_ref().map_err(Clone::clone)?;
+        if source.distinct.is_empty() || target.distinct.is_empty() {
             return Ok(Evidence {
                 score: None,
                 explanation: "At least one name has no alphanumeric tokens".to_owned(),
             });
         }
-        let source_set: BTreeSet<&str> = source_tokens.iter().map(String::as_str).collect();
-        let target_set: BTreeSet<&str> = target_tokens.iter().map(String::as_str).collect();
-        let overlap = source_set.intersection(&target_set).count();
-        let union = source_set.len() + target_set.len() - overlap;
+        let mut source_tokens = source.distinct.iter().peekable();
+        let mut target_tokens = target.distinct.iter().peekable();
+        let mut overlap = 0;
+        while let (Some(source), Some(target)) = (source_tokens.peek(), target_tokens.peek()) {
+            match source.cmp(target) {
+                std::cmp::Ordering::Less => {
+                    source_tokens.next();
+                }
+                std::cmp::Ordering::Greater => {
+                    target_tokens.next();
+                }
+                std::cmp::Ordering::Equal => {
+                    overlap += 1;
+                    source_tokens.next();
+                    target_tokens.next();
+                }
+            }
+        }
+        let union = source.distinct.len() + target.distinct.len() - overlap;
         let token_score = overlap as f64 / union as f64;
-        let character_score =
-            strsim::jaro_winkler(&source_tokens.join(" "), &target_tokens.join(" "));
-        let score = if source_tokens == target_tokens {
+        let character_score = strsim::jaro_winkler(&source.joined, &target.joined);
+        let score = if source.joined == target.joined {
             1.0
         } else {
             0.65 * token_score + 0.35 * character_score
@@ -140,9 +179,23 @@ impl Matcher for NameMatcher {
                 "Token Jaccard {token_score:.3} (weight 0.65); Jaro-Winkler \
                  {character_score:.3} (weight 0.35); {} alias substitutions. \
                  Lexical agreement does not establish semantic equivalence",
-                source_aliases + target_aliases,
+                source.substitutions + target.substitutions,
             ),
         })
+    }
+}
+
+impl Matcher for NameMatcher {
+    fn name(&self) -> &str {
+        "name"
+    }
+
+    fn as_any(&self) -> Option<&dyn std::any::Any> {
+        Some(self)
+    }
+
+    fn evaluate(&self, source: &Field, target: &Field) -> Result<Evidence, String> {
+        self.evaluate_prepared(&self.prepare(&source.name), &self.prepare(&target.name))
     }
 }
 
@@ -228,35 +281,59 @@ fn sample_set(samples: &[SampleValue]) -> Result<(BTreeSet<SampleKey<'_>>, usize
     Ok((values, non_null))
 }
 
-impl Matcher for SampleMatcher {
-    fn name(&self) -> &str {
-        "samples"
+// Deliberately no Debug: prepared keys borrow the caller's sample values.
+pub(crate) struct PreparedSamples<'a> {
+    observations: Option<usize>,
+    values: Result<(BTreeSet<SampleKey<'a>>, usize), String>,
+}
+
+impl SampleMatcher {
+    pub(crate) fn prepare<'a>(&self, field: &'a Field) -> PreparedSamples<'a> {
+        PreparedSamples {
+            observations: field.samples.as_ref().map(Vec::len),
+            values: sample_set(field.samples.as_deref().unwrap_or_default()),
+        }
     }
 
-    fn evaluate(&self, source: &Field, target: &Field) -> Result<Evidence, String> {
+    fn absent_evidence(
+        &self,
+        source_observations: Option<usize>,
+        target_observations: Option<usize>,
+    ) -> Result<Option<Evidence>, String> {
         if self.min_non_null == 0 {
             return Err("SampleMatcher.min_non_null must be positive".to_owned());
         }
-        let (Some(source_samples), Some(target_samples)) = (&source.samples, &target.samples)
+        let (Some(source_observations), Some(target_observations)) =
+            (source_observations, target_observations)
         else {
-            return Ok(Evidence {
+            return Ok(Some(Evidence {
                 score: None,
                 explanation: "At least one field has no sample data available".to_owned(),
-            });
+            }));
         };
-        if source_samples.is_empty() || target_samples.is_empty() {
-            return Ok(Evidence {
+        if source_observations == 0 || target_observations == 0 {
+            return Ok(Some(Evidence {
                 score: None,
                 explanation: format!(
-                    "Observed empty sample: source {} and target {} observations",
-                    source_samples.len(),
-                    target_samples.len(),
+                    "Observed empty sample: source {source_observations} and target \
+                     {target_observations} observations",
                 ),
-            });
+            }));
         }
-        let (source_values, source_non_null) = sample_set(source_samples)?;
-        let (target_values, target_non_null) = sample_set(target_samples)?;
-        if source_non_null < self.min_non_null || target_non_null < self.min_non_null {
+        Ok(None)
+    }
+
+    pub(crate) fn evaluate_prepared(
+        &self,
+        source: &PreparedSamples<'_>,
+        target: &PreparedSamples<'_>,
+    ) -> Result<Evidence, String> {
+        if let Some(evidence) = self.absent_evidence(source.observations, target.observations)? {
+            return Ok(evidence);
+        }
+        let (source_values, source_non_null) = source.values.as_ref().map_err(Clone::clone)?;
+        let (target_values, target_non_null) = target.values.as_ref().map_err(Clone::clone)?;
+        if *source_non_null < self.min_non_null || *target_non_null < self.min_non_null {
             return Ok(Evidence {
                 score: None,
                 explanation: format!(
@@ -266,11 +343,15 @@ impl Matcher for SampleMatcher {
                 ),
             });
         }
-        let overlap = source_values.intersection(&target_values).count();
+        let overlap = source_values.intersection(target_values).count();
         let union = source_values.len() + target_values.len() - overlap;
         let jaccard = overlap as f64 / union as f64;
-        let coverage = (source_non_null as f64 / source_samples.len() as f64)
-            .min(target_non_null as f64 / target_samples.len() as f64);
+        // Missing and empty observations returned above. The values are always
+        // present and positive here, without requiring input-triggered panics.
+        let source_observations = source.observations.unwrap_or_default();
+        let target_observations = target.observations.unwrap_or_default();
+        let coverage = (*source_non_null as f64 / source_observations as f64)
+            .min(*target_non_null as f64 / target_observations as f64);
         Ok(Evidence {
             score: Some(jaccard * coverage),
             explanation: format!(
@@ -278,10 +359,29 @@ impl Matcher for SampleMatcher {
                  {coverage:.3}; source {source_non_null}/{} and target \
                  {target_non_null}/{} non-null samples; {overlap}/{union} shared/union \
                  distinct values. Sample overlap does not establish field meaning",
-                source_samples.len(),
-                target_samples.len(),
+                source_observations, target_observations,
             ),
         })
+    }
+}
+
+impl Matcher for SampleMatcher {
+    fn name(&self) -> &str {
+        "samples"
+    }
+
+    fn as_any(&self) -> Option<&dyn std::any::Any> {
+        Some(self)
+    }
+
+    fn evaluate(&self, source: &Field, target: &Field) -> Result<Evidence, String> {
+        if let Some(evidence) = self.absent_evidence(
+            source.samples.as_ref().map(Vec::len),
+            target.samples.as_ref().map(Vec::len),
+        )? {
+            return Ok(evidence);
+        }
+        self.evaluate_prepared(&self.prepare(source), &self.prepare(target))
     }
 }
 
@@ -441,5 +541,178 @@ mod tests {
         assert!(SampleMatcher { min_non_null: 0 }
             .evaluate(&valid, &valid)
             .is_err());
+    }
+
+    #[test]
+    fn prepared_names_preserve_order_duplicates_unicode_and_alias_errors() {
+        let mut matcher = NameMatcher::default();
+        matcher
+            .aliases
+            .insert("invalid".to_owned(), "two tokens".to_owned());
+        let names = [
+            "TransDate",
+            "transaction_date",
+            "date_transaction",
+            "transaction_transaction_date",
+            "CAFÉ_Code",
+            "Cafe\u{301}_Code",
+            "SKUCode_2024",
+            "sku-code-2024",
+            "",
+            "---",
+            "invalid",
+        ];
+        for source in names {
+            for target in names {
+                let prepared =
+                    matcher.evaluate_prepared(&matcher.prepare(source), &matcher.prepare(target));
+                assert_eq!(prepared, matcher.evaluate(&field(source), &field(target)));
+                // Check the cached representation against the original ordered
+                // tokens and set semantics, including repeated and reordered tokens.
+                if source != "invalid" && target != "invalid" {
+                    let (source_tokens, _) = matcher.tokens(source).unwrap();
+                    let (target_tokens, _) = matcher.tokens(target).unwrap();
+                    let expected = if source_tokens.is_empty() || target_tokens.is_empty() {
+                        None
+                    } else if source_tokens == target_tokens {
+                        Some(1.0)
+                    } else {
+                        let source_set: BTreeSet<_> = source_tokens.iter().collect();
+                        let target_set: BTreeSet<_> = target_tokens.iter().collect();
+                        let overlap = source_set.intersection(&target_set).count();
+                        let union = source_set.union(&target_set).count();
+                        Some(
+                            0.65 * (overlap as f64 / union as f64)
+                                + 0.35
+                                    * strsim::jaro_winkler(
+                                        &source_tokens.join(" "),
+                                        &target_tokens.join(" "),
+                                    ),
+                        )
+                    };
+                    assert_eq!(prepared.unwrap().score, expected);
+                } else {
+                    // Alias errors precede an otherwise absent empty-name signal.
+                    assert!(prepared.unwrap_err().contains("alias targets"));
+                }
+            }
+        }
+        let oversized = "a".repeat(1025);
+        let result =
+            matcher.evaluate_prepared(&matcher.prepare(&oversized), &matcher.prepare("invalid"));
+        assert_eq!(
+            result.unwrap_err(),
+            "Normalized, alias-expanded names must be at most 1024 bytes",
+        );
+    }
+
+    #[test]
+    fn prepared_samples_preserve_absence_and_invalid_input_precedence() {
+        let cases = [
+            field(""),
+            field("").with_samples(vec![]),
+            field("").with_samples(vec![SampleValue::Null; 5]),
+            field("").with_samples(vec![SampleValue::Number(1.0)]),
+            field("").with_samples(vec![SampleValue::Number(0.0); 3]),
+            field("").with_samples(vec![SampleValue::Number(-0.0); 3]),
+            field("").with_samples(vec![SampleValue::Text("0".to_owned()); 3]),
+            field("").with_samples(vec![SampleValue::Boolean(false); 3]),
+            field("").with_samples(vec![SampleValue::Number(f64::NAN)]),
+            field("").with_samples(vec![SampleValue::Number(f64::INFINITY)]),
+            field("").with_samples(vec![SampleValue::Number(f64::NEG_INFINITY)]),
+        ];
+        for min_non_null in [0, 3] {
+            let matcher = SampleMatcher { min_non_null };
+            for source in &cases {
+                for target in &cases {
+                    let prepared = matcher
+                        .evaluate_prepared(&matcher.prepare(source), &matcher.prepare(target));
+                    assert_eq!(prepared, matcher.evaluate(source, target));
+                    if min_non_null == 0 {
+                        assert_eq!(
+                            prepared.unwrap_err(),
+                            "SampleMatcher.min_non_null must be positive"
+                        );
+                    } else if source.samples.is_none() || target.samples.is_none() {
+                        assert_eq!(
+                            prepared.unwrap(),
+                            Evidence {
+                                score: None,
+                                explanation: "At least one field has no sample data available"
+                                    .to_owned(),
+                            }
+                        );
+                    } else if source.samples.as_ref().is_some_and(Vec::is_empty)
+                        || target.samples.as_ref().is_some_and(Vec::is_empty)
+                    {
+                        let evidence = prepared.unwrap();
+                        assert_eq!(evidence.score, None);
+                        assert!(evidence.explanation.starts_with("Observed empty sample:"));
+                    } else if source.samples.iter().chain(&target.samples).flatten().any(
+                        |value| matches!(value, SampleValue::Number(number) if !number.is_finite()),
+                    ) {
+                        assert_eq!(prepared.unwrap_err(), "Sample contains a non-finite number");
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    #[ignore = "manual preparation cost measurement"]
+    fn prepare_original_128_cost() {
+        use std::{hint::black_box, time::Instant};
+
+        let fields: Vec<_> = (0..2)
+            .flat_map(|side| {
+                (0..128).map(move |index| {
+                    let name = if side == 0 {
+                        format!("Metric{index:04}Count")
+                    } else {
+                        format!("metric_{index:04}_count")
+                    };
+                    Field::new(format!("{side}-{index}"), name, DataType::Integer).with_samples(
+                        (0..16)
+                            .map(|sample| {
+                                if sample % 5 == 0 {
+                                    SampleValue::Null
+                                } else {
+                                    SampleValue::Number(f64::from(index * 100 + sample))
+                                }
+                            })
+                            .collect(),
+                    )
+                })
+            })
+            .collect();
+        let names = NameMatcher::default();
+        let samples = SampleMatcher::default();
+        let prepare = || {
+            black_box(
+                fields
+                    .iter()
+                    .map(|field| names.prepare(&field.name))
+                    .collect::<Vec<_>>(),
+            );
+            black_box(
+                fields
+                    .iter()
+                    .map(|field| samples.prepare(field))
+                    .collect::<Vec<_>>(),
+            );
+        };
+        for _ in 0..5 {
+            prepare();
+        }
+        for round in 1..=5 {
+            let started = Instant::now();
+            for _ in 0..100 {
+                prepare();
+            }
+            println!(
+                "preparation_original_128 round={round} microseconds_per_call={:.3}",
+                started.elapsed().as_secs_f64() * 1_000_000.0 / 100.0
+            );
+        }
     }
 }
