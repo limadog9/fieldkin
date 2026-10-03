@@ -7,7 +7,12 @@ their redistribution license and attribution.
 
 Run the commands in the README, including `RUSTDOCFLAGS="-D warnings" cargo doc
 --locked --no-deps --all-features` (PowerShell:
-`$env:RUSTDOCFLAGS='-D warnings'`). CI uses Rust 1.85.0, the supported minimum.
+`$env:RUSTDOCFLAGS='-D warnings'`). CI covers Rust 1.85.0, the supported minimum,
+and pinned current stable 1.99.0 on Linux, Windows and macOS. Run the standalone
+`performance/` and `qualification/` checks when changing matching or budgets.
+Use development-only evaluation for routine work; never score holdout data for
+tuning. Historical artifacts are immutable; publish new versioned artifacts
+and document deliberate report/configuration changes.
 Tests should exercise observable behavior or meaningful invariants. Include a
 reproduction for bug fixes and a before/after benchmark for performance claims.
 Avoid adding runtime services or dependencies without a clear core-library need.

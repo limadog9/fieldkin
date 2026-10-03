@@ -3,9 +3,10 @@ use std::collections::BTreeSet;
 use crate::profile::PreparedProfile;
 use crate::signals::{type_compatibility, PreparedName, PreparedSamples};
 use crate::{
-    assignment, Candidate, Config, Decision, Field, FieldMatch, MatchError, MatchReport, Matcher,
-    NameMatcher, SampleMatcher, SampleProfileMatcher, SampleValue, Schema, SignalReport,
-    TypeMatcher,
+    assignment, AssignmentDiagnostics, BudgetKind, Candidate, CandidateIssue, Config,
+    ConfigurationError, CountKind, Decision, Field, FieldDiagnostic, FieldMatch, InputError,
+    MatchError, MatchReport, Matcher, NameMatcher, SampleMatcher, SampleProfileMatcher,
+    SampleValue, Schema, SemanticAxis, SignalReport, TargetCompetition, TypeMatcher,
 };
 
 /// A signal and its relative weight. Zero-weight signals are disabled.
@@ -115,27 +116,29 @@ impl MatchEngine {
     ) -> Result<Self, MatchError> {
         validate_config(&config)?;
         if matchers.is_empty() || matchers.len() > 64 {
-            return Err(MatchError("expected between 1 and 64 matchers".into()));
+            return Err(MatchError::InvalidConfiguration(
+                ConfigurationError::MatcherCount,
+            ));
         }
         let mut names = BTreeSet::new();
         let mut total = 0.0;
         for signal in &matchers {
             if !signal.weight.is_finite() || signal.weight < 0.0 {
-                return Err(MatchError(
-                    "signal weights must be finite and nonnegative".into(),
+                return Err(MatchError::InvalidConfiguration(
+                    ConfigurationError::SignalWeight,
                 ));
             }
             let name = signal.matcher.name();
             if name.is_empty() || name.len() > 256 || !names.insert(name.to_owned()) {
-                return Err(MatchError(
-                    "signal names must be nonempty, unique, and at most 256 bytes".into(),
+                return Err(MatchError::InvalidConfiguration(
+                    ConfigurationError::SignalNames,
                 ));
             }
             total += signal.weight;
         }
         if !total.is_finite() || total <= 0.0 {
-            return Err(MatchError(
-                "total signal weight must be positive and finite".into(),
+            return Err(MatchError::InvalidConfiguration(
+                ConfigurationError::TotalWeight,
             ));
         }
         for signal in &mut matchers {
@@ -161,16 +164,16 @@ impl MatchEngine {
             .fields
             .len()
             .checked_mul(target.fields.len())
-            .ok_or_else(|| MatchError("pair count overflow".into()))?;
+            .ok_or(MatchError::CountOverflow(CountKind::Pairs))?;
         if pairs > self.config.limits.max_pairs {
-            return Err(MatchError("source-target pair budget exceeded".into()));
+            return Err(MatchError::BudgetExceeded(BudgetKind::Pairs));
         }
         let active_signals = self.matchers.iter().filter(|s| s.weight > 0.0).count();
         if pairs
             .checked_mul(active_signals)
             .is_none_or(|count| count > self.config.limits.max_signal_evaluations)
         {
-            return Err(MatchError("signal evaluation budget exceeded".into()));
+            return Err(MatchError::BudgetExceeded(BudgetKind::SignalEvaluations));
         }
         let mut explanation_bytes = 0usize;
         let mut sources: Vec<_> = source.fields.iter().collect();
@@ -216,6 +219,13 @@ impl MatchEngine {
                 .map(|c| c.target.clone())
                 .collect();
             let abstain = self.config.abstain_on_ambiguity && alternatives.len() > 1;
+            let mut diagnostics = Vec::new();
+            if best_score.is_none() {
+                diagnostics.push(FieldDiagnostic::NoEligibleTarget);
+            }
+            if alternatives.len() > 1 {
+                diagnostics.push(FieldDiagnostic::LocalAmbiguity);
+            }
             if self.config.one_to_one {
                 matrix.push(
                     candidates
@@ -251,14 +261,48 @@ impl MatchEngine {
                 alternatives,
                 selected,
                 decision,
+                diagnostics,
             });
         }
+        let mut target_competition = Vec::new();
+        let mut assignment_diagnostics = if self.config.global_diagnostics.max_solves == 0 {
+            AssignmentDiagnostics::default()
+        } else {
+            AssignmentDiagnostics::not_applicable()
+        };
         if self.config.one_to_one {
             let selected = assignment::solve(&matrix);
+            if self.config.global_diagnostics.max_solves > 0 {
+                assignment_diagnostics = crate::diagnostics::analyze(
+                    &matrix,
+                    &selected,
+                    &sources.iter().map(|f| f.id.clone()).collect::<Vec<_>>(),
+                    &targets.iter().map(|f| f.id.clone()).collect::<Vec<_>>(),
+                    &self.config.global_diagnostics,
+                );
+            }
             let contention: Vec<_> = (0..targets.len())
                 .map(|j| matrix.iter().filter(|row| row[j].is_some()).count() > 1)
                 .collect();
+            for (j, target) in targets.iter().enumerate().filter(|(j, _)| contention[*j]) {
+                target_competition.push(TargetCompetition {
+                    target: target.id.clone(),
+                    sources: sources
+                        .iter()
+                        .enumerate()
+                        .filter(|(i, _)| matrix[*i][j].is_some())
+                        .map(|(_, source)| source.id.clone())
+                        .collect(),
+                });
+            }
             for (i, field) in fields.iter_mut().enumerate() {
+                for (j, target) in targets.iter().enumerate() {
+                    if contention[j] && matrix[i][j].is_some() {
+                        field
+                            .diagnostics
+                            .push(FieldDiagnostic::TargetCompetition(target.id.clone()));
+                    }
+                }
                 field.selected = selected[i].and_then(|j| {
                     field
                         .candidates
@@ -269,10 +313,21 @@ impl MatchEngine {
                 if let Some(candidate) = &mut field.selected {
                     if selected[i].is_some_and(|j| contention[j]) {
                         candidate.warnings.push("Target has competing eligible sources; global ties are resolved deterministically, not by additional evidence.".into());
+                        candidate.issues.push(CandidateIssue::TargetCompetition);
+                    }
+                    if let Some(preferred) = field.candidates.iter().find(|c| c.eligible) {
+                        if preferred.target != candidate.target {
+                            field.diagnostics.push(FieldDiagnostic::Displaced {
+                                preferred_target: preferred.target.clone(),
+                            });
+                        }
                     }
                 }
                 if field.selected.is_none() && field.decision == Decision::Proposed {
                     field.decision = Decision::AssignmentConflict;
+                    field
+                        .diagnostics
+                        .push(FieldDiagnostic::UnassignedByGlobalConstraint);
                 }
             }
         }
@@ -298,6 +353,8 @@ impl MatchEngine {
             unmatched_sources,
             unmatched_targets,
             one_to_one: self.config.one_to_one,
+            target_competition,
+            assignment_diagnostics,
         })
     }
 
@@ -333,31 +390,25 @@ impl MatchEngine {
                     target,
                 } => matcher.evaluate_prepared(&source[source_index], &target[target_index]),
             }
-            .map_err(|_| {
-                MatchError(format!(
-                    "matcher '{}' failed (details suppressed to protect sample values)",
-                    signal.matcher.name()
-                ))
+            .map_err(|_| MatchError::MatcherFailed {
+                name: signal.matcher.name().to_owned(),
             })?;
             if evidence
                 .score
                 .is_some_and(|v| !v.is_finite() || !(0.0..=1.0).contains(&v))
             {
-                return Err(MatchError(format!(
-                    "matcher '{}' returned a score outside [0, 1]",
-                    signal.matcher.name()
-                )));
+                return Err(MatchError::InvalidMatcherScore {
+                    name: signal.matcher.name().to_owned(),
+                });
             }
             if evidence.explanation.len() > 4096 {
-                return Err(MatchError("matcher explanation exceeds 4096 bytes".into()));
+                return Err(MatchError::BudgetExceeded(BudgetKind::SignalExplanation));
             }
             *explanation_bytes = explanation_bytes
                 .checked_add(evidence.explanation.len())
-                .ok_or_else(|| MatchError("explanation byte count overflow".into()))?;
+                .ok_or(MatchError::CountOverflow(CountKind::ExplanationBytes))?;
             if *explanation_bytes > self.config.limits.max_explanation_bytes {
-                return Err(MatchError(
-                    "aggregate explanation byte budget exceeded".into(),
-                ));
+                return Err(MatchError::BudgetExceeded(BudgetKind::ExplanationBytes));
             }
             score += signal.weight * evidence.score.unwrap_or(0.0);
             signals.push(SignalReport {
@@ -369,14 +420,42 @@ impl MatchEngine {
         let score = score.clamp(0.0, 1.0);
         let incompatible = type_compatibility(source.data_type, target.data_type) == Some(0.0);
         let mut warnings = Vec::new();
+        let mut issues = Vec::new();
         if incompatible {
             warnings.push("Declared types are incompatible; no conversion is inferred.".into());
+            issues.push(CandidateIssue::IncompatibleTypes);
         }
         if signals.iter().any(|s| s.evidence.score.is_none()) {
             warnings.push(
                 "Some evidence is unavailable or insufficient; missing weight contributes zero."
                     .into(),
             );
+            issues.push(CandidateIssue::MissingEvidence);
+        }
+        if score <= 0.0 || score < self.config.min_score {
+            issues.push(CandidateIssue::InsufficientScore);
+        }
+        for (axis, source, target) in [
+            (SemanticAxis::Unit, &source.hints.unit, &target.hints.unit),
+            (
+                SemanticAxis::Currency,
+                &source.hints.currency,
+                &target.hints.currency,
+            ),
+            (
+                SemanticAxis::IdentifierScope,
+                &source.hints.identifier_scope,
+                &target.hints.identifier_scope,
+            ),
+        ] {
+            match (source, target) {
+                (Some(a), Some(b)) if a != b => issues.push(CandidateIssue::SemanticConflict(axis)),
+                (Some(_), Some(_)) => issues.push(CandidateIssue::SemanticAgreement(axis)),
+                (Some(_), None) | (None, Some(_)) => {
+                    issues.push(CandidateIssue::SemanticMissing(axis))
+                }
+                (None, None) => {}
+            }
         }
         let semantic_conflict = source.hints.compare(&target.hints, &mut warnings);
         Ok(Candidate {
@@ -388,44 +467,47 @@ impl MatchEngine {
                 && !(incompatible && self.config.reject_incompatible_types),
             signals,
             warnings,
+            issues,
         })
     }
 
     fn validate_schema(&self, schema: &Schema, total_bytes: &mut usize) -> Result<(), MatchError> {
         let limits = &self.config.limits;
         if schema.fields.len() > limits.max_fields {
-            return Err(MatchError("field budget exceeded".into()));
+            return Err(MatchError::BudgetExceeded(BudgetKind::Fields));
         }
         let mut ids = BTreeSet::new();
         for field in &schema.fields {
             field.hints.validate()?;
             if field.id.0.is_empty() || !ids.insert(&field.id) {
-                return Err(MatchError(
-                    "field IDs must be nonempty and unique within each schema".into(),
-                ));
+                return Err(MatchError::InvalidInput(InputError::InvalidFieldIds));
             }
             if field.name.len() > limits.max_name_bytes || field.id.0.len() > limits.max_name_bytes
             {
-                return Err(MatchError("field name or ID byte budget exceeded".into()));
+                return Err(MatchError::BudgetExceeded(BudgetKind::NameBytes));
             }
             if let Some(samples) = &field.samples {
                 if samples.len() > limits.max_samples_per_field {
-                    return Err(MatchError("sample count budget exceeded".into()));
+                    return Err(MatchError::BudgetExceeded(BudgetKind::SamplesPerField));
                 }
                 for value in samples {
                     match value {
                         SampleValue::Number(n) if !n.is_finite() => {
-                            return Err(MatchError("numeric samples must be finite".into()))
+                            return Err(MatchError::InvalidInput(InputError::NonFiniteSample))
                         }
                         SampleValue::Text(s) => {
                             if s.len() > limits.max_sample_bytes {
-                                return Err(MatchError("text sample byte budget exceeded".into()));
+                                return Err(MatchError::BudgetExceeded(
+                                    BudgetKind::TextSampleBytes,
+                                ));
                             }
                             *total_bytes = total_bytes
                                 .checked_add(s.len())
-                                .ok_or_else(|| MatchError("sample byte count overflow".into()))?;
+                                .ok_or(MatchError::CountOverflow(CountKind::SampleBytes))?;
                             if *total_bytes > limits.max_total_sample_bytes {
-                                return Err(MatchError("total sample byte budget exceeded".into()));
+                                return Err(MatchError::BudgetExceeded(
+                                    BudgetKind::TotalSampleBytes,
+                                ));
                             }
                         }
                         _ => {}
@@ -443,12 +525,22 @@ fn validate_config(config: &Config) -> Result<(), MatchError> {
         || !config.ambiguity_margin.is_finite()
         || !(0.0..=1.0).contains(&config.ambiguity_margin)
     {
-        return Err(MatchError(
-            "threshold and ambiguity margin must be finite and in [0, 1]".into(),
+        return Err(MatchError::InvalidConfiguration(
+            ConfigurationError::ThresholdOrMargin,
         ));
     }
     if config.max_candidates == 0 {
-        return Err(MatchError("max_candidates must be positive".into()));
+        return Err(MatchError::InvalidConfiguration(
+            ConfigurationError::MaxCandidates,
+        ));
+    }
+    if !config.global_diagnostics.objective_margin.is_finite()
+        || config.global_diagnostics.objective_margin < 0.0
+        || config.global_diagnostics.max_solves > 1024
+    {
+        return Err(MatchError::InvalidConfiguration(
+            ConfigurationError::GlobalDiagnostics,
+        ));
     }
     Ok(())
 }

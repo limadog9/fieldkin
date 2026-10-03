@@ -77,7 +77,10 @@ are sorted by descending score then target ID. Hungarian rows/columns use that
 same order; equal reduced costs visit the first column and retain the first
 predecessor. Equal optimum assignments therefore receive reproducible choices
 without perturbing scores. We do not enumerate all global optima or promise a
-lexicographically minimal assignment. Global target contention gets a warning.
+lexicographically minimal assignment. Global target contention gets a warning
+and typed source/target diagnostics. Optional bounded alternative analysis probes
+each selected edge and reports representative mappings, objective gaps and
+completeness; it never changes selections. See [global diagnostics](stage4-diagnostics.md).
 Floating-point arithmetic and dependency upgrades can change borderline scores;
 record your configuration and lock dependencies for reproducible deployments.
 

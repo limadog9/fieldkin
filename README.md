@@ -148,6 +148,21 @@ a small Rust API with explicit missing evidence, abstention, bounded inputs,
 stable identities, and partial global assignment. See
 [landscape and attribution](docs/landscape.md) and [THIRD_PARTY.md](THIRD_PARTY.md).
 
+## Embedding and diagnostics
+
+The [usage guide](docs/usage.md) and compiling
+[importer](examples/import_review.rs) / [catalog](examples/catalog_review.rs)
+examples show how to preserve unmatched fields and keep review decisions in your
+application. `MatchError` variants and typed candidate/field diagnostics support
+programmatic handling without parsing explanation strings.
+
+For one-to-one matching, optional `Config::global_diagnostics` probes alternative
+assignments within explicit solve/work budgets. It reports total-objective gaps,
+changed IDs and whether analysis completed. It never changes proposals, and
+incomplete analysis cannot establish uniqueness. See
+[global diagnostics](docs/stage4-diagnostics.md) and the
+[migration guide](docs/migration.md). Serialization and adapters remain deferred.
+
 ## Validation and development
 
 ```text
@@ -160,8 +175,10 @@ cargo run --locked --example baseline
 cargo bench --locked --bench matching
 ```
 
-CI runs format, clippy, tests, and documentation checks on Rust 1.85.0 with
-read-only workflow permissions. Fixtures are synthetic and included under this
+CI checks Rust 1.85.0 and 1.99.0 on Linux, Windows and macOS, including tests,
+clippy, documentation, consumer examples, packaging and development evaluation.
+Formatting is checked on both compilers. Workflow permissions remain
+read-only. Fixtures are synthetic and included under this
 repository's license. The baseline example compares name-only matching with the
 default engine on small labeled cases; it is a regression illustration, not a
 real-world accuracy claim. Benchmarks generate fixed inputs in memory and use

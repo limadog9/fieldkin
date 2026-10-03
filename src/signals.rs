@@ -4,7 +4,7 @@ use std::collections::{BTreeMap, BTreeSet};
 
 use unicode_normalization::{char::is_combining_mark, UnicodeNormalization};
 
-use crate::{DataType, Evidence, Field, MatchError, Matcher, SampleValue};
+use crate::{DataType, Evidence, Field, InputError, MatchError, Matcher, SampleValue};
 
 /// Split a name at separators, case/acronym boundaries and letter-digit boundaries.
 ///
@@ -98,9 +98,7 @@ impl NameMatcher {
         let to = to.into();
         for token in [&from, &to] {
             if token.len() > 256 || normalize_name(token).as_slice() != [token.as_str()] {
-                return Err(MatchError(
-                    "aliases must be single normalized tokens of at most 256 bytes".into(),
-                ));
+                return Err(MatchError::InvalidInput(InputError::Alias));
             }
         }
         self.aliases.insert(from, to);

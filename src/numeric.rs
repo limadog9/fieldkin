@@ -1,6 +1,6 @@
 use std::fmt;
 
-use crate::MatchError;
+use crate::{InputError, MatchError};
 
 /// An exact decimal sample represented by `coefficient * 10^-scale`.
 ///
@@ -34,7 +34,7 @@ impl ExactDecimal {
     /// before normalization, and the error never contains the sample value.
     pub fn new(mut coefficient: i128, scale: u32) -> Result<Self, MatchError> {
         if scale > 38 {
-            return Err(MatchError("exact decimal scale must be at most 38".into()));
+            return Err(MatchError::InvalidInput(InputError::DecimalScale));
         }
         let mut scale = scale as u8;
         if coefficient == 0 {
@@ -89,7 +89,7 @@ mod tests {
         for coefficient in [0, 10, -100, i128::MIN, i128::MAX] {
             for scale in [39, u32::MAX] {
                 let error = ExactDecimal::new(coefficient, scale).unwrap_err();
-                assert_eq!(error.0, "exact decimal scale must be at most 38");
+                assert_eq!(error.to_string(), "exact decimal scale must be at most 38");
             }
         }
         assert!(ExactDecimal::new(1, 38).is_ok());

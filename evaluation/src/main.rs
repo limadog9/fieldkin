@@ -3,12 +3,16 @@
 mod corpus;
 mod metrics;
 mod model;
+mod release;
 mod runner;
 mod stage3;
 
 fn main() {
     let mut args: Vec<_> = std::env::args().skip(1).collect();
-    let result = if args.first().is_some_and(|arg| arg == "--stage3") {
+    let result = if args.first().is_some_and(|arg| arg == "--release") {
+        args.remove(0);
+        release::run(args)
+    } else if args.first().is_some_and(|arg| arg == "--stage3") {
         args.remove(0);
         stage3::run(args)
     } else {

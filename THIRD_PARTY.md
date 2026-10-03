@@ -4,6 +4,12 @@ Fieldkin's original code and synthetic fixtures are copyright 2026 Fieldkin cont
 
 ## Dependencies
 
+The [October 3, 2026 dependency review](docs/dependency-review.md) inventories
+all 42 locked third-party versions across runtime and development tools, including
+advisory results and license-file hashes. It records the additional Unicode-3.0
+notice for `unicode-ident` and the missing standalone notice file in the optional
+`stats_alloc` package. Qualification adds no dependency beyond Fieldkin itself.
+
 The reviewed lockfile resolves these runtime crates:
 
 | Crate | Version | License expression | Upstream |

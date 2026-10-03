@@ -1,0 +1,22 @@
+{
+  "protocol_version": "release-1.0.0",
+  "feature_freeze_revision": null,
+  "corpus_version": "1.0.0",
+  "partition_policy": "Keep the original 32 development and 8 holdout families and all five variants together; no relabeling or new families.",
+  "models": ["combined", "name_only"],
+  "assignment_modes": ["independent", "one_to_one"],
+  "default_threshold": 0.7,
+  "threshold_grid": [0.5, 0.525, 0.55, 0.575, 0.6, 0.625, 0.65, 0.675, 0.7, 0.725, 0.75, 0.775, 0.8, 0.825, 0.85, 0.875, 0.9, 0.925, 0.95, 0.975, 1.0],
+  "precision_anchors": ["combined_default", "fixed_0.95"],
+  "operating_point_policy": "Descriptive comparisons only: maximize correct recall among nonempty proposal sets meeting the precision floor; ties use greater precision then higher threshold. Do not tune or change defaults after observing holdout results.",
+  "combined": {"weights":{"name":0.65,"type":0.2,"samples":0.15},"sample_reliability":"distinct","sample_min_non_null":3,"reject_incompatible_types":true},
+  "name_only": {"weights":{"name":1.0},"reject_incompatible_types":false,"semantic_hints":"removed"},
+  "common": {"ambiguity_margin":0.08,"max_candidates":5,"abstain_on_ambiguity":true,"aliases":{"amt":"amount","trans":"transaction"},"global_diagnostics":{"max_solves":0,"max_work":8388608,"objective_margin":0.08}},
+  "limits": {"max_fields":128,"max_pairs":16384,"max_signal_evaluations":65536,"max_explanation_bytes":16777216,"max_name_bytes":256,"max_samples_per_field":256,"max_sample_bytes":1024,"max_total_sample_bytes":8388608},
+  "quality_targets": {"overall_precision":0.95,"unique_coverage":0.6,"candidate_recall_at_5":0.9},
+  "grouping": ["all", "domain", "scenario_tag", "variant", "family"],
+  "candidate_metric_policy": "Count the first five ranked candidates including ineligible pairs, exactly as the original protocol; report unique and ambiguous retrieval separately. Small schemas can make retrieval deceptively easy.",
+  "holdout_policy": "Default execution and --check score development only. --acknowledge-holdout permits the final frozen qualification run. It cannot be combined with --check. Published holdout results are never independent evidence for subsequent tuning on these families.",
+  "provenance": "Original Fieldkin synthetic fixtures under MIT OR Apache-2.0; original protocol, corpus and lockfile are retained and hashed in every report.",
+  "limitations": "Eight held-out families and correlated variants do not establish production accuracy. Objective scores are heuristics, not probabilities. Failing a quality target is reported rather than waived."
+}
