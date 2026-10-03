@@ -36,6 +36,8 @@ jobs:
           persist-credentials: false
       - run: rustup toolchain install 1.85.0 --profile minimal
       - run: cargo +1.85.0 test --locked --all-features
+      - name: Verify development evaluation baseline
+        run: cargo +1.85.0 run --locked --release -p fieldkin-eval -- --check --output evaluation/results/baseline-v1
   docs:
     name: docs
     runs-on: ubuntu-latest

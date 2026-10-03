@@ -20,6 +20,13 @@ Koutras et al., *Valentine: Evaluating Matching Techniques for Dataset Discovery
 
 No third-party datasets are bundled. The examples, test fixtures, and benchmark inputs are synthetic and distributed under Fieldkin's MIT OR Apache-2.0 terms.
 
+The unpublished `evaluation/` workspace package uses `serde` (MIT OR Apache-2.0),
+`serde_json` (MIT OR Apache-2.0), and `sha2` (MIT OR Apache-2.0) for development-only
+artifacts and provenance hashes. These are not runtime dependencies of the Fieldkin
+library. Their exact versions and transitive packages are frozen in `Cargo.lock`
+and copied into evaluation result metadata. No third-party fixture data is used;
+all 40 evaluation families are original synthetic Fieldkin content.
+
 ## Runtime dependency notices
 
 

@@ -1,0 +1,1983 @@
+[
+  {
+    "id": "product_01",
+    "domain": "product_import",
+    "title": "Storefront inventory import",
+    "tags": [
+      "renamed",
+      "unequal_sizes",
+      "reordered"
+    ],
+    "rationale": "A merchant migrates its flat inventory table into a storefront catalog. Product identifiers and supplier identifiers remain separate; currency exists only in the destination. Original synthetic scenario; all identifiers and values were invented for this corpus.",
+    "source": [
+      {
+        "id": "s1",
+        "name": "SKU_Code",
+        "data_type": "Text",
+        "concept": "merchant product identifier",
+        "samples": [
+          "SKU-R41",
+          "SKU-T62",
+          "SKU-B83"
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "ProductTitle",
+        "data_type": "Text",
+        "concept": "public product display title",
+        "samples": [
+          "Copper desk clip",
+          "Wool travel pouch",
+          "Cork pen stand"
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "UnitPrice",
+        "data_type": "Decimal",
+        "concept": "retail unit price excluding sales tax",
+        "samples": [
+          12.5,
+          24,
+          8.75
+        ]
+      },
+      {
+        "id": "s4",
+        "name": "OnHandQty",
+        "data_type": "Integer",
+        "concept": "physical units currently in stock",
+        "samples": [
+          14,
+          8,
+          39
+        ]
+      },
+      {
+        "id": "s5",
+        "name": "Discontinued",
+        "data_type": "Boolean",
+        "concept": "product permanently withdrawn from future restocking",
+        "samples": [
+          false,
+          true,
+          false
+        ]
+      },
+      {
+        "id": "s6",
+        "name": "VendorRef",
+        "data_type": "Text",
+        "concept": "supplier organization identifier",
+        "samples": [
+          "V-021",
+          "V-039",
+          "V-052"
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "product_id",
+        "data_type": "Text",
+        "concept": "merchant product identifier",
+        "samples": [
+          "SKU-B83",
+          "SKU-R41",
+          "SKU-T62"
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "stock_count",
+        "data_type": "Integer",
+        "concept": "physical units currently in stock",
+        "samples": [
+          39,
+          14,
+          8
+        ]
+      },
+      {
+        "id": "t3",
+        "name": "display_name",
+        "data_type": "Text",
+        "concept": "public product display title",
+        "samples": [
+          "Cork pen stand",
+          "Copper desk clip",
+          "Wool travel pouch"
+        ]
+      },
+      {
+        "id": "t4",
+        "name": "supplier_code",
+        "data_type": "Text",
+        "concept": "supplier organization identifier",
+        "samples": [
+          "V-052",
+          "V-021",
+          "V-039"
+        ]
+      },
+      {
+        "id": "t5",
+        "name": "unit_price",
+        "data_type": "Decimal",
+        "concept": "retail unit price excluding sales tax",
+        "samples": [
+          8.75,
+          12.5,
+          24
+        ]
+      },
+      {
+        "id": "t6",
+        "name": "is_discontinued",
+        "data_type": "Boolean",
+        "concept": "product permanently withdrawn from future restocking",
+        "samples": [
+          false,
+          false,
+          true
+        ]
+      },
+      {
+        "id": "t7",
+        "name": "currency",
+        "data_type": "Text",
+        "concept": "retail pricing currency",
+        "samples": [
+          "USD",
+          "USD",
+          "USD"
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "match",
+        "targets": [
+          "t1"
+        ],
+        "rationale": "Both identify the same merchant product; vendor identity is a different fact."
+      },
+      {
+        "source": "s2",
+        "kind": "match",
+        "targets": [
+          "t3"
+        ],
+        "rationale": "Both are the public product display title."
+      },
+      {
+        "source": "s3",
+        "kind": "match",
+        "targets": [
+          "t5"
+        ],
+        "rationale": "Both are the same tax-exclusive retail unit price."
+      },
+      {
+        "source": "s4",
+        "kind": "match",
+        "targets": [
+          "t2"
+        ],
+        "rationale": "Both count physical inventory units, not shipments or reservations."
+      },
+      {
+        "source": "s5",
+        "kind": "match",
+        "targets": [
+          "t6"
+        ],
+        "rationale": "Both indicate permanent discontinuation, with the same Boolean meaning."
+      },
+      {
+        "source": "s6",
+        "kind": "match",
+        "targets": [
+          "t4"
+        ],
+        "rationale": "Both contain the supplier organization identifier."
+      }
+    ]
+  },
+  {
+    "id": "product_02",
+    "domain": "product_import",
+    "title": "Warehouse receipt and case counts",
+    "tags": [
+      "renamed",
+      "misleading_qualifiers",
+      "unequal_sizes",
+      "empty_samples"
+    ],
+    "rationale": "Receiving records identify an intake, storage bin and supplier lot. Cases received and individual units received are different measurements, and no case-to-unit conversion is supplied. Original synthetic scenario; all identifiers and values were invented for this corpus.",
+    "source": [
+      {
+        "id": "s1",
+        "name": "intake_id",
+        "data_type": "Text",
+        "concept": "warehouse receipt identifier",
+        "samples": [
+          "RCV-102",
+          "RCV-109",
+          "RCV-114"
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "receipt_date",
+        "data_type": "Date",
+        "concept": "calendar day goods were received",
+        "samples": [
+          "2026-02-04",
+          "2026-02-06",
+          "2026-02-07"
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "slot_label",
+        "data_type": "Text",
+        "concept": "physical storage bin identifier",
+        "samples": [
+          "R2-B1",
+          "R2-B4",
+          "R3-B2"
+        ]
+      },
+      {
+        "id": "s4",
+        "name": "lot_id",
+        "data_type": "Text",
+        "concept": "supplier production lot identifier",
+        "samples": [
+          "LT-K7",
+          "LT-M8",
+          "LT-P9"
+        ]
+      },
+      {
+        "id": "s5",
+        "name": "case_count",
+        "data_type": "Integer",
+        "concept": "number of cartons received",
+        "samples": [
+          2,
+          3,
+          5
+        ]
+      },
+      {
+        "id": "s6",
+        "name": "receiving_note",
+        "data_type": "Text",
+        "concept": "freeform exception recorded at receipt",
+        "samples": []
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "receipt_identifier",
+        "data_type": "Text",
+        "concept": "warehouse receipt identifier",
+        "samples": [
+          "RCV-109",
+          "RCV-114",
+          "RCV-102"
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "received_on",
+        "data_type": "Date",
+        "concept": "calendar day goods were received",
+        "samples": [
+          "2026-02-06",
+          "2026-02-07",
+          "2026-02-04"
+        ]
+      },
+      {
+        "id": "t3",
+        "name": "storage_bin",
+        "data_type": "Text",
+        "concept": "physical storage bin identifier",
+        "samples": [
+          "R2-B4",
+          "R3-B2",
+          "R2-B1"
+        ]
+      },
+      {
+        "id": "t4",
+        "name": "batch_id",
+        "data_type": "Text",
+        "concept": "supplier production lot identifier",
+        "samples": [
+          "LT-M8",
+          "LT-P9",
+          "LT-K7"
+        ]
+      },
+      {
+        "id": "t5",
+        "name": "unit_count",
+        "data_type": "Integer",
+        "concept": "number of individual product units received",
+        "samples": [
+          24,
+          36,
+          60
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "match",
+        "targets": [
+          "t1"
+        ],
+        "rationale": "Both are warehouse receipt identities."
+      },
+      {
+        "source": "s2",
+        "kind": "match",
+        "targets": [
+          "t2"
+        ],
+        "rationale": "Both record the arrival calendar day."
+      },
+      {
+        "source": "s3",
+        "kind": "match",
+        "targets": [
+          "t3"
+        ],
+        "rationale": "Both identify the same physical bin."
+      },
+      {
+        "source": "s4",
+        "kind": "match",
+        "targets": [
+          "t4"
+        ],
+        "rationale": "Both identify the supplier production lot."
+      },
+      {
+        "source": "s5",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "No destination stores cartons; unit_count counts individual items and needs an unknown pack-size transformation."
+      },
+      {
+        "source": "s6",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "The destination has no receiving-exception note field; absent sample contents do not establish a substitute."
+      }
+    ]
+  },
+  {
+    "id": "product_03",
+    "domain": "product_import",
+    "title": "Apparel variant availability",
+    "tags": [
+      "renamed",
+      "misleading_qualifiers",
+      "constant_samples",
+      "low_cardinality",
+      "unequal_sizes"
+    ],
+    "rationale": "Clothing variants carry a style identifier, color, size and barcode. A backorder permission is not an in-stock availability flag, even when both are Boolean. Original synthetic scenario; all identifiers and values were invented for this corpus.",
+    "source": [
+      {
+        "id": "s1",
+        "name": "style_num",
+        "data_type": "Text",
+        "concept": "parent apparel style identifier",
+        "samples": [
+          "ST-201",
+          "ST-205",
+          "ST-208"
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "hue",
+        "data_type": "Text",
+        "concept": "variant color name",
+        "samples": [
+          "Amber",
+          "Moss",
+          "Slate"
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "size_label",
+        "data_type": "Text",
+        "concept": "garment size designation",
+        "samples": [
+          "S",
+          "M",
+          "L"
+        ]
+      },
+      {
+        "id": "s4",
+        "name": "ean",
+        "data_type": "Text",
+        "concept": "variant barcode identifier",
+        "samples": [
+          "9900000000101",
+          "9900000000102",
+          "9900000000103"
+        ]
+      },
+      {
+        "id": "s5",
+        "name": "backorder_allowed",
+        "data_type": "Boolean",
+        "concept": "customer may order when stock is exhausted",
+        "samples": [
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "id": "s6",
+        "name": "discontinued",
+        "data_type": "Boolean",
+        "concept": "variant withdrawn from future sale",
+        "samples": [
+          false,
+          false,
+          false
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "parent_style",
+        "data_type": "Text",
+        "concept": "parent apparel style identifier",
+        "samples": [
+          "ST-208",
+          "ST-201",
+          "ST-205"
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "colour",
+        "data_type": "Text",
+        "concept": "variant color name",
+        "samples": [
+          "Slate",
+          "Amber",
+          "Moss"
+        ]
+      },
+      {
+        "id": "t3",
+        "name": "size",
+        "data_type": "Text",
+        "concept": "garment size designation",
+        "samples": [
+          "L",
+          "S",
+          "M"
+        ]
+      },
+      {
+        "id": "t4",
+        "name": "barcode",
+        "data_type": "Text",
+        "concept": "variant barcode identifier",
+        "samples": [
+          "9900000000103",
+          "9900000000101",
+          "9900000000102"
+        ]
+      },
+      {
+        "id": "t5",
+        "name": "available",
+        "data_type": "Boolean",
+        "concept": "variant has stock ready to ship",
+        "samples": [
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "id": "t6",
+        "name": "is_discontinued",
+        "data_type": "Boolean",
+        "concept": "variant withdrawn from future sale",
+        "samples": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "t7",
+        "name": "catalog_season",
+        "data_type": "Text",
+        "concept": "fashion season identifier",
+        "samples": [
+          "F26",
+          "F26",
+          "F26"
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "match",
+        "targets": [
+          "t1"
+        ],
+        "rationale": "Both refer to the parent style, not the individual barcode."
+      },
+      {
+        "source": "s2",
+        "kind": "match",
+        "targets": [
+          "t2"
+        ],
+        "rationale": "Both record the variant color."
+      },
+      {
+        "source": "s3",
+        "kind": "match",
+        "targets": [
+          "t3"
+        ],
+        "rationale": "Both use the same garment-size designation."
+      },
+      {
+        "source": "s4",
+        "kind": "match",
+        "targets": [
+          "t4"
+        ],
+        "rationale": "Both identify the individual variant using the same barcode."
+      },
+      {
+        "source": "s5",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Backorder policy and immediate stock availability are independent facts; matching constant true samples are not evidence of equivalence."
+      },
+      {
+        "source": "s6",
+        "kind": "match",
+        "targets": [
+          "t6"
+        ],
+        "rationale": "Both use true to mean the variant has been discontinued."
+      }
+    ]
+  },
+  {
+    "id": "product_04",
+    "domain": "product_import",
+    "title": "Spanish-language book catalog",
+    "tags": [
+      "unicode_names",
+      "renamed",
+      "reordered",
+      "unequal_sizes"
+    ],
+    "rationale": "A small publisher supplies a Spanish-headed catalog to an English-headed books table. Titles and author names are Unicode text; the destination also has an unrelated e-book checksum. Original synthetic scenario; all identifiers and values were invented for this corpus.",
+    "source": [
+      {
+        "id": "s1",
+        "name": "ISBN13",
+        "data_type": "Text",
+        "concept": "publisher book edition identifier",
+        "samples": [
+          "9900000000200",
+          "9900000000217",
+          "9900000000224"
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "Título",
+        "data_type": "Text",
+        "concept": "published book title",
+        "samples": [
+          "El jardín de cobre",
+          "Nubes de papel",
+          "La brújula verde"
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "Autor",
+        "data_type": "Text",
+        "concept": "credited author display name",
+        "samples": [
+          "Lina Bosque",
+          "Ivo Salcedo",
+          "Mara Rincón"
+        ]
+      },
+      {
+        "id": "s4",
+        "name": "Nº_páginas",
+        "data_type": "Integer",
+        "concept": "printed page count",
+        "samples": [
+          184,
+          236,
+          152
+        ]
+      },
+      {
+        "id": "s5",
+        "name": "FechaPublicación",
+        "data_type": "Date",
+        "concept": "publication calendar date",
+        "samples": [
+          "2025-03-06",
+          "2025-04-12",
+          "2025-06-20"
+        ]
+      },
+      {
+        "id": "s6",
+        "name": "Disponible",
+        "data_type": "Boolean",
+        "concept": "edition enabled for sale",
+        "samples": [
+          true,
+          false,
+          true
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "page_count",
+        "data_type": "Integer",
+        "concept": "printed page count",
+        "samples": [
+          152,
+          184,
+          236
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "author_name",
+        "data_type": "Text",
+        "concept": "credited author display name",
+        "samples": [
+          "Mara Rincón",
+          "Lina Bosque",
+          "Ivo Salcedo"
+        ]
+      },
+      {
+        "id": "t3",
+        "name": "isbn_13",
+        "data_type": "Text",
+        "concept": "publisher book edition identifier",
+        "samples": [
+          "9900000000224",
+          "9900000000200",
+          "9900000000217"
+        ]
+      },
+      {
+        "id": "t4",
+        "name": "title",
+        "data_type": "Text",
+        "concept": "published book title",
+        "samples": [
+          "La brújula verde",
+          "El jardín de cobre",
+          "Nubes de papel"
+        ]
+      },
+      {
+        "id": "t5",
+        "name": "publication_date",
+        "data_type": "Date",
+        "concept": "publication calendar date",
+        "samples": [
+          "2025-06-20",
+          "2025-03-06",
+          "2025-04-12"
+        ]
+      },
+      {
+        "id": "t6",
+        "name": "sale_enabled",
+        "data_type": "Boolean",
+        "concept": "edition enabled for sale",
+        "samples": [
+          true,
+          true,
+          false
+        ]
+      },
+      {
+        "id": "t7",
+        "name": "ebook_checksum",
+        "data_type": "Binary",
+        "concept": "digest of an e-book file"
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "match",
+        "targets": [
+          "t3"
+        ],
+        "rationale": "Both carry the same book-edition identifier; the sample strings are synthetic identifiers, not claimed valid ISBNs."
+      },
+      {
+        "source": "s2",
+        "kind": "match",
+        "targets": [
+          "t4"
+        ],
+        "rationale": "Titulo and title describe the same published title."
+      },
+      {
+        "source": "s3",
+        "kind": "match",
+        "targets": [
+          "t2"
+        ],
+        "rationale": "Both contain the credited author display name."
+      },
+      {
+        "source": "s4",
+        "kind": "match",
+        "targets": [
+          "t1"
+        ],
+        "rationale": "Both are printed page counts."
+      },
+      {
+        "source": "s5",
+        "kind": "match",
+        "targets": [
+          "t5"
+        ],
+        "rationale": "Both are publication dates, not import timestamps."
+      },
+      {
+        "source": "s6",
+        "kind": "match",
+        "targets": [
+          "t6"
+        ],
+        "rationale": "Both indicate that the edition is enabled for sale."
+      }
+    ]
+  },
+  {
+    "id": "product_05",
+    "domain": "product_import",
+    "title": "Supplier price book with duplicate headings",
+    "tags": [
+      "duplicate_names",
+      "renamed",
+      "assignment_collision",
+      "unequal_sizes"
+    ],
+    "rationale": "A supplier spreadsheet exports both purchase cost and suggested retail price under the heading price. Stable field IDs preserve the two roles; distinct observed values support their independent destinations. Original synthetic scenario; all identifiers and values were invented for this corpus.",
+    "source": [
+      {
+        "id": "s1",
+        "name": "vendor_item",
+        "data_type": "Text",
+        "concept": "supplier item identifier",
+        "samples": [
+          "VI-311",
+          "VI-324",
+          "VI-336"
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "price",
+        "data_type": "Decimal",
+        "concept": "merchant purchase cost per unit",
+        "samples": [
+          8.5,
+          11,
+          16
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "price",
+        "data_type": "Decimal",
+        "concept": "suggested retail selling price per unit",
+        "samples": [
+          12,
+          17,
+          25
+        ]
+      },
+      {
+        "id": "s4",
+        "name": "currency",
+        "data_type": "Text",
+        "concept": "currency shared by cost and suggested price",
+        "samples": [
+          "CAD",
+          "CAD",
+          "CAD"
+        ]
+      },
+      {
+        "id": "s5",
+        "name": "rate_date",
+        "data_type": "Date",
+        "concept": "date this price-book revision takes effect",
+        "samples": [
+          "2026-01-15",
+          "2026-02-15",
+          "2026-03-15"
+        ]
+      },
+      {
+        "id": "s6",
+        "name": "minimum_order",
+        "data_type": "Integer",
+        "concept": "minimum order quantity in individual units",
+        "samples": [
+          6,
+          12,
+          24
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "item_code",
+        "data_type": "Text",
+        "concept": "supplier item identifier",
+        "samples": [
+          "VI-336",
+          "VI-311",
+          "VI-324"
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "price",
+        "data_type": "Decimal",
+        "concept": "suggested retail selling price per unit",
+        "samples": [
+          25,
+          12,
+          17
+        ]
+      },
+      {
+        "id": "t3",
+        "name": "price",
+        "data_type": "Decimal",
+        "concept": "merchant purchase cost per unit",
+        "samples": [
+          16,
+          8.5,
+          11
+        ]
+      },
+      {
+        "id": "t4",
+        "name": "currency_code",
+        "data_type": "Text",
+        "concept": "currency shared by cost and suggested price",
+        "samples": [
+          "CAD",
+          "CAD",
+          "CAD"
+        ]
+      },
+      {
+        "id": "t5",
+        "name": "pricing_date",
+        "data_type": "Date",
+        "concept": "date this price-book revision takes effect",
+        "samples": [
+          "2026-03-15",
+          "2026-01-15",
+          "2026-02-15"
+        ]
+      },
+      {
+        "id": "t6",
+        "name": "moq",
+        "data_type": "Integer",
+        "concept": "minimum order quantity in individual units",
+        "samples": [
+          24,
+          6,
+          12
+        ]
+      },
+      {
+        "id": "t7",
+        "name": "tier_name",
+        "data_type": "Text",
+        "concept": "supplier discount tier label",
+        "samples": [
+          "standard",
+          "standard",
+          "standard"
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "match",
+        "targets": [
+          "t1"
+        ],
+        "rationale": "Both identify the supplier catalog item."
+      },
+      {
+        "source": "s2",
+        "kind": "match",
+        "targets": [
+          "t3"
+        ],
+        "rationale": "The source purchase-cost column corresponds to the destination purchase-cost column, despite duplicated display headings."
+      },
+      {
+        "source": "s3",
+        "kind": "match",
+        "targets": [
+          "t2"
+        ],
+        "rationale": "The source suggested retail column corresponds to the destination suggested retail column; purchase cost is a different fact."
+      },
+      {
+        "source": "s4",
+        "kind": "match",
+        "targets": [
+          "t4"
+        ],
+        "rationale": "Both carry the common pricing currency."
+      },
+      {
+        "source": "s5",
+        "kind": "match",
+        "targets": [
+          "t5"
+        ],
+        "rationale": "Both record price-book effective dates."
+      },
+      {
+        "source": "s6",
+        "kind": "match",
+        "targets": [
+          "t6"
+        ],
+        "rationale": "Both are minimum quantities measured in individual units."
+      }
+    ]
+  },
+  {
+    "id": "product_06",
+    "domain": "product_import",
+    "title": "Parcel manifest and label workflow",
+    "tags": [
+      "incompatible_types",
+      "misleading_qualifiers",
+      "renamed"
+    ],
+    "rationale": "Packing manifests include a text label-workflow state. The archive column also named label contains document bytes, not workflow status. Parcel weight includes packaging. Original synthetic scenario; all identifiers and values were invented for this corpus.",
+    "source": [
+      {
+        "id": "s1",
+        "name": "parcel_id",
+        "data_type": "Text",
+        "concept": "packed parcel identifier",
+        "samples": [
+          "PK-441",
+          "PK-448",
+          "PK-459"
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "label",
+        "data_type": "Text",
+        "concept": "shipping label print-workflow state",
+        "samples": [
+          "queued",
+          "printed",
+          "reprint"
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "measured_weight_kg",
+        "data_type": "Float",
+        "concept": "gross packed parcel weight in kilograms",
+        "samples": [
+          1.25,
+          2.5,
+          0.75
+        ]
+      },
+      {
+        "id": "s4",
+        "name": "sealed_at",
+        "data_type": "Timestamp",
+        "concept": "instant parcel packing was completed",
+        "samples": [
+          "2026-03-10T09:05:00Z",
+          "2026-03-10T09:12:00Z",
+          "2026-03-10T09:18:00Z"
+        ]
+      },
+      {
+        "id": "s5",
+        "name": "fragile",
+        "data_type": "Boolean",
+        "concept": "parcel requires fragile handling",
+        "samples": [
+          true,
+          false,
+          true
+        ]
+      },
+      {
+        "id": "s6",
+        "name": "tracking_code",
+        "data_type": "Text",
+        "concept": "carrier tracking identifier",
+        "samples": [
+          "TRK-X51",
+          "TRK-X52",
+          "TRK-X53"
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "package_id",
+        "data_type": "Text",
+        "concept": "packed parcel identifier",
+        "samples": [
+          "PK-459",
+          "PK-441",
+          "PK-448"
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "label",
+        "data_type": "Binary",
+        "concept": "binary image of the shipping label"
+      },
+      {
+        "id": "t3",
+        "name": "package_weight_kg",
+        "data_type": "Float",
+        "concept": "gross packed parcel weight in kilograms",
+        "samples": [
+          0.75,
+          1.25,
+          2.5
+        ]
+      },
+      {
+        "id": "t4",
+        "name": "packed_at",
+        "data_type": "Timestamp",
+        "concept": "instant parcel packing was completed",
+        "samples": [
+          "2026-03-10T09:18:00Z",
+          "2026-03-10T09:05:00Z",
+          "2026-03-10T09:12:00Z"
+        ]
+      },
+      {
+        "id": "t5",
+        "name": "fragile_handling",
+        "data_type": "Boolean",
+        "concept": "parcel requires fragile handling",
+        "samples": [
+          true,
+          true,
+          false
+        ]
+      },
+      {
+        "id": "t6",
+        "name": "carrier_reference",
+        "data_type": "Text",
+        "concept": "carrier tracking identifier",
+        "samples": [
+          "TRK-X53",
+          "TRK-X51",
+          "TRK-X52"
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "match",
+        "targets": [
+          "t1"
+        ],
+        "rationale": "Both are the packed-parcel identity."
+      },
+      {
+        "source": "s2",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Text print-workflow states do not represent the binary label image, and there is no workflow-state destination."
+      },
+      {
+        "source": "s3",
+        "kind": "match",
+        "targets": [
+          "t3"
+        ],
+        "rationale": "Both are gross packed-parcel kilograms, including the same packaging scope."
+      },
+      {
+        "source": "s4",
+        "kind": "match",
+        "targets": [
+          "t4"
+        ],
+        "rationale": "Both record packing completion instants."
+      },
+      {
+        "source": "s5",
+        "kind": "match",
+        "targets": [
+          "t5"
+        ],
+        "rationale": "Both specify the same fragile handling requirement."
+      },
+      {
+        "source": "s6",
+        "kind": "match",
+        "targets": [
+          "t6"
+        ],
+        "rationale": "Both carry the carrier tracking identifier."
+      }
+    ]
+  },
+  {
+    "id": "product_07",
+    "domain": "product_import",
+    "title": "Wholesale feed with retail-currency distractors",
+    "tags": [
+      "misleading_qualifiers",
+      "constant_samples",
+      "low_cardinality",
+      "unequal_sizes"
+    ],
+    "rationale": "A wholesale feed quotes tax-exclusive local-currency prices. The destination price is a tax-inclusive consumer USD price; the destination base currency belongs to platform accounting, not this quote. Original synthetic scenario; all identifiers and values were invented for this corpus.",
+    "source": [
+      {
+        "id": "s1",
+        "name": "variant_id",
+        "data_type": "Text",
+        "concept": "saleable variant identifier",
+        "samples": [
+          "VR-511",
+          "VR-523",
+          "VR-537"
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "price",
+        "data_type": "Decimal",
+        "concept": "tax-exclusive wholesale price in local quote currency",
+        "samples": [
+          10,
+          20,
+          30
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "currency",
+        "data_type": "Text",
+        "concept": "currency of the wholesale quote",
+        "samples": [
+          "USD",
+          "USD",
+          "USD"
+        ]
+      },
+      {
+        "id": "s4",
+        "name": "channel",
+        "data_type": "Text",
+        "concept": "wholesale sales-channel label",
+        "samples": [
+          "B2B",
+          "B2B",
+          "B2B"
+        ]
+      },
+      {
+        "id": "s5",
+        "name": "valid_from",
+        "data_type": "Date",
+        "concept": "wholesale quote effective date",
+        "samples": [
+          "2026-05-01",
+          "2026-05-08",
+          "2026-05-15"
+        ]
+      },
+      {
+        "id": "s6",
+        "name": "promotion_code",
+        "data_type": "Text",
+        "concept": "promotion identifier attached to this quote",
+        "samples": [
+          "PR-H1",
+          "PR-H2",
+          "PR-H3"
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "sku_variant_id",
+        "data_type": "Text",
+        "concept": "saleable variant identifier",
+        "samples": [
+          "VR-537",
+          "VR-511",
+          "VR-523"
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "price",
+        "data_type": "Decimal",
+        "concept": "tax-inclusive consumer price denominated in USD",
+        "samples": [
+          10,
+          20,
+          30
+        ]
+      },
+      {
+        "id": "t3",
+        "name": "base_currency",
+        "data_type": "Text",
+        "concept": "platform accounting base currency",
+        "samples": [
+          "USD",
+          "USD",
+          "USD"
+        ]
+      },
+      {
+        "id": "t4",
+        "name": "sales_channel",
+        "data_type": "Text",
+        "concept": "wholesale sales-channel label",
+        "samples": [
+          "B2B",
+          "B2B",
+          "B2B"
+        ]
+      },
+      {
+        "id": "t5",
+        "name": "wholesale_effective_date",
+        "data_type": "Date",
+        "concept": "wholesale quote effective date",
+        "samples": [
+          "2026-05-15",
+          "2026-05-01",
+          "2026-05-08"
+        ]
+      },
+      {
+        "id": "t6",
+        "name": "promotion_id",
+        "data_type": "Text",
+        "concept": "promotion identifier attached to this quote",
+        "samples": [
+          "PR-H3",
+          "PR-H1",
+          "PR-H2"
+        ]
+      },
+      {
+        "id": "t7",
+        "name": "consumer_tax_rate",
+        "data_type": "Decimal",
+        "concept": "consumer tax rate applied in the retail market",
+        "samples": [
+          0.05,
+          0.1,
+          0.2
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "match",
+        "targets": [
+          "t1"
+        ],
+        "rationale": "Both identify the same saleable variant."
+      },
+      {
+        "source": "s2",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Wholesale tax-exclusive local price is not consumer tax-inclusive USD price; coincidental equal numbers do not erase price scope."
+      },
+      {
+        "source": "s3",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Quote currency and platform base currency are separate facts even where these samples all happen to be USD."
+      },
+      {
+        "source": "s4",
+        "kind": "match",
+        "targets": [
+          "t4"
+        ],
+        "rationale": "Both record this quote sales channel; constant samples neither strengthen nor invalidate the semantic equivalence."
+      },
+      {
+        "source": "s5",
+        "kind": "match",
+        "targets": [
+          "t5"
+        ],
+        "rationale": "Both specify when the wholesale quote becomes effective."
+      },
+      {
+        "source": "s6",
+        "kind": "match",
+        "targets": [
+          "t6"
+        ],
+        "rationale": "Both are the same attached promotion identifier."
+      }
+    ]
+  },
+  {
+    "id": "product_08",
+    "domain": "product_import",
+    "title": "Opaque catalog export with an undocumented flag",
+    "tags": [
+      "opaque_identifiers",
+      "null_heavy",
+      "insufficient_samples",
+      "ambiguous",
+      "incompatible_types",
+      "unequal_sizes"
+    ],
+    "rationale": "A legacy export lost its headers. The first four columns have documented identities and sample anchors. The meaning of its all-null flag could be either export visibility or search indexing, and neither meaning is established. Original synthetic scenario; all identifiers and values were invented for this corpus.",
+    "source": [
+      {
+        "id": "s1",
+        "name": "c01",
+        "data_type": "Text",
+        "concept": "merchant product identifier",
+        "samples": [
+          "LEG-Q11",
+          "LEG-Q22",
+          "LEG-Q33"
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "c02",
+        "data_type": "Text",
+        "concept": "public catalog title",
+        "samples": [
+          "Birch bowl",
+          "Linen cord",
+          "Clay scoop"
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "c03",
+        "data_type": "Integer",
+        "concept": "available physical inventory units",
+        "samples": [
+          17,
+          29,
+          43
+        ]
+      },
+      {
+        "id": "s4",
+        "name": "c04",
+        "data_type": "Date",
+        "concept": "first catalog publication date",
+        "samples": [
+          "2024-08-02",
+          "2024-09-04",
+          "2024-10-06"
+        ]
+      },
+      {
+        "id": "s5",
+        "name": "c05",
+        "data_type": "Unknown",
+        "concept": "undocumented catalog flag: export visibility or search indexing",
+        "samples": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "id": "s6",
+        "name": "c06",
+        "data_type": "Binary",
+        "concept": "opaque legacy export checksum"
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "product_key",
+        "data_type": "Text",
+        "concept": "merchant product identifier",
+        "samples": [
+          "LEG-Q33",
+          "LEG-Q11",
+          "LEG-Q22"
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "catalog_title",
+        "data_type": "Text",
+        "concept": "public catalog title",
+        "samples": [
+          "Clay scoop",
+          "Birch bowl",
+          "Linen cord"
+        ]
+      },
+      {
+        "id": "t3",
+        "name": "available_units",
+        "data_type": "Integer",
+        "concept": "available physical inventory units",
+        "samples": [
+          43,
+          17,
+          29
+        ]
+      },
+      {
+        "id": "t4",
+        "name": "published_on",
+        "data_type": "Date",
+        "concept": "first catalog publication date",
+        "samples": [
+          "2024-10-06",
+          "2024-08-02",
+          "2024-09-04"
+        ]
+      },
+      {
+        "id": "t5",
+        "name": "export_visible",
+        "data_type": "Boolean",
+        "concept": "product included in external catalog exports",
+        "samples": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "id": "t6",
+        "name": "search_indexed",
+        "data_type": "Boolean",
+        "concept": "product included in the search index",
+        "samples": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "id": "t7",
+        "name": "import_note",
+        "data_type": "Text",
+        "concept": "operator note about the migration",
+        "samples": []
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "match",
+        "targets": [
+          "t1"
+        ],
+        "rationale": "Migration documentation establishes the product identity; original samples provide anchors despite the opaque header."
+      },
+      {
+        "source": "s2",
+        "kind": "match",
+        "targets": [
+          "t2"
+        ],
+        "rationale": "Migration documentation establishes the display-title role."
+      },
+      {
+        "source": "s3",
+        "kind": "match",
+        "targets": [
+          "t3"
+        ],
+        "rationale": "Both represent available inventory units."
+      },
+      {
+        "source": "s4",
+        "kind": "match",
+        "targets": [
+          "t4"
+        ],
+        "rationale": "Both represent first publication dates."
+      },
+      {
+        "source": "s5",
+        "kind": "ambiguous",
+        "targets": [
+          "t5",
+          "t6"
+        ],
+        "rationale": "No header, non-null value, or documentation distinguishes export visibility from search indexing; an automatic selection should abstain."
+      },
+      {
+        "source": "s6",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "No destination stores the binary legacy-export checksum; an empty text note is not an equivalent field."
+      }
+    ]
+  },
+  {
+    "id": "product_09",
+    "domain": "product_import",
+    "title": "Catalog versus unrelated promotion-job telemetry",
+    "tags": [
+      "unrelated_schemas",
+      "misleading_qualifiers",
+      "constant_samples",
+      "low_cardinality"
+    ],
+    "rationale": "The source describes merchandise while the target describes jobs in a promotion scheduler. Overlapping words, types and small sample values refer to different entities and events. Original synthetic scenario; all identifiers and values were invented for this corpus.",
+    "source": [
+      {
+        "id": "s1",
+        "name": "item_id",
+        "data_type": "Text",
+        "concept": "merchant product identifier",
+        "samples": [
+          "IT-701",
+          "IT-702",
+          "IT-703"
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "name",
+        "data_type": "Text",
+        "concept": "merchandise display name",
+        "samples": [
+          "Reed mat",
+          "Stone rest",
+          "Maple hook"
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "amount",
+        "data_type": "Decimal",
+        "concept": "retail product unit price",
+        "samples": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "id": "s4",
+        "name": "item_count",
+        "data_type": "Integer",
+        "concept": "physical units in stock",
+        "samples": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "id": "s5",
+        "name": "active",
+        "data_type": "Boolean",
+        "concept": "product enabled for sale",
+        "samples": [
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "id": "s6",
+        "name": "launch_date",
+        "data_type": "Date",
+        "concept": "date product was introduced",
+        "samples": [
+          "2026-06-01",
+          "2026-06-02",
+          "2026-06-03"
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "item_id",
+        "data_type": "Text",
+        "concept": "promotion scheduler job identifier",
+        "samples": [
+          "JOB-801",
+          "JOB-802",
+          "JOB-803"
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "name",
+        "data_type": "Text",
+        "concept": "scheduler job display name",
+        "samples": [
+          "nightly-digest",
+          "offer-prune",
+          "queue-retry"
+        ]
+      },
+      {
+        "id": "t3",
+        "name": "amount",
+        "data_type": "Decimal",
+        "concept": "job CPU seconds consumed",
+        "samples": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "id": "t4",
+        "name": "item_count",
+        "data_type": "Integer",
+        "concept": "promotion messages emitted by a scheduler job",
+        "samples": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "id": "t5",
+        "name": "active",
+        "data_type": "Boolean",
+        "concept": "job worker heartbeat is currently healthy",
+        "samples": [
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "id": "t6",
+        "name": "launch_date",
+        "data_type": "Date",
+        "concept": "date a scheduler job instance started",
+        "samples": [
+          "2026-06-01",
+          "2026-06-02",
+          "2026-06-03"
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Product identity does not correspond to scheduler job identity."
+      },
+      {
+        "source": "s2",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Merchandise names and scheduler job names describe unrelated entities."
+      },
+      {
+        "source": "s3",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Money per merchandise unit is not consumed CPU time, even with equal decimal values."
+      },
+      {
+        "source": "s4",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Physical stock quantities are not counts of sent messages."
+      },
+      {
+        "source": "s5",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Sale enablement and worker liveness are independent Boolean facts."
+      },
+      {
+        "source": "s6",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Product introduction and scheduler execution are different events despite overlapping dates."
+      }
+    ]
+  },
+  {
+    "id": "product_10",
+    "domain": "product_import",
+    "title": "Lot aliases competing for one canonical column",
+    "tags": [
+      "duplicate_source_semantics",
+      "assignment_collision",
+      "ambiguous",
+      "renamed",
+      "insufficient_samples"
+    ],
+    "rationale": "Two legacy columns are exact aliases for the same supplier lot and legitimately share one destination. The unqualified location column could mean either the picking or overflow bin. A one-to-one policy cannot retain both lot aliases. Original synthetic scenario; all identifiers and values were invented for this corpus.",
+    "source": [
+      {
+        "id": "s1",
+        "name": "batch_id",
+        "data_type": "Text",
+        "concept": "supplier production lot identifier",
+        "samples": [
+          "LOT-M12",
+          "LOT-M24",
+          "LOT-M36"
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "LotNumber",
+        "data_type": "Text",
+        "concept": "supplier production lot identifier",
+        "samples": [
+          "LOT-M12",
+          "LOT-M24",
+          "LOT-M36"
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "product_id",
+        "data_type": "Text",
+        "concept": "merchant product identifier",
+        "samples": [
+          "P-901",
+          "P-902",
+          "P-903"
+        ]
+      },
+      {
+        "id": "s4",
+        "name": "location",
+        "data_type": "Text",
+        "concept": "undocumented location role: picking bin or overflow bin",
+        "samples": []
+      },
+      {
+        "id": "s5",
+        "name": "expiration_date",
+        "data_type": "Date",
+        "concept": "supplier lot expiration date",
+        "samples": [
+          "2027-01-31",
+          "2027-02-28",
+          "2027-03-31"
+        ]
+      },
+      {
+        "id": "s6",
+        "name": "reserved_count",
+        "data_type": "Integer",
+        "concept": "individual units reserved for orders",
+        "samples": [
+          4,
+          7,
+          9
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "canonical_lot_id",
+        "data_type": "Text",
+        "concept": "supplier production lot identifier",
+        "samples": [
+          "LOT-M36",
+          "LOT-M12",
+          "LOT-M24"
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "product_id",
+        "data_type": "Text",
+        "concept": "merchant product identifier",
+        "samples": [
+          "P-903",
+          "P-901",
+          "P-902"
+        ]
+      },
+      {
+        "id": "t3",
+        "name": "picking_bin",
+        "data_type": "Text",
+        "concept": "active order-picking bin identifier",
+        "samples": []
+      },
+      {
+        "id": "t4",
+        "name": "overflow_bin",
+        "data_type": "Text",
+        "concept": "overflow storage bin identifier",
+        "samples": []
+      },
+      {
+        "id": "t5",
+        "name": "expiry_on",
+        "data_type": "Date",
+        "concept": "supplier lot expiration date",
+        "samples": [
+          "2027-03-31",
+          "2027-01-31",
+          "2027-02-28"
+        ]
+      },
+      {
+        "id": "t6",
+        "name": "reserved_units",
+        "data_type": "Integer",
+        "concept": "individual units reserved for orders",
+        "samples": [
+          9,
+          4,
+          7
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "match",
+        "targets": [
+          "t1"
+        ],
+        "rationale": "The batch_id column is one documented alias of the supplier lot identifier."
+      },
+      {
+        "source": "s2",
+        "kind": "match",
+        "targets": [
+          "t1"
+        ],
+        "rationale": "LotNumber is a second documented alias of the same lot identifier; this intentional shared target bounds one-to-one achievable recall."
+      },
+      {
+        "source": "s3",
+        "kind": "match",
+        "targets": [
+          "t2"
+        ],
+        "rationale": "Both identify the same merchant product."
+      },
+      {
+        "source": "s4",
+        "kind": "ambiguous",
+        "targets": [
+          "t3",
+          "t4"
+        ],
+        "rationale": "Neither empty samples nor the generic location header establish picking versus overflow role; both remain alternatives and selection must abstain."
+      },
+      {
+        "source": "s5",
+        "kind": "match",
+        "targets": [
+          "t5"
+        ],
+        "rationale": "Both represent the lot expiration date."
+      },
+      {
+        "source": "s6",
+        "kind": "match",
+        "targets": [
+          "t6"
+        ],
+        "rationale": "Both count order-reserved individual units."
+      }
+    ]
+  }
+]

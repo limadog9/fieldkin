@@ -1,0 +1,23 @@
+{
+  "protocol_version": "1.0.0",
+  "corpus_version": "1.0.0",
+  "baseline_commit": "7c4da25b12998a3a92f7a36c9b84477ffcbe03ae",
+  "generator_seed": 20261003,
+  "license": "MIT OR Apache-2.0",
+  "attribution": "Copyright 2026 Fieldkin contributors",
+  "provenance": "Original synthetic schema families authored for Fieldkin; no external datasets or personal records.",
+  "holdout_families": ["crm_04", "crm_09", "finance_04", "finance_09", "product_04", "product_09", "telemetry_04", "telemetry_09"],
+  "variants": ["base", "reordered", "without_samples", "null_heavy", "separator_noise"],
+  "min_score": 0.7,
+  "ambiguity_margin": 0.08,
+  "max_candidates": 5,
+  "abstain_on_ambiguity": true,
+  "weights": {"name": 0.65, "type": 0.2, "samples": 0.15},
+  "sample_min_non_null": 3,
+  "aliases": {"amt": "amount", "trans": "transaction"},
+  "limits": {"max_fields":128,"max_pairs":16384,"max_signal_evaluations":65536,"max_explanation_bytes":16777216,"max_name_bytes":256,"max_samples_per_field":256,"max_sample_bytes":1024,"max_total_sample_bytes":8388608},
+  "models": ["combined", "name_only", "no_name", "no_samples", "no_type", "no_type_veto"],
+  "assignment_modes": ["independent", "one_to_one"],
+  "quality_targets": {"overall_precision":0.95,"unique_coverage":0.6,"candidate_recall_at_5":0.9},
+  "ablation_policy": "Preserve original signal weight scale with absent-evidence placeholders. no_type also disables the type veto; no_type_veto retains the type score. name_only uses name weight 1 and no type veto. No threshold tuning."
+}
