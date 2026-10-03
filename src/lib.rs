@@ -1,3 +1,10 @@
-//! Fieldkin: an independent Rust library for explainable schema matching.
-//!
-//! This bootstrap establishes CI and protected main. Implementation follows in a PR.
+#![doc = include_str!("../README.md")]
+
+mod assignment;
+mod engine;
+mod signals;
+mod types;
+
+pub use engine::{MatchEngine, WeightedMatcher};
+pub use signals::{normalize_name, NameMatcher, SampleMatcher, TypeMatcher};
+pub use types::*;

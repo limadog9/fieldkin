@@ -6,6 +6,21 @@ rust-version = "1.85"
 description = "Explainable, conservative schema matching in memory"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/limadog9/fieldkin"
+keywords = ["schema", "matching", "data", "integration"]
+categories = ["algorithms"]
+readme = "README.md"
+include = ["src/**", "examples/**", "tests/**", "benches/**", "docs/**", "README.md", "LICENSE-*", "THIRD_PARTY.md", "CONTRIBUTING.md", "MAINTAINERS.md", "ROADMAP.md", "Cargo.toml", "Cargo.lock"]
+
+[dependencies]
+strsim = "0.11.1"
+unicode-normalization = "0.1.24"
+
+[dev-dependencies]
+proptest = { version = "=1.6.0", default-features = false, features = ["std"] }
+
+[[bench]]
+name = "matching"
+harness = false
 
 [lints.rust]
 unsafe_code = "forbid"
