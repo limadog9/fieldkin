@@ -152,6 +152,12 @@ including substantial false-proposal rates; the roadmap's precision and coverage
 targets are not yet met. The full reproduction guide is in
 [evaluation/](https://github.com/limadog9/fieldkin/tree/main/evaluation).
 
+Stage 2 prepares built-in names and samples once per field within each call.
+The [performance report](docs/stage2-performance.md) records five-run before/after
+measurements, allocation costs and the slower report-budget rejection path.
+The frozen development decisions remain identical; performance work does not
+change the matching-quality limitations above.
+
 ## License
 
 Licensed under either [MIT](LICENSE-MIT) or [Apache License 2.0](LICENSE-APACHE),

@@ -1,0 +1,20 @@
+{
+  "command": "cargo +1.85.0 test --locked --release -p fieldkin --lib signals::tests::prepare_original_128_cost -- --ignored --exact --nocapture",
+  "candidate_commit": "0c8adfd",
+  "independent_processes": 1,
+  "warmup_calls": 5,
+  "batches": 5,
+  "calls_per_batch": 100,
+  "microseconds_per_call": [
+    531.875,
+    514.876,
+    725.779,
+    579.05,
+    493.646
+  ],
+  "median_us": 531.875,
+  "min_us": 493.646,
+  "max_us": 725.779,
+  "scope": "Built-in name/sample preparation and drop for 256 fields; validation and engine bookkeeping excluded; exploratory component measurement only",
+  "test_binary_sha256": "f707332bdce154acf4171eca017644cc03337c47c965cef72f558a23bc201479"
+}
