@@ -1,0 +1,1484 @@
+[
+  {
+    "id": "evidence_01",
+    "domain": "stage3_development",
+    "title": "Exact integer event identifiers",
+    "tags": [
+      "exact_integer",
+      "adjacent_values"
+    ],
+    "source": [
+      {
+        "id": "s1",
+        "name": "event_key",
+        "data_type": "Integer",
+        "concept": "Current event identity",
+        "samples": [
+          {
+            "integer": "9007199254740992"
+          },
+          {
+            "integer": "9007199254740994"
+          },
+          {
+            "integer": "9007199254740996"
+          },
+          {
+            "integer": "9007199254740998"
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "batch_key",
+        "data_type": "Integer",
+        "concept": "Batch identity",
+        "samples": [
+          {
+            "integer": "9223372036854775810"
+          },
+          {
+            "integer": "9223372036854775811"
+          },
+          {
+            "integer": "9223372036854775812"
+          }
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "event_key",
+        "data_type": "Integer",
+        "concept": "Current event identity",
+        "samples": [
+          {
+            "integer": "9007199254740992"
+          },
+          {
+            "integer": "9007199254740994"
+          },
+          {
+            "integer": "9007199254740996"
+          },
+          {
+            "integer": "9007199254740998"
+          }
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "event_key",
+        "data_type": "Integer",
+        "concept": "Other event identity",
+        "samples": [
+          {
+            "integer": "9007199254740993"
+          },
+          {
+            "integer": "9007199254740995"
+          },
+          {
+            "integer": "9007199254740997"
+          },
+          {
+            "integer": "9007199254740999"
+          }
+        ]
+      },
+      {
+        "id": "t3",
+        "name": "batch_key",
+        "data_type": "Integer",
+        "concept": "Batch identity",
+        "samples": [
+          {
+            "integer": "9223372036854775810"
+          },
+          {
+            "integer": "9223372036854775811"
+          },
+          {
+            "integer": "9223372036854775812"
+          }
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "match",
+        "targets": [
+          "t1"
+        ],
+        "rationale": "Both schemas describe current event identities; adjacent other-event IDs are different facts."
+      },
+      {
+        "source": "s2",
+        "kind": "match",
+        "targets": [
+          "t3"
+        ],
+        "rationale": "Exact identifiers above signed 64-bit range denote the same batches."
+      }
+    ],
+    "rationale": "Distinct IDs must remain distinguishable beyond binary64 integer precision. Duplicate target names are intentional."
+  },
+  {
+    "id": "evidence_02",
+    "domain": "stage3_development",
+    "title": "Exact financial decimal representations",
+    "tags": [
+      "exact_decimal",
+      "scale",
+      "near_values"
+    ],
+    "source": [
+      {
+        "id": "s1",
+        "name": "unit_price",
+        "data_type": "Decimal",
+        "concept": "Unit price",
+        "samples": [
+          {
+            "decimal": {
+              "coefficient": "100000000000000001",
+              "scale": 2
+            }
+          },
+          {
+            "decimal": {
+              "coefficient": "100000000000000003",
+              "scale": 2
+            }
+          },
+          {
+            "decimal": {
+              "coefficient": "100000000000000005",
+              "scale": 2
+            }
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "tax_rate",
+        "data_type": "Decimal",
+        "concept": "Applicable tax rate",
+        "samples": [
+          {
+            "decimal": {
+              "coefficient": "125",
+              "scale": 3
+            }
+          },
+          {
+            "decimal": {
+              "coefficient": "150",
+              "scale": 3
+            }
+          },
+          {
+            "decimal": {
+              "coefficient": "175",
+              "scale": 3
+            }
+          }
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "unit_price",
+        "data_type": "Decimal",
+        "concept": "Unit price",
+        "samples": [
+          {
+            "decimal": {
+              "coefficient": "1000000000000000010",
+              "scale": 3
+            }
+          },
+          {
+            "decimal": {
+              "coefficient": "1000000000000000030",
+              "scale": 3
+            }
+          },
+          {
+            "decimal": {
+              "coefficient": "1000000000000000050",
+              "scale": 3
+            }
+          }
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "unit_price",
+        "data_type": "Decimal",
+        "concept": "Other price tier",
+        "samples": [
+          {
+            "decimal": {
+              "coefficient": "100000000000000002",
+              "scale": 2
+            }
+          },
+          {
+            "decimal": {
+              "coefficient": "100000000000000004",
+              "scale": 2
+            }
+          },
+          {
+            "decimal": {
+              "coefficient": "100000000000000006",
+              "scale": 2
+            }
+          }
+        ]
+      },
+      {
+        "id": "t3",
+        "name": "tax_rate",
+        "data_type": "Decimal",
+        "concept": "Applicable tax rate",
+        "samples": [
+          {
+            "decimal": {
+              "coefficient": "1250",
+              "scale": 4
+            }
+          },
+          {
+            "decimal": {
+              "coefficient": "1500",
+              "scale": 4
+            }
+          },
+          {
+            "decimal": {
+              "coefficient": "1750",
+              "scale": 4
+            }
+          }
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "match",
+        "targets": [
+          "t1"
+        ],
+        "rationale": "Equivalent decimal scales retain the same price values; adjacent cent values belong to another tier."
+      },
+      {
+        "source": "s2",
+        "kind": "match",
+        "targets": [
+          "t3"
+        ],
+        "rationale": "Trailing decimal zeroes change representation, not the tax rate."
+      }
+    ],
+    "rationale": "The same monetary facts may use different exact decimal scales. Floating rounding must not create equality with a neighboring value."
+  },
+  {
+    "id": "evidence_03",
+    "domain": "stage3_development",
+    "title": "Repeated sentinel values",
+    "tags": [
+      "constant_samples",
+      "misleading_names"
+    ],
+    "source": [
+      {
+        "id": "s1",
+        "name": "warehouse",
+        "data_type": "Text",
+        "concept": "Warehouse code in east region",
+        "samples": [
+          "UNKNOWN",
+          "UNKNOWN",
+          "UNKNOWN",
+          "UNKNOWN",
+          "UNKNOWN",
+          "UNKNOWN",
+          "UNKNOWN",
+          "UNKNOWN"
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "status",
+        "data_type": "Text",
+        "concept": "Payment status",
+        "samples": [
+          "NEW",
+          "NEW",
+          "NEW",
+          "NEW",
+          "NEW",
+          "NEW",
+          "NEW",
+          "NEW"
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "quantity",
+        "data_type": "Integer",
+        "concept": "Ordered quantity",
+        "samples": [
+          2,
+          3,
+          5,
+          8,
+          13,
+          21,
+          34,
+          55
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "warehouse",
+        "data_type": "Text",
+        "concept": "Warehouse code in west region",
+        "samples": [
+          "UNKNOWN",
+          "UNKNOWN",
+          "UNKNOWN",
+          "UNKNOWN",
+          "UNKNOWN",
+          "UNKNOWN",
+          "UNKNOWN",
+          "UNKNOWN"
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "status",
+        "data_type": "Text",
+        "concept": "Shipment status",
+        "samples": [
+          "NEW",
+          "NEW",
+          "NEW",
+          "NEW",
+          "NEW",
+          "NEW",
+          "NEW",
+          "NEW"
+        ]
+      },
+      {
+        "id": "t3",
+        "name": "quantity",
+        "data_type": "Integer",
+        "concept": "Ordered quantity",
+        "samples": [
+          2,
+          3,
+          5,
+          8,
+          13,
+          21,
+          34,
+          55
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Identical missing-code sentinels do not make east and west warehouse identities interchangeable."
+      },
+      {
+        "source": "s2",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Payment and shipment lifecycles are separate facts."
+      },
+      {
+        "source": "s3",
+        "kind": "match",
+        "targets": [
+          "t3"
+        ],
+        "rationale": "Quantities refer to the same orders and units."
+      }
+    ],
+    "rationale": "Repeated sentinels can agree perfectly while the underlying fact differs. These facts have no explicit caller hints."
+  },
+  {
+    "id": "evidence_04",
+    "domain": "stage3_development",
+    "title": "Reused boolean columns",
+    "tags": [
+      "boolean",
+      "low_cardinality"
+    ],
+    "source": [
+      {
+        "id": "s1",
+        "name": "flag",
+        "data_type": "Boolean",
+        "concept": "Customer consent",
+        "samples": [
+          true,
+          false,
+          true,
+          true,
+          false,
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "enabled",
+        "data_type": "Boolean",
+        "concept": "Account enabled",
+        "samples": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "subscribed",
+        "data_type": "Boolean",
+        "concept": "Newsletter subscription",
+        "samples": [
+          true,
+          false,
+          true,
+          false,
+          true,
+          false,
+          true,
+          false
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "flag",
+        "data_type": "Boolean",
+        "concept": "Fraud review flag",
+        "samples": [
+          true,
+          false,
+          true,
+          true,
+          false,
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "enabled",
+        "data_type": "Boolean",
+        "concept": "Notification enabled",
+        "samples": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "id": "t3",
+        "name": "subscribed",
+        "data_type": "Boolean",
+        "concept": "Newsletter subscription",
+        "samples": [
+          false,
+          true,
+          false,
+          true,
+          false,
+          true,
+          false,
+          true
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Consent has no target; coinciding boolean samples do not establish fraud-review semantics."
+      },
+      {
+        "source": "s2",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Account and notification settings are different flags."
+      },
+      {
+        "source": "s3",
+        "kind": "match",
+        "targets": [
+          "t3"
+        ],
+        "rationale": "Both subscription fields denote the same fact despite reordered booleans."
+      }
+    ],
+    "rationale": "Boolean domains inherently have at most two distinct values. Distinctness is reliability evidence, not an incompatibility veto."
+  },
+  {
+    "id": "evidence_05",
+    "domain": "stage3_development",
+    "title": "Null-heavy repeated identifiers",
+    "tags": [
+      "null_heavy",
+      "low_cardinality",
+      "identifier"
+    ],
+    "source": [
+      {
+        "id": "s1",
+        "name": "customer_key",
+        "data_type": "Text",
+        "concept": "Customer identity",
+        "samples": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "A7",
+          "A7",
+          "B2",
+          "B2"
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "region_code",
+        "data_type": "Text",
+        "concept": "Billing region",
+        "samples": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "EU",
+          "EU"
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "note",
+        "data_type": "Text",
+        "concept": "Order note",
+        "samples": []
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "customer_id",
+        "data_type": "Text",
+        "concept": "Customer identity",
+        "samples": [
+          "A7",
+          "B2",
+          "A7",
+          "B2",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "region_code",
+        "data_type": "Text",
+        "concept": "Warehouse region",
+        "samples": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "EU",
+          "EU"
+        ]
+      },
+      {
+        "id": "t3",
+        "name": "memo",
+        "data_type": "Text",
+        "concept": "Order note",
+        "samples": null
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "match",
+        "targets": [
+          "t1"
+        ],
+        "rationale": "Customer identity is the same fact but the observed identifier diversity is very small."
+      },
+      {
+        "source": "s2",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Billing and warehouse regions have different scope."
+      },
+      {
+        "source": "s3",
+        "kind": "match",
+        "targets": [
+          "t3"
+        ],
+        "rationale": "The order-note rename is semantically valid even with no observed values."
+      }
+    ],
+    "rationale": "Null count, non-null count and distinct count provide separate constraints; unsupported true renames may remain unmatched."
+  },
+  {
+    "id": "evidence_06",
+    "domain": "stage3_development",
+    "title": "Profiles shared by unrelated facts",
+    "tags": [
+      "profile_false_friend",
+      "same_kind"
+    ],
+    "source": [
+      {
+        "id": "s1",
+        "name": "code",
+        "data_type": "Text",
+        "concept": "Coupon code",
+        "samples": [
+          "CP01",
+          "CP02",
+          "CP03",
+          "CP04",
+          "CP05",
+          "CP06",
+          "CP07",
+          "CP08"
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "day",
+        "data_type": "Date",
+        "concept": "Customer birth date",
+        "samples": [
+          "1980-01-01",
+          "1981-02-02",
+          "1982-03-03",
+          "1983-04-04",
+          "1984-05-05",
+          "1985-06-06",
+          "1986-07-07",
+          "1987-08-08"
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "code",
+        "data_type": "Text",
+        "concept": "Depot code",
+        "samples": [
+          "DP11",
+          "DP12",
+          "DP13",
+          "DP14",
+          "DP15",
+          "DP16",
+          "DP17",
+          "DP18"
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "day",
+        "data_type": "Date",
+        "concept": "Order placed date",
+        "samples": [
+          "2026-01-01",
+          "2026-02-02",
+          "2026-03-03",
+          "2026-04-04",
+          "2026-05-05",
+          "2026-06-06",
+          "2026-07-07",
+          "2026-08-08"
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Coupon and depot codes are unrelated domains despite identical length and scalar kind."
+      },
+      {
+        "source": "s2",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Birth dates and order dates denote unrelated facts."
+      }
+    ],
+    "rationale": "Cheap value profiles can support compatibility but cannot establish shared meaning or identity."
+  },
+  {
+    "id": "evidence_07",
+    "domain": "stage3_development",
+    "title": "Disjoint samples with consistent shapes",
+    "tags": [
+      "profile",
+      "disjoint_samples",
+      "opaque_names"
+    ],
+    "source": [
+      {
+        "id": "s1",
+        "name": "col_a",
+        "data_type": "Text",
+        "concept": "Contact email",
+        "samples": [
+          "a01@example.test",
+          "a02@example.test",
+          "a03@example.test",
+          "a04@example.test",
+          "a05@example.test",
+          "a06@example.test",
+          "a07@example.test",
+          "a08@example.test"
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "col_b",
+        "data_type": "Integer",
+        "concept": "Item count",
+        "samples": [
+          10,
+          20,
+          30,
+          40,
+          50,
+          60,
+          70,
+          80
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "email",
+        "data_type": "Text",
+        "concept": "Contact email",
+        "samples": [
+          "b11@example.test",
+          "b12@example.test",
+          "b13@example.test",
+          "b14@example.test",
+          "b15@example.test",
+          "b16@example.test",
+          "b17@example.test",
+          "b18@example.test"
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "quantity",
+        "data_type": "Integer",
+        "concept": "Item count",
+        "samples": [
+          11,
+          21,
+          31,
+          41,
+          51,
+          61,
+          71,
+          81
+        ]
+      },
+      {
+        "id": "t3",
+        "name": "notes",
+        "data_type": "Text",
+        "concept": "Freeform comment",
+        "samples": [
+          "Long text about one order with delivery instructions.",
+          "Additional notes from a customer after a phone call.",
+          "Instructions entered by a person about the package."
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "match",
+        "targets": [
+          "t1"
+        ],
+        "rationale": "Different rows from the same contact-email domain have disjoint values."
+      },
+      {
+        "source": "s2",
+        "kind": "match",
+        "targets": [
+          "t2"
+        ],
+        "rationale": "Both fields count items in the same unit and business scope."
+      }
+    ],
+    "rationale": "Opaque names and disjoint samples deliberately leave weak evidence. Shape agreement alone must not be interpreted as semantic certainty."
+  },
+  {
+    "id": "evidence_08",
+    "domain": "stage3_development",
+    "title": "Explicit currency and unit conflicts",
+    "tags": [
+      "hints",
+      "currency",
+      "unit"
+    ],
+    "source": [
+      {
+        "id": "s1",
+        "name": "amount",
+        "data_type": "Decimal",
+        "concept": "Invoice amount in USD",
+        "samples": [
+          10,
+          20,
+          30,
+          40
+        ],
+        "hints": {
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "s2",
+        "name": "latency",
+        "data_type": "Float",
+        "concept": "Request latency in milliseconds",
+        "samples": [
+          10,
+          20,
+          30,
+          40
+        ],
+        "hints": {
+          "unit": "ms"
+        }
+      },
+      {
+        "id": "s3",
+        "name": "weight",
+        "data_type": "Float",
+        "concept": "Parcel weight in kilograms",
+        "samples": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "hints": {
+          "unit": "kg"
+        }
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "amount",
+        "data_type": "Decimal",
+        "concept": "Invoice amount in EUR",
+        "samples": [
+          10,
+          20,
+          30,
+          40
+        ],
+        "hints": {
+          "currency": "EUR"
+        }
+      },
+      {
+        "id": "t2",
+        "name": "latency",
+        "data_type": "Float",
+        "concept": "Request latency in seconds",
+        "samples": [
+          10,
+          20,
+          30,
+          40
+        ],
+        "hints": {
+          "unit": "s"
+        }
+      },
+      {
+        "id": "t3",
+        "name": "weight",
+        "data_type": "Float",
+        "concept": "Parcel weight in kilograms",
+        "samples": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "hints": {
+          "unit": "kg"
+        }
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Currency conversion would be needed; this task permits only direct correspondence."
+      },
+      {
+        "source": "s2",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Milliseconds to seconds requires a transformation, outside direct matching."
+      },
+      {
+        "source": "s3",
+        "kind": "match",
+        "targets": [
+          "t3"
+        ],
+        "rationale": "Same parcel measure with the same explicit unit."
+      }
+    ],
+    "rationale": "Hints are manually supplied evidence from schema owners. They are not extracted from gold concepts or sample contents."
+  },
+  {
+    "id": "evidence_09",
+    "domain": "stage3_development",
+    "title": "Explicit identifier scope conflicts",
+    "tags": [
+      "hints",
+      "identifier_scope"
+    ],
+    "source": [
+      {
+        "id": "s1",
+        "name": "id",
+        "data_type": "Text",
+        "concept": "Customer identity",
+        "samples": [
+          "C1",
+          "C2",
+          "C3",
+          "C4"
+        ],
+        "hints": {
+          "identifier_scope": "customer"
+        }
+      },
+      {
+        "id": "s2",
+        "name": "tenant_id",
+        "data_type": "Text",
+        "concept": "Tenant identity",
+        "samples": [
+          "T1",
+          "T2",
+          "T3",
+          "T4"
+        ],
+        "hints": {
+          "identifier_scope": "tenant"
+        }
+      },
+      {
+        "id": "s3",
+        "name": "legacy_id",
+        "data_type": "Text",
+        "concept": "Account identity",
+        "samples": [
+          "L1",
+          "L2",
+          "L3",
+          "L4"
+        ],
+        "hints": {
+          "identifier_scope": "account"
+        }
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "id",
+        "data_type": "Text",
+        "concept": "Order identity",
+        "samples": [
+          "C1",
+          "C2",
+          "C3",
+          "C4"
+        ],
+        "hints": {
+          "identifier_scope": "order"
+        }
+      },
+      {
+        "id": "t2",
+        "name": "tenant_id",
+        "data_type": "Text",
+        "concept": "Tenant identity",
+        "samples": [
+          "T1",
+          "T2",
+          "T3",
+          "T4"
+        ],
+        "hints": {
+          "identifier_scope": "tenant"
+        }
+      },
+      {
+        "id": "t3",
+        "name": "legacy_id",
+        "data_type": "Text",
+        "concept": "Account identity",
+        "samples": [
+          "L1",
+          "L2",
+          "L3",
+          "L4"
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Reused string IDs identify different entity types; customer identity has no target."
+      },
+      {
+        "source": "s2",
+        "kind": "match",
+        "targets": [
+          "t2"
+        ],
+        "rationale": "Tenant scope agrees on both sides."
+      },
+      {
+        "source": "s3",
+        "kind": "match",
+        "targets": [
+          "t3"
+        ],
+        "rationale": "Missing target scope is absence of evidence, not a contradiction."
+      }
+    ],
+    "rationale": "Equal identifier samples can be reused across entity namespaces. Only two present, unequal scope hints establish a conflict."
+  },
+  {
+    "id": "evidence_10",
+    "domain": "stage3_development",
+    "title": "Default aliases and misleading expansions",
+    "tags": [
+      "aliases",
+      "misleading_names"
+    ],
+    "source": [
+      {
+        "id": "s1",
+        "name": "Amt",
+        "data_type": "Decimal",
+        "concept": "Invoice amount",
+        "samples": [
+          101,
+          102,
+          103,
+          104
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "TransDate",
+        "data_type": "Date",
+        "concept": "Transaction date",
+        "samples": [
+          "2026-02-01",
+          "2026-02-02",
+          "2026-02-03",
+          "2026-02-04"
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "GrossAmt",
+        "data_type": "Decimal",
+        "concept": "Gross amount",
+        "samples": [
+          110,
+          220,
+          330,
+          440
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "amount",
+        "data_type": "Decimal",
+        "concept": "Invoice amount",
+        "samples": [
+          101,
+          102,
+          103,
+          104
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "transaction_date",
+        "data_type": "Date",
+        "concept": "Transaction date",
+        "samples": [
+          "2026-02-01",
+          "2026-02-02",
+          "2026-02-03",
+          "2026-02-04"
+        ]
+      },
+      {
+        "id": "t3",
+        "name": "net_amount",
+        "data_type": "Decimal",
+        "concept": "Net amount",
+        "samples": [
+          110,
+          220,
+          330,
+          440
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "match",
+        "targets": [
+          "t1"
+        ],
+        "rationale": "The standard amount abbreviation denotes the same invoice fact."
+      },
+      {
+        "source": "s2",
+        "kind": "match",
+        "targets": [
+          "t2"
+        ],
+        "rationale": "The standard transaction abbreviation denotes the same date."
+      },
+      {
+        "source": "s3",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Gross amount has no target; it is not the existing net amount even when observed values coincide."
+      }
+    ],
+    "rationale": "Alias usefulness must be reported alongside residual qualifier failures. No aliases are inferred from labels."
+  },
+  {
+    "id": "evidence_11",
+    "domain": "stage3_development",
+    "title": "Unavailable and insufficient observations",
+    "tags": [
+      "empty_samples",
+      "insufficient_samples",
+      "null_only"
+    ],
+    "source": [
+      {
+        "id": "s1",
+        "name": "sku",
+        "data_type": "Text",
+        "concept": "Product stock code",
+        "samples": []
+      },
+      {
+        "id": "s2",
+        "name": "memo",
+        "data_type": "Text",
+        "concept": "Customer note",
+        "samples": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "email",
+        "data_type": "Text",
+        "concept": "Email contact",
+        "samples": [
+          "one@example.test",
+          null
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "sku",
+        "data_type": "Text",
+        "concept": "Product stock code",
+        "samples": null
+      },
+      {
+        "id": "t2",
+        "name": "memo",
+        "data_type": "Text",
+        "concept": "Customer note",
+        "samples": [
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "id": "t3",
+        "name": "email",
+        "data_type": "Text",
+        "concept": "Email contact",
+        "samples": [
+          "two@example.test"
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "match",
+        "targets": [
+          "t1"
+        ],
+        "rationale": "Same stock-code fact despite empty and missing observations."
+      },
+      {
+        "source": "s2",
+        "kind": "match",
+        "targets": [
+          "t2"
+        ],
+        "rationale": "Null-only observations supply no value evidence for the valid identity."
+      },
+      {
+        "source": "s3",
+        "kind": "match",
+        "targets": [
+          "t3"
+        ],
+        "rationale": "Single disjoint email observations are insufficient for value inference."
+      }
+    ],
+    "rationale": "Missing samples are explicitly different from negative observed evidence; reliable matching may use names and declared types."
+  },
+  {
+    "id": "evidence_12",
+    "domain": "stage3_development",
+    "title": "Duplicate names and global competition",
+    "tags": [
+      "ambiguous",
+      "duplicate_names",
+      "unequal_sizes"
+    ],
+    "source": [
+      {
+        "id": "s1",
+        "name": "amount",
+        "data_type": "Decimal",
+        "concept": "Unspecified amount",
+        "samples": [
+          10,
+          20,
+          30,
+          40
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "customer_id",
+        "data_type": "Text",
+        "concept": "Primary customer identity",
+        "samples": [
+          "C1",
+          "C2",
+          "C3",
+          "C4"
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "customer_id",
+        "data_type": "Text",
+        "concept": "Duplicate copy of primary customer identity",
+        "samples": [
+          "C1",
+          "C2",
+          "C3",
+          "C4"
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "t1",
+        "name": "amount",
+        "data_type": "Decimal",
+        "concept": "First plausible amount",
+        "samples": [
+          10,
+          20,
+          30,
+          40
+        ]
+      },
+      {
+        "id": "t2",
+        "name": "amount",
+        "data_type": "Decimal",
+        "concept": "Second plausible amount",
+        "samples": [
+          10,
+          20,
+          30,
+          40
+        ]
+      },
+      {
+        "id": "t3",
+        "name": "customer_id",
+        "data_type": "Text",
+        "concept": "Primary customer identity",
+        "samples": [
+          "C1",
+          "C2",
+          "C3",
+          "C4"
+        ]
+      },
+      {
+        "id": "t4",
+        "name": "comment",
+        "data_type": "Text",
+        "concept": "Invoice comment",
+        "samples": null
+      }
+    ],
+    "labels": [
+      {
+        "source": "s1",
+        "kind": "ambiguous",
+        "targets": [
+          "t1",
+          "t2"
+        ],
+        "rationale": "Both same-named amounts are plausible; evidence cannot distinguish their business meaning."
+      },
+      {
+        "source": "s2",
+        "kind": "match",
+        "targets": [
+          "t3"
+        ],
+        "rationale": "First copy of customer identity refers to the target fact."
+      },
+      {
+        "source": "s3",
+        "kind": "match",
+        "targets": [
+          "t3"
+        ],
+        "rationale": "Second source copy is also semantically valid; one-to-one assignment can select only one copy."
+      }
+    ],
+    "rationale": "Ambiguity remains explicit and partial one-to-one assignment has a lower achievable recall ceiling than independent matching."
+  }
+]

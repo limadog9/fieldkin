@@ -1,0 +1,100 @@
+{
+  "version": "3.0.0",
+  "baseline_version": "baseline-v1",
+  "source_baseline_ref": "e6df0f0",
+  "partition": "development_only",
+  "license": "MIT OR Apache-2.0",
+  "attribution": "Original synthetic fixtures by Fieldkin contributors",
+  "fixture_policy": "Twelve manually specified families; no transformations; concepts and rationales never enter matching. No Stage 1 held-out family is scored.",
+  "models": [
+    "combined",
+    "no_cardinality",
+    "name_only",
+    "profile",
+    "no_profile",
+    "no_aliases",
+    "no_hints"
+  ],
+  "assignment_modes": [
+    "independent",
+    "one_to_one"
+  ],
+  "threshold_grid": [
+    0.5,
+    0.525,
+    0.55,
+    0.575,
+    0.6,
+    0.625,
+    0.65,
+    0.675,
+    0.7,
+    0.725,
+    0.75,
+    0.775,
+    0.8,
+    0.825,
+    0.85,
+    0.875,
+    0.9,
+    0.925,
+    0.95,
+    0.975,
+    1.0
+  ],
+  "default_threshold": 0.7,
+  "precision_targets": [
+    0.8,
+    0.9,
+    0.95
+  ],
+  "baseline_precision_anchors": "For each corpus and assignment mode, additionally compare every model at the default precision of no_cardinality (original combined) and name_only. Derive those floors from their prespecified .70 operating points; select all models with the same threshold-grid rule. This is a development comparison, not threshold tuning for the library default.",
+  "selection_rule": "For each fixed precision target choose the highest micro recall among grid thresholds meeting precision with at least one proposal; then greater precision; then higher threshold. Report no_feasible_threshold when none qualifies. Development-only operating points, not calibrated probabilities or validation estimates.",
+  "matched_precision_rule": "For each candidate default operating point, select the baseline grid point with maximum recall subject to precision at least candidate precision and at least one proposal. Report no_feasible_threshold, never interpolate or imply dominance when baseline is infeasible.",
+  "weights": {
+    "name": 0.65,
+    "type": 0.2,
+    "samples": 0.15
+  },
+  "profile_weights": {
+    "name": 0.55,
+    "type": 0.2,
+    "samples": 0.15,
+    "profile": 0.1
+  },
+  "sample_min_non_null": 3,
+  "distinct_reliability": "Legacy overlap times lower non-null coverage times min(max(lower distinct count - 1, 0) / 2, 1). Distinctness 1 gives zero, 2 gives one-half, 3 or more gives full cardinality factor.",
+  "profile_min_non_null": 3,
+  "profile_definition": "Runtime-kind histogram intersection; text additionally uses character-length bins 0, 1-4, 5-12, 13-32, 33+. Multiply by lower non-null coverage, min(lower non-null count / 8, 1), and min(max(lower distinct count - 1, 0) / 7, 1).",
+  "ambiguity_margin": 0.08,
+  "max_candidates": 5,
+  "aliases": {
+    "amt": "amount",
+    "trans": "transaction"
+  },
+  "ablation_definitions": {
+    "combined": "Current default distinct-aware sampled evidence; default aliases; explicit hints honored.",
+    "no_cardinality": "Legacy overlap-only sample reliability, preserving .65/.20/.15 weights; aliases and hints unchanged. On the original development corpus this reproduces original combined matching scores.",
+    "name_only": "Name weight 1; declared-type veto disabled; sample, profile and hints omitted.",
+    "profile": "Add optional SampleProfileMatcher at .10, subtract .10 from names; other weights unchanged.",
+    "no_profile": "Same .55/.20/.15/.10 weights as profile, but .10 returns missing evidence, without renormalizing.",
+    "no_aliases": "Combined weights with an empty alias map.",
+    "no_hints": "Combined weights with caller hints stripped; the original corpus has no hints so this is identical to combined there."
+  },
+  "semantic_hint_policy": "Optional caller-verified unit, currency and identifier_scope strings compare exactly and case-sensitively. Two supplied, unequal values veto a pair independently of weighted matchers. One missing side is unknown. Hints do not infer conversions and agreement adds no weighted score. Each label is at most 128 UTF-8 bytes.",
+  "numeric_policy": "Integer samples retain signed 128-bit identity. Decimal samples retain a signed 128-bit coefficient and scale 0..38, canonicalizing trailing decimal zeroes. Integer, decimal and approximate Number samples are distinct representations and are not implicitly coerced into one another.",
+  "abstain_on_ambiguity": true,
+  "reject_incompatible_types": true,
+  "limits": {
+    "max_fields": 128,
+    "max_pairs": 16384,
+    "max_signal_evaluations": 65536,
+    "max_explanation_bytes": 16777216,
+    "max_name_bytes": 256,
+    "max_samples_per_field": 256,
+    "max_sample_bytes": 1024,
+    "max_total_sample_bytes": 8388608
+  },
+  "reporting": "Separate original development and new extension totals; by-family results at default threshold; all threshold aggregate rows; fixed-precision and baseline-matched comparisons; integer counts and all Stage 1 metrics. No pooling across the two corpora.",
+  "tuning_policy": "Protocol, fixtures and gold labels committed before any Stage 3 scoring. No holdout access. Targets may remain unmet and results do not establish real-world accuracy."
+}
