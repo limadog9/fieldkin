@@ -35,6 +35,7 @@ jobs:
       - run: cargo +${{ matrix.rust }} run --locked --example import_review
       - run: cargo +${{ matrix.rust }} run --locked --example catalog_review
       - run: cargo +${{ matrix.rust }} run --locked --example corroboration
+      - run: cargo +${{ matrix.rust }} run --locked --example reviewed_import
       - run: cargo +${{ matrix.rust }} package --locked -p fieldkin
       - name: Verify original decisions with historical sample reliability
         run: cargo +${{ matrix.rust }} run --locked --release -p fieldkin-eval -- --check-behavior --output evaluation/results/baseline-v1
@@ -44,6 +45,14 @@ jobs:
         run: cargo +${{ matrix.rust }} run --locked --release -p fieldkin-eval -- --release --check-behavior --output evaluation/results/rc-v1/release
       - name: Verify corrective development and original regression (no fresh holdout)
         run: cargo +${{ matrix.rust }} run --locked --release -p fieldkin-eval -- --corrective --check --output evaluation/results/corrective-v1
+      - name: Verify external annotation development (holdout remains reserved)
+        run: cargo +${{ matrix.rust }} run --locked --release -p fieldkin-eval -- --external --check --output evaluation/results/t2d-v1
+      - name: Reproduce external fixture from pinned annotations offline
+        if: matrix.os == 'ubuntu-latest' && matrix.rust == '1.85.0'
+        run: python3 evaluation/import_t2d.py --check
+      - name: Validate external importer invariants
+        if: matrix.os == 'ubuntu-latest' && matrix.rust == '1.85.0'
+        run: python3 -m unittest discover -s evaluation -p test_import_t2d.py
   test:
     name: test
     needs: platform

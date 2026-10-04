@@ -9,12 +9,15 @@ use crate::{assignment, FieldId};
 /// Analysis never changes a selection. It is disabled by default and applies
 /// only when [`crate::Config::one_to_one`] is enabled. The objective is the sum
 /// of heuristic scores, not a probability or a calibrated confidence measure.
+/// When caller review constraints are supplied, analysis covers the remaining
+/// automatic graph only: fixed confirmations are absent from the objective and
+/// are never changed by a witness. Work uses the original schema dimensions.
 #[derive(Clone, Debug, PartialEq)]
 pub struct GlobalDiagnosticsConfig {
     /// Maximum additional assignment solves. Zero disables analysis.
     ///
-    /// The engine accepts at most 1,024. One solve is needed per selected real
-    /// edge to complete the analysis, subject also to `max_work`.
+    /// The engine accepts at most 1,024. One solve is needed per selected automatic
+    /// real edge to complete the analysis, subject also to `max_work`.
     pub max_solves: usize,
     /// Maximum charged work, excluding the original assignment solve.
     ///
@@ -48,7 +51,8 @@ pub enum AssignmentDiagnosticStatus {
     Disabled,
     /// Global one-to-one assignment was not requested.
     NotApplicable,
-    /// Every selected real edge was probed within the configured budgets.
+    /// Every selected automatic real edge was probed within the configured budgets.
+    /// Caller-confirmed mappings are fixed and are not probed.
     ///
     /// An empty witness list rules out alternatives within the configured
     /// objective margin and floating tolerance. It does not establish semantic
@@ -76,7 +80,8 @@ pub struct AssignmentChange {
 /// A representative alternative within the configured objective margin.
 #[derive(Clone, Debug, PartialEq)]
 pub struct AssignmentAlternative {
-    /// Sum of the alternative assignment's selected heuristic scores.
+    /// Sum of the alternative assignment's automatic selected heuristic scores,
+    /// excluding fixed caller confirmations.
     pub objective: f64,
     /// Original objective minus this objective, clamped to zero for float noise.
     pub gap: f64,
@@ -92,7 +97,8 @@ pub struct AssignmentAlternative {
 pub struct AssignmentDiagnostics {
     /// Applicability and completeness of the analysis.
     pub status: AssignmentDiagnosticStatus,
-    /// Original assignment objective, present whenever analysis was enabled and
+    /// Original automatic assignment objective, excluding caller-confirmed pairs,
+    /// present whenever analysis was enabled and
     /// global assignment was applicable, including when its budget was exhausted.
     pub base_objective: Option<f64>,
     /// Number of additional assignment solves actually performed.

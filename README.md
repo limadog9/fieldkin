@@ -129,6 +129,35 @@ and the [complete example](examples/corroboration.rs).
 
 ## API and customization
 
+Applications can feed reviewed decisions back into matching:
+
+```rust
+use fieldkin::{Config, DataType, Decision, Field, FieldPair, MatchConstraints, MatchEngine, Schema};
+
+let source = Schema::new(vec![Field::new("s", "amount", DataType::Decimal)]);
+let target = Schema::new(vec![
+    Field::new("gross", "amount", DataType::Decimal),
+    Field::new("net", "amount", DataType::Decimal),
+]);
+// An application reviewer has verified which amount this source represents.
+let review = MatchConstraints {
+    confirmed: vec![FieldPair::new("s", "gross")],
+    ..Default::default()
+};
+let report = MatchEngine::new(Config::default())?
+    .match_schemas_with_constraints(&source, &target, &review)?;
+assert_eq!(report.fields[0].decision, Decision::Confirmed);
+assert_eq!(report.fields[0].selected.as_ref().unwrap().target.0, "gross");
+# Ok::<(), fieldkin::MatchError>(())
+```
+
+`MatchConstraints` also accepts forbidden pairs and explicitly unmatched sources.
+Confirmations retain actual heuristic scores; they are caller decisions, not
+stronger automatic evidence. In one-to-one mode they reserve targets before the
+remaining proposals are computed. Invalid or contradictory directives return
+typed errors. See [review semantics and limits](docs/review-constraints.md) and
+the [reviewed importer](examples/reviewed_import.rs).
+
 - `Schema`, `Field`, `FieldId`, `DataType`, and `SampleValue` describe inputs. IDs
   must be nonempty and unique within each schema; names can repeat.
 - `MatchEngine::new(Config)` selects the built-in name, type and sample signals.

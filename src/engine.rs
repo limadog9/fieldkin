@@ -5,9 +5,9 @@ use crate::signals::{type_compatibility, PreparedName, PreparedSamples};
 use crate::{
     assignment, AssignmentDiagnostics, BudgetKind, Candidate, CandidateIssue, Config,
     ConfigurationError, CountKind, Decision, Field, FieldDiagnostic, FieldMatch, InputError,
-    MatchError, MatchReport, Matcher, NameMatcher, SampleMatcher, SampleProfileMatcher,
-    SampleReliability, SampleValue, Schema, SemanticAxis, SignalReport, TargetCompetition,
-    TypeMatcher,
+    MatchConstraints, MatchError, MatchReport, Matcher, NameMatcher, SampleMatcher,
+    SampleProfileMatcher, SampleReliability, SampleValue, Schema, SemanticAxis, SignalReport,
+    TargetCompetition, TypeMatcher,
 };
 
 /// A signal and its relative weight. Zero-weight signals are disabled.
@@ -158,6 +158,28 @@ impl MatchEngine {
         source: &Schema,
         target: &Schema,
     ) -> Result<MatchReport, MatchError> {
+        self.match_schemas_with_constraints(source, target, &MatchConstraints::default())
+    }
+
+    /// Match while respecting caller-owned confirmations, forbidden pairs and
+    /// explicitly unmatched sources. Empty constraints reproduce [`Self::match_schemas`].
+    ///
+    /// All original fields and all pairs are validated and evaluated, including
+    /// excluded ones. Constraints do not reduce budgets or matcher callbacks.
+    /// Confirmations override score, corroboration and ambiguity, but never the
+    /// enabled type veto or conflicting semantic hints. Scores remain unchanged;
+    /// [`Decision::Confirmed`] distinguishes a caller decision from a proposal.
+    ///
+    /// In one-to-one mode confirmed targets are reserved before automatic local
+    /// ambiguity and assignment are computed. Global diagnostics analyze only
+    /// the remaining automatic edges, excluding fixed confirmations from the
+    /// objective and alternatives. Work is charged using the original dimensions.
+    pub fn match_schemas_with_constraints(
+        &self,
+        source: &Schema,
+        target: &Schema,
+        constraints: &MatchConstraints,
+    ) -> Result<MatchReport, MatchError> {
         let mut total_bytes = 0usize;
         self.validate_schema(source, &mut total_bytes)?;
         self.validate_schema(target, &mut total_bytes)?;
@@ -181,6 +203,7 @@ impl MatchEngine {
         let mut targets: Vec<_> = target.fields.iter().collect();
         sources.sort_unstable_by(|a, b| a.id.cmp(&b.id));
         targets.sort_unstable_by(|a, b| a.id.cmp(&b.id));
+        let constraints = constraints.validate(&sources, &targets, &self.config)?;
         let prepared: Vec<_> = self
             .matchers
             .iter()
@@ -196,15 +219,49 @@ impl MatchEngine {
                 .iter()
                 .enumerate()
                 .map(|(target_index, target)| {
-                    self.evaluate(
+                    let mut candidate = self.evaluate(
                         source,
                         target,
                         &prepared,
                         (source_index, target_index),
                         &mut explanation_bytes,
-                    )
+                    )?;
+                    if let Some(constraints) = &constraints {
+                        if constraints.forbidden(source_index, target_index) {
+                            candidate.eligible = false;
+                            candidate.issues.push(CandidateIssue::ForbiddenByCaller);
+                            candidate.warnings.push(
+                                "Caller forbids this pair; automatic selection excluded.".into(),
+                            );
+                        }
+                        if constraints.unmatched[source_index] {
+                            candidate.eligible = false;
+                            candidate.issues.push(CandidateIssue::SourceExcludedByCaller);
+                            candidate.warnings.push(
+                                "Caller keeps this source unmatched; automatic selection excluded."
+                                    .into(),
+                            );
+                        }
+                        if constraints.reserved[target_index]
+                            .is_some_and(|owner| owner != source_index)
+                        {
+                            candidate.eligible = false;
+                            candidate.issues.push(CandidateIssue::TargetConfirmedByCaller);
+                            candidate.warnings.push(
+                                "Target is reserved by another caller-confirmed source; automatic selection excluded."
+                                    .into(),
+                            );
+                        }
+                    }
+                    Ok(candidate)
                 })
                 .collect::<Result<Vec<_>, _>>()?;
+            let confirmed = constraints
+                .as_ref()
+                .and_then(|constraints| constraints.confirmed[source_index]);
+            let excluded = constraints
+                .as_ref()
+                .is_some_and(|constraints| constraints.unmatched[source_index]);
             let best_score = candidates
                 .iter()
                 .filter(|c| c.eligible)
@@ -221,17 +278,25 @@ impl MatchEngine {
                 .collect();
             let abstain = self.config.abstain_on_ambiguity && alternatives.len() > 1;
             let mut diagnostics = Vec::new();
-            if best_score.is_none() {
+            if best_score.is_none() && !excluded {
                 diagnostics.push(FieldDiagnostic::NoEligibleTarget);
             }
             if alternatives.len() > 1 {
                 diagnostics.push(FieldDiagnostic::LocalAmbiguity);
             }
+            if confirmed.is_some() {
+                diagnostics.push(FieldDiagnostic::ConfirmedByCaller);
+            } else if excluded {
+                diagnostics.push(FieldDiagnostic::ExcludedByCaller);
+            }
             if self.config.one_to_one {
                 matrix.push(
                     candidates
                         .iter()
-                        .map(|c| (c.eligible && !abstain).then_some(c.score))
+                        .map(|c| {
+                            (c.eligible && !abstain && confirmed.is_none() && !excluded)
+                                .then_some(c.score)
+                        })
                         .collect::<Vec<_>>(),
                 );
             }
@@ -239,12 +304,30 @@ impl MatchEngine {
             // scores tie; an unstable sort needs no auxiliary allocation.
             candidates
                 .sort_unstable_by(|a, b| b.score.total_cmp(&a.score).then(a.target.cmp(&b.target)));
-            let selected = if abstain || self.config.one_to_one {
+            // Clone before display truncation, including zero-score confirmations.
+            // Eligibility still describes the automatic evidence policy.
+            let selected = if let Some(target_index) = confirmed {
+                let mut candidate = candidates
+                    .iter()
+                    .find(|candidate| candidate.target == targets[target_index].id)
+                    .cloned();
+                if let Some(candidate) = &mut candidate {
+                    candidate.warnings.push(
+                        "Caller-confirmed mapping: automatic evidence exclusions and ambiguity do not veto this selection; the heuristic score is unchanged."
+                            .into(),
+                    );
+                }
+                candidate
+            } else if excluded || abstain || self.config.one_to_one {
                 None
             } else {
                 candidates.iter().find(|c| c.eligible).cloned()
             };
-            let decision = if abstain {
+            let decision = if confirmed.is_some() {
+                Decision::Confirmed
+            } else if excluded {
+                Decision::ExcludedByCaller
+            } else if abstain {
                 Decision::Ambiguous
             } else if best_score.is_some() {
                 Decision::Proposed
@@ -297,6 +380,12 @@ impl MatchEngine {
                 });
             }
             for (i, field) in fields.iter_mut().enumerate() {
+                if matches!(
+                    field.decision,
+                    Decision::Confirmed | Decision::ExcludedByCaller
+                ) {
+                    continue;
+                }
                 for (j, target) in targets.iter().enumerate() {
                     if contention[j] && matrix[i][j].is_some() {
                         field

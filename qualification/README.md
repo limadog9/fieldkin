@@ -8,11 +8,11 @@ Build after freezing the candidate source revision, then run:
 
 ```text
 python qualification/run.py build --output qualification/results/candidate-v1
-python qualification/run.py run --output qualification/results/candidate-v1 --cases 1000000 --seed 20261003
+python qualification/run.py run --output qualification/results/candidate-v1 --cases 1200000 --seed 20261005
 ```
 
-The five round-robin categories each execute 200,000 generated cases in the full
-campaign. A case counts once after its checks succeed; repeated calls, assertions,
+The six round-robin categories each execute 200,000 generated cases in the full
+1,200,000-case v2 campaign. A case counts once after its checks succeed; repeated calls, assertions,
 candidate pairs and assignment-oracle search nodes do not increase the count.
 
 | Category | Generation and checks |
@@ -22,6 +22,15 @@ candidate pairs and assignment-oracle search nodes do not increase the count.
 | Configuration and limits | Invalid thresholds/margins/top-k/corroboration floors, each resource budget, and an exact accepted sample-byte boundary |
 | Default report invariants | Small random schemas, all sample representations, missing/null-heavy samples, duplicated names and hints; randomly disabled/default/strict-name corroboration; valid scores/ranks/IDs, selected/unmatched complements, one-to-one uniqueness, exact report invariance under field reordering; gated candidates require positive built-in support and preserve ungated scores/evidence by target |
 | Assignment oracle | Random 2–4 by 2–4 score matrices through a public custom matcher, thresholds and display top-k; compare total selected score with an independent exhaustive integer partial-assignment oracle; randomly enable diagnostic solve/work budgets and compare complete best-distinct-alternative analysis with full enumeration; validate witness assignments/objectives/gaps, exact budget use/completeness, reordering and structural invariants |
+
+The sixth category tests caller-reviewed assignment on random 1–4 by 1–4 score
+matrices with confirmations, forbidden pairs, explicit unmatched sources, both
+assignment modes and display truncation. An independent exhaustive oracle checks
+the remaining automatic objective in one-to-one mode; row maxima check independent
+mode with ambiguity abstention disabled. Confirmations retain their original scores,
+reserved targets cannot be reused, diagnostic witnesses respect review decisions,
+unmatched lists are complements, and input/directive reordering preserves reports.
+No gold evaluation labels are supplied to this generated-case campaign.
 
 The generator uses wrapping 64-bit LCG constants recorded in source, seed
 20,261,003 by default, and bounded small inputs. This is a deterministic generated

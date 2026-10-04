@@ -24,7 +24,19 @@ The reviewed lockfile resolves these runtime crates:
 
 Koutras et al., *Valentine: Evaluating Matching Techniques for Dataset Discovery*, ICDE 2021, pp. 468–479 ([paper](https://arxiv.org/abs/2010.07386), [repository](https://github.com/delftdata/valentine)), informed the landscape review. Valentine is Apache-2.0, copyright 2021–2026 Delft University of Technology at inspection. No Valentine source code, datasets, or prose is included. Fieldkin's matching and assignment implementation is original and uses general techniques from schema matching, string similarity, and bipartite assignment. See [the landscape note](docs/landscape.md) for scope and comparison limits.
 
-No third-party datasets are bundled. The examples, test fixtures, and benchmark inputs are synthetic and distributed under Fieldkin's MIT OR Apache-2.0 terms.
+The development-only `evaluation/external/t2d-v1/` directory contains original
+T2D correspondence annotations by Dominique Ritze, Oliver Lehmberg and Christian
+Bizer, and a derived annotation-only schema task. The source page explicitly
+licenses [correspondences under Apache-2.0](https://webdatacommons.org/webtables/goldstandard.html);
+the separate terms for web tables and DBpedia values are not used as permission
+to redistribute those data, which are not included. The directory supplies a
+license text, attribution/modification NOTICE and exact source hashes. These data
+are excluded from the library package. Unlabeled alternatives remain unknown;
+the induced task is not the full T2D benchmark or independent consumer validation.
+
+Library examples, tests and performance inputs remain original synthetic data
+under Fieldkin's MIT OR Apache-2.0 terms. External evaluation data retain the
+specific license and provenance recorded alongside them.
 
 The unpublished `evaluation/` workspace package uses `serde` (MIT OR Apache-2.0),
 `serde_json` (MIT OR Apache-2.0), and `sha2` (MIT OR Apache-2.0) for development-only

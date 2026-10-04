@@ -110,3 +110,28 @@ can separately compare the pre-correction `3b8d65a` checkout against the frozen
 candidate, with instrumentation in separate processes. Its generated table
 retains the historical Stage 2 protocol name; `build.json` identifies the actual
 revisions. Neither cost harness reads accuracy evaluation fixtures.
+
+## Caller-review costs
+
+`examples/review_cost.rs` supplies 36 fixed workloads: 16/64/128 fields, samples
+present/absent, independent/one-to-one, and ordinary calls / explicit empty
+constraints / mixed review. Mixed review confirms the first quarter of sources,
+keeps the second quarter unmatched, and forbids one wrong pair for each remaining
+source. Global alternative diagnostics are disabled. All source-target pairs
+still receive evidence evaluations.
+
+```text
+cargo +1.85.0 run --locked --release --example review_cost -- --smoke
+python performance/review.py build --output target/review-cost
+python performance/review.py run --output target/review-cost
+```
+
+The smoke command checks execution only. Build first; run measurements with no
+concurrent builds/tests. Five release processes each use one warmup and 30/10/5
+calls by size. Timing includes returned-report destruction and excludes schema,
+engine and constraint construction. The script verifies exact workload inventory,
+compiler/environment/source/binary hashes and exclusive output files. Order is
+fixed, no affinity or CPU-frequency control is imposed, and min/max spreads are
+process observations rather than confidence intervals. Mixed review changes
+eligibility and assignment work as well as adding validation/explanation costs;
+it is not a pure optimization comparison.
