@@ -29,7 +29,8 @@ or holdout option.
 
 Run success requires matching inventories and executable hashes before and after
 execution, a successful evaluator exit, and exactly the three expected development
-artifacts. Only then is `run.json` written with their hashes. If a build or run
+files in `artifacts/`. Only then is the adjacent `run.json` written with their
+hashes. If a build or run
 fails, keep its partial directory for diagnosis and choose a fresh destination;
 the runner never upgrades or overwrites an earlier attempt. An artifact directory
 without its successful run record is incomplete evidence.
@@ -71,3 +72,43 @@ build/run guarantee. Other synthetic evaluation modes, qualification tools and
 performance tools have their own recorded boundaries; this wrapper does not
 retroactively verify them. The external experiment still uses positive-only labels,
 scores 549 development tables, and leaves all 218 reserved tables unscored.
+
+## Recorded qualification
+
+Implementation and tests were committed at
+`d1668412685b051080c32dc9d8b89aa3825e733b` before the real build and run.
+On Windows with Python 3.11 and Rust 1.85.0:
+
+- All 24 runner tests and five importer tests passed. The runner tests exercise
+  stale sources/binaries, recursive additions/deletions, build and run drift,
+  configuration changes, manifest source paths, symlinks/reparse points,
+  incomplete/oversized output, existing destinations and prohibited CLI arguments.
+- A fresh offline build inventoried 45 files and produced executable SHA256
+  `68b24f02cea7a36895174b292af0a3f237115bd6b674705cf116d51e39ffeceb`.
+- The verified development run succeeded. Its JSON, JSONL and Markdown outputs
+  exactly match the raw Git blobs of `evaluation/results/t2d-v1` at `eb95408`,
+  including all source metadata. Historical files were neither rewritten nor
+  duplicated. The new records reference those identical artifact bytes.
+- Changing `CARGO_PROFILE_RELEASE_DEBUG` after the build caused the real runner
+  to reject before creating any evaluation artifacts or success record. Retrying
+  that partial output directory was also rejected.
+
+The [build/run records and exact comparison](../qualification/results/verified-external-v1/)
+include file and executable hashes; `rejection.json` records the negative check.
+The recorded build interval was 27.16 seconds and run interval 7.77 seconds. These
+are single execution records, not matching benchmarks or performance comparisons.
+No library or evaluator Rust source, dependency, scoring policy or historical
+snapshot changed in this phase; matching benchmarks were not rerun.
+
+Exact local validation commands (use fresh directory names to repeat):
+
+```text
+py -3.11 -m unittest discover -s evaluation -p test_verified.py
+py -3.11 -m unittest discover -s evaluation -p test_import_t2d.py
+py -3.11 evaluation/import_t2d.py --check
+py -3.11 evaluation/verified.py build --build-dir target/external-verified-v1 --toolchain 1.85.0
+py -3.11 evaluation/verified.py run --build-dir target/external-verified-v1 --output target/external-verified-results-v1
+```
+
+CI repeats the runner tests and fresh build/run on Linux, Windows and macOS with
+Rust 1.85.0 and 1.99.0, in addition to the existing Rust and regression checks.

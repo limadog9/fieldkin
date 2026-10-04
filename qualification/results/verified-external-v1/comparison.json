@@ -1,0 +1,36 @@
+{
+  "artifacts": [
+    {
+      "bytes": 170753,
+      "comparison": "exact raw-byte equality, including all historical metadata",
+      "name": "development.json",
+      "reference_path": "evaluation/results/t2d-v1/development.json",
+      "reference_revision": "eb9540884f0d4967ff6249d8dd17d1acc63fbbb5",
+      "sha256": "e4486d8e98d47c7f06de6d9060c677c00ecb227388948c066ce28b21971ee6a2"
+    },
+    {
+      "bytes": 4159619,
+      "comparison": "exact raw-byte equality, including all historical metadata",
+      "name": "development-predictions.jsonl",
+      "reference_path": "evaluation/results/t2d-v1/development-predictions.jsonl",
+      "reference_revision": "eb9540884f0d4967ff6249d8dd17d1acc63fbbb5",
+      "sha256": "9bc11c1dee04576eca9f2a3161883da5ecd4370a1684d4fdf86ab96bcc77867c"
+    },
+    {
+      "bytes": 1179,
+      "comparison": "exact raw-byte equality, including all historical metadata",
+      "name": "development.md",
+      "reference_path": "evaluation/results/t2d-v1/development.md",
+      "reference_revision": "eb9540884f0d4967ff6249d8dd17d1acc63fbbb5",
+      "sha256": "e6999f740fcf4de3f236291b46004c5dae7fe95f054a718984bf0660c688d127"
+    }
+  ],
+  "implementation_revision": "d1668412685b051080c32dc9d8b89aa3825e733b",
+  "input_files": 45,
+  "interpretation": "The new run records executable and scoped inputs. Its complete output exactly equals the existing T2D development files, which are referenced without duplicating or relabeling historical evidence. Reserved classes were not scored. No accuracy or runtime improvement is claimed.",
+  "protocol": "fieldkin-verified-external-comparison-v1",
+  "records": {
+    "build.json": "9949032261e7931d221dc36f9f217e1a8d110ab849d9d66f9ba8741df088d24c",
+    "run.json": "65912991c1b123561ed56a0468e862a7e09a0e4fa8e079c0252c284b26c77f65"
+  }
+}

@@ -1,0 +1,2 @@
+# Preserve the exact bytes referenced by comparison.json and run.json.
+*.json text eol=lf
