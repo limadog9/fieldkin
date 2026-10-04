@@ -271,6 +271,7 @@ fn engine(
 ) -> Result<MatchEngine, String> {
     let limits = &protocol["limits"];
     let config = Config {
+        corroboration: None,
         global_diagnostics: Default::default(),
         min_score: threshold,
         ambiguity_margin: number(protocol, "ambiguity_margin")?,
@@ -455,10 +456,20 @@ fn markdown(rows: &[Row], operating: &[OperatingPoint], default: f64) -> String 
     text
 }
 
-fn write_or_check(path: &Path, contents: &str, check: bool) -> Result<(), String> {
+fn write_or_check(
+    path: &Path,
+    contents: &str,
+    check: bool,
+    check_behavior: bool,
+) -> Result<(), String> {
     if check || path.exists() {
         let existing = fs::read_to_string(path).map_err(|error| error.to_string())?;
-        if normalized(&existing) != contents {
+        let same = if check_behavior {
+            crate::snapshot::same_behavior_json(&existing, contents)?
+        } else {
+            normalized(&existing) == contents
+        };
+        if !same {
             return Err(format!(
                 "{} differs; preserve prior results and use a new output directory",
                 path.display()
@@ -470,23 +481,33 @@ fn write_or_check(path: &Path, contents: &str, check: bool) -> Result<(), String
     Ok(())
 }
 
-/// Evaluate only original development cases and the Stage 3 development extension.
-pub fn run(args: Vec<String>) -> Result<(), String> {
+fn options(args: Vec<String>) -> Result<(PathBuf, bool, bool), String> {
     let mut output = root().join("target/fieldkin-stage3");
     let mut check = false;
+    let mut check_behavior = false;
     let mut args = args.into_iter();
     while let Some(argument) = args.next() {
         match argument.as_str() {
             "--output" => output = args.next().ok_or("--output needs a directory")?.into(),
             "--check" => check = true,
+            "--check-behavior" => check_behavior = true,
             _ => {
                 return Err(
-                    "Stage 3 accepts only --output DIR and --check; holdout scoring is unavailable"
+                    "Stage 3 accepts only --output DIR, --check or --check-behavior; holdout scoring is unavailable"
                         .into(),
                 )
             }
         }
     }
+    if check && check_behavior {
+        return Err("--check and --check-behavior are mutually exclusive".into());
+    }
+    Ok((output, check || check_behavior, check_behavior))
+}
+
+/// Evaluate only original development cases and the Stage 3 development extension.
+pub fn run(args: Vec<String>) -> Result<(), String> {
+    let (output, check, check_behavior) = options(args)?;
     let protocol: Value = serde_json::from_str(PROTOCOL).map_err(|error| error.to_string())?;
     let strings = |key: &str| -> Result<Vec<&str>, String> {
         protocol[key]
@@ -711,12 +732,18 @@ pub fn run(args: Vec<String>) -> Result<(), String> {
     if !check {
         fs::create_dir_all(&output).map_err(|error| error.to_string())?;
     }
-    write_or_check(&output.join("report.json"), &json, check)?;
-    write_or_check(&output.join("predictions.jsonl"), &predictions, check)?;
+    write_or_check(&output.join("report.json"), &json, check, check_behavior)?;
+    write_or_check(
+        &output.join("predictions.jsonl"),
+        &predictions,
+        check,
+        false,
+    )?;
     write_or_check(
         &output.join("report.md"),
         &markdown(&rows, &operating, default),
         check,
+        false,
     )?;
     println!("Stage 3 development evaluation {}: 172 schema pairs, 32 + 12 families, 992 labels; {} aggregate threshold rows; no holdout scoring",
         if check { "verified" } else { "written" }, rows.len());
@@ -726,6 +753,47 @@ pub fn run(args: Vec<String>) -> Result<(), String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn behavior_check_is_explicit_and_cannot_enable_holdout() {
+        let (_, check, behavior) = options(vec!["--check".into()]).unwrap();
+        assert!(check && !behavior);
+        let (_, check, behavior) = options(vec!["--check-behavior".into()]).unwrap();
+        assert!(check && behavior);
+        assert!(options(vec!["--check".into(), "--check-behavior".into()]).is_err());
+        for flag in ["--check", "--check-behavior"] {
+            assert!(options(vec![flag.into(), "--acknowledge-holdout".into()]).is_err());
+        }
+    }
+
+    #[test]
+    fn exact_check_still_rejects_implementation_hash_changes() {
+        let path = std::env::temp_dir().join(format!(
+            "fieldkin-stage3-snapshot-{}-{}.json",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let original = json!({"metadata":{"engine_source_sha256":{"engine.rs":"old"},"evaluator_source_sha256":{"stage3.rs":"old"}},"counts":{"proposals":3}}).to_string();
+        let mut current: Value = serde_json::from_str(&original).unwrap();
+        current["metadata"]["engine_source_sha256"]["engine.rs"] = json!("new");
+        let mut file = fs::OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(&path)
+            .unwrap();
+        std::io::Write::write_all(&mut file, original.as_bytes()).unwrap();
+        drop(file);
+        let exact = write_or_check(&path, &current.to_string(), true, false);
+        let behavior = write_or_check(&path, &current.to_string(), true, true);
+        let retained = fs::read_to_string(&path).unwrap();
+        fs::remove_file(path).unwrap();
+        assert!(exact.is_err());
+        assert!(behavior.is_ok());
+        assert_eq!(retained, original);
+    }
 
     #[test]
     fn extension_has_independent_complete_labels_and_exact_samples() {

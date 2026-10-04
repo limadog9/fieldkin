@@ -34,13 +34,16 @@ jobs:
       - run: cargo +${{ matrix.rust }} doc --locked --no-deps --all-features
       - run: cargo +${{ matrix.rust }} run --locked --example import_review
       - run: cargo +${{ matrix.rust }} run --locked --example catalog_review
+      - run: cargo +${{ matrix.rust }} run --locked --example corroboration
       - run: cargo +${{ matrix.rust }} package --locked -p fieldkin
       - name: Verify original decisions with historical sample reliability
         run: cargo +${{ matrix.rust }} run --locked --release -p fieldkin-eval -- --check-behavior --output evaluation/results/baseline-v1
       - name: Verify current full development reports
-        run: cargo +${{ matrix.rust }} run --locked --release -p fieldkin-eval -- --stage3 --check --output evaluation/results/rc-v1/stage3-development
-      - name: Verify release development evaluation (holdout is never run in CI)
-        run: cargo +${{ matrix.rust }} run --locked --release -p fieldkin-eval -- --release --check --output evaluation/results/rc-v1/release
+        run: cargo +${{ matrix.rust }} run --locked --release -p fieldkin-eval -- --stage3 --check-behavior --output evaluation/results/rc-v1/stage3-development
+      - name: Verify release development snapshot
+        run: cargo +${{ matrix.rust }} run --locked --release -p fieldkin-eval -- --release --check-behavior --output evaluation/results/rc-v1/release
+      - name: Verify corrective development and original regression (no fresh holdout)
+        run: cargo +${{ matrix.rust }} run --locked --release -p fieldkin-eval -- --corrective --check --output evaluation/results/corrective-v1
   test:
     name: test
     needs: platform

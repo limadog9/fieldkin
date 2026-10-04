@@ -6,7 +6,8 @@ use crate::{
     assignment, AssignmentDiagnostics, BudgetKind, Candidate, CandidateIssue, Config,
     ConfigurationError, CountKind, Decision, Field, FieldDiagnostic, FieldMatch, InputError,
     MatchError, MatchReport, Matcher, NameMatcher, SampleMatcher, SampleProfileMatcher,
-    SampleValue, Schema, SemanticAxis, SignalReport, TargetCompetition, TypeMatcher,
+    SampleReliability, SampleValue, Schema, SemanticAxis, SignalReport, TargetCompetition,
+    TypeMatcher,
 };
 
 /// A signal and its relative weight. Zero-weight signals are disabled.
@@ -368,6 +369,8 @@ impl MatchEngine {
     ) -> Result<Candidate, MatchError> {
         let mut signals = Vec::with_capacity(self.matchers.len());
         let mut score = 0.0;
+        let mut name_support = false;
+        let mut sample_support = false;
         for (signal, prepared) in self.matchers.iter().zip(prepared) {
             if signal.weight == 0.0 {
                 continue;
@@ -410,6 +413,26 @@ impl MatchEngine {
             if *explanation_bytes > self.config.limits.max_explanation_bytes {
                 return Err(MatchError::BudgetExceeded(BudgetKind::ExplanationBytes));
             }
+            if let Some(requirements) = self.config.corroboration {
+                // Consume the evidence actually produced by concrete prepared
+                // built-ins. Public matcher names are identifiers, not evidence
+                // capabilities. No extra evaluation or scan is performed.
+                match prepared {
+                    PreparedSignal::Names { .. } => {
+                        name_support |= evidence.score.is_some_and(|value| {
+                            value > 0.0 && value >= requirements.min_name_score
+                        });
+                    }
+                    PreparedSignal::Samples { matcher, .. }
+                        if matcher.reliability == SampleReliability::Distinct =>
+                    {
+                        sample_support |= evidence.score.is_some_and(|value| {
+                            value > 0.0 && value >= requirements.min_sample_score
+                        });
+                    }
+                    _ => {}
+                }
+            }
             score += signal.weight * evidence.score.unwrap_or(0.0);
             signals.push(SignalReport {
                 name: signal.matcher.name().to_owned(),
@@ -434,6 +457,22 @@ impl MatchEngine {
         }
         if score <= 0.0 || score < self.config.min_score {
             issues.push(CandidateIssue::InsufficientScore);
+        }
+        if let Some(requirements) = self.config.corroboration {
+            if !name_support {
+                issues.push(CandidateIssue::InsufficientNameSupport);
+                warnings.push(format!(
+                    "Corroboration requires a positive active built-in name score of at least {}; pair excluded.",
+                    requirements.min_name_score,
+                ));
+            }
+            if !sample_support {
+                issues.push(CandidateIssue::InsufficientSampleSupport);
+                warnings.push(format!(
+                    "Corroboration requires an active distinct-aware built-in sample score of at least {}; pair excluded.",
+                    requirements.min_sample_score,
+                ));
+            }
         }
         for (axis, source, target) in [
             (SemanticAxis::Unit, &source.hints.unit, &target.hints.unit),
@@ -463,6 +502,7 @@ impl MatchEngine {
             score,
             eligible: score > 0.0
                 && score >= self.config.min_score
+                && (self.config.corroboration.is_none() || (name_support && sample_support))
                 && !semantic_conflict
                 && !(incompatible && self.config.reject_incompatible_types),
             signals,
@@ -532,6 +572,17 @@ fn validate_config(config: &Config) -> Result<(), MatchError> {
     if config.max_candidates == 0 {
         return Err(MatchError::InvalidConfiguration(
             ConfigurationError::MaxCandidates,
+        ));
+    }
+    if config.corroboration.is_some_and(|requirements| {
+        !requirements.min_name_score.is_finite()
+            || !(0.0..=1.0).contains(&requirements.min_name_score)
+            || !requirements.min_sample_score.is_finite()
+            || requirements.min_sample_score <= 0.0
+            || requirements.min_sample_score > 1.0
+    }) {
+        return Err(MatchError::InvalidConfiguration(
+            ConfigurationError::Corroboration,
         ));
     }
     if !config.global_diagnostics.objective_margin.is_finite()

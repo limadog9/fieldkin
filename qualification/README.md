@@ -19,8 +19,8 @@ candidate pairs and assignment-oracle search nodes do not increase the count.
 | --- | --- |
 | Normalization | ASCII case/separator/digit oracle and bounded Unicode fragments; repeatability, nonempty tokens and bounded expansion |
 | Malformed schemas | Duplicate/empty/oversize identities and names, non-finite floats, oversized observations/text, invalid semantic hints; ordinary errors required |
-| Configuration and limits | Invalid thresholds/margins/top-k, each resource budget, and an exact accepted sample-byte boundary |
-| Default report invariants | Small random schemas, all sample representations, missing/null-heavy samples, duplicated names and hints; valid scores/ranks/IDs, selected/unmatched complements, one-to-one uniqueness, exact report invariance under field reordering |
+| Configuration and limits | Invalid thresholds/margins/top-k/corroboration floors, each resource budget, and an exact accepted sample-byte boundary |
+| Default report invariants | Small random schemas, all sample representations, missing/null-heavy samples, duplicated names and hints; randomly disabled/default/strict-name corroboration; valid scores/ranks/IDs, selected/unmatched complements, one-to-one uniqueness, exact report invariance under field reordering; gated candidates require positive built-in support and preserve ungated scores/evidence by target |
 | Assignment oracle | Random 2–4 by 2–4 score matrices through a public custom matcher, thresholds and display top-k; compare total selected score with an independent exhaustive integer partial-assignment oracle; randomly enable diagnostic solve/work budgets and compare complete best-distinct-alternative analysis with full enumeration; validate witness assignments/objectives/gaps, exact budget use/completeness, reordering and structural invariants |
 
 The generator uses wrapping 64-bit LCG constants recorded in source, seed
@@ -34,6 +34,17 @@ objective margins 0, 0.05 or 0.2. Exhaustive enumeration is independent of the
 engine's selected-edge exclusion procedure. Incomplete diagnostic output is
 checked for valid witnesses and honest completeness, without pretending it
 establishes the absence of further alternatives.
+
+The corrective-cycle extension randomly enables corroboration in built-in-engine
+cases with name/sample floors `0.0/0.5` or `0.8/0.5`. Even at a zero name floor,
+eligible and selected candidates must have positive active name evidence. The
+comparison against an ungated call checks pair scores, signal evidence, retained
+targets and eligibility. It does not require selected mappings to be a subset:
+removing a weak competing candidate can resolve a tie and create a proposal.
+The harness can inspect signal names here because it explicitly constructs the
+built-in engine; applications must not authenticate custom matchers by name.
+These additions change generated inputs at the same seed, so use new result
+directories. Preserve earlier campaigns with their recorded source hashes.
 
 The runner records compiler, platform, source/manifest/lockfile and binary hashes,
 actual case totals, category totals, seed and elapsed time. It rejects changed

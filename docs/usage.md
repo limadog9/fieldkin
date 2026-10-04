@@ -50,6 +50,13 @@ An alternative objective gap is a difference of sums of heuristic scores, never
 a confidence interval. Review near alternatives even when the solver selected
 one deterministically.
 
+When representative overlapping samples are required by your application, enable
+`Config::corroboration`. The [corroboration guide](corroboration.md) explains the
+positive-name/sample-floor gate, its typed exclusion reasons and coverage costs.
+The [example](https://github.com/limadog9/fieldkin/blob/main/examples/corroboration.rs)
+retains a supported date rename and withholds an amount proposal with no samples.
+The gate does not verify semantic equivalence or remove candidates from review.
+
 ## Limits and extensions
 
 Defaults allow 128 fields per side, 16,384 pairs, 65,536 signal evaluations,

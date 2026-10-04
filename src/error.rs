@@ -18,6 +18,9 @@ pub enum ConfigurationError {
     TotalWeight,
     /// Options for global assignment diagnostics are invalid.
     GlobalDiagnostics,
+    /// Corroboration requires a finite name floor in `[0, 1]` and a finite
+    /// sample floor in `(0, 1]`.
+    Corroboration,
 }
 
 impl fmt::Display for ConfigurationError {
@@ -32,6 +35,9 @@ impl fmt::Display for ConfigurationError {
             Self::SignalNames => "signal names must be nonempty, unique, and at most 256 bytes",
             Self::TotalWeight => "total signal weight must be positive and finite",
             Self::GlobalDiagnostics => "invalid global assignment diagnostic configuration",
+            Self::Corroboration => {
+                "corroboration floors must be finite: name in [0, 1], samples in (0, 1]"
+            }
         })
     }
 }

@@ -236,3 +236,38 @@ with a separately authored family before making a new held-out claim.
 This public corpus is not a concealed test set or independent third-party
 validation. A future real-world licensed corpus and fair external matcher
 comparison remain separate work; Stage 1 does not claim superiority to Valentine.
+
+## Corrective corroboration experiment
+
+`--corrective` evaluates four predeclared models without a threshold sweep. All
+40 previously examined families, including the original holdout, are now explicit
+regression data for this new experiment. They retain their original labels and
+artifacts. New independently authored synthetic families have separately reserved
+development and fresh holdout partitions; they are not independent consumer data.
+
+```text
+cargo +1.85.0 run --locked --release -p fieldkin-eval -- --corrective --output target/corrective-development
+cargo +1.85.0 run --locked --release -p fieldkin-eval -- --corrective --check --output evaluation/results/corrective-v1
+```
+
+The default and `--check` score only original regression and fresh development.
+The final `--acknowledge-holdout` run additionally requires a feature-freeze commit
+whose actual source/fixture/configuration/dependency contents match this checkout.
+Only recording the freeze SHA itself may differ. Git and complete source history
+are required for that explicit final run. CI never acknowledges fresh holdout.
+Compact summaries and per-case JSONL preserve counts, decision reasons and full
+report digests without emitting sample values. `--check` ignores only the current
+engine/evaluator source-hash maps; fixture, protocol, dependency and behavioral
+changes still fail. New results do not overwrite different historical artifacts.
+
+Historical `--stage3` and `--release` runs retain their exact `--check` mode.
+Their explicit `--check-behavior` mode, used in current CI, permits only the same
+two implementation-source hash maps to differ. Counts, predictions/full report
+digests, protocols, fixtures, dependency locks and manifests remain checked.
+This verifies preserved behavior after adding an opt-in API without rewriting the
+frozen RC artifacts. Both check modes reject holdout acknowledgment.
+
+`python evaluation/analyze_support.py` separately describes filters over published
+RC-v1 proposals. Those filters do not recompute ambiguity or assignment and must
+not be presented as evaluation of a new engine policy. See the
+[corrective protocol](corrective-protocol.json) and [API guide](../docs/corroboration.md).

@@ -182,6 +182,47 @@ impl Default for Limits {
     }
 }
 
+/// Optional evidence requirements in addition to weighted scoring and hard constraints.
+///
+/// Only active concrete built-in [`crate::NameMatcher`] and distinct-aware
+/// [`crate::SampleMatcher`] evidence can satisfy these requirements. Missing,
+/// disabled, custom, profile and historical `Legacy` signals do not qualify.
+/// Semantic-hint agreement does not substitute for sampled support.
+/// This gate reuses evidence and never changes scores or candidate ranking.
+/// It can change ambiguity and assignment by excluding eligible edges.
+///
+/// Shared samples still do not establish shared meaning. The default sample
+/// floor admits fully overlapping two-value columns and loses coverage on
+/// null-heavy, disjoint or unavailable samples. Thresholds are heuristics.
+///
+/// ```
+/// use fieldkin::{Config, Corroboration, MatchEngine};
+/// let engine = MatchEngine::new(Config {
+///     corroboration: Some(Corroboration::default()),
+///     ..Config::default()
+/// })?;
+/// # let _ = engine;
+/// # Ok::<(), fieldkin::MatchError>(())
+/// ```
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct Corroboration {
+    /// Inclusive raw name-score floor in `[0, 1]`, before weighting. The score
+    /// must also be positive, even when this floor is zero (the default).
+    pub min_name_score: f64,
+    /// Inclusive raw distinct-aware sample-score floor in `(0, 1]`, before
+    /// weighting. Defaults to 0.5. Both floors must be finite.
+    pub min_sample_score: f64,
+}
+
+impl Default for Corroboration {
+    fn default() -> Self {
+        Self {
+            min_name_score: 0.0,
+            min_sample_score: 0.5,
+        }
+    }
+}
+
 /// Match controls. Scores are heuristic scores, never calibrated probabilities.
 #[derive(Clone, Debug)]
 pub struct Config {
@@ -197,6 +238,9 @@ pub struct Config {
     pub abstain_on_ambiguity: bool,
     /// Exclude pairs with incompatible known declared types, even with strong names.
     pub reject_incompatible_types: bool,
+    /// Optional built-in name/sample support gate. Defaults to `None`, preserving
+    /// weighted matching when samples are unavailable. See [`Corroboration`].
+    pub corroboration: Option<Corroboration>,
     /// Optional bounded alternative-assignment analysis; never changes selection.
     pub global_diagnostics: crate::GlobalDiagnosticsConfig,
     /// Resource budgets.
@@ -212,6 +256,7 @@ impl Default for Config {
             one_to_one: false,
             abstain_on_ambiguity: true,
             reject_incompatible_types: true,
+            corroboration: None,
             global_diagnostics: crate::GlobalDiagnosticsConfig::default(),
             limits: Limits::default(),
         }
@@ -265,7 +310,8 @@ pub struct Candidate {
     pub target: FieldId,
     /// Weighted sum in [0, 1], not a probability.
     pub score: f64,
-    /// Passes threshold, type veto and semantic-hint constraints; ambiguity is source-level.
+    /// Passes threshold, optional corroboration, type veto and semantic-hint
+    /// constraints; ambiguity is source-level.
     pub eligible: bool,
     /// Individual scores, missing evidence and contributions.
     pub signals: Vec<SignalReport>,
@@ -297,6 +343,12 @@ pub enum CandidateIssue {
     MissingEvidence,
     /// Score is zero or below the configured threshold.
     InsufficientScore,
+    /// The enabled corroboration gate requires a positive built-in name score
+    /// meeting its floor; absent, disabled or custom evidence cannot qualify.
+    InsufficientNameSupport,
+    /// The enabled corroboration gate requires a distinct-aware built-in sample
+    /// score meeting its floor; absent, disabled, Legacy or custom evidence cannot qualify.
+    InsufficientSampleSupport,
     /// Supplied semantics conflict; this always excludes the pair.
     SemanticConflict(SemanticAxis),
     /// Supplied labels agree, without increasing the score.
@@ -311,7 +363,7 @@ pub enum CandidateIssue {
 #[derive(Clone, Debug, PartialEq, Eq)]
 #[non_exhaustive]
 pub enum FieldDiagnostic {
-    /// No candidate passes the score and semantic/type constraints.
+    /// No candidate passes the score, corroboration and semantic/type constraints.
     NoEligibleTarget,
     /// Several eligible candidates are within the local ambiguity margin.
     LocalAmbiguity,

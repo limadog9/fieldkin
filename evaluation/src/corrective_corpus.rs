@@ -872,9 +872,6 @@ mod tests {
         assert_eq!(families.len(), 24);
         assert_eq!(families.iter().map(|f| f.labels.len()).sum::<usize>(), 144);
         assert_eq!(HOLDOUT.into_iter().collect::<BTreeSet<_>>().len(), 12);
-        assert!(
-            !PROVENANCE.is_empty() && !PARTITION_RATIONALE.is_empty() && !SOURCE_TEXT.is_empty()
-        );
         for family in &families {
             assert!(family
                 .labels

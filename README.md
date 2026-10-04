@@ -104,11 +104,34 @@ explicit token replacements, which are listed in explanations. Optional
 `SampleProfileMatcher` compares sample shapes but is disabled by default because
 unrelated fields can have identical profiles. See [Stage 3 migration and limits](docs/stage3-migration.md).
 
+An application can require sampled support before accepting a pair as eligible:
+
+```rust
+use fieldkin::{CandidateIssue, Config, Corroboration, DataType, Field, MatchEngine, Schema};
+
+let source = Schema::new(vec![Field::new("s", "amount", DataType::Decimal)]);
+let target = Schema::new(vec![Field::new("t", "amount", DataType::Decimal)]);
+let report = MatchEngine::new(Config {
+    corroboration: Some(Corroboration::default()),
+    ..Config::default()
+})?.match_schemas(&source, &target)?;
+assert!(report.fields[0].selected.is_none());
+assert!(report.fields[0].candidates[0].issues.contains(&CandidateIssue::InsufficientSampleSupport));
+# Ok::<(), fieldkin::MatchError>(())
+```
+
+This opt-in gate requires positive built-in name evidence and distinct-aware
+sample evidence scoring at least 0.5. Scores and ranking remain unchanged;
+unsupported candidates are retained for review. Unavailable or disjoint samples
+lose eligibility, and coincidental shared values can still mislead. The weighted
+default remains unchanged. See [corroboration and its tradeoffs](docs/corroboration.md)
+and the [complete example](examples/corroboration.rs).
+
 ## API and customization
 
 - `Schema`, `Field`, `FieldId`, `DataType`, and `SampleValue` describe inputs. IDs
   must be nonempty and unique within each schema; names can repeat.
-- `MatchEngine::new(Config)` selects conservative defaults.
+- `MatchEngine::new(Config)` selects the built-in name, type and sample signals.
   `MatchEngine::with_matchers` accepts weighted built-in or custom `Matcher`s.
   Signals return an optional bounded score and an explanation. Invalid scores,
   duplicate IDs, invalid configuration, and exceeded budgets return `MatchError`.
@@ -176,7 +199,7 @@ cargo bench --locked --bench matching
 ```
 
 CI checks Rust 1.85.0 and 1.99.0 on Linux, Windows and macOS, including tests,
-clippy, documentation, consumer examples, packaging and development evaluation.
+clippy, documentation, consumer examples, packaging and development/regression evaluation.
 Formatting is checked on both compilers. Workflow permissions remain
 read-only. Fixtures are synthetic and included under this
 repository's license. The baseline example compares name-only matching with the
