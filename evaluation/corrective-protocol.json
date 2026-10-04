@@ -1,0 +1,140 @@
+{
+  "protocol_version": "corrective-1.0.0",
+  "baseline_revision": "3b8d65aa7c5882781588c3fb5442ca987e9a390e",
+  "feature_freeze_revision": null,
+  "default_decision": "Preserve the existing weighted default (Config.corroboration=None). Corroboration::default() is the opt-in sample_gate preset (.0 name/.5 sample); the stricter corroborated (.8/.5) model is an ablation. Both remain opt-in experiments even if this synthetic evaluation meets its targets; independent consumer data is still required before promoting a library default.",
+  "public_default_corroboration": {
+    "min_name_score": 0.0,
+    "min_sample_score": 0.5
+  },
+  "model_roles": {
+    "combined": "unchanged library default",
+    "sample_gate": "public default opt-in corroboration preset",
+    "corroborated": "stricter name-floor ablation",
+    "name_only": "true name-only baseline"
+  },
+  "preset_rationale": "Before fixture/protocol freeze and policy implementation, an old-regression-only postfilter design analysis showed the .80 name floor removed true partial renames while retaining exact-name semantic false proposals. The public opt-in preset therefore uses .0/.5; the .8/.5 comparison remains unchanged. No fresh development or holdout predictions informed this choice, and none of the four evaluated model settings or score thresholds changed.",
+  "models": [
+    "combined",
+    "sample_gate",
+    "corroborated",
+    "name_only"
+  ],
+  "assignment_modes": [
+    "independent",
+    "one_to_one"
+  ],
+  "threshold": 0.7,
+  "threshold_tuning": "None. Evaluate the single predeclared .70 threshold and .08 ambiguity margin; do not add a grid after seeing outcomes.",
+  "candidate_policy": {
+    "api": "Config.corroboration: Option<Corroboration>; Corroboration { min_name_score, min_sample_score }",
+    "combined": null,
+    "sample_gate": {
+      "min_name_score": 0.0,
+      "min_sample_score": 0.5
+    },
+    "corroborated": {
+      "min_name_score": 0.8,
+      "min_sample_score": 0.5
+    },
+    "semantics": "Eligibility additionally requires positive scores from active concrete built-in NameMatcher and SampleMatcher with Distinct reliability, meeting their respective floors. Legacy overlap, custom matchers merely named name/samples, and profiles cannot corroborate. Scores, ranking, weighted threshold, type veto and supplied semantic constraints remain unchanged. No semantic-hint agreement fallback. The sample_gate public opt-in preset retains positive name support; corroborated additionally requires the .80 name floor.",
+    "validation": "Name floor must be finite in [0,1]; sample floor must be finite in (0,1]. Both qualifying signal scores must be positive regardless of configured floor."
+  },
+  "common": {
+    "ambiguity_margin": 0.08,
+    "max_candidates": 5,
+    "abstain_on_ambiguity": true,
+    "aliases": {
+      "amt": "amount",
+      "trans": "transaction"
+    },
+    "global_diagnostics": {
+      "max_solves": 0,
+      "max_work": 8388608,
+      "objective_margin": 0.08
+    }
+  },
+  "combined": {
+    "weights": {
+      "name": 0.65,
+      "type": 0.2,
+      "samples": 0.15
+    },
+    "sample_reliability": "distinct",
+    "sample_min_non_null": 3,
+    "reject_incompatible_types": true
+  },
+  "ablation_weights": "sample_gate and corroborated use the same combined weights; the eligibility gate does not renormalize or replace scores.",
+  "name_only": {
+    "weights": {
+      "name": 1.0
+    },
+    "reject_incompatible_types": false,
+    "semantic_hints": "removed"
+  },
+  "limits": {
+    "max_fields": 128,
+    "max_pairs": 16384,
+    "max_signal_evaluations": 65536,
+    "max_explanation_bytes": 16777216,
+    "max_name_bytes": 256,
+    "max_samples_per_field": 256,
+    "max_sample_bytes": 1024,
+    "max_total_sample_bytes": 8388608
+  },
+  "corpora": {
+    "original_regression": {
+      "families": 40,
+      "cases": 200,
+      "labels": 1200,
+      "policy": "All previously evaluated development and holdout families are now regression data. Preserve all original labels and five variants; do not claim new independent validation."
+    },
+    "fresh_development": {
+      "families": 12,
+      "cases": 36,
+      "labels": 216
+    },
+    "fresh_holdout": {
+      "families": 12,
+      "cases": 36,
+      "labels": 216
+    },
+    "fresh_domains": [
+      "fulfillment",
+      "subscription_billing",
+      "research_labs",
+      "civic_records"
+    ],
+    "fresh_variants": [
+      "base",
+      "reordered",
+      "null_heavy"
+    ],
+    "fresh_generator_seed": 20261004,
+    "fresh_partition_policy": "Within each fresh domain, 01/03/05 are development; 02/04/06 are holdout. Families and every variant remain in one partition. No matching is run on fresh holdout before the explicit final frozen evaluation."
+  },
+  "quality_targets": {
+    "proposal_precision": 0.95,
+    "unique_coverage": 0.6,
+    "candidate_recall_at_5": 0.9
+  },
+  "acceptance_policy": "Retain the targets and require nonzero proposals. Report precision, recall, unique coverage and all false-proposal categories together. A policy that merely abstains more has not met the coverage target. Decide default versus opt-in status using development and original regression before acknowledging fresh holdout; do not change the policy, labels, defaults or acceptance thresholds in response to fresh holdout results.",
+  "grouping": [
+    "all",
+    "domain",
+    "scenario_tag",
+    "variant",
+    "family"
+  ],
+  "false_positive_slices": [
+    "wrong_unique_proposals",
+    "no_match_proposals",
+    "ambiguous_proposals"
+  ],
+  "candidate_metric_policy": "Retain the original top-five ranked candidate definition, including ineligible candidates. Report unique and ambiguous retrieval separately. Small target schemas inflate this diagnostic.",
+  "execution_policy": "Default and --check score original_regression and fresh_development only. --check cannot acknowledge holdout. Final --acknowledge-holdout requires a recorded feature-freeze commit and a development-based default decision; it scores all three corpora into separate artifacts without pooling.",
+  "regression_check_policy": "--check ignores only current engine_source_sha256 and evaluator_source_sha256 maps when comparing summary JSON. It preserves every historical artifact and requires identical predictions including full-report digests, counts, fixed protocols, fixture hashes including fresh corpus source, manifests and complete Cargo.lock. Markdown and compact predictions remain exact after CRLF/LF normalization.",
+  "freeze_policy": "Experimental settings are committed before matching-policy implementation. Fresh fixture families are authored separately without matching outputs and committed before any corrective evaluation. Only feature_freeze_revision may be filled after development analysis and before final fresh holdout scoring; every other experimental setting, including the ex-ante default decision, must match the frozen feature commit. Changing those settings after fresh holdout scoring requires a new protocol version and independent new holdout.",
+  "provenance": "Original synthetic Fieldkin fixtures under MIT OR Apache-2.0. Source, fixture, protocol, manifest and complete Cargo.lock hashes are recorded with results.",
+  "limitations": "Twelve fresh holdout families and correlated variants cannot establish general production accuracy. Scores and eligibility rules are heuristics, not calibrated probabilities. Hints, schemas and samples may omit the semantic distinction that determines whether a match is actually correct."
+}
