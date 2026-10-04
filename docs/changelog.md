@@ -14,7 +14,9 @@ decision. See the release scorecard for qualification evidence and limitations.
   Valentine COMA comparison. Correlated demonstration-data tasks do not establish
   production precision or satisfy the release quality targets.
 - Added reproducible larger-schema cost workloads with explicit caller-raised
-  limits. Ordinary limits and matching defaults remain unchanged.
+  limits. Ordinary limits and matching defaults remain unchanged. Evaluated and
+  reverted scratch-buffer reuse after failed latency acceptance; retained all
+  measurements and restored the prior solver. See the continuation scorecard.
 - Refreshed dependency/license inventories for the optional JSON graph and
   preserved the earlier dated advisory review.
 - Reduced private assignment work by omitting target columns without valid

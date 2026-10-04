@@ -50,10 +50,150 @@ allocations in 18 workloads, but those savings do not waive the latency gate.
 
 Scratch-buffer reuse is rejected for this build. The solver is restored exactly
 to main's `104b8e9` implementation; the optional JSON API, external comparison and
-scale tools remain. A second frozen revision will receive separate qualification
+scale tools remain. The retained freeze is
+`5bfaa295de68178e801b79e158ea06f9a8279e74`, with separate qualification
 and measurement records in `continuation-v2`. Scores from the fixed Valentine
 run remain unchanged in `evaluation/results/continuation-v1/valentine`; no matching
 policy is being tuned from the inspected Northix results.
+
+Implementation and functional qualification for phases 11–14 are complete.
+Accuracy and latency acceptance targets remain unmet; this is an experimental
+build, not a production-readiness or publication decision.
+
+## Retained API and qualification
+
+Enable `features = ["json"]` for bounded `json::report_to_json` exports and
+`review_to_json` / `review_from_json` persistence. The application supplies trusted
+source/target revisions and passes loaded constraints to
+`MatchEngine::match_schemas_with_constraints`. Default exports omit arbitrary
+matcher text; reports cannot be imported as approvals. The compiling
+[persisted-review importer](../examples/persisted_review.rs) demonstrates resuming
+explicit review and rejecting stale revisions.
+
+The [runtime comparison](../qualification/results/continuation-v2/runtime-comparison.json)
+confirms every existing matching source file is identical to the baseline.
+`lib.rs` only adds the feature-gated JSON module declaration. Default builds keep
+the same two direct dependencies; optional Serde edges add no package version or
+checksum changes to the existing lockfile.
+
+| Check | Result |
+| --- | --- |
+| Rust 1.85.0 and 1.99.0 | 242 workspace tests each, including 19 JSON tests and eight doctests; two scale-example tests, one performance test and two qualification tests: 247 distinct tests per compiler |
+| JSON disabled | 169 library/integration/doctests per compiler, separately passed |
+| Formatting, Clippy, docs and consumer examples | Passed on both compilers; warnings denied for Clippy and rustdoc |
+| Python protocol tests | 67 evaluation/importer/runner/comparator tests and ten performance-driver tests passed |
+| Generated campaign | 1,200,000 cases, seed 20261007; six categories of 200,000, all passed |
+| Baseline compatibility | All 1,024 full reports and callback traces exactly equal, including original/reversed inputs; 5,536,669-byte transcripts |
+| Development/regression evidence | Outcomes, predictions and corpus unchanged across baseline, Stage 3, release, corrective and T2D development snapshots |
+| Northix repeat on retained runtime | All 156 summary rows and complete predictions identical to the first freeze; original Valentine score files reused |
+| Rust dependency review | All three lockfiles: zero known vulnerabilities and zero warnings using the recorded RustSec snapshot; 42 third-party versions reviewed |
+
+Exact commands, compiler selections and counts are in
+[checks.json](../qualification/results/continuation-v2/checks.json),
+[campaign build](../qualification/results/continuation-v2/build.json),
+[campaign result](../qualification/results/continuation-v2/run.json),
+[compatibility](../qualification/results/continuation-v2/compatibility.json),
+[regression comparison](../qualification/results/continuation-v2/regression-comparison.json),
+[snapshot checks](../qualification/results/continuation-v2/snapshot-checks.json), and
+[dependency review](../qualification/results/continuation-v1/dependencies.json).
+The current CI matrix runs both compilers on Linux, Windows and macOS.
+
+The first baseline-recording attempt caught a separate environment difference:
+the evaluator's ambient `rustc -Vv` reports the machine's default 1.98.1, whereas
+the executable was built with verified 1.85.0. That environment-only difference
+and the initial failed recording are retained. All other environment fields and
+all outcome bytes match. New snapshots record current implementation and root
+Cargo provenance without rewriting historical evidence. Corrective's existing
+`--check` deliberately exempts its two implementation-hash maps; the separate
+recording comparison verifies those maps against the frozen checkout. Other
+current snapshot checks retain their strict source checks.
+
+## Measured costs and failed performance gate
+
+Both freezes ran the same 27 assignment and 50 default workloads, with five
+processes per revision and separate timing/allocation executables for the default
+suite. Each also ran the 18 scale cases in five fresh processes. All builds and
+tests stopped before timing; no outlier was removed and no measurement was
+repeated to select a more favorable result.
+
+The rejected candidate saved exactly 30, 126 or 254 allocations per call in 18
+default workloads, consistent with `2 * (source_rows - 1)`. Its eight assignment
+and ten default-suite regressions above 10% remain archived in
+[v1 assignment results](../performance/results/continuation-v1/solver-cost/summary.json)
+and [v1 default results](../performance/results/continuation-v1/default-regression/summary.md).
+
+With the prior solver restored, all six allocation metrics and their ranges are
+identical to baseline for all 50 workloads. Final timings still include six
+regressions above 10%; the latency target is not demonstrated by this experiment:
+
+| Suite / workload | Before median µs | Retained median µs | Change |
+| --- | ---: | ---: | ---: |
+| Assignment, 16 all-excluded | 121.030 | 145.810 | +20.474% |
+| Assignment, 16 mixed | 117.830 | 139.130 | +18.077% |
+| Assignment, 64 sparse | 3,348.200 | 3,854.900 | +15.134% |
+| Default, dense assignment | 11,887.280 | 14,769.680 | +24.248% |
+| Default, dense independent | 8,607.480 | 9,782.160 | +13.647% |
+| Default, sparse assignment | 9,121.400 | 10,118.780 | +10.935% |
+
+Full medians, ranges and every comparison remain in
+[v2 assignment results](../performance/results/continuation-v2/solver-cost/summary.json)
+and [v2 default results](../performance/results/continuation-v2/default-regression/summary.md).
+Fifteen of 27 assignment medians and 21 of 50 default medians were slower;
+none of the 24 explicitly named `core-*` default cases exceeded 10%.
+Identical runtime source does not imply identical binary layout or wall-clock
+measurements. These runs do not identify a cause, establish latency equivalence,
+or justify dismissing the regressions as noise. The earlier
+[phase-10 regressions](assignment-performance.md) also remain unresolved evidence.
+No assignment optimization or speedup claim is retained from this cycle.
+
+Builtin scale results, milliseconds per call, median [minimum–maximum]:
+
+| Fields per schema | Independent | One-to-one |
+| ---: | ---: | ---: |
+| 128 | 30.028 [28.390–39.064] | 44.938 [42.034–52.125] |
+| 512 | 460.251 [450.589–523.484] | 740.336 [714.852–760.131] |
+| 1,000 | 1,794.606 [1,702.710–1,957.206] | 3,102.716 [3,010.299–3,665.044] |
+
+The [scale protocol](scale-experiment.md) and
+[all 18 results](../performance/results/continuation-v2/scale/summary.json) cover
+synthetic diagonal, partial and builtin evidence. Limits are explicitly raised
+for the larger calls; defaults stay at 128 fields and 16,384 pairs. Global probes
+are disabled, all pairs are scored, and one displayed candidate does not bound
+the internal graph. These are neither worst-case nor peak-memory measurements.
+
+The exact measurement commands were, after separate recorded builds:
+
+```text
+py -3.11 performance/assignment.py run --output performance/results/continuation-v2/solver-cost
+py -3.11 performance/run.py run --output performance/results/continuation-v2/default-regression
+py -3.11 performance/scale.py run --output performance/results/continuation-v2/scale
+py -3.11 qualification/run.py run --output qualification/results/continuation-v2 --cases 1200000 --seed 20261007
+```
+
+Build commands, binary hashes and inputs are in each directory's `build.json`.
+Choose fresh destinations for reproduction; runners reject overwriting evidence.
+The first-freeze commands use `continuation-v1` instead. Raw assignment CSV and
+scale JSONL hashes survive Git archival; the older default driver records
+workload inventories without raw-file hashes. These are local drift records,
+not signed or hermetic attestations.
+
+## Accuracy and adoption outcome
+
+Northix supplies 84 correlated table pairs, 469 source occurrences and 28 positive
+edges. The weighted default proposes nothing, both with and without samples:
+precision is undefined and positive-field recall is zero. The name-only baseline
+selects 14 correct pairs out of 20 proposals (70% precision, 50% positive recall).
+Schema-only COMA selects 17/31 independently (54.84% precision, 60.71% recall),
+or 17/27 one-to-one (62.96% precision). COMA with samples also proposes nothing
+at the fixed threshold. Every no-match error, abstention and candidate outcome
+remains in the [full results](northix-evaluation.md).
+
+The common 0.70 threshold and 0.08 ambiguity margin do not calibrate model scores.
+Published classes are coarse: Northix even groups rental/return dates with payment
+dates. These results cannot certify business semantics or production precision.
+The 218-table T2D holdout remains reserved. The previously reported 95% precision
+and 60% unique-coverage release targets remain unmet; this cycle does not supply
+independent downstream adoption or authorize publication.
 
 ## Boundaries
 

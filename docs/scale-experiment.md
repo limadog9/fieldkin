@@ -1,5 +1,13 @@
 # Bounded scale experiment
 
+Recorded results for the retained `5bfaa29` runtime are in
+[continuation-v2](../performance/results/continuation-v2/scale/summary.json).
+All 18 cases completed in five processes. Builtin 1,000-field medians were
+1,794.606 ms independently and 3,102.716 ms one-to-one on the recorded Windows
+machine. The [scorecard](continuation-scorecard.md) includes ranges, smaller sizes,
+failed before/after latency gates and the rejected optimization. Earlier
+`continuation-v1` results remain separate evidence for the rejected candidate.
+
 The scale experiment characterizes exact all-pairs matching at 128, 512 and
 1,000 fields per schema. It raises caller budgets for these particular fixtures;
 the library's default 128-field and 16,384-pair limits remain unchanged. It adds

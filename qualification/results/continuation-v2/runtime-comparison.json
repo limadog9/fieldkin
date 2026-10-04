@@ -1,0 +1,72 @@
+{
+  "added_sources": {
+    "src/json.rs": {
+      "module_gate": "cfg(feature = \"json\")",
+      "sha256": "e5e97a93e0eb8dd2d56cd413d812db760ea128151be3fbc7df9f19ec6d2f0d73"
+    }
+  },
+  "assignment_byte_identical": true,
+  "baseline_revision": "104b8e9e41cdcf31efdc268ad58c81514dd3568d",
+  "changed_existing_sources": {
+    "src/lib.rs": {
+      "baseline_sha256": "3666d84b4046b403824b6087ce72a17f243e400193ed069987000418448ca585",
+      "candidate_sha256": "5829b7d410e089962b8e84fd919cd272aebb1cb69c2d1a6681e4d2beb5e95a37",
+      "only_insertion": "/// Optional, bounded JSON export and application-owned review persistence.\n#[cfg(feature = \"json\")]\npub mod json;\n\n"
+    }
+  },
+  "default_direct_dependencies": {
+    "strsim": "0.11.1",
+    "unicode-normalization": "0.1.24"
+  },
+  "default_features": [],
+  "default_locked_third_party_graph": {
+    "strsim": "0.11.1",
+    "tinyvec": "1.13.3",
+    "unicode-normalization": "0.1.25"
+  },
+  "freeze_revision": "5bfaa295de68178e801b79e158ea06f9a8279e74",
+  "hash_semantics": "SHA256 of exact Git blob content read with git show REV:path; source hashes are not Windows working-copy byte hashes.",
+  "limitations": "Source and dependency-graph equality establish the absence of the rejected default-runtime code change; they do not guarantee identical compiled bytes or identical noisy wall-clock timings.",
+  "lockfile_review": {
+    "added_packages": [],
+    "changed_versions_or_checksums": [],
+    "entries": 43,
+    "only_added_edges": [
+      "serde",
+      "serde_json"
+    ],
+    "only_changed_node": "fieldkin@0.1.0",
+    "removed_packages": [],
+    "unchanged_other_nodes_sha256": "91db9aa89527b4c904f47c7034d826c9134e2b13fa74fc55af190916d41dd6a8"
+  },
+  "manifests": {
+    "baseline": {
+      "Cargo.lock": "36a2b9f878563262ae34b8be3318d67c41eaa62ef8cf795c65622ef7e8d964d6",
+      "Cargo.toml": "10e7b8d86706a745bd34b7fbc3af2cbbf8833ca1f3713069b03ce0cf27b010e9"
+    },
+    "candidate": {
+      "Cargo.lock": "0b3ef9880f450fce7a958e3e55d27d613b0ecf501f3b60b441ed48211a8eb922",
+      "Cargo.toml": "452f48d99eee2acb6d40cae71b03dbf64bdbee0233ff47f5f773b262a7a2b113"
+    }
+  },
+  "method": "Read-only comparison of frozen Git trees, exact source blobs, TOML manifests and lockfile package records. Default dependency reachability follows the unchanged mandatory edges and empty default feature set. No compiler, matcher, tests or benchmark invoked.",
+  "optional_feature_edges": [
+    "dep:serde",
+    "dep:serde_json"
+  ],
+  "protocol": "fieldkin-continuation-runtime-comparison-v1",
+  "removed_sources": [],
+  "reviewed_utc": "2026-10-04T18:02:35.095257+00:00",
+  "unchanged_existing_source_sha256": {
+    "src/assignment.rs": "cc3b962605f7677498d4ab66dd14f569ff9fad7456afd9c970f01098eb6e87e0",
+    "src/constraints.rs": "20a6dc173c40e9b969664cee1035c534fc5be426ea4b3e8a29fd8db909a0aab1",
+    "src/diagnostics.rs": "d74013589a7759f789d69c866a90361df76f07c14ce7ef31ca8ec4f5281f142e",
+    "src/engine.rs": "aeeb8b34f1ebae1319ad322b9ad5eebf314d1c77512a4d2a23b8e2a4a85898e5",
+    "src/error.rs": "2468cb514229724be7049fa1b116d86c9c03915d6123d1ff2f00731e796d4867",
+    "src/numeric.rs": "2ecc76698bfa567a3f44a349b0c931c2acbc2c7f9583fe85ee147913f04a1fd2",
+    "src/profile.rs": "60e07c3d16fc2658c5408b4d1e371463087f1e1673b0e8e430476cf7dccfc303",
+    "src/semantics.rs": "4927f23eb9388cee7df9c4aef0d7a3f6da2c5aa7d966527e136aa5cea2e6dffa",
+    "src/signals.rs": "68c2e70031807bcd860925bbe22d7cc1776acc1bb8a1b0892e2e940d4307573c",
+    "src/types.rs": "a5de1c0a0bad52874b87a38add697e6f0d4fe6f89544f6347cf99e494a9f8705"
+  }
+}

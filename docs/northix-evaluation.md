@@ -1,6 +1,6 @@
 # Northix: independently labeled no-match evidence
 
-This protocol evaluates the unchanged library on
+This protocol evaluates the unchanged matching policy on
 [Northix](https://archive.ics.uci.edu/dataset/237/northix), by Farid Bourennani
 (2012), UCI Machine Learning Repository, DOI
 [10.24432/C5M60J](https://doi.org/10.24432/C5M60J). UCI explicitly licenses the
@@ -121,6 +121,71 @@ includes ineligible candidates, but omitted external-score pairs cannot earn
 retrieval credit merely by appearing as zero-score display fillers. A zero
 proposal count has undefined precision, rendered `null`/`n/a`, not 100%.
 
+## Recorded results
+
+The retained runtime was frozen at
+`5bfaa295de68178e801b79e158ea06f9a8279e74` and evaluated through the
+[recorded v2 execution](../evaluation/results/continuation-v2/northix/run.json).
+All 84 inputs were accepted in each of the 12 configurations. The
+[full result table](../evaluation/results/continuation-v2/northix/artifacts/results.md),
+[JSON counts and source-table groups](../evaluation/results/continuation-v2/northix/artifacts/results.json)
+and [per-field predictions](../evaluation/results/continuation-v2/northix/artifacts/predictions.jsonl)
+retain all outcomes.
+
+| Model / input mode | Assignment | Correct / proposed | Precision | Positive-field recall | Positive edge recall@5 | No-match false proposals |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| Combined, samples absent | Both policies | 0 / 0 | Undefined | 0 / 28 | 26 / 28 | 0 / 441 |
+| Combined, samples present | Both policies | 0 / 0 | Undefined | 0 / 28 | 26 / 28 | 0 / 441 |
+| Name-only, either sample mode | Both policies | 14 / 20 | 70.00% | 14 / 28 (50.00%) | 26 / 28 | 6 / 441 |
+| COMA schema only | Independent | 17 / 31 | 54.84% | 17 / 28 (60.71%) | 25 / 28 | 14 / 441 |
+| COMA schema only | One-to-one | 17 / 27 | 62.96% | 17 / 28 (60.71%) | 25 / 28 | 10 / 441 |
+| COMA schema and samples | Both policies | 0 / 0 | Undefined | 0 / 28 | 26 / 28 | 0 / 441 |
+
+No model proposes on the 70 explicitly `UNCLASSED` occurrences. Proposal coverage
+over all 469 source occurrences is 4.26% for name-only and 6.61%/5.76% for
+schema-only COMA in independent/one-to-one mode. Positive-field recall instead
+uses only the 28 matchable occurrences as its denominator.
+
+The maximum observed combined scores are 0.65 without samples and 0.664 with
+samples. COMA with samples returns no score above 0.6739781945943832. All are
+below the fixed 0.70 cutoff, explaining their zero coverage. This does not show
+perfect precision or establish superior matching quality. Applying the same
+cutoff does not calibrate different models' score scales; no per-model tuning
+followed these results.
+
+Failure examples, without sample values:
+
+- Name-only scores `customer_id` to `CustomerID` at 1.0, despite their distinct
+  published classes `N_customer_id` and `customerID`. Six reused-table contexts
+  account for all six name-only false proposals; these are correlated errors.
+- Schema-only COMA also proposes `address_id` to `Address` and `country_id` to
+  `Country`, each at approximately 0.76923, confusing identifiers with values.
+- Name-only misses the class-equivalent `district` to `Region` pairing from its
+  top five in two table pairs. It scores `staff_id` to `EmployeeID` at only
+  approximately 0.40890. These expose vocabulary limits, not a reason to lower
+  the frozen threshold after seeing the answers.
+
+The classes also limit interpretation: `rental_date`, `return_date` and
+`paymentDate` all share Northix's `D_paymentDate` class. Correctness under this
+task definition is not a guarantee of interchangeable business meaning.
+
+The original frozen [schema-only scores](../evaluation/results/continuation-v1/valentine/valentine-schema_only.json)
+contain 546 returned pairs, and the [schema-and-samples scores](../evaluation/results/continuation-v1/valentine/valentine-schema_and_samples.json)
+contain 1,557, across 3,216 possible field pairs. Both exports cover all 84 tasks;
+neither happened to return a zero score. They remain unchanged from their
+[recorded comparator run](../evaluation/results/continuation-v1/valentine/run.json).
+See the [comparison protocol](valentine-comparison.md) for environment, input
+representation and common-selector limitations.
+
+An independent recount reproduced all 156 aggregate/per-source rows from 1,008
+prediction records and 5,628 field outcomes. After rejecting the scratch-buffer
+optimization and recording the retained runtime, all 156 summary rows remain
+equal to v1. The v1 and v2 prediction files and readable result tables are byte
+identical. Both prediction files have SHA256
+`7773848443783060b1ec55714d2a1617d4428f094e9c04534a73b4a639cc52eb`.
+The v2 JSON metadata and execution record identify the newly recorded runtime;
+the original score producer was not rerun or tuned.
+
 ## Reproduction and evidence handling
 
 ```text
@@ -147,5 +212,7 @@ the executed binary; use the verified build/run workflow for recorded evidence.
 This corpus is a fixed external diagnostic with no tuning split or unseen-domain
 claim. Its 28 positive edges cannot establish the library's 95% precision / 60%
 coverage release target. The separate 218-table T2D holdout remains reserved,
-unloaded and unscored. Results and the exact implementation-freeze revision will
-be recorded after qualification; this initial document specifies the experiment.
+unloaded and unscored. Further accuracy claims need independently supplied
+consumer schemas, verified types/identifier meaning and explicit correspondence
+and no-match labels. These diagnostic results do not authorize publication or
+certify production readiness.

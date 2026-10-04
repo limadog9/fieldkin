@@ -42,14 +42,16 @@ original release targets and experimental status:
 ## Remaining implementation and qualification cycle
 
 The October 4 continuation closes the remaining justified stretch and integration
-work in one sequence. These phases are **in progress**, not completed claims.
+work in one sequence. **Implementation and functional qualification are complete.**
+The [continuation scorecard](docs/continuation-scorecard.md) records the rejected
+optimization, remaining latency regressions and unmet accuracy targets.
 
 | Phase | Scope | Completion evidence |
 | --- | --- | --- |
-| 11. Bound larger-schema costs | Evaluate scratch-buffer reuse and measure 128/512/1,000-field inputs with explicitly raised limits and unchanged defaults | Buffer reuse failed the frozen performance gate and was reverted; its complete measurements remain archived. Requalify the existing solver with the integration work. No new prepared-schema API without evidence that consumers need one. |
-| 12. Persist application review | Optional bounded JSON report export and explicit, schema-version-bound review documents; resume the importer reference consumer | Feature-on/off checks, privacy and malformed-input tests, selected/ambiguous/unmatched report fidelity and stale-revision rejection. No schema/sample serialization, service or automatic acceptance of proposals. |
-| 13. Compare independent matching evidence | Licensed Northix table schemas and manual classes, including explicit unmatched fields; pinned local Valentine comparison | Freeze import, sampling, label interpretation and selection policy before scoring; record raw scores, predictions, class-defined precision/recall and UNCLASSED errors. Keep the existing T2D holdout unscored. |
-| 14. Requalify the completed build | Integrate the reference consumer, experimental benchmark findings and supported feature matrix | Generated-case campaign, packaging, compiler/platform CI, updated dependency attribution and a direct scorecard against the original targets. Publication remains a separate maintainer decision. |
+| 11. Bound larger-schema costs | Evaluate scratch-buffer reuse and measure 128/512/1,000-field inputs with explicitly raised limits and unchanged defaults | Buffer reuse failed the frozen performance gate and was reverted; its complete measurements remain archived. The existing solver passed functional requalification; final timings still include regressions. No new prepared-schema API without evidence that consumers need one. |
+| 12. Persist application review | Optional bounded JSON report export and explicit, schema-version-bound review documents; resume the importer reference consumer | Delivered and checked on both compilers: feature-on/off support, privacy and malformed-input tests, selected/ambiguous/unmatched report fidelity and stale-revision rejection. No schema/sample serialization, service or automatic acceptance of proposals. |
+| 13. Compare independent matching evidence | Licensed Northix table schemas and manual classes, including explicit unmatched fields; pinned local Valentine comparison | Frozen and completed: raw scores, predictions, class-defined precision/recall and UNCLASSED errors. Weighted defaults have zero coverage on this task; the T2D holdout remains unscored. |
+| 14. Requalify the completed build | Integrate the reference consumer, experimental benchmark findings and supported feature matrix | 1.2-million-case campaign and 247 Rust tests per compiler passed; packaging, CI on three operating systems and two compilers and updated attribution are integrated. Accuracy and performance acceptance remain unmet; no publication. |
 
 Saved review is now a concrete reference-consumer requirement: an importer can
 close and resume while retaining only explicit human decisions and the caller's
@@ -285,8 +287,8 @@ privacy-preserving error formatting, importer/catalog review examples, supported
 compiler policy, migration notes and a usage guide. Custom matchers retain their
 pairwise contract. Source breaks are accepted within the delegated unpublished
 implementation scope and documented; this is not a stable-API or publication
-decision. Optional serialization was deferred at this stage because the examples needed no wire
-format, and accidental sample export deserves a separate report-only design.
+decision. Optional serialization was deferred at this stage; phase 12 subsequently added
+a bounded report/review-only design without sample serialization.
 Independent downstream adoption remains a learning target, not a completed claim.
 
 Make the richer engine straightforward to embed and maintain.
