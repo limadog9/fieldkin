@@ -122,3 +122,9 @@ checks its inputs before and after execution, and records success only after the
 three development artifacts are complete. Direct commands above retain their
 original source-hash semantics. The historical results in this document are not
 retroactively upgraded to executable-verified records.
+
+Later implementation changes have their own strict snapshots. The
+[partial-assignment record](assignment-performance.md) compares the new version's
+complete development behavior with these historical results; current CI checks
+`evaluation/results/assignment-v1/external/artifacts`. Reproducing `t2d-v1` with
+its exact implementation metadata requires its frozen checkout.

@@ -289,6 +289,11 @@ It rejects stale builds and changed inputs before recording a successful run.
 This development tooling adds no library dependency and does not score the reserved
 holdout or change matching behavior.
 
+The [partial-assignment optimization](docs/assignment-performance.md) skips
+unused target columns and solves with no eligible positive edges.
+All pairs are still scored, and diagnostics retain their original work budgets.
+The report documents full-report compatibility checks and measured costs.
+
 ## License
 
 Licensed under either [MIT](LICENSE-MIT) or [Apache License 2.0](LICENSE-APACHE),

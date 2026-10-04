@@ -11,11 +11,88 @@
 /// The caller bounds the dimensions and supplies scores in `(0, 1]`. Missing,
 /// nonfinite, and nonpositive entries are forbidden. Short rows are treated as
 /// having missing entries. With `n` sources and `m` targets, this rectangular
-/// Hungarian algorithm uses `O(n²(m + n))` time and `O(m + n)` auxiliary space.
+/// Hungarian kernel uses `O(n²(m + n))` time and `O(m + n)` auxiliary space.
 /// The extra `n` zero-weight dummy columns make unmatched choices available even
 /// when every real pairing is forbidden. Arithmetic uses the original `f64`
 /// scores, so numerical precision is that of floating-point addition.
+///
+/// Target columns with no usable edge are omitted before solving. Discovery
+/// takes at most `O(nm)` time. If `b` columns remain, the projected matrix needs
+/// `O(nb)` storage and the kernel takes `O(n²(b + n))` time. All source rows and
+/// the original dummy count remain: dropping unmatched rows can change ties.
+/// The original dimensions still bound the work.
 pub(crate) fn solve(scores: &[Vec<Option<f64>>]) -> Vec<Option<usize>> {
+    let row_count = scores.len();
+    if row_count == 0 {
+        return Vec::new();
+    }
+    let target_count = scores.iter().map(Vec::len).max().unwrap_or(0);
+    if target_count == 0 {
+        return vec![None; row_count];
+    }
+
+    // A positive cyclic diagonal certifies that every column participates in the
+    // eligible graph. Common square inputs take this allocation-free path
+    // without inspecting the rest of the matrix. Failure only means that a full
+    // scan is needed; it says nothing about which vertices can be omitted.
+    if (0..target_count)
+        .all(|index| usable_score(scores[index % row_count].get(index).copied().flatten()))
+    {
+        return solve_dense(scores);
+    }
+
+    let columns = active_columns(scores, target_count);
+    if columns.is_empty() {
+        return vec![None; row_count];
+    }
+    if columns.len() == target_count {
+        return solve_dense(scores);
+    }
+
+    // A dead real column has infinite slack on every path, is never visited,
+    // and never updates a row potential or predecessor. Removing only those
+    // columns preserves every finite-slack comparison in its original order.
+    // Keep every row and the full dummy sequence, even for unmatchable rows.
+    let projected: Vec<Vec<Option<f64>>> = scores
+        .iter()
+        .map(|row| {
+            columns
+                .iter()
+                .map(|&column| row.get(column).copied().flatten())
+                .collect()
+        })
+        .collect();
+    let mut assignment = solve_dense(&projected);
+    for target in &mut assignment {
+        *target = target.map(|column| columns[column]);
+    }
+    assignment
+}
+
+fn usable_score(score: Option<f64>) -> bool {
+    score.is_some_and(|score| score.is_finite() && score > 0.0)
+}
+
+fn active_columns(scores: &[Vec<Option<f64>>], target_count: usize) -> Vec<usize> {
+    let mut active_columns = vec![false; target_count];
+    for entries in scores {
+        for (column, &score) in entries.iter().enumerate() {
+            if usable_score(score) {
+                active_columns[column] = true;
+            }
+        }
+    }
+    active_columns
+        .into_iter()
+        .enumerate()
+        .filter_map(|(column, active)| active.then_some(column))
+        .collect()
+}
+
+// Keep the original Hungarian implementation shared by both execution paths and
+// use it as the exact-selection reference in tests. Both paths preserve its full
+// row count and unmatched dummy count.
+fn solve_dense(scores: &[Vec<Option<f64>>]) -> Vec<Option<usize>> {
     let row_count = scores.len();
     if row_count == 0 {
         return Vec::new();
@@ -108,7 +185,7 @@ pub(crate) fn solve(scores: &[Vec<Option<f64>>]) -> Vec<Option<usize>> {
 
 #[cfg(test)]
 mod tests {
-    use super::solve;
+    use super::{active_columns, solve, solve_dense};
 
     fn brute_force_score(scores: &[Vec<Option<f64>>]) -> f64 {
         fn search(scores: &[Vec<Option<f64>>], row: usize, used: &mut [bool]) -> f64 {
@@ -136,6 +213,11 @@ mod tests {
         let assignment = solve(scores);
         assert_eq!(assignment.len(), scores.len());
         assert_eq!(assignment, solve(scores), "assignment must be reproducible");
+        assert_eq!(
+            assignment,
+            solve_dense(scores),
+            "projection changed the original tie convention: {scores:?}"
+        );
         let target_count = scores.iter().map(Vec::len).max().unwrap_or(0);
         let mut used = vec![false; target_count];
         let mut total = 0.0;
@@ -244,6 +326,153 @@ mod tests {
                 }
             }
             check_optimal(&scores);
+        }
+    }
+
+    #[test]
+    fn projection_preserves_sparse_target_order() {
+        let mut scores = vec![vec![None; 128]; 128];
+        let rows = [1, 7, 33, 91, 120];
+        let columns = [2, 6, 32, 90, 125];
+        for (&row, &column) in rows.iter().zip(&columns) {
+            scores[row][column] = Some(0.75);
+        }
+        assert_eq!(active_columns(&scores, 128), columns.to_vec());
+        let mut expected = vec![None; 128];
+        for (&row, &column) in rows.iter().zip(&columns) {
+            expected[row] = Some(column);
+        }
+        assert_eq!(solve(&scores), expected);
+        assert_eq!(solve(&scores), solve_dense(&scores));
+    }
+
+    #[test]
+    fn ragged_invalid_entries_do_not_keep_targets_active() {
+        let scores = vec![
+            vec![],
+            vec![Some(f64::NAN), None, Some(0.6)],
+            vec![Some(-0.0), Some(f64::NEG_INFINITY)],
+            vec![Some(0.0), Some(-1.0), Some(0.6), Some(f64::INFINITY)],
+            vec![None; 7],
+        ];
+        assert_eq!(active_columns(&scores, 7), vec![2]);
+        assert_eq!(solve(&scores), vec![None, Some(2), None, None, None]);
+        check_optimal(&scores);
+    }
+
+    #[test]
+    fn inserted_dead_targets_preserve_exact_assignments() {
+        let mut state = 0x494e_5345_5254_4544_u64;
+        let mut next = || {
+            state = state
+                .wrapping_mul(6_364_136_223_846_793_005)
+                .wrapping_add(1_442_695_040_888_963_407);
+            state >> 32
+        };
+        let values = [None, Some(0.1), Some(0.3), Some(0.7), Some(1.0)];
+        for _ in 0..500 {
+            let rows = (next() % 6 + 1) as usize;
+            let columns = (next() % 6 + 1) as usize;
+            let mut original = vec![vec![None; columns]; rows];
+            let mut expanded = vec![vec![Some(0.0); columns * 2 + 1]; rows];
+            for (row, entries) in original.iter_mut().enumerate() {
+                for (column, entry) in entries.iter_mut().enumerate() {
+                    *entry = values[(next() % values.len() as u64) as usize];
+                    expanded[row][column * 2 + 1] = *entry;
+                }
+            }
+            let mut expected = vec![None; expanded.len()];
+            for (row, target) in solve_dense(&original).into_iter().enumerate() {
+                expected[row] = target.map(|column| column * 2 + 1);
+            }
+            assert_eq!(solve(&expanded), expected, "input: {original:?}");
+            assert_eq!(solve_dense(&expanded), expected, "input: {original:?}");
+        }
+    }
+
+    #[test]
+    fn dead_source_rows_can_change_fractional_ties_and_must_be_retained() {
+        let mut scores = vec![
+            vec![None, None, Some(0.3)],
+            vec![Some(1.0), None, None],
+            vec![None, Some(0.1), Some(0.3)],
+            vec![Some(0.7), None, Some(0.3)],
+        ];
+        assert_eq!(solve_dense(&scores), vec![Some(2), Some(0), Some(1), None]);
+
+        // An unmatched row can traverse occupied dummy columns and trigger a
+        // different real-edge alternating path. Removing it would still give
+        // an optimal objective, but would change the existing tie convention.
+        scores.push(vec![None; 3]);
+        let expected = vec![None, Some(0), Some(1), Some(2), None];
+        assert_eq!(solve_dense(&scores), expected);
+        assert_eq!(solve(&scores), expected);
+
+        // Also force the column-projection path with the same counterexample.
+        for row in &mut scores {
+            row.insert(1, None);
+        }
+        let shifted: Vec<_> = expected
+            .into_iter()
+            .map(|target| target.map(|column| column + usize::from(column >= 1)))
+            .collect();
+        assert_eq!(solve(&scores), shifted);
+        assert_eq!(solve_dense(&scores), shifted);
+    }
+
+    #[test]
+    fn fractional_and_near_ties_keep_dense_reference_selections() {
+        let mut state = 0x4652_4143_5449_4f4e_u64;
+        let mut next = || {
+            state = state
+                .wrapping_mul(6_364_136_223_846_793_005)
+                .wrapping_add(1_442_695_040_888_963_407);
+            state >> 32
+        };
+        let values = [
+            None,
+            Some(0.0),
+            Some(-1.0),
+            Some(f64::NAN),
+            Some(f64::INFINITY),
+            Some(f64::NEG_INFINITY),
+            Some(f64::from_bits(1)),
+            Some(f64::MIN_POSITIVE),
+            Some(0.1),
+            Some(0.2),
+            Some(0.3),
+            Some(0.1 + 0.2),
+            Some(0.5),
+            Some(0.5 - f64::EPSILON),
+            Some(0.5 + f64::EPSILON),
+            Some(1.0 - f64::EPSILON),
+            Some(1.0),
+        ];
+        for case in 0..20_000 {
+            let rows = (next() % 12 + 1) as usize;
+            let columns = (next() % 12 + 1) as usize;
+            let live_rows: Vec<bool> = (0..rows).map(|_| next() % 4 != 0).collect();
+            let live_columns: Vec<bool> = (0..columns).map(|_| next() % 4 != 0).collect();
+            let mut scores = vec![vec![None; columns]; rows];
+            for (row, entries) in scores.iter_mut().enumerate() {
+                for (column, entry) in entries.iter_mut().enumerate() {
+                    if live_rows[row] && live_columns[column] {
+                        *entry = values[(next() % values.len() as u64) as usize];
+                    }
+                }
+                // Include missing tails without changing the original ordering.
+                if next() % 5 == 0 {
+                    entries.truncate((next() % (columns + 1) as u64) as usize);
+                }
+            }
+            assert_eq!(
+                solve(&scores),
+                solve_dense(&scores),
+                "case {case}: {scores:?}"
+            );
+            if case < 300 && rows <= 5 && columns <= 5 {
+                check_optimal(&scores);
+            }
         }
     }
 }

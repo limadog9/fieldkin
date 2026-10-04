@@ -1,0 +1,47 @@
+{
+  "binary_path": "qualification/target/release/fieldkin-qualification.exe",
+  "binary_sha256": "5e18747a17de76ad368c3d057629ab6baae974ff7f7b9fd5ca9ab30e9e6e1730",
+  "build_command": [
+    "cargo",
+    "+1.85.0",
+    "build",
+    "--release",
+    "--locked",
+    "--manifest-path",
+    "qualification/Cargo.toml",
+    "--message-format=json-render-diagnostics"
+  ],
+  "build_environment": {},
+  "built_utc": "2026-10-04T12:32:50.536897+00:00",
+  "commit": "180f42b7a655fe904feb8358ff64a1394b51441f",
+  "compiler": "rustc 1.85.0 (4d91de4e4 2025-02-17)\nbinary: rustc\ncommit-hash: 4d91de4e48198da2e33413efdcd9cd2cc0c46688\ncommit-date: 2025-02-17\nhost: x86_64-pc-windows-msvc\nrelease: 1.85.0\nLLVM version: 19.1.7",
+  "git_status": "",
+  "machine": {
+    "architecture": "AMD64",
+    "logical_cpus": 12,
+    "platform": "Windows-10-10.0.26200-SP0",
+    "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+    "python": "3.11.4"
+  },
+  "protocol": "fieldkin-qualification-v2",
+  "source_sha256": {
+    "Cargo.lock": "36a2b9f878563262ae34b8be3318d67c41eaa62ef8cf795c65622ef7e8d964d6",
+    "Cargo.toml": "10e7b8d86706a745bd34b7fbc3af2cbbf8833ca1f3713069b03ce0cf27b010e9",
+    "qualification/Cargo.lock": "01c43c7d63f65a81959b853b55e172e7f23b2ae424b5992792bdf718700de177",
+    "qualification/Cargo.toml": "4345ad73d777c43fc6534d11895dd943a934cf2db5cd57106bccf0881ce4e3c0",
+    "qualification/README.md": "4cef72adc89fc070e544f6df86fb0ba321c94e089d752f8f6f55ed2ac92edcdc",
+    "qualification/run.py": "0e47e539ddec58f1d3a1068eac98f1da80fec898a3d7c75cb2e0a6cb5e182616",
+    "qualification/src/main.rs": "f42c3beff396bfe5ddebd93ea1e11fbb739c834c982f84b5dabf6cf45f16bb03",
+    "src/assignment.rs": "cc3b962605f7677498d4ab66dd14f569ff9fad7456afd9c970f01098eb6e87e0",
+    "src/constraints.rs": "20a6dc173c40e9b969664cee1035c534fc5be426ea4b3e8a29fd8db909a0aab1",
+    "src/diagnostics.rs": "d74013589a7759f789d69c866a90361df76f07c14ce7ef31ca8ec4f5281f142e",
+    "src/engine.rs": "aeeb8b34f1ebae1319ad322b9ad5eebf314d1c77512a4d2a23b8e2a4a85898e5",
+    "src/error.rs": "2468cb514229724be7049fa1b116d86c9c03915d6123d1ff2f00731e796d4867",
+    "src/lib.rs": "3666d84b4046b403824b6087ce72a17f243e400193ed069987000418448ca585",
+    "src/numeric.rs": "2ecc76698bfa567a3f44a349b0c931c2acbc2c7f9583fe85ee147913f04a1fd2",
+    "src/profile.rs": "60e07c3d16fc2658c5408b4d1e371463087f1e1673b0e8e430476cf7dccfc303",
+    "src/semantics.rs": "4927f23eb9388cee7df9c4aef0d7a3f6da2c5aa7d966527e136aa5cea2e6dffa",
+    "src/signals.rs": "68c2e70031807bcd860925bbe22d7cc1776acc1bb8a1b0892e2e940d4307573c",
+    "src/types.rs": "a5de1c0a0bad52874b87a38add697e6f0d4fe6f89544f6347cf99e494a9f8705"
+  }
+}

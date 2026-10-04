@@ -36,6 +36,8 @@ jobs:
       - run: cargo +${{ matrix.rust }} run --locked --example catalog_review
       - run: cargo +${{ matrix.rust }} run --locked --example corroboration
       - run: cargo +${{ matrix.rust }} run --locked --example reviewed_import
+      - name: Verify assignment compatibility invariants
+        run: cargo +${{ matrix.rust }} run --locked --example assignment_compatibility -- --check-only
       - run: cargo +${{ matrix.rust }} package --locked -p fieldkin
       - name: Verify original decisions with historical sample reliability
         run: cargo +${{ matrix.rust }} run --locked --release -p fieldkin-eval -- --check-behavior --output evaluation/results/baseline-v1
@@ -46,7 +48,9 @@ jobs:
       - name: Verify corrective development and original regression (no fresh holdout)
         run: cargo +${{ matrix.rust }} run --locked --release -p fieldkin-eval -- --corrective --check --output evaluation/results/corrective-v1
       - name: Verify external annotation development (holdout remains reserved)
-        run: cargo +${{ matrix.rust }} run --locked --release -p fieldkin-eval -- --external --check --output evaluation/results/t2d-v1
+        run: cargo +${{ matrix.rust }} run --locked --release -p fieldkin-eval -- --external --check --output evaluation/results/assignment-v1/external/artifacts
+      - name: Validate assignment measurement protocol
+        run: python -m unittest discover -s performance -p test_assignment.py
       - name: Reproduce external fixture from pinned annotations offline
         if: matrix.os == 'ubuntu-latest' && matrix.rust == '1.85.0'
         run: python3 evaluation/import_t2d.py --check
