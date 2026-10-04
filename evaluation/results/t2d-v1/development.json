@@ -1,0 +1,5586 @@
+{
+  "metadata": {
+    "corpus_sha256": "b01d43e3600c4b15d0cc95ebda7d370ef2179f20e16d8dab715492b6202e9186",
+    "dependency_lock_sha256": "36a2b9f878563262ae34b8be3318d67c41eaa62ef8cf795c65622ef7e8d964d6",
+    "engine_source_sha256": {
+      "assignment.rs": "871a44b62b100860e45caf0f3fc8adbde783e220f14487b28942fa549eb49cbc",
+      "constraints.rs": "20a6dc173c40e9b969664cee1035c534fc5be426ea4b3e8a29fd8db909a0aab1",
+      "diagnostics.rs": "d74013589a7759f789d69c866a90361df76f07c14ce7ef31ca8ec4f5281f142e",
+      "engine.rs": "aeeb8b34f1ebae1319ad322b9ad5eebf314d1c77512a4d2a23b8e2a4a85898e5",
+      "error.rs": "2468cb514229724be7049fa1b116d86c9c03915d6123d1ff2f00731e796d4867",
+      "lib.rs": "3666d84b4046b403824b6087ce72a17f243e400193ed069987000418448ca585",
+      "numeric.rs": "2ecc76698bfa567a3f44a349b0c931c2acbc2c7f9583fe85ee147913f04a1fd2",
+      "profile.rs": "60e07c3d16fc2658c5408b4d1e371463087f1e1673b0e8e430476cf7dccfc303",
+      "semantics.rs": "4927f23eb9388cee7df9c4aef0d7a3f6da2c5aa7d966527e136aa5cea2e6dffa",
+      "signals.rs": "68c2e70031807bcd860925bbe22d7cc1776acc1bb8a1b0892e2e940d4307573c",
+      "types.rs": "a5de1c0a0bad52874b87a38add697e6f0d4fe6f89544f6347cf99e494a9f8705"
+    },
+    "evaluator_manifest_sha256": "c8cdb0ffdfb1e57117f883c2cd320ee5e8231a661b4754014d1684bc89600df2",
+    "evaluator_source_sha256": {
+      "corpus.rs": "35cbc26aa6358834ff2b59470fde5f62492dca13c868e0e2da72265ce157a437",
+      "corrective.rs": "74c2a47de53ede297e2649dc317395bcf4ca3b0dc17484dbe89c06f4ec3e309e",
+      "corrective_corpus.rs": "d215ec9bab46577ac3ea88299be243a5753201eef27da11e25f0a9dd8df55f5c",
+      "external.rs": "ce9481e370fdc32ebf88977ef1f606b9f0bee72bcbd6160cf4b56392a02146c4",
+      "main.rs": "38088f609a760d4dc416b987c57f98da6478c211429b2f2eabee3d84bb4854a3",
+      "metrics.rs": "3202e532f2993ecb1a9202b8fd6aa6b96eaf5015b3a6ff6f88c13ef7eb22df6c",
+      "model.rs": "f37d1c51e43802a727d86385b3a4daeeb3a2968fa65533f74b9d18a8997a9eaa",
+      "release.rs": "4116051285df789b500adc275082e0f8e22afdd2e427ce7767216a66265ac3e6",
+      "runner.rs": "4e7c0d0e9a02fbce35f9a216b1856c0ea5a1d306b8c6a923c72616417de8f629",
+      "snapshot.rs": "84a2d47d7faade5ad49ec9d939e69174f77c1c0f35c34b3166d72b8c177b0dbe",
+      "stage3.rs": "3eee365508429b0f030177972954515de2289167fa21f2c3a85f5bb12277532d"
+    },
+    "holdout": "reserved; no matcher executed for holdout classes",
+    "importer_sha256": "f6a4ff2e46d5dd9120cbaabbcc66b0b297431f69c68e0091ecf1a2fd7719a325",
+    "library_manifest_sha256": "10e7b8d86706a745bd34b7fbc3af2cbbf8833ca1f3713069b03ce0cf27b010e9",
+    "partition": "development",
+    "protocol": {
+      "assignment_modes": [
+        "independent",
+        "one_to_one"
+      ],
+      "corpus_sha256": "b01d43e3600c4b15d0cc95ebda7d370ef2179f20e16d8dab715492b6202e9186",
+      "dataset": "Original T2D Gold Standard correspondence metadata",
+      "holdout_policy": "RESERVED. This version of --external cannot score holdout. A later evaluation phase must freeze its implementation and protocol before adding an explicit, verified holdout entry point.",
+      "interpretation": "No precision, false-positive, unmatched-field, calibration, or production-accuracy claim is supported by these positive-only annotations. Classes/ontology properties are correlated and the class-derived target vocabulary is selected using the corpus labels. This is independent annotation evidence, not independent consumer validation. Compare fixed existing models descriptively; do not tune thresholds on development outcomes.",
+      "inventory": {
+        "development": {
+          "classes": 71,
+          "known_positive_edges": 1451,
+          "source_fields": 1451,
+          "tables": 549
+        },
+        "excluded_empty_attribute_files": 971,
+        "excluded_missing_class_files": 10,
+        "holdout": {
+          "classes": 19,
+          "known_positive_edges": 685,
+          "source_fields": 685,
+          "tables": 218
+        }
+      },
+      "labels": "Only explicit source-index/property-URI correspondences are positive. Multiple positives for one source index form an acceptable set. All other target choices are unknown, never false positives or confirmed no-match. Empty annotation files supply no evaluable schema, and nonempty files missing a class are excluded; IDs and reasons are in the fixture.",
+      "metrics": {
+        "abstentions": "Successfully evaluated source fields with no proposal; not classified as correct or incorrect abstention.",
+        "input_rejections": "Report each library input error explicitly with source-field count; no truncation, filtering, or silent omission.",
+        "known_positive_edge_recall_at_5": "Distinct known-positive edges appearing in displayed top-5 candidates / all known-positive edges; candidates may be ineligible. Rejected inputs contribute zero hits.",
+        "known_positive_field_recall": "Fields whose proposal matches any known-positive target / all annotated source fields, including fields in rejected inputs in the denominator.",
+        "unknown_proposals": "Selected source/target edges not covered by a positive label; outcome unknown, not an error count."
+      },
+      "models": [
+        "combined",
+        "name_only"
+      ],
+      "partition_rule": "SHA256(UTF-8 class URI).first_byte % 5 == 0 reserves the entire class as holdout; all other classes are development. No field/table-level random split. Class vocabularies use only that class's annotations, so no class crosses partitions; shared ontology properties may still occur across classes.",
+      "protocol_version": "t2d-annotations-1.0.0",
+      "scope": "Induced annotation-only schema lookup: original annotated source columns versus the union of annotated property URIs for their class. These target vocabularies are constructed from annotations, not independently supplied real target schemas. No raw tables, samples, inferred types, hints, corroboration or review constraints.",
+      "settings": {
+        "abstain_on_ambiguity": true,
+        "ambiguity_margin": 0.08,
+        "combined_weights": {
+          "name": 0.65,
+          "samples": 0.15,
+          "type": 0.2
+        },
+        "corroboration": null,
+        "global_diagnostics_max_solves": 0,
+        "limits": {
+          "max_explanation_bytes": 16777216,
+          "max_fields": 128,
+          "max_name_bytes": 256,
+          "max_pairs": 16384,
+          "max_sample_bytes": 1024,
+          "max_samples_per_field": 256,
+          "max_signal_evaluations": 65536,
+          "max_total_sample_bytes": 8388608
+        },
+        "max_candidates": 5,
+        "min_score": 0.7,
+        "name_aliases": {
+          "amt": "amount",
+          "trans": "transaction"
+        },
+        "name_only_weight": 1.0,
+        "sample_min_non_null": 3,
+        "sample_reliability": "Distinct",
+        "samples": "None",
+        "types": "Unknown"
+      }
+    },
+    "protocol_sha256": "3d5de9886c8383e1d270ce396b5815adf006c592ff4d834e401d59679cee47ed",
+    "provenance_sha256": "63189563cd9ebeae672bf2721938433a3396d492f468e14840878d9d7e9d0c4d"
+  },
+  "rows": [
+    {
+      "assignment": "independent",
+      "class": "all",
+      "counts": {
+        "abstentions": 1451,
+        "candidate_positive_edges_at_5": 1058,
+        "known_positive_edges": 1451,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1451,
+        "tables": 549,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.7291523087525844,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Airline",
+      "counts": {
+        "abstentions": 5,
+        "candidate_positive_edges_at_5": 5,
+        "known_positive_edges": 5,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 5,
+        "tables": 3,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Airport",
+      "counts": {
+        "abstentions": 43,
+        "candidate_positive_edges_at_5": 28,
+        "known_positive_edges": 43,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 43,
+        "tables": 15,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.6511627906976745,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Artwork",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/BaseballTeam",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/BasketballTeam",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Beer",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Beverage",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Bird",
+      "counts": {
+        "abstentions": 46,
+        "candidate_positive_edges_at_5": 33,
+        "known_positive_edges": 46,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 46,
+        "tables": 34,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.717391304347826,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/BodyOfWater",
+      "counts": {
+        "abstentions": 7,
+        "candidate_positive_edges_at_5": 7,
+        "known_positive_edges": 7,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 7,
+        "tables": 7,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Book",
+      "counts": {
+        "abstentions": 33,
+        "candidate_positive_edges_at_5": 25,
+        "known_positive_edges": 33,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 33,
+        "tables": 9,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.7575757575757576,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/BroadcastNetwork",
+      "counts": {
+        "abstentions": 2,
+        "candidate_positive_edges_at_5": 2,
+        "known_positive_edges": 2,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 2,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Broadcaster",
+      "counts": {
+        "abstentions": 7,
+        "candidate_positive_edges_at_5": 7,
+        "known_positive_edges": 7,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 7,
+        "tables": 3,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/ChemicalCompound",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/ChessPlayer",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/City",
+      "counts": {
+        "abstentions": 56,
+        "candidate_positive_edges_at_5": 44,
+        "known_positive_edges": 56,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 56,
+        "tables": 13,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.7857142857142857,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Company",
+      "counts": {
+        "abstentions": 304,
+        "candidate_positive_edges_at_5": 217,
+        "known_positive_edges": 304,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 304,
+        "tables": 88,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.7138157894736842,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Currency",
+      "counts": {
+        "abstentions": 22,
+        "candidate_positive_edges_at_5": 13,
+        "known_positive_edges": 22,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 22,
+        "tables": 8,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.5909090909090909,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Device",
+      "counts": {
+        "abstentions": 7,
+        "candidate_positive_edges_at_5": 6,
+        "known_positive_edges": 7,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 7,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.8571428571428571,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Dog",
+      "counts": {
+        "abstentions": 4,
+        "candidate_positive_edges_at_5": 4,
+        "known_positive_edges": 4,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 4,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Drug",
+      "counts": {
+        "abstentions": 22,
+        "candidate_positive_edges_at_5": 11,
+        "known_positive_edges": 22,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 22,
+        "tables": 8,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.5,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/EurovisionSongContestEntry",
+      "counts": {
+        "abstentions": 15,
+        "candidate_positive_edges_at_5": 12,
+        "known_positive_edges": 15,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 15,
+        "tables": 3,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.8,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Event",
+      "counts": {
+        "abstentions": 3,
+        "candidate_positive_edges_at_5": 3,
+        "known_positive_edges": 3,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 3,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/FictionalCharacter",
+      "counts": {
+        "abstentions": 2,
+        "candidate_positive_edges_at_5": 2,
+        "known_positive_edges": 2,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 2,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Film",
+      "counts": {
+        "abstentions": 88,
+        "candidate_positive_edges_at_5": 56,
+        "known_positive_edges": 88,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 88,
+        "tables": 28,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.6363636363636364,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Food",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/FormulaOneRacer",
+      "counts": {
+        "abstentions": 8,
+        "candidate_positive_edges_at_5": 8,
+        "known_positive_edges": 8,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 8,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/GolfPlayer",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Hospital",
+      "counts": {
+        "abstentions": 17,
+        "candidate_positive_edges_at_5": 15,
+        "known_positive_edges": 17,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 17,
+        "tables": 10,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.8823529411764706,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Hotel",
+      "counts": {
+        "abstentions": 9,
+        "candidate_positive_edges_at_5": 9,
+        "known_positive_edges": 9,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 9,
+        "tables": 4,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Lake",
+      "counts": {
+        "abstentions": 32,
+        "candidate_positive_edges_at_5": 25,
+        "known_positive_edges": 32,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 32,
+        "tables": 12,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.78125,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Magazine",
+      "counts": {
+        "abstentions": 10,
+        "candidate_positive_edges_at_5": 10,
+        "known_positive_edges": 10,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 10,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Monarch",
+      "counts": {
+        "abstentions": 18,
+        "candidate_positive_edges_at_5": 18,
+        "known_positive_edges": 18,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 18,
+        "tables": 12,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Mountain",
+      "counts": {
+        "abstentions": 42,
+        "candidate_positive_edges_at_5": 29,
+        "known_positive_edges": 42,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 42,
+        "tables": 18,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.6904761904761905,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Museum",
+      "counts": {
+        "abstentions": 21,
+        "candidate_positive_edges_at_5": 21,
+        "known_positive_edges": 21,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 21,
+        "tables": 9,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/MusicalWork",
+      "counts": {
+        "abstentions": 50,
+        "candidate_positive_edges_at_5": 29,
+        "known_positive_edges": 50,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 50,
+        "tables": 15,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.58,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Name",
+      "counts": {
+        "abstentions": 2,
+        "candidate_positive_edges_at_5": 2,
+        "known_positive_edges": 2,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 2,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Newspaper",
+      "counts": {
+        "abstentions": 7,
+        "candidate_positive_edges_at_5": 7,
+        "known_positive_edges": 7,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 7,
+        "tables": 5,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Organisation",
+      "counts": {
+        "abstentions": 5,
+        "candidate_positive_edges_at_5": 5,
+        "known_positive_edges": 5,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 5,
+        "tables": 4,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Person",
+      "counts": {
+        "abstentions": 55,
+        "candidate_positive_edges_at_5": 40,
+        "known_positive_edges": 55,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 55,
+        "tables": 17,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.7272727272727273,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Plant",
+      "counts": {
+        "abstentions": 36,
+        "candidate_positive_edges_at_5": 30,
+        "known_positive_edges": 36,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 36,
+        "tables": 23,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.8333333333333334,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/PoliticalParty",
+      "counts": {
+        "abstentions": 14,
+        "candidate_positive_edges_at_5": 14,
+        "known_positive_edges": 14,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 14,
+        "tables": 14,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Politician",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/PopulatedPlace",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Pornstar",
+      "counts": {
+        "abstentions": 16,
+        "candidate_positive_edges_at_5": 16,
+        "known_positive_edges": 16,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 16,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/ProgrammingLanguage",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Project",
+      "counts": {
+        "abstentions": 4,
+        "candidate_positive_edges_at_5": 4,
+        "known_positive_edges": 4,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 4,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/PublicService",
+      "counts": {
+        "abstentions": 2,
+        "candidate_positive_edges_at_5": 2,
+        "known_positive_edges": 2,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 2,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/RaceHorse",
+      "counts": {
+        "abstentions": 3,
+        "candidate_positive_edges_at_5": 3,
+        "known_positive_edges": 3,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 3,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/RadioStation",
+      "counts": {
+        "abstentions": 15,
+        "candidate_positive_edges_at_5": 14,
+        "known_positive_edges": 15,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 15,
+        "tables": 6,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.9333333333333333,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Religious",
+      "counts": {
+        "abstentions": 3,
+        "candidate_positive_edges_at_5": 3,
+        "known_positive_edges": 3,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 3,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Restaurant",
+      "counts": {
+        "abstentions": 2,
+        "candidate_positive_edges_at_5": 2,
+        "known_positive_edges": 2,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 2,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Saint",
+      "counts": {
+        "abstentions": 4,
+        "candidate_positive_edges_at_5": 4,
+        "known_positive_edges": 4,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 4,
+        "tables": 3,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Sales",
+      "counts": {
+        "abstentions": 3,
+        "candidate_positive_edges_at_5": 3,
+        "known_positive_edges": 3,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 3,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/School",
+      "counts": {
+        "abstentions": 6,
+        "candidate_positive_edges_at_5": 6,
+        "known_positive_edges": 6,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 6,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Scientist",
+      "counts": {
+        "abstentions": 16,
+        "candidate_positive_edges_at_5": 11,
+        "known_positive_edges": 16,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 16,
+        "tables": 10,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.6875,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/ShoppingMall",
+      "counts": {
+        "abstentions": 7,
+        "candidate_positive_edges_at_5": 6,
+        "known_positive_edges": 7,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 7,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.8571428571428571,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/SoccerPlayer",
+      "counts": {
+        "abstentions": 16,
+        "candidate_positive_edges_at_5": 10,
+        "known_positive_edges": 16,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 16,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.625,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Song",
+      "counts": {
+        "abstentions": 27,
+        "candidate_positive_edges_at_5": 14,
+        "known_positive_edges": 27,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 27,
+        "tables": 7,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.5185185185185185,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Sport",
+      "counts": {
+        "abstentions": 9,
+        "candidate_positive_edges_at_5": 8,
+        "known_positive_edges": 9,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 9,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.8888888888888888,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/SportCompetitionResult",
+      "counts": {
+        "abstentions": 18,
+        "candidate_positive_edges_at_5": 18,
+        "known_positive_edges": 18,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 18,
+        "tables": 5,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/SportFacility",
+      "counts": {
+        "abstentions": 2,
+        "candidate_positive_edges_at_5": 2,
+        "known_positive_edges": 2,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 2,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Stadium",
+      "counts": {
+        "abstentions": 4,
+        "candidate_positive_edges_at_5": 4,
+        "known_positive_edges": 4,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 4,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/TelevisionShow",
+      "counts": {
+        "abstentions": 4,
+        "candidate_positive_edges_at_5": 4,
+        "known_positive_edges": 4,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 4,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/TelevisionStation",
+      "counts": {
+        "abstentions": 23,
+        "candidate_positive_edges_at_5": 18,
+        "known_positive_edges": 23,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 23,
+        "tables": 6,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.782608695652174,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/University",
+      "counts": {
+        "abstentions": 32,
+        "candidate_positive_edges_at_5": 19,
+        "known_positive_edges": 32,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 32,
+        "tables": 13,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.59375,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/VideoGame",
+      "counts": {
+        "abstentions": 93,
+        "candidate_positive_edges_at_5": 73,
+        "known_positive_edges": 93,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 93,
+        "tables": 23,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.7849462365591398,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/VolleyballPlayer",
+      "counts": {
+        "abstentions": 3,
+        "candidate_positive_edges_at_5": 3,
+        "known_positive_edges": 3,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 3,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Work",
+      "counts": {
+        "abstentions": 5,
+        "candidate_positive_edges_at_5": 5,
+        "known_positive_edges": 5,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 5,
+        "tables": 3,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Wrestler",
+      "counts": {
+        "abstentions": 4,
+        "candidate_positive_edges_at_5": 4,
+        "known_positive_edges": 4,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 4,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/WrittenWork",
+      "counts": {
+        "abstentions": 7,
+        "candidate_positive_edges_at_5": 7,
+        "known_positive_edges": 7,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 7,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://www.w3.org/2002/07/owl#Thing",
+      "counts": {
+        "abstentions": 119,
+        "candidate_positive_edges_at_5": 46,
+        "known_positive_edges": 119,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 119,
+        "tables": 65,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.3865546218487395,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "all",
+      "counts": {
+        "abstentions": 1451,
+        "candidate_positive_edges_at_5": 1058,
+        "known_positive_edges": 1451,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1451,
+        "tables": 549,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.7291523087525844,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Airline",
+      "counts": {
+        "abstentions": 5,
+        "candidate_positive_edges_at_5": 5,
+        "known_positive_edges": 5,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 5,
+        "tables": 3,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Airport",
+      "counts": {
+        "abstentions": 43,
+        "candidate_positive_edges_at_5": 28,
+        "known_positive_edges": 43,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 43,
+        "tables": 15,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.6511627906976745,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Artwork",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/BaseballTeam",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/BasketballTeam",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Beer",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Beverage",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Bird",
+      "counts": {
+        "abstentions": 46,
+        "candidate_positive_edges_at_5": 33,
+        "known_positive_edges": 46,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 46,
+        "tables": 34,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.717391304347826,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/BodyOfWater",
+      "counts": {
+        "abstentions": 7,
+        "candidate_positive_edges_at_5": 7,
+        "known_positive_edges": 7,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 7,
+        "tables": 7,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Book",
+      "counts": {
+        "abstentions": 33,
+        "candidate_positive_edges_at_5": 25,
+        "known_positive_edges": 33,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 33,
+        "tables": 9,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.7575757575757576,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/BroadcastNetwork",
+      "counts": {
+        "abstentions": 2,
+        "candidate_positive_edges_at_5": 2,
+        "known_positive_edges": 2,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 2,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Broadcaster",
+      "counts": {
+        "abstentions": 7,
+        "candidate_positive_edges_at_5": 7,
+        "known_positive_edges": 7,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 7,
+        "tables": 3,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/ChemicalCompound",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/ChessPlayer",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/City",
+      "counts": {
+        "abstentions": 56,
+        "candidate_positive_edges_at_5": 44,
+        "known_positive_edges": 56,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 56,
+        "tables": 13,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.7857142857142857,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Company",
+      "counts": {
+        "abstentions": 304,
+        "candidate_positive_edges_at_5": 217,
+        "known_positive_edges": 304,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 304,
+        "tables": 88,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.7138157894736842,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Currency",
+      "counts": {
+        "abstentions": 22,
+        "candidate_positive_edges_at_5": 13,
+        "known_positive_edges": 22,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 22,
+        "tables": 8,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.5909090909090909,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Device",
+      "counts": {
+        "abstentions": 7,
+        "candidate_positive_edges_at_5": 6,
+        "known_positive_edges": 7,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 7,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.8571428571428571,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Dog",
+      "counts": {
+        "abstentions": 4,
+        "candidate_positive_edges_at_5": 4,
+        "known_positive_edges": 4,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 4,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Drug",
+      "counts": {
+        "abstentions": 22,
+        "candidate_positive_edges_at_5": 11,
+        "known_positive_edges": 22,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 22,
+        "tables": 8,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.5,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/EurovisionSongContestEntry",
+      "counts": {
+        "abstentions": 15,
+        "candidate_positive_edges_at_5": 12,
+        "known_positive_edges": 15,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 15,
+        "tables": 3,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.8,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Event",
+      "counts": {
+        "abstentions": 3,
+        "candidate_positive_edges_at_5": 3,
+        "known_positive_edges": 3,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 3,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/FictionalCharacter",
+      "counts": {
+        "abstentions": 2,
+        "candidate_positive_edges_at_5": 2,
+        "known_positive_edges": 2,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 2,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Film",
+      "counts": {
+        "abstentions": 88,
+        "candidate_positive_edges_at_5": 56,
+        "known_positive_edges": 88,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 88,
+        "tables": 28,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.6363636363636364,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Food",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/FormulaOneRacer",
+      "counts": {
+        "abstentions": 8,
+        "candidate_positive_edges_at_5": 8,
+        "known_positive_edges": 8,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 8,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/GolfPlayer",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Hospital",
+      "counts": {
+        "abstentions": 17,
+        "candidate_positive_edges_at_5": 15,
+        "known_positive_edges": 17,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 17,
+        "tables": 10,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.8823529411764706,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Hotel",
+      "counts": {
+        "abstentions": 9,
+        "candidate_positive_edges_at_5": 9,
+        "known_positive_edges": 9,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 9,
+        "tables": 4,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Lake",
+      "counts": {
+        "abstentions": 32,
+        "candidate_positive_edges_at_5": 25,
+        "known_positive_edges": 32,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 32,
+        "tables": 12,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.78125,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Magazine",
+      "counts": {
+        "abstentions": 10,
+        "candidate_positive_edges_at_5": 10,
+        "known_positive_edges": 10,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 10,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Monarch",
+      "counts": {
+        "abstentions": 18,
+        "candidate_positive_edges_at_5": 18,
+        "known_positive_edges": 18,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 18,
+        "tables": 12,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Mountain",
+      "counts": {
+        "abstentions": 42,
+        "candidate_positive_edges_at_5": 29,
+        "known_positive_edges": 42,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 42,
+        "tables": 18,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.6904761904761905,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Museum",
+      "counts": {
+        "abstentions": 21,
+        "candidate_positive_edges_at_5": 21,
+        "known_positive_edges": 21,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 21,
+        "tables": 9,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/MusicalWork",
+      "counts": {
+        "abstentions": 50,
+        "candidate_positive_edges_at_5": 29,
+        "known_positive_edges": 50,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 50,
+        "tables": 15,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.58,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Name",
+      "counts": {
+        "abstentions": 2,
+        "candidate_positive_edges_at_5": 2,
+        "known_positive_edges": 2,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 2,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Newspaper",
+      "counts": {
+        "abstentions": 7,
+        "candidate_positive_edges_at_5": 7,
+        "known_positive_edges": 7,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 7,
+        "tables": 5,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Organisation",
+      "counts": {
+        "abstentions": 5,
+        "candidate_positive_edges_at_5": 5,
+        "known_positive_edges": 5,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 5,
+        "tables": 4,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Person",
+      "counts": {
+        "abstentions": 55,
+        "candidate_positive_edges_at_5": 40,
+        "known_positive_edges": 55,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 55,
+        "tables": 17,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.7272727272727273,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Plant",
+      "counts": {
+        "abstentions": 36,
+        "candidate_positive_edges_at_5": 30,
+        "known_positive_edges": 36,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 36,
+        "tables": 23,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.8333333333333334,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/PoliticalParty",
+      "counts": {
+        "abstentions": 14,
+        "candidate_positive_edges_at_5": 14,
+        "known_positive_edges": 14,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 14,
+        "tables": 14,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Politician",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/PopulatedPlace",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Pornstar",
+      "counts": {
+        "abstentions": 16,
+        "candidate_positive_edges_at_5": 16,
+        "known_positive_edges": 16,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 16,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/ProgrammingLanguage",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Project",
+      "counts": {
+        "abstentions": 4,
+        "candidate_positive_edges_at_5": 4,
+        "known_positive_edges": 4,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 4,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/PublicService",
+      "counts": {
+        "abstentions": 2,
+        "candidate_positive_edges_at_5": 2,
+        "known_positive_edges": 2,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 2,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/RaceHorse",
+      "counts": {
+        "abstentions": 3,
+        "candidate_positive_edges_at_5": 3,
+        "known_positive_edges": 3,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 3,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/RadioStation",
+      "counts": {
+        "abstentions": 15,
+        "candidate_positive_edges_at_5": 14,
+        "known_positive_edges": 15,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 15,
+        "tables": 6,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.9333333333333333,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Religious",
+      "counts": {
+        "abstentions": 3,
+        "candidate_positive_edges_at_5": 3,
+        "known_positive_edges": 3,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 3,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Restaurant",
+      "counts": {
+        "abstentions": 2,
+        "candidate_positive_edges_at_5": 2,
+        "known_positive_edges": 2,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 2,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Saint",
+      "counts": {
+        "abstentions": 4,
+        "candidate_positive_edges_at_5": 4,
+        "known_positive_edges": 4,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 4,
+        "tables": 3,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Sales",
+      "counts": {
+        "abstentions": 3,
+        "candidate_positive_edges_at_5": 3,
+        "known_positive_edges": 3,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 3,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/School",
+      "counts": {
+        "abstentions": 6,
+        "candidate_positive_edges_at_5": 6,
+        "known_positive_edges": 6,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 6,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Scientist",
+      "counts": {
+        "abstentions": 16,
+        "candidate_positive_edges_at_5": 11,
+        "known_positive_edges": 16,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 16,
+        "tables": 10,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.6875,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/ShoppingMall",
+      "counts": {
+        "abstentions": 7,
+        "candidate_positive_edges_at_5": 6,
+        "known_positive_edges": 7,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 7,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.8571428571428571,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/SoccerPlayer",
+      "counts": {
+        "abstentions": 16,
+        "candidate_positive_edges_at_5": 10,
+        "known_positive_edges": 16,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 16,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.625,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Song",
+      "counts": {
+        "abstentions": 27,
+        "candidate_positive_edges_at_5": 14,
+        "known_positive_edges": 27,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 27,
+        "tables": 7,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.5185185185185185,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Sport",
+      "counts": {
+        "abstentions": 9,
+        "candidate_positive_edges_at_5": 8,
+        "known_positive_edges": 9,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 9,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.8888888888888888,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/SportCompetitionResult",
+      "counts": {
+        "abstentions": 18,
+        "candidate_positive_edges_at_5": 18,
+        "known_positive_edges": 18,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 18,
+        "tables": 5,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/SportFacility",
+      "counts": {
+        "abstentions": 2,
+        "candidate_positive_edges_at_5": 2,
+        "known_positive_edges": 2,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 2,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Stadium",
+      "counts": {
+        "abstentions": 4,
+        "candidate_positive_edges_at_5": 4,
+        "known_positive_edges": 4,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 4,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/TelevisionShow",
+      "counts": {
+        "abstentions": 4,
+        "candidate_positive_edges_at_5": 4,
+        "known_positive_edges": 4,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 4,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/TelevisionStation",
+      "counts": {
+        "abstentions": 23,
+        "candidate_positive_edges_at_5": 18,
+        "known_positive_edges": 23,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 23,
+        "tables": 6,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.782608695652174,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/University",
+      "counts": {
+        "abstentions": 32,
+        "candidate_positive_edges_at_5": 19,
+        "known_positive_edges": 32,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 32,
+        "tables": 13,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.59375,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/VideoGame",
+      "counts": {
+        "abstentions": 93,
+        "candidate_positive_edges_at_5": 73,
+        "known_positive_edges": 93,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 93,
+        "tables": 23,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.7849462365591398,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/VolleyballPlayer",
+      "counts": {
+        "abstentions": 3,
+        "candidate_positive_edges_at_5": 3,
+        "known_positive_edges": 3,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 3,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Work",
+      "counts": {
+        "abstentions": 5,
+        "candidate_positive_edges_at_5": 5,
+        "known_positive_edges": 5,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 5,
+        "tables": 3,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Wrestler",
+      "counts": {
+        "abstentions": 4,
+        "candidate_positive_edges_at_5": 4,
+        "known_positive_edges": 4,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 4,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/WrittenWork",
+      "counts": {
+        "abstentions": 7,
+        "candidate_positive_edges_at_5": 7,
+        "known_positive_edges": 7,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 7,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://www.w3.org/2002/07/owl#Thing",
+      "counts": {
+        "abstentions": 119,
+        "candidate_positive_edges_at_5": 46,
+        "known_positive_edges": 119,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 119,
+        "tables": 65,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.3865546218487395,
+      "known_positive_field_recall": 0.0,
+      "model": "combined"
+    },
+    {
+      "assignment": "independent",
+      "class": "all",
+      "counts": {
+        "abstentions": 1008,
+        "candidate_positive_edges_at_5": 1058,
+        "known_positive_edges": 1451,
+        "known_positive_proposals": 336,
+        "proposed": 443,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1451,
+        "tables": 549,
+        "unknown_proposals": 107
+      },
+      "known_positive_edge_recall_at_5": 0.7291523087525844,
+      "known_positive_field_recall": 0.2315644383184011,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Airline",
+      "counts": {
+        "abstentions": 5,
+        "candidate_positive_edges_at_5": 5,
+        "known_positive_edges": 5,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 5,
+        "tables": 3,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Airport",
+      "counts": {
+        "abstentions": 32,
+        "candidate_positive_edges_at_5": 28,
+        "known_positive_edges": 43,
+        "known_positive_proposals": 9,
+        "proposed": 11,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 43,
+        "tables": 15,
+        "unknown_proposals": 2
+      },
+      "known_positive_edge_recall_at_5": 0.6511627906976745,
+      "known_positive_field_recall": 0.20930232558139536,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Artwork",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/BaseballTeam",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/BasketballTeam",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Beer",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Beverage",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Bird",
+      "counts": {
+        "abstentions": 34,
+        "candidate_positive_edges_at_5": 33,
+        "known_positive_edges": 46,
+        "known_positive_proposals": 3,
+        "proposed": 12,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 46,
+        "tables": 34,
+        "unknown_proposals": 9
+      },
+      "known_positive_edge_recall_at_5": 0.717391304347826,
+      "known_positive_field_recall": 0.06521739130434782,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/BodyOfWater",
+      "counts": {
+        "abstentions": 7,
+        "candidate_positive_edges_at_5": 7,
+        "known_positive_edges": 7,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 7,
+        "tables": 7,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Book",
+      "counts": {
+        "abstentions": 20,
+        "candidate_positive_edges_at_5": 25,
+        "known_positive_edges": 33,
+        "known_positive_proposals": 13,
+        "proposed": 13,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 33,
+        "tables": 9,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.7575757575757576,
+      "known_positive_field_recall": 0.3939393939393939,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/BroadcastNetwork",
+      "counts": {
+        "abstentions": 2,
+        "candidate_positive_edges_at_5": 2,
+        "known_positive_edges": 2,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 2,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Broadcaster",
+      "counts": {
+        "abstentions": 3,
+        "candidate_positive_edges_at_5": 7,
+        "known_positive_edges": 7,
+        "known_positive_proposals": 4,
+        "proposed": 4,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 7,
+        "tables": 3,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.5714285714285714,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/ChemicalCompound",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/ChessPlayer",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/City",
+      "counts": {
+        "abstentions": 26,
+        "candidate_positive_edges_at_5": 44,
+        "known_positive_edges": 56,
+        "known_positive_proposals": 30,
+        "proposed": 30,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 56,
+        "tables": 13,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.7857142857142857,
+      "known_positive_field_recall": 0.5357142857142857,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Company",
+      "counts": {
+        "abstentions": 148,
+        "candidate_positive_edges_at_5": 217,
+        "known_positive_edges": 304,
+        "known_positive_proposals": 101,
+        "proposed": 156,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 304,
+        "tables": 88,
+        "unknown_proposals": 55
+      },
+      "known_positive_edge_recall_at_5": 0.7138157894736842,
+      "known_positive_field_recall": 0.33223684210526316,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Currency",
+      "counts": {
+        "abstentions": 8,
+        "candidate_positive_edges_at_5": 13,
+        "known_positive_edges": 22,
+        "known_positive_proposals": 6,
+        "proposed": 14,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 22,
+        "tables": 8,
+        "unknown_proposals": 8
+      },
+      "known_positive_edge_recall_at_5": 0.5909090909090909,
+      "known_positive_field_recall": 0.2727272727272727,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Device",
+      "counts": {
+        "abstentions": 6,
+        "candidate_positive_edges_at_5": 6,
+        "known_positive_edges": 7,
+        "known_positive_proposals": 1,
+        "proposed": 1,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 7,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.8571428571428571,
+      "known_positive_field_recall": 0.14285714285714285,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Dog",
+      "counts": {
+        "abstentions": 2,
+        "candidate_positive_edges_at_5": 4,
+        "known_positive_edges": 4,
+        "known_positive_proposals": 2,
+        "proposed": 2,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 4,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.5,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Drug",
+      "counts": {
+        "abstentions": 22,
+        "candidate_positive_edges_at_5": 11,
+        "known_positive_edges": 22,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 22,
+        "tables": 8,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.5,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/EurovisionSongContestEntry",
+      "counts": {
+        "abstentions": 6,
+        "candidate_positive_edges_at_5": 12,
+        "known_positive_edges": 15,
+        "known_positive_proposals": 8,
+        "proposed": 9,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 15,
+        "tables": 3,
+        "unknown_proposals": 1
+      },
+      "known_positive_edge_recall_at_5": 0.8,
+      "known_positive_field_recall": 0.5333333333333333,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Event",
+      "counts": {
+        "abstentions": 3,
+        "candidate_positive_edges_at_5": 3,
+        "known_positive_edges": 3,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 3,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/FictionalCharacter",
+      "counts": {
+        "abstentions": 2,
+        "candidate_positive_edges_at_5": 2,
+        "known_positive_edges": 2,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 2,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Film",
+      "counts": {
+        "abstentions": 70,
+        "candidate_positive_edges_at_5": 56,
+        "known_positive_edges": 88,
+        "known_positive_proposals": 18,
+        "proposed": 18,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 88,
+        "tables": 28,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.6363636363636364,
+      "known_positive_field_recall": 0.20454545454545456,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Food",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/FormulaOneRacer",
+      "counts": {
+        "abstentions": 8,
+        "candidate_positive_edges_at_5": 8,
+        "known_positive_edges": 8,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 8,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/GolfPlayer",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Hospital",
+      "counts": {
+        "abstentions": 16,
+        "candidate_positive_edges_at_5": 15,
+        "known_positive_edges": 17,
+        "known_positive_proposals": 1,
+        "proposed": 1,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 17,
+        "tables": 10,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.8823529411764706,
+      "known_positive_field_recall": 0.058823529411764705,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Hotel",
+      "counts": {
+        "abstentions": 8,
+        "candidate_positive_edges_at_5": 9,
+        "known_positive_edges": 9,
+        "known_positive_proposals": 1,
+        "proposed": 1,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 9,
+        "tables": 4,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.1111111111111111,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Lake",
+      "counts": {
+        "abstentions": 29,
+        "candidate_positive_edges_at_5": 25,
+        "known_positive_edges": 32,
+        "known_positive_proposals": 3,
+        "proposed": 3,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 32,
+        "tables": 12,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.78125,
+      "known_positive_field_recall": 0.09375,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Magazine",
+      "counts": {
+        "abstentions": 7,
+        "candidate_positive_edges_at_5": 10,
+        "known_positive_edges": 10,
+        "known_positive_proposals": 3,
+        "proposed": 3,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 10,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.3,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Monarch",
+      "counts": {
+        "abstentions": 17,
+        "candidate_positive_edges_at_5": 18,
+        "known_positive_edges": 18,
+        "known_positive_proposals": 1,
+        "proposed": 1,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 18,
+        "tables": 12,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.05555555555555555,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Mountain",
+      "counts": {
+        "abstentions": 42,
+        "candidate_positive_edges_at_5": 29,
+        "known_positive_edges": 42,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 42,
+        "tables": 18,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.6904761904761905,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Museum",
+      "counts": {
+        "abstentions": 21,
+        "candidate_positive_edges_at_5": 21,
+        "known_positive_edges": 21,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 21,
+        "tables": 9,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/MusicalWork",
+      "counts": {
+        "abstentions": 32,
+        "candidate_positive_edges_at_5": 29,
+        "known_positive_edges": 50,
+        "known_positive_proposals": 7,
+        "proposed": 18,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 50,
+        "tables": 15,
+        "unknown_proposals": 11
+      },
+      "known_positive_edge_recall_at_5": 0.58,
+      "known_positive_field_recall": 0.14,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Name",
+      "counts": {
+        "abstentions": 2,
+        "candidate_positive_edges_at_5": 2,
+        "known_positive_edges": 2,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 2,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Newspaper",
+      "counts": {
+        "abstentions": 7,
+        "candidate_positive_edges_at_5": 7,
+        "known_positive_edges": 7,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 7,
+        "tables": 5,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Organisation",
+      "counts": {
+        "abstentions": 5,
+        "candidate_positive_edges_at_5": 5,
+        "known_positive_edges": 5,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 5,
+        "tables": 4,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Person",
+      "counts": {
+        "abstentions": 39,
+        "candidate_positive_edges_at_5": 40,
+        "known_positive_edges": 55,
+        "known_positive_proposals": 12,
+        "proposed": 16,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 55,
+        "tables": 17,
+        "unknown_proposals": 4
+      },
+      "known_positive_edge_recall_at_5": 0.7272727272727273,
+      "known_positive_field_recall": 0.21818181818181817,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Plant",
+      "counts": {
+        "abstentions": 26,
+        "candidate_positive_edges_at_5": 30,
+        "known_positive_edges": 36,
+        "known_positive_proposals": 7,
+        "proposed": 10,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 36,
+        "tables": 23,
+        "unknown_proposals": 3
+      },
+      "known_positive_edge_recall_at_5": 0.8333333333333334,
+      "known_positive_field_recall": 0.19444444444444445,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/PoliticalParty",
+      "counts": {
+        "abstentions": 14,
+        "candidate_positive_edges_at_5": 14,
+        "known_positive_edges": 14,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 14,
+        "tables": 14,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Politician",
+      "counts": {
+        "abstentions": 0,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 1,
+        "proposed": 1,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 1.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/PopulatedPlace",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Pornstar",
+      "counts": {
+        "abstentions": 4,
+        "candidate_positive_edges_at_5": 16,
+        "known_positive_edges": 16,
+        "known_positive_proposals": 12,
+        "proposed": 12,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 16,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.75,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/ProgrammingLanguage",
+      "counts": {
+        "abstentions": 0,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 1,
+        "proposed": 1,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 1.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Project",
+      "counts": {
+        "abstentions": 4,
+        "candidate_positive_edges_at_5": 4,
+        "known_positive_edges": 4,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 4,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/PublicService",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 2,
+        "known_positive_edges": 2,
+        "known_positive_proposals": 1,
+        "proposed": 1,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 2,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.5,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/RaceHorse",
+      "counts": {
+        "abstentions": 3,
+        "candidate_positive_edges_at_5": 3,
+        "known_positive_edges": 3,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 3,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/RadioStation",
+      "counts": {
+        "abstentions": 12,
+        "candidate_positive_edges_at_5": 14,
+        "known_positive_edges": 15,
+        "known_positive_proposals": 3,
+        "proposed": 3,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 15,
+        "tables": 6,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.9333333333333333,
+      "known_positive_field_recall": 0.2,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Religious",
+      "counts": {
+        "abstentions": 3,
+        "candidate_positive_edges_at_5": 3,
+        "known_positive_edges": 3,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 3,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Restaurant",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 2,
+        "known_positive_edges": 2,
+        "known_positive_proposals": 1,
+        "proposed": 1,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 2,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.5,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Saint",
+      "counts": {
+        "abstentions": 4,
+        "candidate_positive_edges_at_5": 4,
+        "known_positive_edges": 4,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 4,
+        "tables": 3,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Sales",
+      "counts": {
+        "abstentions": 3,
+        "candidate_positive_edges_at_5": 3,
+        "known_positive_edges": 3,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 3,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/School",
+      "counts": {
+        "abstentions": 5,
+        "candidate_positive_edges_at_5": 6,
+        "known_positive_edges": 6,
+        "known_positive_proposals": 1,
+        "proposed": 1,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 6,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.16666666666666666,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Scientist",
+      "counts": {
+        "abstentions": 16,
+        "candidate_positive_edges_at_5": 11,
+        "known_positive_edges": 16,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 16,
+        "tables": 10,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.6875,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/ShoppingMall",
+      "counts": {
+        "abstentions": 5,
+        "candidate_positive_edges_at_5": 6,
+        "known_positive_edges": 7,
+        "known_positive_proposals": 2,
+        "proposed": 2,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 7,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.8571428571428571,
+      "known_positive_field_recall": 0.2857142857142857,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/SoccerPlayer",
+      "counts": {
+        "abstentions": 15,
+        "candidate_positive_edges_at_5": 10,
+        "known_positive_edges": 16,
+        "known_positive_proposals": 1,
+        "proposed": 1,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 16,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.625,
+      "known_positive_field_recall": 0.0625,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Song",
+      "counts": {
+        "abstentions": 15,
+        "candidate_positive_edges_at_5": 14,
+        "known_positive_edges": 27,
+        "known_positive_proposals": 8,
+        "proposed": 12,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 27,
+        "tables": 7,
+        "unknown_proposals": 4
+      },
+      "known_positive_edge_recall_at_5": 0.5185185185185185,
+      "known_positive_field_recall": 0.2962962962962963,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Sport",
+      "counts": {
+        "abstentions": 9,
+        "candidate_positive_edges_at_5": 8,
+        "known_positive_edges": 9,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 9,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.8888888888888888,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/SportCompetitionResult",
+      "counts": {
+        "abstentions": 15,
+        "candidate_positive_edges_at_5": 18,
+        "known_positive_edges": 18,
+        "known_positive_proposals": 3,
+        "proposed": 3,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 18,
+        "tables": 5,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.16666666666666666,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/SportFacility",
+      "counts": {
+        "abstentions": 2,
+        "candidate_positive_edges_at_5": 2,
+        "known_positive_edges": 2,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 2,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Stadium",
+      "counts": {
+        "abstentions": 4,
+        "candidate_positive_edges_at_5": 4,
+        "known_positive_edges": 4,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 4,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/TelevisionShow",
+      "counts": {
+        "abstentions": 4,
+        "candidate_positive_edges_at_5": 4,
+        "known_positive_edges": 4,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 4,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/TelevisionStation",
+      "counts": {
+        "abstentions": 9,
+        "candidate_positive_edges_at_5": 18,
+        "known_positive_edges": 23,
+        "known_positive_proposals": 11,
+        "proposed": 14,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 23,
+        "tables": 6,
+        "unknown_proposals": 3
+      },
+      "known_positive_edge_recall_at_5": 0.782608695652174,
+      "known_positive_field_recall": 0.4782608695652174,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/University",
+      "counts": {
+        "abstentions": 21,
+        "candidate_positive_edges_at_5": 19,
+        "known_positive_edges": 32,
+        "known_positive_proposals": 11,
+        "proposed": 11,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 32,
+        "tables": 13,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.59375,
+      "known_positive_field_recall": 0.34375,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/VideoGame",
+      "counts": {
+        "abstentions": 59,
+        "candidate_positive_edges_at_5": 73,
+        "known_positive_edges": 93,
+        "known_positive_proposals": 32,
+        "proposed": 34,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 93,
+        "tables": 23,
+        "unknown_proposals": 2
+      },
+      "known_positive_edge_recall_at_5": 0.7849462365591398,
+      "known_positive_field_recall": 0.34408602150537637,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/VolleyballPlayer",
+      "counts": {
+        "abstentions": 3,
+        "candidate_positive_edges_at_5": 3,
+        "known_positive_edges": 3,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 3,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Work",
+      "counts": {
+        "abstentions": 3,
+        "candidate_positive_edges_at_5": 5,
+        "known_positive_edges": 5,
+        "known_positive_proposals": 2,
+        "proposed": 2,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 5,
+        "tables": 3,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.4,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/Wrestler",
+      "counts": {
+        "abstentions": 2,
+        "candidate_positive_edges_at_5": 4,
+        "known_positive_edges": 4,
+        "known_positive_proposals": 2,
+        "proposed": 2,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 4,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.5,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://dbpedia.org/ontology/WrittenWork",
+      "counts": {
+        "abstentions": 5,
+        "candidate_positive_edges_at_5": 7,
+        "known_positive_edges": 7,
+        "known_positive_proposals": 2,
+        "proposed": 2,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 7,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.2857142857142857,
+      "model": "name_only"
+    },
+    {
+      "assignment": "independent",
+      "class": "http://www.w3.org/2002/07/owl#Thing",
+      "counts": {
+        "abstentions": 102,
+        "candidate_positive_edges_at_5": 46,
+        "known_positive_edges": 119,
+        "known_positive_proposals": 12,
+        "proposed": 17,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 119,
+        "tables": 65,
+        "unknown_proposals": 5
+      },
+      "known_positive_edge_recall_at_5": 0.3865546218487395,
+      "known_positive_field_recall": 0.10084033613445378,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "all",
+      "counts": {
+        "abstentions": 1009,
+        "candidate_positive_edges_at_5": 1058,
+        "known_positive_edges": 1451,
+        "known_positive_proposals": 335,
+        "proposed": 442,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1451,
+        "tables": 549,
+        "unknown_proposals": 107
+      },
+      "known_positive_edge_recall_at_5": 0.7291523087525844,
+      "known_positive_field_recall": 0.2308752584424535,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Airline",
+      "counts": {
+        "abstentions": 5,
+        "candidate_positive_edges_at_5": 5,
+        "known_positive_edges": 5,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 5,
+        "tables": 3,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Airport",
+      "counts": {
+        "abstentions": 32,
+        "candidate_positive_edges_at_5": 28,
+        "known_positive_edges": 43,
+        "known_positive_proposals": 9,
+        "proposed": 11,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 43,
+        "tables": 15,
+        "unknown_proposals": 2
+      },
+      "known_positive_edge_recall_at_5": 0.6511627906976745,
+      "known_positive_field_recall": 0.20930232558139536,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Artwork",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/BaseballTeam",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/BasketballTeam",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Beer",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Beverage",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Bird",
+      "counts": {
+        "abstentions": 34,
+        "candidate_positive_edges_at_5": 33,
+        "known_positive_edges": 46,
+        "known_positive_proposals": 3,
+        "proposed": 12,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 46,
+        "tables": 34,
+        "unknown_proposals": 9
+      },
+      "known_positive_edge_recall_at_5": 0.717391304347826,
+      "known_positive_field_recall": 0.06521739130434782,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/BodyOfWater",
+      "counts": {
+        "abstentions": 7,
+        "candidate_positive_edges_at_5": 7,
+        "known_positive_edges": 7,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 7,
+        "tables": 7,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Book",
+      "counts": {
+        "abstentions": 20,
+        "candidate_positive_edges_at_5": 25,
+        "known_positive_edges": 33,
+        "known_positive_proposals": 13,
+        "proposed": 13,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 33,
+        "tables": 9,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.7575757575757576,
+      "known_positive_field_recall": 0.3939393939393939,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/BroadcastNetwork",
+      "counts": {
+        "abstentions": 2,
+        "candidate_positive_edges_at_5": 2,
+        "known_positive_edges": 2,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 2,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Broadcaster",
+      "counts": {
+        "abstentions": 3,
+        "candidate_positive_edges_at_5": 7,
+        "known_positive_edges": 7,
+        "known_positive_proposals": 4,
+        "proposed": 4,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 7,
+        "tables": 3,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.5714285714285714,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/ChemicalCompound",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/ChessPlayer",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/City",
+      "counts": {
+        "abstentions": 26,
+        "candidate_positive_edges_at_5": 44,
+        "known_positive_edges": 56,
+        "known_positive_proposals": 30,
+        "proposed": 30,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 56,
+        "tables": 13,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.7857142857142857,
+      "known_positive_field_recall": 0.5357142857142857,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Company",
+      "counts": {
+        "abstentions": 148,
+        "candidate_positive_edges_at_5": 217,
+        "known_positive_edges": 304,
+        "known_positive_proposals": 101,
+        "proposed": 156,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 304,
+        "tables": 88,
+        "unknown_proposals": 55
+      },
+      "known_positive_edge_recall_at_5": 0.7138157894736842,
+      "known_positive_field_recall": 0.33223684210526316,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Currency",
+      "counts": {
+        "abstentions": 8,
+        "candidate_positive_edges_at_5": 13,
+        "known_positive_edges": 22,
+        "known_positive_proposals": 6,
+        "proposed": 14,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 22,
+        "tables": 8,
+        "unknown_proposals": 8
+      },
+      "known_positive_edge_recall_at_5": 0.5909090909090909,
+      "known_positive_field_recall": 0.2727272727272727,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Device",
+      "counts": {
+        "abstentions": 6,
+        "candidate_positive_edges_at_5": 6,
+        "known_positive_edges": 7,
+        "known_positive_proposals": 1,
+        "proposed": 1,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 7,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.8571428571428571,
+      "known_positive_field_recall": 0.14285714285714285,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Dog",
+      "counts": {
+        "abstentions": 2,
+        "candidate_positive_edges_at_5": 4,
+        "known_positive_edges": 4,
+        "known_positive_proposals": 2,
+        "proposed": 2,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 4,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.5,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Drug",
+      "counts": {
+        "abstentions": 22,
+        "candidate_positive_edges_at_5": 11,
+        "known_positive_edges": 22,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 22,
+        "tables": 8,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.5,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/EurovisionSongContestEntry",
+      "counts": {
+        "abstentions": 6,
+        "candidate_positive_edges_at_5": 12,
+        "known_positive_edges": 15,
+        "known_positive_proposals": 8,
+        "proposed": 9,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 15,
+        "tables": 3,
+        "unknown_proposals": 1
+      },
+      "known_positive_edge_recall_at_5": 0.8,
+      "known_positive_field_recall": 0.5333333333333333,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Event",
+      "counts": {
+        "abstentions": 3,
+        "candidate_positive_edges_at_5": 3,
+        "known_positive_edges": 3,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 3,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/FictionalCharacter",
+      "counts": {
+        "abstentions": 2,
+        "candidate_positive_edges_at_5": 2,
+        "known_positive_edges": 2,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 2,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Film",
+      "counts": {
+        "abstentions": 70,
+        "candidate_positive_edges_at_5": 56,
+        "known_positive_edges": 88,
+        "known_positive_proposals": 18,
+        "proposed": 18,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 88,
+        "tables": 28,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.6363636363636364,
+      "known_positive_field_recall": 0.20454545454545456,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Food",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/FormulaOneRacer",
+      "counts": {
+        "abstentions": 8,
+        "candidate_positive_edges_at_5": 8,
+        "known_positive_edges": 8,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 8,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/GolfPlayer",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Hospital",
+      "counts": {
+        "abstentions": 16,
+        "candidate_positive_edges_at_5": 15,
+        "known_positive_edges": 17,
+        "known_positive_proposals": 1,
+        "proposed": 1,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 17,
+        "tables": 10,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.8823529411764706,
+      "known_positive_field_recall": 0.058823529411764705,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Hotel",
+      "counts": {
+        "abstentions": 8,
+        "candidate_positive_edges_at_5": 9,
+        "known_positive_edges": 9,
+        "known_positive_proposals": 1,
+        "proposed": 1,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 9,
+        "tables": 4,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.1111111111111111,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Lake",
+      "counts": {
+        "abstentions": 29,
+        "candidate_positive_edges_at_5": 25,
+        "known_positive_edges": 32,
+        "known_positive_proposals": 3,
+        "proposed": 3,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 32,
+        "tables": 12,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.78125,
+      "known_positive_field_recall": 0.09375,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Magazine",
+      "counts": {
+        "abstentions": 7,
+        "candidate_positive_edges_at_5": 10,
+        "known_positive_edges": 10,
+        "known_positive_proposals": 3,
+        "proposed": 3,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 10,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.3,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Monarch",
+      "counts": {
+        "abstentions": 17,
+        "candidate_positive_edges_at_5": 18,
+        "known_positive_edges": 18,
+        "known_positive_proposals": 1,
+        "proposed": 1,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 18,
+        "tables": 12,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.05555555555555555,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Mountain",
+      "counts": {
+        "abstentions": 42,
+        "candidate_positive_edges_at_5": 29,
+        "known_positive_edges": 42,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 42,
+        "tables": 18,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.6904761904761905,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Museum",
+      "counts": {
+        "abstentions": 21,
+        "candidate_positive_edges_at_5": 21,
+        "known_positive_edges": 21,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 21,
+        "tables": 9,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/MusicalWork",
+      "counts": {
+        "abstentions": 32,
+        "candidate_positive_edges_at_5": 29,
+        "known_positive_edges": 50,
+        "known_positive_proposals": 7,
+        "proposed": 18,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 50,
+        "tables": 15,
+        "unknown_proposals": 11
+      },
+      "known_positive_edge_recall_at_5": 0.58,
+      "known_positive_field_recall": 0.14,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Name",
+      "counts": {
+        "abstentions": 2,
+        "candidate_positive_edges_at_5": 2,
+        "known_positive_edges": 2,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 2,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Newspaper",
+      "counts": {
+        "abstentions": 7,
+        "candidate_positive_edges_at_5": 7,
+        "known_positive_edges": 7,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 7,
+        "tables": 5,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Organisation",
+      "counts": {
+        "abstentions": 5,
+        "candidate_positive_edges_at_5": 5,
+        "known_positive_edges": 5,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 5,
+        "tables": 4,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Person",
+      "counts": {
+        "abstentions": 39,
+        "candidate_positive_edges_at_5": 40,
+        "known_positive_edges": 55,
+        "known_positive_proposals": 12,
+        "proposed": 16,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 55,
+        "tables": 17,
+        "unknown_proposals": 4
+      },
+      "known_positive_edge_recall_at_5": 0.7272727272727273,
+      "known_positive_field_recall": 0.21818181818181817,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Plant",
+      "counts": {
+        "abstentions": 26,
+        "candidate_positive_edges_at_5": 30,
+        "known_positive_edges": 36,
+        "known_positive_proposals": 7,
+        "proposed": 10,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 36,
+        "tables": 23,
+        "unknown_proposals": 3
+      },
+      "known_positive_edge_recall_at_5": 0.8333333333333334,
+      "known_positive_field_recall": 0.19444444444444445,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/PoliticalParty",
+      "counts": {
+        "abstentions": 14,
+        "candidate_positive_edges_at_5": 14,
+        "known_positive_edges": 14,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 14,
+        "tables": 14,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Politician",
+      "counts": {
+        "abstentions": 0,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 1,
+        "proposed": 1,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 1.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/PopulatedPlace",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Pornstar",
+      "counts": {
+        "abstentions": 4,
+        "candidate_positive_edges_at_5": 16,
+        "known_positive_edges": 16,
+        "known_positive_proposals": 12,
+        "proposed": 12,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 16,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.75,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/ProgrammingLanguage",
+      "counts": {
+        "abstentions": 0,
+        "candidate_positive_edges_at_5": 1,
+        "known_positive_edges": 1,
+        "known_positive_proposals": 1,
+        "proposed": 1,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 1,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 1.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Project",
+      "counts": {
+        "abstentions": 4,
+        "candidate_positive_edges_at_5": 4,
+        "known_positive_edges": 4,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 4,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/PublicService",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 2,
+        "known_positive_edges": 2,
+        "known_positive_proposals": 1,
+        "proposed": 1,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 2,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.5,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/RaceHorse",
+      "counts": {
+        "abstentions": 3,
+        "candidate_positive_edges_at_5": 3,
+        "known_positive_edges": 3,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 3,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/RadioStation",
+      "counts": {
+        "abstentions": 12,
+        "candidate_positive_edges_at_5": 14,
+        "known_positive_edges": 15,
+        "known_positive_proposals": 3,
+        "proposed": 3,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 15,
+        "tables": 6,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.9333333333333333,
+      "known_positive_field_recall": 0.2,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Religious",
+      "counts": {
+        "abstentions": 3,
+        "candidate_positive_edges_at_5": 3,
+        "known_positive_edges": 3,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 3,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Restaurant",
+      "counts": {
+        "abstentions": 1,
+        "candidate_positive_edges_at_5": 2,
+        "known_positive_edges": 2,
+        "known_positive_proposals": 1,
+        "proposed": 1,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 2,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.5,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Saint",
+      "counts": {
+        "abstentions": 4,
+        "candidate_positive_edges_at_5": 4,
+        "known_positive_edges": 4,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 4,
+        "tables": 3,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Sales",
+      "counts": {
+        "abstentions": 3,
+        "candidate_positive_edges_at_5": 3,
+        "known_positive_edges": 3,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 3,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/School",
+      "counts": {
+        "abstentions": 5,
+        "candidate_positive_edges_at_5": 6,
+        "known_positive_edges": 6,
+        "known_positive_proposals": 1,
+        "proposed": 1,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 6,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.16666666666666666,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Scientist",
+      "counts": {
+        "abstentions": 16,
+        "candidate_positive_edges_at_5": 11,
+        "known_positive_edges": 16,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 16,
+        "tables": 10,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.6875,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/ShoppingMall",
+      "counts": {
+        "abstentions": 5,
+        "candidate_positive_edges_at_5": 6,
+        "known_positive_edges": 7,
+        "known_positive_proposals": 2,
+        "proposed": 2,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 7,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.8571428571428571,
+      "known_positive_field_recall": 0.2857142857142857,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/SoccerPlayer",
+      "counts": {
+        "abstentions": 15,
+        "candidate_positive_edges_at_5": 10,
+        "known_positive_edges": 16,
+        "known_positive_proposals": 1,
+        "proposed": 1,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 16,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.625,
+      "known_positive_field_recall": 0.0625,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Song",
+      "counts": {
+        "abstentions": 15,
+        "candidate_positive_edges_at_5": 14,
+        "known_positive_edges": 27,
+        "known_positive_proposals": 8,
+        "proposed": 12,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 27,
+        "tables": 7,
+        "unknown_proposals": 4
+      },
+      "known_positive_edge_recall_at_5": 0.5185185185185185,
+      "known_positive_field_recall": 0.2962962962962963,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Sport",
+      "counts": {
+        "abstentions": 9,
+        "candidate_positive_edges_at_5": 8,
+        "known_positive_edges": 9,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 9,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.8888888888888888,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/SportCompetitionResult",
+      "counts": {
+        "abstentions": 15,
+        "candidate_positive_edges_at_5": 18,
+        "known_positive_edges": 18,
+        "known_positive_proposals": 3,
+        "proposed": 3,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 18,
+        "tables": 5,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.16666666666666666,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/SportFacility",
+      "counts": {
+        "abstentions": 2,
+        "candidate_positive_edges_at_5": 2,
+        "known_positive_edges": 2,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 2,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Stadium",
+      "counts": {
+        "abstentions": 4,
+        "candidate_positive_edges_at_5": 4,
+        "known_positive_edges": 4,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 4,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/TelevisionShow",
+      "counts": {
+        "abstentions": 4,
+        "candidate_positive_edges_at_5": 4,
+        "known_positive_edges": 4,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 4,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/TelevisionStation",
+      "counts": {
+        "abstentions": 9,
+        "candidate_positive_edges_at_5": 18,
+        "known_positive_edges": 23,
+        "known_positive_proposals": 11,
+        "proposed": 14,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 23,
+        "tables": 6,
+        "unknown_proposals": 3
+      },
+      "known_positive_edge_recall_at_5": 0.782608695652174,
+      "known_positive_field_recall": 0.4782608695652174,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/University",
+      "counts": {
+        "abstentions": 21,
+        "candidate_positive_edges_at_5": 19,
+        "known_positive_edges": 32,
+        "known_positive_proposals": 11,
+        "proposed": 11,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 32,
+        "tables": 13,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 0.59375,
+      "known_positive_field_recall": 0.34375,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/VideoGame",
+      "counts": {
+        "abstentions": 60,
+        "candidate_positive_edges_at_5": 73,
+        "known_positive_edges": 93,
+        "known_positive_proposals": 31,
+        "proposed": 33,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 93,
+        "tables": 23,
+        "unknown_proposals": 2
+      },
+      "known_positive_edge_recall_at_5": 0.7849462365591398,
+      "known_positive_field_recall": 0.3333333333333333,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/VolleyballPlayer",
+      "counts": {
+        "abstentions": 3,
+        "candidate_positive_edges_at_5": 3,
+        "known_positive_edges": 3,
+        "known_positive_proposals": 0,
+        "proposed": 0,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 3,
+        "tables": 1,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.0,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Work",
+      "counts": {
+        "abstentions": 3,
+        "candidate_positive_edges_at_5": 5,
+        "known_positive_edges": 5,
+        "known_positive_proposals": 2,
+        "proposed": 2,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 5,
+        "tables": 3,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.4,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/Wrestler",
+      "counts": {
+        "abstentions": 2,
+        "candidate_positive_edges_at_5": 4,
+        "known_positive_edges": 4,
+        "known_positive_proposals": 2,
+        "proposed": 2,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 4,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.5,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://dbpedia.org/ontology/WrittenWork",
+      "counts": {
+        "abstentions": 5,
+        "candidate_positive_edges_at_5": 7,
+        "known_positive_edges": 7,
+        "known_positive_proposals": 2,
+        "proposed": 2,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 7,
+        "tables": 2,
+        "unknown_proposals": 0
+      },
+      "known_positive_edge_recall_at_5": 1.0,
+      "known_positive_field_recall": 0.2857142857142857,
+      "model": "name_only"
+    },
+    {
+      "assignment": "one_to_one",
+      "class": "http://www.w3.org/2002/07/owl#Thing",
+      "counts": {
+        "abstentions": 102,
+        "candidate_positive_edges_at_5": 46,
+        "known_positive_edges": 119,
+        "known_positive_proposals": 12,
+        "proposed": 17,
+        "rejected_source_fields": 0,
+        "rejected_tables": 0,
+        "source_fields": 119,
+        "tables": 65,
+        "unknown_proposals": 5
+      },
+      "known_positive_edge_recall_at_5": 0.3865546218487395,
+      "known_positive_field_recall": 0.10084033613445378,
+      "model": "name_only"
+    }
+  ]
+}

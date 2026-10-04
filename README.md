@@ -129,6 +129,35 @@ and the [complete example](examples/corroboration.rs).
 
 ## API and customization
 
+Applications can feed reviewed decisions back into matching:
+
+```rust
+use fieldkin::{Config, DataType, Decision, Field, FieldPair, MatchConstraints, MatchEngine, Schema};
+
+let source = Schema::new(vec![Field::new("s", "amount", DataType::Decimal)]);
+let target = Schema::new(vec![
+    Field::new("gross", "amount", DataType::Decimal),
+    Field::new("net", "amount", DataType::Decimal),
+]);
+// An application reviewer has verified which amount this source represents.
+let review = MatchConstraints {
+    confirmed: vec![FieldPair::new("s", "gross")],
+    ..Default::default()
+};
+let report = MatchEngine::new(Config::default())?
+    .match_schemas_with_constraints(&source, &target, &review)?;
+assert_eq!(report.fields[0].decision, Decision::Confirmed);
+assert_eq!(report.fields[0].selected.as_ref().unwrap().target.0, "gross");
+# Ok::<(), fieldkin::MatchError>(())
+```
+
+`MatchConstraints` also accepts forbidden pairs and explicitly unmatched sources.
+Confirmations retain actual heuristic scores; they are caller decisions, not
+stronger automatic evidence. In one-to-one mode they reserve targets before the
+remaining proposals are computed. Invalid or contradictory directives return
+typed errors. See [review semantics and limits](docs/review-constraints.md) and
+the [reviewed importer](examples/reviewed_import.rs).
+
 - `Schema`, `Field`, `FieldId`, `DataType`, and `SampleValue` describe inputs. IDs
   must be nonempty and unique within each schema; names can repeat.
 - `MatchEngine::new(Config)` selects the built-in name, type and sample signals.
@@ -201,8 +230,9 @@ cargo bench --locked --bench matching
 CI checks Rust 1.85.0 and 1.99.0 on Linux, Windows and macOS, including tests,
 clippy, documentation, consumer examples, packaging and development/regression evaluation.
 Formatting is checked on both compilers. Workflow permissions remain
-read-only. Fixtures are synthetic and included under this
-repository's license. The baseline example compares name-only matching with the
+read-only. Library tests and performance inputs are original synthetic fixtures.
+The separate external evaluation includes explicitly Apache-licensed T2D
+correspondence metadata with its own provenance and notices. The baseline example compares name-only matching with the
 default engine on small labeled cases; it is a regression illustration, not a
 real-world accuracy claim. Benchmarks generate fixed inputs in memory and use
 `std::hint::black_box`; report toolchain, hardware, and workload alongside timings.
@@ -244,6 +274,14 @@ proposals stays at 20: precision improves from 26.67% to 38.46%, but unique cove
 is only 16.30%. These harder challenge cases are a separate dataset, not a trend
 against the earlier 37.5% result. Defaults remain unchanged; all misses and the
 stricter name-floor ablation are documented.
+
+The next phases add [caller review constraints](docs/review-constraints.md) and
+[external annotation evidence](docs/external-evaluation.md). The latter evaluates
+549 development tables and leaves 218 tables reserved by whole class. Its labels
+are positive-only, so it cannot establish precision or unmatched-field safety.
+The [follow-up qualification](docs/review-qualification.md) records 213 passing
+Rust tests, five importer tests, a 1.2-million-case generated campaign and measured
+costs. These engineering checks do not close the original accuracy gap.
 
 ## License
 

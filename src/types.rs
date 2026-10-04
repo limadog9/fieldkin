@@ -311,7 +311,10 @@ pub struct Candidate {
     /// Weighted sum in [0, 1], not a probability.
     pub score: f64,
     /// Passes threshold, optional corroboration, type veto and semantic-hint
-    /// constraints; ambiguity is source-level.
+    /// constraints, plus caller exclusions/reserved targets; ambiguity is
+    /// source-level. This describes automatic eligibility. An explicit caller
+    /// confirmation can select a candidate with `eligible == false` without
+    /// changing its evidence or score.
     pub eligible: bool,
     /// Individual scores, missing evidence and contributions.
     pub signals: Vec<SignalReport>,
@@ -337,6 +340,13 @@ pub enum SemanticAxis {
 #[derive(Clone, Debug, PartialEq, Eq)]
 #[non_exhaustive]
 pub enum CandidateIssue {
+    /// The caller explicitly forbids this source-target pair.
+    ForbiddenByCaller,
+    /// The caller explicitly keeps this source unmatched.
+    SourceExcludedByCaller,
+    /// A different source has a caller-confirmed claim to this target in
+    /// one-to-one mode.
+    TargetConfirmedByCaller,
     /// Incompatible declared types, regardless of whether the type veto is enabled.
     IncompatibleTypes,
     /// At least one active signal returned absent evidence.
@@ -363,6 +373,10 @@ pub enum CandidateIssue {
 #[derive(Clone, Debug, PartialEq, Eq)]
 #[non_exhaustive]
 pub enum FieldDiagnostic {
+    /// The caller selected a fixed mapping; evidence scores remain unchanged.
+    ConfirmedByCaller,
+    /// The caller explicitly keeps this source unmatched.
+    ExcludedByCaller,
     /// No candidate passes the score, corroboration and semantic/type constraints.
     NoEligibleTarget,
     /// Several eligible candidates are within the local ambiguity margin.
@@ -391,6 +405,11 @@ pub struct TargetCompetition {
 /// Outcome for a source field.
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Decision {
+    /// A caller-confirmed mapping, not a heuristic proposal. Its selected
+    /// candidate may fail automatic evidence requirements.
+    Confirmed,
+    /// The caller explicitly keeps this source unmatched.
+    ExcludedByCaller,
     /// A proposal exists; still requires the caller's review.
     Proposed,
     /// Near-tied candidates caused abstention.
@@ -411,7 +430,8 @@ pub struct FieldMatch {
     /// All eligible alternatives within the ambiguity margin, before candidate truncation.
     /// Contains the best too; length > 1 means ambiguous.
     pub alternatives: Vec<FieldId>,
-    /// Selected proposal, if any. Retained even if global assignment selects outside top-k.
+    /// Selected proposal or caller-confirmed pair, if any. Retained even if
+    /// selection lies outside top-k. See `decision` to distinguish its origin.
     pub selected: Option<Candidate>,
     /// Why a proposal was or was not selected.
     pub decision: Decision,
@@ -424,9 +444,9 @@ pub struct FieldMatch {
 pub struct MatchReport {
     /// One report per source, including sources with no candidates.
     pub fields: Vec<FieldMatch>,
-    /// Sources with no selected proposal.
+    /// Sources with no selected proposal or confirmation, including caller exclusions.
     pub unmatched_sources: Vec<FieldId>,
-    /// Targets with no selected proposal (also in independent ranking mode).
+    /// Targets with no selected proposal or confirmation (also in independent mode).
     pub unmatched_targets: Vec<FieldId>,
     /// Whether optional global one-to-one assignment was requested.
     pub one_to_one: bool,

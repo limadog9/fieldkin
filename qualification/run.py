@@ -60,7 +60,7 @@ def build(output):
     except ValueError:
         binary_path = str(binary)
     write_new(output / "build.json", {
-        "protocol":"fieldkin-qualification-v1", "built_utc":datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "protocol":"fieldkin-qualification-v2", "built_utc":datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "commit":command(["git", "rev-parse", "HEAD"]), "git_status":command(["git", "status", "--short"]),
         "compiler":command(["rustc", "+"+TOOLCHAIN, "-Vv"]), "source_sha256":before,
         "build_command":invocation, "build_environment":build_environment(),

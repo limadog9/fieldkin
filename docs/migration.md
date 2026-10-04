@@ -96,6 +96,25 @@ Optional serialization is deferred deliberately. Both consumer examples use
 Rust-owned review state and need no wire format. Adding derives over input
 schemas could accidentally export sample values; a future versioned report-only
 format needs a concrete consumer and independent validation. `Debug` is not a
-stable wire format. Public reusable prepared schemas, confirmed/forbidden pair
-constraints and richer transformations remain deferred. The in-memory API has
+stable wire format. Public reusable prepared schemas and richer transformations
+remain deferred. The in-memory API has
 no network, database, LLM, credential or runtime service requirement.
+
+## Caller review constraints
+
+`match_schemas_with_constraints` adds per-call `MatchConstraints` without changing
+`Config` or existing report fields. `match_schemas` and empty constraints retain
+their previous full reports. `FieldPair` addresses source and target IDs explicitly.
+
+Exhaustive `Decision` matches must handle the new `Confirmed` and
+`ExcludedByCaller` variants. A selected candidate under `Confirmed` can have
+`eligible == false`, including a zero score: the caller has overridden automatic
+evidence requirements, not supplied stronger signal evidence. Consumers requiring
+automatic proposals should explicitly check `Decision::Proposed`. Both types of
+selection count toward unmatched-list complements.
+
+`MatchError::InvalidConstraints(ConstraintError)` and new non-exhaustive
+candidate/field/budget reasons identify review conflicts and exclusions. Existing
+wildcard handling continues to compile. Diagnostic objectives and alternative
+witnesses cover the remaining automatic graph, excluding fixed confirmations.
+See [review constraints](review-constraints.md) for validation, bounds and examples.

@@ -271,3 +271,28 @@ frozen RC artifacts. Both check modes reject holdout acknowledgment.
 RC-v1 proposals. Those filters do not recompute ambiguity or assignment and must
 not be presented as evaluation of a new engine policy. See the
 [corrective protocol](corrective-protocol.json) and [API guide](../docs/corroboration.md).
+
+## External correspondence annotations
+
+`--external` compares unchanged combined and name-only policies on the original
+T2D correspondence metadata under an explicit Apache-2.0 data grant. The induced
+task uses annotated original headers against per-class property vocabularies
+derived from labels, with unknown types and no samples. It is not the native T2D
+benchmark or an independent consumer schema pair.
+
+```text
+python import_t2d.py --check
+python -m unittest discover -s . -p test_import_t2d.py
+cargo +1.85.0 run --locked --release -p fieldkin-eval -- --external --output ../target/t2d-development
+```
+
+The Python commands above run from `evaluation/`; repository-root commands and
+results are in the [external report](../docs/external-evaluation.md). The evaluator
+uses 549 development tables and cannot score the 218 reserved tables. The split
+is by SHA256 of whole class URIs, committed before matching. Known-positive recall,
+candidate recall, unknown proposals, abstentions and input rejections are separate;
+no absent correspondence becomes a negative label or contributes to a precision
+claim. `--check --output evaluation/results/t2d-v1` from the repository root
+compares complete artifacts, including all current implementation/protocol/corpus
+and dependency hashes. These are source-file hashes, not binary attestation.
+Fresh result directories prevent accidental rewriting of historical evidence.

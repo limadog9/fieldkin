@@ -4,9 +4,9 @@ use std::collections::BTreeSet;
 use std::time::Instant;
 
 use fieldkin::{
-    normalize_name, AssignmentDiagnosticStatus, Config, Corroboration, DataType, Evidence,
-    ExactDecimal, Field, GlobalDiagnosticsConfig, MatchEngine, MatchReport, Matcher, SampleValue,
-    Schema, SemanticHints, WeightedMatcher,
+    normalize_name, AssignmentDiagnosticStatus, Config, Corroboration, DataType, Decision,
+    Evidence, ExactDecimal, Field, FieldPair, GlobalDiagnosticsConfig, MatchConstraints,
+    MatchEngine, MatchReport, Matcher, SampleValue, Schema, SemanticHints, WeightedMatcher,
 };
 
 struct Random(u64);
@@ -690,13 +690,207 @@ fn assignment(random: &mut Random) -> Result<(), String> {
     )
 }
 
+fn reviewed_assignment(random: &mut Random) -> Result<(), String> {
+    let rows = 1 + random.index(4);
+    let columns = 1 + random.index(4);
+    let matrix: Vec<Vec<u8>> = (0..rows)
+        .map(|_| (0..columns).map(|_| random.index(101) as u8).collect())
+        .collect();
+    let threshold = [0, 25, 50, 75][random.index(4)];
+    let fixed = (random.index(2) == 0).then(|| (random.index(rows), random.index(columns)));
+    let excluded = (random.index(2) == 0)
+        .then(|| random.index(rows))
+        .filter(|row| fixed.is_none_or(|(fixed_row, _)| *row != fixed_row));
+    let one_to_one = random.index(2) == 0;
+    let mut constraints = MatchConstraints::default();
+    if let Some((row, column)) = fixed {
+        constraints
+            .confirmed
+            .push(FieldPair::new(row.to_string(), column.to_string()));
+    }
+    if let Some(row) = excluded {
+        constraints.unmatched_sources.push(row.to_string().into());
+    }
+    let mut residual = matrix.clone();
+    for (row, values) in residual.iter_mut().enumerate() {
+        for (column, score) in values.iter_mut().enumerate() {
+            if fixed != Some((row, column)) && random.index(5) == 0 {
+                constraints
+                    .forbidden
+                    .push(FieldPair::new(row.to_string(), column.to_string()));
+                *score = 0;
+            }
+            if excluded == Some(row)
+                || fixed.is_some_and(|(fixed_row, fixed_column)| {
+                    row == fixed_row || (one_to_one && column == fixed_column)
+                })
+            {
+                *score = 0;
+            }
+        }
+    }
+    let expected = if one_to_one {
+        exhaustive(&residual, threshold, 0, 0)
+    } else {
+        residual
+            .iter()
+            .map(|row| {
+                row.iter()
+                    .filter(|&&score| score > 0 && score >= threshold)
+                    .max()
+                    .copied()
+                    .map_or(0, usize::from)
+            })
+            .sum()
+    };
+    let schema = |count| {
+        Schema::new(
+            (0..count)
+                .map(|index: usize| Field::new(index.to_string(), "value", DataType::Unknown))
+                .collect(),
+        )
+    };
+    let mut source = schema(rows);
+    let mut target = schema(columns);
+    let config = Config {
+        min_score: f64::from(threshold) / 100.0,
+        abstain_on_ambiguity: false,
+        one_to_one,
+        max_candidates: 1 + random.index(columns),
+        global_diagnostics: GlobalDiagnosticsConfig {
+            max_solves: 4,
+            max_work: 1024,
+            objective_margin: 0.2,
+        },
+        ..Config::default()
+    };
+    let engine = MatchEngine::with_matchers(
+        config,
+        vec![WeightedMatcher::new(1.0, Matrix(matrix.clone()))],
+    )
+    .map_err(|error| error.to_string())?;
+    let report = engine
+        .match_schemas_with_constraints(&source, &target, &constraints)
+        .map_err(|error| error.to_string())?;
+    let mut automatic_objective = 0.0;
+    let mut used = BTreeSet::new();
+    let mut unmatched_sources = Vec::new();
+    for field in &report.fields {
+        let row: usize = field
+            .source
+            .0
+            .parse()
+            .map_err(|_| "invalid reviewed source")?;
+        if excluded == Some(row) {
+            ensure(
+                field.decision == Decision::ExcludedByCaller && field.selected.is_none(),
+                "reviewed exclusion ignored",
+            )?;
+        }
+        if let Some((fixed_row, column)) = fixed {
+            if fixed_row == row {
+                ensure(
+                    field.decision == Decision::Confirmed
+                        && field
+                            .selected
+                            .as_ref()
+                            .is_some_and(|candidate| candidate.target.0 == column.to_string()),
+                    "confirmed mapping changed",
+                )?;
+            }
+        }
+        if let Some(candidate) = &field.selected {
+            let column: usize = candidate
+                .target
+                .0
+                .parse()
+                .map_err(|_| "invalid reviewed target")?;
+            ensure(
+                candidate.score == f64::from(matrix[row][column]) / 100.0,
+                "review inflated pair score",
+            )?;
+            let inserted = used.insert(column);
+            ensure(!one_to_one || inserted, "review reused reserved target")?;
+            if field.decision != Decision::Confirmed {
+                ensure(
+                    candidate.eligible
+                        && residual[row][column] > 0
+                        && residual[row][column] >= threshold,
+                    "review selected forbidden or unsupported pair",
+                )?;
+                automatic_objective += candidate.score;
+            }
+        } else {
+            unmatched_sources.push(field.source.clone());
+        }
+    }
+    ensure(
+        (automatic_objective - expected as f64 / 100.0).abs() < 1e-10,
+        "review residual differs from exhaustive oracle",
+    )?;
+    ensure(
+        report.unmatched_sources == unmatched_sources,
+        "review unmatched sources incorrect",
+    )?;
+    let unmatched_targets: Vec<_> = (0..columns)
+        .filter(|column| !used.contains(column))
+        .map(|column| column.to_string().into())
+        .collect();
+    ensure(
+        report.unmatched_targets == unmatched_targets,
+        "review unmatched targets incorrect",
+    )?;
+    if one_to_one {
+        ensure(
+            report
+                .assignment_diagnostics
+                .base_objective
+                .is_some_and(|value| (value - automatic_objective).abs() < 1e-10),
+            "review diagnostic objective includes fixed confirmations",
+        )?;
+        for alternative in &report.assignment_diagnostics.alternatives {
+            for change in &alternative.changes {
+                let row: usize = change
+                    .source
+                    .0
+                    .parse()
+                    .map_err(|_| "invalid review witness")?;
+                ensure(
+                    excluded != Some(row) && fixed.is_none_or(|(fixed_row, _)| row != fixed_row),
+                    "witness changes reviewed source",
+                )?;
+                if let Some(target) = &change.alternative_target {
+                    let column: usize = target
+                        .0
+                        .parse()
+                        .map_err(|_| "invalid review witness target")?;
+                    ensure(
+                        residual[row][column] > 0 && residual[row][column] >= threshold,
+                        "witness violates review constraints",
+                    )?;
+                }
+            }
+        }
+    }
+    source.fields.reverse();
+    target.fields.reverse();
+    constraints.forbidden.reverse();
+    ensure(
+        report
+            == engine
+                .match_schemas_with_constraints(&source, &target, &constraints)
+                .map_err(|error| error.to_string())?,
+        "review depends on field/directive order",
+    )
+}
+
 fn run(cases: u64, seed: u64) -> Result<(), String> {
     if cases == 0 || cases > 10_000_000 {
         return Err("cases must be in 1..=10000000".into());
     }
     let started = Instant::now();
     let mut random = Random(seed);
-    let mut counts = [0_u64; 5];
+    let mut counts = [0_u64; 6];
     for index in 0..cases {
         let category = index as usize % counts.len();
         let outcome = match category {
@@ -704,7 +898,8 @@ fn run(cases: u64, seed: u64) -> Result<(), String> {
             1 => malformed(&mut random),
             2 => config_and_limits(&mut random),
             3 => default_reports(&mut random),
-            _ => assignment(&mut random),
+            4 => assignment(&mut random),
+            _ => reviewed_assignment(&mut random),
         };
         outcome.map_err(|reason| {
             format!("case {index}, category {category}, seed {seed}: {reason}")
@@ -714,7 +909,7 @@ fn run(cases: u64, seed: u64) -> Result<(), String> {
             eprintln!("completed {} generated cases", index + 1);
         }
     }
-    println!("{{\"protocol\":\"fieldkin-qualification-v1\",\"seed\":{seed},\"cases\":{cases},\"passed\":true,\"elapsed_seconds\":{:.6},\"categories\":{{\"normalization\":{},\"malformed_schemas\":{},\"configuration_and_limits\":{},\"default_report_invariants\":{},\"assignment_oracle\":{}}}}}", started.elapsed().as_secs_f64(), counts[0], counts[1], counts[2], counts[3], counts[4]);
+    println!("{{\"protocol\":\"fieldkin-qualification-v2\",\"seed\":{seed},\"cases\":{cases},\"passed\":true,\"elapsed_seconds\":{:.6},\"categories\":{{\"normalization\":{},\"malformed_schemas\":{},\"configuration_and_limits\":{},\"default_report_invariants\":{},\"assignment_oracle\":{},\"reviewed_assignment_oracle\":{}}}}}", started.elapsed().as_secs_f64(), counts[0], counts[1], counts[2], counts[3], counts[4], counts[5]);
     Ok(())
 }
 

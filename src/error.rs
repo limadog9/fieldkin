@@ -81,12 +81,59 @@ impl fmt::Display for InputError {
 
 impl std::error::Error for InputError {}
 
+/// Invalid caller review constraints. Reasons never retain IDs or semantic labels.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[non_exhaustive]
+pub enum ConstraintError {
+    /// A referenced source ID is absent from the source schema.
+    UnknownSource,
+    /// A referenced target ID is absent from the target schema.
+    UnknownTarget,
+    /// A source is confirmed to more than one distinct target.
+    ConflictingSource,
+    /// Distinct sources confirm the same target in one-to-one mode.
+    ConflictingTarget,
+    /// A pair is both confirmed and forbidden.
+    ConfirmedForbidden,
+    /// A source is both confirmed and explicitly kept unmatched.
+    ConfirmedUnmatched,
+    /// A confirmation violates the enabled declared-type veto.
+    IncompatibleTypes,
+    /// A confirmation contradicts supplied semantic labels on this axis.
+    SemanticConflict(crate::SemanticAxis),
+}
+
+impl fmt::Display for ConstraintError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::UnknownSource => f.write_str("review constraint references an unknown source"),
+            Self::UnknownTarget => f.write_str("review constraint references an unknown target"),
+            Self::ConflictingSource => f.write_str("source has conflicting confirmations"),
+            Self::ConflictingTarget => {
+                f.write_str("target has conflicting confirmations in one-to-one mode")
+            }
+            Self::ConfirmedForbidden => f.write_str("pair is both confirmed and forbidden"),
+            Self::ConfirmedUnmatched => {
+                f.write_str("source is both confirmed and explicitly unmatched")
+            }
+            Self::IncompatibleTypes => f.write_str("confirmation violates the declared-type veto"),
+            Self::SemanticConflict(axis) => {
+                write!(f, "confirmation contradicts supplied {axis:?} semantics")
+            }
+        }
+    }
+}
+
+impl std::error::Error for ConstraintError {}
+
 /// Resource limit responsible for a rejected matching call.
 ///
 /// Limits reject work explicitly; no candidate or sample is silently discarded.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 #[non_exhaustive]
 pub enum BudgetKind {
+    /// Raw caller constraints exceed their derived field/pair count budgets.
+    Constraints,
     /// Number of fields in either schema.
     Fields,
     /// Number of source-target pairs.
@@ -110,6 +157,7 @@ pub enum BudgetKind {
 impl fmt::Display for BudgetKind {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.write_str(match self {
+            Self::Constraints => "review constraint count budget exceeded",
             Self::Fields => "field budget exceeded",
             Self::Pairs => "source-target pair budget exceeded",
             Self::SignalEvaluations => "signal evaluation budget exceeded",
@@ -177,6 +225,8 @@ impl std::error::Error for CountKind {}
 #[derive(Clone, Debug, PartialEq, Eq)]
 #[non_exhaustive]
 pub enum MatchError {
+    /// Caller review directives are inconsistent with each other or the schemas.
+    InvalidConstraints(ConstraintError),
     /// An engine configuration or matcher registration is invalid.
     InvalidConfiguration(ConfigurationError),
     /// A schema, sample or caller-supplied alias/hint is invalid.
@@ -200,6 +250,7 @@ pub enum MatchError {
 impl fmt::Display for MatchError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::InvalidConstraints(reason) => reason.fmt(f),
             Self::InvalidConfiguration(reason) => reason.fmt(f),
             Self::InvalidInput(reason) => reason.fmt(f),
             Self::BudgetExceeded(reason) => reason.fmt(f),
@@ -218,6 +269,7 @@ impl fmt::Display for MatchError {
 impl std::error::Error for MatchError {
     fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
         match self {
+            Self::InvalidConstraints(reason) => Some(reason),
             Self::InvalidConfiguration(reason) => Some(reason),
             Self::InvalidInput(reason) => Some(reason),
             Self::BudgetExceeded(reason) => Some(reason),

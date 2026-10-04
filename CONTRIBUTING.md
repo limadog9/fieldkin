@@ -13,6 +13,12 @@ and pinned current stable 1.99.0 on Linux, Windows and macOS. Run the standalone
 Use development and explicitly designated regression data for routine work;
 never score a reserved holdout for tuning. The corrective evaluator treats all
 previously examined families as regression data and reserves a new holdout.
+The external T2D evaluator scores development classes only; its 218 reserved tables
+have no scoring entry point. Do not turn unannotated pairs into negative labels
+or count caller-confirmed decisions as automatic matching successes. Run
+`python evaluation/import_t2d.py --check` and
+`python -m unittest discover -s evaluation -p test_import_t2d.py` when changing
+the external data tooling, preserving source licenses and pinned snapshots.
 Historical artifacts are immutable; publish new versioned artifacts
 and document deliberate report/configuration changes.
 Tests should exercise observable behavior or meaningful invariants. Include a
