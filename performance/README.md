@@ -135,3 +135,32 @@ fixed, no affinity or CPU-frequency control is imposed, and min/max spreads are
 process observations rather than confidence intervals. Mixed review changes
 eligibility and assignment work as well as adding validation/explanation costs;
 it is not a pure optimization comparison.
+
+## Partial assignment before and after
+
+`examples/assignment_cost.rs` supplies 27 graph workloads: 16/64/128 fields,
+dense/sparse graphs, partially or fully excluded sources, caller confirmations,
+reserved targets and unequal schema sizes. Complete diagnostic cases have four
+automatic edges; bounded cases use two probes. Every probe retains the original
+dimension-based work charge. These synthetic shapes exercise execution costs,
+not schema-matching accuracy, and all original pairs are scored.
+
+```text
+git worktree add --detach .local/assignment-baseline 8674c70
+python performance/assignment.py build --baseline .local/assignment-baseline --candidate . --output target/assignment-cost
+python performance/assignment.py run --output target/assignment-cost
+python -m unittest discover -s performance -p test_assignment.py
+```
+
+Skip the worktree command if the baseline already exists. The builder copies only
+the common example and driver into the baseline, keeps runtime sources unchanged,
+and records fresh isolated binaries and raw input hashes. Measurements alternate
+the two revisions across five processes each. Each workload has one warmup and
+10/4/2 timed calls by size; timings include matching and report destruction, and
+exclude input/engine/constraint construction and result summarization. Decision
+counts, diagnostic status, objective and work are checked across revisions.
+
+Finish builds and tests before measurement. The existing 50-workload timing and
+allocation protocol provides a separate default-behavior cost comparison. See
+[the assignment report](../docs/assignment-performance.md) for results and the
+source-row tie behavior that limits the optimization.

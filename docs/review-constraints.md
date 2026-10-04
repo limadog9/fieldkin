@@ -53,8 +53,11 @@ edges removed from eligibility. Diagnostic objectives exclude fixed confirmation
 they sum only automatic selections. Alternative witnesses never undo review
 decisions. Completeness is conditional on supplied constraints and the usual local
 abstention policy; it does not establish semantic correctness.
-The matrix retains its original dimensions with excluded entries masked. Diagnostic
-work is conservatively charged using those dimensions; fixed rows are not probed.
+The report matrix retains its original dimensions with excluded entries masked.
+The private solver can omit target columns with no valid positive edge, while
+retaining every source row and the original dummy-column order, then expand the
+result back to original IDs. Diagnostic work and floating-point
+tolerance still use the original dimensions; fixed rows are not probed.
 
 ## Validation, limits and persistence
 

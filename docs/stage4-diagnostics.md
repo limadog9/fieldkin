@@ -77,8 +77,12 @@ deadline. Checked arithmetic prevents overflow. A solve never starts if it would
 exceed either `max_solves` or `max_work`. The engine rejects `max_solves > 1_024`
 and negative or nonfinite objective margins.
 
-One scratch matrix is reused across probes. Its memory is `O(n*m)`. Solver
-auxiliary space is `O(n+m)`; stored witnesses and duplicate tracking add
+One scratch matrix is reused across probes. Its memory is `O(n*m)`. The Hungarian
+core uses `O(n+m)` auxiliary space. When target columns have no valid positive
+edges, the private solver can additionally construct an order-preserving compact
+matrix with every original row and `O(n*m)` worst-case space, expand its selections to original indices,
+and discard it after the solve. Work charging and float tolerance retain original
+dimensions, including when projection reduces the actual solve. Stored witnesses and duplicate tracking add
 `O(k*n)` for `k` completed probes. Existing field, pair, sample and explanation
 budgets still apply to matching. Diagnostic work is additive and separately
 reported as `solves_used` and `work_used`.
