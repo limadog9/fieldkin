@@ -1,0 +1,10 @@
+{
+  "dataset_doi": "10.24432/C5M60J",
+  "dataset_page": "https://archive.ics.uci.edu/dataset/237/northix",
+  "license_text_sha256": "d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744",
+  "license_text_url": "https://raw.githubusercontent.com/spdx/license-list-data/main/text/CC-BY-4.0.txt",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "observed_date": "2026-10-04",
+  "observed_license": "CC BY 4.0",
+  "scope": "The dataset landing page explicitly states that this dataset is licensed under CC BY 4.0. The license is for the dataset; it is not inferred from a software repository license."
+}

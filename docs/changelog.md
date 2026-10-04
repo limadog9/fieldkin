@@ -5,6 +5,18 @@
 No crate has been published. Final version and publication remain @limadog9's
 decision. See the release scorecard for qualification evidence and limitations.
 
+- Added an optional `json` feature for bounded, versioned report export and
+  explicit saved-review documents. Report exports omit arbitrary matcher text
+  by default; importing review decisions requires matching application-owned
+  revisions and retains engine validation before matcher callbacks.
+- Added the licensed Northix class-equivalence diagnostic, separate no-match and
+  `UNCLASSED` accounting, strict external-score import, and a pinned local
+  Valentine COMA comparison. Correlated demonstration-data tasks do not establish
+  production precision or satisfy the release quality targets.
+- Added reproducible larger-schema cost workloads with explicit caller-raised
+  limits. Ordinary limits and matching defaults remain unchanged.
+- Refreshed dependency/license inventories for the optional JSON graph and
+  preserved the earlier dated advisory review.
 - Reduced private assignment work by omitting target columns without valid
   positive edges and returning early for empty graphs, preserving source-row
   order, stable selections and original diagnostic budgets.
@@ -35,7 +47,8 @@ decision. See the release scorecard for qualification evidence and limitations.
 - Added importer and catalog examples with application-owned review decisions.
 - Added cross-platform minimum/current compiler CI and deterministic generated
   qualification tooling. Holdout evaluation is explicitly gated and kept out of CI.
-- Documented source-breaking changes, usage and deferred serialization/adapters.
+- Documented source-breaking changes, usage and deferred adapters; bounded JSON
+  report/review interchange is now available as an optional feature.
 
 ## Earlier unpublished stages
 

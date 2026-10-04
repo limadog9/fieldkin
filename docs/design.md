@@ -7,7 +7,7 @@ validated on every call; there is no registry, database, worker pool, or I/O.
 ## Scoring and abstention
 
 The engine evaluates all bounded source-target pairs through a small `Matcher`
-trait. We deliberately use two runtime dependencies: `strsim` for the established
+trait. The default build uses two direct runtime dependencies: `strsim` for the established
 Jaro-Winkler implementation and `unicode-normalization` for NFKC. Standard-library
 collections give stable iteration order. `proptest` is development-only.
 
@@ -57,7 +57,9 @@ zero-score and ambiguous-source edges are excluded by default. Every source can
 remain unmatched. The objective is not a likelihood or a mapping confidence.
 
 With `n` source and `m` target fields, assignment takes `O(n²(m+n))` time and
-`O(m+n)` auxiliary space beyond the candidate matrix. Pair evaluation and reports
+`O(m+n)` kernel workspace beyond the candidate matrix. Omitting unused targets
+can additionally allocate an `O(nm)` projected matrix; source rows and dummy
+ordering are retained to preserve fractional ties. Pair evaluation and reports
 take `O(nm)` signal evaluations; individual signal cost depends on bounded name
 and sample lengths. Within each match call, concrete built-in name and sample
 matchers prepare each field once. The private cache holds normalized, expanded

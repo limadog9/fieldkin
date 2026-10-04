@@ -11,9 +11,15 @@ categories = ["algorithms"]
 readme = "README.md"
 include = ["src/**", "examples/**", "tests/**", "benches/**", "docs/**", "README.md", "LICENSE-*", "THIRD_PARTY.md", "CONTRIBUTING.md", "MAINTAINERS.md", "ROADMAP.md", "Cargo.toml", "Cargo.lock"]
 
+[features]
+default = []
+json = ["dep:serde", "dep:serde_json"]
+
 [dependencies]
 strsim = "0.11.1"
 unicode-normalization = "0.1.24"
+serde = { version = "1.0", features = ["derive"], optional = true }
+serde_json = { version = "1.0", optional = true }
 
 [dev-dependencies]
 proptest = { version = "=1.6.0", default-features = false, features = ["std"] }
@@ -26,6 +32,10 @@ resolver = "2"
 [[bench]]
 name = "matching"
 harness = false
+
+[[example]]
+name = "persisted_review"
+required-features = ["json"]
 
 [lints.rust]
 unsafe_code = "forbid"

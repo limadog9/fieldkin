@@ -7,6 +7,13 @@ are synthetic data under MIT OR Apache-2.0, copyright 2026 Fieldkin contributors
 The later T2D annotation-only experiment has separate Apache-2.0 attribution and
 provenance in `external/t2d-v1`; it includes no raw table values or Valentine data.
 
+The separate [Northix diagnostic](../docs/northix-evaluation.md) uses native table
+schemas, sampled values and manual classes from the CC-BY-4.0 archive in
+`external/northix-v1`. Its [Valentine COMA comparison](../docs/valentine-comparison.md)
+uses a pinned local Python environment outside the Rust dependency graph.
+The strict current regression snapshots are in `results/continuation-v1`;
+historical snapshots below retain their original implementation provenance.
+
 For new external evidence records, use the [verified build/run workflow](../docs/verified-evaluation.md).
 Direct Cargo commands below remain useful regression tools, but their on-disk
 source hashes do not independently establish the identity of the executable.

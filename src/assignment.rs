@@ -105,12 +105,16 @@ fn solve_dense(scores: &[Vec<Option<f64>>]) -> Vec<Option<usize>> {
     let mut column_potential = vec![0.0; column_count + 1];
     let mut matched_row = vec![0; column_count + 1];
     let mut predecessor = vec![0; column_count + 1];
+    let mut minimum_slack = vec![f64::INFINITY; column_count + 1];
+    let mut visited = vec![false; column_count + 1];
 
     for row in 1..=row_count {
         matched_row[0] = row;
         let mut current_column = 0;
-        let mut minimum_slack = vec![f64::INFINITY; column_count + 1];
-        let mut visited = vec![false; column_count + 1];
+        // Every entry, including the temporary root at zero, belongs to this
+        // augmentation only. Reuse storage without carrying any search state.
+        minimum_slack.fill(f64::INFINITY);
+        visited.fill(false);
 
         loop {
             visited[current_column] = true;
@@ -169,6 +173,10 @@ fn solve_dense(scores: &[Vec<Option<f64>>]) -> Vec<Option<usize>> {
         }
     }
 
+    // Keep the scratch lifetime out of result construction, as in the original
+    // per-row allocation path. This does not increase simultaneous live buffers.
+    drop(minimum_slack);
+    drop(visited);
     let mut assignment = vec![None; row_count];
     for (column, &row) in matched_row
         .iter()

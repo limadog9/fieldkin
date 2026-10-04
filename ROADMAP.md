@@ -39,14 +39,32 @@ original release targets and experimental status:
 | 9. Bind evaluation records to their executable | Fresh isolated evaluator builds; recorded executable and input hashes; before/after drift checks; development-only runs with success records | [Verified evaluation](docs/verified-evaluation.md). This detects stale builds and changed inputs in the recorded workflow; it is not a signed attestation or validation of matching accuracy. |
 | 10. Reduce partial-assignment work | Skip unused target columns and empty solves; retain source/dummy order, reports and diagnostic budget semantics; before/after measurements | [Assignment costs](docs/assignment-performance.md). Pair scoring remains complete and all-pairs; this reduces solver work without adding evidence or changing matching policy. |
 
+## Remaining implementation and qualification cycle
+
+The October 4 continuation closes the remaining justified stretch and integration
+work in one sequence. These phases are **in progress**, not completed claims.
+
+| Phase | Scope | Completion evidence |
+| --- | --- | --- |
+| 11. Bound larger-schema costs | Reuse assignment scratch buffers without changing arithmetic; measure 128/512/1,000-field inputs with explicitly raised limits and unchanged defaults | Exact full-report comparison, allocation accounting and fixed repeated before/after and scale workloads; retain every regression. No new prepared-schema API without evidence that consumers need one. |
+| 12. Persist application review | Optional bounded JSON report export and explicit, schema-version-bound review documents; resume the importer reference consumer | Feature-on/off checks, privacy and malformed-input tests, selected/ambiguous/unmatched report fidelity and stale-revision rejection. No schema/sample serialization, service or automatic acceptance of proposals. |
+| 13. Compare independent matching evidence | Licensed Northix table schemas and manual classes, including explicit unmatched fields; pinned local Valentine comparison | Freeze import, sampling, label interpretation and selection policy before scoring; record raw scores, predictions, class-defined precision/recall and UNCLASSED errors. Keep the existing T2D holdout unscored. |
+| 14. Requalify the completed build | Integrate the reference consumer, experimental benchmark findings and supported feature matrix | Generated-case campaign, packaging, compiler/platform CI, updated dependency attribution and a direct scorecard against the original targets. Publication remains a separate maintainer decision. |
+
+Saved review is now a concrete reference-consumer requirement: an importer can
+close and resume while retaining only explicit human decisions and the caller's
+schema revisions. This justifies an opt-in wire boundary, not a generic adapter
+framework or a claim of independent downstream adoption. The Northix comparison
+uses independently authored demonstration data; it is not production validation.
+
 Further accuracy work must use the reserved external classes only after a new
 policy freeze, and report their positive-only limits. Production-oriented
 validation still needs independently supplied source/target schemas and explicit
 negative/unmatched labels. Richer verified meaning should be evaluated on that
 evidence before changing defaults. More synthetic cases or counting caller
-confirmations as matches would not close this gap. Scale experiments, reusable
-prepared schemas, serialization and external-matcher comparisons remain deferred
-until a concrete consumer or measurement justifies them. Publication remains a
+confirmations as matches would not close this gap. The continuation above adds bounded scale experiments, optional review/report
+JSON and an external-matcher comparison. Reusable prepared schemas and candidate
+pruning remain deferred until a concrete consumer and measurements justify them. Publication remains a
 separate maintainer decision.
 
 ## Original three-month plan
@@ -232,7 +250,8 @@ stable-ID witnesses. Oracle tests cover tied, fractional and rectangular graphs;
 diagnostics preserve selections and ignore displayed top-k limits. Five-process
 cost measurements expose the expensive dense 128-field case (about 957 ms for
 complete analysis on the recorded machine); default diagnostics remain disabled.
-Confirmed/forbidden pairs remain deferred. Original acceptance criteria follow.
+Confirmed/forbidden pairs were deferred at this stage and subsequently delivered
+in phase 8. Original acceptance criteria follow.
 
 Show when one-to-one assignment is supported and when several mappings remain
 equally plausible.
@@ -266,7 +285,7 @@ privacy-preserving error formatting, importer/catalog review examples, supported
 compiler policy, migration notes and a usage guide. Custom matchers retain their
 pairwise contract. Source breaks are accepted within the delegated unpublished
 implementation scope and documented; this is not a stable-API or publication
-decision. Optional serialization is deferred because the examples need no wire
+decision. Optional serialization was deferred at this stage because the examples needed no wire
 format, and accidental sample export deserves a separate report-only design.
 Independent downstream adoption remains a learning target, not a completed claim.
 

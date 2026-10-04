@@ -144,9 +144,9 @@ def input_inventory(root=None):
     root = _checked_path(_root(root))
     _validate_manifests(root)
     paths = []
-    for relative in ("src", "evaluation/src", "evaluation/corpus", "evaluation/external/t2d-v1"):
+    for relative in ("src", "evaluation/src", "evaluation/corpus", "evaluation/fixtures", "evaluation/external/t2d-v1", "evaluation/external/northix-v1"):
         paths.extend(_files(root / relative))
-    for relative in ("Cargo.toml", "Cargo.lock", "README.md", "evaluation/Cargo.toml", "evaluation/import_t2d.py", "evaluation/verified.py"):
+    for relative in ("Cargo.toml", "Cargo.lock", "README.md", "evaluation/Cargo.toml", "evaluation/import_t2d.py", "evaluation/verified.py", "evaluation/import_northix.py", "evaluation/record_northix.py", "evaluation/compare_valentine.py", "evaluation/valentine-requirements.txt", "evaluation/valentine-environment.json"):
         paths.append(_regular_file(root / relative))
     for directory in (root, root / "evaluation"):
         for name in ("Cargo.lock", "build.rs", "rust-toolchain", "rust-toolchain.toml"):
@@ -154,7 +154,7 @@ def input_inventory(root=None):
             if path.exists():
                 paths.append(_regular_file(path))
     protocols = sorted((root / "evaluation").glob("*protocol.json"))
-    required = {"protocol.json", "stage3-protocol.json", "release-protocol.json", "corrective-protocol.json", "external-protocol.json"}
+    required = {"protocol.json", "stage3-protocol.json", "release-protocol.json", "corrective-protocol.json", "external-protocol.json", "northix-protocol.json"}
     if not required.issubset({path.name for path in protocols}):
         raise VerificationError("an evaluation protocol is missing")
     paths.extend(protocols)

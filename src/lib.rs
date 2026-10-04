@@ -11,6 +11,10 @@ mod semantics;
 mod signals;
 mod types;
 
+/// Optional, bounded JSON export and application-owned review persistence.
+#[cfg(feature = "json")]
+pub mod json;
+
 pub use constraints::{FieldPair, MatchConstraints};
 pub use diagnostics::*;
 pub use engine::{MatchEngine, WeightedMatcher};

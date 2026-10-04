@@ -3,3 +3,11 @@ performance/results/** text eol=lf linguist-generated=true
 qualification/results/assignment-v1/** text eol=lf linguist-generated=true
 # Preserve raw bytes referenced by the assignment protocol's SHA-256 records.
 performance/results/assignment-v1/solver-cost/** -text whitespace=cr-at-eol linguist-generated=true
+evaluation/fixtures/** text eol=lf
+evaluation/*northix*.py text eol=lf
+evaluation/northix-protocol.json text eol=lf
+evaluation/*valentine* text eol=lf
+evaluation/external/northix-v1/** text eol=lf
+evaluation/external/northix-v1/*.zip -text
+qualification/results/continuation-v1/** text eol=lf linguist-generated=true
+performance/results/continuation-v1/solver-cost/** -text whitespace=cr-at-eol linguist-generated=true

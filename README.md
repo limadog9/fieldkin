@@ -213,7 +213,15 @@ assignments within explicit solve/work budgets. It reports total-objective gaps,
 changed IDs and whether analysis completed. It never changes proposals, and
 incomplete analysis cannot establish uniqueness. See
 [global diagnostics](docs/stage4-diagnostics.md) and the
-[migration guide](docs/migration.md). Serialization and adapters remain deferred.
+[migration guide](docs/migration.md).
+
+Enable the optional `json` feature for bounded report export and saved review
+decisions. `json::report_to_json` exports a display report; it cannot be imported
+as accepted mappings. `json::review_to_json` and `json::review_from_json` preserve
+explicit caller decisions with application-owned source/target revisions.
+Arbitrary matcher text is omitted by default, and no schema or sample serializer
+is provided. See [the JSON boundary](docs/json.md) and the compiling
+[resume-review example](examples/persisted_review.rs). Adapters remain deferred.
 
 ## Validation and development
 
@@ -221,6 +229,7 @@ incomplete analysis cannot establish uniqueness. See
 cargo fmt --all -- --check
 cargo clippy --locked --all-targets --all-features -- -D warnings
 cargo test --locked --all-features
+cargo test --locked -p fieldkin --no-default-features
 cargo test --locked --doc
 cargo doc --locked --no-deps --all-features
 cargo run --locked --example baseline
@@ -231,8 +240,8 @@ CI checks Rust 1.85.0 and 1.99.0 on Linux, Windows and macOS, including tests,
 clippy, documentation, consumer examples, packaging and development/regression evaluation.
 Formatting is checked on both compilers. Workflow permissions remain
 read-only. Library tests and performance inputs are original synthetic fixtures.
-The separate external evaluation includes explicitly Apache-licensed T2D
-correspondence metadata with its own provenance and notices. The baseline example compares name-only matching with the
+The separate external evaluation includes Apache-licensed T2D correspondences
+and the CC-BY-4.0 Northix benchmark, each with provenance and notices. The baseline example compares name-only matching with the
 default engine on small labeled cases; it is a regression illustration, not a
 real-world accuracy claim. Benchmarks generate fixed inputs in memory and use
 `std::hint::black_box`; report toolchain, hardware, and workload alongside timings.
@@ -293,6 +302,12 @@ The [partial-assignment optimization](docs/assignment-performance.md) skips
 unused target columns and solves with no eligible positive edges.
 All pairs are still scored, and diagnostics retain their original work budgets.
 The report documents full-report compatibility checks and measured costs.
+
+The [remaining build cycle](docs/continuation-scorecard.md) adds optional review
+persistence, a bounded 1,000-field scale experiment and a frozen Northix/Valentine
+comparison. The external comparison is development tooling; Python and Valentine
+are not library dependencies. Existing matching policy and default input limits
+remain unchanged.
 
 ## License
 

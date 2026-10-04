@@ -4,19 +4,40 @@ Fieldkin's original code and synthetic fixtures are copyright 2026 Fieldkin cont
 
 ## Dependencies
 
-The [October 3, 2026 dependency review](docs/dependency-review.md) inventories
-all 42 locked third-party versions across runtime and development tools, including
-advisory results and license-file hashes. It records the additional Unicode-3.0
-notice for `unicode-ident` and the missing standalone notice file in the optional
-`stats_alloc` package. Qualification adds no dependency beyond Fieldkin itself.
+The [October 4, 2026 dependency review](qualification/results/continuation-v1/dependencies.json)
+inventories all 42 locked third-party versions across runtime and development
+tools, including advisory results and license-file hashes. All three lockfile
+scans reported zero vulnerabilities and zero warnings against the freshly
+fetched RustSec database at `ef6173cbc5c50ec8166f9a5b28f07834144373ee`;
+this is a dated advisory check, not a source-code security audit. The
+[earlier review and interpretation](docs/dependency-review.md) retain the
+October 3 observations, the additional Unicode-3.0 notice for `unicode-ident`,
+and the missing standalone notice file in the optional `stats_alloc` package.
+Qualification adds no dependency beyond Fieldkin itself.
 
-The reviewed lockfile resolves these runtime crates:
+The default library feature set resolves these runtime crates:
 
 | Crate | Version | License expression | Upstream |
 | --- | --- | --- | --- |
 | strsim | 0.11.1 | MIT | [rapidfuzz/strsim-rs](https://github.com/rapidfuzz/strsim-rs) |
 | unicode-normalization | 0.1.25 | MIT OR Apache-2.0 | [unicode-rs/unicode-normalization](https://github.com/unicode-rs/unicode-normalization) |
 | tinyvec (transitive) | 1.13.3 | Zlib OR Apache-2.0 OR MIT | [Lokathor/tinyvec](https://github.com/Lokathor/tinyvec) |
+
+The optional `json` feature additionally uses these direct dependencies, at the
+versions already present in the evaluator's reviewed lockfile:
+
+| Crate | Version | License expression | Upstream |
+| --- | --- | --- | --- |
+| serde | 1.0.229 | MIT OR Apache-2.0 | [serde-rs/serde](https://github.com/serde-rs/serde) |
+| serde_json | 1.0.151 | MIT OR Apache-2.0 | [serde-rs/json](https://github.com/serde-rs/json) |
+
+Their enabled runtime dependencies include `serde_core`, `itoa`, `memchr` and
+`zmij`. Serde's derive support uses `serde_derive`, `proc-macro2`, `quote`, `syn`
+and `unicode-ident` during compilation. The full version/license/notice inventory
+is in the new review; in particular, `unicode-ident` requires its Unicode-3.0
+notice in addition to an MIT or Apache-2.0 choice. These feature-specific edges
+do not change the default library dependency graph. No locked versions were
+upgraded to add JSON support.
 
 [`proptest` 1.6.0](https://github.com/proptest-rs/proptest/tree/v1.6.0) is a development-only direct dependency, licensed MIT OR Apache-2.0, copyright 2016 FullContact, Inc. Its transitive test dependencies are recorded in `Cargo.lock` and retain their upstream licenses. They are not dependencies of consumers of the Fieldkin library. Cargo registry packages supply their own license files; preserve the relevant notices when redistributing bundled dependency code. The runtime MIT notices are reproduced below for convenience.
 
@@ -38,12 +59,40 @@ Library examples, tests and performance inputs remain original synthetic data
 under Fieldkin's MIT OR Apache-2.0 terms. External evaluation data retain the
 specific license and provenance recorded alongside them.
 
+The development-only Northix archive and derived fixture in
+[`evaluation/external/northix-v1/`](evaluation/external/northix-v1/) and
+[`evaluation/fixtures/northix-v1.json`](evaluation/fixtures/northix-v1.json) are
+by Farid Bourennani (2012), published by the UCI Machine Learning Repository,
+DOI [10.24432/C5M60J](https://doi.org/10.24432/C5M60J), under
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The directory includes
+the full license, source-license evidence, source hashes and a modification NOTICE.
+The original archive remains unchanged; the derived fixture groups original
+columns, selects up to 64 InputData records per column, represents blank records
+as null and retains class labels separately. Fifteen differing class-file copies
+are recorded rather than used as sample evidence. These data are excluded from
+the Rust library package and retain their own license. No creator or publisher
+endorsement is implied. See the [task and limitations](docs/northix-evaluation.md).
+
+The optional development comparison executes Apache-2.0
+[Valentine 1.0.0](https://github.com/delftdata/valentine), copyright Delft
+University of Technology, from a separate local Python environment. Its wheel
+and transitive dependencies are pinned by hash in
+[`evaluation/valentine-requirements.txt`](evaluation/valentine-requirements.txt);
+[`evaluation/valentine-environment.json`](evaluation/valentine-environment.json)
+records the installed versions, artifact hashes and local NLTK stopword inputs.
+Valentine code, Python dependencies and stopword data are not vendored or included
+in the Rust library package. Their own notices accompany the installed packages.
+The [comparison guide](docs/valentine-comparison.md) distinguishes external raw
+scores from Fieldkin's selection policy. The Rust dependency audit does not audit
+this separate Python environment.
+
 The unpublished `evaluation/` workspace package uses `serde` (MIT OR Apache-2.0),
 `serde_json` (MIT OR Apache-2.0), and `sha2` (MIT OR Apache-2.0) for development-only
-artifacts and provenance hashes. These are not runtime dependencies of the Fieldkin
-library. Their exact versions and transitive packages are frozen in `Cargo.lock`
-and copied into evaluation result metadata. No third-party fixture data is used;
-all 40 evaluation families are original synthetic Fieldkin content.
+artifacts and provenance hashes. Only the optional library `json` feature adds
+Serde and serde_json to the consumer graph; `sha2` remains evaluator-only. Exact
+versions and transitive packages are frozen in `Cargo.lock` and copied into
+evaluation result metadata. The 40 synthetic evaluation families are original
+Fieldkin content; the separately attributed external fixtures above are not.
 
 The unpublished, isolated `performance/` package optionally uses
 [`stats_alloc` 0.1.10](https://github.com/neoeinstein/stats_alloc), licensed MIT,
