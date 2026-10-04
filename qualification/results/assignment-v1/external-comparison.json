@@ -1,0 +1,34 @@
+{
+  "baseline_revision": "8674c70a6af4e8f9e7ce0a8a02d3ffa7b9f11656",
+  "comparisons": [
+    {
+      "all_behavior_and_other_metadata_equal": true,
+      "artifact": "development.json",
+      "changed_metadata_source_files": [
+        "assignment.rs"
+      ],
+      "historical_sha256": "e4486d8e98d47c7f06de6d9060c677c00ecb227388948c066ce28b21971ee6a2",
+      "new_sha256": "ba16fb3cba243946032330304ab6167f1aaf647e7b497ad91d5b19e26aa83540"
+    },
+    {
+      "all_behavior_and_other_metadata_equal": true,
+      "artifact": "development-predictions.jsonl",
+      "changed_metadata_source_files": [],
+      "historical_sha256": "9bc11c1dee04576eca9f2a3161883da5ecd4370a1684d4fdf86ab96bcc77867c",
+      "new_sha256": "9bc11c1dee04576eca9f2a3161883da5ecd4370a1684d4fdf86ab96bcc77867c"
+    },
+    {
+      "all_behavior_and_other_metadata_equal": true,
+      "artifact": "development.md",
+      "changed_metadata_source_files": [],
+      "historical_sha256": "e6999f740fcf4de3f236291b46004c5dae7fe95f054a718984bf0660c688d127",
+      "new_sha256": "e6999f740fcf4de3f236291b46004c5dae7fe95f054a718984bf0660c688d127"
+    }
+  ],
+  "copied_build_sha256": "18e248b3b265cba515cc879a83e6d66cdda0a0d5138b0b2f82f0f804beed1ad1",
+  "freeze_revision": "180f42b7a655fe904feb8358ff64a1394b51441f",
+  "holdout": "reserved; no matcher invoked for reserved classes",
+  "protocol": "assignment-external-comparison-v1",
+  "run_record_sha256": "9871889c5d58368a9ddb40dfa0fe5a6eb678ef5bc378be889709f134d49b1064",
+  "strict_check": "New versioned snapshot retains all current source hashes. Historical files remain untouched."
+}
