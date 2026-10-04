@@ -88,14 +88,17 @@ change. See [the gate's limits](corroboration.md) before enabling it.
 
 The minimum supported compiler remains Rust 1.85.0, edition 2021. Qualification
 also pins Rust 1.99.0, the current stable verified on October 3, 2026, across Linux,
-Windows and macOS. There are no optional library features; default,
-`--no-default-features` and `--all-features` expose the same API. The separate
+Windows and macOS. The default and `--no-default-features` library builds retain
+the existing dependency graph. The optional `json` feature adds the bounded JSON
+module and its Serde dependencies; `--all-features` exercises it. The separate
 performance tool's `allocations` feature is not a library feature.
 
-Optional serialization is deferred deliberately. Both consumer examples use
-Rust-owned review state and need no wire format. Adding derives over input
-schemas could accidentally export sample values; a future versioned report-only
-format needs a concrete consumer and independent validation. `Debug` is not a
+The optional [JSON boundary](json.md) supports the persisted-review reference
+consumer. Its version-1 report format is export-only and its separate review
+format contains explicit human decisions tied to trusted application revisions.
+It does not derive serialization over schemas or sample values. Applications must
+advance their revisions when prior decisions need reconsideration; these strings
+are not authentication or automatic schema fingerprints. `Debug` is not a
 stable wire format. Public reusable prepared schemas and richer transformations
 remain deferred. The in-memory API has
 no network, database, LLM, credential or runtime service requirement.

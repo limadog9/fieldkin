@@ -1,0 +1,73 @@
+{
+  "protocol_version": "northix-class-equivalence-1.0.0",
+  "dataset": "Northix, Farid Bourennani (2012), UCI, DOI 10.24432/C5M60J",
+  "corpus_sha256": "1814da6f1100d2eb63e4b89975e4295537924f4327ba7a3a55e3380849706fd1",
+  "scope": "All 84 original database-1 table to database-2 table pairs. Class labels never enter matching inputs. This is a fixed external diagnostic of published class equivalence, not production consumer validation or a tuning corpus.",
+  "partition_policy": "No train/test split or unseen-domain claim. Freeze policy, importer, runtime, score producers and selector before any matching. No threshold sweeps or runtime tuning using these results. The separate 218-table T2D holdout remains unscored.",
+  "inventory": {
+    "database_1_fields": 67,
+    "database_1_tables": 12,
+    "database_2_fields": 48,
+    "database_2_tables": 7,
+    "explicit_unclassed_field_occurrences": 70,
+    "label_classes": 34,
+    "no_match_field_occurrences": 441,
+    "pairs_with_positive_edges": 16,
+    "pairs_without_positive_edges": 68,
+    "positive_edges": 28,
+    "positive_field_occurrences": 28,
+    "source_field_occurrences": 469,
+    "table_pairs": 84,
+    "unique_fields": 115,
+    "value_copy_discrepancies": 15
+  },
+  "labels": "Two fields match exactly when they share a non-UNCLASSED published class. Different classes and every UNCLASSED pair are task-defined negatives. A source field with no acceptable target in this table pair is a complement no-match case. Count the explicitly UNCLASSED subset separately; no-match by absence from a particular target is not the same assertion as upstream UNCLASSED.",
+  "one_to_one_positive_edge_ceiling": 27,
+  "inputs": {
+    "names": "Original attribute component of each InputData filename",
+    "ids": "Complete original filename including table and database components",
+    "types": "Unknown",
+    "hints": "None",
+    "samples": "InputData only; ISO-8859-1 decoding; line records; whitespace-only lines become Null, every other value remains exact Text. Classes copies are never sample inputs.",
+    "sample_cap": 64,
+    "sample_indices": "For n rows and k=min(64,n), select floor(i*(n-1)/(k-1)) for i=0..k-1; [] when n=0 and [0] when n=1. Never truncate values or silently reject rows.",
+    "row_alignment": "Columns are independently sampled, with no row relationship asserted. Pandas padding for external matchers is only a column container."
+  },
+  "models": ["combined", "name_only"],
+  "sample_modes": ["absent", "present"],
+  "assignment_modes": ["independent", "one_to_one"],
+  "settings": {
+    "min_score": 0.7,
+    "ambiguity_margin": 0.08,
+    "max_candidates": 5,
+    "abstain_on_ambiguity": true,
+    "name_aliases": {"amt": "amount", "trans": "transaction"},
+    "combined_weights": {"name": 0.65, "type": 0.2, "samples": 0.15},
+    "name_only_weight": 1.0,
+    "sample_min_non_null": 3,
+    "sample_reliability": "Distinct",
+    "corroboration": null,
+    "global_diagnostics_max_solves": 0,
+    "limits": {"max_fields": 128, "max_pairs": 16384, "max_signal_evaluations": 65536, "max_explanation_bytes": 16777216, "max_name_bytes": 256, "max_samples_per_field": 256, "max_sample_bytes": 1024, "max_total_sample_bytes": 8388608}
+  },
+  "external_scores": {
+    "schema_version": 1,
+    "producer": "valentine",
+    "version": "1.0.0",
+    "modes": ["schema_only", "schema_and_samples"],
+    "matcher": "Coma",
+    "parameters": {"max_n": 0, "delta": 1.0, "threshold": 0.0, "use_schema": true, "instance_weight": 1.0},
+    "table_names": ["aaa", "bbb"],
+    "selection": "Export all finite raw returned pairs without pre-thresholding, including zero if returned. Omitted pairs are missing evidence. Use one external-score Matcher with weight 1, type veto disabled, the same fixed Fieldkin threshold/ambiguity policy and independent or one-to-one assignment. No Valentine convenience metric or dynamically inferred cutoff.",
+    "hashes": "Interchange corpus_sha256 and protocol_sha256 hash exact UTF-8 LF file bytes. Require exactly all 84 table-pair IDs once, unique known field pairs and finite scores in [0,1]. Producer provenance and complete score-file hashes are retained in outputs."
+  },
+  "metrics": {
+    "precision": "Correct selected class-equivalent pairs / every proposal, including proposals on no-match fields; null when no proposals.",
+    "positive_field_recall": "Source-field occurrences whose selected target is acceptable / all occurrences having any acceptable target, including rejected inputs.",
+    "positive_edge_recall": "Correct selected distinct pairs / all labeled positive edges; may differ from field recall when a field has multiple acceptable targets.",
+    "positive_edge_recall_at_5": "Distinct labeled positive pairs in the displayed top five / all positive edges, including rejected inputs; candidates may be ineligible. Imported external candidates count only if the score file actually contains that pair, including explicitly returned zero; omitted-pair display fillers cannot earn retrieval credit.",
+    "no_match_false_proposal_rate": "Proposals on complement no-match source-field occurrences / all such occurrences; report explicit UNCLASSED subset separately.",
+    "rejections": "Retain rejected table-pair IDs and field counts in all applicable denominators. Rejections are not successful abstentions or correct no-match decisions."
+  },
+  "interpretation": "Scores are heuristic. Classes are coarse semantic groupings, not guarantees of lossless conversion or business meaning. Reused tables and equivalence classes make the 84 tasks correlated. Northix includes synthetic injected tuples and value-copy discrepancies. This protocol does not certify the 95% precision / 60% coverage release target and does not change library defaults."
+}

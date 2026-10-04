@@ -1,0 +1,27 @@
+{
+  "artifact_sha256": {
+    "development.json": "ca1008bc7dbb14660d1e4870b243f201173fc5f987a783ff3213335ba7b6e983",
+    "development.md": "a745539e1c7625287827e9fe3d4b7e3086b4913e0b685913975b5ea18c04c622"
+  },
+  "binary_sha256": "9be13838543ceea77977b2b5e784e7732caa52aea8a47c7aca42d79c6783d82e",
+  "build_record_sha256": "a1787bf26a1bfe071d356c6158b8accb742c8703f7b45802c06bbe6f85a5b584",
+  "command": [
+    "C:\\Users\\jakew\\Downloads\\fieldkin\\target\\external-continuation-v1\\bin\\fieldkin-eval.exe",
+    "--release",
+    "--output",
+    "C:\\Users\\jakew\\Downloads\\fieldkin\\evaluation\\results\\continuation-v1\\release"
+  ],
+  "completed_utc": "2026-10-04T17:42:52.273890+00:00",
+  "cwd": "C:\\Users\\jakew\\Downloads\\fieldkin",
+  "partitions": [
+    "development"
+  ],
+  "protocol": "fieldkin-continuation-regressions-v1",
+  "record_sha256": "4296de55f9928573704d8e59a8b00247cf25edc54aa074fb433a21c7aa1b2150",
+  "returncode": 0,
+  "script_sha256": "fd62df5d192228b0dcdb637e20253beb6ec4077f45fe3777cf9ef20917846abd",
+  "started_utc": "2026-10-04T17:42:47.926398+00:00",
+  "status": "success",
+  "stderr": "",
+  "stdout": "Release development evaluation written: 160 cases, 84 threshold rows, 3840 per-field default predictions\n"
+}

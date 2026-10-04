@@ -1,0 +1,1366 @@
+{
+  "behavior": [
+    {
+      "alternatives": "0",
+      "confirmed": "0",
+      "excluded": "0",
+      "family": "dense-disabled",
+      "iterations": "10",
+      "objective": "none",
+      "proposed": "16",
+      "size": "16",
+      "solves": "0",
+      "sources": "16",
+      "status": "Disabled",
+      "targets": "16",
+      "unmatched_sources": "0",
+      "unmatched_targets": "0",
+      "work": "0"
+    },
+    {
+      "alternatives": "1",
+      "confirmed": "0",
+      "excluded": "0",
+      "family": "dense-bounded",
+      "iterations": "10",
+      "objective": "13.59999999999999609",
+      "proposed": "16",
+      "size": "16",
+      "solves": "2",
+      "sources": "16",
+      "status": "BudgetExhausted",
+      "targets": "16",
+      "unmatched_sources": "0",
+      "unmatched_targets": "0",
+      "work": "16384"
+    },
+    {
+      "alternatives": "0",
+      "confirmed": "0",
+      "excluded": "0",
+      "family": "sparse-complete",
+      "iterations": "10",
+      "objective": "3.39999999999999991",
+      "proposed": "4",
+      "size": "16",
+      "solves": "4",
+      "sources": "16",
+      "status": "Complete",
+      "targets": "16",
+      "unmatched_sources": "12",
+      "unmatched_targets": "12",
+      "work": "32768"
+    },
+    {
+      "alternatives": "0",
+      "confirmed": "0",
+      "excluded": "8",
+      "family": "half-excluded-disabled",
+      "iterations": "10",
+      "objective": "none",
+      "proposed": "8",
+      "size": "16",
+      "solves": "0",
+      "sources": "16",
+      "status": "Disabled",
+      "targets": "16",
+      "unmatched_sources": "8",
+      "unmatched_targets": "8",
+      "work": "0"
+    },
+    {
+      "alternatives": "0",
+      "confirmed": "0",
+      "excluded": "16",
+      "family": "all-excluded-complete",
+      "iterations": "10",
+      "objective": "-0.00000000000000000",
+      "proposed": "0",
+      "size": "16",
+      "solves": "0",
+      "sources": "16",
+      "status": "Complete",
+      "targets": "16",
+      "unmatched_sources": "16",
+      "unmatched_targets": "16",
+      "work": "0"
+    },
+    {
+      "alternatives": "0",
+      "confirmed": "4",
+      "excluded": "4",
+      "family": "mixed-bounded",
+      "iterations": "10",
+      "objective": "6.79999999999999893",
+      "proposed": "8",
+      "size": "16",
+      "solves": "2",
+      "sources": "16",
+      "status": "BudgetExhausted",
+      "targets": "16",
+      "unmatched_sources": "4",
+      "unmatched_targets": "4",
+      "work": "16384"
+    },
+    {
+      "alternatives": "0",
+      "confirmed": "12",
+      "excluded": "0",
+      "family": "reserved-complete",
+      "iterations": "10",
+      "objective": "3.39999999999999991",
+      "proposed": "4",
+      "size": "16",
+      "solves": "4",
+      "sources": "16",
+      "status": "Complete",
+      "targets": "16",
+      "unmatched_sources": "0",
+      "unmatched_targets": "0",
+      "work": "32768"
+    },
+    {
+      "alternatives": "0",
+      "confirmed": "0",
+      "excluded": "0",
+      "family": "wide-complete",
+      "iterations": "10",
+      "objective": "3.39999999999999991",
+      "proposed": "4",
+      "size": "16",
+      "solves": "4",
+      "sources": "4",
+      "status": "Complete",
+      "targets": "16",
+      "unmatched_sources": "0",
+      "unmatched_targets": "12",
+      "work": "1280"
+    },
+    {
+      "alternatives": "0",
+      "confirmed": "0",
+      "excluded": "0",
+      "family": "tall-bounded",
+      "iterations": "10",
+      "objective": "3.39999999999999991",
+      "proposed": "4",
+      "size": "16",
+      "solves": "2",
+      "sources": "16",
+      "status": "BudgetExhausted",
+      "targets": "4",
+      "unmatched_sources": "12",
+      "unmatched_targets": "0",
+      "work": "10240"
+    },
+    {
+      "alternatives": "0",
+      "confirmed": "0",
+      "excluded": "0",
+      "family": "dense-disabled",
+      "iterations": "4",
+      "objective": "none",
+      "proposed": "64",
+      "size": "64",
+      "solves": "0",
+      "sources": "64",
+      "status": "Disabled",
+      "targets": "64",
+      "unmatched_sources": "0",
+      "unmatched_targets": "0",
+      "work": "0"
+    },
+    {
+      "alternatives": "1",
+      "confirmed": "0",
+      "excluded": "0",
+      "family": "dense-bounded",
+      "iterations": "4",
+      "objective": "54.40000000000005542",
+      "proposed": "64",
+      "size": "64",
+      "solves": "2",
+      "sources": "64",
+      "status": "BudgetExhausted",
+      "targets": "64",
+      "unmatched_sources": "0",
+      "unmatched_targets": "0",
+      "work": "1048576"
+    },
+    {
+      "alternatives": "0",
+      "confirmed": "0",
+      "excluded": "0",
+      "family": "sparse-complete",
+      "iterations": "4",
+      "objective": "3.39999999999999991",
+      "proposed": "4",
+      "size": "64",
+      "solves": "4",
+      "sources": "64",
+      "status": "Complete",
+      "targets": "64",
+      "unmatched_sources": "60",
+      "unmatched_targets": "60",
+      "work": "2097152"
+    },
+    {
+      "alternatives": "0",
+      "confirmed": "0",
+      "excluded": "32",
+      "family": "half-excluded-disabled",
+      "iterations": "4",
+      "objective": "none",
+      "proposed": "32",
+      "size": "64",
+      "solves": "0",
+      "sources": "64",
+      "status": "Disabled",
+      "targets": "64",
+      "unmatched_sources": "32",
+      "unmatched_targets": "32",
+      "work": "0"
+    },
+    {
+      "alternatives": "0",
+      "confirmed": "0",
+      "excluded": "64",
+      "family": "all-excluded-complete",
+      "iterations": "4",
+      "objective": "-0.00000000000000000",
+      "proposed": "0",
+      "size": "64",
+      "solves": "0",
+      "sources": "64",
+      "status": "Complete",
+      "targets": "64",
+      "unmatched_sources": "64",
+      "unmatched_targets": "64",
+      "work": "0"
+    },
+    {
+      "alternatives": "0",
+      "confirmed": "16",
+      "excluded": "16",
+      "family": "mixed-bounded",
+      "iterations": "4",
+      "objective": "27.20000000000001350",
+      "proposed": "32",
+      "size": "64",
+      "solves": "2",
+      "sources": "64",
+      "status": "BudgetExhausted",
+      "targets": "64",
+      "unmatched_sources": "16",
+      "unmatched_targets": "16",
+      "work": "1048576"
+    },
+    {
+      "alternatives": "0",
+      "confirmed": "60",
+      "excluded": "0",
+      "family": "reserved-complete",
+      "iterations": "4",
+      "objective": "3.39999999999999991",
+      "proposed": "4",
+      "size": "64",
+      "solves": "4",
+      "sources": "64",
+      "status": "Complete",
+      "targets": "64",
+      "unmatched_sources": "0",
+      "unmatched_targets": "0",
+      "work": "2097152"
+    },
+    {
+      "alternatives": "0",
+      "confirmed": "0",
+      "excluded": "0",
+      "family": "wide-complete",
+      "iterations": "4",
+      "objective": "3.39999999999999991",
+      "proposed": "4",
+      "size": "64",
+      "solves": "4",
+      "sources": "16",
+      "status": "Complete",
+      "targets": "64",
+      "unmatched_sources": "12",
+      "unmatched_targets": "60",
+      "work": "81920"
+    },
+    {
+      "alternatives": "0",
+      "confirmed": "0",
+      "excluded": "0",
+      "family": "tall-bounded",
+      "iterations": "4",
+      "objective": "3.39999999999999991",
+      "proposed": "4",
+      "size": "64",
+      "solves": "2",
+      "sources": "64",
+      "status": "BudgetExhausted",
+      "targets": "16",
+      "unmatched_sources": "60",
+      "unmatched_targets": "12",
+      "work": "655360"
+    },
+    {
+      "alternatives": "0",
+      "confirmed": "0",
+      "excluded": "0",
+      "family": "dense-disabled",
+      "iterations": "2",
+      "objective": "none",
+      "proposed": "128",
+      "size": "128",
+      "solves": "0",
+      "sources": "128",
+      "status": "Disabled",
+      "targets": "128",
+      "unmatched_sources": "0",
+      "unmatched_targets": "0",
+      "work": "0"
+    },
+    {
+      "alternatives": "1",
+      "confirmed": "0",
+      "excluded": "0",
+      "family": "dense-bounded",
+      "iterations": "2",
+      "objective": "108.79999999999976978",
+      "proposed": "128",
+      "size": "128",
+      "solves": "2",
+      "sources": "128",
+      "status": "BudgetExhausted",
+      "targets": "128",
+      "unmatched_sources": "0",
+      "unmatched_targets": "0",
+      "work": "8388608"
+    },
+    {
+      "alternatives": "0",
+      "confirmed": "0",
+      "excluded": "0",
+      "family": "sparse-complete",
+      "iterations": "2",
+      "objective": "3.39999999999999991",
+      "proposed": "4",
+      "size": "128",
+      "solves": "4",
+      "sources": "128",
+      "status": "Complete",
+      "targets": "128",
+      "unmatched_sources": "124",
+      "unmatched_targets": "124",
+      "work": "16777216"
+    },
+    {
+      "alternatives": "0",
+      "confirmed": "0",
+      "excluded": "64",
+      "family": "half-excluded-disabled",
+      "iterations": "2",
+      "objective": "none",
+      "proposed": "64",
+      "size": "128",
+      "solves": "0",
+      "sources": "128",
+      "status": "Disabled",
+      "targets": "128",
+      "unmatched_sources": "64",
+      "unmatched_targets": "64",
+      "work": "0"
+    },
+    {
+      "alternatives": "0",
+      "confirmed": "0",
+      "excluded": "128",
+      "family": "all-excluded-complete",
+      "iterations": "2",
+      "objective": "-0.00000000000000000",
+      "proposed": "0",
+      "size": "128",
+      "solves": "0",
+      "sources": "128",
+      "status": "Complete",
+      "targets": "128",
+      "unmatched_sources": "128",
+      "unmatched_targets": "128",
+      "work": "0"
+    },
+    {
+      "alternatives": "0",
+      "confirmed": "32",
+      "excluded": "32",
+      "family": "mixed-bounded",
+      "iterations": "2",
+      "objective": "54.40000000000005542",
+      "proposed": "64",
+      "size": "128",
+      "solves": "2",
+      "sources": "128",
+      "status": "BudgetExhausted",
+      "targets": "128",
+      "unmatched_sources": "32",
+      "unmatched_targets": "32",
+      "work": "8388608"
+    },
+    {
+      "alternatives": "0",
+      "confirmed": "124",
+      "excluded": "0",
+      "family": "reserved-complete",
+      "iterations": "2",
+      "objective": "3.39999999999999991",
+      "proposed": "4",
+      "size": "128",
+      "solves": "4",
+      "sources": "128",
+      "status": "Complete",
+      "targets": "128",
+      "unmatched_sources": "0",
+      "unmatched_targets": "0",
+      "work": "16777216"
+    },
+    {
+      "alternatives": "0",
+      "confirmed": "0",
+      "excluded": "0",
+      "family": "wide-complete",
+      "iterations": "2",
+      "objective": "3.39999999999999991",
+      "proposed": "4",
+      "size": "128",
+      "solves": "4",
+      "sources": "32",
+      "status": "Complete",
+      "targets": "128",
+      "unmatched_sources": "28",
+      "unmatched_targets": "124",
+      "work": "655360"
+    },
+    {
+      "alternatives": "0",
+      "confirmed": "0",
+      "excluded": "0",
+      "family": "tall-bounded",
+      "iterations": "2",
+      "objective": "3.39999999999999991",
+      "proposed": "4",
+      "size": "128",
+      "solves": "2",
+      "sources": "128",
+      "status": "BudgetExhausted",
+      "targets": "32",
+      "unmatched_sources": "124",
+      "unmatched_targets": "28",
+      "work": "5242880"
+    }
+  ],
+  "cli": [
+    "C:\\Users\\jakew\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "C:\\Users\\jakew\\Downloads\\fieldkin\\performance\\assignment.py",
+    "run",
+    "--output",
+    "performance/results/continuation-v2/solver-cost"
+  ],
+  "execution": [
+    {
+      "command": [
+        "C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\continuation-baseline\\target\\assignment-cost\\34fc3e866ec2e434\\release\\examples\\assignment_cost.exe"
+      ],
+      "file": "baseline-run-1.csv",
+      "revision": "baseline",
+      "run": 1,
+      "sha256": "5bad61579b39a54f23fac3a6a10f70d59f8ee631b63787e017107eac4bfa6913",
+      "started_utc": "2026-10-04T18:01:04.389584+00:00"
+    },
+    {
+      "command": [
+        "C:\\Users\\jakew\\Downloads\\fieldkin\\target\\assignment-cost\\34fc3e866ec2e434\\release\\examples\\assignment_cost.exe"
+      ],
+      "file": "candidate-run-1.csv",
+      "revision": "candidate",
+      "run": 1,
+      "sha256": "ee811c4b466612567995bdf494a8f04677535b60a49d8298f539036fb9a39f5b",
+      "started_utc": "2026-10-04T18:01:05.436094+00:00"
+    },
+    {
+      "command": [
+        "C:\\Users\\jakew\\Downloads\\fieldkin\\target\\assignment-cost\\34fc3e866ec2e434\\release\\examples\\assignment_cost.exe"
+      ],
+      "file": "candidate-run-2.csv",
+      "revision": "candidate",
+      "run": 2,
+      "sha256": "2547b121cedf9ac28549fdbb93b570766fda922ec283392e1b190b58208aa2fa",
+      "started_utc": "2026-10-04T18:01:06.458589+00:00"
+    },
+    {
+      "command": [
+        "C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\continuation-baseline\\target\\assignment-cost\\34fc3e866ec2e434\\release\\examples\\assignment_cost.exe"
+      ],
+      "file": "baseline-run-2.csv",
+      "revision": "baseline",
+      "run": 2,
+      "sha256": "2b146bfefa81892b6a0b6f370b1b5b7ac2acfc8649e39e712349a8528a05941e",
+      "started_utc": "2026-10-04T18:01:07.511972+00:00"
+    },
+    {
+      "command": [
+        "C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\continuation-baseline\\target\\assignment-cost\\34fc3e866ec2e434\\release\\examples\\assignment_cost.exe"
+      ],
+      "file": "baseline-run-3.csv",
+      "revision": "baseline",
+      "run": 3,
+      "sha256": "ade1054e48ab4289cac5783edf162d464d2fd00f682c34f8152a0f6d66285246",
+      "started_utc": "2026-10-04T18:01:08.528493+00:00"
+    },
+    {
+      "command": [
+        "C:\\Users\\jakew\\Downloads\\fieldkin\\target\\assignment-cost\\34fc3e866ec2e434\\release\\examples\\assignment_cost.exe"
+      ],
+      "file": "candidate-run-3.csv",
+      "revision": "candidate",
+      "run": 3,
+      "sha256": "451860dfc66836f4f76254ec9795c550317c52df1e02ea24e700ee3bc463958c",
+      "started_utc": "2026-10-04T18:01:09.509513+00:00"
+    },
+    {
+      "command": [
+        "C:\\Users\\jakew\\Downloads\\fieldkin\\target\\assignment-cost\\34fc3e866ec2e434\\release\\examples\\assignment_cost.exe"
+      ],
+      "file": "candidate-run-4.csv",
+      "revision": "candidate",
+      "run": 4,
+      "sha256": "c949de99284ad9356e06b2e5e2f54ef6271a59fba7a9822f6c9d0fc4576d707b",
+      "started_utc": "2026-10-04T18:01:10.532334+00:00"
+    },
+    {
+      "command": [
+        "C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\continuation-baseline\\target\\assignment-cost\\34fc3e866ec2e434\\release\\examples\\assignment_cost.exe"
+      ],
+      "file": "baseline-run-4.csv",
+      "revision": "baseline",
+      "run": 4,
+      "sha256": "3dc7c699cffc1afeb9f0e8fa5c1ac50692e68cb1638b40f684abb46e919b41d4",
+      "started_utc": "2026-10-04T18:01:11.503148+00:00"
+    },
+    {
+      "command": [
+        "C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\continuation-baseline\\target\\assignment-cost\\34fc3e866ec2e434\\release\\examples\\assignment_cost.exe"
+      ],
+      "file": "baseline-run-5.csv",
+      "revision": "baseline",
+      "run": 5,
+      "sha256": "e90294e392f2b8cce3dd57b66155ed490753aa03409c344d479fd1e21bcf925c",
+      "started_utc": "2026-10-04T18:01:12.545264+00:00"
+    },
+    {
+      "command": [
+        "C:\\Users\\jakew\\Downloads\\fieldkin\\target\\assignment-cost\\34fc3e866ec2e434\\release\\examples\\assignment_cost.exe"
+      ],
+      "file": "candidate-run-5.csv",
+      "revision": "candidate",
+      "run": 5,
+      "sha256": "fa36e9267183a99d6c4f508dac9d1a65329261b64f23a857b2191e95677d4a1c",
+      "started_utc": "2026-10-04T18:01:13.535531+00:00"
+    }
+  ],
+  "interpretation": "Five independent process means per revision, alternating revision order. Fixed synthetic graph shapes, no CPU affinity, confidence interval or semantic accuracy claim. All original pairs remain scored. Count/status equality is not full report equality; use separate differential qualification. Hashes bind the scoped local inputs and binaries, not a hermetic build or a trusted signature.",
+  "machine": {
+    "logical_cpus": 12,
+    "machine": "AMD64",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+    "python": "3.11.4"
+  },
+  "protocol": "assignment-compaction-v1",
+  "rows": [
+    {
+      "baseline": {
+        "max_us": 150.33,
+        "median_us": 121.03,
+        "min_us": 120.54,
+        "process_means_us": [
+          121.03,
+          122.89,
+          120.67,
+          150.33,
+          120.54
+        ]
+      },
+      "candidate": {
+        "max_us": 149.22,
+        "median_us": 145.81,
+        "min_us": 141.72,
+        "process_means_us": [
+          141.72,
+          146.95,
+          145.75,
+          145.81,
+          149.22
+        ]
+      },
+      "family": "all-excluded-complete",
+      "median_change_percent": 20.474262579525735,
+      "size": 16
+    },
+    {
+      "baseline": {
+        "max_us": 199.62,
+        "median_us": 193.4,
+        "min_us": 190.17,
+        "process_means_us": [
+          192.11,
+          193.4,
+          198.32,
+          190.17,
+          199.62
+        ]
+      },
+      "candidate": {
+        "max_us": 206.11,
+        "median_us": 197.37,
+        "min_us": 195.05,
+        "process_means_us": [
+          197.37,
+          195.05,
+          206.11,
+          195.17,
+          198.66
+        ]
+      },
+      "family": "dense-bounded",
+      "median_change_percent": 2.052740434332989,
+      "size": 16
+    },
+    {
+      "baseline": {
+        "max_us": 552.63,
+        "median_us": 547.72,
+        "min_us": 543.98,
+        "process_means_us": [
+          544.97,
+          547.72,
+          548.88,
+          552.63,
+          543.98
+        ]
+      },
+      "candidate": {
+        "max_us": 552.76,
+        "median_us": 539.35,
+        "min_us": 531.22,
+        "process_means_us": [
+          552.76,
+          541.85,
+          534.65,
+          539.35,
+          531.22
+        ]
+      },
+      "family": "dense-disabled",
+      "median_change_percent": -1.5281530709121416,
+      "size": 16
+    },
+    {
+      "baseline": {
+        "max_us": 157.1,
+        "median_us": 154.32,
+        "min_us": 153.78,
+        "process_means_us": [
+          154.93,
+          154.32,
+          153.78,
+          157.1,
+          154.01
+        ]
+      },
+      "candidate": {
+        "max_us": 155.77,
+        "median_us": 154.91,
+        "min_us": 151.65,
+        "process_means_us": [
+          155.56,
+          155.77,
+          152.0,
+          154.91,
+          151.65
+        ]
+      },
+      "family": "half-excluded-disabled",
+      "median_change_percent": 0.3823224468636699,
+      "size": 16
+    },
+    {
+      "baseline": {
+        "max_us": 151.71,
+        "median_us": 117.83,
+        "min_us": 115.18,
+        "process_means_us": [
+          116.36,
+          118.08,
+          117.83,
+          151.71,
+          115.18
+        ]
+      },
+      "candidate": {
+        "max_us": 168.05,
+        "median_us": 139.13,
+        "min_us": 137.68,
+        "process_means_us": [
+          137.68,
+          145.15,
+          137.7,
+          139.13,
+          168.05
+        ]
+      },
+      "family": "mixed-bounded",
+      "median_change_percent": 18.076890435372995,
+      "size": 16
+    },
+    {
+      "baseline": {
+        "max_us": 180.63,
+        "median_us": 171.64,
+        "min_us": 163.05,
+        "process_means_us": [
+          163.05,
+          180.63,
+          166.38,
+          171.64,
+          171.94
+        ]
+      },
+      "candidate": {
+        "max_us": 173.94,
+        "median_us": 156.05,
+        "min_us": 154.33,
+        "process_means_us": [
+          154.33,
+          158.76,
+          156.05,
+          155.69,
+          173.94
+        ]
+      },
+      "family": "reserved-complete",
+      "median_change_percent": -9.082964343975753,
+      "size": 16
+    },
+    {
+      "baseline": {
+        "max_us": 132.28,
+        "median_us": 130.83,
+        "min_us": 128.27,
+        "process_means_us": [
+          128.91,
+          131.99,
+          132.28,
+          128.27,
+          130.83
+        ]
+      },
+      "candidate": {
+        "max_us": 129.91,
+        "median_us": 125.03,
+        "min_us": 121.6,
+        "process_means_us": [
+          121.6,
+          129.91,
+          123.93,
+          125.54,
+          125.03
+        ]
+      },
+      "family": "sparse-complete",
+      "median_change_percent": -4.43323396774441,
+      "size": 16
+    },
+    {
+      "baseline": {
+        "max_us": 45.2,
+        "median_us": 44.55,
+        "min_us": 44.24,
+        "process_means_us": [
+          45.2,
+          44.55,
+          44.24,
+          44.26,
+          44.92
+        ]
+      },
+      "candidate": {
+        "max_us": 47.04,
+        "median_us": 45.01,
+        "min_us": 44.45,
+        "process_means_us": [
+          45.01,
+          44.45,
+          44.5,
+          47.04,
+          46.45
+        ]
+      },
+      "family": "tall-bounded",
+      "median_change_percent": 1.03254769921437,
+      "size": 16
+    },
+    {
+      "baseline": {
+        "max_us": 27.52,
+        "median_us": 27.13,
+        "min_us": 26.26,
+        "process_means_us": [
+          26.26,
+          26.75,
+          27.51,
+          27.13,
+          27.52
+        ]
+      },
+      "candidate": {
+        "max_us": 27.85,
+        "median_us": 27.37,
+        "min_us": 26.88,
+        "process_means_us": [
+          26.88,
+          27.37,
+          27.83,
+          27.26,
+          27.85
+        ]
+      },
+      "family": "wide-complete",
+      "median_change_percent": 0.8846295613711863,
+      "size": 16
+    },
+    {
+      "baseline": {
+        "max_us": 3454.6,
+        "median_us": 2390.95,
+        "min_us": 2306.2,
+        "process_means_us": [
+          2340.975,
+          2551.85,
+          2390.95,
+          3454.6,
+          2306.2
+        ]
+      },
+      "candidate": {
+        "max_us": 2636.775,
+        "median_us": 2376.975,
+        "min_us": 2230.05,
+        "process_means_us": [
+          2230.05,
+          2481.825,
+          2636.775,
+          2261.25,
+          2376.975
+        ]
+      },
+      "family": "all-excluded-complete",
+      "median_change_percent": -0.584495702545007,
+      "size": 64
+    },
+    {
+      "baseline": {
+        "max_us": 5228.825,
+        "median_us": 4686.4,
+        "min_us": 4640.825,
+        "process_means_us": [
+          4640.825,
+          4686.4,
+          4934.975,
+          5228.825,
+          4678.55
+        ]
+      },
+      "candidate": {
+        "max_us": 8460.85,
+        "median_us": 5040.75,
+        "min_us": 4714.1,
+        "process_means_us": [
+          4714.1,
+          7502.55,
+          8460.85,
+          4748.075,
+          5040.75
+        ]
+      },
+      "family": "dense-bounded",
+      "median_change_percent": 7.561241037896904,
+      "size": 64
+    },
+    {
+      "baseline": {
+        "max_us": 13397.875,
+        "median_us": 8498.725,
+        "min_us": 8230.35,
+        "process_means_us": [
+          8378.0,
+          8230.35,
+          8498.725,
+          13397.875,
+          8732.075
+        ]
+      },
+      "candidate": {
+        "max_us": 9712.25,
+        "median_us": 8839.925,
+        "min_us": 8222.35,
+        "process_means_us": [
+          8338.9,
+          9712.25,
+          8839.925,
+          8222.35,
+          9464.725
+        ]
+      },
+      "family": "dense-disabled",
+      "median_change_percent": 4.014719855037074,
+      "size": 64
+    },
+    {
+      "baseline": {
+        "max_us": 4804.85,
+        "median_us": 3091.85,
+        "min_us": 2798.925,
+        "process_means_us": [
+          3091.85,
+          3166.725,
+          2836.575,
+          4804.85,
+          2798.925
+        ]
+      },
+      "candidate": {
+        "max_us": 4914.8,
+        "median_us": 3102.55,
+        "min_us": 2754.95,
+        "process_means_us": [
+          2768.025,
+          4914.8,
+          3489.8,
+          2754.95,
+          3102.55
+        ]
+      },
+      "family": "half-excluded-disabled",
+      "median_change_percent": 0.3460711224671398,
+      "size": 64
+    },
+    {
+      "baseline": {
+        "max_us": 4772.55,
+        "median_us": 2811.025,
+        "min_us": 2706.3,
+        "process_means_us": [
+          2811.025,
+          3009.6,
+          2718.0,
+          4772.55,
+          2706.3
+        ]
+      },
+      "candidate": {
+        "max_us": 3800.775,
+        "median_us": 2966.725,
+        "min_us": 2628.925,
+        "process_means_us": [
+          2689.875,
+          3261.525,
+          3800.775,
+          2628.925,
+          2966.725
+        ]
+      },
+      "family": "mixed-bounded",
+      "median_change_percent": 5.5389048478757585,
+      "size": 64
+    },
+    {
+      "baseline": {
+        "max_us": 6098.775,
+        "median_us": 4135.425,
+        "min_us": 4006.75,
+        "process_means_us": [
+          4006.75,
+          4851.625,
+          4135.425,
+          6098.775,
+          4069.575
+        ]
+      },
+      "candidate": {
+        "max_us": 6225.7,
+        "median_us": 4346.175,
+        "min_us": 4063.275,
+        "process_means_us": [
+          4063.275,
+          4326.0,
+          6225.7,
+          4346.175,
+          4785.9
+        ]
+      },
+      "family": "reserved-complete",
+      "median_change_percent": 5.0962113930248965,
+      "size": 64
+    },
+    {
+      "baseline": {
+        "max_us": 3899.8,
+        "median_us": 3348.2,
+        "min_us": 3281.0,
+        "process_means_us": [
+          3348.2,
+          3294.725,
+          3411.8,
+          3899.8,
+          3281.0
+        ]
+      },
+      "candidate": {
+        "max_us": 5708.8,
+        "median_us": 3854.9,
+        "min_us": 3545.3,
+        "process_means_us": [
+          3545.3,
+          5708.8,
+          3902.175,
+          3710.425,
+          3854.9
+        ]
+      },
+      "family": "sparse-complete",
+      "median_change_percent": 15.133504569619504,
+      "size": 64
+    },
+    {
+      "baseline": {
+        "max_us": 2020.025,
+        "median_us": 1411.4,
+        "min_us": 1324.325,
+        "process_means_us": [
+          1324.325,
+          1432.75,
+          1335.8,
+          2020.025,
+          1411.4
+        ]
+      },
+      "candidate": {
+        "max_us": 1476.175,
+        "median_us": 1381.075,
+        "min_us": 1328.05,
+        "process_means_us": [
+          1328.05,
+          1427.35,
+          1476.175,
+          1381.075,
+          1376.175
+        ]
+      },
+      "family": "tall-bounded",
+      "median_change_percent": -2.1485758821028766,
+      "size": 64
+    },
+    {
+      "baseline": {
+        "max_us": 515.175,
+        "median_us": 434.6,
+        "min_us": 427.2,
+        "process_means_us": [
+          427.2,
+          448.875,
+          434.6,
+          515.175,
+          431.675
+        ]
+      },
+      "candidate": {
+        "max_us": 492.55,
+        "median_us": 440.5,
+        "min_us": 426.95,
+        "process_means_us": [
+          426.95,
+          446.0,
+          492.55,
+          440.5,
+          435.025
+        ]
+      },
+      "family": "wide-complete",
+      "median_change_percent": 1.3575701794753758,
+      "size": 64
+    },
+    {
+      "baseline": {
+        "max_us": 12694.6,
+        "median_us": 10941.4,
+        "min_us": 10632.15,
+        "process_means_us": [
+          12694.6,
+          11052.45,
+          10941.4,
+          10632.15,
+          10813.4
+        ]
+      },
+      "candidate": {
+        "max_us": 13724.5,
+        "median_us": 10562.15,
+        "min_us": 9624.5,
+        "process_means_us": [
+          13724.5,
+          10562.15,
+          11340.6,
+          9624.5,
+          10165.35
+        ]
+      },
+      "family": "all-excluded-complete",
+      "median_change_percent": -3.4661926261721487,
+      "size": 128
+    },
+    {
+      "baseline": {
+        "max_us": 29334.9,
+        "median_us": 28198.0,
+        "min_us": 27752.35,
+        "process_means_us": [
+          27957.9,
+          27752.35,
+          28708.3,
+          28198.0,
+          29334.9
+        ]
+      },
+      "candidate": {
+        "max_us": 28690.05,
+        "median_us": 28041.5,
+        "min_us": 27409.05,
+        "process_means_us": [
+          27723.95,
+          28690.05,
+          28041.5,
+          28455.3,
+          27409.05
+        ]
+      },
+      "family": "dense-bounded",
+      "median_change_percent": -0.5550039009858843,
+      "size": 128
+    },
+    {
+      "baseline": {
+        "max_us": 48490.3,
+        "median_us": 43633.35,
+        "min_us": 43095.5,
+        "process_means_us": [
+          48490.3,
+          43633.35,
+          43095.5,
+          44384.35,
+          43509.2
+        ]
+      },
+      "candidate": {
+        "max_us": 58161.75,
+        "median_us": 43698.7,
+        "min_us": 41637.8,
+        "process_means_us": [
+          44014.1,
+          58161.75,
+          41637.8,
+          43698.7,
+          43039.8
+        ]
+      },
+      "family": "dense-disabled",
+      "median_change_percent": 0.14977076020978863,
+      "size": 128
+    },
+    {
+      "baseline": {
+        "max_us": 17226.95,
+        "median_us": 14367.2,
+        "min_us": 13744.6,
+        "process_means_us": [
+          14367.2,
+          17226.95,
+          13744.6,
+          15539.6,
+          13818.05
+        ]
+      },
+      "candidate": {
+        "max_us": 14652.3,
+        "median_us": 13807.95,
+        "min_us": 13273.85,
+        "process_means_us": [
+          13741.5,
+          14200.85,
+          13807.95,
+          13273.85,
+          14652.3
+        ]
+      },
+      "family": "half-excluded-disabled",
+      "median_change_percent": -3.8925469124115986,
+      "size": 128
+    },
+    {
+      "baseline": {
+        "max_us": 14874.45,
+        "median_us": 13510.8,
+        "min_us": 13065.35,
+        "process_means_us": [
+          13268.4,
+          13510.8,
+          13065.35,
+          14874.45,
+          13900.3
+        ]
+      },
+      "candidate": {
+        "max_us": 15416.55,
+        "median_us": 13097.4,
+        "min_us": 12601.35,
+        "process_means_us": [
+          13097.4,
+          13371.2,
+          15416.55,
+          12601.35,
+          12916.05
+        ]
+      },
+      "family": "mixed-bounded",
+      "median_change_percent": -3.059774402700055,
+      "size": 128
+    },
+    {
+      "baseline": {
+        "max_us": 27783.6,
+        "median_us": 25251.85,
+        "min_us": 24321.45,
+        "process_means_us": [
+          25198.0,
+          27783.6,
+          25251.85,
+          25653.8,
+          24321.45
+        ]
+      },
+      "candidate": {
+        "max_us": 25414.4,
+        "median_us": 23879.7,
+        "min_us": 22579.4,
+        "process_means_us": [
+          22579.4,
+          25414.4,
+          23879.7,
+          23820.05,
+          25181.15
+        ]
+      },
+      "family": "reserved-complete",
+      "median_change_percent": -5.433859301397714,
+      "size": 128
+    },
+    {
+      "baseline": {
+        "max_us": 22251.65,
+        "median_us": 20488.2,
+        "min_us": 20082.9,
+        "process_means_us": [
+          20082.9,
+          21006.55,
+          20488.2,
+          20388.75,
+          22251.65
+        ]
+      },
+      "candidate": {
+        "max_us": 20835.65,
+        "median_us": 20106.5,
+        "min_us": 19076.05,
+        "process_means_us": [
+          20106.5,
+          19076.05,
+          19620.5,
+          20835.65,
+          20252.95
+        ]
+      },
+      "family": "sparse-complete",
+      "median_change_percent": -1.86302359406878,
+      "size": 128
+    },
+    {
+      "baseline": {
+        "max_us": 9603.55,
+        "median_us": 8736.25,
+        "min_us": 8578.65,
+        "process_means_us": [
+          8736.25,
+          9603.55,
+          8669.6,
+          9189.35,
+          8578.65
+        ]
+      },
+      "candidate": {
+        "max_us": 10568.3,
+        "median_us": 8866.75,
+        "min_us": 8670.8,
+        "process_means_us": [
+          8889.45,
+          10568.3,
+          8832.1,
+          8866.75,
+          8670.8
+        ]
+      },
+      "family": "tall-bounded",
+      "median_change_percent": 1.4937759336099532,
+      "size": 128
+    },
+    {
+      "baseline": {
+        "max_us": 2188.0,
+        "median_us": 1838.5,
+        "min_us": 1688.05,
+        "process_means_us": [
+          1688.05,
+          2001.25,
+          2188.0,
+          1838.5,
+          1698.6
+        ]
+      },
+      "candidate": {
+        "max_us": 1802.15,
+        "median_us": 1737.75,
+        "min_us": 1729.8,
+        "process_means_us": [
+          1729.8,
+          1747.55,
+          1737.75,
+          1802.15,
+          1737.35
+        ]
+      },
+      "family": "wide-complete",
+      "median_change_percent": -5.4800108784335055,
+      "size": 128
+    }
+  ]
+}

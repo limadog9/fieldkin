@@ -6,6 +6,12 @@ executable can therefore report newer on-disk source hashes. The verified runner
 binds a fresh build to its input inventory and executable, and refuses a run when
 either changes. It adds no dependency or behavior to the Rust library.
 
+The same recorded build can run the fixed Northix task through
+`evaluation/record_northix.py`; see the
+[Northix workflow and results](northix-evaluation.md). That route requires either
+no external scores or both pinned comparison modes and records their exact bytes
+alongside the shared executable and input hashes. It does not enable holdout flags.
+
 ## Build and run
 
 Python 3.11 or newer and the chosen installed Rust toolchain are required. No

@@ -1,0 +1,22 @@
+Northix dataset
+Creator: Farid Bourennani (2012)
+Publisher: UCI Machine Learning Repository
+DOI: https://doi.org/10.24432/C5M60J
+Source: https://archive.ics.uci.edu/dataset/237/northix
+License: Creative Commons Attribution 4.0 International (CC BY 4.0)
+License URL: https://creativecommons.org/licenses/by/4.0/
+
+The pinned upstream archive is unchanged. Fieldkin's derived fixture reorganizes
+column files by their original database/table identifiers, interprets InputData
+bytes as ISO-8859-1, selects up to 64 evenly spaced line records per column, and
+represents blank records as null. It preserves original attribute names and uses
+full filenames as stable IDs. Class folders supply evaluation labels only.
+Differences between InputData and duplicated Classes values are recorded, and
+only InputData values are supplied to matchers. The importer and protocol record
+all modifications, source hashes and evaluation limitations.
+
+The upstream README credits Microsoft Northwind and MySQL Sakila demonstration
+databases and describes manually grouped schema correspondences and injected
+tuples. Its original text remains inside northix.zip. This notice was written
+by Fieldkin for attribution and is not presented as an upstream notice. Neither
+the creator nor UCI endorses Fieldkin or its evaluation results.

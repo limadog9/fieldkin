@@ -1,0 +1,96 @@
+{
+  "binary_path": "C:\\Users\\jakew\\Downloads\\fieldkin\\target\\scale-cost\\d7899af5175e3f8c\\release\\examples\\scale_cost.exe",
+  "binary_sha256": "3f3ab1ce566c8967fc8e319b3ebb8f5d855d32eb480fe24b425dd9e8a16de4a4",
+  "build_command": [
+    "cargo",
+    "+1.85.0",
+    "build",
+    "--release",
+    "--locked",
+    "-p",
+    "fieldkin",
+    "--example",
+    "scale_cost",
+    "--target-dir",
+    "C:\\Users\\jakew\\Downloads\\fieldkin\\target\\scale-cost\\d7899af5175e3f8c",
+    "--message-format=json"
+  ],
+  "build_environment": {},
+  "built_utc": "2026-10-04T17:53:07.255644+00:00",
+  "cargo_config_sha256": {},
+  "cli": [
+    "C:\\Users\\jakew\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "C:\\Users\\jakew\\Downloads\\fieldkin\\performance\\scale.py",
+    "build",
+    "--output",
+    "performance/results/continuation-v2/scale"
+  ],
+  "commit": "5bfaa295de68178e801b79e158ea06f9a8279e74",
+  "compiler": {
+    "cargo": "cargo 1.85.0 (d73d2caf9 2024-12-31)\nrelease: 1.85.0\ncommit-hash: d73d2caf9e41a39daf2a8d6ce60ec80bf354d2a7\ncommit-date: 2024-12-31\nhost: x86_64-pc-windows-msvc\nlibgit2: 1.8.1 (sys:0.19.0 vendored)\nlibcurl: 8.9.0-DEV (sys:0.4.74+curl-8.9.0 vendored ssl:Schannel)\nos: Windows 10.0.26200 (Windows 11 Core) [64-bit]",
+    "rustc": "rustc 1.85.0 (4d91de4e4 2025-02-17)\nbinary: rustc\ncommit-hash: 4d91de4e48198da2e33413efdcd9cd2cc0c46688\ncommit-date: 2025-02-17\nhost: x86_64-pc-windows-msvc\nrelease: 1.85.0\nLLVM version: 19.1.7"
+  },
+  "config": {
+    "abstain_on_ambiguity": true,
+    "ambiguity_margin": 0.08,
+    "builtin": "default name/type/sample matchers; 16 distinct Integer samples per field, shared only with its diagonal target",
+    "custom": "one fixed matcher:0.9 only on the diagonal; partial removes every eighth diagonal edge; zero elsewhere",
+    "global_diagnostics_max_solves": 0,
+    "limits": {
+      "max_explanation_bytes": 536870912,
+      "max_fields": "size",
+      "max_pairs": "size*size",
+      "max_signal_evaluations": "size*size*(3 for builtin, else 1)"
+    },
+    "max_candidates": 1,
+    "min_score": 0.7
+  },
+  "families": [
+    "diagonal",
+    "partial",
+    "builtin"
+  ],
+  "git_status": "?? performance/results/continuation-v2/",
+  "iterations": {
+    "1000": 1,
+    "128": 3,
+    "512": 1
+  },
+  "machine": {
+    "logical_cpus": 12,
+    "machine": "AMD64",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+    "python": "3.11.4"
+  },
+  "protocol": "fieldkin-scale-v1",
+  "runs": 5,
+  "sizes": [
+    128,
+    512,
+    1000
+  ],
+  "source_sha256": {
+    "Cargo.lock": "0b3ef9880f450fce7a958e3e55d27d613b0ecf501f3b60b441ed48211a8eb922",
+    "Cargo.toml": "92f485dae5943ab9c32ef55fc69770351dcbfacb039fc8ca905db5c5847cc410",
+    "README.md": "2abd33cfd5d0f38cdcd6e1c7796dffc8c20100696e67890c71d6f4d58f2eb894",
+    "evaluation/Cargo.toml": "83139622162adca022742dfb1c47c239d4768d5669a439f0b96019bd0bde4136",
+    "examples/scale_cost.rs": "0235bc8e7b7ebf700e5f1e152379c8d209f83a0db0a4995c477cfc9840b7f662",
+    "performance/assignment.py": "422ce53fae0aa0c7365b63ce910b217b106b6e8b991df367d503ad0040988751",
+    "performance/scale.py": "8fc52ad52f3d939f7016034c7c78ce95f2d17bcbbabf396a68eb82defa682380",
+    "src/assignment.rs": "597b1b471488525ad794021b5a477c82bf8143af90765bb7cec0d69ce2cdf013",
+    "src/constraints.rs": "db5bd502608fed4bcae059fcf788436655e7727c07fbcbe1a697ba43c9cba3ce",
+    "src/diagnostics.rs": "4f2926e67c02ac49c0b61a9a36267fe6cc49c42f0bb2dc1ff3a97d9f8d3b117e",
+    "src/engine.rs": "1e82a25bc050efbe480bb6d6f9f867c5e732334da4b9cad4814f68689282d93d",
+    "src/error.rs": "78d99be1167212af2bbf30f4a20b703b709c86d350547a1e8e7c25fb2b92ac70",
+    "src/json.rs": "e5e97a93e0eb8dd2d56cd413d812db760ea128151be3fbc7df9f19ec6d2f0d73",
+    "src/lib.rs": "36104954302ec5c736df1eb831f346028b5f0da846b69ae29d992a99531253e4",
+    "src/numeric.rs": "be62a484aadda8e753428318a8d67f41fdb9fe03ea646b5a781952b8c3ad6623",
+    "src/profile.rs": "7ea95ca4d2b70954d33013863f4a8f2320bd44c17d79a78d5e291d086ee86559",
+    "src/semantics.rs": "f20dde8676b4917b2edc8f002dae7aaa04e8bf7c4324e92c8d3c1681d54e7538",
+    "src/signals.rs": "b1adafc819a5c405a212313f75243eb0bf07e72caac5ce46a2f692e4996a7fa2",
+    "src/types.rs": "4f3fba2545a11943fbace62174dfd9daa78e29c4e65983f3786c685efb354e65"
+  },
+  "timing_scope": "matching and report destruction; excludes fixture/engine creation and warmup report validation",
+  "warmup_calls": 1
+}

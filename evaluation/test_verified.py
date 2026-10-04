@@ -25,7 +25,7 @@ class VerifiedEvaluationTests(unittest.TestCase):
         self.addCleanup(self.temporary.cleanup)
         self.root = pathlib.Path(self.temporary.name).resolve() / "repository"
         self.root.mkdir()
-        for directory in ["src", "evaluation/src", "evaluation/corpus", "evaluation/external"]:
+        for directory in ["src", "evaluation/src", "evaluation/corpus", "evaluation/fixtures", "evaluation/external"]:
             shutil.copytree(REPOSITORY / directory, self.root / directory)
         for relative in [
             "Cargo.toml", "Cargo.lock", "README.md", "evaluation/Cargo.toml",
@@ -33,6 +33,9 @@ class VerifiedEvaluationTests(unittest.TestCase):
             "evaluation/release-protocol.json", "evaluation/corrective-protocol.json",
             "evaluation/external-protocol.json", "evaluation/import_t2d.py",
             "evaluation/verified.py",
+            "evaluation/northix-protocol.json", "evaluation/import_northix.py",
+            "evaluation/record_northix.py", "evaluation/compare_valentine.py",
+            "evaluation/valentine-requirements.txt", "evaluation/valentine-environment.json",
         ]:
             shutil.copyfile(REPOSITORY / relative, self.root / relative)
         self.build_dir = self.root / "target" / "verified-build"
@@ -123,6 +126,10 @@ class VerifiedEvaluationTests(unittest.TestCase):
             "Cargo.toml", "Cargo.lock", "README.md", "evaluation/Cargo.toml",
             "evaluation/external-protocol.json", "evaluation/external/t2d-v1/corpus.json",
             "evaluation/external/t2d-v1/provenance.json", "evaluation/import_t2d.py",
+            "evaluation/fixtures/northix-v1.json", "evaluation/northix-protocol.json",
+            "evaluation/external/northix-v1/northix.zip", "evaluation/import_northix.py",
+            "evaluation/record_northix.py", "evaluation/compare_valentine.py",
+            "evaluation/valentine-requirements.txt", "evaluation/valentine-environment.json",
         ]:
             self.assertIn(path, inventory)
             self.assertEqual(inventory[path], verified.raw_sha256(self.root / path))
@@ -179,6 +186,10 @@ class VerifiedEvaluationTests(unittest.TestCase):
             "evaluation/external-protocol.json", "evaluation/external/t2d-v1/corpus.json",
             "evaluation/external/t2d-v1/provenance.json", "Cargo.toml", "Cargo.lock", "README.md",
             "evaluation/Cargo.toml", "evaluation/verified.py", "evaluation/import_t2d.py",
+            "evaluation/northix-protocol.json", "evaluation/fixtures/northix-v1.json",
+            "evaluation/import_northix.py", "evaluation/record_northix.py",
+            "evaluation/compare_valentine.py", "evaluation/valentine-requirements.txt",
+            "evaluation/valentine-environment.json", "evaluation/external/northix-v1/provenance.json",
         ]:
             with self.subTest(relative=relative):
                 self.new_output()

@@ -1,0 +1,692 @@
+{
+  "environment": {
+    "RUSTDOCFLAGS": "-D warnings"
+  },
+  "commands": [
+    {
+      "command": [
+        "cargo",
+        "+1.85.0",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:49:03.894140+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.85.0",
+        "fmt",
+        "--manifest-path",
+        "performance/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:49:04.752355+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.85.0",
+        "fmt",
+        "--manifest-path",
+        "qualification/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:49:04.899995+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.85.0",
+        "test",
+        "--locked",
+        "--workspace",
+        "--all-features"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:49:05.039933+00:00",
+      "rust_passed_test_groups": [
+        40,
+        23,
+        17,
+        7,
+        5,
+        18,
+        19,
+        20,
+        8,
+        13,
+        10,
+        54,
+        8
+      ],
+      "rust_passed_tests": 242,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.85.0",
+        "test",
+        "--locked",
+        "-p",
+        "fieldkin",
+        "--no-default-features"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:49:26.325660+00:00",
+      "rust_passed_test_groups": [
+        40,
+        23,
+        17,
+        7,
+        5,
+        18,
+        0,
+        20,
+        8,
+        13,
+        10,
+        8
+      ],
+      "rust_passed_tests": 169,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.85.0",
+        "test",
+        "--locked",
+        "-p",
+        "fieldkin",
+        "--example",
+        "scale_cost"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:49:42.279561+00:00",
+      "rust_passed_test_groups": [
+        2
+      ],
+      "rust_passed_tests": 2,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.85.0",
+        "test",
+        "--locked",
+        "--manifest-path",
+        "performance/Cargo.toml"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:49:45.134542+00:00",
+      "rust_passed_test_groups": [
+        1
+      ],
+      "rust_passed_tests": 1,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.85.0",
+        "test",
+        "--locked",
+        "--manifest-path",
+        "qualification/Cargo.toml"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:49:53.695906+00:00",
+      "rust_passed_test_groups": [
+        2
+      ],
+      "rust_passed_tests": 2,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.85.0",
+        "clippy",
+        "--locked",
+        "--workspace",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:49:56.361797+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.85.0",
+        "clippy",
+        "--locked",
+        "--manifest-path",
+        "performance/Cargo.toml",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:50:00.077225+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.85.0",
+        "clippy",
+        "--locked",
+        "--manifest-path",
+        "qualification/Cargo.toml",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:50:00.653803+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.85.0",
+        "doc",
+        "--locked",
+        "--no-deps",
+        "--all-features"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:50:01.394304+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.85.0",
+        "run",
+        "--locked",
+        "--example",
+        "import_review"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:50:04.758467+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.85.0",
+        "run",
+        "--locked",
+        "--example",
+        "catalog_review"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:50:05.891448+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.85.0",
+        "run",
+        "--locked",
+        "--example",
+        "corroboration"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:50:06.860144+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.85.0",
+        "run",
+        "--locked",
+        "--example",
+        "reviewed_import"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:50:07.703914+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.85.0",
+        "run",
+        "--locked",
+        "--features",
+        "json",
+        "--example",
+        "persisted_review"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:50:08.501975+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.99.0",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:50:08.794133+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.99.0",
+        "fmt",
+        "--manifest-path",
+        "performance/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:50:11.444189+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.99.0",
+        "fmt",
+        "--manifest-path",
+        "qualification/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:50:11.578609+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.99.0",
+        "test",
+        "--locked",
+        "--workspace",
+        "--all-features"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:50:11.725170+00:00",
+      "rust_passed_test_groups": [
+        40,
+        23,
+        17,
+        7,
+        5,
+        18,
+        19,
+        20,
+        8,
+        13,
+        10,
+        54,
+        8
+      ],
+      "rust_passed_tests": 242,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.99.0",
+        "test",
+        "--locked",
+        "-p",
+        "fieldkin",
+        "--no-default-features"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:50:32.548281+00:00",
+      "rust_passed_test_groups": [
+        40,
+        23,
+        17,
+        7,
+        5,
+        18,
+        0,
+        20,
+        8,
+        13,
+        10,
+        8
+      ],
+      "rust_passed_tests": 169,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.99.0",
+        "test",
+        "--locked",
+        "-p",
+        "fieldkin",
+        "--example",
+        "scale_cost"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:50:47.322328+00:00",
+      "rust_passed_test_groups": [
+        2
+      ],
+      "rust_passed_tests": 2,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.99.0",
+        "test",
+        "--locked",
+        "--manifest-path",
+        "performance/Cargo.toml"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:50:49.730261+00:00",
+      "rust_passed_test_groups": [
+        1
+      ],
+      "rust_passed_tests": 1,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.99.0",
+        "test",
+        "--locked",
+        "--manifest-path",
+        "qualification/Cargo.toml"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:50:57.276382+00:00",
+      "rust_passed_test_groups": [
+        2
+      ],
+      "rust_passed_tests": 2,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.99.0",
+        "clippy",
+        "--locked",
+        "--workspace",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:50:59.813394+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.99.0",
+        "clippy",
+        "--locked",
+        "--manifest-path",
+        "performance/Cargo.toml",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:51:03.318845+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.99.0",
+        "clippy",
+        "--locked",
+        "--manifest-path",
+        "qualification/Cargo.toml",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:51:03.933573+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.99.0",
+        "doc",
+        "--locked",
+        "--no-deps",
+        "--all-features"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:51:04.639240+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.99.0",
+        "run",
+        "--locked",
+        "--example",
+        "import_review"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:51:07.160650+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.99.0",
+        "run",
+        "--locked",
+        "--example",
+        "catalog_review"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:51:08.248415+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.99.0",
+        "run",
+        "--locked",
+        "--example",
+        "corroboration"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:51:09.202730+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.99.0",
+        "run",
+        "--locked",
+        "--example",
+        "reviewed_import"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:51:10.105603+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": []
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.99.0",
+        "run",
+        "--locked",
+        "--features",
+        "json",
+        "--example",
+        "persisted_review"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:51:11.056497+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": []
+    },
+    {
+      "command": [
+        "py",
+        "-3.11",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "evaluation",
+        "-p",
+        "test_*.py"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:51:11.421070+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": [
+        "Ran 67 tests in 36.247s"
+      ]
+    },
+    {
+      "command": [
+        "py",
+        "-3.11",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "performance",
+        "-p",
+        "test_*.py"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:51:48.006228+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": [
+        "Ran 10 tests in 0.085s"
+      ]
+    },
+    {
+      "command": [
+        "py",
+        "-3.11",
+        "evaluation/import_t2d.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:51:48.235265+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": []
+    },
+    {
+      "command": [
+        "py",
+        "-3.11",
+        "evaluation/import_northix.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-04T17:51:48.496348+00:00",
+      "rust_passed_test_groups": [],
+      "rust_passed_tests": 0,
+      "python_result": []
+    }
+  ],
+  "all_passed": true
+}

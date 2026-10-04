@@ -143,6 +143,14 @@ exact work boundaries and deterministic nonmutation. Public integration tests
 cover reordering, top-k presentation, unchanged decisions, local abstention,
 nonapplicable mode and budget exhaustion.
 
-Caller-confirmed or forbidden pairs are deferred. Applications may retain review
-decisions separately; this stage adds no data rewriting, incremental solver, or
-automatic acceptance of a competing mapping.
+Caller-confirmed mappings, forbidden pairs and explicit unmatched sources are
+available through `MatchConstraints`; see the [migration guide](migration.md).
+Fixed confirmations and reserved targets are removed from the automatic
+assignment problem. Diagnostic objectives and witnesses describe only the
+remaining automatic decisions and respect every review constraint. Confirmed
+scores remain the original heuristic scores, including zero.
+
+The optional [JSON boundary](json.md) can persist explicit review decisions with
+application-owned revisions. Applications still own review authorization and
+storage. Diagnostics add no data rewriting, incremental solver or automatic
+acceptance of a competing mapping.

@@ -1,0 +1,44 @@
+{
+  "archive": {
+    "bytes": 1240631,
+    "sha256": "2b158f99e1a041311177e9519c0d93a3821400121b809cbf7cb4614c6635a838",
+    "url": "https://archive.ics.uci.edu/static/public/237/northix.zip"
+  },
+  "conversion": {
+    "encoding": "ISO-8859-1",
+    "inputs": "Only InputData/ names and values; Classes/ provides labels, never input evidence.",
+    "label_scope": "Same non-UNCLASSED class defines an acceptable correspondence; all other pairs are task-defined negatives. UNCLASSED is separately counted as explicitly unmatched.",
+    "limitations": "Historical demonstration databases with injected tuples and coarse manually authored equivalence classes; not production consumer validation. Field line records are independently sampled; reconstructed DataFrames imply no row alignment.",
+    "missing_values": "Whitespace-only or empty lines become null; preserve every other line exactly.",
+    "sample_cap": 64,
+    "sample_indices": "floor(i*(n-1)/(min(64,n)-1)); use [] for n=0, [0] for n=1"
+  },
+  "creator": "Farid Bourennani",
+  "dataset": "Northix",
+  "derived_fixture": {
+    "path": "evaluation/fixtures/northix-v1.json",
+    "sha256": "1814da6f1100d2eb63e4b89975e4295537924f4327ba7a3a55e3380849706fd1"
+  },
+  "doi": "10.24432/C5M60J",
+  "inventory": {
+    "database_1_fields": 67,
+    "database_1_tables": 12,
+    "database_2_fields": 48,
+    "database_2_tables": 7,
+    "explicit_unclassed_field_occurrences": 70,
+    "label_classes": 34,
+    "no_match_field_occurrences": 441,
+    "pairs_with_positive_edges": 16,
+    "pairs_without_positive_edges": 68,
+    "positive_edges": 28,
+    "positive_field_occurrences": 28,
+    "source_field_occurrences": 469,
+    "table_pairs": 84,
+    "unique_fields": 115,
+    "value_copy_discrepancies": 15
+  },
+  "landing_page": "https://archive.ics.uci.edu/dataset/237/northix",
+  "license": "CC-BY-4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "year": 2012
+}

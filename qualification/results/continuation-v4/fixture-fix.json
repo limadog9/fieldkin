@@ -1,0 +1,46 @@
+{
+  "source_commit": "ec27b1723911922509ca85ae6b5fc4579affe00e",
+  "failure_run": "https://github.com/limadog9/fieldkin/actions/runs/37224658937",
+  "fix": "Resolve trusted TemporaryDirectory roots in comparator tests; production guards unchanged.",
+  "northix_result_json_only_difference": {
+    "path": "metadata/input_sha256/evaluation/test_compare_valentine.py",
+    "before": "66cc6fff1870edbbefdf2ab1ccae36e100b3214cbb35fd3cbb23a1a2b8d035ef",
+    "after": "eeec7499e8b1e1cfbd68918e99c156bac043a9b4bf8279e11aba7efa65cec80c"
+  },
+  "predictions_and_markdown_byte_identical": true,
+  "unchanged_verified_build": "qualification/results/continuation-v3/external-build.json",
+  "checks": [
+    {
+      "command": [
+        "py",
+        "-3.11",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "evaluation",
+        "-p",
+        "test_compare_valentine.py"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ".................\n----------------------------------------------------------------------\nRan 17 tests in 0.048s\n\nOK\n"
+    },
+    {
+      "command": [
+        "target/external-continuation-v3/bin/fieldkin-eval.exe",
+        "--northix",
+        "--check",
+        "--scores",
+        "evaluation/results/continuation-v1/valentine/valentine-schema_only.json",
+        "--scores",
+        "evaluation/results/continuation-v1/valentine/valentine-schema_and_samples.json",
+        "--output",
+        "evaluation/results/continuation-v4/northix/artifacts"
+      ],
+      "exit_code": 0,
+      "stdout": "Northix verified: 84 table pairs, 12 fixed configurations; T2D holdout untouched\n",
+      "stderr": ""
+    }
+  ]
+}

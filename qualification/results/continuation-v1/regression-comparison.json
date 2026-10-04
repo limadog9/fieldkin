@@ -1,0 +1,784 @@
+{
+  "allowed_value_paths": {
+    "baseline": [
+      [
+        "metadata",
+        "engine_source_sha256"
+      ],
+      [
+        "metadata",
+        "evaluator_source_sha256"
+      ],
+      [
+        "metadata",
+        "dependency_lock"
+      ],
+      [
+        "metadata",
+        "dependency_lock_sha256"
+      ],
+      [
+        "metadata",
+        "library_manifest_sha256"
+      ]
+    ],
+    "corrective": [
+      [
+        "metadata",
+        "engine_source_sha256"
+      ],
+      [
+        "metadata",
+        "evaluator_source_sha256"
+      ],
+      [
+        "metadata",
+        "cargo_lock"
+      ],
+      [
+        "metadata",
+        "cargo_lock_sha256"
+      ],
+      [
+        "metadata",
+        "manifest_sha256",
+        "Cargo.toml"
+      ],
+      [
+        "metadata",
+        "manifests",
+        "Cargo.toml"
+      ]
+    ],
+    "external": [
+      [
+        "metadata",
+        "engine_source_sha256"
+      ],
+      [
+        "metadata",
+        "evaluator_source_sha256"
+      ],
+      [
+        "metadata",
+        "dependency_lock_sha256"
+      ],
+      [
+        "metadata",
+        "library_manifest_sha256"
+      ]
+    ],
+    "release": [
+      [
+        "metadata",
+        "engine_source_sha256"
+      ],
+      [
+        "metadata",
+        "evaluator_source_sha256"
+      ],
+      [
+        "metadata",
+        "cargo_lock"
+      ],
+      [
+        "metadata",
+        "cargo_lock_sha256"
+      ],
+      [
+        "metadata",
+        "manifest_sha256",
+        "Cargo.toml"
+      ],
+      [
+        "metadata",
+        "manifests",
+        "Cargo.toml"
+      ]
+    ],
+    "stage3": [
+      [
+        "metadata",
+        "engine_source_sha256"
+      ],
+      [
+        "metadata",
+        "evaluator_source_sha256"
+      ],
+      [
+        "metadata",
+        "cargo_lock"
+      ],
+      [
+        "metadata",
+        "cargo_lock_sha256"
+      ],
+      [
+        "metadata",
+        "manifest_sha256",
+        "Cargo.toml"
+      ]
+    ]
+  },
+  "ambient_compiler_exception": true,
+  "binary_sha256": "9be13838543ceea77977b2b5e784e7732caa52aea8a47c7aca42d79c6783d82e",
+  "build_record": "target/external-continuation-v1/build.json",
+  "build_record_sha256": "a1787bf26a1bfe071d356c6158b8accb742c8703f7b45802c06bbe6f85a5b584",
+  "command_records": {
+    "baseline": {
+      "command_completed_successfully": true,
+      "initial_comparison_status": "failed",
+      "path": "qualification/results/continuation-v1/regression-baseline-command.json",
+      "raw_sha256": "ac712c7784214075ccc745dac1273d54556f98ca2d1423ff9181d74b425b0d7f",
+      "rerun": false,
+      "resolved_exception": "Only environment.json ambient rustc changed from 1.85.0 to 1.98.1; actual verified binary toolchain remains 1.85.0. Original failure record and artifacts preserved."
+    },
+    "corrective": {
+      "path": "qualification/results/continuation-v1/regression-corrective-command.json",
+      "raw_sha256": "9c00e2b0dfb4fa7321a1ae53464919b4aa550629ae450e43affff41c1e2672d8"
+    },
+    "release": {
+      "path": "qualification/results/continuation-v1/regression-release-command.json",
+      "raw_sha256": "c439bbc0206bf7609dfdc18adf6cd60b16db190a6f9b8386803812172ca3e091"
+    },
+    "stage3": {
+      "path": "qualification/results/continuation-v1/regression-stage3-command.json",
+      "raw_sha256": "50de2191007f880c4c2209de79253baafb220d6e14fd2b364632d192135ce8b4"
+    }
+  },
+  "comparison_policy": "Raw UTF-8 bytes must match after replacing only the listed implementation hash-map and root Cargo provenance JSON value spans with null. Every other byte of results, including outcomes, numeric spelling, corpus, predictions and other metadata, must match. Current permitted provenance must equal current source files. The separate non-reproducible environment.json allows only the explicitly recorded ambient rustc string difference; all its other bytes match.",
+  "comparisons": {
+    "baseline": {
+      "artifacts": [
+        {
+          "all_bytes_except_permitted_provenance_equal": true,
+          "artifact": "development.json",
+          "historical_sha256": "6c597591174f5094b134d8fd3aab897087f301d8ca0a98470da36094c217fa81",
+          "masked_bytes_sha256": "d6f12266a957f47500e22df6803061ac2d64ac9f750b4653395748836c7e2e16",
+          "new_sha256": "f81801d350df018e9ef567bf5991f60ab26faee02dfc6cdffe2128300776483a",
+          "permitted_provenance_changes": [
+            {
+              "changed_source_paths": [
+                "assignment.rs",
+                "constraints.rs",
+                "diagnostics.rs",
+                "engine.rs",
+                "error.rs",
+                "json.rs",
+                "lib.rs",
+                "numeric.rs",
+                "profile.rs",
+                "semantics.rs",
+                "signals.rs",
+                "types.rs"
+              ],
+              "new_value_sha256": "17e0c0598176e1843c3e4ca0864d03ee13e7c5fb1b120b26bbc868448fe4eac3",
+              "old_value_sha256": "309f93654f0cbf4a1599edd2bd793de93333b7e057033823af9be70722fb3673",
+              "path": [
+                "metadata",
+                "engine_source_sha256"
+              ]
+            },
+            {
+              "changed_source_paths": [
+                "corpus.rs",
+                "corrective.rs",
+                "corrective_corpus.rs",
+                "external.rs",
+                "main.rs",
+                "metrics.rs",
+                "northix.rs",
+                "release.rs",
+                "runner.rs",
+                "snapshot.rs",
+                "stage3.rs"
+              ],
+              "new_value_sha256": "1e4d0aece4f0e0af6e45bb6b71a123d94906914bdf8262014b4af4b9e9dc2959",
+              "old_value_sha256": "3dfb7e1be1dbba0dbf7f2f3bfe3ddae300f67026f452d4cde9ef1ed650bba69c",
+              "path": [
+                "metadata",
+                "evaluator_source_sha256"
+              ]
+            },
+            {
+              "new_value_sha256": "011729ea016d54b994950c7bba2126fcd39b1432eb3185d3784b7b8341b75f4e",
+              "old_value_sha256": "934a849cf43d744a7a0576d6914b3400a0d69a5f07216ab4d74e545fe30cea4c",
+              "path": [
+                "metadata",
+                "dependency_lock"
+              ]
+            },
+            {
+              "new_value_sha256": "d9f2f4a2309b6fc6a526c292f094ee9e61ce1513687ea077e042b0072e6ab01f",
+              "old_value_sha256": "5c045ea76221efe4cb329c0f14259180453435f4c36eb68400c40dc145ce832c",
+              "path": [
+                "metadata",
+                "dependency_lock_sha256"
+              ]
+            },
+            {
+              "new_value_sha256": "2133024b09c644c19fd545ebc64a55fbce9be9929d464cedf3809e28e8874116",
+              "old_value_sha256": "c3d6934b72ec87ad10431b7007b3fbaf8f45367afb4ee9f0493826f81e08ddcd",
+              "path": [
+                "metadata",
+                "library_manifest_sha256"
+              ]
+            }
+          ]
+        },
+        {
+          "artifact": "corpus.json",
+          "byte_exact": true,
+          "historical_sha256": "e7f88a5e19d7e75bc1cde8561f49ff0fbf2536046f3e49bb2c518a1ea8635409",
+          "new_sha256": "e7f88a5e19d7e75bc1cde8561f49ff0fbf2536046f3e49bb2c518a1ea8635409"
+        },
+        {
+          "artifact": "development-predictions.jsonl",
+          "byte_exact": true,
+          "historical_sha256": "9c11881b650cee66409091350968e03f8d4304c5a4babb7da9e1f5beb23db978",
+          "new_sha256": "9c11881b650cee66409091350968e03f8d4304c5a4babb7da9e1f5beb23db978"
+        },
+        {
+          "artifact": "development.md",
+          "byte_exact": true,
+          "historical_sha256": "d7b43d2f619ff1197a93d4611706869e1321098757a8da1a9c143129dd772e4f",
+          "new_sha256": "d7b43d2f619ff1197a93d4611706869e1321098757a8da1a9c143129dd772e4f"
+        },
+        {
+          "all_environment_bytes_except_rustc_equal": true,
+          "ambient_compiler_difference": {
+            "historical_rustc": "rustc 1.85.0 (4d91de4e4 2025-02-17)\nbinary: rustc\ncommit-hash: 4d91de4e48198da2e33413efdcd9cd2cc0c46688\ncommit-date: 2025-02-17\nhost: x86_64-pc-windows-msvc\nrelease: 1.85.0\nLLVM version: 19.1.7\n",
+            "new_rustc": "rustc 1.98.1 (48a229cea 2026-09-01)\nbinary: rustc\ncommit-hash: 48a229ceaefd4985c50990b14116b6d856af0985\ncommit-date: 2026-09-01\nhost: x86_64-pc-windows-msvc\nrelease: 1.98.1\nLLVM version: 22.1.8\n",
+            "verification_command": [
+              "rustc",
+              "-Vv"
+            ]
+          },
+          "artifact": "environment.json",
+          "historical_sha256": "6749307a12f94e150232b52db0c0e0ad198710224fc0087ac8e436b263bf97fd",
+          "interpretation": "This separate environment file reports the ambient default compiler, not the frozen evaluator binary compiler. The frozen executable was built and verified with Rust 1.85.0. The evaluator explicitly excludes environment.json from reproducible snapshot checks.",
+          "new_sha256": "0e045a26336e570a704c2c4034d49ab1893e81771e86fffe81506f7fe6ba46b9"
+        }
+      ],
+      "historical_directory": "evaluation/results/baseline-v1",
+      "new_directory": "evaluation/results/continuation-v1/baseline",
+      "partitions": [
+        "development"
+      ]
+    },
+    "corrective": {
+      "artifacts": [
+        {
+          "all_bytes_except_permitted_provenance_equal": true,
+          "artifact": "original_regression.json",
+          "historical_sha256": "545157b6354e9cc6aae4cfae4967de5ebcda4fa0a18c8f988f9d21049529c2e8",
+          "masked_bytes_sha256": "b1db96d60413b20ee8a1659878e1540f5dc7eb0eacdf95b8e0688f590904f6c1",
+          "new_sha256": "d65b474e346b35eed808ba2053198dde26c0bd3c0baf0fa505ece58a94375801",
+          "permitted_provenance_changes": [
+            {
+              "changed_source_paths": [
+                "assignment.rs",
+                "constraints.rs",
+                "diagnostics.rs",
+                "engine.rs",
+                "error.rs",
+                "json.rs",
+                "lib.rs",
+                "types.rs"
+              ],
+              "new_value_sha256": "17e0c0598176e1843c3e4ca0864d03ee13e7c5fb1b120b26bbc868448fe4eac3",
+              "old_value_sha256": "f77e1fa7f5455b860928726e3574276eb574d8fe11abd34471d50db6bad3401c",
+              "path": [
+                "metadata",
+                "engine_source_sha256"
+              ]
+            },
+            {
+              "changed_source_paths": [
+                "external.rs",
+                "main.rs",
+                "northix.rs"
+              ],
+              "new_value_sha256": "1e4d0aece4f0e0af6e45bb6b71a123d94906914bdf8262014b4af4b9e9dc2959",
+              "old_value_sha256": "d214799d7dc2194a06c10c4cedca72c6bfbb556df2704d7dcf8fd2b551496cbc",
+              "path": [
+                "metadata",
+                "evaluator_source_sha256"
+              ]
+            },
+            {
+              "new_value_sha256": "011729ea016d54b994950c7bba2126fcd39b1432eb3185d3784b7b8341b75f4e",
+              "old_value_sha256": "934a849cf43d744a7a0576d6914b3400a0d69a5f07216ab4d74e545fe30cea4c",
+              "path": [
+                "metadata",
+                "cargo_lock"
+              ]
+            },
+            {
+              "new_value_sha256": "d9f2f4a2309b6fc6a526c292f094ee9e61ce1513687ea077e042b0072e6ab01f",
+              "old_value_sha256": "5c045ea76221efe4cb329c0f14259180453435f4c36eb68400c40dc145ce832c",
+              "path": [
+                "metadata",
+                "cargo_lock_sha256"
+              ]
+            },
+            {
+              "new_value_sha256": "2133024b09c644c19fd545ebc64a55fbce9be9929d464cedf3809e28e8874116",
+              "old_value_sha256": "c3d6934b72ec87ad10431b7007b3fbaf8f45367afb4ee9f0493826f81e08ddcd",
+              "path": [
+                "metadata",
+                "manifest_sha256",
+                "Cargo.toml"
+              ]
+            },
+            {
+              "new_value_sha256": "89749dae91d0b573e0a0c7844f9b104959b1c5569acf0717b7b0490463dbc502",
+              "old_value_sha256": "756601aee069610b611f4e0082e92522c75db7854736f53c994d3a8a5f8d77bd",
+              "path": [
+                "metadata",
+                "manifests",
+                "Cargo.toml"
+              ]
+            }
+          ]
+        },
+        {
+          "all_bytes_except_permitted_provenance_equal": true,
+          "artifact": "fresh_development.json",
+          "historical_sha256": "5a31e8c8d43b19e6c8db8745bf9f53fadb80f124ed7369d4f7f6c320aa4b67a7",
+          "masked_bytes_sha256": "a92ed04ee4382d3c9bddb460ba138990840ec7bbebc4f9d1f8aacd757b162de1",
+          "new_sha256": "36ab14293b0138eff6f664e8cdcd6c7da209d624b8aa458c1e5ec2ab14a9ac3c",
+          "permitted_provenance_changes": [
+            {
+              "changed_source_paths": [
+                "assignment.rs",
+                "constraints.rs",
+                "diagnostics.rs",
+                "engine.rs",
+                "error.rs",
+                "json.rs",
+                "lib.rs",
+                "types.rs"
+              ],
+              "new_value_sha256": "17e0c0598176e1843c3e4ca0864d03ee13e7c5fb1b120b26bbc868448fe4eac3",
+              "old_value_sha256": "f77e1fa7f5455b860928726e3574276eb574d8fe11abd34471d50db6bad3401c",
+              "path": [
+                "metadata",
+                "engine_source_sha256"
+              ]
+            },
+            {
+              "changed_source_paths": [
+                "external.rs",
+                "main.rs",
+                "northix.rs"
+              ],
+              "new_value_sha256": "1e4d0aece4f0e0af6e45bb6b71a123d94906914bdf8262014b4af4b9e9dc2959",
+              "old_value_sha256": "d214799d7dc2194a06c10c4cedca72c6bfbb556df2704d7dcf8fd2b551496cbc",
+              "path": [
+                "metadata",
+                "evaluator_source_sha256"
+              ]
+            },
+            {
+              "new_value_sha256": "011729ea016d54b994950c7bba2126fcd39b1432eb3185d3784b7b8341b75f4e",
+              "old_value_sha256": "934a849cf43d744a7a0576d6914b3400a0d69a5f07216ab4d74e545fe30cea4c",
+              "path": [
+                "metadata",
+                "cargo_lock"
+              ]
+            },
+            {
+              "new_value_sha256": "d9f2f4a2309b6fc6a526c292f094ee9e61ce1513687ea077e042b0072e6ab01f",
+              "old_value_sha256": "5c045ea76221efe4cb329c0f14259180453435f4c36eb68400c40dc145ce832c",
+              "path": [
+                "metadata",
+                "cargo_lock_sha256"
+              ]
+            },
+            {
+              "new_value_sha256": "2133024b09c644c19fd545ebc64a55fbce9be9929d464cedf3809e28e8874116",
+              "old_value_sha256": "c3d6934b72ec87ad10431b7007b3fbaf8f45367afb4ee9f0493826f81e08ddcd",
+              "path": [
+                "metadata",
+                "manifest_sha256",
+                "Cargo.toml"
+              ]
+            },
+            {
+              "new_value_sha256": "89749dae91d0b573e0a0c7844f9b104959b1c5569acf0717b7b0490463dbc502",
+              "old_value_sha256": "756601aee069610b611f4e0082e92522c75db7854736f53c994d3a8a5f8d77bd",
+              "path": [
+                "metadata",
+                "manifests",
+                "Cargo.toml"
+              ]
+            }
+          ]
+        },
+        {
+          "artifact": "original_regression.md",
+          "byte_exact": true,
+          "historical_sha256": "aa19349167da67bcb0f5545611243eb07ff79228cedb0a02b69a9ada62e360c9",
+          "new_sha256": "aa19349167da67bcb0f5545611243eb07ff79228cedb0a02b69a9ada62e360c9"
+        },
+        {
+          "artifact": "original_regression-predictions.jsonl",
+          "byte_exact": true,
+          "historical_sha256": "3001f2289da2a6fe015e0aef979860da8cbd358d3408aeeabc462bc8c43bd37d",
+          "new_sha256": "3001f2289da2a6fe015e0aef979860da8cbd358d3408aeeabc462bc8c43bd37d"
+        },
+        {
+          "artifact": "fresh_development.md",
+          "byte_exact": true,
+          "historical_sha256": "f475e5ca1e082007f8376e530c1556fcf9137ed7229a1e1fed8c4c9f39b7c62c",
+          "new_sha256": "f475e5ca1e082007f8376e530c1556fcf9137ed7229a1e1fed8c4c9f39b7c62c"
+        },
+        {
+          "artifact": "fresh_development-predictions.jsonl",
+          "byte_exact": true,
+          "historical_sha256": "febc3a66dec539d40eee322b4d62869be73f23986736ce7a797a5e336b72aa49",
+          "new_sha256": "febc3a66dec539d40eee322b4d62869be73f23986736ce7a797a5e336b72aa49"
+        }
+      ],
+      "historical_directory": "evaluation/results/corrective-v1",
+      "new_directory": "evaluation/results/continuation-v1/corrective",
+      "partitions": [
+        "original_regression",
+        "fresh_development"
+      ]
+    },
+    "external": {
+      "artifacts": [
+        {
+          "all_bytes_except_permitted_provenance_equal": true,
+          "artifact": "development.json",
+          "historical_sha256": "ba16fb3cba243946032330304ab6167f1aaf647e7b497ad91d5b19e26aa83540",
+          "masked_bytes_sha256": "044161b64144436913ca25acab3689609e6459285ef39b7c0ea1f2bc72f5be52",
+          "new_sha256": "ce34cc6822f1045d6fa8677ef53a0925de0266a725297c5b76cf4cb722d2be3c",
+          "permitted_provenance_changes": [
+            {
+              "changed_source_paths": [
+                "assignment.rs",
+                "json.rs",
+                "lib.rs"
+              ],
+              "new_value_sha256": "17e0c0598176e1843c3e4ca0864d03ee13e7c5fb1b120b26bbc868448fe4eac3",
+              "old_value_sha256": "ff905fcbef6ca494214fa8a56726b79837c711feedcc43fd30ad825ba28c27d5",
+              "path": [
+                "metadata",
+                "engine_source_sha256"
+              ]
+            },
+            {
+              "changed_source_paths": [
+                "main.rs",
+                "northix.rs"
+              ],
+              "new_value_sha256": "1e4d0aece4f0e0af6e45bb6b71a123d94906914bdf8262014b4af4b9e9dc2959",
+              "old_value_sha256": "3a780025f702e71f3bb7b676e31e4a18cb089de858abe4fad5c67b6a06b1a8ca",
+              "path": [
+                "metadata",
+                "evaluator_source_sha256"
+              ]
+            },
+            {
+              "new_value_sha256": "d9f2f4a2309b6fc6a526c292f094ee9e61ce1513687ea077e042b0072e6ab01f",
+              "old_value_sha256": "5c045ea76221efe4cb329c0f14259180453435f4c36eb68400c40dc145ce832c",
+              "path": [
+                "metadata",
+                "dependency_lock_sha256"
+              ]
+            },
+            {
+              "new_value_sha256": "2133024b09c644c19fd545ebc64a55fbce9be9929d464cedf3809e28e8874116",
+              "old_value_sha256": "c3d6934b72ec87ad10431b7007b3fbaf8f45367afb4ee9f0493826f81e08ddcd",
+              "path": [
+                "metadata",
+                "library_manifest_sha256"
+              ]
+            }
+          ]
+        },
+        {
+          "artifact": "development-predictions.jsonl",
+          "byte_exact": true,
+          "historical_sha256": "9bc11c1dee04576eca9f2a3161883da5ecd4370a1684d4fdf86ab96bcc77867c",
+          "new_sha256": "9bc11c1dee04576eca9f2a3161883da5ecd4370a1684d4fdf86ab96bcc77867c"
+        },
+        {
+          "artifact": "development.md",
+          "byte_exact": true,
+          "historical_sha256": "e6999f740fcf4de3f236291b46004c5dae7fe95f054a718984bf0660c688d127",
+          "new_sha256": "e6999f740fcf4de3f236291b46004c5dae7fe95f054a718984bf0660c688d127"
+        }
+      ],
+      "historical_directory": "evaluation/results/assignment-v1/external/artifacts",
+      "new_directory": "evaluation/results/continuation-v1/external/artifacts",
+      "partitions": [
+        "development"
+      ]
+    },
+    "release": {
+      "artifacts": [
+        {
+          "all_bytes_except_permitted_provenance_equal": true,
+          "artifact": "development.json",
+          "historical_sha256": "be1a3025f993ebca8aff0a35367237ba8d72852db5765fa8a6121c636d291819",
+          "masked_bytes_sha256": "c0c0c63d91e360fe7bd5e114a771ef18b6bdb0286cb95aa38b1914c383d1077c",
+          "new_sha256": "ca1008bc7dbb14660d1e4870b243f201173fc5f987a783ff3213335ba7b6e983",
+          "permitted_provenance_changes": [
+            {
+              "changed_source_paths": [
+                "assignment.rs",
+                "constraints.rs",
+                "diagnostics.rs",
+                "engine.rs",
+                "error.rs",
+                "json.rs",
+                "lib.rs",
+                "types.rs"
+              ],
+              "new_value_sha256": "17e0c0598176e1843c3e4ca0864d03ee13e7c5fb1b120b26bbc868448fe4eac3",
+              "old_value_sha256": "2c2d57f039d4193800e348926b3239fd2bd962b87833b2933a8177c78f5fbbd4",
+              "path": [
+                "metadata",
+                "engine_source_sha256"
+              ]
+            },
+            {
+              "changed_source_paths": [
+                "corrective.rs",
+                "corrective_corpus.rs",
+                "external.rs",
+                "main.rs",
+                "northix.rs",
+                "release.rs",
+                "runner.rs",
+                "snapshot.rs",
+                "stage3.rs"
+              ],
+              "new_value_sha256": "1e4d0aece4f0e0af6e45bb6b71a123d94906914bdf8262014b4af4b9e9dc2959",
+              "old_value_sha256": "53879aa052febe9052697bc1e182ae7f0a8284a7a4ebccf91046e26c150504bb",
+              "path": [
+                "metadata",
+                "evaluator_source_sha256"
+              ]
+            },
+            {
+              "new_value_sha256": "011729ea016d54b994950c7bba2126fcd39b1432eb3185d3784b7b8341b75f4e",
+              "old_value_sha256": "934a849cf43d744a7a0576d6914b3400a0d69a5f07216ab4d74e545fe30cea4c",
+              "path": [
+                "metadata",
+                "cargo_lock"
+              ]
+            },
+            {
+              "new_value_sha256": "d9f2f4a2309b6fc6a526c292f094ee9e61ce1513687ea077e042b0072e6ab01f",
+              "old_value_sha256": "5c045ea76221efe4cb329c0f14259180453435f4c36eb68400c40dc145ce832c",
+              "path": [
+                "metadata",
+                "cargo_lock_sha256"
+              ]
+            },
+            {
+              "new_value_sha256": "2133024b09c644c19fd545ebc64a55fbce9be9929d464cedf3809e28e8874116",
+              "old_value_sha256": "c3d6934b72ec87ad10431b7007b3fbaf8f45367afb4ee9f0493826f81e08ddcd",
+              "path": [
+                "metadata",
+                "manifest_sha256",
+                "Cargo.toml"
+              ]
+            },
+            {
+              "new_value_sha256": "89749dae91d0b573e0a0c7844f9b104959b1c5569acf0717b7b0490463dbc502",
+              "old_value_sha256": "756601aee069610b611f4e0082e92522c75db7854736f53c994d3a8a5f8d77bd",
+              "path": [
+                "metadata",
+                "manifests",
+                "Cargo.toml"
+              ]
+            }
+          ]
+        },
+        {
+          "artifact": "development.md",
+          "byte_exact": true,
+          "historical_sha256": "a745539e1c7625287827e9fe3d4b7e3086b4913e0b685913975b5ea18c04c622",
+          "new_sha256": "a745539e1c7625287827e9fe3d4b7e3086b4913e0b685913975b5ea18c04c622"
+        }
+      ],
+      "historical_directory": "evaluation/results/rc-v1/release",
+      "new_directory": "evaluation/results/continuation-v1/release",
+      "partitions": [
+        "development"
+      ]
+    },
+    "stage3": {
+      "artifacts": [
+        {
+          "all_bytes_except_permitted_provenance_equal": true,
+          "artifact": "report.json",
+          "historical_sha256": "3a956e07bf2b173932a8981a449fc6d2434ef8ec525bdb0cdd791d20ebc3bf1e",
+          "masked_bytes_sha256": "331390e8ec2e50c6a1e7945cd69376416685c4c6648a3988325d85933f882599",
+          "new_sha256": "aedeec380d2bb73c65f4b95b114f1cfd3bd61d71f2e49e54086c8110a209a864",
+          "permitted_provenance_changes": [
+            {
+              "changed_source_paths": [
+                "assignment.rs",
+                "constraints.rs",
+                "diagnostics.rs",
+                "engine.rs",
+                "error.rs",
+                "json.rs",
+                "lib.rs",
+                "types.rs"
+              ],
+              "new_value_sha256": "17e0c0598176e1843c3e4ca0864d03ee13e7c5fb1b120b26bbc868448fe4eac3",
+              "old_value_sha256": "2c2d57f039d4193800e348926b3239fd2bd962b87833b2933a8177c78f5fbbd4",
+              "path": [
+                "metadata",
+                "engine_source_sha256"
+              ]
+            },
+            {
+              "changed_source_paths": [
+                "corrective.rs",
+                "corrective_corpus.rs",
+                "external.rs",
+                "main.rs",
+                "northix.rs",
+                "release.rs",
+                "runner.rs",
+                "snapshot.rs",
+                "stage3.rs"
+              ],
+              "new_value_sha256": "1e4d0aece4f0e0af6e45bb6b71a123d94906914bdf8262014b4af4b9e9dc2959",
+              "old_value_sha256": "53879aa052febe9052697bc1e182ae7f0a8284a7a4ebccf91046e26c150504bb",
+              "path": [
+                "metadata",
+                "evaluator_source_sha256"
+              ]
+            },
+            {
+              "new_value_sha256": "011729ea016d54b994950c7bba2126fcd39b1432eb3185d3784b7b8341b75f4e",
+              "old_value_sha256": "934a849cf43d744a7a0576d6914b3400a0d69a5f07216ab4d74e545fe30cea4c",
+              "path": [
+                "metadata",
+                "cargo_lock"
+              ]
+            },
+            {
+              "new_value_sha256": "d9f2f4a2309b6fc6a526c292f094ee9e61ce1513687ea077e042b0072e6ab01f",
+              "old_value_sha256": "5c045ea76221efe4cb329c0f14259180453435f4c36eb68400c40dc145ce832c",
+              "path": [
+                "metadata",
+                "cargo_lock_sha256"
+              ]
+            },
+            {
+              "new_value_sha256": "2133024b09c644c19fd545ebc64a55fbce9be9929d464cedf3809e28e8874116",
+              "old_value_sha256": "c3d6934b72ec87ad10431b7007b3fbaf8f45367afb4ee9f0493826f81e08ddcd",
+              "path": [
+                "metadata",
+                "manifest_sha256",
+                "Cargo.toml"
+              ]
+            }
+          ]
+        },
+        {
+          "artifact": "predictions.jsonl",
+          "byte_exact": true,
+          "historical_sha256": "aa7eb363edbaf808dd8668c0cd72cb06ad501fc7fa7a696f456ebd2cb0eb57e8",
+          "new_sha256": "aa7eb363edbaf808dd8668c0cd72cb06ad501fc7fa7a696f456ebd2cb0eb57e8"
+        },
+        {
+          "artifact": "report.md",
+          "byte_exact": true,
+          "historical_sha256": "c028d6555865e46ea1b5b3a76a1db28dfd4f9cb9824f70985a678bb2738d5207",
+          "new_sha256": "c028d6555865e46ea1b5b3a76a1db28dfd4f9cb9824f70985a678bb2738d5207"
+        }
+      ],
+      "historical_directory": "evaluation/results/rc-v1/stage3-development",
+      "new_directory": "evaluation/results/continuation-v1/stage3",
+      "partitions": [
+        "development"
+      ]
+    }
+  },
+  "completed_utc": "2026-10-04T17:42:54.747220+00:00",
+  "external": {
+    "run_record_sha256": "065429c79ff6237c507ebffca8cba1a55aa67a8f3575c1019ca06593fa19447c",
+    "status": "compared"
+  },
+  "freeze_revision": "6d3e4a716d214ea41b362650092af816fa5ff48d",
+  "holdout": "No acknowledgement or holdout switches used. Fresh corrective and external T2D holdouts remain unscored. Corrective original_regression intentionally reuses previously published original cases, including original historical holdout, as regression evidence.",
+  "input_sha256": {
+    "Cargo.lock": "0b3ef9880f450fce7a958e3e55d27d613b0ecf501f3b60b441ed48211a8eb922",
+    "Cargo.toml": "92f485dae5943ab9c32ef55fc69770351dcbfacb039fc8ca905db5c5847cc410",
+    "README.md": "2abd33cfd5d0f38cdcd6e1c7796dffc8c20100696e67890c71d6f4d58f2eb894",
+    "evaluation/Cargo.toml": "83139622162adca022742dfb1c47c239d4768d5669a439f0b96019bd0bde4136",
+    "evaluation/compare_valentine.py": "a8d4fc02c218cdfaa46913abd137b187564bca4771cd14beacbe87c0fea03ca4",
+    "evaluation/corpus/crm_contacts.json": "8a499507a1ae87104f5f918eb331cccfeb6f4a97c17240f3059d05f83619b317",
+    "evaluation/corpus/financial_records.json": "313a19885799c92900a3a88688aea304d6989517ae68ac94ccffaf0294fa16ea",
+    "evaluation/corpus/operational_telemetry.json": "ee18ae4470dabaa3dca4eaae137945d39541edcd742e9929d88eca5772b5be7f",
+    "evaluation/corpus/product_import.json": "25c9ca62bd2deca5f5046d372cef41b2663c37e93cc6f02d1f491b6172127ad5",
+    "evaluation/corpus/stage3-evidence.json": "4125df1e53e110c4b038f6300f173832fbeb9a253dac0057db39b9132a2aa931",
+    "evaluation/corrective-protocol.json": "5bb3f593d7e2daacbeeeb9c8a26c8408830df228eb723e71dcda8098c01a8e5f",
+    "evaluation/external-protocol.json": "c9489dc4b2d9e1dbd0a10025e03774a5afb8edfef13aabc3d155dd540740a993",
+    "evaluation/external/northix-v1/LICENSE-CC-BY-4.0": "d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744",
+    "evaluation/external/northix-v1/NOTICE": "2b768a133870667f7141c6a50fd6877e614017ff7f40136ab7df4da72f35e5c8",
+    "evaluation/external/northix-v1/license-evidence.json": "757725ee55bb5ee84d6ef99bb972824b71205c6af3028e267a2850e2b506d36d",
+    "evaluation/external/northix-v1/northix.zip": "2b158f99e1a041311177e9519c0d93a3821400121b809cbf7cb4614c6635a838",
+    "evaluation/external/northix-v1/provenance.json": "04d11c50e786becbbdd4b6714384f5c3e02113557a243cdc5d217bbffd504d74",
+    "evaluation/external/t2d-v1/.gitattributes": "18774156027af2957d92c610915423fbb2d2536950f8bc6ad0340a68e9e61372",
+    "evaluation/external/t2d-v1/LICENSE-APACHE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "evaluation/external/t2d-v1/NOTICE": "15b0dcf0659b80ac3a8c992e90e2d3b818e60a2a5466ab3c64ce933ea39d4bd8",
+    "evaluation/external/t2d-v1/attributes_complete.tar.gz": "c35dbeadab8908a72c3f58315a6710039b292a42a7e765ff4a3e4191f8255ba2",
+    "evaluation/external/t2d-v1/classes_complete.csv": "6a3724e4cce88e3b10ceb97bbdff6da3c397e7a4f9f1bd24b6ff6a7e47f6956c",
+    "evaluation/external/t2d-v1/corpus.json": "b01d43e3600c4b15d0cc95ebda7d370ef2179f20e16d8dab715492b6202e9186",
+    "evaluation/external/t2d-v1/provenance.json": "63189563cd9ebeae672bf2721938433a3396d492f468e14840878d9d7e9d0c4d",
+    "evaluation/fixtures/northix-v1.json": "1814da6f1100d2eb63e4b89975e4295537924f4327ba7a3a55e3380849706fd1",
+    "evaluation/import_northix.py": "83e084fcc790a0586b6c8d7721e32f8d17823629c088a3d9e562c365b5f82505",
+    "evaluation/import_t2d.py": "462e7d16c49aaa3d97ebaa75b39287d486e263c42f427bb92a47cb45b0263b92",
+    "evaluation/northix-protocol.json": "3f51c9588c07af7fabb7b85a9f61c5cdeda5f052bff915286619f3a2f55788ca",
+    "evaluation/protocol.json": "d6e8481216fda42970b49bc6e09c5dfb75f922c08eb526921f70c7e27d706c47",
+    "evaluation/record_northix.py": "4e80dd4260347c2549bc128ffb3ae5a8a0492648c0bdc07e21d15e780500f302",
+    "evaluation/release-protocol.json": "8d188e163d00e9bec084b35d1d7b7e897fcfdf1940b7816231c0578d86f41e7f",
+    "evaluation/src/corpus.rs": "d8a21d30c0bbe4fefdd3de40d1d92284b358fac59800b8b3f20a6a671b5ff062",
+    "evaluation/src/corrective.rs": "5e923c8432d80f1772a33fadf742394e230bf6b7f0c2269ee3164caa85dcf9e3",
+    "evaluation/src/corrective_corpus.rs": "35e13bb9431b45ed13f3a89773385fb9daabd8bc9371da38ad51d17685db01a4",
+    "evaluation/src/external.rs": "232b6bc7d4507a977f138b51e7803026f985ffa7d5f57c4fe27488d26a861a53",
+    "evaluation/src/main.rs": "c0706299ec58b6f2ad43244e83df53a6c4a457de8ee8e4dbc6b3e4675d4e40d5",
+    "evaluation/src/metrics.rs": "a8079d92f0c3c80bde2fe0581c9d01f4d8c6c54083541d15b4d5019f8602bec9",
+    "evaluation/src/model.rs": "ca6be6f50bf9e50e3cceaae73025a176e5c1aee171a72c1cfe607e6723ab28c6",
+    "evaluation/src/northix.rs": "ee384abef1714a70e10e232e7aa1a8ca2e0e84ca38bd0d9d3aa201118e5750e4",
+    "evaluation/src/release.rs": "636202fa65ddd3da59bdff73197c811b0bb742fd8ab073071e7c884266a420e5",
+    "evaluation/src/runner.rs": "1f8cc111d5d487f838b560bd23c0e1b0caee9a5caaea2547be183192fc9b2de2",
+    "evaluation/src/snapshot.rs": "46907262d5ec29e721fd867793af93931608904b48ec4211b5821fdd72151f6f",
+    "evaluation/src/stage3.rs": "124c5700322a19bd6f9edcc35db5fca5784865fb1152c5e44f734c199161853f",
+    "evaluation/stage3-protocol.json": "8a111fff51bb905065780a012a63cb2fc4774051842bb01a72013e62001cae1b",
+    "evaluation/valentine-environment.json": "926841af65683e6dfc7ee8ea503e00cfe2e00d68584c959df74d945f5a972fa8",
+    "evaluation/valentine-requirements.txt": "a1d2d0c981510db0d1dd38487baeec78da4311812f2428f4a15ef2053cf0d51f",
+    "evaluation/verified.py": "5ade83c1537aae72b34ad0752e903fdfa04b9798ab7186dd84bfeabf3dcc38b9",
+    "src/assignment.rs": "918199d81105dd2649f7a882a8caf4f28a89e43ef38c3c92e952c0bdb93e8a9d",
+    "src/constraints.rs": "db5bd502608fed4bcae059fcf788436655e7727c07fbcbe1a697ba43c9cba3ce",
+    "src/diagnostics.rs": "4f2926e67c02ac49c0b61a9a36267fe6cc49c42f0bb2dc1ff3a97d9f8d3b117e",
+    "src/engine.rs": "1e82a25bc050efbe480bb6d6f9f867c5e732334da4b9cad4814f68689282d93d",
+    "src/error.rs": "78d99be1167212af2bbf30f4a20b703b709c86d350547a1e8e7c25fb2b92ac70",
+    "src/json.rs": "e5e97a93e0eb8dd2d56cd413d812db760ea128151be3fbc7df9f19ec6d2f0d73",
+    "src/lib.rs": "36104954302ec5c736df1eb831f346028b5f0da846b69ae29d992a99531253e4",
+    "src/numeric.rs": "be62a484aadda8e753428318a8d67f41fdb9fe03ea646b5a781952b8c3ad6623",
+    "src/profile.rs": "7ea95ca4d2b70954d33013863f4a8f2320bd44c17d79a78d5e291d086ee86559",
+    "src/semantics.rs": "f20dde8676b4917b2edc8f002dae7aaa04e8bf7c4324e92c8d3c1681d54e7538",
+    "src/signals.rs": "b1adafc819a5c405a212313f75243eb0bf07e72caac5ce46a2f692e4996a7fa2",
+    "src/types.rs": "4f3fba2545a11943fbace62174dfd9daa78e29c4e65983f3786c685efb354e65"
+  },
+  "protocol": "fieldkin-continuation-regressions-v1",
+  "record_sha256": "0d65726452db79e153c36f4fac25b58fae884adc3b4d5c8456fe9865d3584dd5",
+  "script_sha256": "fd62df5d192228b0dcdb637e20253beb6ec4077f45fe3777cf9ef20917846abd",
+  "started_utc": "2026-10-04T17:42:42.453295+00:00",
+  "status": "success",
+  "trust_boundary": "Local reproducibility record, not a signature or hermetic build. Trust the wrapper, local processes, compiler, Cargo and locked dependency cache. Before/after checks cannot detect a change restored between checks. Only the scoped source/configuration inputs are inventoried; arbitrary build-script or compiler accesses outside that scope are not attested."
+}

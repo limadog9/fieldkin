@@ -1,0 +1,247 @@
+# Corrective corroboration experiment: fresh_development
+
+All models use the frozen .70 score threshold and .08 ambiguity margin. Combined is the unchanged weighted default; corroborated adds .80 name/.50 distinct-sample support; sample_gate removes the .80 name floor but still requires positive concrete built-in name evidence. Name-only disables type veto and semantic hints. No thresholds were swept or selected from results.
+
+| Model | Assignment | Correct/proposed | Precision | Recall | Unique coverage | Candidate recall@5 | Wrong unique | No-match proposals | Ambiguous proposals |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| combined | independent | 20/74 | 27.03% | 14.18% | 14.18% | 100.00% | 0 | 54/63 | 0/12 |
+| combined | one_to_one | 20/74 | 27.03% | 14.18% | 14.18% | 100.00% | 0 | 54/63 | 0/12 |
+| sample_gate | independent | 20/52 | 38.46% | 14.18% | 14.18% | 100.00% | 0 | 32/63 | 0/12 |
+| sample_gate | one_to_one | 20/52 | 38.46% | 14.18% | 14.18% | 100.00% | 0 | 32/63 | 0/12 |
+| corroborated | independent | 12/44 | 27.27% | 8.51% | 8.51% | 100.00% | 0 | 32/63 | 0/12 |
+| corroborated | one_to_one | 12/44 | 27.27% | 8.51% | 8.51% | 100.00% | 0 | 32/63 | 0/12 |
+| name_only | independent | 0/54 | 0.00% | 0.00% | 0.00% | 94.55% | 0 | 54/63 | 0/12 |
+| name_only | one_to_one | 0/54 | 0.00% | 0.00% | 0.00% | 94.55% | 0 | 54/63 | 0/12 |
+
+## Failure slices by domain and scenario
+
+Scenario tags overlap; do not sum these rows. The JSON includes every family and variant. Predictions retain each source outcome, including missed unique matches, to expose the cost of abstention.
+
+| Group | Model | Assignment | Wrong unique | No-match proposals | Ambiguous proposals | Correct/proposed |
+| --- | --- | --- | ---: | ---: | ---: | ---: |
+| domain: civic_records | combined | independent | 0 | 15/15 | 0/3 | 4/19 |
+| domain: fulfillment | combined | independent | 0 | 12/12 | 0/9 | 6/18 |
+| domain: research_labs | combined | independent | 0 | 18/18 | 0/0 | 6/24 |
+| domain: subscription_billing | combined | independent | 0 | 9/18 | 0/0 | 4/13 |
+| scenario_tag: ambiguous_date | combined | independent | 0 | 3/3 | 0/3 | 0/3 |
+| scenario_tag: ambiguous_expiry | combined | independent | 0 | 3/3 | 0/3 | 2/5 |
+| scenario_tag: ambiguous_time | combined | independent | 0 | 6/6 | 0/3 | 2/8 |
+| scenario_tag: amount_ambiguity | combined | independent | 0 | 3/3 | 0/3 | 4/7 |
+| scenario_tag: amount_scope | combined | independent | 0 | 0/6 | 0/0 | 0/0 |
+| scenario_tag: boolean_scope | combined | independent | 0 | 3/3 | 0/0 | 4/7 |
+| scenario_tag: constant_currency | combined | independent | 0 | 3/9 | 0/0 | 4/7 |
+| scenario_tag: constant_samples | combined | independent | 0 | 6/6 | 0/3 | 2/8 |
+| scenario_tag: dimensions | combined | independent | 0 | 6/6 | 0/0 | 0/6 |
+| scenario_tag: disjoint_ids | combined | independent | 0 | 3/3 | 0/0 | 4/7 |
+| scenario_tag: disjoint_samples | combined | independent | 0 | 18/18 | 0/0 | 0/18 |
+| scenario_tag: duplicate_names | combined | independent | 0 | 12/12 | 0/3 | 14/26 |
+| scenario_tag: duplicate_source_facts | combined | independent | 0 | 6/6 | 0/3 | 2/8 |
+| scenario_tag: event_dates | combined | independent | 0 | 6/6 | 0/0 | 6/12 |
+| scenario_tag: event_times | combined | independent | 0 | 6/6 | 0/0 | 0/6 |
+| scenario_tag: identifier_scope | combined | independent | 0 | 9/12 | 0/3 | 2/11 |
+| scenario_tag: misleading_date | combined | independent | 0 | 3/3 | 0/3 | 4/7 |
+| scenario_tag: misleading_status | combined | independent | 0 | 15/18 | 0/3 | 0/15 |
+| scenario_tag: missing_samples | combined | independent | 0 | 6/6 | 0/0 | 0/6 |
+| scenario_tag: payment_scope | combined | independent | 0 | 6/6 | 0/0 | 2/8 |
+| scenario_tag: renamed | combined | independent | 0 | 12/18 | 0/6 | 4/16 |
+| scenario_tag: units | combined | independent | 0 | 12/12 | 0/0 | 6/18 |
+| scenario_tag: unmatched_description | combined | independent | 0 | 6/9 | 0/0 | 0/6 |
+| scenario_tag: workflow_scope | combined | independent | 0 | 12/12 | 0/0 | 2/14 |
+| domain: civic_records | combined | one_to_one | 0 | 15/15 | 0/3 | 4/19 |
+| domain: fulfillment | combined | one_to_one | 0 | 12/12 | 0/9 | 6/18 |
+| domain: research_labs | combined | one_to_one | 0 | 18/18 | 0/0 | 6/24 |
+| domain: subscription_billing | combined | one_to_one | 0 | 9/18 | 0/0 | 4/13 |
+| scenario_tag: ambiguous_date | combined | one_to_one | 0 | 3/3 | 0/3 | 0/3 |
+| scenario_tag: ambiguous_expiry | combined | one_to_one | 0 | 3/3 | 0/3 | 2/5 |
+| scenario_tag: ambiguous_time | combined | one_to_one | 0 | 6/6 | 0/3 | 2/8 |
+| scenario_tag: amount_ambiguity | combined | one_to_one | 0 | 3/3 | 0/3 | 4/7 |
+| scenario_tag: amount_scope | combined | one_to_one | 0 | 0/6 | 0/0 | 0/0 |
+| scenario_tag: boolean_scope | combined | one_to_one | 0 | 3/3 | 0/0 | 4/7 |
+| scenario_tag: constant_currency | combined | one_to_one | 0 | 3/9 | 0/0 | 4/7 |
+| scenario_tag: constant_samples | combined | one_to_one | 0 | 6/6 | 0/3 | 2/8 |
+| scenario_tag: dimensions | combined | one_to_one | 0 | 6/6 | 0/0 | 0/6 |
+| scenario_tag: disjoint_ids | combined | one_to_one | 0 | 3/3 | 0/0 | 4/7 |
+| scenario_tag: disjoint_samples | combined | one_to_one | 0 | 18/18 | 0/0 | 0/18 |
+| scenario_tag: duplicate_names | combined | one_to_one | 0 | 12/12 | 0/3 | 14/26 |
+| scenario_tag: duplicate_source_facts | combined | one_to_one | 0 | 6/6 | 0/3 | 2/8 |
+| scenario_tag: event_dates | combined | one_to_one | 0 | 6/6 | 0/0 | 6/12 |
+| scenario_tag: event_times | combined | one_to_one | 0 | 6/6 | 0/0 | 0/6 |
+| scenario_tag: identifier_scope | combined | one_to_one | 0 | 9/12 | 0/3 | 2/11 |
+| scenario_tag: misleading_date | combined | one_to_one | 0 | 3/3 | 0/3 | 4/7 |
+| scenario_tag: misleading_status | combined | one_to_one | 0 | 15/18 | 0/3 | 0/15 |
+| scenario_tag: missing_samples | combined | one_to_one | 0 | 6/6 | 0/0 | 0/6 |
+| scenario_tag: payment_scope | combined | one_to_one | 0 | 6/6 | 0/0 | 2/8 |
+| scenario_tag: renamed | combined | one_to_one | 0 | 12/18 | 0/6 | 4/16 |
+| scenario_tag: units | combined | one_to_one | 0 | 12/12 | 0/0 | 6/18 |
+| scenario_tag: unmatched_description | combined | one_to_one | 0 | 6/9 | 0/0 | 0/6 |
+| scenario_tag: workflow_scope | combined | one_to_one | 0 | 12/12 | 0/0 | 2/14 |
+| domain: civic_records | sample_gate | independent | 0 | 10/15 | 0/3 | 4/14 |
+| domain: fulfillment | sample_gate | independent | 0 | 6/12 | 0/9 | 6/12 |
+| domain: research_labs | sample_gate | independent | 0 | 10/18 | 0/0 | 6/16 |
+| domain: subscription_billing | sample_gate | independent | 0 | 6/18 | 0/0 | 4/10 |
+| scenario_tag: ambiguous_date | sample_gate | independent | 0 | 2/3 | 0/3 | 0/2 |
+| scenario_tag: ambiguous_expiry | sample_gate | independent | 0 | 2/3 | 0/3 | 2/4 |
+| scenario_tag: ambiguous_time | sample_gate | independent | 0 | 2/6 | 0/3 | 2/4 |
+| scenario_tag: amount_ambiguity | sample_gate | independent | 0 | 2/3 | 0/3 | 4/6 |
+| scenario_tag: amount_scope | sample_gate | independent | 0 | 0/6 | 0/0 | 0/0 |
+| scenario_tag: boolean_scope | sample_gate | independent | 0 | 2/3 | 0/0 | 4/6 |
+| scenario_tag: constant_currency | sample_gate | independent | 0 | 2/9 | 0/0 | 4/6 |
+| scenario_tag: constant_samples | sample_gate | independent | 0 | 2/6 | 0/3 | 2/4 |
+| scenario_tag: dimensions | sample_gate | independent | 0 | 4/6 | 0/0 | 0/4 |
+| scenario_tag: disjoint_ids | sample_gate | independent | 0 | 2/3 | 0/0 | 4/6 |
+| scenario_tag: disjoint_samples | sample_gate | independent | 0 | 12/18 | 0/0 | 0/12 |
+| scenario_tag: duplicate_names | sample_gate | independent | 0 | 6/12 | 0/3 | 14/20 |
+| scenario_tag: duplicate_source_facts | sample_gate | independent | 0 | 2/6 | 0/3 | 2/4 |
+| scenario_tag: event_dates | sample_gate | independent | 0 | 2/6 | 0/0 | 6/8 |
+| scenario_tag: event_times | sample_gate | independent | 0 | 4/6 | 0/0 | 0/4 |
+| scenario_tag: identifier_scope | sample_gate | independent | 0 | 6/12 | 0/3 | 2/8 |
+| scenario_tag: misleading_date | sample_gate | independent | 0 | 2/3 | 0/3 | 4/6 |
+| scenario_tag: misleading_status | sample_gate | independent | 0 | 10/18 | 0/3 | 0/10 |
+| scenario_tag: missing_samples | sample_gate | independent | 0 | 4/6 | 0/0 | 0/4 |
+| scenario_tag: payment_scope | sample_gate | independent | 0 | 4/6 | 0/0 | 2/6 |
+| scenario_tag: renamed | sample_gate | independent | 0 | 8/18 | 0/6 | 4/12 |
+| scenario_tag: units | sample_gate | independent | 0 | 6/12 | 0/0 | 6/12 |
+| scenario_tag: unmatched_description | sample_gate | independent | 0 | 4/9 | 0/0 | 0/4 |
+| scenario_tag: workflow_scope | sample_gate | independent | 0 | 8/12 | 0/0 | 2/10 |
+| domain: civic_records | sample_gate | one_to_one | 0 | 10/15 | 0/3 | 4/14 |
+| domain: fulfillment | sample_gate | one_to_one | 0 | 6/12 | 0/9 | 6/12 |
+| domain: research_labs | sample_gate | one_to_one | 0 | 10/18 | 0/0 | 6/16 |
+| domain: subscription_billing | sample_gate | one_to_one | 0 | 6/18 | 0/0 | 4/10 |
+| scenario_tag: ambiguous_date | sample_gate | one_to_one | 0 | 2/3 | 0/3 | 0/2 |
+| scenario_tag: ambiguous_expiry | sample_gate | one_to_one | 0 | 2/3 | 0/3 | 2/4 |
+| scenario_tag: ambiguous_time | sample_gate | one_to_one | 0 | 2/6 | 0/3 | 2/4 |
+| scenario_tag: amount_ambiguity | sample_gate | one_to_one | 0 | 2/3 | 0/3 | 4/6 |
+| scenario_tag: amount_scope | sample_gate | one_to_one | 0 | 0/6 | 0/0 | 0/0 |
+| scenario_tag: boolean_scope | sample_gate | one_to_one | 0 | 2/3 | 0/0 | 4/6 |
+| scenario_tag: constant_currency | sample_gate | one_to_one | 0 | 2/9 | 0/0 | 4/6 |
+| scenario_tag: constant_samples | sample_gate | one_to_one | 0 | 2/6 | 0/3 | 2/4 |
+| scenario_tag: dimensions | sample_gate | one_to_one | 0 | 4/6 | 0/0 | 0/4 |
+| scenario_tag: disjoint_ids | sample_gate | one_to_one | 0 | 2/3 | 0/0 | 4/6 |
+| scenario_tag: disjoint_samples | sample_gate | one_to_one | 0 | 12/18 | 0/0 | 0/12 |
+| scenario_tag: duplicate_names | sample_gate | one_to_one | 0 | 6/12 | 0/3 | 14/20 |
+| scenario_tag: duplicate_source_facts | sample_gate | one_to_one | 0 | 2/6 | 0/3 | 2/4 |
+| scenario_tag: event_dates | sample_gate | one_to_one | 0 | 2/6 | 0/0 | 6/8 |
+| scenario_tag: event_times | sample_gate | one_to_one | 0 | 4/6 | 0/0 | 0/4 |
+| scenario_tag: identifier_scope | sample_gate | one_to_one | 0 | 6/12 | 0/3 | 2/8 |
+| scenario_tag: misleading_date | sample_gate | one_to_one | 0 | 2/3 | 0/3 | 4/6 |
+| scenario_tag: misleading_status | sample_gate | one_to_one | 0 | 10/18 | 0/3 | 0/10 |
+| scenario_tag: missing_samples | sample_gate | one_to_one | 0 | 4/6 | 0/0 | 0/4 |
+| scenario_tag: payment_scope | sample_gate | one_to_one | 0 | 4/6 | 0/0 | 2/6 |
+| scenario_tag: renamed | sample_gate | one_to_one | 0 | 8/18 | 0/6 | 4/12 |
+| scenario_tag: units | sample_gate | one_to_one | 0 | 6/12 | 0/0 | 6/12 |
+| scenario_tag: unmatched_description | sample_gate | one_to_one | 0 | 4/9 | 0/0 | 0/4 |
+| scenario_tag: workflow_scope | sample_gate | one_to_one | 0 | 8/12 | 0/0 | 2/10 |
+| domain: civic_records | corroborated | independent | 0 | 10/15 | 0/3 | 0/10 |
+| domain: fulfillment | corroborated | independent | 0 | 6/12 | 0/9 | 4/10 |
+| domain: research_labs | corroborated | independent | 0 | 10/18 | 0/0 | 4/14 |
+| domain: subscription_billing | corroborated | independent | 0 | 6/18 | 0/0 | 4/10 |
+| scenario_tag: ambiguous_date | corroborated | independent | 0 | 2/3 | 0/3 | 0/2 |
+| scenario_tag: ambiguous_expiry | corroborated | independent | 0 | 2/3 | 0/3 | 0/2 |
+| scenario_tag: ambiguous_time | corroborated | independent | 0 | 2/6 | 0/3 | 0/2 |
+| scenario_tag: amount_ambiguity | corroborated | independent | 0 | 2/3 | 0/3 | 4/6 |
+| scenario_tag: amount_scope | corroborated | independent | 0 | 0/6 | 0/0 | 0/0 |
+| scenario_tag: boolean_scope | corroborated | independent | 0 | 2/3 | 0/0 | 4/6 |
+| scenario_tag: constant_currency | corroborated | independent | 0 | 2/9 | 0/0 | 4/6 |
+| scenario_tag: constant_samples | corroborated | independent | 0 | 2/6 | 0/3 | 0/2 |
+| scenario_tag: dimensions | corroborated | independent | 0 | 4/6 | 0/0 | 0/4 |
+| scenario_tag: disjoint_ids | corroborated | independent | 0 | 2/3 | 0/0 | 4/6 |
+| scenario_tag: disjoint_samples | corroborated | independent | 0 | 12/18 | 0/0 | 0/12 |
+| scenario_tag: duplicate_names | corroborated | independent | 0 | 6/12 | 0/3 | 12/18 |
+| scenario_tag: duplicate_source_facts | corroborated | independent | 0 | 2/6 | 0/3 | 0/2 |
+| scenario_tag: event_dates | corroborated | independent | 0 | 2/6 | 0/0 | 4/6 |
+| scenario_tag: event_times | corroborated | independent | 0 | 4/6 | 0/0 | 0/4 |
+| scenario_tag: identifier_scope | corroborated | independent | 0 | 6/12 | 0/3 | 0/6 |
+| scenario_tag: misleading_date | corroborated | independent | 0 | 2/3 | 0/3 | 4/6 |
+| scenario_tag: misleading_status | corroborated | independent | 0 | 10/18 | 0/3 | 0/10 |
+| scenario_tag: missing_samples | corroborated | independent | 0 | 4/6 | 0/0 | 0/4 |
+| scenario_tag: payment_scope | corroborated | independent | 0 | 4/6 | 0/0 | 0/4 |
+| scenario_tag: renamed | corroborated | independent | 0 | 8/18 | 0/6 | 0/8 |
+| scenario_tag: units | corroborated | independent | 0 | 6/12 | 0/0 | 4/10 |
+| scenario_tag: unmatched_description | corroborated | independent | 0 | 4/9 | 0/0 | 0/4 |
+| scenario_tag: workflow_scope | corroborated | independent | 0 | 8/12 | 0/0 | 0/8 |
+| domain: civic_records | corroborated | one_to_one | 0 | 10/15 | 0/3 | 0/10 |
+| domain: fulfillment | corroborated | one_to_one | 0 | 6/12 | 0/9 | 4/10 |
+| domain: research_labs | corroborated | one_to_one | 0 | 10/18 | 0/0 | 4/14 |
+| domain: subscription_billing | corroborated | one_to_one | 0 | 6/18 | 0/0 | 4/10 |
+| scenario_tag: ambiguous_date | corroborated | one_to_one | 0 | 2/3 | 0/3 | 0/2 |
+| scenario_tag: ambiguous_expiry | corroborated | one_to_one | 0 | 2/3 | 0/3 | 0/2 |
+| scenario_tag: ambiguous_time | corroborated | one_to_one | 0 | 2/6 | 0/3 | 0/2 |
+| scenario_tag: amount_ambiguity | corroborated | one_to_one | 0 | 2/3 | 0/3 | 4/6 |
+| scenario_tag: amount_scope | corroborated | one_to_one | 0 | 0/6 | 0/0 | 0/0 |
+| scenario_tag: boolean_scope | corroborated | one_to_one | 0 | 2/3 | 0/0 | 4/6 |
+| scenario_tag: constant_currency | corroborated | one_to_one | 0 | 2/9 | 0/0 | 4/6 |
+| scenario_tag: constant_samples | corroborated | one_to_one | 0 | 2/6 | 0/3 | 0/2 |
+| scenario_tag: dimensions | corroborated | one_to_one | 0 | 4/6 | 0/0 | 0/4 |
+| scenario_tag: disjoint_ids | corroborated | one_to_one | 0 | 2/3 | 0/0 | 4/6 |
+| scenario_tag: disjoint_samples | corroborated | one_to_one | 0 | 12/18 | 0/0 | 0/12 |
+| scenario_tag: duplicate_names | corroborated | one_to_one | 0 | 6/12 | 0/3 | 12/18 |
+| scenario_tag: duplicate_source_facts | corroborated | one_to_one | 0 | 2/6 | 0/3 | 0/2 |
+| scenario_tag: event_dates | corroborated | one_to_one | 0 | 2/6 | 0/0 | 4/6 |
+| scenario_tag: event_times | corroborated | one_to_one | 0 | 4/6 | 0/0 | 0/4 |
+| scenario_tag: identifier_scope | corroborated | one_to_one | 0 | 6/12 | 0/3 | 0/6 |
+| scenario_tag: misleading_date | corroborated | one_to_one | 0 | 2/3 | 0/3 | 4/6 |
+| scenario_tag: misleading_status | corroborated | one_to_one | 0 | 10/18 | 0/3 | 0/10 |
+| scenario_tag: missing_samples | corroborated | one_to_one | 0 | 4/6 | 0/0 | 0/4 |
+| scenario_tag: payment_scope | corroborated | one_to_one | 0 | 4/6 | 0/0 | 0/4 |
+| scenario_tag: renamed | corroborated | one_to_one | 0 | 8/18 | 0/6 | 0/8 |
+| scenario_tag: units | corroborated | one_to_one | 0 | 6/12 | 0/0 | 4/10 |
+| scenario_tag: unmatched_description | corroborated | one_to_one | 0 | 4/9 | 0/0 | 0/4 |
+| scenario_tag: workflow_scope | corroborated | one_to_one | 0 | 8/12 | 0/0 | 0/8 |
+| domain: civic_records | name_only | independent | 0 | 15/15 | 0/3 | 0/15 |
+| domain: fulfillment | name_only | independent | 0 | 12/12 | 0/9 | 0/12 |
+| domain: research_labs | name_only | independent | 0 | 18/18 | 0/0 | 0/18 |
+| domain: subscription_billing | name_only | independent | 0 | 9/18 | 0/0 | 0/9 |
+| scenario_tag: ambiguous_date | name_only | independent | 0 | 3/3 | 0/3 | 0/3 |
+| scenario_tag: ambiguous_expiry | name_only | independent | 0 | 3/3 | 0/3 | 0/3 |
+| scenario_tag: ambiguous_time | name_only | independent | 0 | 6/6 | 0/3 | 0/6 |
+| scenario_tag: amount_ambiguity | name_only | independent | 0 | 3/3 | 0/3 | 0/3 |
+| scenario_tag: amount_scope | name_only | independent | 0 | 0/6 | 0/0 | 0/0 |
+| scenario_tag: boolean_scope | name_only | independent | 0 | 3/3 | 0/0 | 0/3 |
+| scenario_tag: constant_currency | name_only | independent | 0 | 3/9 | 0/0 | 0/3 |
+| scenario_tag: constant_samples | name_only | independent | 0 | 6/6 | 0/3 | 0/6 |
+| scenario_tag: dimensions | name_only | independent | 0 | 6/6 | 0/0 | 0/6 |
+| scenario_tag: disjoint_ids | name_only | independent | 0 | 3/3 | 0/0 | 0/3 |
+| scenario_tag: disjoint_samples | name_only | independent | 0 | 18/18 | 0/0 | 0/18 |
+| scenario_tag: duplicate_names | name_only | independent | 0 | 12/12 | 0/3 | 0/12 |
+| scenario_tag: duplicate_source_facts | name_only | independent | 0 | 6/6 | 0/3 | 0/6 |
+| scenario_tag: event_dates | name_only | independent | 0 | 6/6 | 0/0 | 0/6 |
+| scenario_tag: event_times | name_only | independent | 0 | 6/6 | 0/0 | 0/6 |
+| scenario_tag: identifier_scope | name_only | independent | 0 | 9/12 | 0/3 | 0/9 |
+| scenario_tag: misleading_date | name_only | independent | 0 | 3/3 | 0/3 | 0/3 |
+| scenario_tag: misleading_status | name_only | independent | 0 | 15/18 | 0/3 | 0/15 |
+| scenario_tag: missing_samples | name_only | independent | 0 | 6/6 | 0/0 | 0/6 |
+| scenario_tag: payment_scope | name_only | independent | 0 | 6/6 | 0/0 | 0/6 |
+| scenario_tag: renamed | name_only | independent | 0 | 12/18 | 0/6 | 0/12 |
+| scenario_tag: units | name_only | independent | 0 | 12/12 | 0/0 | 0/12 |
+| scenario_tag: unmatched_description | name_only | independent | 0 | 6/9 | 0/0 | 0/6 |
+| scenario_tag: workflow_scope | name_only | independent | 0 | 12/12 | 0/0 | 0/12 |
+| domain: civic_records | name_only | one_to_one | 0 | 15/15 | 0/3 | 0/15 |
+| domain: fulfillment | name_only | one_to_one | 0 | 12/12 | 0/9 | 0/12 |
+| domain: research_labs | name_only | one_to_one | 0 | 18/18 | 0/0 | 0/18 |
+| domain: subscription_billing | name_only | one_to_one | 0 | 9/18 | 0/0 | 0/9 |
+| scenario_tag: ambiguous_date | name_only | one_to_one | 0 | 3/3 | 0/3 | 0/3 |
+| scenario_tag: ambiguous_expiry | name_only | one_to_one | 0 | 3/3 | 0/3 | 0/3 |
+| scenario_tag: ambiguous_time | name_only | one_to_one | 0 | 6/6 | 0/3 | 0/6 |
+| scenario_tag: amount_ambiguity | name_only | one_to_one | 0 | 3/3 | 0/3 | 0/3 |
+| scenario_tag: amount_scope | name_only | one_to_one | 0 | 0/6 | 0/0 | 0/0 |
+| scenario_tag: boolean_scope | name_only | one_to_one | 0 | 3/3 | 0/0 | 0/3 |
+| scenario_tag: constant_currency | name_only | one_to_one | 0 | 3/9 | 0/0 | 0/3 |
+| scenario_tag: constant_samples | name_only | one_to_one | 0 | 6/6 | 0/3 | 0/6 |
+| scenario_tag: dimensions | name_only | one_to_one | 0 | 6/6 | 0/0 | 0/6 |
+| scenario_tag: disjoint_ids | name_only | one_to_one | 0 | 3/3 | 0/0 | 0/3 |
+| scenario_tag: disjoint_samples | name_only | one_to_one | 0 | 18/18 | 0/0 | 0/18 |
+| scenario_tag: duplicate_names | name_only | one_to_one | 0 | 12/12 | 0/3 | 0/12 |
+| scenario_tag: duplicate_source_facts | name_only | one_to_one | 0 | 6/6 | 0/3 | 0/6 |
+| scenario_tag: event_dates | name_only | one_to_one | 0 | 6/6 | 0/0 | 0/6 |
+| scenario_tag: event_times | name_only | one_to_one | 0 | 6/6 | 0/0 | 0/6 |
+| scenario_tag: identifier_scope | name_only | one_to_one | 0 | 9/12 | 0/3 | 0/9 |
+| scenario_tag: misleading_date | name_only | one_to_one | 0 | 3/3 | 0/3 | 0/3 |
+| scenario_tag: misleading_status | name_only | one_to_one | 0 | 15/18 | 0/3 | 0/15 |
+| scenario_tag: missing_samples | name_only | one_to_one | 0 | 6/6 | 0/0 | 0/6 |
+| scenario_tag: payment_scope | name_only | one_to_one | 0 | 6/6 | 0/0 | 0/6 |
+| scenario_tag: renamed | name_only | one_to_one | 0 | 12/18 | 0/6 | 0/12 |
+| scenario_tag: units | name_only | one_to_one | 0 | 12/12 | 0/0 | 0/12 |
+| scenario_tag: unmatched_description | name_only | one_to_one | 0 | 6/9 | 0/0 | 0/6 |
+| scenario_tag: workflow_scope | name_only | one_to_one | 0 | 12/12 | 0/0 | 0/12 |
+
+Targets remain >=95% proposal precision, >=60% unique coverage and >=90% candidate recall@5, with nonzero proposals. Empty predictions do not constitute success. The prespecified decision preserves the existing default and keeps corroboration opt-in, regardless of synthetic results. Old families are regression evidence; fresh development and holdout are reported separately. Neither correlated variants nor easy retrieval on small schemas establish production accuracy.

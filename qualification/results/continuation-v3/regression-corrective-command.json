@@ -1,0 +1,32 @@
+{
+  "artifact_sha256": {
+    "fresh_development-predictions.jsonl": "febc3a66dec539d40eee322b4d62869be73f23986736ce7a797a5e336b72aa49",
+    "fresh_development.json": "223c39a4e113dccc06014d780bb7a86ca66aa09f506304635c3cb4a4b8dd0690",
+    "fresh_development.md": "f475e5ca1e082007f8376e530c1556fcf9137ed7229a1e1fed8c4c9f39b7c62c",
+    "original_regression-predictions.jsonl": "3001f2289da2a6fe015e0aef979860da8cbd358d3408aeeabc462bc8c43bd37d",
+    "original_regression.json": "eb6ffd0a84ae0c9358e046c725d6f06dd3f455cd2610fecba278f8f241476b7c",
+    "original_regression.md": "aa19349167da67bcb0f5545611243eb07ff79228cedb0a02b69a9ada62e360c9"
+  },
+  "binary_sha256": "ea466a1a2f29e6e40fb1651a97426d2299287b0584ed0536e59cf466f3836f12",
+  "build_record_sha256": "6cb9e86440c68f99c9b7f34776552997dfa8248f99e553af5df8a12a3aa922cb",
+  "command": [
+    "C:\\Users\\jakew\\Downloads\\fieldkin\\target\\external-continuation-v3\\bin\\fieldkin-eval.exe",
+    "--corrective",
+    "--output",
+    "C:\\Users\\jakew\\Downloads\\fieldkin\\evaluation\\results\\continuation-v3\\corrective"
+  ],
+  "completed_utc": "2026-10-04T18:28:05.231697+00:00",
+  "cwd": "C:\\Users\\jakew\\Downloads\\fieldkin",
+  "partitions": [
+    "original_regression",
+    "fresh_development"
+  ],
+  "protocol": "fieldkin-continuation-regressions-v3",
+  "record_sha256": "0118232bd53814dfa4331394e9969fffc146816e655d8376939efb7bae4bcd73",
+  "returncode": 0,
+  "script_sha256": "7e9f7f78bfb79628cd95f88272ee80e3bfc5ee6581e98d051cfe2a293a096033",
+  "started_utc": "2026-10-04T18:28:03.437450+00:00",
+  "status": "success",
+  "stderr": "",
+  "stdout": "Corrective original_regression evaluation written: 200 cases, 8 model/assignment rows\nCorrective fresh_development evaluation written: 36 cases, 8 model/assignment rows\n"
+}

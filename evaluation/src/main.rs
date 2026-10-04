@@ -6,6 +6,7 @@ mod corrective_corpus;
 mod external;
 mod metrics;
 mod model;
+mod northix;
 mod release;
 mod runner;
 mod snapshot;
@@ -13,7 +14,10 @@ mod stage3;
 
 fn main() {
     let mut args: Vec<_> = std::env::args().skip(1).collect();
-    let result = if args.first().is_some_and(|arg| arg == "--external") {
+    let result = if args.first().is_some_and(|arg| arg == "--northix") {
+        args.remove(0);
+        northix::run(args)
+    } else if args.first().is_some_and(|arg| arg == "--external") {
         args.remove(0);
         external::run(args)
     } else if args.first().is_some_and(|arg| arg == "--corrective") {

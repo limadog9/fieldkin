@@ -1,0 +1,244 @@
+{
+  "bootstrap": {
+    "pip": "23.1.2",
+    "setuptools": "65.5.0"
+  },
+  "nltk_stopwords": {
+    "archive_sha256": "48c0e52d8b52546e827f53761fb30300c0ab94f70660d28bd65ba0a86270946b",
+    "files_sha256": {
+      "stopwords/README": "e0365fde880eadb522f844cba2774529969b66b7406db7643cf260dcd77d6541",
+      "stopwords/albanian": "859d62fe39637d302674ebe782cf7c69c5aaa07dd281fe4c7421f7e436d89776",
+      "stopwords/arabic": "0df01c0a184d8c15077c6f0ee70e25e0c0308d827b92b14a19f5f819a0c465d0",
+      "stopwords/azerbaijani": "79fa359ae8c021f86c6fe6e56853396da7be9c8c7a30de45cda311ed199b26ae",
+      "stopwords/basque": "6285e4424de3fd2791dbbe2bc3ff23ed009bac3bfced3ea4b927b5b63d246bf0",
+      "stopwords/belarusian": "aae410578a8dc24917613e26b155161cc307f7f5ab68f8833f1f21fa73f5fbaa",
+      "stopwords/bengali": "98b5906451961ef0118dcf9d99e6e7351266126bcc36789b17070decd394591b",
+      "stopwords/catalan": "4749664544c92acea8dbb9db108830effcb2863e1b7761ae366ffb7683d96c07",
+      "stopwords/chinese": "1d4460e24f29b27460a845ead1652bac94d10c4fc2d26926e615e6a715f177ce",
+      "stopwords/danish": "1bedc9cf5a8830dacf8c4ee0d8b301f0801861756ad0d504431d01047f961b0c",
+      "stopwords/dutch": "e5a2a7c390fe3ad0c0a132586ed11492b635d66a1f426cd89677f80b07bc76a6",
+      "stopwords/english": "f6d005956f407dbc6ea32e5ff0c7e8e6f71488d3239b9023efdc7fc139d6375b",
+      "stopwords/finnish": "952af766edc9b8e7ddc877fc464cbd94b91754b5621fdfdd7020568fd4813fcd",
+      "stopwords/french": "58ac7f7c074b70dc0fc86f6fcf40b2c227e9f95627e90e57971d5cce1e30e2e9",
+      "stopwords/german": "f0c25acd7ec02a31f6679d9664ec5222ca846fdbc58db96160f4e7c0ddb0f7ea",
+      "stopwords/greek": "7a97c6dc81144f7e8fcfe976025954ca3731f78a75d1fd86aa87f261fd195dae",
+      "stopwords/hebrew": "aa52b26f09363630dba725eceb6a8348bea30c05be69a084ec2b58d79bab3c5a",
+      "stopwords/hinglish": "0c88c0952998450c27270ea9c9a55f3f0d1fa787236212ce69a8fcc7bae1389d",
+      "stopwords/hungarian": "64a68b5ebaa616b25bd976ac915c326f2ea8cce8b59a0ac8c5728b980ae4fb0c",
+      "stopwords/indonesian": "127b5c39ef7456965b15905277e49a8936e39b3c0d67ceda1b7757ea4d913b57",
+      "stopwords/italian": "293d7841f198e4012f49e8e5653c3bfd073a58cea1259fa2c0fcec894167b628",
+      "stopwords/kazakh": "a74c693991e04a54eec6a03dbc4338080fecb62ca2a087d62659fed71bbb6410",
+      "stopwords/nepali": "866321e2fe1bcf7d34814464e25eaf365e70b0de40aebee98d761b78b7936b3d",
+      "stopwords/norwegian": "f7e5b42208ccf1b1f282f9e0f8570e464272762bda5718b6b26750f510a688dc",
+      "stopwords/portuguese": "6e7b98378c6b728266a83ebf035d927abf16b9e0d815d6204d81d90d896bcc9b",
+      "stopwords/romanian": "0ab53d21cbde00c6bf367706a0243c646140ba564cce7e83ac33d80f8923e957",
+      "stopwords/russian": "1743191192b4a4f77fcc216499455dc00c1b8626fdd407076a8deefff80e3d59",
+      "stopwords/slovene": "65d95c97bdddaf5c719c8069eb242cccdf135826ad2e676038ade33835b50042",
+      "stopwords/spanish": "6125eadf28ba664a60bf4296147bcbd40b80be93670056fdb229960ac15e2310",
+      "stopwords/swedish": "2a9d9d756bc4257d49329994f805c712cd5ab6746162e2082752238766c1c0c8",
+      "stopwords/tajik": "9fb8e95452b1ca28f77d4779e0705eccd681dc6e51e5216002a42129cd9a4238",
+      "stopwords/tamil": "0b66d268cb5258577466d56db8de387e5651f7c603a52774fbae0da646bc97e9",
+      "stopwords/turkish": "f2c7f0c2bd3dba42da700776266831853a3b5f1207fada5c15207334109abb57",
+      "stopwords/uzbek": "23b042a68c64545ef94bbd016cbf20d6d1e042cfe77ec13960d9dd49c8fb30d9"
+    },
+    "path": ".local/nltk_data/corpora/stopwords",
+    "redistributed": false,
+    "upstream_commit": "550b6625bcef1f2abff2ff770a5a0d272c9c6b2a",
+    "url": "https://raw.githubusercontent.com/nltk/nltk_data/550b6625bcef1f2abff2ff770a5a0d272c9c6b2a/packages/corpora/stopwords.zip"
+  },
+  "packages": [
+    {
+      "artifact": {
+        "sha256": "4cbcf10df36b1f1cba131b7e487ff3edafc9d6e932a3c70071b5b768bab901ff",
+        "url": "https://files.pythonhosted.org/packages/7b/98/f6aa7fe0783e42be3093d8ef1b0ecdc22c34c0d69640dfb37f56925cb141/anytree-2.13.0-py3-none-any.whl"
+      },
+      "license": "unspecified",
+      "name": "anytree",
+      "version": "2.13.0"
+    },
+    {
+      "artifact": {
+        "sha256": "360260d074d8712ac1e9048fcafb0fdde246f9d0b12555748ad0017c5ecee43d",
+        "url": "https://files.pythonhosted.org/packages/02/af/46c80c317f9b4dd61f15c33b1e073fbdd64d13c70fe19e34943071dc9e50/chardet-7.6.0-cp311-cp311-win_amd64.whl"
+      },
+      "license": "unspecified",
+      "name": "chardet",
+      "version": "7.6.0"
+    },
+    {
+      "artifact": {
+        "sha256": "255bc9599cf7748b4b1a446ccc735421bd08a2ae529a8b88597d3de5664ee360",
+        "url": "https://files.pythonhosted.org/packages/58/50/6c0d534c5f134586a8e1ba4e330569e32f057e33372ae556463212fb4cd3/click-8.5.0-py3-none-any.whl"
+      },
+      "license": "unspecified",
+      "name": "click",
+      "version": "8.5.0"
+    },
+    {
+      "artifact": {
+        "sha256": "9acb47f6afd73f60dc1df93bb801b472f05ff42fa6c84167d25cb206be1fbf4a",
+        "url": "https://files.pythonhosted.org/packages/88/39/799be3f2f0f38cc727ee3b4f1445fe6d5e4133064ec2e4115069418a5bb6/cloudpickle-3.1.2-py3-none-any.whl"
+      },
+      "license": "BSD-3-Clause",
+      "name": "cloudpickle",
+      "version": "3.1.2"
+    },
+    {
+      "artifact": {
+        "sha256": "4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6",
+        "url": "https://files.pythonhosted.org/packages/d1/d6/3965ed04c63042e047cb6a3e6ed1a63a35087b6a609aa3a15ed8ac56c221/colorama-0.4.6-py2.py3-none-any.whl"
+      },
+      "license": "unspecified",
+      "name": "colorama",
+      "version": "0.4.6"
+    },
+    {
+      "artifact": {
+        "sha256": "a352e7e428770286cc899e2542b6cdaedb2b4953ff269a210103ec58f6198a61",
+        "url": "https://files.pythonhosted.org/packages/07/6c/aa3f2f849e01cb6a001cd8554a88d4c77c5c1a31c95bdf1cf9301e6d9ef4/defusedxml-0.7.1-py2.py3-none-any.whl"
+      },
+      "license": "PSFL",
+      "name": "defusedxml",
+      "version": "0.7.1"
+    },
+    {
+      "artifact": {
+        "sha256": "3dbbf9f6e4b592a2357b854608e980fe6390d131d7a82f011a377ef2ebef7aba",
+        "url": "https://files.pythonhosted.org/packages/18/53/84099323c2ec4be98d935f63c033ac4151ee83836ca1050ede3b3aadf155/joblib-1.6.0-py3-none-any.whl"
+      },
+      "license": "unspecified",
+      "name": "joblib",
+      "version": "1.6.0"
+    },
+    {
+      "artifact": {
+        "sha256": "d47fbf302e7d9cbbb9e2555a0d267983d2aa476bac30e90dfbe5669bd57f3762",
+        "url": "https://files.pythonhosted.org/packages/9e/c9/b2622292ea83fbb4ec318f5b9ab867d0a28ab43c5717bb85b0a5f6b3b0a4/networkx-3.6.1-py3-none-any.whl"
+      },
+      "license": "unspecified",
+      "name": "networkx",
+      "version": "3.6.1"
+    },
+    {
+      "artifact": {
+        "sha256": "ff9598a8e20518ee0d557745890cc4435b9578489e2dcbc69c4f81fa060caf7c",
+        "url": "https://files.pythonhosted.org/packages/b6/6d/ebd2af4640b12168fdf0cb74b6118df2f32a2f62ec7e0c06fbfd80706639/nltk-3.10.3-py3-none-any.whl"
+      },
+      "license": "Apache License, Version 2.0",
+      "name": "nltk",
+      "version": "3.10.3"
+    },
+    {
+      "artifact": {
+        "sha256": "1e254a00cdf42b1e4d5b3d68d33af63268d41340d8885df2ab6470f2e1500147",
+        "url": "https://files.pythonhosted.org/packages/c5/31/7fc6239c12bce7e931463251cca4426c465e1876ba3cc785402ef4dd8f4e/numpy-2.4.6-cp311-cp311-win_amd64.whl"
+      },
+      "license": "unspecified",
+      "name": "numpy",
+      "version": "2.4.6"
+    },
+    {
+      "artifact": {
+        "sha256": "2e5fa32ff162dfdbc280157d664f44d23049ae414725af9676df339c501d82cd",
+        "url": "https://files.pythonhosted.org/packages/d3/dc/d2df02854aec5d47659acfb2be352eecc691845b2f86e99c84f1010a8671/pandas-3.0.6-cp311-cp311-win_amd64.whl"
+      },
+      "license": "BSD 3-Clause License",
+      "name": "pandas",
+      "version": "3.0.6"
+    },
+    {
+      "artifact": {
+        "sha256": "a0e78ff0dfa41e3995202745476ca1f52997ed5849e3c16b83ceb99c68a54f2e",
+        "url": "https://files.pythonhosted.org/packages/d4/57/577322644d3cdf47075816de8546a3d6ccae96ed7e418584780de71c31c9/pot-0.9.7.post1-cp311-cp311-win_amd64.whl"
+      },
+      "license": "MIT",
+      "name": "POT",
+      "version": "0.9.7.post1"
+    },
+    {
+      "artifact": {
+        "sha256": "631b166f72086971a9597f7a0233ababa99bb8d50a01cd543f7758be5a9f86c0",
+        "url": "https://files.pythonhosted.org/packages/dd/6e/d674f1dde91c71e2ac19e5e5cf1ee6d5845e3aefecd9c39ed9c4b0c9a696/pulp-3.3.2-py3-none-any.whl"
+      },
+      "license": "unspecified",
+      "name": "PuLP",
+      "version": "3.3.2"
+    },
+    {
+      "artifact": {
+        "sha256": "a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427",
+        "url": "https://files.pythonhosted.org/packages/ec/57/56b9bcc3c9c6a792fcbaf139543cee77261f3651ca9da0c93f5c1221264b/python_dateutil-2.9.0.post0-py2.py3-none-any.whl"
+      },
+      "license": "Dual License",
+      "name": "python-dateutil",
+      "version": "2.9.0.post0"
+    },
+    {
+      "artifact": {
+        "sha256": "737a57cbca3e5c16decac86e205727bcd4b99c52f77c48bb44123078c5cd9a7a",
+        "url": "https://files.pythonhosted.org/packages/41/72/638db21d63041ba17c4ed482a8cd1fe6dc4d90bc84b2a28aaccc2611ff84/rapidfuzz-3.14.6-cp311-cp311-win_amd64.whl"
+      },
+      "license": "unspecified",
+      "name": "RapidFuzz",
+      "version": "3.14.6"
+    },
+    {
+      "artifact": {
+        "sha256": "1043aedf5917caa861bcb25a9c11460049656bdf0017a90a309fa8f255467725",
+        "url": "https://files.pythonhosted.org/packages/4d/4a/aab232183c70fdcf77bcf0c51819da02ec522e393e6a0bf00bcf2142e21f/regex-2026.9.29-cp311-cp311-win_amd64.whl"
+      },
+      "license": "unspecified",
+      "name": "regex",
+      "version": "2026.9.29"
+    },
+    {
+      "artifact": {
+        "sha256": "d30e57c72013c2a4fe441c2fcb8e77b14e152ad48b5464858e07e2ad9fbfceff",
+        "url": "https://files.pythonhosted.org/packages/95/da/0d1df507cf574b3f224ccc3d45244c9a1d732c81dcb26b1e8a766ae271a8/scipy-1.17.1-cp311-cp311-win_amd64.whl"
+      },
+      "license": "Copyright (c) 2001-2002 Enthought, Inc. 2003, SciPy Developers.",
+      "name": "scipy",
+      "version": "1.17.1"
+    },
+    {
+      "artifact": {
+        "sha256": "4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274",
+        "url": "https://files.pythonhosted.org/packages/b7/ce/149a00dd41f10bc29e5921b496af8b574d8413afcd5e30dfa0ed46c2cc5e/six-1.17.0-py2.py3-none-any.whl"
+      },
+      "license": "MIT",
+      "name": "six",
+      "version": "1.17.0"
+    },
+    {
+      "artifact": {
+        "sha256": "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73",
+        "url": "https://files.pythonhosted.org/packages/a7/03/921a3d3c75785aca9ebfbfcabfbc3a1be12e2ab5265deb026d55a5a3f83e/tqdm-4.70.1-py3-none-any.whl"
+      },
+      "license": "MPL-2.0 AND MIT",
+      "name": "tqdm",
+      "version": "4.70.1"
+    },
+    {
+      "artifact": {
+        "sha256": "b683bd1b6659ddcd810ff02ad09ba821d4bf1065072805063eb35c49617905ac",
+        "url": "https://files.pythonhosted.org/packages/94/21/1e5995a1c920cce14e4bffae20c665ec10e7ed03ab25e006cd741092b718/tzdata-2026.5-py2.py3-none-any.whl"
+      },
+      "license": "Apache-2.0",
+      "name": "tzdata",
+      "version": "2026.5"
+    },
+    {
+      "artifact": {
+        "sha256": "d20047ec623f481204f1d2fda9bc67fb716e98f4beafd41a7739954645d78a43",
+        "url": "https://files.pythonhosted.org/packages/e4/85/01910625f5cf63218754c11e0cca56fabb999c0479651542930778d9d0e6/valentine-1.0.0-py3-none-any.whl"
+      },
+      "license": "Apache License",
+      "name": "valentine",
+      "version": "1.0.0"
+    }
+  ],
+  "platform": "Windows-10-10.0.26200-SP0",
+  "protocol": "fieldkin-valentine-environment-v1",
+  "python": "3.11.4 (tags/v3.11.4:d2340ef, Jun  7 2023, 05:45:37) [MSC v.1934 64 bit (AMD64)]",
+  "source": "pip --isolated install --only-binary=:all: --report .local/valentine-install.json valentine==1.0.0"
+}

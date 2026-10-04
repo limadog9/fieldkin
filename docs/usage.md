@@ -41,6 +41,22 @@ uses partial one-to-one assignment, sees competing email fields and inspects a
 global alternative. It retains every unmatched field and stores a curator's
 accepted pairs in an application-owned map. Neither example rewrites data.
 
+Use `MatchConstraints` with `match_schemas_with_constraints` to apply explicit
+confirmed mappings, forbidden pairs or unmatched-source decisions. A confirmation
+records caller review even when its original heuristic score is zero; it does
+not become an automatic proposal. See the [review migration guide](migration.md).
+
+For saved review sessions, enable the optional `json` feature and follow the
+[JSON boundary guide](json.md) and
+[persisted_review.rs](https://github.com/limadog9/fieldkin/blob/main/examples/persisted_review.rs).
+The example exports a display report, saves explicit decisions, resumes after
+field reordering and rejects a stale application-owned revision. Report exports
+cannot be imported as confirmations. Keep trusted revision values outside the
+incoming document and pass imported directives through the engine's validation.
+Stable IDs and revision strings remain visible; free-form matcher text is omitted
+from reports unless explicitly enabled. The application owns file storage,
+authorization and any data rewriting.
+
 One-to-one is appropriate only when two sources cannot legitimately share a
 target. Local ambiguity and global competition are different: one source can
 have a single plausible target that several sources want. Stable tie-breaking
