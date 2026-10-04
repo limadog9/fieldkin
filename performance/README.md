@@ -82,3 +82,31 @@ library's normal input limits remain unchanged. This harness offers no persisten
 prepared-schema API and does not imply that engine reuse eliminates per-call
 preparation. Decisions and explanations are checked separately by the frozen
 evaluation and equivalence tests; this tool measures cost only.
+
+## Corroboration costs
+
+The public `matching` benchmark includes 36 workloads: 16/64/128 fields, samples
+present/absent, independent/one-to-one, and combined/sample-supported/name-only
+engines. Its fixed 16-value samples include nulls. The opt-in gate uses the
+public `Corroboration::default()`; supplied samples and displayed scores remain
+the same, while eligibility and report construction can change.
+
+```text
+python performance/corroboration.py build --output target/corroboration-cost
+python performance/corroboration.py run --output target/corroboration-cost
+```
+
+Build first, then stop concurrent builds/tests before measuring. The runner
+records the Cargo-reported executable, source/binary hashes, compiler and build
+flags. It checks them before and after five separate processes and rejects
+existing outputs. There is one warmup per workload and 30/10/5 timed calls at
+16/64/128 fields. Timing includes returned-report destruction and excludes
+engine/input setup. Summaries use the median and min/max of five process means.
+Order is fixed, without CPU affinity or confidence intervals; these are
+descriptive costs, not an optimization claim or a wall-clock budget.
+
+To assess unchanged-default overhead, the existing 50-workload `run.py` protocol
+can separately compare the pre-correction `3b8d65a` checkout against the frozen
+candidate, with instrumentation in separate processes. Its generated table
+retains the historical Stage 2 protocol name; `build.json` identifies the actual
+revisions. Neither cost harness reads accuracy evaluation fixtures.

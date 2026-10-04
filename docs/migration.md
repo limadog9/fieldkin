@@ -77,6 +77,15 @@ to floats. Stage 4/5 does not change those weights, thresholds or scoring rules.
 
 ## Supported builds and deferred API work
 
+The corrective cycle adds `Config::corroboration: Option<Corroboration>`.
+Full `Config` literals must add `corroboration: None` to preserve existing behavior;
+construction with `..Config::default()` needs no change. `Some(Corroboration::default())`
+opts into positive name evidence and a raw distinct-aware sample floor of 0.5.
+New non-exhaustive reason variants distinguish insufficient name and sample support,
+and `ConfigurationError::Corroboration` reports invalid floors. Existing wildcard
+error/issue arms remain valid. No default weights, scores, thresholds or selections
+change. See [the gate's limits](corroboration.md) before enabling it.
+
 The minimum supported compiler remains Rust 1.85.0, edition 2021. Qualification
 also pins Rust 1.99.0, the current stable verified on October 3, 2026, across Linux,
 Windows and macOS. There are no optional library features; default,

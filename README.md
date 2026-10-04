@@ -104,11 +104,34 @@ explicit token replacements, which are listed in explanations. Optional
 `SampleProfileMatcher` compares sample shapes but is disabled by default because
 unrelated fields can have identical profiles. See [Stage 3 migration and limits](docs/stage3-migration.md).
 
+An application can require sampled support before accepting a pair as eligible:
+
+```rust
+use fieldkin::{CandidateIssue, Config, Corroboration, DataType, Field, MatchEngine, Schema};
+
+let source = Schema::new(vec![Field::new("s", "amount", DataType::Decimal)]);
+let target = Schema::new(vec![Field::new("t", "amount", DataType::Decimal)]);
+let report = MatchEngine::new(Config {
+    corroboration: Some(Corroboration::default()),
+    ..Config::default()
+})?.match_schemas(&source, &target)?;
+assert!(report.fields[0].selected.is_none());
+assert!(report.fields[0].candidates[0].issues.contains(&CandidateIssue::InsufficientSampleSupport));
+# Ok::<(), fieldkin::MatchError>(())
+```
+
+This opt-in gate requires positive built-in name evidence and distinct-aware
+sample evidence scoring at least 0.5. Scores and ranking remain unchanged;
+unsupported candidates are retained for review. Unavailable or disjoint samples
+lose eligibility, and coincidental shared values can still mislead. The weighted
+default remains unchanged. See [corroboration and its tradeoffs](docs/corroboration.md)
+and the [complete example](examples/corroboration.rs).
+
 ## API and customization
 
 - `Schema`, `Field`, `FieldId`, `DataType`, and `SampleValue` describe inputs. IDs
   must be nonempty and unique within each schema; names can repeat.
-- `MatchEngine::new(Config)` selects conservative defaults.
+- `MatchEngine::new(Config)` selects the built-in name, type and sample signals.
   `MatchEngine::with_matchers` accepts weighted built-in or custom `Matcher`s.
   Signals return an optional bounded score and an explanation. Invalid scores,
   duplicate IDs, invalid configuration, and exceeded budgets return `MatchError`.
@@ -176,7 +199,7 @@ cargo bench --locked --bench matching
 ```
 
 CI checks Rust 1.85.0 and 1.99.0 on Linux, Windows and macOS, including tests,
-clippy, documentation, consumer examples, packaging and development evaluation.
+clippy, documentation, consumer examples, packaging and development/regression evaluation.
 Formatting is checked on both compilers. Workflow permissions remain
 read-only. Fixtures are synthetic and included under this
 repository's license. The baseline example compares name-only matching with the
@@ -210,9 +233,17 @@ unmet. See the [migration guide](docs/stage3-migration.md) for API changes.
 
 The remaining roadmap implementation and release qualification are recorded in
 the [candidate scorecard](docs/release-scorecard.md). One million generated cases
-passed, but held-out precision is **37.5%** and unique-field coverage **40%**:
+passed, but original held-out precision is **37.5%** and unique-field coverage **40%**:
 the planned quality bar is unmet. Fieldkin remains experimental and unpublished.
 See the [changelog](docs/changelog.md) for delivered features and deferred work.
+
+The subsequent [corroboration experiment](docs/corroboration-evaluation.md) reserves
+24 new synthetic families. On its fresh holdout, the opt-in sample gate reduces
+false independent proposals from 55 to 32, while the number of correct independent
+proposals stays at 20: precision improves from 26.67% to 38.46%, but unique coverage
+is only 16.30%. These harder challenge cases are a separate dataset, not a trend
+against the earlier 37.5% result. Defaults remain unchanged; all misses and the
+stricter name-floor ablation are documented.
 
 ## License
 

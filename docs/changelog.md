@@ -5,6 +5,11 @@
 No crate has been published. Final version and publication remain @limadog9's
 decision. See the release scorecard for qualification evidence and limitations.
 
+- Added opt-in name/sample corroboration requirements with typed exclusion reasons,
+  unchanged default matching behavior and no additional runtime dependencies.
+- Added a fresh synthetic corrective evaluation, compact reproducible reports,
+  strict source verification before fresh holdout scoring and a compiling example.
+
 - Added bounded optional global alternative analysis with explicit completeness,
   objective gaps and stable-ID mapping witnesses. Diagnostics do not change
   selection and distinguish budget exhaustion from a completed search.
@@ -27,4 +32,4 @@ decision. See the release scorecard for qualification evidence and limitations.
 - Initial implementation: ranked candidates, normalized names, type/sample
   evidence, local ambiguity and partial one-to-one matching.
 
-Migration instructions: [docs/migration.md](docs/migration.md).
+Migration instructions: [migration guide](migration.md).

@@ -1,0 +1,111 @@
+{
+  "analysis": "published-rc-v1-selected-support-v1",
+  "engine_calls": 0,
+  "interpretation": "Descriptive postfilters of already selected original RC-v1 independent proposals. They do not recompute candidate eligibility, local ambiguity or assignment, and are not an evaluation of a new engine policy. Filtering candidates can remove a tie and create a proposal absent from these old selections. Perfect existing signal scores do not resolve the recorded semantic errors or prove equivalence. The original holdout is now published regression evidence.",
+  "new_holdout_read": false,
+  "results": [
+    {
+      "all_three_signal_scores_equal_one": {
+        "correct_proposals": 138,
+        "false_no_match_proposals": 42,
+        "incorrect_proposals": 45,
+        "precision": 0.7540983606557377,
+        "proposals": 183,
+        "unique_recall": 0.18904109589041096,
+        "unsafe_ambiguous_proposals": 0,
+        "wrong_unique_proposals": 3
+      },
+      "assignment": "independent",
+      "fields": 960,
+      "input": "evaluation/results/rc-v1/release/development.json",
+      "model": "combined",
+      "partition": "development",
+      "published_default": {
+        "correct_proposals": 321,
+        "false_no_match_proposals": 96,
+        "incorrect_proposals": 101,
+        "precision": 0.7606635071090048,
+        "proposals": 422,
+        "unique_recall": 0.4397260273972603,
+        "unsafe_ambiguous_proposals": 0,
+        "wrong_unique_proposals": 5
+      },
+      "published_threshold": 0.7,
+      "selected_proposal_postfilters": {
+        "name_at_least_0.80_and_sample_at_least_0.50": {
+          "correct_proposals": 141,
+          "false_no_match_proposals": 42,
+          "incorrect_proposals": 45,
+          "precision": 0.7580645161290323,
+          "proposals": 186,
+          "unique_recall": 0.19315068493150686,
+          "unsafe_ambiguous_proposals": 0,
+          "wrong_unique_proposals": 3
+        },
+        "sample_at_least_0.50": {
+          "correct_proposals": 195,
+          "false_no_match_proposals": 48,
+          "incorrect_proposals": 51,
+          "precision": 0.7926829268292683,
+          "proposals": 246,
+          "unique_recall": 0.2671232876712329,
+          "unsafe_ambiguous_proposals": 0,
+          "wrong_unique_proposals": 3
+        }
+      },
+      "unique_fields": 730
+    },
+    {
+      "all_three_signal_scores_equal_one": {
+        "correct_proposals": 27,
+        "false_no_match_proposals": 18,
+        "incorrect_proposals": 18,
+        "precision": 0.6,
+        "proposals": 45,
+        "unique_recall": 0.19285714285714287,
+        "unsafe_ambiguous_proposals": 0,
+        "wrong_unique_proposals": 0
+      },
+      "assignment": "independent",
+      "fields": 240,
+      "input": "evaluation/results/rc-v1/release/holdout.json",
+      "model": "combined",
+      "partition": "holdout",
+      "published_default": {
+        "correct_proposals": 51,
+        "false_no_match_proposals": 80,
+        "incorrect_proposals": 85,
+        "precision": 0.375,
+        "proposals": 136,
+        "unique_recall": 0.36428571428571427,
+        "unsafe_ambiguous_proposals": 0,
+        "wrong_unique_proposals": 5
+      },
+      "published_threshold": 0.7,
+      "selected_proposal_postfilters": {
+        "name_at_least_0.80_and_sample_at_least_0.50": {
+          "correct_proposals": 27,
+          "false_no_match_proposals": 21,
+          "incorrect_proposals": 21,
+          "precision": 0.5625,
+          "proposals": 48,
+          "unique_recall": 0.19285714285714287,
+          "unsafe_ambiguous_proposals": 0,
+          "wrong_unique_proposals": 0
+        },
+        "sample_at_least_0.50": {
+          "correct_proposals": 27,
+          "false_no_match_proposals": 21,
+          "incorrect_proposals": 21,
+          "precision": 0.5625,
+          "proposals": 48,
+          "unique_recall": 0.19285714285714287,
+          "unsafe_ambiguous_proposals": 0,
+          "wrong_unique_proposals": 0
+        }
+      },
+      "unique_fields": 140
+    }
+  ],
+  "source_freeze": "5d5c3746032ac743a9130d46b2794ed4e4efa074"
+}

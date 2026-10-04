@@ -5,7 +5,7 @@ use std::hint::black_box;
 use std::time::Instant;
 
 use fieldkin::{
-    Config, DataType, Field, FieldId, MatchEngine, NameMatcher, SampleValue, Schema,
+    Config, Corroboration, DataType, Field, FieldId, MatchEngine, NameMatcher, SampleValue, Schema,
     WeightedMatcher,
 };
 
@@ -61,13 +61,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         for samples in [false, true] {
             let (source, target) = fixture(count, samples);
             for one_to_one in [false, true] {
-                for baseline in [false, true] {
+                for model in ["combined", "sample-supported", "name-only"] {
                     let config = Config {
                         one_to_one,
-                        reject_incompatible_types: !baseline,
+                        reject_incompatible_types: model != "name-only",
+                        corroboration: (model == "sample-supported").then(Corroboration::default),
                         ..Config::default()
                     };
-                    let engine = if baseline {
+                    let engine = if model == "name-only" {
                         MatchEngine::with_matchers(
                             config,
                             vec![WeightedMatcher::new(1.0, NameMatcher::default())],
@@ -82,8 +83,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                     }
                     let elapsed = started.elapsed().as_secs_f64();
                     println!(
-                        "{},{count},{samples},{one_to_one},{iterations},{:.3},{:.3}",
-                        if baseline { "name-only" } else { "combined" },
+                        "{model},{count},{samples},{one_to_one},{iterations},{:.3},{:.3}",
                         elapsed * 1000.0,
                         elapsed * 1_000_000.0 / f64::from(iterations),
                     );

@@ -18,6 +18,15 @@ and unpublished; publication/version remain the maintainer's decision. See the
 [performance measurements](docs/stage2-performance.md), and
 [Stage 3 evidence evaluation](docs/stage3-evaluation.md). Stages may finish
 earlier than their planning dates.
+
+The subsequent [corrective evidence cycle](docs/corroboration-evaluation.md) adds
+an opt-in sample-support gate, 24 fresh synthetic families, source-verified final
+evaluation and extended qualification. On the new holdout, independent precision
+improves from 26.67% to 38.46%, while unique coverage remains only 16.30%.
+The weighted default is preserved, and the original 95%/60% targets remain unmet.
+Independent consumer data and richer verified semantic evidence are still needed;
+these results do not establish production readiness or authorize publication.
+
 We will run one primary workstream at a time, reserve capacity for regression
 fixes and documentation, and review scope at each stage boundary. @limadog9 owns
 each milestone; outside contributions are welcome but are not a staffing

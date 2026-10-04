@@ -4,9 +4,9 @@ use std::collections::BTreeSet;
 use std::time::Instant;
 
 use fieldkin::{
-    normalize_name, AssignmentDiagnosticStatus, Config, DataType, Evidence, ExactDecimal, Field,
-    GlobalDiagnosticsConfig, MatchEngine, MatchReport, Matcher, SampleValue, Schema, SemanticHints,
-    WeightedMatcher,
+    normalize_name, AssignmentDiagnosticStatus, Config, Corroboration, DataType, Evidence,
+    ExactDecimal, Field, GlobalDiagnosticsConfig, MatchEngine, MatchReport, Matcher, SampleValue,
+    Schema, SemanticHints, WeightedMatcher,
 };
 
 struct Random(u64);
@@ -109,7 +109,7 @@ fn malformed(random: &mut Random) -> Result<(), String> {
 }
 
 fn config_and_limits(random: &mut Random) -> Result<(), String> {
-    let choice = random.index(15);
+    let choice = random.index(23);
     let mut config = Config::default();
     let mut source = basic_schema();
     let target = basic_schema();
@@ -137,16 +137,32 @@ fn config_and_limits(random: &mut Random) -> Result<(), String> {
             config.limits.max_total_sample_bytes = 5;
             source.fields[0].samples = Some(vec![SampleValue::Text("abc".into()); 2]);
         }
-        _ => {
+        14 => {
             let bytes = 1 + random.index(32);
             config.limits.max_sample_bytes = bytes;
             config.limits.max_total_sample_bytes = bytes;
             config.limits.max_samples_per_field = 1;
             source.fields[0].samples = Some(vec![SampleValue::Text("x".repeat(bytes))]);
         }
+        _ => {
+            let (name, sample) = [
+                (f64::NAN, 0.5),
+                (f64::INFINITY, 0.5),
+                (-0.01, 0.5),
+                (1.01, 0.5),
+                (0.0, 0.0),
+                (0.0, f64::NAN),
+                (0.0, f64::INFINITY),
+                (0.0, 1.01),
+            ][choice - 15];
+            config.corroboration = Some(Corroboration {
+                min_name_score: name,
+                min_sample_score: sample,
+            });
+        }
     }
     let engine = MatchEngine::new(config);
-    if choice <= 5 {
+    if choice <= 5 || choice >= 15 {
         ensure(engine.is_err(), "invalid configuration accepted")
     } else {
         let engine = engine.map_err(|error| error.to_string())?;
@@ -307,16 +323,84 @@ fn default_reports(random: &mut Random) -> Result<(), String> {
             .collect(),
     );
     let max_candidates = 1 + random.index(5);
-    let engine = MatchEngine::new(Config {
+    let corroboration = match random.index(3) {
+        0 => None,
+        1 => Some(Corroboration::default()),
+        _ => Some(Corroboration {
+            min_name_score: 0.8,
+            ..Corroboration::default()
+        }),
+    };
+    let config = Config {
         one_to_one: random.index(2) == 0,
         max_candidates,
+        corroboration,
         ..Config::default()
-    })
-    .map_err(|error| error.to_string())?;
+    };
+    let engine = MatchEngine::new(config.clone()).map_err(|error| error.to_string())?;
     let report = engine
         .match_schemas(&source, &target)
         .map_err(|error| error.to_string())?;
     report_invariants(&report, &source, &target, max_candidates)?;
+    if let Some(policy) = &config.corroboration {
+        for field in &report.fields {
+            for candidate in field.candidates.iter().chain(&field.selected) {
+                if !candidate.eligible {
+                    continue;
+                }
+                // This harness constructed MatchEngine::new explicitly, so these
+                // signal reports come from actual active built-ins. Production
+                // extension code must not use matcher names as an authenticity check.
+                for (name, floor) in [
+                    ("name", policy.min_name_score),
+                    ("samples", policy.min_sample_score),
+                ] {
+                    ensure(
+                        candidate.signals.iter().any(|signal| {
+                            signal.name == name
+                                && signal.weight > 0.0
+                                && signal
+                                    .evidence
+                                    .score
+                                    .is_some_and(|score| score > 0.0 && score >= floor)
+                        }),
+                        "eligible corroborated candidate lacks positive built-in support",
+                    )?;
+                }
+            }
+        }
+        let ungated = MatchEngine::new(Config {
+            corroboration: None,
+            ..config.clone()
+        })
+        .map_err(|error| error.to_string())?
+        .match_schemas(&source, &target)
+        .map_err(|error| error.to_string())?;
+        for (gated, original) in report.fields.iter().zip(&ungated.fields) {
+            ensure(
+                gated.source == original.source
+                    && gated.candidates.len() == original.candidates.len(),
+                "corroboration changed ranked candidate inventory",
+            )?;
+            for candidate in &gated.candidates {
+                let original = original
+                    .candidates
+                    .iter()
+                    .find(|original| original.target == candidate.target)
+                    .ok_or("corroboration changed candidate target")?;
+                ensure(
+                    candidate.score == original.score && candidate.signals == original.signals,
+                    "corroboration changed score or signal evidence",
+                )?;
+                ensure(
+                    !candidate.eligible || original.eligible,
+                    "corroboration admitted a previously ineligible pair",
+                )?;
+            }
+        }
+        // Selections are deliberately not required to be a subset: removing a
+        // weak alternative can resolve local ambiguity and create a proposal.
+    }
     source.fields.reverse();
     target.fields.reverse();
     let reordered = engine

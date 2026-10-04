@@ -23,6 +23,7 @@ const ASSIGNMENTS: [&str; 2] = ["independent", "one_to_one"];
 struct Options {
     output: PathBuf,
     check: bool,
+    check_behavior: bool,
     acknowledge_holdout: bool,
 }
 
@@ -31,6 +32,7 @@ impl Options {
         let mut options = Self {
             output: root().join("target/fieldkin-release"),
             check: false,
+            check_behavior: false,
             acknowledge_holdout: false,
         };
         let mut args = args.into_iter();
@@ -38,13 +40,19 @@ impl Options {
             match argument.as_str() {
                 "--output" => options.output = args.next().ok_or("--output needs a directory")?.into(),
                 "--check" => options.check = true,
+                "--check-behavior" => options.check_behavior = true,
                 "--acknowledge-holdout" => options.acknowledge_holdout = true,
-                _ => return Err("release evaluation accepts --output DIR, --check, and --acknowledge-holdout only".into()),
+                _ => return Err("release evaluation accepts --output DIR, --check, --check-behavior, and --acknowledge-holdout only".into()),
             }
         }
+        if options.check && options.check_behavior {
+            return Err("--check and --check-behavior are mutually exclusive".into());
+        }
+        options.check |= options.check_behavior;
         if options.check && options.acknowledge_holdout {
             return Err(
-                "--check is development-only and cannot acknowledge holdout scoring".into(),
+                "both check modes are development-only and cannot acknowledge holdout scoring"
+                    .into(),
             );
         }
         Ok(options)
@@ -162,6 +170,7 @@ fn engine(
     let limits = &protocol["limits"];
     let global = &common["global_diagnostics"];
     let config = Config {
+        corroboration: None,
         min_score: threshold,
         ambiguity_margin: number(common, "ambiguity_margin")?,
         max_candidates: size(common, "max_candidates")?,
@@ -471,10 +480,20 @@ fn markdown(
     text
 }
 
-fn write_or_check(path: &Path, contents: &str, check: bool) -> Result<(), String> {
+fn write_or_check(
+    path: &Path,
+    contents: &str,
+    check: bool,
+    check_behavior: bool,
+) -> Result<(), String> {
     if check || path.exists() {
         let existing = fs::read_to_string(path).map_err(|error| error.to_string())?;
-        if normalized(&existing) != contents {
+        let same = if check_behavior {
+            crate::snapshot::same_behavior_json(&existing, contents)?
+        } else {
+            normalized(&existing) == contents
+        };
+        if !same {
             return Err(format!(
                 "{} differs; preserve frozen results and use a new output directory",
                 path.display()
@@ -491,6 +510,7 @@ fn evaluate_partition(
     partition: &str,
     output: &Path,
     check: bool,
+    check_behavior: bool,
 ) -> Result<(), String> {
     let cases = cases_in_partition(partition)?;
     let grid = thresholds(protocol)?;
@@ -573,11 +593,17 @@ fn evaluate_partition(
         "threshold_rows":rows,"default_by_group":by_group,"operating_points":operating,
         "quality_targets":quality,"default_predictions":predictions});
     let data = serde_json::to_string_pretty(&report).map_err(|error| error.to_string())? + "\n";
-    write_or_check(&output.join(format!("{partition}.json")), &data, check)?;
+    write_or_check(
+        &output.join(format!("{partition}.json")),
+        &data,
+        check,
+        check_behavior,
+    )?;
     write_or_check(
         &output.join(format!("{partition}.md")),
         &markdown(partition, &rows, &by_group, &operating, default),
         check,
+        false,
     )?;
     println!("Release {partition} evaluation {}: {} cases, {} threshold rows, {} per-field default predictions",if check {"verified"} else {"written"},cases.len(),rows.len(),predictions.len());
     Ok(())
@@ -597,7 +623,13 @@ pub fn run(args: Vec<String>) -> Result<(), String> {
         fs::create_dir_all(&options.output).map_err(|error| error.to_string())?;
     }
     for partition in options.partitions() {
-        evaluate_partition(&protocol, partition, &options.output, options.check)?;
+        evaluate_partition(
+            &protocol,
+            partition,
+            &options.output,
+            options.check,
+            options.check_behavior,
+        )?;
     }
     Ok(())
 }
@@ -625,6 +657,17 @@ mod tests {
             &["development", "holdout"]
         );
         assert!(Options::parse(vec!["--check".into(), "--acknowledge-holdout".into()]).is_err());
+        assert!(Options::parse(vec![
+            "--check-behavior".into(),
+            "--acknowledge-holdout".into()
+        ])
+        .is_err());
+        assert!(Options::parse(vec!["--check".into(), "--check-behavior".into()]).is_err());
+        let exact = Options::parse(vec!["--check".into()]).unwrap();
+        assert!(exact.check && !exact.check_behavior);
+        let behavior = Options::parse(vec!["--check-behavior".into()]).unwrap();
+        assert!(behavior.check && behavior.check_behavior);
+        assert_eq!(behavior.partitions(), &["development"]);
         assert!(Options::parse(vec!["--split".into(), "holdout".into()]).is_err());
     }
 
