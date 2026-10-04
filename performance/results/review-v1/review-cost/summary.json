@@ -1,0 +1,631 @@
+{
+  "cli": [
+    "C:\\Users\\jakew\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+    "C:\\Users\\jakew\\Downloads\\fieldkin\\performance\\review.py",
+    "run",
+    "--output",
+    "performance/results/review-v1/review-cost"
+  ],
+  "execution": [
+    {
+      "command": [
+        "C:\\Users\\jakew\\Downloads\\fieldkin\\target\\release\\examples\\review_cost.exe"
+      ],
+      "file": "run-1.csv",
+      "run": 1,
+      "started_utc": "2026-10-04T03:07:07.854511+00:00"
+    },
+    {
+      "command": [
+        "C:\\Users\\jakew\\Downloads\\fieldkin\\target\\release\\examples\\review_cost.exe"
+      ],
+      "file": "run-2.csv",
+      "run": 2,
+      "started_utc": "2026-10-04T03:07:11.305041+00:00"
+    },
+    {
+      "command": [
+        "C:\\Users\\jakew\\Downloads\\fieldkin\\target\\release\\examples\\review_cost.exe"
+      ],
+      "file": "run-3.csv",
+      "run": 3,
+      "started_utc": "2026-10-04T03:07:14.731948+00:00"
+    },
+    {
+      "command": [
+        "C:\\Users\\jakew\\Downloads\\fieldkin\\target\\release\\examples\\review_cost.exe"
+      ],
+      "file": "run-4.csv",
+      "run": 4,
+      "started_utc": "2026-10-04T03:07:18.014579+00:00"
+    },
+    {
+      "command": [
+        "C:\\Users\\jakew\\Downloads\\fieldkin\\target\\release\\examples\\review_cost.exe"
+      ],
+      "file": "run-5.csv",
+      "run": 5,
+      "started_utc": "2026-10-04T03:07:21.364815+00:00"
+    }
+  ],
+  "interpretation": "Five process means after one warmup; fixed order, no CPU affinity, confidence intervals or independent real workloads. Mixed review changes eligibility, selection, residual assignment work and report construction while all pairs are still scored; this is cost characterization, not a pure optimization comparison.",
+  "protocol": "review-cost-v1",
+  "rows": [
+    {
+      "fields_per_side": 16,
+      "max_us": 448.763,
+      "median_us": 433.977,
+      "min_us": 358.53,
+      "one_to_one": false,
+      "policy": "empty",
+      "process_means_us": [
+        358.53,
+        434.873,
+        433.977,
+        429.283,
+        448.763
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 16,
+      "max_us": 598.76,
+      "median_us": 578.95,
+      "min_us": 505.017,
+      "one_to_one": true,
+      "policy": "empty",
+      "process_means_us": [
+        505.017,
+        578.95,
+        576.287,
+        598.76,
+        585.95
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 16,
+      "max_us": 605.413,
+      "median_us": 593.743,
+      "min_us": 521.427,
+      "one_to_one": false,
+      "policy": "empty",
+      "process_means_us": [
+        521.427,
+        578.713,
+        595.713,
+        605.413,
+        593.743
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 16,
+      "max_us": 815.943,
+      "median_us": 776.51,
+      "min_us": 671.057,
+      "one_to_one": true,
+      "policy": "empty",
+      "process_means_us": [
+        671.057,
+        756.863,
+        776.51,
+        815.943,
+        797.977
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 64,
+      "max_us": 5196.07,
+      "median_us": 5156.91,
+      "min_us": 5111.01,
+      "one_to_one": false,
+      "policy": "empty",
+      "process_means_us": [
+        5136.61,
+        5167.55,
+        5196.07,
+        5111.01,
+        5156.91
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 64,
+      "max_us": 8019.44,
+      "median_us": 7088.22,
+      "min_us": 7003.25,
+      "one_to_one": true,
+      "policy": "empty",
+      "process_means_us": [
+        7003.25,
+        8019.44,
+        7088.22,
+        7092.49,
+        7044.31
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 64,
+      "max_us": 6728.99,
+      "median_us": 6695.22,
+      "min_us": 6548.42,
+      "one_to_one": false,
+      "policy": "empty",
+      "process_means_us": [
+        6728.99,
+        6727.14,
+        6616.52,
+        6548.42,
+        6695.22
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 64,
+      "max_us": 10326.0,
+      "median_us": 7662.34,
+      "min_us": 7549.24,
+      "one_to_one": true,
+      "policy": "empty",
+      "process_means_us": [
+        10326.0,
+        7549.24,
+        7662.34,
+        7623.29,
+        8626.29
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 128,
+      "max_us": 19513.92,
+      "median_us": 19403.66,
+      "min_us": 19189.18,
+      "one_to_one": false,
+      "policy": "empty",
+      "process_means_us": [
+        19424.8,
+        19513.92,
+        19403.66,
+        19189.18,
+        19270.94
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 128,
+      "max_us": 36236.78,
+      "median_us": 33488.82,
+      "min_us": 31715.66,
+      "one_to_one": true,
+      "policy": "empty",
+      "process_means_us": [
+        36236.78,
+        34322.62,
+        31715.66,
+        33358.24,
+        33488.82
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 128,
+      "max_us": 26463.98,
+      "median_us": 26189.82,
+      "min_us": 25856.64,
+      "one_to_one": false,
+      "policy": "empty",
+      "process_means_us": [
+        26189.82,
+        25856.64,
+        26431.04,
+        26128.64,
+        26463.98
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 128,
+      "max_us": 39568.88,
+      "median_us": 36425.74,
+      "min_us": 35687.88,
+      "one_to_one": true,
+      "policy": "empty",
+      "process_means_us": [
+        37435.18,
+        36425.74,
+        35848.82,
+        35687.88,
+        39568.88
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 16,
+      "max_us": 446.197,
+      "median_us": 443.94,
+      "min_us": 374.933,
+      "one_to_one": false,
+      "policy": "mixed-review",
+      "process_means_us": [
+        374.933,
+        434.767,
+        443.94,
+        444.603,
+        446.197
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 16,
+      "max_us": 667.777,
+      "median_us": 608.777,
+      "min_us": 525.677,
+      "one_to_one": true,
+      "policy": "mixed-review",
+      "process_means_us": [
+        525.677,
+        605.59,
+        608.777,
+        621.613,
+        667.777
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 16,
+      "max_us": 651.343,
+      "median_us": 593.677,
+      "min_us": 542.783,
+      "one_to_one": false,
+      "policy": "mixed-review",
+      "process_means_us": [
+        542.783,
+        588.52,
+        616.093,
+        651.343,
+        593.677
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 16,
+      "max_us": 855.593,
+      "median_us": 805.937,
+      "min_us": 704.623,
+      "one_to_one": true,
+      "policy": "mixed-review",
+      "process_means_us": [
+        704.623,
+        792.297,
+        805.937,
+        855.593,
+        812.087
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 64,
+      "max_us": 5372.42,
+      "median_us": 5187.01,
+      "min_us": 5074.65,
+      "one_to_one": false,
+      "policy": "mixed-review",
+      "process_means_us": [
+        5187.01,
+        5084.85,
+        5372.42,
+        5074.65,
+        5282.54
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 64,
+      "max_us": 8425.72,
+      "median_us": 7384.29,
+      "min_us": 7095.87,
+      "one_to_one": true,
+      "policy": "mixed-review",
+      "process_means_us": [
+        7594.44,
+        8425.72,
+        7095.87,
+        7384.29,
+        7178.04
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 64,
+      "max_us": 7959.2,
+      "median_us": 6862.61,
+      "min_us": 6744.38,
+      "one_to_one": false,
+      "policy": "mixed-review",
+      "process_means_us": [
+        6929.33,
+        6862.61,
+        6744.38,
+        6765.4,
+        7959.2
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 64,
+      "max_us": 13490.3,
+      "median_us": 9921.07,
+      "min_us": 8659.03,
+      "one_to_one": true,
+      "policy": "mixed-review",
+      "process_means_us": [
+        9386.31,
+        9921.07,
+        8659.03,
+        13490.3,
+        9999.08
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 128,
+      "max_us": 24318.84,
+      "median_us": 20038.8,
+      "min_us": 19801.76,
+      "one_to_one": false,
+      "policy": "mixed-review",
+      "process_means_us": [
+        20000.2,
+        20038.8,
+        21000.7,
+        19801.76,
+        24318.84
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 128,
+      "max_us": 38800.76,
+      "median_us": 37461.08,
+      "min_us": 35165.32,
+      "one_to_one": true,
+      "policy": "mixed-review",
+      "process_means_us": [
+        38800.76,
+        38220.04,
+        35165.32,
+        35608.6,
+        37461.08
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 128,
+      "max_us": 27331.9,
+      "median_us": 27029.52,
+      "min_us": 26639.28,
+      "one_to_one": false,
+      "policy": "mixed-review",
+      "process_means_us": [
+        27155.0,
+        26964.36,
+        27331.9,
+        26639.28,
+        27029.52
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 128,
+      "max_us": 43603.22,
+      "median_us": 42861.36,
+      "min_us": 42070.12,
+      "one_to_one": true,
+      "policy": "mixed-review",
+      "process_means_us": [
+        42119.6,
+        43603.22,
+        42070.12,
+        43209.82,
+        42861.36
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 16,
+      "max_us": 477.287,
+      "median_us": 454.267,
+      "min_us": 367.977,
+      "one_to_one": false,
+      "policy": "none",
+      "process_means_us": [
+        367.977,
+        463.967,
+        454.267,
+        449.463,
+        477.287
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 16,
+      "max_us": 591.947,
+      "median_us": 580.05,
+      "min_us": 520.583,
+      "one_to_one": true,
+      "policy": "none",
+      "process_means_us": [
+        520.583,
+        580.05,
+        591.947,
+        577.843,
+        589.423
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 16,
+      "max_us": 617.717,
+      "median_us": 590.973,
+      "min_us": 520.467,
+      "one_to_one": false,
+      "policy": "none",
+      "process_means_us": [
+        520.467,
+        582.73,
+        617.717,
+        606.507,
+        590.973
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 16,
+      "max_us": 948.94,
+      "median_us": 759.507,
+      "min_us": 668.243,
+      "one_to_one": true,
+      "policy": "none",
+      "process_means_us": [
+        668.243,
+        759.507,
+        797.277,
+        948.94,
+        753.603
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 64,
+      "max_us": 5183.12,
+      "median_us": 5115.32,
+      "min_us": 5057.55,
+      "one_to_one": false,
+      "policy": "none",
+      "process_means_us": [
+        5057.55,
+        5096.55,
+        5183.12,
+        5115.32,
+        5148.72
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 64,
+      "max_us": 7796.18,
+      "median_us": 6805.73,
+      "min_us": 6619.25,
+      "one_to_one": true,
+      "policy": "none",
+      "process_means_us": [
+        7151.71,
+        7796.18,
+        6805.73,
+        6645.54,
+        6619.25
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 64,
+      "max_us": 6856.71,
+      "median_us": 6685.59,
+      "min_us": 6657.64,
+      "one_to_one": false,
+      "policy": "none",
+      "process_means_us": [
+        6767.69,
+        6856.71,
+        6685.59,
+        6658.54,
+        6657.64
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 64,
+      "max_us": 14539.82,
+      "median_us": 7892.93,
+      "min_us": 7540.76,
+      "one_to_one": true,
+      "policy": "none",
+      "process_means_us": [
+        14539.82,
+        7590.07,
+        7892.93,
+        7540.76,
+        8240.45
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 128,
+      "max_us": 20255.8,
+      "median_us": 19957.86,
+      "min_us": 19630.94,
+      "one_to_one": false,
+      "policy": "none",
+      "process_means_us": [
+        19654.62,
+        19630.94,
+        20255.8,
+        20007.1,
+        19957.86
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 128,
+      "max_us": 35865.16,
+      "median_us": 35507.0,
+      "min_us": 34099.06,
+      "one_to_one": true,
+      "policy": "none",
+      "process_means_us": [
+        34099.06,
+        35578.56,
+        35086.16,
+        35865.16,
+        35507.0
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 128,
+      "max_us": 27166.14,
+      "median_us": 26202.44,
+      "min_us": 25922.92,
+      "one_to_one": false,
+      "policy": "none",
+      "process_means_us": [
+        26139.14,
+        25922.92,
+        26202.44,
+        27166.14,
+        26409.1
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 128,
+      "max_us": 50391.6,
+      "median_us": 38784.56,
+      "min_us": 37442.04,
+      "one_to_one": true,
+      "policy": "none",
+      "process_means_us": [
+        37889.68,
+        50391.6,
+        37442.04,
+        38784.56,
+        43401.16
+      ],
+      "samples": true
+    }
+  ]
+}

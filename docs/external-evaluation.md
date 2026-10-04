@@ -72,6 +72,27 @@ it is not fixed by supplying gold labels as semantic hints or lowering threshold
 after examining results. Name-only remains a separate comparison with weaker
 evidence requirements, not a newly recommended production default.
 
+## Development results
+
+The first run used feature/evaluator freeze
+`56e01d57662301770bdcd3b61684362eaa5a4e94`. No policy was adjusted after observing
+results, and no reserved class was scored.
+
+| Model | Assignment | Known-positive proposals | Unknown proposals | Abstentions | Known-positive field recall | Positive edge recall@5 |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| Combined | Independent | 0 | 0 | 1,451 | 0% | 72.92% |
+| Combined | One-to-one | 0 | 0 | 1,451 | 0% | 72.92% |
+| Name-only | Independent | 336 | 107 | 1,008 | 23.16% | 72.92% |
+| Name-only | One-to-one | 335 | 107 | 1,009 | 23.09% | 72.92% |
+
+All 549 development inputs were accepted. The common candidate-retrieval count
+is 1,058 of 1,451 known-positive edges. The two combined variants return candidates
+for inspection but propose nothing; name-only's 107 unknown outcomes in each mode
+must not be read as proven correct or incorrect. See the
+[result summary](../evaluation/results/t2d-v1/development.md),
+[per-class counts](../evaluation/results/t2d-v1/development.json) and
+[per-table predictions](../evaluation/results/t2d-v1/development-predictions.jsonl).
+
 ## Interpretation and reproduction
 
 Report known-positive proposal recall, known-positive candidate-edge recall@5,

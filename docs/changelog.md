@@ -5,6 +5,15 @@
 No crate has been published. Final version and publication remain @limadog9's
 decision. See the release scorecard for qualification evidence and limitations.
 
+- Added per-call confirmed mappings, forbidden pairs and explicit unmatched-source
+  decisions, preserving scores and distinguishing caller review from proposals.
+  Fixed confirmations stay outside automatic assignment diagnostics.
+- Added explicitly licensed T2D correspondence metadata, offline reproduction,
+  a development-only external comparison and a reserved whole-class holdout.
+  Positive-only labels cannot establish precision or unmatched-field safety.
+- Extended qualification with a reviewed-assignment oracle and repeated review-cost
+  workloads. Added a compiling reviewed-import example and migration guidance.
+
 - Added opt-in name/sample corroboration requirements with typed exclusion reasons,
   unchanged default matching behavior and no additional runtime dependencies.
 - Added a fresh synthetic corrective evaluation, compact reproducible reports,

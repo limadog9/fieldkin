@@ -27,6 +27,28 @@ The weighted default is preserved, and the original 95%/60% targets remain unmet
 Independent consumer data and richer verified semantic evidence are still needed;
 these results do not establish production readiness or authorize publication.
 
+## Phases following the corrective cycle
+
+The next build cycle delivers two bounded follow-up phases while retaining the
+original release targets and experimental status:
+
+| Phase | Delivered scope | Evidence and remaining gap |
+| --- | --- | --- |
+| 7. Bring in independent annotations | Pinned, explicitly Apache-licensed original T2D correspondences; offline importer; 549 development tables; 218 tables reserved by whole class | [External evaluation](docs/external-evaluation.md). This induced annotation-only task supplies real original headers and positive labels, but lacks independent target schemas, sample values and negative/unmatched labels; it cannot certify precision. |
+| 8. Close the application review loop | Per-call confirmations, forbidden pairs and explicit unmatched sources; partial reassignment respecting reviewed mappings; typed errors, unchanged evidence scores and conditional global diagnostics | [Review API](docs/review-constraints.md) and [importer example](examples/reviewed_import.rs). Human input remains distinct from automatic proposals and is never counted as autonomous accuracy. |
+
+Further accuracy work must use the reserved external classes only after a new
+policy freeze, and report their positive-only limits. Production-oriented
+validation still needs independently supplied source/target schemas and explicit
+negative/unmatched labels. Richer verified meaning should be evaluated on that
+evidence before changing defaults. More synthetic cases or counting caller
+confirmations as matches would not close this gap. Scale experiments, reusable
+prepared schemas, serialization and external-matcher comparisons remain deferred
+until a concrete consumer or measurement justifies them. Publication remains a
+separate maintainer decision.
+
+## Original three-month plan
+
 We will run one primary workstream at a time, reserve capacity for regression
 fixes and documentation, and review scope at each stage boundary. @limadog9 owns
 each milestone; outside contributions are welcome but are not a staffing
