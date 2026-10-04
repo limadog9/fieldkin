@@ -21,6 +21,11 @@ or count caller-confirmed decisions as automatic matching successes. Run
 the external data tooling, preserving source licenses and pinned snapshots.
 Historical artifacts are immutable; publish new versioned artifacts
 and document deliberate report/configuration changes.
+Use the [verified external workflow](docs/verified-evaluation.md) for new external
+evidence records. Direct evaluator commands retain their historical behavior;
+their source hashes alone do not prove which executable ran. Run
+`python -m unittest discover -s evaluation -p test_verified.py` when changing the
+verified workflow. Its fresh-build and fresh-output requirements are intentional.
 Tests should exercise observable behavior or meaningful invariants. Include a
 reproduction for bug fixes and a before/after benchmark for performance claims.
 Avoid adding runtime services or dependencies without a clear core-library need.

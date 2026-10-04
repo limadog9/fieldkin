@@ -283,6 +283,12 @@ The [follow-up qualification](docs/review-qualification.md) records 213 passing
 Rust tests, five importer tests, a 1.2-million-case generated campaign and measured
 costs. These engineering checks do not close the original accuracy gap.
 
+The [verified external evaluation workflow](docs/verified-evaluation.md) binds new
+development runs to a recorded executable, source inputs and build configuration.
+It rejects stale builds and changed inputs before recording a successful run.
+This development tooling adds no library dependency and does not score the reserved
+holdout or change matching behavior.
+
 ## License
 
 Licensed under either [MIT](LICENSE-MIT) or [Apache License 2.0](LICENSE-APACHE),

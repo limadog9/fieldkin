@@ -29,13 +29,14 @@ these results do not establish production readiness or authorize publication.
 
 ## Phases following the corrective cycle
 
-The next build cycle delivers two bounded follow-up phases while retaining the
+The subsequent build cycles deliver bounded follow-up phases while retaining the
 original release targets and experimental status:
 
 | Phase | Delivered scope | Evidence and remaining gap |
 | --- | --- | --- |
 | 7. Bring in independent annotations | Pinned, explicitly Apache-licensed original T2D correspondences; offline importer; 549 development tables; 218 tables reserved by whole class | [External evaluation](docs/external-evaluation.md). This induced annotation-only task supplies real original headers and positive labels, but lacks independent target schemas, sample values and negative/unmatched labels; it cannot certify precision. |
 | 8. Close the application review loop | Per-call confirmations, forbidden pairs and explicit unmatched sources; partial reassignment respecting reviewed mappings; typed errors, unchanged evidence scores and conditional global diagnostics | [Review API](docs/review-constraints.md) and [importer example](examples/reviewed_import.rs). Human input remains distinct from automatic proposals and is never counted as autonomous accuracy. |
+| 9. Bind evaluation records to their executable | Fresh isolated evaluator builds; recorded executable and input hashes; before/after drift checks; development-only runs with success records | [Verified evaluation](docs/verified-evaluation.md). This detects stale builds and changed inputs in the recorded workflow; it is not a signed attestation or validation of matching accuracy. |
 
 Further accuracy work must use the reserved external classes only after a new
 policy freeze, and report their positive-only limits. Production-oriented

@@ -5,6 +5,9 @@
 No crate has been published. Final version and publication remain @limadog9's
 decision. See the release scorecard for qualification evidence and limitations.
 
+- Added a development-only verified external evaluation workflow that records a
+  fresh build and rejects changed inputs or executables before recording success.
+  Existing exact snapshots, matching behavior and reserved holdouts are unchanged.
 - Added per-call confirmed mappings, forbidden pairs and explicit unmatched-source
   decisions, preserving scores and distinguishing caller review from proposals.
   Fixed confirmations stay outside automatic assignment diagnostics.

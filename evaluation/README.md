@@ -2,9 +2,14 @@
 
 This development-only workspace package records the frozen Stage 1 matcher
 baseline and the separate Stage 3 evidence evaluation. It is not a runtime
-dependency of `fieldkin` and is not published to crates.io. All fixtures are
-original synthetic data under MIT OR Apache-2.0, copyright 2026 Fieldkin
-contributors. No external dataset, personal record or Valentine fixture is used.
+dependency of `fieldkin` and is not published to crates.io. The original fixtures
+are synthetic data under MIT OR Apache-2.0, copyright 2026 Fieldkin contributors.
+The later T2D annotation-only experiment has separate Apache-2.0 attribution and
+provenance in `external/t2d-v1`; it includes no raw table values or Valentine data.
+
+For new external evidence records, use the [verified build/run workflow](../docs/verified-evaluation.md).
+Direct Cargo commands below remain useful regression tools, but their on-disk
+source hashes do not independently establish the identity of the executable.
 
 ## Stage 3 evidence evaluation
 

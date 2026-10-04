@@ -115,3 +115,10 @@ results and the missed 95% precision / 60% coverage release targets remain in
 force; these limited external annotations cannot certify those targets. Genuine
 consumer validation still needs independently provided source/target schemas,
 representative values when available, and explicit negative/unmatched labels.
+
+For new recorded executions, use the [verified build/run workflow](verified-evaluation.md).
+It builds into a fresh target directory, records the Cargo-reported executable,
+checks its inputs before and after execution, and records success only after the
+three development artifacts are complete. Direct commands above retain their
+original source-hash semantics. The historical results in this document are not
+retroactively upgraded to executable-verified records.
