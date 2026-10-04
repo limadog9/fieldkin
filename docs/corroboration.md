@@ -61,3 +61,7 @@ based solely on these synthetic results. Published regression analysis informed
 the opt-in preset before the protocol freeze: a high name floor can
 discard true partial renames while retaining false exact-name matches. Stricter
 lexical requirements do not necessarily improve precision.
+
+The [completed experiment](corroboration-evaluation.md) reports fresh held-out
+results, coverage losses, qualification checks and measured runtime costs. The
+sample gate improves precision on those cases but does not meet the release bar.

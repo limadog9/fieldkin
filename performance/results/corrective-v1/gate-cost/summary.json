@@ -1,0 +1,582 @@
+{
+  "interpretation": "Five process means after one warmup; fixed order, no CPU affinity, confidence intervals or independent real workloads. Enabled gating changes eligibility and report construction; this is cost characterization, not a pure optimization comparison.",
+  "protocol": "corroboration-cost-v1",
+  "rows": [
+    {
+      "fields_per_side": 16,
+      "max_us": 650.507,
+      "median_us": 619.65,
+      "min_us": 503.73,
+      "model": "combined",
+      "one_to_one": false,
+      "process_means_us": [
+        503.73,
+        645.223,
+        590.633,
+        650.507,
+        619.65
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 16,
+      "max_us": 907.78,
+      "median_us": 760.587,
+      "min_us": 648.123,
+      "model": "combined",
+      "one_to_one": true,
+      "process_means_us": [
+        648.123,
+        736.823,
+        907.78,
+        789.32,
+        760.587
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 16,
+      "max_us": 803.42,
+      "median_us": 758.633,
+      "min_us": 670.987,
+      "model": "combined",
+      "one_to_one": false,
+      "process_means_us": [
+        670.987,
+        803.42,
+        678.787,
+        758.633,
+        770.947
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 16,
+      "max_us": 970.987,
+      "median_us": 957.177,
+      "min_us": 853.663,
+      "model": "combined",
+      "one_to_one": true,
+      "process_means_us": [
+        853.663,
+        970.987,
+        885.883,
+        957.177,
+        969.173
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 64,
+      "max_us": 7114.45,
+      "median_us": 6771.5,
+      "min_us": 6662.49,
+      "model": "combined",
+      "one_to_one": false,
+      "process_means_us": [
+        6771.5,
+        6850.43,
+        7114.45,
+        6662.49,
+        6768.2
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 64,
+      "max_us": 15356.95,
+      "median_us": 9202.2,
+      "min_us": 9055.72,
+      "model": "combined",
+      "one_to_one": true,
+      "process_means_us": [
+        9849.04,
+        9160.96,
+        9055.72,
+        15356.95,
+        9202.2
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 64,
+      "max_us": 15743.11,
+      "median_us": 10425.22,
+      "min_us": 8627.52,
+      "model": "combined",
+      "one_to_one": false,
+      "process_means_us": [
+        15743.11,
+        8627.52,
+        8984.56,
+        10425.22,
+        10492.26
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 64,
+      "max_us": 15477.26,
+      "median_us": 13119.03,
+      "min_us": 12333.45,
+      "model": "combined",
+      "one_to_one": true,
+      "process_means_us": [
+        12333.45,
+        15477.26,
+        14414.91,
+        12804.03,
+        13119.03
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 128,
+      "max_us": 35190.42,
+      "median_us": 26059.3,
+      "min_us": 25054.36,
+      "model": "combined",
+      "one_to_one": false,
+      "process_means_us": [
+        25561.02,
+        26059.3,
+        35190.42,
+        28180.8,
+        25054.36
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 128,
+      "max_us": 56593.78,
+      "median_us": 47999.62,
+      "min_us": 44735.44,
+      "model": "combined",
+      "one_to_one": true,
+      "process_means_us": [
+        56593.78,
+        52998.76,
+        46625.96,
+        44735.44,
+        47999.62
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 128,
+      "max_us": 35219.92,
+      "median_us": 34034.74,
+      "min_us": 33727.04,
+      "model": "combined",
+      "one_to_one": false,
+      "process_means_us": [
+        35219.92,
+        33727.04,
+        34034.74,
+        34238.76,
+        34024.5
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 128,
+      "max_us": 49989.84,
+      "median_us": 48637.12,
+      "min_us": 45212.14,
+      "model": "combined",
+      "one_to_one": true,
+      "process_means_us": [
+        48637.12,
+        48342.28,
+        49989.84,
+        49517.2,
+        45212.14
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 16,
+      "max_us": 434.117,
+      "median_us": 390.683,
+      "min_us": 328.727,
+      "model": "name-only",
+      "one_to_one": false,
+      "process_means_us": [
+        328.727,
+        418.187,
+        367.01,
+        390.683,
+        434.117
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 16,
+      "max_us": 481.423,
+      "median_us": 467.397,
+      "min_us": 387.22,
+      "model": "name-only",
+      "one_to_one": true,
+      "process_means_us": [
+        387.22,
+        475.863,
+        423.653,
+        467.397,
+        481.423
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 16,
+      "max_us": 395.603,
+      "median_us": 369.11,
+      "min_us": 330.683,
+      "model": "name-only",
+      "one_to_one": false,
+      "process_means_us": [
+        330.683,
+        369.11,
+        340.93,
+        395.603,
+        374.283
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 16,
+      "max_us": 490.473,
+      "median_us": 452.153,
+      "min_us": 381.8,
+      "model": "name-only",
+      "one_to_one": true,
+      "process_means_us": [
+        381.8,
+        466.807,
+        416.533,
+        490.473,
+        452.153
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 64,
+      "max_us": 5686.5,
+      "median_us": 4924.73,
+      "min_us": 4820.4,
+      "model": "name-only",
+      "one_to_one": false,
+      "process_means_us": [
+        5686.5,
+        4876.67,
+        5107.12,
+        4820.4,
+        4924.73
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 64,
+      "max_us": 6226.63,
+      "median_us": 5675.51,
+      "min_us": 5478.86,
+      "model": "name-only",
+      "one_to_one": true,
+      "process_means_us": [
+        6226.63,
+        5675.51,
+        5803.16,
+        5501.32,
+        5478.86
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 64,
+      "max_us": 7331.95,
+      "median_us": 5622.41,
+      "min_us": 4601.06,
+      "model": "name-only",
+      "one_to_one": false,
+      "process_means_us": [
+        4775.7,
+        5622.41,
+        7331.95,
+        6201.4,
+        4601.06
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 64,
+      "max_us": 5816.99,
+      "median_us": 5218.53,
+      "min_us": 4895.22,
+      "model": "name-only",
+      "one_to_one": true,
+      "process_means_us": [
+        5563.88,
+        4895.22,
+        5816.99,
+        5218.53,
+        4982.13
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 128,
+      "max_us": 30145.42,
+      "median_us": 19166.86,
+      "min_us": 18734.48,
+      "model": "name-only",
+      "one_to_one": false,
+      "process_means_us": [
+        19166.86,
+        30145.42,
+        18891.34,
+        18734.48,
+        19308.98
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 128,
+      "max_us": 32150.62,
+      "median_us": 23353.22,
+      "min_us": 22175.42,
+      "model": "name-only",
+      "one_to_one": true,
+      "process_means_us": [
+        23353.22,
+        32150.62,
+        31685.48,
+        22175.42,
+        23115.42
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 128,
+      "max_us": 21772.76,
+      "median_us": 18846.38,
+      "min_us": 18464.84,
+      "model": "name-only",
+      "one_to_one": false,
+      "process_means_us": [
+        21772.76,
+        18870.06,
+        18679.14,
+        18464.84,
+        18846.38
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 128,
+      "max_us": 30636.38,
+      "median_us": 27319.92,
+      "min_us": 22081.52,
+      "model": "name-only",
+      "one_to_one": true,
+      "process_means_us": [
+        27319.92,
+        25993.78,
+        28166.72,
+        30636.38,
+        22081.52
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 16,
+      "max_us": 737.983,
+      "median_us": 637.77,
+      "min_us": 522.12,
+      "model": "sample-supported",
+      "one_to_one": false,
+      "process_means_us": [
+        522.12,
+        647.823,
+        637.77,
+        587.687,
+        737.983
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 16,
+      "max_us": 942.1,
+      "median_us": 800.083,
+      "min_us": 721.24,
+      "model": "sample-supported",
+      "one_to_one": true,
+      "process_means_us": [
+        721.24,
+        849.803,
+        800.083,
+        942.1,
+        792.82
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 16,
+      "max_us": 855.553,
+      "median_us": 829.35,
+      "min_us": 728.96,
+      "model": "sample-supported",
+      "one_to_one": false,
+      "process_means_us": [
+        728.96,
+        855.553,
+        739.57,
+        833.063,
+        829.35
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 16,
+      "max_us": 1149.303,
+      "median_us": 1091.277,
+      "min_us": 1006.84,
+      "model": "sample-supported",
+      "one_to_one": true,
+      "process_means_us": [
+        1006.84,
+        1149.303,
+        1052.873,
+        1138.777,
+        1091.277
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 64,
+      "max_us": 8849.18,
+      "median_us": 7568.28,
+      "min_us": 7405.02,
+      "model": "sample-supported",
+      "one_to_one": false,
+      "process_means_us": [
+        7568.28,
+        8849.18,
+        7443.23,
+        7405.02,
+        8679.02
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 64,
+      "max_us": 13037.29,
+      "median_us": 11619.28,
+      "min_us": 11259.8,
+      "model": "sample-supported",
+      "one_to_one": true,
+      "process_means_us": [
+        11619.28,
+        11376.83,
+        11259.8,
+        13037.29,
+        11659.74
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 64,
+      "max_us": 10868.84,
+      "median_us": 9882.99,
+      "min_us": 9581.69,
+      "model": "sample-supported",
+      "one_to_one": false,
+      "process_means_us": [
+        10308.05,
+        9651.04,
+        10868.84,
+        9882.99,
+        9581.69
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 64,
+      "max_us": 13719.4,
+      "median_us": 12654.03,
+      "min_us": 11929.92,
+      "model": "sample-supported",
+      "one_to_one": true,
+      "process_means_us": [
+        13257.01,
+        12654.03,
+        13719.4,
+        12605.37,
+        11929.92
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 128,
+      "max_us": 33850.14,
+      "median_us": 28671.54,
+      "min_us": 28559.24,
+      "model": "sample-supported",
+      "one_to_one": false,
+      "process_means_us": [
+        29888.58,
+        28589.48,
+        33850.14,
+        28559.24,
+        28671.54
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 128,
+      "max_us": 68875.24,
+      "median_us": 60523.82,
+      "min_us": 54893.82,
+      "model": "sample-supported",
+      "one_to_one": true,
+      "process_means_us": [
+        60523.82,
+        68875.24,
+        62983.32,
+        57634.24,
+        54893.82
+      ],
+      "samples": false
+    },
+    {
+      "fields_per_side": 128,
+      "max_us": 43434.54,
+      "median_us": 41121.98,
+      "min_us": 37765.4,
+      "model": "sample-supported",
+      "one_to_one": false,
+      "process_means_us": [
+        42371.82,
+        41121.98,
+        38128.52,
+        37765.4,
+        43434.54
+      ],
+      "samples": true
+    },
+    {
+      "fields_per_side": 128,
+      "max_us": 67105.44,
+      "median_us": 62156.28,
+      "min_us": 59233.5,
+      "model": "sample-supported",
+      "one_to_one": true,
+      "process_means_us": [
+        63112.54,
+        59233.5,
+        62156.28,
+        67105.44,
+        61588.94
+      ],
+      "samples": true
+    }
+  ]
+}

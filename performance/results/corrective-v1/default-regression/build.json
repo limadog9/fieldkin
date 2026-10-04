@@ -1,0 +1,135 @@
+{
+  "allocations_warmup_calls": 1,
+  "build_environment": {},
+  "built_utc": "2026-10-04T02:06:44.766677+00:00",
+  "checkouts": {
+    "baseline": {
+      "binaries": {
+        "allocations": {
+          "command": [
+            "cargo",
+            "+1.85.0",
+            "build",
+            "--release",
+            "--locked",
+            "--manifest-path",
+            "C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\corroboration-baseline\\performance\\Cargo.toml",
+            "--target-dir",
+            "C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\corroboration-baseline\\performance\\target\\allocations",
+            "--features",
+            "allocations"
+          ],
+          "path": "C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\corroboration-baseline\\performance\\target\\allocations\\release\\fieldkin-performance.exe",
+          "sha256": "a61a17adbc2c69b766c6cad2030dcf390e4112d4fedfd1d75a282481a580bf7b"
+        },
+        "timing": {
+          "command": [
+            "cargo",
+            "+1.85.0",
+            "build",
+            "--release",
+            "--locked",
+            "--manifest-path",
+            "C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\corroboration-baseline\\performance\\Cargo.toml",
+            "--target-dir",
+            "C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\corroboration-baseline\\performance\\target\\timing"
+          ],
+          "path": "C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\corroboration-baseline\\performance\\target\\timing\\release\\fieldkin-performance.exe",
+          "sha256": "c38216652fe1c7d6cbb46d5d2780f17c8edab8fc29d739c4ad89bd7aaa04e8f4"
+        }
+      },
+      "commit": "3b8d65aa7c5882781588c3fb5442ca987e9a390e",
+      "git_status": "M performance/README.md",
+      "path": "C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\corroboration-baseline",
+      "source_sha256": {
+        "Cargo.lock": "36a2b9f878563262ae34b8be3318d67c41eaa62ef8cf795c65622ef7e8d964d6",
+        "Cargo.toml": "10e7b8d86706a745bd34b7fbc3af2cbbf8833ca1f3713069b03ce0cf27b010e9",
+        "performance/Cargo.lock": "5433ce6ade0f2aaaccf59f23f75d781ab9761f00d43b5672c4cf03c06adcd264",
+        "performance/Cargo.toml": "81475e7c84b2df2c08eb01b1557210e9c2c83f00716605469d23f95825219477",
+        "performance/run.py": "e064e4cfbb6073dce29e672710a8694ddde751b5fd04685c31578f87c5795c26",
+        "performance/src/main.rs": "913baed8930fd4c396370bb3c48cfd08d8d751615f1e398d9ea3b8c0028b0228",
+        "src/assignment.rs": "871a44b62b100860e45caf0f3fc8adbde783e220f14487b28942fa549eb49cbc",
+        "src/diagnostics.rs": "31bd607ce5bc8f1abefadf87216ece901a9c42ecbcea0c6624986eae23f055e3",
+        "src/engine.rs": "34aee8eadaf90b69356c90d1b65414d9b187697990f8671dedb50ae29ad5b2fc",
+        "src/error.rs": "4c5d419722c43bd6a18c87f61dd516158e4b382413df17db2743b103fbcb743c",
+        "src/lib.rs": "f57b511a058e3a965f476db17038df1878cb8fe1b802ea8eac67588a9682ba38",
+        "src/numeric.rs": "2ecc76698bfa567a3f44a349b0c931c2acbc2c7f9583fe85ee147913f04a1fd2",
+        "src/profile.rs": "60e07c3d16fc2658c5408b4d1e371463087f1e1673b0e8e430476cf7dccfc303",
+        "src/semantics.rs": "4927f23eb9388cee7df9c4aef0d7a3f6da2c5aa7d966527e136aa5cea2e6dffa",
+        "src/signals.rs": "68c2e70031807bcd860925bbe22d7cc1776acc1bb8a1b0892e2e940d4307573c",
+        "src/types.rs": "81aaa8994ec0ba9fedc43d268f463ec25df0a9a93dd58fcf3caa70c4335bb48c"
+      }
+    },
+    "candidate": {
+      "binaries": {
+        "allocations": {
+          "command": [
+            "cargo",
+            "+1.85.0",
+            "build",
+            "--release",
+            "--locked",
+            "--manifest-path",
+            "C:\\Users\\jakew\\Downloads\\fieldkin\\performance\\Cargo.toml",
+            "--target-dir",
+            "C:\\Users\\jakew\\Downloads\\fieldkin\\performance\\target\\allocations",
+            "--features",
+            "allocations"
+          ],
+          "path": "C:\\Users\\jakew\\Downloads\\fieldkin\\performance\\target\\allocations\\release\\fieldkin-performance.exe",
+          "sha256": "87f8400b8aab0109323e0525390ea4b57305fb4416aa031f8ce1a05f653b1bf4"
+        },
+        "timing": {
+          "command": [
+            "cargo",
+            "+1.85.0",
+            "build",
+            "--release",
+            "--locked",
+            "--manifest-path",
+            "C:\\Users\\jakew\\Downloads\\fieldkin\\performance\\Cargo.toml",
+            "--target-dir",
+            "C:\\Users\\jakew\\Downloads\\fieldkin\\performance\\target\\timing"
+          ],
+          "path": "C:\\Users\\jakew\\Downloads\\fieldkin\\performance\\target\\timing\\release\\fieldkin-performance.exe",
+          "sha256": "f569a31dd821340447950d4062728e179ae3a744dd3a8bf64c0753dd399f35bc"
+        }
+      },
+      "commit": "f702377f90f060bd333df79effcc1e37bbd09d30",
+      "git_status": "?? performance/results/corrective-v1/\n?? qualification/results/corrective-v1/",
+      "path": "C:\\Users\\jakew\\Downloads\\fieldkin",
+      "source_sha256": {
+        "Cargo.lock": "36a2b9f878563262ae34b8be3318d67c41eaa62ef8cf795c65622ef7e8d964d6",
+        "Cargo.toml": "10e7b8d86706a745bd34b7fbc3af2cbbf8833ca1f3713069b03ce0cf27b010e9",
+        "performance/Cargo.lock": "5433ce6ade0f2aaaccf59f23f75d781ab9761f00d43b5672c4cf03c06adcd264",
+        "performance/Cargo.toml": "81475e7c84b2df2c08eb01b1557210e9c2c83f00716605469d23f95825219477",
+        "performance/run.py": "e064e4cfbb6073dce29e672710a8694ddde751b5fd04685c31578f87c5795c26",
+        "performance/src/main.rs": "913baed8930fd4c396370bb3c48cfd08d8d751615f1e398d9ea3b8c0028b0228",
+        "src/assignment.rs": "871a44b62b100860e45caf0f3fc8adbde783e220f14487b28942fa549eb49cbc",
+        "src/diagnostics.rs": "31bd607ce5bc8f1abefadf87216ece901a9c42ecbcea0c6624986eae23f055e3",
+        "src/engine.rs": "e625f78f88987bee9aacebcffea5c22235f7877875851f15acdf873c486ae63c",
+        "src/error.rs": "9384c57d00caef407800a7951d3389cb679f82ab9b69e429f6659607a3de75e5",
+        "src/lib.rs": "f57b511a058e3a965f476db17038df1878cb8fe1b802ea8eac67588a9682ba38",
+        "src/numeric.rs": "2ecc76698bfa567a3f44a349b0c931c2acbc2c7f9583fe85ee147913f04a1fd2",
+        "src/profile.rs": "60e07c3d16fc2658c5408b4d1e371463087f1e1673b0e8e430476cf7dccfc303",
+        "src/semantics.rs": "4927f23eb9388cee7df9c4aef0d7a3f6da2c5aa7d966527e136aa5cea2e6dffa",
+        "src/signals.rs": "68c2e70031807bcd860925bbe22d7cc1776acc1bb8a1b0892e2e940d4307573c",
+        "src/types.rs": "837fd34141d5e3148081a18dc6cc67dec94a37d8a2c11661f7102fe46742145b"
+      }
+    }
+  },
+  "compiler": "rustc 1.85.0 (4d91de4e4 2025-02-17)\nbinary: rustc\ncommit-hash: 4d91de4e48198da2e33413efdcd9cd2cc0c46688\ncommit-date: 2025-02-17\nhost: x86_64-pc-windows-msvc\nrelease: 1.85.0\nLLVM version: 19.1.7",
+  "machine": {
+    "cpu": "{\"Name\":\"AMD Ryzen 5 5625U with Radeon Graphics         \",\"NumberOfCores\":6,\"NumberOfLogicalProcessors\":12}",
+    "logical_cpus": 12,
+    "machine": "AMD64",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+    "python": "3.10.11"
+  },
+  "protocol": "fieldkin-stage2-v1",
+  "revision_order": "baseline,candidate on odd runs; candidate,baseline on even runs",
+  "runs_per_revision": 5,
+  "timing_instrumented": false,
+  "warmup_calls": 3
+}

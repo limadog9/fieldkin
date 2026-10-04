@@ -233,9 +233,17 @@ unmet. See the [migration guide](docs/stage3-migration.md) for API changes.
 
 The remaining roadmap implementation and release qualification are recorded in
 the [candidate scorecard](docs/release-scorecard.md). One million generated cases
-passed, but held-out precision is **37.5%** and unique-field coverage **40%**:
+passed, but original held-out precision is **37.5%** and unique-field coverage **40%**:
 the planned quality bar is unmet. Fieldkin remains experimental and unpublished.
 See the [changelog](docs/changelog.md) for delivered features and deferred work.
+
+The subsequent [corroboration experiment](docs/corroboration-evaluation.md) reserves
+24 new synthetic families. On its fresh holdout, the opt-in sample gate reduces
+false independent proposals from 55 to 32, while the number of correct independent
+proposals stays at 20: precision improves from 26.67% to 38.46%, but unique coverage
+is only 16.30%. These harder challenge cases are a separate dataset, not a trend
+against the earlier 37.5% result. Defaults remain unchanged; all misses and the
+stricter name-floor ablation are documented.
 
 ## License
 
