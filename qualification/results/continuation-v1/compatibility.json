@@ -1,0 +1,94 @@
+{
+  "cases": 1024,
+  "compiler": "rustc 1.85.0 (4d91de4e4 2025-02-17)\nbinary: rustc\ncommit-hash: 4d91de4e48198da2e33413efdcd9cd2cc0c46688\ncommit-date: 2025-02-17\nhost: x86_64-pc-windows-msvc\nrelease: 1.85.0\nLLVM version: 19.1.7",
+  "exact_complete_transcript_equality": true,
+  "includes": [
+    "configurations",
+    "synthetic score matrices",
+    "review constraints",
+    "all returned reports and typed errors",
+    "callback identities and order",
+    "original and reversed input assertions",
+    "fractional empty-row tie regression"
+  ],
+  "protocol": "assignment-complete-report-compatibility-v1",
+  "recorded_utc": "2026-10-04T17:33:14.356065+00:00",
+  "records": {
+    "baseline": {
+      "binary_sha256": "85c89c9f2d29a63e756a71248ce99d37564f48b01f99d4e873c1b7b038ce29db",
+      "build_command": [
+        "cargo",
+        "+1.85.0",
+        "build",
+        "--locked",
+        "--release",
+        "--example",
+        "assignment_compatibility",
+        "--message-format=json"
+      ],
+      "inputs_sha256": {
+        "Cargo.lock": "d5e2994718c70aa8e1f8508ce949da02a5864142b7343152c1b7da1c5a55c305",
+        "Cargo.toml": "68368c9df9c258468086b3e5c3ed5a67fad8d3b4c13726493dc8c6afd3eeac94",
+        "README.md": "4e8d78a9d19789f0280f3fec8d94c80abf618c97dd09cded6ec9788a80acff30",
+        "examples/assignment_compatibility.rs": "c225eb8437be19810f996c2ae07c4b2f2d54180c297f12c9b37b06f4cdd969a9",
+        "src/assignment.rs": "597b1b471488525ad794021b5a477c82bf8143af90765bb7cec0d69ce2cdf013",
+        "src/constraints.rs": "db5bd502608fed4bcae059fcf788436655e7727c07fbcbe1a697ba43c9cba3ce",
+        "src/diagnostics.rs": "4f2926e67c02ac49c0b61a9a36267fe6cc49c42f0bb2dc1ff3a97d9f8d3b117e",
+        "src/engine.rs": "1e82a25bc050efbe480bb6d6f9f867c5e732334da4b9cad4814f68689282d93d",
+        "src/error.rs": "78d99be1167212af2bbf30f4a20b703b709c86d350547a1e8e7c25fb2b92ac70",
+        "src/lib.rs": "846f4d10ed030780790109e1cf52e4f67f7dd08bf707a3cc3ee7b2ae2c6e3f1d",
+        "src/numeric.rs": "be62a484aadda8e753428318a8d67f41fdb9fe03ea646b5a781952b8c3ad6623",
+        "src/profile.rs": "7ea95ca4d2b70954d33013863f4a8f2320bd44c17d79a78d5e291d086ee86559",
+        "src/semantics.rs": "f20dde8676b4917b2edc8f002dae7aaa04e8bf7c4324e92c8d3c1681d54e7538",
+        "src/signals.rs": "b1adafc819a5c405a212313f75243eb0bf07e72caac5ce46a2f692e4996a7fa2",
+        "src/types.rs": "4f3fba2545a11943fbace62174dfd9daa78e29c4e65983f3786c685efb354e65"
+      },
+      "local_transcript": ".local/continuation-compatibility-baseline.txt",
+      "output_bytes": 5536669,
+      "output_sha256": "5376108d4506acb9c9b84a9bd28413aae3cab989f8d3fc5f92787c378c7e10c1",
+      "revision": "104b8e9e41cdcf31efdc268ad58c81514dd3568d",
+      "run_command": [
+        "C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\continuation-baseline\\target\\release\\examples\\assignment_compatibility.exe"
+      ]
+    },
+    "candidate": {
+      "binary_sha256": "fccaf647d99f4b817612a5efd1a0361b2dda29932e2f5a60e4e76a2b85eed9f9",
+      "build_command": [
+        "cargo",
+        "+1.85.0",
+        "build",
+        "--locked",
+        "--release",
+        "--example",
+        "assignment_compatibility",
+        "--message-format=json"
+      ],
+      "inputs_sha256": {
+        "Cargo.lock": "0b3ef9880f450fce7a958e3e55d27d613b0ecf501f3b60b441ed48211a8eb922",
+        "Cargo.toml": "92f485dae5943ab9c32ef55fc69770351dcbfacb039fc8ca905db5c5847cc410",
+        "README.md": "2abd33cfd5d0f38cdcd6e1c7796dffc8c20100696e67890c71d6f4d58f2eb894",
+        "examples/assignment_compatibility.rs": "c225eb8437be19810f996c2ae07c4b2f2d54180c297f12c9b37b06f4cdd969a9",
+        "src/assignment.rs": "918199d81105dd2649f7a882a8caf4f28a89e43ef38c3c92e952c0bdb93e8a9d",
+        "src/constraints.rs": "db5bd502608fed4bcae059fcf788436655e7727c07fbcbe1a697ba43c9cba3ce",
+        "src/diagnostics.rs": "4f2926e67c02ac49c0b61a9a36267fe6cc49c42f0bb2dc1ff3a97d9f8d3b117e",
+        "src/engine.rs": "1e82a25bc050efbe480bb6d6f9f867c5e732334da4b9cad4814f68689282d93d",
+        "src/error.rs": "78d99be1167212af2bbf30f4a20b703b709c86d350547a1e8e7c25fb2b92ac70",
+        "src/json.rs": "e5e97a93e0eb8dd2d56cd413d812db760ea128151be3fbc7df9f19ec6d2f0d73",
+        "src/lib.rs": "36104954302ec5c736df1eb831f346028b5f0da846b69ae29d992a99531253e4",
+        "src/numeric.rs": "be62a484aadda8e753428318a8d67f41fdb9fe03ea646b5a781952b8c3ad6623",
+        "src/profile.rs": "7ea95ca4d2b70954d33013863f4a8f2320bd44c17d79a78d5e291d086ee86559",
+        "src/semantics.rs": "f20dde8676b4917b2edc8f002dae7aaa04e8bf7c4324e92c8d3c1681d54e7538",
+        "src/signals.rs": "b1adafc819a5c405a212313f75243eb0bf07e72caac5ce46a2f692e4996a7fa2",
+        "src/types.rs": "4f3fba2545a11943fbace62174dfd9daa78e29c4e65983f3786c685efb354e65"
+      },
+      "local_transcript": ".local/continuation-compatibility-candidate.txt",
+      "output_bytes": 5536669,
+      "output_sha256": "5376108d4506acb9c9b84a9bd28413aae3cab989f8d3fc5f92787c378c7e10c1",
+      "revision": "6d3e4a716d214ea41b362650092af816fa5ff48d",
+      "run_command": [
+        "C:\\Users\\jakew\\Downloads\\fieldkin\\target\\release\\examples\\assignment_compatibility.exe"
+      ]
+    }
+  },
+  "seed": 20261004
+}
