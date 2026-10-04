@@ -63,7 +63,8 @@ wrong targets; correct recall counts only correct targets.
 | Strict name ablation | One-to-one | 4/32 | 12.50% | 2.96% | 4.44% | 28 |
 | Name-only | One-to-one | 0/54 | 0% | 0% | 2.22% | 54 |
 
-The sample gate's 32 false proposals include 30 no-match proposals and two wrong
+The sample gate retains exactly the same 20 correct independent pairs and 18
+correct one-to-one pairs. Its 32 false proposals include 30 no-match proposals and two wrong
 unique targets. Every model abstains on all 21 ambiguous labels. Candidate recall@5
 is 100% for the three combined models and 88.14% for name-only. The metric includes
 ineligible candidates in small target schemas; it does not establish proposal
@@ -120,7 +121,9 @@ byte totals match across all 50 workloads. Sampled 128-field combined timings ar
 40.81 ms [35.51–62.50] before versus 38.24 [36.43–42.39] after independently, and
 58.34 [50.78–61.09] versus 53.65 [50.46–69.07] with assignment. There are also slower
 medians: missing-sample 128-field name-only assignment rises 15.86%, from 25.01 to
-28.97 ms, with overlapping ranges [24.09–37.19] and [24.36–32.57]. These noisy results
+28.97 ms, with overlapping ranges [24.09–37.19] and [24.36–32.57]. Empty-target
+assignment rises 13.31%, from 2.68 to 3.04 ms; its observed process ranges do not
+overlap. Five processes do not establish statistical certainty. These results
 do not support a general speedup or a zero-overhead guarantee. The
 [complete table](../performance/results/corrective-v1/default-regression/summary.md)
 includes every workload; its title retains the Stage 2 protocol name, while
