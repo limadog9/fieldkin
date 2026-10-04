@@ -53,6 +53,12 @@ jobs:
       - name: Validate external importer invariants
         if: matrix.os == 'ubuntu-latest' && matrix.rust == '1.85.0'
         run: python3 -m unittest discover -s evaluation -p test_import_t2d.py
+      - name: Test verified evaluation failure paths
+        run: python -m unittest discover -s evaluation -p test_verified.py
+      - name: Build a separately recorded external evaluator
+        run: python evaluation/verified.py build --build-dir target/verified-external --toolchain ${{ matrix.rust }}
+      - name: Run verified development-only external evaluation
+        run: python evaluation/verified.py run --build-dir target/verified-external --output target/verified-external-results
   test:
     name: test
     needs: platform
