@@ -1,6 +1,6 @@
 # Phases 11–14 qualification
 
-This continuation covers assignment allocation reuse, bounded scale measurements,
+This continuation evaluates assignment allocation reuse, bounded scale measurements,
 optional JSON reports and saved review, an independent Northix diagnostic, and a
 pinned Valentine COMA comparison. Fieldkin remains experimental and unpublished.
 The original 95% precision and 60% unique-coverage targets are unchanged.
@@ -42,8 +42,18 @@ changed implementation and optional-dependency provenance explicitly.
 
 ## Status
 
-Implementation and qualification are in progress. Results will be recorded here
-after the frozen runs; no accuracy or performance improvement is claimed yet.
+The first candidate, `6d3e4a716d214ea41b362650092af816fa5ff48d`, passed functional
+qualification but failed performance acceptance. Eight of 27 assignment workloads
+and ten of 50 default-suite workloads exceeded a 10% median regression. All runs
+remain in `performance/results/continuation-v1`. The optimization reduced
+allocations in 18 workloads, but those savings do not waive the latency gate.
+
+Scratch-buffer reuse is rejected for this build. The solver is restored exactly
+to main's `104b8e9` implementation; the optional JSON API, external comparison and
+scale tools remain. A second frozen revision will receive separate qualification
+and measurement records in `continuation-v2`. Scores from the fixed Valentine
+run remain unchanged in `evaluation/results/continuation-v1/valentine`; no matching
+policy is being tuned from the inspected Northix results.
 
 ## Boundaries
 
