@@ -60,6 +60,14 @@ Implementation and functional qualification for phases 11–14 are complete.
 Accuracy and latency acceptance targets remain unmet; this is an experimental
 build, not a production-readiness or publication decision.
 
+Packaging subsequently exposed unanchored Cargo include patterns selecting local
+tool README files. Freeze 1176e6f anchors all 13 patterns to the crate root.
+[Parsed manifest comparison](../qualification/results/continuation-v3/packaging-change.json)
+confirms no other manifest, dependency or runtime change. Final evaluator,
+compatibility and campaign records use continuation-v3; performance remains the
+explicitly measured 5bfaa29 revision in continuation-v2. The failed packaging
+attempt remains in the v2 record.
+
 ## Retained API and qualification
 
 Enable `features = ["json"]` for bounded `json::report_to_json` exports and
@@ -90,13 +98,15 @@ checksum changes to the existing lockfile.
 
 Exact commands, compiler selections and counts are in
 [checks.json](../qualification/results/continuation-v2/checks.json),
-[campaign build](../qualification/results/continuation-v2/build.json),
-[campaign result](../qualification/results/continuation-v2/run.json),
-[compatibility](../qualification/results/continuation-v2/compatibility.json),
-[regression comparison](../qualification/results/continuation-v2/regression-comparison.json),
-[snapshot checks](../qualification/results/continuation-v2/snapshot-checks.json), and
+[campaign build](../qualification/results/continuation-v3/build.json),
+[campaign result](../qualification/results/continuation-v3/run.json),
+[compatibility](../qualification/results/continuation-v3/compatibility.json),
+[regression comparison](../qualification/results/continuation-v3/regression-comparison.json),
+[snapshot checks](../qualification/results/continuation-v3/snapshot-checks.json), and
 [dependency review](../qualification/results/continuation-v1/dependencies.json).
 The current CI matrix runs both compilers on Linux, Windows and macOS.
+[Packaging verification](../qualification/results/continuation-v3/packaging.json)
+records both compiler/feature combinations and the complete archive inventory.
 
 The first baseline-recording attempt caught a separate environment difference:
 the evaluator's ambient `rustc -Vv` reports the machine's default 1.98.1, whereas
@@ -167,7 +177,7 @@ The exact measurement commands were, after separate recorded builds:
 py -3.11 performance/assignment.py run --output performance/results/continuation-v2/solver-cost
 py -3.11 performance/run.py run --output performance/results/continuation-v2/default-regression
 py -3.11 performance/scale.py run --output performance/results/continuation-v2/scale
-py -3.11 qualification/run.py run --output qualification/results/continuation-v2 --cases 1200000 --seed 20261007
+py -3.11 qualification/run.py run --output qualification/results/continuation-v3 --cases 1200000 --seed 20261007
 ```
 
 Build commands, binary hashes and inputs are in each directory's `build.json`.

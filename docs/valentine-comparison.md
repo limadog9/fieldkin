@@ -7,7 +7,7 @@ independent production validation, or evidence that either library is generally
 more accurate. The public upstream dataset is synthetic. No T2D reserved classes
 are involved.
 
-The [retained-runtime results](../evaluation/results/continuation-v2/northix/artifacts/results.md)
+The [retained-runtime results](../evaluation/results/continuation-v3/northix/artifacts/results.md)
 and [failure analysis](northix-evaluation.md#recorded-results) use the original
 frozen score exports: [546 schema-only pairs](../evaluation/results/continuation-v1/valentine/valentine-schema_only.json)
 and [1,557 schema-and-samples pairs](../evaluation/results/continuation-v1/valentine/valentine-schema_and_samples.json).
@@ -18,7 +18,7 @@ score, 0.6739781945943832, is below the shared 0.70 cutoff. This illustrates the
 score-comparability limitation rather than establishing a model ranking.
 The [v1 comparator run](../evaluation/results/continuation-v1/valentine/run.json)
 was not repeated when the Rust runtime was requalified; the
-[v2 Rust execution](../evaluation/results/continuation-v2/northix/run.json)
+[v3 Rust execution](../evaluation/results/continuation-v3/northix/run.json)
 records the same input score hashes and unchanged matching outcomes.
 
 ## Inputs and frozen matcher settings

@@ -124,12 +124,12 @@ proposal count has undefined precision, rendered `null`/`n/a`, not 100%.
 ## Recorded results
 
 The retained runtime was frozen at
-`5bfaa295de68178e801b79e158ea06f9a8279e74` and evaluated through the
-[recorded v2 execution](../evaluation/results/continuation-v2/northix/run.json).
+`1176e6f120ae50f07c37eaee2f1b90f1aa28ef18` and evaluated through the
+[recorded v3 execution](../evaluation/results/continuation-v3/northix/run.json).
 All 84 inputs were accepted in each of the 12 configurations. The
-[full result table](../evaluation/results/continuation-v2/northix/artifacts/results.md),
-[JSON counts and source-table groups](../evaluation/results/continuation-v2/northix/artifacts/results.json)
-and [per-field predictions](../evaluation/results/continuation-v2/northix/artifacts/predictions.jsonl)
+[full result table](../evaluation/results/continuation-v3/northix/artifacts/results.md),
+[JSON counts and source-table groups](../evaluation/results/continuation-v3/northix/artifacts/results.json)
+and [per-field predictions](../evaluation/results/continuation-v3/northix/artifacts/predictions.jsonl)
 retain all outcomes.
 
 | Model / input mode | Assignment | Correct / proposed | Precision | Positive-field recall | Positive edge recall@5 | No-match false proposals |
@@ -180,10 +180,10 @@ representation and common-selector limitations.
 An independent recount reproduced all 156 aggregate/per-source rows from 1,008
 prediction records and 5,628 field outcomes. After rejecting the scratch-buffer
 optimization and recording the retained runtime, all 156 summary rows remain
-equal to v1. The v1 and v2 prediction files and readable result tables are byte
+equal to v1. The v1, v2 and v3 prediction files and readable result tables are byte
 identical. Both prediction files have SHA256
 `7773848443783060b1ec55714d2a1617d4428f094e9c04534a73b4a639cc52eb`.
-The v2 JSON metadata and execution record identify the newly recorded runtime;
+The v3 JSON metadata and execution record identify the newly recorded runtime;
 the original score producer was not rerun or tuned.
 
 ## Reproduction and evidence handling

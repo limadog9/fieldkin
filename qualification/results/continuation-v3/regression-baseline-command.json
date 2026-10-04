@@ -1,0 +1,29 @@
+{
+  "artifact_sha256": {
+    "corpus.json": "e7f88a5e19d7e75bc1cde8561f49ff0fbf2536046f3e49bb2c518a1ea8635409",
+    "development-predictions.jsonl": "9c11881b650cee66409091350968e03f8d4304c5a4babb7da9e1f5beb23db978",
+    "development.json": "aa79f3e7caf84933442c54bf1be5d2e8849385fac3375e9f3a4eaf1277627f5b",
+    "development.md": "d7b43d2f619ff1197a93d4611706869e1321098757a8da1a9c143129dd772e4f",
+    "environment.json": "0e045a26336e570a704c2c4034d49ab1893e81771e86fffe81506f7fe6ba46b9"
+  },
+  "binary_sha256": "ea466a1a2f29e6e40fb1651a97426d2299287b0584ed0536e59cf466f3836f12",
+  "build_record_sha256": "6cb9e86440c68f99c9b7f34776552997dfa8248f99e553af5df8a12a3aa922cb",
+  "command": [
+    "C:\\Users\\jakew\\Downloads\\fieldkin\\target\\external-continuation-v3\\bin\\fieldkin-eval.exe",
+    "--output",
+    "C:\\Users\\jakew\\Downloads\\fieldkin\\evaluation\\results\\continuation-v3\\baseline"
+  ],
+  "completed_utc": "2026-10-04T18:27:53.984781+00:00",
+  "cwd": "C:\\Users\\jakew\\Downloads\\fieldkin",
+  "partitions": [
+    "development"
+  ],
+  "protocol": "fieldkin-continuation-regressions-v3",
+  "record_sha256": "eddfdf0624d8c99e18c28aeaeba9ed9af0c127249bd91bba92a809bc807af9a8",
+  "returncode": 0,
+  "script_sha256": "7e9f7f78bfb79628cd95f88272ee80e3bfc5ee6581e98d051cfe2a293a096033",
+  "started_utc": "2026-10-04T18:27:52.954098+00:00",
+  "status": "success",
+  "stderr": "",
+  "stdout": "development: 160 pairs / 32 families / 960 source decisions; 6 models x 2 assignment modes\nWrote deterministic artifacts to C:\\Users\\jakew\\Downloads\\fieldkin\\evaluation\\results\\continuation-v3\\baseline\n"
+}
