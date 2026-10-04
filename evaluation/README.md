@@ -11,7 +11,8 @@ The separate [Northix diagnostic](../docs/northix-evaluation.md) uses native tab
 schemas, sampled values and manual classes from the CC-BY-4.0 archive in
 `external/northix-v1`. Its [Valentine COMA comparison](../docs/valentine-comparison.md)
 uses a pinned local Python environment outside the Rust dependency graph.
-The strict current regression snapshots are in `results/continuation-v3`;
+The strict current regression snapshots are in `results/continuation-v3`, except
+Northix's test-fixture metadata refresh in `results/continuation-v4/northix`;
 historical snapshots below retain their original implementation provenance.
 
 For new external evidence records, use the [verified build/run workflow](../docs/verified-evaluation.md).
@@ -28,7 +29,7 @@ are kept separate; no held-out family is scored.
 
 ```text
 cargo +1.85.0 run --locked --release -p fieldkin-eval -- --stage3 --output target/fieldkin-stage3
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --stage3 --check --output evaluation/results/stage3-v1
+cargo +1.85.0 run --locked --release -p fieldkin-eval -- --stage3 --check --output evaluation/results/continuation-v3/stage3
 ```
 
 The second command is the current-default CI gate. It compares all 588 aggregate

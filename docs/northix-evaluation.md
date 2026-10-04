@@ -125,11 +125,12 @@ proposal count has undefined precision, rendered `null`/`n/a`, not 100%.
 
 The retained runtime was frozen at
 `1176e6f120ae50f07c37eaee2f1b90f1aa28ef18` and evaluated through the
-[recorded v3 execution](../evaluation/results/continuation-v3/northix/run.json).
+[recorded v4 execution](../evaluation/results/continuation-v4/northix/run.json)
+using the same verified v3 executable.
 All 84 inputs were accepted in each of the 12 configurations. The
-[full result table](../evaluation/results/continuation-v3/northix/artifacts/results.md),
-[JSON counts and source-table groups](../evaluation/results/continuation-v3/northix/artifacts/results.json)
-and [per-field predictions](../evaluation/results/continuation-v3/northix/artifacts/predictions.jsonl)
+[full result table](../evaluation/results/continuation-v4/northix/artifacts/results.md),
+[JSON counts and source-table groups](../evaluation/results/continuation-v4/northix/artifacts/results.json)
+and [per-field predictions](../evaluation/results/continuation-v4/northix/artifacts/predictions.jsonl)
 retain all outcomes.
 
 | Model / input mode | Assignment | Correct / proposed | Precision | Positive-field recall | Positive edge recall@5 | No-match false proposals |
@@ -180,11 +181,14 @@ representation and common-selector limitations.
 An independent recount reproduced all 156 aggregate/per-source rows from 1,008
 prediction records and 5,628 field outcomes. After rejecting the scratch-buffer
 optimization and recording the retained runtime, all 156 summary rows remain
-equal to v1. The v1, v2 and v3 prediction files and readable result tables are byte
-identical. Both prediction files have SHA256
+equal to v1. The v1, v2, v3 and v4 prediction files and readable result tables are
+byte identical. All prediction files have SHA256
 `7773848443783060b1ec55714d2a1617d4428f094e9c04534a73b4a639cc52eb`.
-The v3 JSON metadata and execution record identify the newly recorded runtime;
-the original score producer was not rerun or tuned.
+The v4 refresh resolves trusted temporary fixture paths in the comparator's
+Python tests so they work through macOS's temporary-directory alias. Compared
+with v3, only that test file's hash changes in the result JSON; the verified
+executable, production guards, inputs, scores and outcomes are unchanged.
+The original score producer was not rerun or tuned.
 
 ## Reproduction and evidence handling
 

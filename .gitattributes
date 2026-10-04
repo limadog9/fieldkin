@@ -14,3 +14,4 @@ performance/results/continuation-v1/solver-cost/** -text whitespace=cr-at-eol li
 qualification/results/continuation-v2/** text eol=lf linguist-generated=true
 performance/results/continuation-v2/solver-cost/** -text whitespace=cr-at-eol linguist-generated=true
 qualification/results/continuation-v3/** text eol=lf linguist-generated=true
+qualification/results/continuation-v4/** text eol=lf linguist-generated=true

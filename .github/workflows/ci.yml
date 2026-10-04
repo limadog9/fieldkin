@@ -55,7 +55,7 @@ jobs:
       - name: Verify external annotation development (holdout remains reserved)
         run: cargo +${{ matrix.rust }} run --locked --release -p fieldkin-eval -- --external --check --output evaluation/results/continuation-v3/external/artifacts
       - name: Verify Northix reports using stored Valentine scores
-        run: cargo +${{ matrix.rust }} run --locked --release -p fieldkin-eval -- --northix --check --scores evaluation/results/continuation-v1/valentine/valentine-schema_only.json --scores evaluation/results/continuation-v1/valentine/valentine-schema_and_samples.json --output evaluation/results/continuation-v3/northix/artifacts
+        run: cargo +${{ matrix.rust }} run --locked --release -p fieldkin-eval -- --northix --check --scores evaluation/results/continuation-v1/valentine/valentine-schema_only.json --scores evaluation/results/continuation-v1/valentine/valentine-schema_and_samples.json --output evaluation/results/continuation-v4/northix/artifacts
       - name: Validate assignment measurement protocol
         run: python -m unittest discover -s performance -p test_assignment.py
       - name: Validate scale measurement protocol without running measurements

@@ -93,6 +93,8 @@ class ScoreTests(unittest.TestCase):
                 self.translate({pair: 0.8})
 
 
+# macOS temporary roots may be aliases (for example /var -> /private/var).
+# Resolve our own trusted fixture directories; production inputs still reject links.
 class GuardTests(unittest.TestCase):
     def test_offline_guard_blocks_connections_and_restores_functions(self):
         original = socket.create_connection
@@ -109,14 +111,14 @@ class GuardTests(unittest.TestCase):
 
     def test_duplicate_json_keys_rejected(self):
         with tempfile.TemporaryDirectory() as temporary:
-            path = pathlib.Path(temporary) / "record.json"
+            path = pathlib.Path(temporary).resolve() / "record.json"
             path.write_text('{"a":1,"a":2}', encoding="utf8")
             with self.assertRaises(comparison.VerificationError):
                 comparison.load(path)
 
     def test_write_new_preserves_existing_artifact(self):
         with tempfile.TemporaryDirectory() as temporary:
-            path = pathlib.Path(temporary) / "result.json"
+            path = pathlib.Path(temporary).resolve() / "result.json"
             comparison.write_new(path, {"old": True})
             with self.assertRaises(FileExistsError):
                 comparison.write_new(path, {"new": True})
@@ -125,12 +127,12 @@ class GuardTests(unittest.TestCase):
     def test_prepare_rejects_existing_directory_before_context(self):
         with tempfile.TemporaryDirectory() as temporary, mock.patch.object(comparison, "context") as context:
             with self.assertRaises(comparison.VerificationError):
-                comparison.prepare(pathlib.Path(temporary), pathlib.Path(temporary))
+                comparison.prepare(pathlib.Path(temporary).resolve(), pathlib.Path(temporary).resolve())
             context.assert_not_called()
 
     def test_run_rejects_partial_output_before_scoring(self):
         with tempfile.TemporaryDirectory() as temporary, mock.patch.object(comparison, "score_modes") as scorer:
-            path = pathlib.Path(temporary)
+            path = pathlib.Path(temporary).resolve()
             comparison.write_new(path / "prepare.json", {})
             comparison.write_new(path / "valentine-schema_only.json", {})
             with self.assertRaises(comparison.VerificationError):
@@ -138,7 +140,7 @@ class GuardTests(unittest.TestCase):
             scorer.assert_not_called()
 
     def run_fixture(self, temporary, contexts, scorer):
-        path = pathlib.Path(temporary)
+        path = pathlib.Path(temporary).resolve()
         before = {"fixture": "unchanged"}
         comparison.write_new(path / "prepare.json", {"protocol": comparison.PROTOCOL,
                              "settings": comparison.SETTINGS, "modes": list(comparison.MODES),
@@ -159,7 +161,7 @@ class GuardTests(unittest.TestCase):
             with self.assertRaises(comparison.VerificationError):
                 self.run_fixture(temporary, [{"fixture": "changed"}], scorer)
             scorer.assert_not_called()
-            self.assertFalse((pathlib.Path(temporary) / "run.json").exists())
+            self.assertFalse((pathlib.Path(temporary).resolve() / "run.json").exists())
 
     def test_post_run_drift_or_incomplete_artifacts_never_get_success(self):
         for drift in [False, True]:
@@ -169,7 +171,7 @@ class GuardTests(unittest.TestCase):
                 contexts = [{"fixture": "unchanged"}, {"fixture": "changed" if drift else "unchanged"}]
                 with self.assertRaises((comparison.VerificationError, FileNotFoundError)):
                     self.run_fixture(temporary, contexts, scorer)
-                self.assertFalse((pathlib.Path(temporary) / "run.json").exists())
+                self.assertFalse((pathlib.Path(temporary).resolve() / "run.json").exists())
 
     def test_success_requires_both_artifacts_and_matching_context(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -177,7 +179,7 @@ class GuardTests(unittest.TestCase):
                 for name in comparison.ARTIFACTS.values():
                     comparison.write_new(args[-1] / name, {})
             self.run_fixture(temporary, [{"fixture": "unchanged"}] * 2, scorer)
-            record = comparison.load(pathlib.Path(temporary) / "run.json")
+            record = comparison.load(pathlib.Path(temporary).resolve() / "run.json")
             self.assertEqual(record["status"], "complete")
             self.assertEqual(set(record["artifacts_sha256"]), set(comparison.ARTIFACTS.values()))
 

@@ -68,6 +68,15 @@ compatibility and campaign records use continuation-v3; performance remains the
 explicitly measured 5bfaa29 revision in continuation-v2. The failed packaging
 attempt remains in the v2 record.
 
+The [first PR CI run](https://github.com/limadog9/fieldkin/actions/runs/37224658937)
+then exposed two Python fixture failures on macOS: its temporary directory passes
+through a system symlink, correctly rejected by the production path guard.
+Resolving the tests' own trusted fixture roots fixes that portability issue
+without changing the guard. The [v4 Northix refresh](../evaluation/results/continuation-v4/northix/run.json)
+uses the same verified v3 executable. Predictions and the readable table are byte
+identical; only the test file's metadata hash changes in the result JSON. Other
+qualification records remain at their actual measured revisions.
+
 ## Retained API and qualification
 
 Enable `features = ["json"]` for bounded `json::report_to_json` exports and
@@ -105,8 +114,9 @@ Exact commands, compiler selections and counts are in
 [snapshot checks](../qualification/results/continuation-v3/snapshot-checks.json), and
 [dependency review](../qualification/results/continuation-v1/dependencies.json).
 The current CI matrix runs both compilers on Linux, Windows and macOS.
-[Packaging verification](../qualification/results/continuation-v3/packaging.json)
-records both compiler/feature combinations and the complete archive inventory.
+[Packaging verification](../qualification/results/continuation-v4/packaging.json)
+records all four compiler/feature combinations and the complete archive inventory
+after the final documentation and portable test-fixture updates.
 
 The first baseline-recording attempt caught a separate environment difference:
 the evaluator's ambient `rustc -Vv` reports the machine's default 1.98.1, whereas
