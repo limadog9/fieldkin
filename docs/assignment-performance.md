@@ -77,7 +77,7 @@ add results and documentation, without changing the measured implementation.
 - The [external comparison](../qualification/results/assignment-v1/external-comparison.json)
   confirms identical development predictions and Markdown, and identical JSON
   after accounting for the single changed implementation hash, `assignment.rs`.
-  The strict [new snapshot](../evaluation/results/assignment-v1/external/artifacts/development.md)
+  The strict [new snapshot](../evaluation/results/assignment-v1/external/artifacts/development.json)
   still contains all current hashes; the
   [verified run](../evaluation/results/assignment-v1/external/run.json) links to the
   archived [build record](../qualification/results/assignment-v1/external-build.json).
@@ -151,7 +151,7 @@ At 128 fields, sparse-complete decreased 52.10%, reserved-complete 44.59%, and a
 | 128 | tall-bounded | 12.60150 [10.96875, 13.81755] | 8.55345 [8.49790, 8.75485] | -32.12% |
 | 128 | wide-complete | 2.80645 [2.75115, 3.83320] | 1.73535 [1.72960, 1.91790] | -38.17% |
 
-Targeted spread is material. The 64-field all-excluded baseline ranged 3.51078-9.11558 ms; reserved baseline ranged 6.47528-14.57305 ms; built-in dense baseline ranged 7.84510-16.14495 ms. These measurements are retained without selecting away slow processes. Sparse and reserved 128-field before/after ranges do not overlap in these five processes, but this is not a statistical or general performance guarantee.
+Targeted spread is material. The 64-field all-excluded baseline ranged 3.51078-9.11558 ms; reserved baseline ranged 6.47527-14.57305 ms; built-in dense baseline ranged 7.84510-16.14495 ms. These measurements are retained without selecting away slow processes. Sparse and reserved 128-field before/after ranges do not overlap in these five processes, but this is not a statistical or general performance guarantee.
 
 ## 50 unchanged default workloads
 
@@ -169,7 +169,7 @@ All 50 summaries were independently recomputed from 500 timing rows and 500 allo
 | extended-sparse-assignment | 9.34786 [8.80024, 12.21112] | 9.79892 [8.96572, 32.67362] | +4.83% |
 | extended-unequal-wide-assignment | 4.62588 [4.39748, 5.13692] | 4.86112 [4.57982, 6.09022] | +5.09% |
 
-The largest default median regression is dense assignment: 11.44522 to 14.19590 ms (+24.03%). Empty 128-field combined assignment increases 18.67%; sampled 128-field combined assignment increases 14.89%. Independent paths also fluctuate, but that does not justify dropping the measured regressions or claiming a general speedup. Candidate sparse assignment includes a 32.67362 ms process mean (median 9.79892 ms), and candidate competition-independent includes 12.59716 ms (median 5.46222 ms); both remain in the raw results.
+The largest default median regression is dense assignment: 11.44522 to 14.19590 ms (+24.03%). Empty 128-field combined assignment increases 18.67%; sampled 128-field combined assignment increases 14.89%. Independent paths also fluctuate: sampled 16-field name-only independent matching increases 15.70%. That does not justify dropping the measured regressions or claiming a general speedup. Candidate sparse assignment includes a 32.67362 ms process mean (median 9.79892 ms), and candidate competition-independent includes 12.59716 ms (median 5.46222 ms); both remain in the raw results.
 
 All six allocation/deallocation/reallocation count-and-byte measures are identical for 46 of 50 workloads, across all five allocation processes per revision. All allocation measurements are deterministic within each revision. Four assignment cases differ:
 
@@ -202,6 +202,7 @@ cargo +1.99.0 clippy --locked --workspace --all-targets --all-features -- -D war
 cargo +1.85.0 doc --locked --no-deps --all-features
 cargo +1.99.0 doc --locked --no-deps --all-features
 py -3.11 -m unittest discover -s performance -p test_assignment.py
+cargo +1.85.0 package --locked -p fieldkin
 
 cargo +1.85.0 run --locked --release --example assignment_compatibility -- --check-only
 # For full cross-revision comparison, run without --check-only in each checkout
