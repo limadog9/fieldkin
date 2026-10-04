@@ -11,7 +11,7 @@ The separate [Northix diagnostic](../docs/northix-evaluation.md) uses native tab
 schemas, sampled values and manual classes from the CC-BY-4.0 archive in
 `external/northix-v1`. Its [Valentine COMA comparison](../docs/valentine-comparison.md)
 uses a pinned local Python environment outside the Rust dependency graph.
-The strict current regression snapshots are in `results/continuation-v2`;
+The strict current regression snapshots are in `results/continuation-v3`;
 historical snapshots below retain their original implementation provenance.
 
 For new external evidence records, use the [verified build/run workflow](../docs/verified-evaluation.md).

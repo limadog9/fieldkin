@@ -9,7 +9,7 @@ repository = "https://github.com/limadog9/fieldkin"
 keywords = ["schema", "matching", "data", "integration"]
 categories = ["algorithms"]
 readme = "README.md"
-include = ["src/**", "examples/**", "tests/**", "benches/**", "docs/**", "README.md", "LICENSE-*", "THIRD_PARTY.md", "CONTRIBUTING.md", "MAINTAINERS.md", "ROADMAP.md", "Cargo.toml", "Cargo.lock"]
+include = ["/src/**", "/examples/**", "/tests/**", "/benches/**", "/docs/**", "/README.md", "/LICENSE-*", "/THIRD_PARTY.md", "/CONTRIBUTING.md", "/MAINTAINERS.md", "/ROADMAP.md", "/Cargo.toml", "/Cargo.lock"]
 
 [features]
 default = []
