@@ -1,0 +1,29 @@
+{
+  "dataset": "T2D Gold Standard, original complete schema annotations",
+  "retrieved_date": "2026-10-03",
+  "source_page": "https://webdatacommons.org/webtables/goldstandard.html",
+  "rights": "Section 7 explicitly licenses correspondences under Apache-2.0, separately from raw web tables and DBpedia values. Only correspondence files are redistributed here.",
+  "license": "Apache-2.0",
+  "authors": [
+    "Dominique Ritze",
+    "Oliver Lehmberg",
+    "Christian Bizer"
+  ],
+  "files": {
+    "attributes_complete.tar.gz": {
+      "url": "https://webdatacommons.org/webtables/attributes_complete.tar.gz",
+      "bytes": 84557,
+      "sha256": "c35dbeadab8908a72c3f58315a6710039b292a42a7e765ff4a3e4191f8255ba2"
+    },
+    "classes_complete.csv": {
+      "url": "https://webdatacommons.org/webtables/classes_complete.csv",
+      "bytes": 154844,
+      "sha256": "6a3724e4cce88e3b10ceb97bbdff6da3c397e7a4f9f1bd24b6ff6a7e47f6956c"
+    }
+  },
+  "derived_fixture": {
+    "path": "corpus.json",
+    "sha256": "b01d43e3600c4b15d0cc95ebda7d370ef2179f20e16d8dab715492b6202e9186"
+  },
+  "scope": "Induced annotation-only task; no raw web tables, database values, or inferred data types; all absent labels remain unknown."
+}
