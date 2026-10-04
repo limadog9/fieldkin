@@ -1,7 +1,7 @@
 {
   "protocol_version": "corrective-1.0.0",
   "baseline_revision": "3b8d65aa7c5882781588c3fb5442ca987e9a390e",
-  "feature_freeze_revision": null,
+  "feature_freeze_revision": "db47b17b45097b82f34d54af8071a5b4cc02955b",
   "default_decision": "Preserve the existing weighted default (Config.corroboration=None). Corroboration::default() is the opt-in sample_gate preset (.0 name/.5 sample); the stricter corroborated (.8/.5) model is an ablation. Both remain opt-in experiments even if this synthetic evaluation meets its targets; independent consumer data is still required before promoting a library default.",
   "public_default_corroboration": {
     "min_name_score": 0.0,
