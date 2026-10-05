@@ -11,6 +11,7 @@ mod model;
 mod northix;
 mod precision;
 mod readiness;
+mod readiness_regression;
 mod release;
 mod runner;
 mod snapshot;
@@ -19,6 +20,12 @@ mod stage3;
 fn main() {
     let mut args: Vec<_> = std::env::args().skip(1).collect();
     let result = if args
+        .first()
+        .is_some_and(|arg| arg == "--readiness-regression")
+    {
+        args.remove(0);
+        readiness_regression::run(args)
+    } else if args
         .first()
         .is_some_and(|arg| arg == "--context-qualification")
     {

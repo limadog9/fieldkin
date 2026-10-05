@@ -43,22 +43,25 @@ jobs:
       - run: cargo run --locked --features json --example persisted_review
       - run: cargo run --locked --example assignment_compatibility -- --check-only
       - run: cargo package --locked -p fieldkin
+      - run: cargo package --locked -p fieldkin --features json
       - name: Verify original development snapshots with native tooling provenance
-        run: cargo run --locked --release -p fieldkin-eval -- --check --output evaluation/results/rust-native-v1/baseline
+        run: cargo run --locked --release -p fieldkin-eval -- --check --output evaluation/results/readiness-pass-v1/current/baseline
       - name: Verify complete Stage3 development reports
-        run: cargo run --locked --release -p fieldkin-eval -- --stage3 --check --output evaluation/results/rust-native-v1/stage3
+        run: cargo run --locked --release -p fieldkin-eval -- --stage3 --check --output evaluation/results/readiness-pass-v1/current/stage3
       - name: Verify release development reports
-        run: cargo run --locked --release -p fieldkin-eval -- --release --check --output evaluation/results/rust-native-v1/release
+        run: cargo run --locked --release -p fieldkin-eval -- --release --check --output evaluation/results/readiness-pass-v1/current/release
       - name: Verify corrective development and retired original regression
-        run: cargo run --locked --release -p fieldkin-eval -- --corrective --check --output evaluation/results/rust-native-v1/corrective
+        run: cargo run --locked --release -p fieldkin-eval -- --corrective --check --output evaluation/results/readiness-pass-v1/current/corrective
       - name: Verify conflict and abstention precision against the unchanged baseline
-        run: cargo run --locked --release -p fieldkin-eval -- --precision --check --output evaluation/results/precision-v2
+        run: cargo run --locked --release -p fieldkin-eval -- --precision --check --output evaluation/results/readiness-pass-v1/current/precision
       - name: Verify development candidate precision and useful coverage
-        run: cargo run --locked --release -p fieldkin-eval -- --readiness --check --output evaluation/results/readiness-v3
+        run: cargo run --locked --release -p fieldkin-eval -- --readiness --check --output evaluation/results/readiness-pass-v1/current/readiness
+      - name: Verify same-input regression including examined qualification
+        run: cargo run --locked --release -p fieldkin-eval -- --readiness-regression --before evaluation/results/readiness-pass-v1/before --check --output evaluation/results/readiness-pass-v1/after
       - name: Verify external annotation development
-        run: cargo run --locked --release -p fieldkin-eval -- --external --check --output evaluation/results/rust-native-v1/external
+        run: cargo run --locked --release -p fieldkin-eval -- --external --check --output evaluation/results/readiness-pass-v1/current/external
       - name: Verify archived external scores with native matching
-        run: cargo run --locked --release -p fieldkin-eval -- --northix --check --scores evaluation/results/continuation-v1/valentine/valentine-schema_only.json --scores evaluation/results/continuation-v1/valentine/valentine-schema_and_samples.json --output evaluation/results/rust-native-v1/northix
+        run: cargo run --locked --release -p fieldkin-eval -- --northix --check --scores evaluation/results/continuation-v1/valentine/valentine-schema_only.json --scores evaluation/results/continuation-v1/valentine/valentine-schema_and_samples.json --output evaluation/results/readiness-pass-v1/current/northix
       - name: Reproduce licensed fixture archives offline in Rust
         run: cargo run --locked -p fieldkin-tools -- import-northix --check
       - run: cargo run --locked -p fieldkin-tools -- import-t2d --check

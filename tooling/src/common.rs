@@ -258,6 +258,18 @@ pub fn checked_path(path: &Path) -> Result<(), String> {
 }
 
 #[cfg(test)]
+pub fn canonical_test_temp_root(root: &Path) -> PathBuf {
+    // The OS-provided temporary root is trusted fixture infrastructure. macOS
+    // commonly exposes it through /var -> /private/var. Resolve only that root;
+    // production callers must still pass the original path to checked_path.
+    let root = root
+        .canonicalize()
+        .expect("trusted test temporary root must exist");
+    checked_path(&root).expect("canonical test temporary root must pass path checks");
+    root
+}
+
+#[cfg(test)]
 mod tests {
     use super::*;
     #[test]

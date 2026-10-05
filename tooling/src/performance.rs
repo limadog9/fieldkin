@@ -1751,10 +1751,14 @@ mod tests {
     use std::sync::atomic::{AtomicU64, Ordering};
 
     static NEXT: AtomicU64 = AtomicU64::new(0);
-    struct Temporary(PathBuf);
+    struct Temporary(PathBuf, PathBuf);
     impl Temporary {
         fn new() -> Self {
-            let path = std::env::temp_dir().join(format!(
+            Self::new_in(&std::env::temp_dir())
+        }
+        fn new_in(root: &Path) -> Self {
+            let root = common::canonical_test_temp_root(root);
+            let path = root.join(format!(
                 "fieldkin-native-performance-{}-{}-{}",
                 std::process::id(),
                 SystemTime::now()
@@ -1764,7 +1768,7 @@ mod tests {
                 NEXT.fetch_add(1, Ordering::Relaxed)
             ));
             fs::create_dir(&path).unwrap();
-            Self(path)
+            Self(path, root)
         }
         fn put(&self, name: &str, bytes: &[u8]) {
             let path = self.0.join(name);
@@ -1774,7 +1778,7 @@ mod tests {
     }
     impl Drop for Temporary {
         fn drop(&mut self) {
-            if self.0.starts_with(std::env::temp_dir())
+            if self.0.parent() == Some(self.1.as_path())
                 && self.0.file_name().is_some_and(|name| {
                     name.to_string_lossy()
                         .starts_with("fieldkin-native-performance-")
@@ -2164,6 +2168,30 @@ mod tests {
         assert!(checked_executable(&temporary.0.join("outside"), &target).is_err());
         assert!(checked_executable(&target, &target).is_err());
         assert!(cargo_artifact("{\"reason\":\"compiler-artifact\",\"target\":{\"name\":\"cost\",\"kind\":[\"example\"]},\"executable\":\"one\"}\n{\"reason\":\"compiler-artifact\",\"target\":{\"name\":\"cost\",\"kind\":[\"example\"]},\"executable\":\"two\"}","cost","example").is_err());
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn trusted_symlinked_temp_root_supports_fixtures_and_cleanup() {
+        let temporary = Temporary::new();
+        temporary.put("private/var/cache/benchmark", b"binary");
+        std::os::unix::fs::symlink(temporary.0.join("private/var"), temporary.0.join("var"))
+            .unwrap();
+        let raw_root = temporary.0.join("var/cache");
+        assert!(checked_executable(&raw_root.join("benchmark"), &raw_root).is_err());
+
+        let fixture = Temporary::new_in(&raw_root);
+        assert_eq!(fixture.1, temporary.0.join("private/var/cache"));
+        fixture.put("target/benchmark", b"binary");
+        assert!(checked_executable(
+            &fixture.0.join("target/benchmark"),
+            &fixture.0.join("target")
+        )
+        .is_ok());
+        let fixture_path = fixture.0.clone();
+        drop(fixture);
+        assert!(!fixture_path.exists());
+        assert!(raw_root.join("benchmark").exists());
     }
 
     #[cfg(unix)]

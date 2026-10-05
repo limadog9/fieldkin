@@ -11,6 +11,9 @@ categories = ["algorithms"]
 readme = "README.md"
 include = ["/src/**", "/examples/**", "/tests/**", "/benches/**", "/docs/**", "/README.md", "/LICENSE-*", "/THIRD_PARTY.md", "/CONTRIBUTING.md", "/MAINTAINERS.md", "/ROADMAP.md", "/Cargo.toml", "/Cargo.lock"]
 
+[package.metadata.docs.rs]
+features = ["json"]
+
 [features]
 default = []
 json = ["dep:serde", "dep:serde_json"]

@@ -149,6 +149,26 @@ fn schemas(case: &Case) -> Result<(Schema, Schema), String> {
     Ok((corpus::schema(&case.source)?, corpus::schema(&case.target)?))
 }
 
+/// The published first qualification is examined regression evidence now.
+/// This route neither scores a new holdout nor changes its frozen protocol.
+pub(crate) fn examined_cases() -> Result<Vec<readiness::Case>, String> {
+    cases(&protocol()?)?
+        .into_iter()
+        .map(|case| {
+            let (source, target) = schemas(&case)?;
+            Ok(readiness::Case {
+                id: case.id,
+                family: case.family_id,
+                domain: case.domain,
+                variant: case.variant,
+                source,
+                target,
+                labels: case.labels,
+            })
+        })
+        .collect()
+}
+
 fn pct(value: Option<f64>) -> String {
     value.map_or_else(|| "n/a".into(), |value| format!("{:.2}%", value * 100.0))
 }

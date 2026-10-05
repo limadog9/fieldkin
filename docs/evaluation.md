@@ -104,10 +104,10 @@ supports only latest stable Rust. The original held-out families are now
 regression evidence, not a fresh test set.
 
 Current development checks use the native evaluator and the planned strict
-snapshot at `evaluation/results/rust-native-v1/baseline`:
+snapshot at `evaluation/results/readiness-pass-v1/current/baseline`:
 
 ```text
-cargo +stable run --locked --release -p fieldkin-eval -- --check --output evaluation/results/rust-native-v1/baseline
+cargo +stable run --locked --release -p fieldkin-eval -- --check --output evaluation/results/readiness-pass-v1/current/baseline
 cargo +stable test --locked --all-features
 cargo +stable clippy --locked --workspace --all-targets --all-features -- -D warnings
 ```

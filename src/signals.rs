@@ -4,6 +4,7 @@ use std::collections::{BTreeMap, BTreeSet};
 
 use unicode_normalization::{char::is_combining_mark, UnicodeNormalization};
 
+use crate::semantic_name::{normalize_word_forms, NameScope, DEFAULT_ALIASES};
 use crate::{DataType, Evidence, Field, InputError, MatchError, Matcher, SampleValue};
 
 /// Split a name at separators, case/acronym boundaries and letter-digit boundaries.
@@ -54,6 +55,9 @@ pub fn normalize_name(name: &str) -> Vec<String> {
 /// establish whether a monetary field is gross, net, taxable or in the right currency.
 /// Names exceeding 1024 bytes after normalization and alias expansion (including
 /// one space between tokens) return an error before string similarity is computed.
+/// An engine with contextual evidence enabled also applies a small shared set of
+/// event word forms in declared or sampled Boolean/temporal contexts. Direct
+/// evaluation and engines with the default configuration retain ordinary names.
 #[derive(Clone, Debug)]
 pub struct NameMatcher {
     /// One-pass token substitutions, applied after normalization. Keys and values
@@ -66,10 +70,10 @@ pub struct NameMatcher {
 impl Default for NameMatcher {
     fn default() -> Self {
         Self {
-            aliases: BTreeMap::from([
-                ("amt".to_owned(), "amount".to_owned()),
-                ("trans".to_owned(), "transaction".to_owned()),
-            ]),
+            aliases: DEFAULT_ALIASES
+                .into_iter()
+                .map(|(from, to)| (from.to_owned(), to.to_owned()))
+                .collect(),
         }
     }
 }
@@ -83,6 +87,7 @@ struct NameTokens {
     joined: String,
     substitutions: usize,
     applied_aliases: BTreeSet<String>,
+    word_forms: BTreeSet<String>,
 }
 
 impl NameMatcher {
@@ -139,21 +144,39 @@ impl NameMatcher {
     }
 
     pub(crate) fn prepare(&self, name: &str) -> PreparedName {
+        self.prepare_scoped(name, None)
+    }
+
+    pub(crate) fn prepare_contextual(&self, field: &Field) -> PreparedName {
+        self.prepare_scoped(&field.name, Some(NameScope::for_field(field)))
+    }
+
+    fn prepare_scoped(&self, name: &str, scope: Option<NameScope>) -> PreparedName {
         PreparedName {
             value: self
                 .tokens(name)
-                .map(|(mut tokens, substitutions, applied_aliases)| {
+                .and_then(|(mut tokens, substitutions, applied_aliases)| {
+                    let word_forms = scope
+                        .map(|scope| normalize_word_forms(&mut tokens, scope))
+                        .unwrap_or_default();
                     // Keep original token order for character similarity and exact
                     // equality, and a sorted set for allocation-free intersections.
                     let joined = tokens.join(" ");
+                    if joined.len() > 1024 {
+                        return Err(
+                            "Normalized, alias-expanded names must be at most 1024 bytes"
+                                .to_owned(),
+                        );
+                    }
                     tokens.sort_unstable();
                     tokens.dedup();
-                    NameTokens {
+                    Ok(NameTokens {
                         distinct: tokens,
                         joined,
                         substitutions,
                         applied_aliases,
-                    }
+                        word_forms,
+                    })
                 }),
         }
     }
@@ -220,6 +243,16 @@ impl NameMatcher {
                     explanation.push_str("; ");
                 }
                 explanation.push_str(alias);
+            }
+        }
+        let word_forms: BTreeSet<_> = source.word_forms.iter().chain(&target.word_forms).collect();
+        if !word_forms.is_empty() {
+            explanation.push_str(". Contextual word forms: ");
+            for (index, form) in word_forms.into_iter().enumerate() {
+                if index > 0 {
+                    explanation.push_str("; ");
+                }
+                explanation.push_str(form);
             }
         }
         Ok(Evidence {

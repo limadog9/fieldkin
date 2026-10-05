@@ -10,6 +10,9 @@ crates.io. The API is experimental. Latest stable Rust is required
 (Rust 1.99.0 for the October 4, 2026 validation); MIT OR Apache-2.0.
 The sole maintainer and final decision-maker is [@limadog9](https://github.com/limadog9).
 
+**Release decision: not qualified.** The current [readiness pass](https://github.com/limadog9/fieldkin/blob/main/docs/readiness-pass.md)
+records matching regressions, platform and package checks, and remaining evidence gaps.
+
 ## Quick start
 
 Use a local checkout of `main` and `fieldkin = { path = "../fieldkin" }`.
@@ -73,7 +76,7 @@ Use `Field::with_samples` with `SampleValue::{Null, Boolean, Number, Integer, De
 Text sample equality is exact, with no value conversions.
 `Number` retains `f64` measurements. Use `Integer(i128)` and
 `Decimal(ExactDecimal)` for exact values; numeric kinds are not implicitly cast.
-See [exact numeric samples](docs/exact-numbers.md) for scale and range rules.
+See [exact numeric samples](https://github.com/limadog9/fieldkin/blob/main/docs/exact-numbers.md) for scale and range rules.
 Callers are responsible for representative sampling and truthful declared types.
 
 `SKU_Code → product_id` needs domain evidence, such as caller-defined token aliases
@@ -81,7 +84,7 @@ or a custom `Matcher`. Shared sample values alone are deliberately insufficient
 under the defaults. Likewise, gross/net amounts, currencies, units, timezones,
 identifier scope, and similarly shaped unrelated data can fool lexical or value
 evidence. Fieldkin has no general semantic guarantee. See
-[design and failure cases](docs/design.md).
+[design and failure cases](https://github.com/limadog9/fieldkin/blob/main/docs/design.md).
 
 Verified metadata can rule out an otherwise convincing candidate:
 
@@ -103,7 +106,7 @@ Conflicts exclude a pair; missing hints imply no agreement. Labels compare
 exactly, without conversions or guessing. `NameMatcher::with_alias` validates
 explicit token replacements, which are listed in explanations. Optional
 `SampleProfileMatcher` compares sample shapes but is disabled by default because
-unrelated fields can have identical profiles. See [Stage 3 migration and limits](docs/stage3-migration.md).
+unrelated fields can have identical profiles. See [Stage 3 migration and limits](https://github.com/limadog9/fieldkin/blob/main/docs/stage3-migration.md).
 
 An application can require sampled support before accepting a pair as eligible:
 
@@ -126,8 +129,8 @@ This opt-in gate requires positive built-in name evidence and distinct-aware
 sample evidence scoring at least 0.5. Scores and ranking remain unchanged;
 unsupported candidates are retained for review. Unavailable or disjoint samples
 lose eligibility, and coincidental shared values can still mislead. The weighted
-default remains unchanged. See [corroboration and its tradeoffs](docs/corroboration.md)
-and the [complete example](examples/corroboration.rs).
+default remains unchanged. See [corroboration and its tradeoffs](https://github.com/limadog9/fieldkin/blob/main/docs/corroboration.md)
+and the [complete example](https://github.com/limadog9/fieldkin/blob/main/examples/corroboration.rs).
 
 `Config::name_conflicts` can separately exclude conflicting qualifiers or unit
 phrases using caller-configured alternatives and synonyms. It inspects normalized
@@ -135,8 +138,8 @@ names before aliases and preserves scores and ranked evidence. The default rule
 list is empty. On the unchanged 960-decision development baseline, the fixed
 conflict vocabulary removes five false proposals while retaining all 321 correct
 independent matches: precision rises from 76.07% to 76.98%, with unique coverage
-unchanged at 44.66%. See [configuration](docs/precision.md) and the
-[precision and coverage report](docs/precision-evaluation.md).
+unchanged at 44.66%. See [configuration](https://github.com/limadog9/fieldkin/blob/main/docs/precision.md) and the
+[precision and coverage report](https://github.com/limadog9/fieldkin/blob/main/docs/precision-evaluation.md).
 
 `Config::contextual_evidence` enables an experimental policy that combines
 informative name agreement with adequate or distinctive sampled support:
@@ -169,7 +172,7 @@ observed agreement, measurement representation and temporal roles. Context uses
 every original hard-compatible pair before caller review, ambiguity, assignment
 and display truncation. It requires active concrete built-in name and default
 distinct-aware sample signals; custom signal names cannot substitute. See
-[release-readiness evidence and limits](docs/release-readiness.md).
+[release-readiness evidence and limits](https://github.com/limadog9/fieldkin/blob/main/docs/release-readiness.md).
 
 ## API and customization
 
@@ -199,8 +202,8 @@ assert_eq!(report.fields[0].selected.as_ref().unwrap().target.0, "gross");
 Confirmations retain actual heuristic scores; they are caller decisions, not
 stronger automatic evidence. In one-to-one mode they reserve targets before the
 remaining proposals are computed. Invalid or contradictory directives return
-typed errors. See [review semantics and limits](docs/review-constraints.md) and
-the [reviewed importer](examples/reviewed_import.rs).
+typed errors. See [review semantics and limits](https://github.com/limadog9/fieldkin/blob/main/docs/review-constraints.md) and
+the [reviewed importer](https://github.com/limadog9/fieldkin/blob/main/examples/reviewed_import.rs).
 
 - `Schema`, `Field`, `FieldId`, `DataType`, and `SampleValue` describe inputs. IDs
   must be nonempty and unique within each schema; names can repeat.
@@ -242,12 +245,12 @@ matching methods and an experimental framework. Fieldkin does not reimplement
 Valentine or claim to be the first or fastest matcher. Its contribution here is
 a small Rust API with explicit missing evidence, abstention, bounded inputs,
 stable identities, and partial global assignment. See
-[landscape and attribution](docs/landscape.md) and [THIRD_PARTY.md](THIRD_PARTY.md).
+[landscape and attribution](https://github.com/limadog9/fieldkin/blob/main/docs/landscape.md) and [THIRD_PARTY.md](https://github.com/limadog9/fieldkin/blob/main/THIRD_PARTY.md).
 
 ## Embedding and diagnostics
 
-The [usage guide](docs/usage.md) and compiling
-[importer](examples/import_review.rs) / [catalog](examples/catalog_review.rs)
+The [usage guide](https://github.com/limadog9/fieldkin/blob/main/docs/usage.md) and compiling
+[importer](https://github.com/limadog9/fieldkin/blob/main/examples/import_review.rs) / [catalog](https://github.com/limadog9/fieldkin/blob/main/examples/catalog_review.rs)
 examples show how to preserve unmatched fields and keep review decisions in your
 application. `MatchError` variants and typed candidate/field diagnostics support
 programmatic handling without parsing explanation strings.
@@ -256,16 +259,16 @@ For one-to-one matching, optional `Config::global_diagnostics` probes alternativ
 assignments within explicit solve/work budgets. It reports total-objective gaps,
 changed IDs and whether analysis completed. It never changes proposals, and
 incomplete analysis cannot establish uniqueness. See
-[global diagnostics](docs/stage4-diagnostics.md) and the
-[migration guide](docs/migration.md).
+[global diagnostics](https://github.com/limadog9/fieldkin/blob/main/docs/stage4-diagnostics.md) and the
+[migration guide](https://github.com/limadog9/fieldkin/blob/main/docs/migration.md).
 
 Enable the optional `json` feature for bounded report export and saved review
 decisions. `json::report_to_json` exports a display report; it cannot be imported
 as accepted mappings. `json::review_to_json` and `json::review_from_json` preserve
 explicit caller decisions with application-owned source/target revisions.
 Arbitrary matcher text is omitted by default, and no schema or sample serializer
-is provided. See [the JSON boundary](docs/json.md) and the compiling
-[resume-review example](examples/persisted_review.rs). Adapters remain deferred.
+is provided. See [the JSON boundary](https://github.com/limadog9/fieldkin/blob/main/docs/json.md) and the compiling
+[resume-review example](https://github.com/limadog9/fieldkin/blob/main/examples/persisted_review.rs). Adapters remain deferred.
 
 ## Validation and development
 
@@ -293,38 +296,38 @@ and the CC-BY-4.0 Northix benchmark, each with provenance and notices. The basel
 default engine on small labeled cases; it is a regression illustration, not a
 real-world accuracy claim. Benchmarks generate fixed inputs in memory and use
 `std::hint::black_box`; report toolchain, hardware, and workload alongside timings.
-See [benchmark results](docs/benchmarks.md), [CONTRIBUTING.md](CONTRIBUTING.md),
-[ROADMAP.md](ROADMAP.md), and [MAINTAINERS.md](MAINTAINERS.md).
+See [benchmark results](https://github.com/limadog9/fieldkin/blob/main/docs/benchmarks.md), [CONTRIBUTING.md](https://github.com/limadog9/fieldkin/blob/main/CONTRIBUTING.md),
+[ROADMAP.md](https://github.com/limadog9/fieldkin/blob/main/ROADMAP.md), and [MAINTAINERS.md](https://github.com/limadog9/fieldkin/blob/main/MAINTAINERS.md).
 
 Stage 1 added a separate development-only evaluation package with 40 synthetic
 families, 200 schema pairs and 1,200 labeled source decisions. The
-[evaluation report](docs/evaluation.md) records the initial matcher's results,
+[evaluation report](https://github.com/limadog9/fieldkin/blob/main/docs/evaluation.md) records the initial matcher's results,
 including substantial false-proposal rates; the roadmap's precision and coverage
 targets are not yet met. The full reproduction guide is in
 [evaluation/](https://github.com/limadog9/fieldkin/tree/main/evaluation).
 
 Stage 2 prepares built-in names and samples once per field within each call.
-The [performance report](docs/stage2-performance.md) records five-run before/after
+The [performance report](https://github.com/limadog9/fieldkin/blob/main/docs/stage2-performance.md) records five-run before/after
 measurements, allocation costs and the slower report-budget rejection path.
 Stage 2 preserved all frozen development decisions; those measurements precede
 the deliberate scoring changes in Stage 3.
 
 Stage 3 adds distinct-aware sample reliability, exact integers/decimals, verified
 semantic hints, inspectable aliases and optional sample profiles. Its
-[development evaluation](docs/stage3-evaluation.md) reports the full tradeoff:
+[development evaluation](https://github.com/limadog9/fieldkin/blob/main/docs/stage3-evaluation.md) reports the full tradeoff:
 default precision is nearly unchanged and recall is lower on the original
 development corpus. Profiles remain opt-in and the 95% precision target is still
-unmet. See the [migration guide](docs/stage3-migration.md) for API changes.
+unmet. See the [migration guide](https://github.com/limadog9/fieldkin/blob/main/docs/stage3-migration.md) for API changes.
 
 ## Release qualification
 
 The October 3, 2026 roadmap implementation and qualification are recorded in
-the [candidate scorecard](docs/release-scorecard.md). One million generated cases
+the [candidate scorecard](https://github.com/limadog9/fieldkin/blob/main/docs/release-scorecard.md). One million generated cases
 passed, but original held-out precision is **37.5%** and unique-field coverage **40%**:
 the planned quality bar is unmet. Fieldkin remains experimental and unpublished.
-See the [changelog](docs/changelog.md) for delivered features and deferred work.
+See the [changelog](https://github.com/limadog9/fieldkin/blob/main/docs/changelog.md) for delivered features and deferred work.
 
-The subsequent historical [corroboration experiment](docs/corroboration-evaluation.md)
+The subsequent historical [corroboration experiment](https://github.com/limadog9/fieldkin/blob/main/docs/corroboration-evaluation.md)
 introduced 24 synthetic families. On that experiment's frozen holdout, the opt-in sample gate reduces
 false independent proposals from 55 to 32, while the number of correct independent
 proposals stays at 20: precision improves from 26.67% to 38.46%, but unique coverage
@@ -332,26 +335,26 @@ is only 16.30%. These harder challenge cases are a separate dataset, not a trend
 against the earlier 37.5% result. Defaults remain unchanged; all misses and the
 stricter name-floor ablation are documented.
 
-The next phases add [caller review constraints](docs/review-constraints.md) and
-[external annotation evidence](docs/external-evaluation.md). The latter evaluates
+The next phases add [caller review constraints](https://github.com/limadog9/fieldkin/blob/main/docs/review-constraints.md) and
+[external annotation evidence](https://github.com/limadog9/fieldkin/blob/main/docs/external-evaluation.md). The latter evaluates
 549 development tables and leaves 218 tables reserved by whole class. Its labels
 are positive-only, so it cannot establish precision or unmatched-field safety.
-The [follow-up qualification](docs/review-qualification.md) records 213 passing
+The [follow-up qualification](https://github.com/limadog9/fieldkin/blob/main/docs/review-qualification.md) records 213 passing
 Rust tests, five importer tests, a 1.2-million-case generated campaign and measured
 costs. These engineering checks do not close the original accuracy gap.
 
-The [verified external evaluation workflow](docs/verified-evaluation.md) binds new
+The [verified external evaluation workflow](https://github.com/limadog9/fieldkin/blob/main/docs/verified-evaluation.md) binds new
 development runs to a recorded executable, source inputs and build configuration.
 It rejects stale builds and changed inputs before recording a successful run.
 This development tooling adds no library dependency and does not score the reserved
 holdout or change matching behavior.
 
-The [partial-assignment optimization](docs/assignment-performance.md) skips
+The [partial-assignment optimization](https://github.com/limadog9/fieldkin/blob/main/docs/assignment-performance.md) skips
 unused target columns and solves with no eligible positive edges.
 All pairs are still scored, and diagnostics retain their original work budgets.
 The report documents full-report compatibility checks and measured costs.
 
-The historical [remaining build cycle](docs/continuation-scorecard.md) added optional
+The historical [remaining build cycle](https://github.com/limadog9/fieldkin/blob/main/docs/continuation-scorecard.md) added optional
 review persistence, a bounded 1,000-field scale experiment and a frozen
 Northix/Valentine comparison. Active fixture imports and verified evaluation now
 use the native Rust `fieldkin-tools` package. Local Python/Valentine COMA execution
@@ -361,5 +364,5 @@ external matcher. Default input limits and weighted matching remain unchanged.
 
 ## License
 
-Licensed under either [MIT](LICENSE-MIT) or [Apache License 2.0](LICENSE-APACHE),
+Licensed under either [MIT](https://github.com/limadog9/fieldkin/blob/main/LICENSE-MIT) or [Apache License 2.0](https://github.com/limadog9/fieldkin/blob/main/LICENSE-APACHE),
 at your option. Dependency code retains its original copyright and license.

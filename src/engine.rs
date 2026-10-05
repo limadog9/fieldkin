@@ -60,7 +60,12 @@ enum PreparedSignal<'a> {
 }
 
 impl<'a> PreparedSignal<'a> {
-    fn new(signal: &'a WeightedMatcher, source: &[&'a Field], target: &[&'a Field]) -> Self {
+    fn new(
+        signal: &'a WeightedMatcher,
+        source: &[&'a Field],
+        target: &[&'a Field],
+        contextual: bool,
+    ) -> Self {
         // Empty products and disabled signals never evaluate evidence, including
         // invalid aliases or matcher-specific settings.
         if signal.weight == 0.0 || source.is_empty() || target.is_empty() {
@@ -72,11 +77,23 @@ impl<'a> PreparedSignal<'a> {
                 matcher,
                 source: source
                     .iter()
-                    .map(|field| matcher.prepare(&field.name))
+                    .map(|field| {
+                        if contextual {
+                            matcher.prepare_contextual(field)
+                        } else {
+                            matcher.prepare(&field.name)
+                        }
+                    })
                     .collect(),
                 target: target
                     .iter()
-                    .map(|field| matcher.prepare(&field.name))
+                    .map(|field| {
+                        if contextual {
+                            matcher.prepare_contextual(field)
+                        } else {
+                            matcher.prepare(&field.name)
+                        }
+                    })
                     .collect(),
             }
         } else if let Some(matcher) = concrete.and_then(|m| m.downcast_ref::<SampleMatcher>()) {
@@ -247,7 +264,14 @@ impl MatchEngine {
         let prepared: Vec<_> = self
             .matchers
             .iter()
-            .map(|signal| PreparedSignal::new(signal, &sources, &targets))
+            .map(|signal| {
+                PreparedSignal::new(
+                    signal,
+                    &sources,
+                    &targets,
+                    self.config.contextual_evidence.is_some(),
+                )
+            })
             .collect();
         let name_conflicts = (!self.name_conflicts.is_empty()).then(|| {
             let prepare = |fields: &[&Field]| {
@@ -279,10 +303,24 @@ impl MatchEngine {
                 &sources,
                 &targets,
                 &mut candidates,
-                self.contextual_sample_signal
-                    .ok_or(MatchError::InvalidConfiguration(
-                        ConfigurationError::ContextualEvidence,
-                    ))?,
+                (
+                    self.matchers
+                        .iter()
+                        .filter(|signal| signal.weight > 0.0)
+                        .find_map(|signal| {
+                            signal
+                                .matcher
+                                .as_any()
+                                .and_then(|matcher| matcher.downcast_ref::<NameMatcher>())
+                        })
+                        .ok_or(MatchError::InvalidConfiguration(
+                            ConfigurationError::ContextualEvidence,
+                        ))?,
+                    self.contextual_sample_signal
+                        .ok_or(MatchError::InvalidConfiguration(
+                            ConfigurationError::ContextualEvidence,
+                        ))?,
+                ),
                 &mut explanation_bytes,
             )?;
             Some(candidates.into_iter())

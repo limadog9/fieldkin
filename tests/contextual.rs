@@ -229,6 +229,401 @@ fn temporal_sample_recovery_requires_shared_informative_roles() {
 }
 
 #[test]
+fn scoped_word_forms_recover_event_names_in_both_assignments() {
+    // Prefixes and separator variants exercise word forms, rather than a table
+    // of complete field names. Samples are optional for these informative roles.
+    for (source_name, target_name, data_type) in [
+        ("expiry", "expiration_date", DataType::Date),
+        ("CouponExpiry", "coupon_expiration_date", DataType::Date),
+        ("settled_at", "settlement_timestamp", DataType::Timestamp),
+        (
+            "payment_settled_on",
+            "payment_settlement_timestamp",
+            DataType::Timestamp,
+        ),
+        ("is_reversed", "reversal_flag", DataType::Boolean),
+        (
+            "IsPaymentReversed",
+            "payment_reversal_flag",
+            DataType::Boolean,
+        ),
+        ("is_settled", "settlement_flag", DataType::Boolean),
+        ("reversed_at", "reversal_timestamp", DataType::Timestamp),
+    ] {
+        for one_to_one in [false, true] {
+            let report = match_fields(
+                vec![Field::new("s", source_name, data_type)],
+                vec![Field::new("t", target_name, data_type)],
+                Config {
+                    one_to_one,
+                    ..config()
+                },
+            );
+            let selected = report.fields[0].selected.as_ref().unwrap_or_else(|| {
+                panic!("{source_name} -> {target_name}: {:?}", report.fields[0])
+            });
+            assert_eq!(selected.target.0, "t");
+            assert!(selected.signals[0]
+                .evidence
+                .explanation
+                .contains("Contextual word forms"));
+        }
+    }
+}
+
+#[test]
+fn temporal_normalization_preserves_event_entity_and_qualifier_scope() {
+    let samples = [
+        "2026-01-02T10:00:00Z",
+        "2026-01-03T10:00:00Z",
+        "2026-01-04T10:00:00Z",
+    ]
+    .into_iter()
+    .map(|value| SampleValue::Text(value.into()))
+    .collect::<Vec<_>>();
+    for (source_name, target_name) in [
+        ("coupon_expiry", "account_expiration_date"),
+        ("estimated_expiry", "actual_expiration_date"),
+        ("estimated_expiry", "expiration_date"),
+        ("payment_settled_at", "refund_settlement_timestamp"),
+        ("estimated_settled_at", "actual_settlement_timestamp"),
+        ("shipment_received_at", "shipment_dispatched_on"),
+        ("payment_reversed_at", "payment_received_timestamp"),
+    ] {
+        for one_to_one in [false, true] {
+            let report =
+                match_fields(
+                    vec![Field::new("s", source_name, DataType::Timestamp)
+                        .with_samples(samples.clone())],
+                    vec![Field::new("t", target_name, DataType::Timestamp)
+                        .with_samples(samples.clone())],
+                    Config {
+                        one_to_one,
+                        ..config()
+                    },
+                );
+            assert!(
+                report.fields[0].selected.is_none(),
+                "{source_name} -> {target_name}"
+            );
+            assert!(report.fields[0].candidates[0]
+                .issues
+                .contains(&CandidateIssue::InsufficientContextSupport));
+        }
+    }
+}
+
+#[test]
+fn boolean_normalization_preserves_polarity_and_consent_scope() {
+    for (source_name, target_name) in [
+        ("is_not_reversed", "reversal_flag"),
+        ("is_reversed", "not_reversal_flag"),
+        ("is_unreversed", "reversal_flag"),
+        ("is_not_settled", "settlement_flag"),
+        ("is_settled", "unsettled_flag"),
+        (
+            "is_marketing_consent_reversed",
+            "analytics_consent_reversal_flag",
+        ),
+        ("is_marketing_consent", "analytics_consent_flag"),
+        ("is_active", "enabled_flag"),
+        ("is_customer_active", "customer_enabled_flag"),
+        ("customer_active_enabled", "customer_active_flag"),
+        ("has_reversal", "reversal_flag"),
+    ] {
+        let report = match_fields(
+            vec![
+                Field::new("s", source_name, DataType::Boolean).with_samples(vec![
+                    SampleValue::Boolean(true),
+                    SampleValue::Boolean(false),
+                ]),
+            ],
+            vec![
+                Field::new("t", target_name, DataType::Boolean).with_samples(vec![
+                    SampleValue::Boolean(true),
+                    SampleValue::Boolean(false),
+                ]),
+            ],
+            config(),
+        );
+        assert!(
+            report.fields[0].selected.is_none(),
+            "{source_name} -> {target_name}"
+        );
+    }
+    for (source_name, target_name) in [
+        ("is_customer_enabled", "customer_enabled_flag"),
+        ("is_active", "active_flag"),
+        (
+            "is_marketing_consent_reversed",
+            "marketing_consent_reversal_flag",
+        ),
+    ] {
+        let report = match_fields(
+            vec![Field::new("s", source_name, DataType::Boolean)],
+            vec![Field::new("t", target_name, DataType::Boolean)],
+            config(),
+        );
+        assert!(
+            report.fields[0].selected.is_some(),
+            "{source_name} -> {target_name}"
+        );
+    }
+    for (source_name, target_name) in [("enabled", "enabled"), ("is_enabled", "enabled_flag")] {
+        let report = match_fields(
+            vec![Field::new("s", source_name, DataType::Boolean)],
+            vec![Field::new("t", target_name, DataType::Boolean)],
+            config(),
+        );
+        assert!(report.fields[0].selected.is_none());
+    }
+}
+
+#[test]
+fn identifier_samples_cannot_erase_an_explicit_entity_distinction() {
+    for (source_name, target_name) in [
+        ("customer_id", "supplier_id"),
+        ("customer_account_id", "supplier_account_id"),
+        ("customer_id_1", "customer_id_2"),
+        ("settled_payment_id", "settlement_payment_id"),
+    ] {
+        let report = match_fields(
+            vec![sampled("s", source_name, &[10, 20, 30])],
+            vec![sampled("t", target_name, &[10, 20, 30])],
+            config(),
+        );
+        assert!(
+            report.fields[0].selected.is_none(),
+            "{source_name} -> {target_name}"
+        );
+    }
+    let report = match_fields(
+        vec![sampled("s", "customer_account_id", &[10, 20, 30])],
+        vec![sampled("t", "customer_account_key", &[10, 20, 30])],
+        config(),
+    );
+    assert!(report.fields[0].selected.is_some());
+}
+
+#[test]
+fn sampled_recovery_preserves_explicit_modifiers_and_non_temporal_roles() {
+    for (source_name, target_name) in [
+        ("estimated_amount", "actual_amount"),
+        ("estimated_amount", "amount"),
+        ("not_charge_amount", "charge_amount"),
+        ("received_quantity", "dispatched_quantity"),
+        ("marketing_consent_count", "analytics_consent_count"),
+    ] {
+        let mut source = sampled("s", source_name, &[10, 20, 30]);
+        let mut target = sampled("t", target_name, &[10, 20, 30]);
+        source.data_type = DataType::Integer;
+        target.data_type = DataType::Integer;
+        let report = match_fields(vec![source], vec![target], config());
+        assert!(
+            report.fields[0].selected.is_none(),
+            "{source_name} -> {target_name}"
+        );
+    }
+}
+
+#[test]
+fn normalized_roles_preserve_direction_and_generic_event_markers() {
+    for (source_name, target_name, data_type) in [
+        (
+            "customer_to_supplier_settled_at",
+            "supplier_to_customer_settlement_timestamp",
+            DataType::Timestamp,
+        ),
+        (
+            "shipment_created_at",
+            "shipment_updated_timestamp",
+            DataType::Timestamp,
+        ),
+        (
+            "from_customer_to_supplier_id",
+            "from_supplier_to_customer_id",
+            DataType::Integer,
+        ),
+    ] {
+        let mut source = sampled("s", source_name, &[10, 20, 30]);
+        let mut target = sampled("t", target_name, &[10, 20, 30]);
+        source.data_type = data_type;
+        target.data_type = data_type;
+        let report = match_fields(vec![source], vec![target], config());
+        assert!(
+            report.fields[0].selected.is_none(),
+            "{source_name} -> {target_name}"
+        );
+    }
+    let report = match_fields(
+        vec![Field::new(
+            "s",
+            "customer_to_supplier_settled_at",
+            DataType::Timestamp,
+        )],
+        vec![Field::new(
+            "t",
+            "customer_to_supplier_settlement_timestamp",
+            DataType::Timestamp,
+        )],
+        config(),
+    );
+    assert!(report.fields[0].selected.is_some());
+}
+
+#[test]
+fn contextual_cores_honor_the_active_name_matcher_alias_configuration() {
+    for (use_aliases, expected) in [(false, false), (true, true)] {
+        let mut names = NameMatcher::default();
+        if !use_aliases {
+            names.aliases.clear();
+        }
+        let report = MatchEngine::with_matchers(
+            config(),
+            vec![
+                WeightedMatcher::new(0.65, names),
+                WeightedMatcher::new(0.20, TypeMatcher),
+                WeightedMatcher::new(0.15, SampleMatcher::default()),
+            ],
+        )
+        .unwrap()
+        .match_schemas(
+            &Schema::new(vec![Field::new("s", "customer_amt", DataType::Text)]),
+            &Schema::new(vec![Field::new("t", "customer_amount", DataType::Text)]),
+        )
+        .unwrap();
+        assert_eq!(report.fields[0].selected.is_some(), expected);
+    }
+}
+
+#[test]
+fn contextual_word_form_expansion_respects_the_name_bound() {
+    let name = format!("{}_expiry", "a".repeat(1017));
+    let source = Schema::new(vec![Field::new("s", name.clone(), DataType::Date)]);
+    let target = Schema::new(vec![Field::new("t", name, DataType::Date)]);
+    let mut baseline = Config::default();
+    baseline.limits.max_name_bytes = 1024;
+    let mut contextual = config();
+    contextual.limits.max_name_bytes = 1024;
+    assert!(MatchEngine::new(baseline)
+        .unwrap()
+        .match_schemas(&source, &target)
+        .is_ok());
+    assert_eq!(
+        MatchEngine::new(contextual)
+            .unwrap()
+            .match_schemas(&source, &target),
+        Err(MatchError::MatcherFailed {
+            name: "name".into()
+        })
+    );
+}
+
+#[test]
+fn empty_contextual_products_do_not_expand_or_validate_unused_aliases() {
+    let mut names = NameMatcher::default();
+    names.aliases.insert("expiry".into(), "x ".repeat(4096));
+    let engine = MatchEngine::with_matchers(
+        config(),
+        vec![
+            WeightedMatcher::new(1.0, names),
+            WeightedMatcher::new(1.0, SampleMatcher::default()),
+        ],
+    )
+    .unwrap();
+    let schema = Schema::new(vec![Field::new("s", "expiry", DataType::Date)]);
+    let empty = Schema::new(Vec::new());
+    assert!(engine.match_schemas(&schema, &empty).is_ok());
+    assert!(engine.match_schemas(&empty, &schema).is_ok());
+    assert!(matches!(
+        engine.match_schemas(&schema, &schema),
+        Err(MatchError::MatcherFailed { .. })
+    ));
+}
+
+#[test]
+fn word_forms_require_semantic_type_evidence_and_preserve_representation() {
+    for (source_name, target_name) in [
+        ("expiry", "expiration_date"),
+        ("settled", "settlement"),
+        ("reversed", "reversal"),
+    ] {
+        let report = match_fields(
+            vec![field("s", source_name)],
+            vec![field("t", target_name)],
+            config(),
+        );
+        assert!(
+            report.fields[0].selected.is_none(),
+            "{source_name} -> {target_name}"
+        );
+    }
+    for samples in [None, Some(vec![SampleValue::Text("2026-01-02".into()); 3])] {
+        let mut source = Field::new("s", "expiry", DataType::Date);
+        let mut target = Field::new("t", "expiration_timestamp", DataType::Timestamp);
+        source.samples = samples.clone();
+        target.samples = samples;
+        let report = match_fields(vec![source], vec![target], config());
+        assert!(report.fields[0].selected.is_none());
+    }
+    for (source_name, target_name) in [("f17", "v02"), ("f17", "f17"), ("v02", "v02")] {
+        let report = match_fields(
+            vec![field("s", source_name)],
+            vec![field("t", target_name)],
+            config(),
+        );
+        assert!(report.fields[0].selected.is_none());
+    }
+}
+
+#[test]
+fn scoped_recovery_still_obeys_currency_unit_and_verified_scope_conflicts() {
+    for (source_hints, target_hints) in [
+        (
+            SemanticHints {
+                currency: Some("USD".into()),
+                ..Default::default()
+            },
+            SemanticHints {
+                currency: Some("EUR".into()),
+                ..Default::default()
+            },
+        ),
+        (
+            SemanticHints {
+                unit: Some("kg".into()),
+                ..Default::default()
+            },
+            SemanticHints {
+                unit: Some("lb".into()),
+                ..Default::default()
+            },
+        ),
+        (
+            SemanticHints {
+                identifier_scope: Some("customer".into()),
+                ..Default::default()
+            },
+            SemanticHints {
+                identifier_scope: Some("supplier".into()),
+                ..Default::default()
+            },
+        ),
+    ] {
+        let mut source = Field::new("s", "is_reversed", DataType::Boolean);
+        let mut target = Field::new("t", "reversal_flag", DataType::Boolean);
+        source.hints = source_hints;
+        target.hints = target_hints;
+        let report = match_fields(vec![source], vec![target], config());
+        assert!(report.fields[0].selected.is_none());
+        assert!(report.fields[0].candidates[0]
+            .issues
+            .iter()
+            .any(|issue| { matches!(issue, CandidateIssue::SemanticConflict(_)) }));
+    }
+}
+
+#[test]
 fn qualified_units_and_aliases_preserve_useful_matches_without_unit_conversion() {
     let report = match_fields(
         vec![sampled("s", "shipment_package_weight_kg", &[10, 20, 30])],

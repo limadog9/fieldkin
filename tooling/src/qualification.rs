@@ -947,7 +947,8 @@ mod tests {
             .duration_since(UNIX_EPOCH)
             .unwrap()
             .as_nanos();
-        let path = std::env::temp_dir().join(format!(
+        let temporary_root = crate::common::canonical_test_temp_root(&std::env::temp_dir());
+        let path = temporary_root.join(format!(
             "fieldkin-native-qualification-{}-{nonce}.json",
             std::process::id()
         ));
@@ -959,6 +960,7 @@ mod tests {
         changed["context_before"]["source_sha256"]["input"] = json!("changed");
         fs::write(&path, serde_json::to_vec(&changed).unwrap()).unwrap();
         assert!(load_record(&path).is_err());
+        assert_eq!(path.parent(), Some(temporary_root.as_path()));
         fs::remove_file(path).unwrap();
     }
 

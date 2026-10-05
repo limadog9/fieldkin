@@ -22,8 +22,8 @@ Active tooling requires latest stable Rust, validated with 1.99.0 on October 4,
 verified builds/runs. Older compiler maintenance and Python helpers are retired.
 Planned current native regression snapshots use `results/rust-native-v1`; earlier
 snapshots remain archived without rewriting their dated compiler/source facts.
-The planned precision and readiness snapshots use `results/precision-v2` and
-`results/readiness-v3`. A `--check` command requires its committed snapshot to
+The planned precision and readiness snapshots use `results/readiness-pass-v1/current/precision` and
+`results/readiness-pass-v1/current/readiness`. A `--check` command requires its committed snapshot to
 exist; generate new records in fresh `target/` directories without `--check`.
 
 ## Focused precision comparison
@@ -39,7 +39,7 @@ Stage 3 baseline before results are written. See the
 
 ```text
 cargo +stable run --locked --release -p fieldkin-eval -- --precision --output target/precision-development
-cargo +stable run --locked --release -p fieldkin-eval -- --precision --check --output evaluation/results/precision-v2
+cargo +stable run --locked --release -p fieldkin-eval -- --precision --check --output evaluation/results/readiness-pass-v1/current/precision
 ```
 
 The native snapshot check includes exact implementation provenance. Historical
@@ -57,6 +57,23 @@ Neither compatibility mode permits reserved holdout scoring. Existing exact
 
 ## Readiness regression
 
+The October 5 same-input comparison includes the previously published contextual
+qualification families as **examined regression evidence**, alongside all three
+existing development/stress corpora. It retains both assignments, every variant,
+all original denominators and the unchanged 95%/60%/90% gates. Fixed default and
+name-only comparators must retain identical complete report digests across builds.
+The optional `--before` report must have identical observable-input fingerprints,
+protocols and configuration. No reserved T2D or corrective partition is scored:
+
+```text
+cargo +stable run --locked --release -p fieldkin-eval -- --readiness-regression --output target/readiness-before
+cargo +stable run --locked --release -p fieldkin-eval -- --readiness-regression --before target/readiness-before --output target/readiness-after
+```
+
+Run the first command against the baseline library checkout and the second against
+the candidate, using the same regression evaluator. This is development evidence,
+never another prospective qualification. See [the current pass](../docs/readiness-pass.md).
+
 The data-only readiness comparison uses retired synthetic families as development
 stress and regression evidence. It never turns their now-known labels into
 matcher hints or treats them as a fresh holdout. The current planned snapshot
@@ -64,7 +81,7 @@ records default-to-candidate transitions and unchanged observable-input hashes:
 
 ```text
 cargo +stable run --locked --release -p fieldkin-eval -- --readiness --output target/readiness-development
-cargo +stable run --locked --release -p fieldkin-eval -- --readiness --check --output evaluation/results/readiness-v3
+cargo +stable run --locked --release -p fieldkin-eval -- --readiness --check --output evaluation/results/readiness-pass-v1/current/readiness
 ```
 
 See [release readiness](../docs/release-readiness.md) for the evidence limits and
@@ -84,7 +101,7 @@ are kept separate; no held-out family is scored.
 
 ```text
 cargo +stable run --locked --release -p fieldkin-eval -- --stage3 --output target/fieldkin-stage3
-cargo +stable run --locked --release -p fieldkin-eval -- --stage3 --check --output evaluation/results/rust-native-v1/stage3
+cargo +stable run --locked --release -p fieldkin-eval -- --stage3 --check --output evaluation/results/readiness-pass-v1/current/stage3
 ```
 
 The second command is the current-default CI gate. It compares all 588 aggregate
@@ -114,7 +131,7 @@ Verify that the historical models preserve the committed native development beha
 without writing files or evaluating holdout outcomes:
 
 ```text
-cargo +stable run --locked --release -p fieldkin-eval -- --check --output evaluation/results/rust-native-v1/baseline
+cargo +stable run --locked --release -p fieldkin-eval -- --check --output evaluation/results/readiness-pass-v1/current/baseline
 ```
 
 This checks historical models using `Legacy` sample reliability with current
@@ -309,7 +326,7 @@ these fixtures are not independent consumer data.
 
 ```text
 cargo +stable run --locked --release -p fieldkin-eval -- --corrective --output target/corrective-development
-cargo +stable run --locked --release -p fieldkin-eval -- --corrective --check --output evaluation/results/rust-native-v1/corrective
+cargo +stable run --locked --release -p fieldkin-eval -- --corrective --check --output evaluation/results/readiness-pass-v1/current/corrective
 ```
 
 The default and `--check` score only original regression and fresh development.
@@ -357,7 +374,7 @@ uses 549 development tables and cannot score the 218 reserved tables. The split
 is by SHA256 of whole class URIs, committed before matching. Known-positive recall,
 candidate recall, unknown proposals, abstentions and input rejections are separate;
 no absent correspondence becomes a negative label or contributes to a precision
-claim. `--check --output evaluation/results/rust-native-v1/external` from the repository root
+claim. `--check --output evaluation/results/readiness-pass-v1/current/external` from the repository root
 compares complete artifacts, including all current implementation/protocol/corpus
 and dependency hashes. These are source-file hashes, not binary attestation.
 Fresh result directories prevent accidental rewriting of historical evidence.

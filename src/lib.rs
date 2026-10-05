@@ -9,6 +9,7 @@ mod error;
 mod name_conflicts;
 mod numeric;
 mod profile;
+mod semantic_name;
 mod semantics;
 mod signals;
 mod types;

@@ -1,5 +1,12 @@
 # Contextual precision and release qualification
 
+The [October 5 readiness pass](readiness-pass.md) records the current candidate,
+same-input changes, packaging checks and platform validation. **The current
+candidate remains not qualified.** The evidence below describes the frozen
+October 4 candidate and preserves its failed first qualification; that examined
+corpus is now used only for regression. The current runtime is described in the
+new pass rather than inferred from these historical implementation details.
+
 **Release decision: not qualified.** The frozen blind run reached 100% precision
 and 100% candidate recall@5, but only 52.86% independent coverage and 49.05%
 one-to-one coverage against the unchanged 60% target. No matcher settings were

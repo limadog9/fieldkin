@@ -20,14 +20,14 @@ use crate::{corpus, corrective_corpus, precision, stage3};
 const PROTOCOL: &str = include_str!("../readiness-protocol.json");
 const CONFLICT_PROTOCOL: &str = include_str!("../precision-protocol.json");
 
-struct Case {
-    id: String,
-    family: String,
-    domain: String,
-    variant: String,
-    source: Schema,
-    target: Schema,
-    labels: Vec<Label>,
+pub(crate) struct Case {
+    pub(crate) id: String,
+    pub(crate) family: String,
+    pub(crate) domain: String,
+    pub(crate) variant: String,
+    pub(crate) source: Schema,
+    pub(crate) target: Schema,
+    pub(crate) labels: Vec<Label>,
 }
 
 #[derive(Serialize)]
@@ -123,7 +123,7 @@ pub(crate) fn observable_schema(schema: &Schema) -> Vec<ObservableField<'_>> {
         .collect()
 }
 
-fn observable_inputs_sha256(cases: &[Case]) -> Result<String, String> {
+pub(crate) fn observable_inputs_sha256(cases: &[Case]) -> Result<String, String> {
     let schemas: Vec<_> = cases
         .iter()
         .map(|case| {
@@ -307,7 +307,7 @@ fn protocol() -> Result<Value, String> {
     Ok(value)
 }
 
-fn cases() -> Result<Vec<(String, Vec<Case>)>, String> {
+pub(crate) fn cases() -> Result<Vec<(String, Vec<Case>)>, String> {
     let convert = |case: crate::model::Case| -> Result<Case, String> {
         Ok(Case {
             id: case.id,
@@ -428,7 +428,7 @@ fn pct(value: Option<f64>) -> String {
 }
 
 fn markdown(rows: &[Row]) -> String {
-    let mut text=String::from("# Release-readiness development exploration\n\nV1 distinctive-context policies preceded their first run. V2 scoped-context policies were developed from V1 development failures. V3 qualified-context refinements and their opt-in runtime port were developed from V2 development failures and useful-match losses, then declared before V3 scoring. Earlier policies remain as comparators. Existing datasets and labels are unchanged. Caller hints and confirmations are excluded. No holdout was scored in this exploration. Evidence derives from observable inputs, never from labels. Runtime selections and rankings are regression-checked against the fixed V3 prototype on every development case. Development success does not establish release readiness; prospective frozen qualification is reported separately.\n\n| Corpus | Policy | Assignment | Correct/proposed | Precision | Recall | Unique coverage | Overall coverage | Candidate recall@5 | Wrong unique | No-match proposals | Ambiguous proposals | Development targets met |\n| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |\n");
+    let mut text=String::from("# Release-readiness development exploration\n\nV1 distinctive-context policies preceded their first run. V2 scoped-context policies were developed from V1 development failures. V3 qualified-context refinements and their opt-in runtime port were developed from V2 development failures and useful-match losses, then declared before V3 scoring. Earlier policies remain as comparators. Existing datasets and labels are unchanged. Caller hints and confirmations are excluded. No holdout was scored in this exploration. Evidence derives from observable inputs, never from labels. The frozen V3 prototype is verified against its archived complete development reports; the current runtime has separate exact snapshots and a same-input before/after regression report. Development success does not establish release readiness; the historical failed prospective qualification is preserved separately.\n\n| Corpus | Policy | Assignment | Correct/proposed | Precision | Recall | Unique coverage | Overall coverage | Candidate recall@5 | Wrong unique | No-match proposals | Ambiguous proposals | Development targets met |\n| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |\n");
     for row in rows {
         text.push_str(&format!(
             "| {} | {} | {} | {}/{} | {} | {} | {} | {} | {} | {} | {}/{} | {}/{} | {} |\n",
@@ -611,47 +611,48 @@ mod tests {
     use fieldkin::{Candidate, ExactDecimal, Field, FieldMatch};
 
     #[test]
-    fn runtime_port_matches_fixed_prototype_on_every_development_case() {
-        for (_, cases) in cases().unwrap() {
+    fn fixed_prototype_preserves_every_archived_development_report() {
+        // The current runtime intentionally evolves beyond this prototype. Keep
+        // the historical comparator fixed and verify its complete reports; the
+        // current runtime has its own exact CI snapshots and adversarial tests.
+        let archived: BTreeMap<_, _> = include_str!("../results/readiness-v3/predictions.jsonl")
+            .lines()
+            .map(|line| serde_json::from_str::<Value>(line).unwrap())
+            .filter(|record| record["model"] == "qualified_context_strict_identifiers")
+            .map(|record| {
+                (
+                    (
+                        record["corpus"].as_str().unwrap().to_owned(),
+                        record["case"].as_str().unwrap().to_owned(),
+                        record["assignment"].as_str().unwrap().to_owned(),
+                    ),
+                    record["report_sha256"].as_str().unwrap().to_owned(),
+                )
+            })
+            .collect();
+        let mut checked = 0;
+        for (corpus, cases) in cases().unwrap() {
             for case in cases {
                 for one_to_one in [false, true] {
                     let prototype =
                         match_case(&case, "qualified_context_strict_identifiers", one_to_one)
                             .unwrap();
-                    let runtime =
-                        match_case(&case, "runtime_context_strict_identifiers", one_to_one)
-                            .unwrap();
+                    let assignment = if one_to_one {
+                        "one_to_one"
+                    } else {
+                        "independent"
+                    };
                     assert_eq!(
-                        score_case(&case.labels, &runtime).unwrap(),
-                        score_case(&case.labels, &prototype).unwrap()
+                        archived.get(&(corpus.clone(), case.id.clone(), assignment.into())),
+                        Some(&hash(&format!("{prototype:?}"))),
+                        "{} / {assignment}",
+                        case.id
                     );
-                    for (runtime, prototype) in runtime.fields.iter().zip(&prototype.fields) {
-                        assert_eq!(runtime.source, prototype.source);
-                        let selection = |field: &fieldkin::FieldMatch| {
-                            field
-                                .selected
-                                .as_ref()
-                                .map(|candidate| (candidate.target.clone(), candidate.score))
-                        };
-                        assert_eq!(selection(runtime), selection(prototype), "{}", case.id);
-                        let ranked = |field: &fieldkin::FieldMatch| {
-                            field
-                                .candidates
-                                .iter()
-                                .map(|candidate| {
-                                    (
-                                        candidate.target.clone(),
-                                        candidate.score,
-                                        candidate.eligible,
-                                    )
-                                })
-                                .collect::<Vec<_>>()
-                        };
-                        assert_eq!(ranked(runtime), ranked(prototype), "{}", case.id);
-                    }
+                    checked += 1;
                 }
             }
         }
+        assert_eq!(checked, archived.len());
     }
 
     fn synthetic_case(samples: Option<Vec<SampleValue>>) -> Case {
