@@ -247,7 +247,7 @@ pub struct Config {
     pub name_conflicts: Vec<crate::NameConflictRule>,
     /// Optional experimental contextual evidence and score transformation.
     /// Defaults to `None`, preserving weighted scoring and streamed evaluation.
-    /// See [`crate::ContextualEvidence`] for fixed floors and support requirements.
+    /// See [`crate::ContextualEvidence`] for acceptance, ranking and support requirements.
     pub contextual_evidence: Option<crate::ContextualEvidence>,
     /// Optional bounded alternative-assignment analysis; never changes selection.
     pub global_diagnostics: crate::GlobalDiagnosticsConfig,
@@ -269,6 +269,79 @@ impl Default for Config {
             contextual_evidence: None,
             global_diagnostics: crate::GlobalDiagnosticsConfig::default(),
             limits: Limits::default(),
+        }
+    }
+}
+
+impl Config {
+    /// Experimental contextual quality candidate with explicit independent
+    /// sampling, relationship checks and paired identifier word forms.
+    ///
+    /// Ordinary defaults and [`crate::ContextualEvidence::default`] stay unchanged.
+    /// This preset includes a fixed inspectable qualifier/unit vocabulary; it
+    /// never converts units or Date/Timestamp representations. Applications
+    /// should review these assumptions for their own schemas. No sample-set
+    /// population identity is inferred or supplied through hidden metadata.
+    pub fn contextual_quality() -> Self {
+        use crate::{ContextualEvidence, NameConflictKind, NameConflictRule};
+        let qualifier_axes: &[&[&[&str]]] = &[
+            &[&["gross"], &["net"]],
+            &[&["billing", "bill"], &["shipping", "ship"]],
+            &[&["minimum", "min"], &["maximum", "max"]],
+            &[&["start", "begin"], &["end", "finish"]],
+        ];
+        let unit_axes: &[&[&[&str]]] = &[
+            &[
+                &["pa", "pascal", "pascals"],
+                &["kpa", "k pa", "kilopascal", "kilopascals"],
+                &["mpa", "m pa", "megapascal", "megapascals"],
+                &["psi"],
+            ],
+            &[
+                &["g", "gram", "grams"],
+                &["kg", "kilogram", "kilograms"],
+                &["lb", "lbs", "pound", "pounds"],
+            ],
+            &[
+                &["m", "meter", "meters", "metre", "metres"],
+                &["cm", "centimeter", "centimeters"],
+                &["mm", "millimeter", "millimeters"],
+                &["ft", "foot", "feet"],
+            ],
+            &[
+                &["ms", "millisecond", "milliseconds"],
+                &["s", "sec", "second", "seconds"],
+                &["minute", "minutes"],
+                &["hour", "hours"],
+            ],
+            &[&["celsius"], &["fahrenheit"], &["kelvin"]],
+            &[&["usd"], &["eur"], &["gbp"], &["jpy"]],
+        ];
+        let name_conflicts = [
+            (NameConflictKind::Qualifier, qualifier_axes),
+            (NameConflictKind::Unit, unit_axes),
+        ]
+        .into_iter()
+        .flat_map(|(kind, axes)| {
+            axes.iter().map(move |alternatives| NameConflictRule {
+                kind,
+                alternatives: alternatives
+                    .iter()
+                    .map(|words| words.iter().map(|word| (*word).to_owned()).collect())
+                    .collect(),
+            })
+        })
+        .collect();
+        Self {
+            contextual_evidence: Some(ContextualEvidence {
+                distinguish_relationships: true,
+                independent_sample_populations: true,
+                preserve_score_ranking: false,
+                identifier_word_forms: true,
+                ..ContextualEvidence::default()
+            }),
+            name_conflicts,
+            ..Self::default()
         }
     }
 }
@@ -319,10 +392,12 @@ pub struct Candidate {
     /// Target identity.
     pub target: FieldId,
     /// Weighted sum in [0, 1], not a probability. With contextual evidence enabled,
-    /// the score is transformed by the documented fixed heuristic floors; original
-    /// signal evidence and weights remain available to reconstruct the base score.
+    /// the score uses the configured heuristic transformation unless ranking is
+    /// preserved. In that mode contextual acceptance is checked separately and
+    /// an eligible candidate may have a ranking score below `Config::min_score`.
+    /// Original evidence and weights always reconstruct the weighted base score.
     pub score: f64,
-    /// Passes threshold, optional corroboration and name conflict checks, type veto
+    /// Passes the acceptance threshold, optional corroboration and name conflict checks, type veto
     /// and semantic-hint constraints, plus caller exclusions/reserved targets; ambiguity is
     /// source-level. This describes automatic eligibility. An explicit caller
     /// confirmation can select a candidate with `eligible == false` without
@@ -377,6 +452,9 @@ pub enum CandidateIssue {
     /// The opt-in contextual policy raised the weighted base score to a fixed
     /// heuristic floor. Original signal evidence and weights remain unchanged.
     ContextualScoreAdjustment,
+    /// An opt-in contextual repair's relationship or support diagnostic.
+    /// Multiple reasons may apply; these do not expose sample values.
+    ContextualReason(crate::ContextualReason),
     /// Caller-configured raw-name token meanings disagree; this excludes
     /// automatic selection without changing scores or verified semantic hints.
     NameConflict(crate::NameConflictKind),

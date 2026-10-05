@@ -887,9 +887,8 @@ fn reviewed_assignment(random: &mut Random) -> Result<(), String> {
 
 fn contextual(random: &mut Random) -> Result<(), String> {
     let policy = Config {
-        contextual_evidence: Some(ContextualEvidence::default()),
         one_to_one: random.index(2) == 1,
-        ..Config::default()
+        ..Config::contextual_quality()
     };
     let engine = MatchEngine::new(policy).map_err(|error| error.to_string())?;
     let offset = random.index(10_000);
@@ -900,7 +899,7 @@ fn contextual(random: &mut Random) -> Result<(), String> {
     source.samples = Some(values.clone());
     let mut target = Field::new("target", "CustomerId", DataType::Text);
     target.samples = Some(values.clone());
-    let mode = random.index(3);
+    let mode = random.index(5);
     let mut targets = vec![target];
     if mode == 1 {
         source.samples = None;
@@ -909,19 +908,27 @@ fn contextual(random: &mut Random) -> Result<(), String> {
         let mut competitor = Field::new("competitor", "invoice_key", DataType::Text);
         competitor.samples = Some(values);
         targets.push(competitor);
+    } else if mode == 3 {
+        let mut duplicate = targets[0].clone();
+        duplicate.id = "duplicate".into();
+        targets.push(duplicate);
+    } else if mode == 4 {
+        let mut competitor = Field::new("competitor", "x", DataType::Text);
+        competitor.samples = Some(values);
+        targets.push(competitor);
     }
     let source = Schema::new(vec![source]);
     let mut target = Schema::new(targets);
     let report = engine
         .match_schemas(&source, &target)
         .map_err(|error| error.to_string())?;
-    if mode == 0 {
+    if mode <= 2 {
         ensure(
             report.fields[0]
                 .selected
                 .as_ref()
                 .is_some_and(|pair| pair.target.0 == "target"),
-            "distinct identifier lost",
+            "informative identifier lost with unavailable samples or contradictory competitor",
         )?;
     } else {
         ensure(
@@ -929,7 +936,10 @@ fn contextual(random: &mut Random) -> Result<(), String> {
             "unsupported identifier proposed",
         )?;
         ensure(
-            report.fields[0].decision == Decision::InsufficientEvidence,
+            matches!(
+                report.fields[0].decision,
+                Decision::InsufficientEvidence | Decision::Ambiguous
+            ),
             "missing explicit context abstention",
         )?;
     }
@@ -1003,7 +1013,7 @@ fn run(cases: u64, seed: u64) -> Result<(), String> {
             eprintln!("completed {} generated cases", index + 1);
         }
     }
-    println!("{{\"protocol\":\"fieldkin-qualification-v3\",\"seed\":{seed},\"cases\":{cases},\"passed\":true,\"elapsed_seconds\":{:.6},\"categories\":{{\"normalization\":{},\"malformed_schemas\":{},\"configuration_and_limits\":{},\"default_report_invariants\":{},\"assignment_oracle\":{},\"reviewed_assignment_oracle\":{},\"contextual_support_and_conflicts\":{}}}}}", started.elapsed().as_secs_f64(), counts[0], counts[1], counts[2], counts[3], counts[4], counts[5], counts[6]);
+    println!("{{\"protocol\":\"fieldkin-qualification-v4\",\"seed\":{seed},\"cases\":{cases},\"passed\":true,\"elapsed_seconds\":{:.6},\"categories\":{{\"normalization\":{},\"malformed_schemas\":{},\"configuration_and_limits\":{},\"default_report_invariants\":{},\"assignment_oracle\":{},\"reviewed_assignment_oracle\":{},\"contextual_support_and_conflicts\":{}}}}}", started.elapsed().as_secs_f64(), counts[0], counts[1], counts[2], counts[3], counts[4], counts[5], counts[6]);
     Ok(())
 }
 

@@ -103,6 +103,7 @@ const ALLOCATION_KEYS: [&str; 6] = [
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum Kind {
     Run,
+    Context,
     Assignment,
     Scale,
     Review,
@@ -114,6 +115,7 @@ impl Kind {
     fn parse(command: &str) -> Result<Self, String> {
         match command {
             "perf-run" => Ok(Self::Run),
+            "perf-context" => Ok(Self::Context),
             "perf-assignment" => Ok(Self::Assignment),
             "perf-scale" => Ok(Self::Scale),
             "perf-review" => Ok(Self::Review),
@@ -125,6 +127,7 @@ impl Kind {
     fn protocol(self) -> &'static str {
         match self {
             Self::Run => "fieldkin-stage2-native-v1",
+            Self::Context => "fieldkin-contextual-cost-native-v1",
             Self::Assignment => "assignment-compaction-native-v1",
             Self::Scale => "fieldkin-scale-native-v1",
             Self::Review => "review-cost-native-v1",
@@ -133,11 +136,11 @@ impl Kind {
         }
     }
     fn paired(self) -> bool {
-        matches!(self, Self::Run | Self::Assignment)
+        matches!(self, Self::Run | Self::Context | Self::Assignment)
     }
     fn harness(self) -> &'static [&'static str] {
         match self {
-            Self::Run => &[
+            Self::Run | Self::Context => &[
                 "performance/Cargo.toml",
                 "performance/Cargo.lock",
                 "performance/src/main.rs",
@@ -151,7 +154,7 @@ impl Kind {
     }
     fn target(self) -> (&'static str, &'static str) {
         match self {
-            Self::Run => ("bin", "fieldkin-performance"),
+            Self::Run | Self::Context => ("bin", "fieldkin-performance"),
             Self::Assignment => ("example", "assignment_cost"),
             Self::Scale => ("example", "scale_cost"),
             Self::Review => ("example", "review_cost"),
@@ -188,7 +191,8 @@ fn parse_options(kind: Kind, args: &[String]) -> Result<Options, String> {
     let Some(action) = args.first() else {
         return Err("choose build or run (perf-run also supports summarize)".into());
     };
-    if !matches!(action.as_str(), "build" | "run") && !(kind == Kind::Run && action == "summarize")
+    if !matches!(action.as_str(), "build" | "run")
+        && !(matches!(kind, Kind::Run | Kind::Context) && action == "summarize")
     {
         return Err(format!("unsupported performance action: {action}"));
     }
@@ -233,7 +237,7 @@ pub fn dispatch(command: &str, args: Vec<String>) -> Result<(), String> {
     let kind = Kind::parse(command)?;
     if args.iter().any(|arg| arg == "--help") {
         println!("{command} build --output FRESH_DIRECTORY{}\n{command} run --output BUILT_DIRECTORY\nUses the installed stable Rust channel, freezes the actual compiler and runner, and measures five independent processes. Build and run are separate; stop concurrent builds/tests before run. Native records have a distinct protocol ID; historical records stay unchanged.", if kind.paired() { " --baseline CHECKOUT [--candidate CHECKOUT]" } else { "" });
-        if kind == Kind::Run {
+        if matches!(kind, Kind::Run | Kind::Context) {
             println!("{command} summarize --output MEASURED_DIRECTORY");
         }
         return Ok(());
@@ -242,7 +246,7 @@ pub fn dispatch(command: &str, args: Vec<String>) -> Result<(), String> {
     match options.action.as_str() {
         "build" => build(kind, options),
         "run" => measure(kind, &options.output),
-        "summarize" => summarize_stage(&options.output),
+        "summarize" => summarize_stage(kind, &options.output),
         _ => unreachable!(),
     }
 }
@@ -564,6 +568,9 @@ fn specification(kind: Kind) -> Value {
     match kind {
         Kind::Run => {
             json!({"workloads":50,"warmup_calls":3,"allocations_warmup_calls":1,"timing_instrumented":false,"iterations_by_core_size":{"16":30,"64":10,"128":5},"extended_iterations":5,"budget_iterations":500,"allocation_iterations":1,"order":"timing then allocations; baseline,candidate on odd runs; candidate,baseline on even runs","timing_scope":"matching and report destruction; input and engine setup excluded"})
+        }
+        Kind::Context => {
+            json!({"workloads":24,"baseline_policy":"ContextualEvidence::default() with no configured conflict rules","candidate_policy":"Config::contextual_quality()","harness_feature":"quality-policy enabled only for candidate","max_explanation_bytes":33554432,"report_rejection_max_explanation_bytes":1,"sizes":SIZES,"sampled": [false,true],"extra_cases":["ambiguous","disjoint"],"budget_cases":["input","pairs","signals","report"],"assignments":["independent","one_to_one"],"runs":RUNS,"warmup_calls":3,"allocations_warmup_calls":1,"iterations_by_core_size":{"16":30,"64":10,"128":5},"extended_iterations":5,"budget_iterations":500,"allocation_iterations":1,"timing_scope":"matching and report destruction; input and engine construction excluded","interpretation":"Policies can produce different decisions; this is their actual runtime cost on identical schemas, not a calibrated confidence comparison"})
         }
         Kind::Assignment => {
             json!({"families":ASSIGNMENT_FAMILIES,"sizes":SIZES,"iterations":{"16":10,"64":4,"128":2},"warmup_calls":1,"post_timing_validation_calls":1,"config":{"one_to_one":true,"abstain_on_ambiguity":false,"min_score":0.70,"ambiguity_margin":0.08,"max_candidates":5,"samples":false,"max_work":536870912,"objective_margin":0.08,"diagnostic_solves":{"disabled":0,"bounded":2,"complete":128}},"order":"fixed workload order; alternating revision order","timing_scope":"matching and report destruction; input, engine, constraints and behavior summary excluded"})
@@ -1091,9 +1098,64 @@ fn stage_workloads(smoke: bool) -> Vec<(String, usize, usize, usize, bool)> {
 }
 
 fn validate_stage(raw: &str, allocations: bool, smoke: bool) -> Result<Validated, String> {
+    validate_workloads(raw, allocations, stage_workloads(smoke))
+}
+
+fn context_workloads(smoke: bool) -> Vec<(String, usize, usize, usize, bool)> {
+    let mut expected = Vec::new();
+    for size in SIZES {
+        for samples in ["empty", "sampled"] {
+            for assignment in ["independent", "assignment"] {
+                expected.push((
+                    format!("context-{size}-{samples}-{assignment}"),
+                    size,
+                    size,
+                    if smoke {
+                        1
+                    } else {
+                        match size {
+                            16 => 30,
+                            64 => 10,
+                            _ => 5,
+                        }
+                    },
+                    false,
+                ));
+            }
+        }
+    }
+    for style in ["ambiguous", "disjoint"] {
+        for assignment in ["independent", "assignment"] {
+            expected.push((
+                format!("context-{style}-{assignment}"),
+                64,
+                64,
+                if smoke { 1 } else { 5 },
+                false,
+            ));
+        }
+    }
+    for budget in ["input", "pairs", "signals", "report"] {
+        for assignment in ["independent", "assignment"] {
+            expected.push((
+                format!("context-budget-{budget}-{assignment}"),
+                16,
+                16,
+                if smoke { 1 } else { 500 },
+                true,
+            ));
+        }
+    }
+    expected
+}
+
+fn validate_workloads(
+    raw: &str,
+    allocations: bool,
+    expected: Vec<(String, usize, usize, usize, bool)>,
+) -> Result<Validated, String> {
     let mut rows = Vec::new();
     let mut behavior = Vec::new();
-    let expected = stage_workloads(smoke);
     for (index, line) in raw.lines().enumerate() {
         let row: Value = serde_json::from_str(line).map_err(|error| error.to_string())?;
         let object = row.as_object().ok_or("benchmark row is not an object")?;
@@ -1159,6 +1221,7 @@ fn validate_stage(raw: &str, allocations: bool, smoke: bool) -> Result<Validated
 fn validate(kind: Kind, raw: &str, mode: &str, smoke: bool) -> Result<Validated, String> {
     match kind {
         Kind::Run => validate_stage(raw, mode == "allocations", smoke),
+        Kind::Context => validate_workloads(raw, mode == "allocations", context_workloads(smoke)),
         Kind::Assignment => validate_assignment(raw, smoke),
         Kind::Scale => validate_scale(raw, smoke),
         Kind::Review => validate_matching(raw, true, smoke),
@@ -1266,7 +1329,7 @@ fn build(kind: Kind, options: Options) -> Result<(), String> {
             );
         }
         fs::create_dir_all(&target).map_err(|error| error.to_string())?;
-        let modes: &[&str] = if kind == Kind::Run {
+        let modes: &[&str] = if matches!(kind, Kind::Run | Kind::Context) {
             &["timing", "allocations"]
         } else {
             &["timing"]
@@ -1284,7 +1347,7 @@ fn build(kind: Kind, options: Options) -> Result<(), String> {
             .into_iter()
             .map(str::to_owned)
             .collect();
-            if kind == Kind::Run {
+            if matches!(kind, Kind::Run | Kind::Context) {
                 args.extend([
                     "--manifest-path".into(),
                     root.join("performance/Cargo.toml")
@@ -1304,8 +1367,15 @@ fn build(kind: Kind, options: Options) -> Result<(), String> {
                 target.join(mode).to_string_lossy().into_owned(),
                 "--message-format=json".into(),
             ]);
+            let mut features = Vec::new();
             if *mode == "allocations" {
-                args.extend(["--features".into(), "allocations".into()]);
+                features.push("allocations");
+            }
+            if kind == Kind::Context && revision == "candidate" {
+                features.push("quality-policy");
+            }
+            if !features.is_empty() {
+                args.extend(["--features".into(), features.join(",")]);
             }
             println!("Building {revision}/{mode}; measurement will run separately");
             let raw = capture("cargo", &args, &root)?;
@@ -1313,9 +1383,16 @@ fn build(kind: Kind, options: Options) -> Result<(), String> {
             if before != inventory(&root, kind)? || configs != cargo_configs(&root)? {
                 return Err("build inputs or Cargo configuration changed during build".into());
             }
-            let smoke_supported = matches!(kind, Kind::Run | Kind::Assignment | Kind::Review);
+            let smoke_supported = matches!(
+                kind,
+                Kind::Run | Kind::Context | Kind::Assignment | Kind::Review
+            );
             let smoke_behavior = if smoke_supported {
-                let raw = capture(&binary.to_string_lossy(), &["--smoke".into()], &root)?;
+                let mut smoke_args = vec!["--smoke".into()];
+                if kind == Kind::Context {
+                    smoke_args.push("--contextual".into());
+                }
+                let raw = capture(&binary.to_string_lossy(), &smoke_args, &root)?;
                 json!(validate(kind, &raw, mode, true)?.behavior)
             } else {
                 Value::Null
@@ -1385,7 +1462,7 @@ fn verify(kind: Kind, meta: &Value) -> Result<(), String> {
         let binaries = entry["binaries"]
             .as_object()
             .ok_or("missing benchmark binaries")?;
-        let modes: BTreeSet<_> = if kind == Kind::Run {
+        let modes: BTreeSet<_> = if matches!(kind, Kind::Run | Kind::Context) {
             BTreeSet::from(["timing", "allocations"])
         } else {
             BTreeSet::from(["timing"])
@@ -1432,7 +1509,7 @@ fn measure(kind: Kind, output: &Path) -> Result<(), String> {
     let mut execution = Vec::new();
     let mut reference: BTreeMap<String, Vec<Value>> = BTreeMap::new();
     let mut all_rows = Vec::new();
-    let modes: &[&str] = if kind == Kind::Run {
+    let modes: &[&str] = if matches!(kind, Kind::Run | Kind::Context) {
         &["timing", "allocations"]
     } else {
         &["timing"]
@@ -1451,11 +1528,14 @@ fn measure(kind: Kind, output: &Path) -> Result<(), String> {
                 let binary = &entry["binaries"][mode];
                 let path = text(binary, "path")?;
                 let root = Path::new(text(entry, "path")?);
-                let args = if *mode == "allocations" {
+                let mut args = if *mode == "allocations" {
                     vec!["--smoke".into()]
                 } else {
                     Vec::new()
                 };
+                if kind == Kind::Context {
+                    args.push("--contextual".into());
+                }
                 println!("Measuring {mode} process {run}/{RUNS}, {revision}");
                 let stamp = now();
                 let raw = capture(path, &args, root)?;
@@ -1475,12 +1555,12 @@ fn measure(kind: Kind, output: &Path) -> Result<(), String> {
                     reference.insert((*mode).into(), measured.behavior.clone());
                 }
                 verify(kind, &meta)?;
-                let extension = if matches!(kind, Kind::Run | Kind::Scale) {
+                let extension = if matches!(kind, Kind::Run | Kind::Context | Kind::Scale) {
                     "jsonl"
                 } else {
                     "csv"
                 };
-                let filename = if kind == Kind::Run {
+                let filename = if matches!(kind, Kind::Run | Kind::Context) {
                     format!("{mode}-{revision}-run-{run}.{extension}")
                 } else if kind.paired() {
                     format!("{revision}-run-{run}.{extension}")
@@ -1501,8 +1581,8 @@ fn measure(kind: Kind, output: &Path) -> Result<(), String> {
         &output.join("run.json"),
         &json!({"protocol":kind.protocol(),"started_utc":started,"finished_utc":now(),"machine":machine(),"execution":execution}),
     )?;
-    if kind == Kind::Run {
-        return summarize_stage(output);
+    if matches!(kind, Kind::Run | Kind::Context) {
+        return summarize_stage(kind, output);
     }
     let rows = summarize_rows(kind, &all_rows)?;
     common::write_new(
@@ -1550,7 +1630,9 @@ fn summarize_rows(kind: Kind, all_rows: &[(String, String, Value)]) -> Result<Ve
             Kind::Diagnostics => {
                 json!({"source_count":integer(row,"source_count")?,"target_count":integer(row,"target_count")?,"mode":text(row,"mode")?})
             }
-            Kind::Run => return Err("stage summaries use the allocation-aware protocol".into()),
+            Kind::Run | Kind::Context => {
+                return Err("stage summaries use the allocation-aware protocol".into())
+            }
         };
         let value = match kind {
             Kind::Scale => {
@@ -1628,15 +1710,15 @@ fn summarize_rows(kind: Kind, all_rows: &[(String, String, Value)]) -> Result<Ve
     Ok(results)
 }
 
-fn summarize_stage(output: &Path) -> Result<(), String> {
+fn summarize_stage(kind: Kind, output: &Path) -> Result<(), String> {
     // Summaries also use exclusive files; rerunning never replaces a published result.
     if output.join("summary.json").exists() || output.join("summary.md").exists() {
         return Err("summary already exists; existing measurements are retained".into());
     }
     let meta = common::json(&output.join("build.json"))?;
-    verify(Kind::Run, &meta)?;
+    verify(kind, &meta)?;
     let run = common::json(&output.join("run.json"))?;
-    if run["protocol"] != Kind::Run.protocol() {
+    if run["protocol"] != kind.protocol() {
         return Err("unexpected native execution protocol".into());
     }
     let execution = run["execution"]
@@ -1667,7 +1749,7 @@ fn summarize_stage(output: &Path) -> Result<(), String> {
         }
         let raw =
             String::from_utf8(common::read(&path)?).map_err(|_| "non-UTF8 measurement artifact")?;
-        for row in validate_stage(&raw, mode == "allocations", mode == "allocations")?.rows {
+        for row in validate(kind, &raw, mode, mode == "allocations")?.rows {
             grouped
                 .entry(text(&row, "workload")?.to_owned())
                 .or_default()
@@ -1681,7 +1763,7 @@ fn summarize_stage(output: &Path) -> Result<(), String> {
         "Five independent processes per revision and mode. Timing uses the normal allocator; separate instrumented processes measure allocation requests. Spread is min–max of process means, without confidence intervals or peak-memory claims.".to_owned(),String::new(),
         "| Workload | Baseline median µs [min–max] | Candidate median µs [min–max] | Speedup | Allocations baseline → candidate | Allocated bytes baseline → candidate |".to_owned(),
         "| --- | ---: | ---: | ---: | ---: | ---: |".to_owned()];
-    if grouped.len() != 50 {
+    if grouped.len() != if kind == Kind::Context { 24 } else { 50 } {
         return Err("incomplete stage workload summaries".into());
     }
     for (workload, measurements) in grouped {
@@ -1844,6 +1926,29 @@ mod tests {
             .map(Value::to_string)
             .collect::<Vec<_>>()
             .join("\n")
+    }
+
+    #[test]
+    fn contextual_protocol_requires_every_assignment_sample_and_budget_workload() {
+        for smoke in [false, true] {
+            let rows: Vec<_> = context_workloads(smoke).into_iter().map(|(id,n,m,calls,error)|
+                json!({"workload":id,"sources":n,"targets":m,"iterations":calls,"expects_error":error,"elapsed_ns":1000})).collect();
+            assert_eq!(
+                validate(Kind::Context, &encode(&rows), "timing", smoke)
+                    .unwrap()
+                    .rows
+                    .len(),
+                24
+            );
+            let mut reversed = rows.clone();
+            reversed.reverse();
+            let mut duplicate = rows.clone();
+            duplicate.push(rows[0].clone());
+            for invalid in [rows[..23].to_vec(), reversed, duplicate] {
+                assert!(validate(Kind::Context, &encode(&invalid), "timing", smoke).is_err());
+            }
+            assert!(validate(Kind::Run, &encode(&rows), "timing", smoke).is_err());
+        }
     }
 
     #[test]

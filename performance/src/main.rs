@@ -8,6 +8,9 @@ use fieldkin::{
     WeightedMatcher,
 };
 
+#[cfg(not(feature = "quality-policy"))]
+use fieldkin::ContextualEvidence;
+
 #[cfg(feature = "allocations")]
 #[global_allocator]
 static GLOBAL: &stats_alloc::StatsAlloc<std::alloc::System> = &stats_alloc::INSTRUMENTED_SYSTEM;
@@ -208,6 +211,156 @@ fn workloads() -> Vec<Workload> {
     workloads
 }
 
+fn contextual_config(one_to_one: bool) -> Config {
+    #[cfg(feature = "quality-policy")]
+    let mut config = Config::contextual_quality();
+    #[cfg(not(feature = "quality-policy"))]
+    let mut config = Config {
+        contextual_evidence: Some(ContextualEvidence::default()),
+        ..Config::default()
+    };
+    config.one_to_one = one_to_one;
+    // The 128x128 representative success workloads include every pair's
+    // diagnostics. Both revisions use this explicit benchmark-only capacity;
+    // library defaults and the report-budget rejection workloads are unchanged.
+    config.limits.max_explanation_bytes = 32 * 1024 * 1024;
+    config
+}
+
+fn contextual_workloads() -> Vec<Workload> {
+    let mut result = Vec::new();
+    for count in [16, 64, 128] {
+        for sampled in [false, true] {
+            for one_to_one in [false, true] {
+                let (mut source, mut target) =
+                    fixture(count, count, if sampled { 16 } else { 0 }, "base");
+                for field in &mut source.fields {
+                    field.name = field.name.replace("Metric", "Warehouse");
+                }
+                for field in &mut target.fields {
+                    field.name = field.name.replace("metric", "warehouse");
+                }
+                result.push(Workload {
+                    id: format!(
+                        "context-{count}-{}-{}",
+                        if sampled { "sampled" } else { "empty" },
+                        if one_to_one {
+                            "assignment"
+                        } else {
+                            "independent"
+                        }
+                    ),
+                    source,
+                    target,
+                    config: contextual_config(one_to_one),
+                    name_only: false,
+                    iterations: match count {
+                        16 => 30,
+                        64 => 10,
+                        _ => 5,
+                    },
+                    expected_error: None,
+                });
+            }
+        }
+    }
+    for style in ["ambiguous", "disjoint"] {
+        for one_to_one in [false, true] {
+            let (mut source, mut target) = fixture(
+                64,
+                64,
+                16,
+                if style == "ambiguous" {
+                    "competition"
+                } else {
+                    "base"
+                },
+            );
+            if style == "ambiguous" {
+                for schema in [&mut source, &mut target] {
+                    for field in &mut schema.fields {
+                        for sample in field.samples.iter_mut().flatten() {
+                            if let SampleValue::Number(value) = sample {
+                                *value %= 1000.0;
+                            }
+                        }
+                    }
+                }
+            }
+            if style == "disjoint" {
+                for field in &mut source.fields {
+                    field.name = field.name.replace("Metric", "Warehouse");
+                }
+                for field in &mut target.fields {
+                    field.name = field.name.replace("metric", "warehouse");
+                    for sample in field.samples.iter_mut().flatten() {
+                        if let SampleValue::Number(value) = sample {
+                            *value += 1_000_000.0;
+                        }
+                    }
+                }
+            }
+            result.push(Workload {
+                id: format!(
+                    "context-{style}-{}",
+                    if one_to_one {
+                        "assignment"
+                    } else {
+                        "independent"
+                    }
+                ),
+                source,
+                target,
+                config: contextual_config(one_to_one),
+                name_only: false,
+                iterations: 5,
+                expected_error: None,
+            });
+        }
+    }
+    for budget in ["input", "pairs", "signals", "report"] {
+        for one_to_one in [false, true] {
+            let (source, target) = fixture(16, 16, 16, "base");
+            let mut config = contextual_config(one_to_one);
+            let error = match budget {
+                "input" => {
+                    config.limits.max_fields = 15;
+                    "field budget exceeded"
+                }
+                "pairs" => {
+                    config.limits.max_pairs = 255;
+                    "source-target pair budget exceeded"
+                }
+                "signals" => {
+                    config.limits.max_signal_evaluations = 767;
+                    "signal evaluation budget exceeded"
+                }
+                _ => {
+                    config.limits.max_explanation_bytes = 1;
+                    "aggregate explanation byte budget exceeded"
+                }
+            };
+            result.push(Workload {
+                id: format!(
+                    "context-budget-{budget}-{}",
+                    if one_to_one {
+                        "assignment"
+                    } else {
+                        "independent"
+                    }
+                ),
+                source,
+                target,
+                config,
+                name_only: false,
+                iterations: 500,
+                expected_error: Some(error),
+            });
+        }
+    }
+    result
+}
+
 fn invoke(engine: &MatchEngine, workload: &Workload) -> Result<(), Box<dyn std::error::Error>> {
     let result =
         black_box(engine.match_schemas(black_box(&workload.source), black_box(&workload.target)));
@@ -222,7 +375,12 @@ fn invoke(engine: &MatchEngine, workload: &Workload) -> Result<(), Box<dyn std::
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let smoke = std::env::args().skip(1).any(|arg| arg == "--smoke");
-    for workload in workloads() {
+    let contextual = std::env::args().skip(1).any(|arg| arg == "--contextual");
+    for workload in if contextual {
+        contextual_workloads()
+    } else {
+        workloads()
+    } {
         let engine = workload.engine()?;
         for _ in 0..if smoke { 1 } else { 3 } {
             invoke(&engine, &workload)?;
@@ -277,5 +435,62 @@ mod tests {
                 .unwrap_or_else(|error| panic!("{}: {error}", case.id));
         }
         assert_eq!(rejections, 4);
+    }
+
+    #[test]
+    fn contextual_workloads_exercise_success_ambiguity_and_each_budget_in_both_modes() {
+        let cases = contextual_workloads();
+        assert_eq!(cases.len(), 24);
+        let mut ids = BTreeSet::new();
+        let mut rejections = 0;
+        for case in cases {
+            assert!(ids.insert(case.id.clone()));
+            let engine = case.engine().unwrap();
+            invoke(&engine, &case).unwrap_or_else(|error| panic!("{}: {error}", case.id));
+            rejections += usize::from(case.expected_error.is_some());
+            if case.expected_error.is_some() {
+                continue;
+            }
+            let report = engine.match_schemas(&case.source, &case.target).unwrap();
+            if case.id.contains("ambiguous") {
+                #[cfg(not(feature = "quality-policy"))]
+                assert!(report
+                    .fields
+                    .iter()
+                    .all(|field| field.decision == fieldkin::Decision::Ambiguous));
+                #[cfg(feature = "quality-policy")]
+                assert!(report.fields.iter().all(|field| {
+                    field.selected.is_none()
+                        && field.decision == fieldkin::Decision::InsufficientEvidence
+                        && field.candidates.iter().any(|candidate| {
+                            candidate
+                                .issues
+                                .contains(&fieldkin::CandidateIssue::ContextualReason(
+                                    fieldkin::ContextualReason::CompetingCandidate,
+                                ))
+                        })
+                }));
+            } else if case.id.contains("disjoint") {
+                assert_eq!(
+                    report
+                        .fields
+                        .iter()
+                        .filter(|field| field.selected.is_some())
+                        .count(),
+                    if cfg!(feature = "quality-policy") {
+                        64
+                    } else {
+                        0
+                    }
+                );
+            } else {
+                assert!(
+                    report.fields.iter().all(|field| field.selected.is_some()),
+                    "{}",
+                    case.id
+                );
+            }
+        }
+        assert_eq!(rejections, 8);
     }
 }

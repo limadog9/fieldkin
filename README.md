@@ -13,6 +13,12 @@ The sole maintainer and final decision-maker is [@limadog9](https://github.com/l
 **Release decision: not qualified.** The current [readiness pass](https://github.com/limadog9/fieldkin/blob/main/docs/readiness-pass.md)
 records matching regressions, platform and package checks, and remaining evidence gaps.
 
+The separately named experimental `Config::contextual_quality()` preset adds
+informative role matching for independently sampled populations. It includes
+explicit qualifier/unit conflict rules and preserves unresolved competitors.
+Existing defaults are unchanged. This working branch has not met the release
+quality requirements. See the [policy and qualification record](https://github.com/limadog9/fieldkin/blob/quality/contextual-release-20261005/docs/contextual-quality-pass.md).
+
 ## Quick start
 
 Use a local checkout of `main` and `fieldkin = { path = "../fieldkin" }`.

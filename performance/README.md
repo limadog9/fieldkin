@@ -99,6 +99,39 @@ prepared-schema API and does not imply that engine reuse eliminates per-call
 preparation. Decisions and explanations are checked separately by the frozen
 evaluation and equivalence tests; this tool measures cost only.
 
+## Contextual policy costs
+
+`perf-context` reuses the repeated latency/allocation driver with 24 fixed
+workloads: 16/64/128 fields with samples or without, ambiguous and independently
+sampled populations, and input/pair/signal/report rejection, in both assignment
+modes. Five processes per revision and measurement mode alternate revision order.
+The baseline uses the original `ContextualEvidence::default()` without conflict
+rules; the candidate uses the complete public `Config::contextual_quality()`.
+The shared harness enables its `quality-policy` feature only for the candidate,
+so it compiles against the earlier library without the new public preset.
+
+Representative successful workloads explicitly allow 32 MiB of explanation bytes
+in both revisions: additional candidate diagnostics exceed the unchanged 16 MiB
+library default at 128x128 sampled pairs. Report rejection cases still set one byte
+and require rejection. This capacity tradeoff is part of the measurement, not a
+changed library limit. Allocation bytes are cumulative requests, not peak memory.
+
+```text
+cargo +stable run --locked -p fieldkin-tools -- perf-context build --baseline .local/quality-baseline --candidate . --output target/quality-costs
+cargo +stable run --locked -p fieldkin-tools -- perf-context run --output target/quality-costs
+```
+
+Use a baseline checkout with no conflicting harness files; preserve the old
+harness separately before copying this version. Build checks both binaries and
+exact expected workloads. Run verifies source/binary identities and measures
+normal allocator latency separately from allocation instrumentation. Engine/input
+construction is excluded; matching and report destruction are included. Different
+policies can make different decisions on the identical schemas. These costs do
+not claim decision equality, production accuracy, peak memory or a 2x speedup.
+The duplicated-role fixture abstains with `Ambiguous` in the baseline and
+`InsufficientEvidence` with a competing-candidate reason in the quality policy;
+its test verifies both outcomes rather than merely requiring successful execution.
+
 ## Corroboration costs
 
 The public `matching` benchmark includes 36 workloads: 16/64/128 fields, samples

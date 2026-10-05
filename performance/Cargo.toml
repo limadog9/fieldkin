@@ -15,6 +15,9 @@ stats_alloc = { version = "=0.1.10", optional = true }
 
 [features]
 allocations = ["dep:stats_alloc"]
+# Only the candidate build enables the newly exposed policy. The identical
+# harness can still compile against the unchanged baseline library.
+quality-policy = []
 
 [lints.rust]
 unsafe_code = "forbid"

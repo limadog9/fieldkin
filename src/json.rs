@@ -535,6 +535,32 @@ impl Serialize for View<'_, CandidateIssue> {
             CandidateIssue::ContextualScoreAdjustment => {
                 ("contextual_score_adjustment", None, None)
             }
+            CandidateIssue::ContextualReason(reason) => (
+                match reason {
+                    crate::ContextualReason::Contradiction => "contextual_contradiction",
+                    crate::ContextualReason::SupportedEquivalence => {
+                        "contextual_supported_equivalence"
+                    }
+                    crate::ContextualReason::UnresolvedRelationship => {
+                        "contextual_unresolved_relationship"
+                    }
+                    crate::ContextualReason::MissingIdentifierSamples => {
+                        "contextual_missing_identifier_samples"
+                    }
+                    crate::ContextualReason::InsufficientSampleSupport => {
+                        "contextual_insufficient_sample_support"
+                    }
+                    crate::ContextualReason::CompetingCandidate => "contextual_competing_candidate",
+                    crate::ContextualReason::InsufficientInformativeName => {
+                        "contextual_insufficient_informative_name"
+                    }
+                    crate::ContextualReason::RepresentationConflict => {
+                        "contextual_representation_conflict"
+                    }
+                },
+                None,
+                None,
+            ),
             CandidateIssue::NameConflict(kind) => ("name_conflict", None, Some(kind)),
             CandidateIssue::SemanticConflict(axis) => ("semantic_conflict", Some(axis), None),
             CandidateIssue::SemanticAgreement(axis) => ("semantic_agreement", Some(axis), None),

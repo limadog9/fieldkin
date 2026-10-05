@@ -78,7 +78,7 @@ fn ascii_number(value: &str, minimum: u32, maximum: u32) -> bool {
             .is_ok_and(|number| (minimum..=maximum).contains(&number))
 }
 
-fn temporal_text(value: &str) -> bool {
+pub(crate) fn temporal_text(value: &str) -> bool {
     // Recognize clear calendar/ISO timestamp formats without coercing samples.
     if !value.is_ascii() || value.len() < 10 {
         return false;

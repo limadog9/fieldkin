@@ -7,11 +7,11 @@ data under MIT OR Apache-2.0; no evaluation fixtures or held-out examples are re
 Build after freezing the candidate source revision, then run:
 
 ```text
-cargo +stable run --locked --offline -p fieldkin-tools -- qualify-build --output target/qualification/candidate-v3
-cargo +stable run --locked --offline -p fieldkin-tools -- qualify-run --output target/qualification/candidate-v3 --cases 1000000 --seed 20261003
+cargo +stable run --locked --offline -p fieldkin-tools -- qualify-build --output target/qualification/candidate-v4
+cargo +stable run --locked --offline -p fieldkin-tools -- qualify-run --output target/qualification/candidate-v4 --cases 1000000 --seed 20261003
 ```
 
-The current v3 campaign distributes cases across seven round-robin categories.
+The current v4 campaign distributes cases across seven round-robin categories.
 The default one-million-case run gives each category 142,857 or 142,858 cases.
 The earlier v2 campaign used six categories; its dated records remain archived.
 A case counts once after its checks succeed; repeated calls, assertions,
@@ -34,11 +34,11 @@ reserved targets cannot be reused, diagnostic witnesses respect review decisions
 unmatched lists are complements, and input/directive reordering preserves reports.
 No gold evaluation labels are supplied to this generated-case campaign.
 
-The seventh category exercises optional contextual evidence using generated
-identifier samples under both assignments. It preserves distinctive supported
-matches, explicitly abstains when identifier samples are missing or reused by a
-competing field, remains invariant under field reordering, and rejects configured
-gross/net and kg/lb contradictions despite sample overlap. It supplies no
+The seventh category runs `Config::contextual_quality()` with generated
+identifier samples under both assignments. It preserves informative matches with
+missing samples and genuine role-conflicting competitors, retains opaque sample
+competitors, abstains on duplicate targets, remains invariant under reordering,
+and rejects configured gross/net and kg/lb contradictions despite sample overlap. It supplies no
 evaluation fixtures or gold metadata to the matcher.
 
 The generator uses wrapping 64-bit LCG constants recorded in source, seed
@@ -74,7 +74,7 @@ build record. Existing output directories or run records are rejected. Campaign
 execution has a ten-minute wall-time limit. Records carry a checksum and explicit
 trust boundary: they are local reproducibility records, not signatures or
 hermetic builds, and cannot detect a change restored between checks. Source
-hashes normalize CRLF to LF; executable hashes use raw bytes. Native v3 records
+hashes normalize CRLF to LF; executable hashes use raw bytes. Native v4 records
 use Unix timestamps. Timings describe this run and are not performance benchmarks.
 On failure it reports the case index/category and seed; replay with the same seed
 and at least that many cases. Sample values are not printed.

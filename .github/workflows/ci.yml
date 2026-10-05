@@ -39,29 +39,32 @@ jobs:
       - run: cargo run --locked --example import_review
       - run: cargo run --locked --example catalog_review
       - run: cargo run --locked --example corroboration
+      - run: cargo run --locked --example contextual_quality
       - run: cargo run --locked --example reviewed_import
       - run: cargo run --locked --features json --example persisted_review
       - run: cargo run --locked --example assignment_compatibility -- --check-only
       - run: cargo package --locked -p fieldkin
       - run: cargo package --locked -p fieldkin --features json
+      - run: cargo publish --locked -p fieldkin --dry-run --no-default-features
+      - run: cargo publish --locked -p fieldkin --dry-run --no-default-features --features json
       - name: Verify original development snapshots with native tooling provenance
-        run: cargo run --locked --release -p fieldkin-eval -- --check --output evaluation/results/readiness-pass-v1/current/baseline
+        run: cargo run --locked --release -p fieldkin-eval -- --check --output evaluation/results/quality-pass-v1/current/baseline
       - name: Verify complete Stage3 development reports
-        run: cargo run --locked --release -p fieldkin-eval -- --stage3 --check --output evaluation/results/readiness-pass-v1/current/stage3
+        run: cargo run --locked --release -p fieldkin-eval -- --stage3 --check --output evaluation/results/quality-pass-v1/current/stage3
       - name: Verify release development reports
-        run: cargo run --locked --release -p fieldkin-eval -- --release --check --output evaluation/results/readiness-pass-v1/current/release
+        run: cargo run --locked --release -p fieldkin-eval -- --release --check --output evaluation/results/quality-pass-v1/current/release
       - name: Verify corrective development and retired original regression
-        run: cargo run --locked --release -p fieldkin-eval -- --corrective --check --output evaluation/results/readiness-pass-v1/current/corrective
+        run: cargo run --locked --release -p fieldkin-eval -- --corrective --check --output evaluation/results/quality-pass-v1/current/corrective
       - name: Verify conflict and abstention precision against the unchanged baseline
-        run: cargo run --locked --release -p fieldkin-eval -- --precision --check --output evaluation/results/readiness-pass-v1/current/precision
+        run: cargo run --locked --release -p fieldkin-eval -- --precision --check --output evaluation/results/quality-pass-v1/current/precision
       - name: Verify development candidate precision and useful coverage
-        run: cargo run --locked --release -p fieldkin-eval -- --readiness --check --output evaluation/results/readiness-pass-v1/current/readiness
+        run: cargo run --locked --release -p fieldkin-eval -- --readiness --check --output evaluation/results/quality-pass-v1/current/readiness
       - name: Verify same-input regression including examined qualification
-        run: cargo run --locked --release -p fieldkin-eval -- --readiness-regression --before evaluation/results/readiness-pass-v1/before --check --output evaluation/results/readiness-pass-v1/after
+        run: cargo run --locked --release -p fieldkin-eval -- --readiness-regression --before evaluation/results/quality-pass-v1/before --check --output evaluation/results/quality-pass-v1/current/readiness-regression
       - name: Verify external annotation development
-        run: cargo run --locked --release -p fieldkin-eval -- --external --check --output evaluation/results/readiness-pass-v1/current/external
+        run: cargo run --locked --release -p fieldkin-eval -- --external --check --output evaluation/results/quality-pass-v1/current/external
       - name: Verify archived external scores with native matching
-        run: cargo run --locked --release -p fieldkin-eval -- --northix --check --scores evaluation/results/continuation-v1/valentine/valentine-schema_only.json --scores evaluation/results/continuation-v1/valentine/valentine-schema_and_samples.json --output evaluation/results/readiness-pass-v1/current/northix
+        run: cargo run --locked --release -p fieldkin-eval -- --northix --check --scores evaluation/results/continuation-v1/valentine/valentine-schema_only.json --scores evaluation/results/continuation-v1/valentine/valentine-schema_and_samples.json --output evaluation/results/quality-pass-v1/current/northix
       - name: Reproduce licensed fixture archives offline in Rust
         run: cargo run --locked -p fieldkin-tools -- import-northix --check
       - run: cargo run --locked -p fieldkin-tools -- import-t2d --check
@@ -71,6 +74,22 @@ jobs:
         run: cargo run --locked -p fieldkin-tools -- verify-run --build-dir target/verified-external --output target/verified-external-results
       - name: Exercise generated invariants without reading reserved fixtures
         run: cargo run --locked --release --manifest-path qualification/Cargo.toml -- --cases 5000 --seed 20261003
+  development-quality:
+    name: development quality acceptance
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - run: rustup update stable --no-self-update
+      - name: Reproduce the documented public candidate on development only
+        run: cargo run --locked --release -p fieldkin-eval -- --readiness-regression --policies default,name_only_070,name_only_exact,contextual,contextual_quality --check --output evaluation/results/quality-pass-v1/development-native/artifacts
+      - name: Build a fresh evaluator bound to this checkout
+        run: cargo run --locked -p fieldkin-tools -- verify-build --build-dir target/development-quality --toolchain stable
+      - name: Record guarded development evidence without consuming a holdout
+        run: cargo run --locked -p fieldkin-tools -- record-quality-development --build-dir target/development-quality --output target/development-quality-results
+      - name: Require numerical quality separately from snapshot equality
+        run: cargo run --locked -p fieldkin-tools -- development-acceptance --development target/development-quality-results/artifacts
   test:
     name: test
     needs: platform

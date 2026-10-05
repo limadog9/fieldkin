@@ -405,12 +405,12 @@ fn seal(record: &Value) -> Result<String, String> {
     ))
 }
 
-fn record(path: &Path, mut value: Value) -> Result<(), String> {
+pub(crate) fn record(path: &Path, mut value: Value) -> Result<(), String> {
     value["record_sha256"] = json!(seal(&value)?);
     write_new(path, &value)
 }
 
-fn load_record(path: &Path) -> Result<Value, String> {
+pub(crate) fn load_record(path: &Path) -> Result<Value, String> {
     if fs::metadata(path).map_err(|error| error.to_string())?.len() > 4 * 1024 * 1024 {
         return Err("record exceeds its byte limit".into());
     }
@@ -510,7 +510,7 @@ pub fn build(args: Vec<String>) -> Result<(), String> {
     Ok(())
 }
 
-fn verified_build(base: &Path, directory: &Path) -> Result<(Value, PathBuf), String> {
+pub(crate) fn verified_build(base: &Path, directory: &Path) -> Result<(Value, PathBuf), String> {
     let value = load_record(&directory.join("build.json"))?;
     if value["protocol"] != PROTOCOL
         || value["repository_root"] != json!(base)
@@ -576,6 +576,11 @@ enum Task {
     External,
     Northix,
     ContextQualification,
+    QualityDevelopment,
+}
+
+pub fn record_quality_development(args: Vec<String>) -> Result<(), String> {
+    run_task(args, Task::QualityDevelopment)
 }
 
 pub fn record_context(mut args: Vec<String>) -> Result<(), String> {
@@ -614,6 +619,7 @@ fn run_task(args: Vec<String>, task: Task) -> Result<(), String> {
         Task::External => "--external",
         Task::Northix => "--northix",
         Task::ContextQualification => "--context-qualification",
+        Task::QualityDevelopment => "--readiness-regression",
     };
     let mut arguments = vec![
         route.into(),
@@ -624,6 +630,12 @@ fn run_task(args: Vec<String>, task: Task) -> Result<(), String> {
         arguments.extend([
             "--scores".into(),
             score["path"].as_str().ok_or("score path invalid")?.into(),
+        ]);
+    }
+    if task == Task::QualityDevelopment {
+        arguments.extend([
+            "--policies".into(),
+            "default,name_only_070,name_only_exact,contextual,contextual_quality".into(),
         ]);
     }
     if task == Task::ContextQualification {
@@ -661,17 +673,23 @@ fn run_task(args: Vec<String>, task: Task) -> Result<(), String> {
     {
         return Err("record, executable or scores changed during evaluation".into());
     }
-    let expected = match task {
-        Task::Northix => ["results.json", "predictions.jsonl", "results.md"],
-        Task::External => [
+    let expected: &[&str] = match task {
+        Task::Northix => &["results.json", "predictions.jsonl", "results.md"],
+        Task::External => &[
             "development.json",
             "development-predictions.jsonl",
             "development.md",
         ],
-        Task::ContextQualification => [
+        Task::ContextQualification => &[
             "qualification.json",
             "predictions.jsonl",
             "qualification.md",
+        ],
+        Task::QualityDevelopment => &[
+            "report.json",
+            "report.md",
+            "predictions.jsonl",
+            "changes.jsonl",
         ],
     };
     let artifacts = output.join("artifacts");
@@ -683,7 +701,7 @@ fn run_task(args: Vec<String>, task: Task) -> Result<(), String> {
                 .map_err(|error| error.to_string())
         })
         .collect::<Result<_, _>>()?;
-    if actual != expected.into_iter().map(str::to_owned).collect() {
+    if actual != expected.iter().map(|name| (*name).to_owned()).collect() {
         return Err("unexpected or missing evaluator artifacts".into());
     }
     if fs::read_dir(&output)
@@ -694,7 +712,7 @@ fn run_task(args: Vec<String>, task: Task) -> Result<(), String> {
         return Err("unexpected output files".into());
     }
     let mut hashes = BTreeMap::new();
-    for name in expected {
+    for &name in expected {
         let bytes = read(&artifacts.join(name))?;
         if bytes.len() > 64 * 1024 * 1024 {
             return Err("artifact exceeds byte limit".into());
@@ -711,10 +729,11 @@ fn run_task(args: Vec<String>, task: Task) -> Result<(), String> {
         Task::External => "development",
         Task::Northix => "fixed-external-diagnostic",
         Task::ContextQualification => "new-reserved-synthetic-holdout",
+        Task::QualityDevelopment => "quality-development",
     };
     record(
         &output.join("run.json"),
-        json!({"protocol":PROTOCOL,"status":"success","partition":partition,
+        json!({"protocol":PROTOCOL,"status":"success","partition":partition,"build_dir":directory,
         "reserved_holdouts_scored":task==Task::ContextQualification,"other_reserved_holdouts_scored":false,"build_record_sha256":record_sha,"binary_sha256":before["binary_sha256"],
         "input_sha256":before["context_before"]["input_sha256"],"command":arguments,"artifact_sha256":hashes,"score_files":before_scores,
         "completed_unix_seconds":now(),"trust_boundary":TRUST}),

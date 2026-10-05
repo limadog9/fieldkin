@@ -138,6 +138,25 @@ distinct-aware sample signals qualify; otherwise construction returns
 JSON adds these issue codes; the saved-review format is unchanged. See
 [development evidence and release limits](release-readiness.md).
 
+## Contextual quality preset
+
+`Config::contextual_quality()` explicitly enables the new policy and its fixed
+qualifier/unit vocabulary. It assumes source and target observations can come
+from independent populations. Informative equivalent names can support proposals
+with missing, adequately diverse partial or disjoint samples; actual meaning
+and representation contradictions remain exclusions. Generic or opaque names and
+unresolved alternatives still require evidence. Applications should review this
+assumption and the vocabulary before adoption.
+
+`ContextualEvidence` adds `distinguish_relationships`,
+`independent_sample_populations`, `preserve_score_ranking`, and
+`identifier_word_forms`, all false in its
+existing `Default`. Explicit two-field literals must add these fields or use
+`..ContextualEvidence::default()`. `CandidateIssue::ContextualReason` exposes
+overlapping privacy-safe relationship/support reasons, with additive JSON issue
+codes. Consumers of the non-exhaustive enums should keep their fallback handling.
+Saved review documents and ordinary weighted defaults retain their behavior.
+
 ## Caller review constraints
 
 The precision improvement adds `Config::name_conflicts: Vec<NameConflictRule>`.

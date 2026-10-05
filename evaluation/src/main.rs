@@ -10,6 +10,7 @@ mod metrics;
 mod model;
 mod northix;
 mod precision;
+mod quality;
 mod readiness;
 mod readiness_regression;
 mod release;
@@ -20,6 +21,33 @@ mod stage3;
 fn main() {
     let mut args: Vec<_> = std::env::args().skip(1).collect();
     let result = if args
+        .first()
+        .is_some_and(|arg| arg == "--quality-development-identity")
+    {
+        args.remove(0);
+        if args.is_empty() {
+            quality::print_development_identity()
+        } else {
+            Err("development identity route accepts no options".into())
+        }
+    } else if args
+        .first()
+        .is_some_and(|arg| arg == "--quality-configuration")
+    {
+        args.remove(0);
+        if args.is_empty() {
+            quality::print_configuration();
+            Ok(())
+        } else {
+            Err("configuration route accepts no options".into())
+        }
+    } else if args
+        .first()
+        .is_some_and(|arg| arg == "--quality-qualification")
+    {
+        args.remove(0);
+        quality::run(args)
+    } else if args
         .first()
         .is_some_and(|arg| arg == "--readiness-regression")
     {

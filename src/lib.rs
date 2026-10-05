@@ -19,7 +19,7 @@ mod types;
 pub mod json;
 
 pub use constraints::{FieldPair, MatchConstraints};
-pub use contextual::ContextualEvidence;
+pub use contextual::{ContextualEvidence, ContextualReason};
 pub use diagnostics::*;
 pub use engine::{MatchEngine, WeightedMatcher};
 pub use error::*;

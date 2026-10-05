@@ -12,7 +12,7 @@ use crate::common::{
     source_inventory, write_new,
 };
 
-const PROTOCOL: &str = "fieldkin-native-qualification-v3";
+const PROTOCOL: &str = "fieldkin-native-qualification-v4";
 const DEFAULT_CASES: u64 = 1_000_000;
 const DEFAULT_SEED: u64 = 20_261_003;
 const TRUST: &str = "Local reproducibility record, not a signature or hermetic build. Trust the local wrapper, compiler, Cargo, processes and locked dependencies. Before/after checks cannot detect a change restored between checks. Subprocess and pipe completion deadlines do not sandbox descendant processes.";
