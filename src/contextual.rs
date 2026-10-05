@@ -440,13 +440,19 @@ fn scoped_word_form_core(
                 applied = true;
                 "reversal"
             }
+            "sample" | "sampled" | "observation" if temporal => {
+                applied = true;
+                "observation"
+            }
             "amt" => "amount",
             "trans" => "transaction",
             token => token,
         };
 
         if structural_token(canonical)
-            || (temporal && index + 1 == tokens.len() && matches!(canonical, "date" | "timestamp"))
+            || (temporal
+                && index + 1 == tokens.len()
+                && matches!(canonical, "time" | "date" | "timestamp"))
         {
             continue;
         }
