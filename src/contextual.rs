@@ -2,10 +2,9 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 
-use crate::semantic_name::{identifier_token, normalize_word_forms, structural_token, NameScope};
 use crate::{
     normalize_name, BudgetKind, Candidate, CandidateIssue, Config, CountKind, DataType, Field,
-    MatchError, NameConflictKind, NameConflictRule, NameMatcher, SampleValue,
+    MatchError, NameConflictKind, NameConflictRule, SampleValue,
 };
 
 const MIN_DISTINCT: usize = 3;
@@ -16,25 +15,11 @@ const SAMPLE_MARGIN: f64 = 0.1;
 /// Experimental, opt-in lexical and distinctive-sample evidence policy.
 ///
 /// This policy requires active concrete built-in name and default distinct-aware
-/// sample signals. Contextual name preparation applies evidence-scoped event
-/// word forms, reported in the name signal. It transforms the aggregate score
+/// sample signals. It retains their original evidence, but transforms the score
 /// to the maximum of its weighted sum, 0.90 for supported informative lexical
 /// agreement, and 0.95 for adequate sample overlap. These fixed floors are
 /// heuristic choices, never calibrated confidence. Selection additionally needs
 /// contextual support; sample overlap alone does not establish shared meaning.
-/// The shared vocabulary equates `expiry`/`expiration` only in temporal
-/// contexts, and `settled`/`settlement` and `reversed`/`reversal` in temporal
-/// or Boolean contexts. Types or typed samples establish these contexts.
-/// Boolean `is`/`flag` and temporal suffixes are structural only in those
-/// contexts. `enabled` retains its meaning, but alone is a generic status
-/// without informative entity or event support; it is never aliased to `active`.
-///
-/// Identifiers, temporal events, Boolean predicates and named consent/event
-/// roles require their complete canonical cores to agree. Explicit directions
-/// also retain token order. Negation and estimated/actual qualifiers cannot be
-/// erased by sampled agreement. Declared Date and Timestamp remain distinct
-/// representations; this policy never supplies conversions. Configured unit,
-/// qualifier and verified semantic conflicts continue to exclude pairs.
 ///
 /// Context uses all hard-compatible original pairs before caller review, local
 /// ambiguity, assignment and display truncation. No labels, stored mappings or
@@ -52,9 +37,6 @@ pub struct ContextualEvidence {
     /// observations are exempt from the measurement restriction. Ignore exact
     /// duplicate source observations as sample competitors; target duplicates
     /// remain competing choices. Defaults to true.
-    /// Setting false disables the observation/measurement heuristics, while full
-    /// entity/event/predicate roles, explicit direction, polarity, qualifiers and
-    /// declared Date/Timestamp representation remain safeguards.
     pub scoped_support: bool,
 }
 
@@ -181,23 +163,17 @@ pub(crate) fn apply(
     sources: &[&Field],
     targets: &[&Field],
     candidates: &mut [Vec<Candidate>],
-    signals: (&NameMatcher, usize),
+    sample_signal: usize,
     explanation_bytes: &mut usize,
 ) -> Result<(), MatchError> {
-    // Disabled/empty products do not evaluate matcher configuration. In
-    // particular, aliases on the nonempty side have not been validated yet.
-    if sources.is_empty() || targets.is_empty() {
-        return Ok(());
-    }
-    let (name_matcher, sample_signal) = signals;
     let units = unit_phrases(&config.name_conflicts);
     let source_features: Vec<_> = sources
         .iter()
-        .map(|field| FieldFeatures::new(field, &units, name_matcher))
+        .map(|field| FieldFeatures::new(field, &units))
         .collect();
     let target_features: Vec<_> = targets
         .iter()
-        .map(|field| FieldFeatures::new(field, &units, name_matcher))
+        .map(|field| FieldFeatures::new(field, &units))
         .collect();
     let groups = source_groups(sources, policy.scoped_support);
     let mut target_core_counts = BTreeMap::new();
@@ -271,32 +247,20 @@ pub(crate) fn apply(
                 } else {
                     pair.sample_adequate
                 };
-            // Sample overlap cannot erase an explicit entity, event or predicate
-            // distinction. Temporal roles must agree completely: a shared
-            // "shipment" token does not equate received and dispatched events.
-            let scoped_role_agrees = !(identifier
-                || feature.boolean
-                || target_feature.boolean
-                || feature.temporal
-                || target_feature.temporal
-                || feature.named_role
-                || target_feature.named_role)
-                || feature.core == target_feature.core;
-            let modifiers_agree = feature.modifiers == target_feature.modifiers;
-            let directed_role_agrees = !(feature.directional || target_feature.directional)
-                || feature.ordered_core == target_feature.ordered_core;
-            let representation_agrees = !matches!(
-                (sources[source].data_type, targets[target].data_type),
-                (DataType::Date, DataType::Timestamp) | (DataType::Timestamp, DataType::Date)
-            );
             let lexical = informed_exact && identifier_support && observed_support;
             let duplicate_generic = feature.informative == 0
                 && target_feature.informative == 0
                 && !feature.core.is_empty()
                 && feature.core == target_feature.core
                 && target_core_counts[&target_feature.core] >= 2;
+            let temporal_role_agrees = !policy.scoped_support
+                || !(feature.temporal || target_feature.temporal)
+                || feature.core == target_feature.core
+                || !feature
+                    .informative_core
+                    .is_disjoint(&target_feature.informative_core);
             let recovered = distinctive
-                && scoped_role_agrees
+                && temporal_role_agrees
                 && (feature.informative > 0 || target_feature.informative > 0 || duplicate_generic);
             let unqualified_numeric = policy.scoped_support
                 && !identifier
@@ -307,10 +271,6 @@ pub(crate) fn apply(
                 && target_feature.units.iter().all(|meaning| *meaning == 0);
             let units_agree = feature.units_agree(target_feature);
             let allowed = pair.hard_compatible
-                && scoped_role_agrees
-                && modifiers_agree
-                && directed_role_agrees
-                && representation_agrees
                 && !unqualified_numeric
                 && units_agree
                 && (lexical || recovered);
@@ -347,7 +307,7 @@ pub(crate) fn apply(
                     )
                 });
             let explanation = format!(
-                "Contextual evidence: weighted score {base:.3}, transformed score {:.3}; informative tokens {}/{}; distinct samples {}/{}; lexical support {lexical}; distinctive sample support {distinctive}; unit representation agreement {units_agree}; unqualified numeric {unqualified_numeric}; scoped role agreement {scoped_role_agrees}; directed role agreement {directed_role_agrees}; modifier agreement {modifiers_agree}; temporal representation agreement {representation_agrees}; contextual support {allowed}. Fixed score floors are heuristics, not calibrated confidence.",
+                "Contextual evidence: weighted score {base:.3}, transformed score {:.3}; informative tokens {}/{}; distinct samples {}/{}; lexical support {lexical}; distinctive sample support {distinctive}; unit representation agreement {units_agree}; unqualified numeric {unqualified_numeric}; temporal role agreement {temporal_role_agrees}; contextual support {allowed}. Fixed score floors are heuristics, not calibrated confidence.",
                 candidate.score,
                 feature.informative,
                 target_feature.informative,
@@ -368,11 +328,8 @@ pub(crate) fn apply(
 
 struct FieldFeatures {
     core: BTreeSet<String>,
-    ordered_core: Vec<String>,
     informative: usize,
-    modifiers: BTreeSet<String>,
-    named_role: bool,
-    directional: bool,
+    informative_core: BTreeSet<String>,
     identifier: bool,
     observed: bool,
     non_null: usize,
@@ -435,12 +392,22 @@ fn recognized_units(tokens: &[String], phrases: &[UnitPhrase]) -> u16 {
     meanings
 }
 
+fn identifier_token(token: &str) -> bool {
+    matches!(
+        token,
+        "id" | "identifier" | "key" | "code" | "ref" | "reference" | "num" | "number"
+    )
+}
+
+fn structural_token(token: &str) -> bool {
+    identifier_token(token) || matches!(token, "is" | "has" | "flag" | "enabled" | "at" | "on")
+}
+
 fn generic_token(token: &str) -> bool {
     matches!(
         token,
         "id" | "name"
             | "status"
-            | "enabled"
             | "value"
             | "count"
             | "amount"
@@ -463,26 +430,73 @@ fn generic_token(token: &str) -> bool {
     )
 }
 
-impl FieldFeatures {
-    fn new(field: &Field, unit_rules: &[Vec<UnitPhrase>], name_matcher: &NameMatcher) -> Self {
-        let tokens = normalize_name(&field.name);
-        let scope = NameScope::for_field(field);
-        let mut canonical = tokens.clone();
-        for token in &mut canonical {
-            // The prepared name signal already validates used replacements.
-            // Honor the same one-pass aliases, including a caller-cleared map.
-            if let Some(to) = name_matcher.aliases.get(token) {
-                *token = to.clone();
-            }
+fn ascii_number(value: &str, minimum: u32, maximum: u32) -> bool {
+    value.bytes().all(|byte| byte.is_ascii_digit())
+        && value
+            .parse::<u32>()
+            .is_ok_and(|number| (minimum..=maximum).contains(&number))
+}
+
+fn temporal_text(value: &str) -> bool {
+    // Recognize clear calendar/ISO timestamp formats without coercing samples.
+    if !value.is_ascii() || value.len() < 10 {
+        return false;
+    }
+    let date = &value[..10];
+    if date.as_bytes()[4] != b'-'
+        || date.as_bytes()[7] != b'-'
+        || !ascii_number(&date[..4], 0, 9999)
+        || !ascii_number(&date[5..7], 1, 12)
+        || !ascii_number(&date[8..10], 1, 31)
+    {
+        return false;
+    }
+    if value.len() == 10 {
+        return true;
+    }
+    if value.len() < 19
+        || !matches!(value.as_bytes()[10], b'T' | b' ')
+        || value.as_bytes()[13] != b':'
+        || value.as_bytes()[16] != b':'
+        || !ascii_number(&value[11..13], 0, 23)
+        || !ascii_number(&value[14..16], 0, 59)
+        || !ascii_number(&value[17..19], 0, 60)
+    {
+        return false;
+    }
+    let mut suffix = &value[19..];
+    if let Some(fraction) = suffix.strip_prefix('.') {
+        let digits = fraction
+            .bytes()
+            .take_while(|byte| byte.is_ascii_digit())
+            .count();
+        if digits == 0 {
+            return false;
         }
-        normalize_word_forms(&mut canonical, scope);
-        let ordered_core: Vec<_> = canonical
+        suffix = &fraction[digits..];
+    }
+    suffix.is_empty()
+        || suffix == "Z"
+        || (suffix.len() == 6
+            && matches!(suffix.as_bytes()[0], b'+' | b'-')
+            && suffix.as_bytes()[3] == b':'
+            && ascii_number(&suffix[1..3], 0, 23)
+            && ascii_number(&suffix[4..], 0, 59))
+}
+
+impl FieldFeatures {
+    fn new(field: &Field, unit_rules: &[Vec<UnitPhrase>]) -> Self {
+        let tokens = normalize_name(&field.name);
+        let core: BTreeSet<_> = tokens
             .iter()
-            .enumerate()
-            .filter(|(index, token)| !structural_token(token, *index, canonical.len(), scope))
-            .map(|(_, token)| token.clone())
+            .map(|token| match token.as_str() {
+                "amt" => "amount",
+                "trans" => "transaction",
+                token => token,
+            })
+            .filter(|token| !structural_token(token))
+            .map(str::to_owned)
             .collect();
-        let core: BTreeSet<_> = ordered_core.iter().cloned().collect();
         let informative_core: BTreeSet<_> = core
             .iter()
             .filter(|token| {
@@ -541,34 +555,8 @@ impl FieldFeatures {
                 });
         Self {
             core,
-            ordered_core,
             informative: informative_core.len(),
-            // Observed agreement does not justify dropping explicit polarity or
-            // measurement qualifiers, including a qualifier missing on one side.
-            modifiers: tokens
-                .iter()
-                .filter(|token| {
-                    matches!(
-                        token.as_str(),
-                        "no" | "not"
-                            | "non"
-                            | "without"
-                            | "actual"
-                            | "estimated"
-                            | "forecast"
-                            | "predicted"
-                    )
-                })
-                .cloned()
-                .collect(),
-            // Preserve named event and consent roles even when their values are
-            // represented as counts or text instead of dates and Booleans.
-            named_role: tokens
-                .iter()
-                .any(|token| matches!(token.as_str(), "consent" | "received" | "dispatched")),
-            directional: tokens
-                .iter()
-                .any(|token| matches!(token.as_str(), "from" | "to" | "by" | "for")),
+            informative_core,
             identifier: tokens.iter().any(|token| identifier_token(token)),
             observed: field.samples.is_some(),
             non_null,
@@ -583,8 +571,23 @@ impl FieldFeatures {
                 .map(|phrases| recognized_units(&tokens, phrases))
                 .collect(),
             representation_sensitive: numeric && !declared_integral,
-            boolean: scope.boolean,
-            temporal: scope.temporal,
+            boolean: field.data_type == DataType::Boolean
+                || (non_null > 0
+                    && field
+                        .samples
+                        .as_deref()
+                        .unwrap_or_default()
+                        .iter()
+                        .all(|value| matches!(value, SampleValue::Null | SampleValue::Boolean(_)))),
+            temporal: matches!(field.data_type, DataType::Date | DataType::Timestamp)
+                || (non_null > 0
+                    && field.samples.as_deref().unwrap_or_default().iter().all(
+                        |value| match value {
+                            SampleValue::Null => true,
+                            SampleValue::Text(text) => temporal_text(text),
+                            _ => false,
+                        },
+                    )),
         }
     }
 
