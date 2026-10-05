@@ -193,6 +193,34 @@ fn scoped_sample_observation_word_forms_are_temporal_only() {
     assert!(report.fields[0].selected.is_none());
 }
 #[test]
+fn scoped_email_address_form_is_text_only_and_preserves_roles() {
+    for one_to_one in [false, true] {
+        let report = match_fields(
+            vec![Field::new("s", "email", DataType::Text)],
+            vec![Field::new("t", "email_address", DataType::Text)],
+            Config {
+                one_to_one,
+                ..config()
+            },
+        );
+        assert!(report.fields[0].selected.is_some());
+    }
+
+    let report = match_fields(
+        vec![Field::new("s", "work_email", DataType::Text)],
+        vec![Field::new("t", "email_address", DataType::Text)],
+        config(),
+    );
+    assert!(report.fields[0].selected.is_none());
+
+    let report = match_fields(
+        vec![Field::new("s", "email", DataType::Text)],
+        vec![Field::new("t", "postal_address", DataType::Text)],
+        config(),
+    );
+    assert!(report.fields[0].selected.is_none());
+}
+#[test]
 fn scoped_geo_roles_recover_start_and_origin_coordinates() {
     for (source_name, target_name) in [
         ("start-latitude", "origin_latitude"),

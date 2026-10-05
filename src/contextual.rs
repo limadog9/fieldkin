@@ -233,11 +233,14 @@ pub(crate) fn apply(
                 && feature.word_form_core == target_feature.word_form_core;
             let geo_role_exact = feature.geo_role_core.is_some()
                 && feature.geo_role_core == target_feature.geo_role_core;
+            let email_form_exact = feature.email_form_core.is_some()
+                && feature.email_form_core == target_feature.email_form_core;
             let informed_exact = (feature.informative > 0
                 && feature.core == target_feature.core
                 && !feature.core.is_empty())
                 || word_form_exact
-                || geo_role_exact;
+                || geo_role_exact
+                || email_form_exact;
             let identifier = feature.identifier || target_feature.identifier;
             let identifier_support = !identifier
                 || distinctive
@@ -341,6 +344,7 @@ struct FieldFeatures {
     informative_core: BTreeSet<String>,
     word_form_core: Option<BTreeSet<String>>,
     geo_role_core: Option<BTreeSet<String>>,
+    email_form_core: Option<BTreeSet<String>>,
     identifier: bool,
     observed: bool,
     non_null: usize,
@@ -494,6 +498,26 @@ fn scoped_geo_role_core(tokens: &[String]) -> Option<BTreeSet<String>> {
         .collect();
 
     (applied && !core.is_empty()).then_some(core)
+}
+
+fn scoped_email_form_core(tokens: &[String], data_type: DataType) -> Option<BTreeSet<String>> {
+    if data_type != DataType::Text || !tokens.iter().any(|token| token == "email") {
+        return None;
+    }
+
+    let core: BTreeSet<_> = tokens
+        .iter()
+        .filter(|token| token.as_str() != "address")
+        .map(|token| match token.as_str() {
+            "amt" => "amount",
+            "trans" => "transaction",
+            token => token,
+        })
+        .filter(|token| !structural_token(token))
+        .map(str::to_owned)
+        .collect();
+
+    (!core.is_empty()).then_some(core)
 }
 
 fn generic_token(token: &str) -> bool {
@@ -666,12 +690,14 @@ impl FieldFeatures {
                     ));
         let word_form_core = scoped_word_form_core(&tokens, boolean, temporal);
         let geo_role_core = scoped_geo_role_core(&tokens);
+        let email_form_core = scoped_email_form_core(&tokens, field.data_type);
         Self {
             core,
             informative: informative_core.len(),
             informative_core,
             word_form_core,
             geo_role_core,
+            email_form_core,
             identifier: tokens.iter().any(|token| identifier_token(token)),
             observed: field.samples.is_some(),
             non_null,
