@@ -231,10 +231,13 @@ pub(crate) fn apply(
                 (DataType::Date, DataType::Timestamp) | (DataType::Timestamp, DataType::Date)
             ) && feature.word_form_core.is_some()
                 && feature.word_form_core == target_feature.word_form_core;
+            let geo_role_exact = feature.geo_role_core.is_some()
+                && feature.geo_role_core == target_feature.geo_role_core;
             let informed_exact = (feature.informative > 0
                 && feature.core == target_feature.core
                 && !feature.core.is_empty())
-                || word_form_exact;
+                || word_form_exact
+                || geo_role_exact;
             let identifier = feature.identifier || target_feature.identifier;
             let identifier_support = !identifier
                 || distinctive
@@ -337,6 +340,7 @@ struct FieldFeatures {
     informative: usize,
     informative_core: BTreeSet<String>,
     word_form_core: Option<BTreeSet<String>>,
+    geo_role_core: Option<BTreeSet<String>>,
     identifier: bool,
     observed: bool,
     non_null: usize,
@@ -449,6 +453,39 @@ fn scoped_word_form_core(
 
         core.insert(canonical.to_owned());
     }
+
+    (applied && !core.is_empty()).then_some(core)
+}
+
+fn scoped_geo_role_core(tokens: &[String]) -> Option<BTreeSet<String>> {
+    let coordinate = tokens.iter().any(|token| {
+        matches!(
+            token.as_str(),
+            "latitude" | "longitude" | "lat" | "lon" | "lng"
+        )
+    });
+
+    if !coordinate {
+        return None;
+    }
+
+    let mut applied = false;
+    let core: BTreeSet<_> = tokens
+        .iter()
+        .filter_map(|token| {
+            let canonical = match token.as_str() {
+                "start" | "origin" => {
+                    applied = true;
+                    "origin"
+                }
+                "amt" => "amount",
+                "trans" => "transaction",
+                token => token,
+            };
+
+            (!structural_token(canonical)).then(|| canonical.to_owned())
+        })
+        .collect();
 
     (applied && !core.is_empty()).then_some(core)
 }
@@ -622,11 +659,13 @@ impl FieldFeatures {
                         },
                     ));
         let word_form_core = scoped_word_form_core(&tokens, boolean, temporal);
+        let geo_role_core = scoped_geo_role_core(&tokens);
         Self {
             core,
             informative: informative_core.len(),
             informative_core,
             word_form_core,
+            geo_role_core,
             identifier: tokens.iter().any(|token| identifier_token(token)),
             observed: field.samples.is_some(),
             non_null,

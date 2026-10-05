@@ -172,6 +172,48 @@ fn scoped_word_forms_preserve_context_and_meaning() {
 }
 
 #[test]
+fn scoped_geo_roles_recover_start_and_origin_coordinates() {
+    for (source_name, target_name) in [
+        ("start-latitude", "origin_latitude"),
+        ("start_longitude", "origin_longitude"),
+    ] {
+        for one_to_one in [false, true] {
+            let report = match_fields(
+                vec![Field::new("s", source_name, DataType::Float)],
+                vec![Field::new("t", target_name, DataType::Float)],
+                Config {
+                    one_to_one,
+                    ..config()
+                },
+            );
+            assert!(
+                report.fields[0].selected.is_some(),
+                "{source_name} -> {target_name}"
+            );
+        }
+    }
+}
+
+#[test]
+fn scoped_geo_roles_do_not_generalize_beyond_coordinates_or_axes() {
+    for (source_name, target_name, data_type) in [
+        ("start_time", "origin_time", DataType::Timestamp),
+        ("start_latitude", "origin_longitude", DataType::Float),
+        ("start_longitude", "origin_latitude", DataType::Float),
+    ] {
+        let report = match_fields(
+            vec![Field::new("s", source_name, data_type)],
+            vec![Field::new("t", target_name, data_type)],
+            config(),
+        );
+        assert!(
+            report.fields[0].selected.is_none(),
+            "{source_name} -> {target_name}"
+        );
+    }
+}
+
+#[test]
 fn exact_non_identifier_roles_use_adequate_samples_without_inventing_distinctiveness() {
     let report = match_fields(
         vec![sampled("s", "customer_name", &[10, 20, 30])],
