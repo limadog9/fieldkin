@@ -1,0 +1,90 @@
+{
+    "protocol":  "fieldkin-quality-clean-package-v1",
+    "packaged_commit":  "b0d1dd94e58ddb24870933a42936dc81c93d5be3",
+    "source_implementation_commit":  "b36290af851cbf18b9fa8f84474f9978e8b631cb",
+    "clean_checkout_before":  true,
+    "clean_checkout_after":  true,
+    "allow_dirty_used":  false,
+    "real_publication_attempted":  false,
+    "commands":  [
+                     {
+                         "exit_code":  0,
+                         "name":  "package-default",
+                         "finished_utc":  "2026-10-05T17:00:56.3297632Z",
+                         "command":  [
+                                         "cargo",
+                                         "+stable",
+                                         "package",
+                                         "--locked",
+                                         "-p",
+                                         "fieldkin",
+                                         "--no-default-features"
+                                     ],
+                         "started_utc":  "2026-10-05T17:00:49.6459523Z",
+                         "archive_sha256":  "f3e53e8199e218e46240ca15629f07475b896e09872d2a84f8816f7c30fc4eb7"
+                     },
+                     {
+                         "exit_code":  0,
+                         "name":  "package-json",
+                         "finished_utc":  "2026-10-05T17:01:08.6285677Z",
+                         "command":  [
+                                         "cargo",
+                                         "+stable",
+                                         "package",
+                                         "--locked",
+                                         "-p",
+                                         "fieldkin",
+                                         "--no-default-features",
+                                         "--features",
+                                         "json"
+                                     ],
+                         "started_utc":  "2026-10-05T17:00:56.3941396Z",
+                         "archive_sha256":  "f3e53e8199e218e46240ca15629f07475b896e09872d2a84f8816f7c30fc4eb7"
+                     },
+                     {
+                         "exit_code":  0,
+                         "name":  "dry-run-default",
+                         "finished_utc":  "2026-10-05T17:01:10.2308628Z",
+                         "command":  [
+                                         "cargo",
+                                         "+stable",
+                                         "publish",
+                                         "--locked",
+                                         "-p",
+                                         "fieldkin",
+                                         "--dry-run",
+                                         "--no-default-features"
+                                     ],
+                         "started_utc":  "2026-10-05T17:01:08.6381200Z",
+                         "archive_sha256":  "f3e53e8199e218e46240ca15629f07475b896e09872d2a84f8816f7c30fc4eb7"
+                     },
+                     {
+                         "exit_code":  0,
+                         "name":  "dry-run-json",
+                         "finished_utc":  "2026-10-05T17:01:12.2721241Z",
+                         "command":  [
+                                         "cargo",
+                                         "+stable",
+                                         "publish",
+                                         "--locked",
+                                         "-p",
+                                         "fieldkin",
+                                         "--dry-run",
+                                         "--no-default-features",
+                                         "--features",
+                                         "json"
+                                     ],
+                         "started_utc":  "2026-10-05T17:01:10.2446261Z",
+                         "archive_sha256":  "f3e53e8199e218e46240ca15629f07475b896e09872d2a84f8816f7c30fc4eb7"
+                     }
+                 ],
+    "archive_consumer_verification":  "All87 non-VCS archive files byte-identical to the archive whose default/JSON consumers passed; normalizedmanifest,lock,sources,docs,andlicenses included",
+    "passed":  true,
+    "unchanged_archive_files_compared":  87,
+    "archive_vcs":  {
+                        "git":  {
+                                    "sha1":  "b0d1dd94e58ddb24870933a42936dc81c93d5be3"
+                                },
+                        "path_in_vcs":  ""
+                    }
+}
