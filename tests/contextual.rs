@@ -120,6 +120,58 @@ fn strict_identifiers_and_unavailable_observations_are_explicit_options() {
 }
 
 #[test]
+fn scoped_word_forms_recover_temporal_and_boolean_roles() {
+    for (source_name, target_name, data_type) in [
+        ("expiry", "expiration_date", DataType::Date),
+        ("settled_at", "settlement_timestamp", DataType::Timestamp),
+        ("is_reversed", "reversal_flag", DataType::Boolean),
+    ] {
+        for one_to_one in [false, true] {
+            let report = match_fields(
+                vec![Field::new("s", source_name, data_type)],
+                vec![Field::new("t", target_name, data_type)],
+                Config {
+                    one_to_one,
+                    ..config()
+                },
+            );
+            assert!(
+                report.fields[0].selected.is_some(),
+                "{source_name} -> {target_name}"
+            );
+        }
+    }
+}
+
+#[test]
+fn scoped_word_forms_preserve_context_and_meaning() {
+    for (source_name, target_name, data_type) in [
+        ("coupon_expiry", "account_expiration_date", DataType::Date),
+        ("estimated_expiry", "actual_expiration_date", DataType::Date),
+        ("is_not_reversed", "reversal_flag", DataType::Boolean),
+        ("settled", "settlement", DataType::Text),
+        ("reversed", "reversal", DataType::Text),
+    ] {
+        let report = match_fields(
+            vec![Field::new("s", source_name, data_type)],
+            vec![Field::new("t", target_name, data_type)],
+            config(),
+        );
+        assert!(
+            report.fields[0].selected.is_none(),
+            "{source_name} -> {target_name}"
+        );
+    }
+
+    let report = match_fields(
+        vec![Field::new("s", "expiry", DataType::Date)],
+        vec![Field::new("t", "expiration_timestamp", DataType::Timestamp)],
+        config(),
+    );
+    assert!(report.fields[0].selected.is_none());
+}
+
+#[test]
 fn exact_non_identifier_roles_use_adequate_samples_without_inventing_distinctiveness() {
     let report = match_fields(
         vec![sampled("s", "customer_name", &[10, 20, 30])],

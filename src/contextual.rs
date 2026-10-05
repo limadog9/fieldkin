@@ -226,9 +226,15 @@ pub(crate) fn apply(
                 && column_best[target]
                     .competing_score(groups[source])
                     .is_none_or(|other| pair.jaccard >= other + SAMPLE_MARGIN);
-            let informed_exact = feature.informative > 0
+            let word_form_exact = !matches!(
+                (sources[source].data_type, targets[target].data_type),
+                (DataType::Date, DataType::Timestamp) | (DataType::Timestamp, DataType::Date)
+            ) && feature.word_form_core.is_some()
+                && feature.word_form_core == target_feature.word_form_core;
+            let informed_exact = (feature.informative > 0
                 && feature.core == target_feature.core
-                && !feature.core.is_empty();
+                && !feature.core.is_empty())
+                || word_form_exact;
             let identifier = feature.identifier || target_feature.identifier;
             let identifier_support = !identifier
                 || distinctive
@@ -330,6 +336,7 @@ struct FieldFeatures {
     core: BTreeSet<String>,
     informative: usize,
     informative_core: BTreeSet<String>,
+    word_form_core: Option<BTreeSet<String>>,
     identifier: bool,
     observed: bool,
     non_null: usize,
@@ -401,6 +408,49 @@ fn identifier_token(token: &str) -> bool {
 
 fn structural_token(token: &str) -> bool {
     identifier_token(token) || matches!(token, "is" | "has" | "flag" | "enabled" | "at" | "on")
+}
+
+fn scoped_word_form_core(
+    tokens: &[String],
+    boolean: bool,
+    temporal: bool,
+) -> Option<BTreeSet<String>> {
+    if !boolean && !temporal {
+        return None;
+    }
+
+    let mut applied = false;
+    let mut core = BTreeSet::new();
+
+    for (index, token) in tokens.iter().enumerate() {
+        let canonical = match token.as_str() {
+            "expiry" | "expiration" if temporal => {
+                applied = true;
+                "expiration"
+            }
+            "settled" | "settlement" if temporal || boolean => {
+                applied = true;
+                "settlement"
+            }
+            "reversed" | "reversal" if temporal || boolean => {
+                applied = true;
+                "reversal"
+            }
+            "amt" => "amount",
+            "trans" => "transaction",
+            token => token,
+        };
+
+        if structural_token(canonical)
+            || (temporal && index + 1 == tokens.len() && matches!(canonical, "date" | "timestamp"))
+        {
+            continue;
+        }
+
+        core.insert(canonical.to_owned());
+    }
+
+    (applied && !core.is_empty()).then_some(core)
 }
 
 fn generic_token(token: &str) -> bool {
@@ -553,10 +603,30 @@ impl FieldFeatures {
                     SampleValue::Number(value) => value.fract() == 0.0,
                     _ => false,
                 });
+        let boolean = field.data_type == DataType::Boolean
+            || (non_null > 0
+                && field
+                    .samples
+                    .as_deref()
+                    .unwrap_or_default()
+                    .iter()
+                    .all(|value| matches!(value, SampleValue::Null | SampleValue::Boolean(_))));
+        let temporal =
+            matches!(field.data_type, DataType::Date | DataType::Timestamp)
+                || (non_null > 0
+                    && field.samples.as_deref().unwrap_or_default().iter().all(
+                        |value| match value {
+                            SampleValue::Null => true,
+                            SampleValue::Text(text) => temporal_text(text),
+                            _ => false,
+                        },
+                    ));
+        let word_form_core = scoped_word_form_core(&tokens, boolean, temporal);
         Self {
             core,
             informative: informative_core.len(),
             informative_core,
+            word_form_core,
             identifier: tokens.iter().any(|token| identifier_token(token)),
             observed: field.samples.is_some(),
             non_null,
@@ -571,23 +641,8 @@ impl FieldFeatures {
                 .map(|phrases| recognized_units(&tokens, phrases))
                 .collect(),
             representation_sensitive: numeric && !declared_integral,
-            boolean: field.data_type == DataType::Boolean
-                || (non_null > 0
-                    && field
-                        .samples
-                        .as_deref()
-                        .unwrap_or_default()
-                        .iter()
-                        .all(|value| matches!(value, SampleValue::Null | SampleValue::Boolean(_)))),
-            temporal: matches!(field.data_type, DataType::Date | DataType::Timestamp)
-                || (non_null > 0
-                    && field.samples.as_deref().unwrap_or_default().iter().all(
-                        |value| match value {
-                            SampleValue::Null => true,
-                            SampleValue::Text(text) => temporal_text(text),
-                            _ => false,
-                        },
-                    )),
+            boolean,
+            temporal,
         }
     }
 
