@@ -1,0 +1,1764 @@
+{
+    "protocol":  "fieldkin-quality-engineering-v1",
+    "candidate_commit":  "b36290af851cbf18b9fa8f84474f9978e8b631cb",
+    "platform":  {
+                     "os":  "Microsoft Windows NT 10.0.26200.0",
+                     "architecture":  "AMD64",
+                     "powershell":  "5.1.26100.9444"
+                 },
+    "toolchain":  {
+                      "rustc":  "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: x86_64-pc-windows-msvc\nrelease: 1.99.0\nLLVM version: 23.1.1",
+                      "cargo":  "cargo 1.99.0 (5f94df478 2026-08-27)",
+                      "cargo_launcher_sha256":  "6f4bef66261261fcb43131be8720bab817d403a09edec7455c371974b90bdb7e"
+                  },
+    "started_utc":  "2026-10-05T16:34:02.6777392Z",
+    "source_input_sha256_before":  {
+                                       ".github/workflows/ci.yml":  {
+                                                                        "sha256":  "33d5ccbf690f4cfeb01cd6bb5a95df56ba0495df9d7ac695a536c4f537cf70ac",
+                                                                        "bytes":  7447
+                                                                    },
+                                       "Cargo.lock":  {
+                                                          "sha256":  "cfbb9eec67db39c87f6487a2457963003ee51bdd79dd947559e95b84d971019d",
+                                                          "bytes":  16535
+                                                      },
+                                       "Cargo.toml":  {
+                                                          "sha256":  "60e51febca5ed1213542ed6a055c1f85ccba5e0302fe81c8142c18d149d2aa32",
+                                                          "bytes":  1264
+                                                      },
+                                       "evaluation/Cargo.toml":  {
+                                                                     "sha256":  "1148d49901ea9dac129c678ef876f919fe377d687f6a58992a89e8085e729460",
+                                                                     "bytes":  385
+                                                                 },
+                                       "evaluation/src/context_policy.rs":  {
+                                                                                "sha256":  "cf18c792aed3e00e481bbcaae4c4d806954bbd6c937ef1e274e36903096395a5",
+                                                                                "bytes":  38450
+                                                                            },
+                                       "evaluation/src/context_qualification.rs":  {
+                                                                                       "sha256":  "8168ada9b776de594264887900be66c57ff9621a3d5d9577f6db90fc70f2e52c",
+                                                                                       "bytes":  16146
+                                                                                   },
+                                       "evaluation/src/corpus.rs":  {
+                                                                        "sha256":  "d8a21d30c0bbe4fefdd3de40d1d92284b358fac59800b8b3f20a6a671b5ff062",
+                                                                        "bytes":  12972
+                                                                    },
+                                       "evaluation/src/corrective.rs":  {
+                                                                            "sha256":  "55ed429de1eb118a0cf7bb8390818d5fe1ea6e631e1c5f77e82418015ff463a6",
+                                                                            "bytes":  45109
+                                                                        },
+                                       "evaluation/src/corrective_corpus.rs":  {
+                                                                                   "sha256":  "5a139107b58a6b35bb70c9e093b2cf008bf360310db48115965b14ed3463adcd",
+                                                                                   "bytes":  67026
+                                                                               },
+                                       "evaluation/src/external.rs":  {
+                                                                          "sha256":  "68640e22a43a566ee2974f013ec8d611b5acbe0afcce6e42f6ca2f969d454109",
+                                                                          "bytes":  29650
+                                                                      },
+                                       "evaluation/src/main.rs":  {
+                                                                      "sha256":  "5a939e189e57ef412d156f3cab7004821ddaaf60fd92a999a98ec760c5af5990",
+                                                                      "bytes":  2541
+                                                                  },
+                                       "evaluation/src/metrics.rs":  {
+                                                                         "sha256":  "a8079d92f0c3c80bde2fe0581c9d01f4d8c6c54083541d15b4d5019f8602bec9",
+                                                                         "bytes":  20285
+                                                                     },
+                                       "evaluation/src/model.rs":  {
+                                                                       "sha256":  "ca6be6f50bf9e50e3cceaae73025a176e5c1aee171a72c1cfe607e6723ab28c6",
+                                                                       "bytes":  1381
+                                                                   },
+                                       "evaluation/src/northix.rs":  {
+                                                                         "sha256":  "ea4b5a11d29a23b500bfc7bcd1ce462e2946e009d0d691a0aa2751470cfece1c",
+                                                                         "bytes":  54197
+                                                                     },
+                                       "evaluation/src/precision.rs":  {
+                                                                           "sha256":  "46086272d8865b18e32858ae5ef7dd59466551f0679e4c8407476cbfabb0dc76",
+                                                                           "bytes":  19735
+                                                                       },
+                                       "evaluation/src/quality.rs":  {
+                                                                         "sha256":  "e566ae13c80a44229ad2296af077a7bf6158f46518a56f6f323ab32dc109ed8f",
+                                                                         "bytes":  14814
+                                                                     },
+                                       "evaluation/src/readiness.rs":  {
+                                                                           "sha256":  "ddc45c68d23811510f57f207414b22da0ee4bbdc6c9895c663d9a899d3018158",
+                                                                           "bytes":  39017
+                                                                       },
+                                       "evaluation/src/readiness_regression.rs":  {
+                                                                                      "sha256":  "abca16118fd547939b23bd00d975265b4dfd68487b9ff26cec7a8c01b8fd7283",
+                                                                                      "bytes":  36982
+                                                                                  },
+                                       "evaluation/src/release.rs":  {
+                                                                         "sha256":  "8904c9435f3a53a830e4bee866125b6afb8d2d088f66e09db1981ef2890588bd",
+                                                                         "bytes":  34098
+                                                                     },
+                                       "evaluation/src/runner.rs":  {
+                                                                        "sha256":  "273c0bdf77d20aa6d227191068cd5a6bce218dce70b1b2885eb4a104aebc7d26",
+                                                                        "bytes":  27875
+                                                                    },
+                                       "evaluation/src/snapshot.rs":  {
+                                                                          "sha256":  "46907262d5ec29e721fd867793af93931608904b48ec4211b5821fdd72151f6f",
+                                                                          "bytes":  3396
+                                                                      },
+                                       "evaluation/src/stage3.rs":  {
+                                                                        "sha256":  "b54ad9b2108ff949309841d9326df41419750246d1887fb75bccb9adafb8a59f",
+                                                                        "bytes":  39222
+                                                                    },
+                                       "examples/assignment_compatibility.rs":  {
+                                                                                    "sha256":  "b5d0c49547f804833eaceaf16ef95a08a59c4af79c900542b751e378aa59705a",
+                                                                                    "bytes":  11711
+                                                                                },
+                                       "examples/assignment_cost.rs":  {
+                                                                           "sha256":  "becaf0624c4758ec17392560836b23d02b282655cfd93c00350eacf1b7802bed",
+                                                                           "bytes":  8460
+                                                                       },
+                                       "examples/baseline.rs":  {
+                                                                    "sha256":  "eae46ef0f94c2851f4a48514540625bdbb826baa17a71c90875ad9b0db9a6839",
+                                                                    "bytes":  6346
+                                                                },
+                                       "examples/basic.rs":  {
+                                                                 "sha256":  "e9130b5b71de233961fba0dd95ab967cd07628c450f1aef5c742c9854b5119fc",
+                                                                 "bytes":  779
+                                                             },
+                                       "examples/catalog_review.rs":  {
+                                                                          "sha256":  "019a742166c4ba787d871e6e5b662c427b0581d4ee1dfe5aa9e6e485ca63bca0",
+                                                                          "bytes":  3122
+                                                                      },
+                                       "examples/contextual_quality.rs":  {
+                                                                              "sha256":  "bec7bdc3690e02007edf9db7c73b58e37131a306d93cf9d2b1024be2d566b905",
+                                                                              "bytes":  1256
+                                                                          },
+                                       "examples/corroboration.rs":  {
+                                                                         "sha256":  "6e5b64f90442f386161043f5acb2e9cdc65b9e5d87e90fa9654286c2a445583a",
+                                                                         "bytes":  2096
+                                                                     },
+                                       "examples/diagnostics_cost.rs":  {
+                                                                            "sha256":  "600d286fa07affdfdefea24c66af7472dc43975a5bedb928470c8b0df75b5029",
+                                                                            "bytes":  5411
+                                                                        },
+                                       "examples/domain_aliases.rs":  {
+                                                                          "sha256":  "b81d6e6e3567e16e51ca041767a8b5f2b36fe92a79e41b1c0e8366a89c8db1c7",
+                                                                          "bytes":  1272
+                                                                      },
+                                       "examples/import_review.rs":  {
+                                                                         "sha256":  "44017bd4dd765b231195610c24895eec56cb25e4b2657bb9f81d2322090631b4",
+                                                                         "bytes":  2901
+                                                                     },
+                                       "examples/persisted_review.rs":  {
+                                                                            "sha256":  "b96c3725606dc916d5d915154439a1669be9c4e03afd6d3f954525a766728905",
+                                                                            "bytes":  2365
+                                                                        },
+                                       "examples/review_cost.rs":  {
+                                                                       "sha256":  "ed6f3a965dedc2a2e04421691d3b734c6cb77ce5a1463ef68834dbe3033f2d6b",
+                                                                       "bytes":  5085
+                                                                   },
+                                       "examples/reviewed_import.rs":  {
+                                                                           "sha256":  "1076fcf6c737c60f17d8e4e9aea4b31df271cd6d3d33b5cf707fdf08ed62f51e",
+                                                                           "bytes":  2914
+                                                                       },
+                                       "examples/scale_cost.rs":  {
+                                                                      "sha256":  "57175f161734de8dc38d2276db244b4ca6398d8c14d9a8d9c602e6c5d8d8319d",
+                                                                      "bytes":  7529
+                                                                  },
+                                       "examples/verified_semantics.rs":  {
+                                                                              "sha256":  "d9ee16cc121d69f8832f213e28b60dd4a949f8a1f3166113f3acb3d28fdd21f4",
+                                                                              "bytes":  1810
+                                                                          },
+                                       "performance/Cargo.lock":  {
+                                                                      "sha256":  "6f34fd85ba3d066c16966bafb0eaa01f1edab0be081c21644b8e3b86b0919a15",
+                                                                      "bytes":  1179
+                                                                  },
+                                       "performance/Cargo.toml":  {
+                                                                      "sha256":  "45fde623a6d1ffa4bed7945ff37abf8f325897dcb250321e2ca6fbc0d0b30b53",
+                                                                      "bytes":  604
+                                                                  },
+                                       "performance/src/main.rs":  {
+                                                                       "sha256":  "ee91c1091678b72c64d0dc31ac5f60f2896723776ad24056a7b43eb344a5d27b",
+                                                                       "bytes":  18322
+                                                                   },
+                                       "qualification/Cargo.lock":  {
+                                                                        "sha256":  "605d3a7559769b1ad64569531c3fc1cceb41a3a73cddcc925da51322d00745b6",
+                                                                        "bytes":  962
+                                                                    },
+                                       "qualification/Cargo.toml":  {
+                                                                        "sha256":  "d4506d6a0a274beae23534fa94ac47ffb361392ab4fea452e9516dd6697f06db",
+                                                                        "bytes":  252
+                                                                    },
+                                       "qualification/src/main.rs":  {
+                                                                         "sha256":  "e1a922eafbbbf3f18b95b512a81f5a980e66210f6e5f94bcae547b37360873e5",
+                                                                         "bytes":  37613
+                                                                     },
+                                       "README.md":  {
+                                                         "sha256":  "e976fc016738bf21b06b80f6e86e453663a52a78e934ce4b822cfafed58e3886",
+                                                         "bytes":  23322
+                                                     },
+                                       "rust-toolchain.toml":  {
+                                                                   "sha256":  "7458b2d74495e6fb1c1edeea4d5a793705476431dadb60627187111f91441e13",
+                                                                   "bytes":  86
+                                                               },
+                                       "src/assignment.rs":  {
+                                                                 "sha256":  "597b1b471488525ad794021b5a477c82bf8143af90765bb7cec0d69ce2cdf013",
+                                                                 "bytes":  18912
+                                                             },
+                                       "src/constraints.rs":  {
+                                                                  "sha256":  "64cccf13da8e20ec383a6d35a76de6ac1ce62b0549d2d17a11436e46d089f460",
+                                                                  "bytes":  6858
+                                                              },
+                                       "src/contextual.rs":  {
+                                                                 "sha256":  "cb09cfdf32319fe76f1e90c36bc078795eef3734bd0f50d6ba83001e65bcc598",
+                                                                 "bytes":  46965
+                                                             },
+                                       "src/diagnostics.rs":  {
+                                                                  "sha256":  "4f2926e67c02ac49c0b61a9a36267fe6cc49c42f0bb2dc1ff3a97d9f8d3b117e",
+                                                                  "bytes":  20459
+                                                              },
+                                       "src/engine.rs":  {
+                                                             "sha256":  "d8ffea6ec3c0de2941a2126fc9c71d3efa754eb0195ce84f300fa8c69e2a1352",
+                                                             "bytes":  38186
+                                                         },
+                                       "src/error.rs":  {
+                                                            "sha256":  "5f8fc45fc6d8d57d8eb678c6d6ec0933911d84555c85584678a3bca17ed79ec5",
+                                                            "bytes":  12331
+                                                        },
+                                       "src/json.rs":  {
+                                                           "sha256":  "298cc685f104b006c2ff1865a7cfbf139b6c3b17f1b83f32c833bfb4c864f7bf",
+                                                           "bytes":  27668
+                                                       },
+                                       "src/lib.rs":  {
+                                                          "sha256":  "098d6e8321da893ffa418067d5ed85a628910cc7f12c7e4fe2b860853bb70841",
+                                                          "bytes":  861
+                                                      },
+                                       "src/name_conflicts.rs":  {
+                                                                     "sha256":  "44328bbae682720a2f5de88ca6a1599ec716bf93dd8b940fc5d52d33eecbcf8c",
+                                                                     "bytes":  5462
+                                                                 },
+                                       "src/numeric.rs":  {
+                                                              "sha256":  "be62a484aadda8e753428318a8d67f41fdb9fe03ea646b5a781952b8c3ad6623",
+                                                              "bytes":  6783
+                                                          },
+                                       "src/profile.rs":  {
+                                                              "sha256":  "7ea95ca4d2b70954d33013863f4a8f2320bd44c17d79a78d5e291d086ee86559",
+                                                              "bytes":  10961
+                                                          },
+                                       "src/semantic_name.rs":  {
+                                                                    "sha256":  "a2a2cc7743453dd909ebe791af18e330a4526672460bbdaf17e3cc569a07ba9d",
+                                                                    "bytes":  4621
+                                                                },
+                                       "src/semantics.rs":  {
+                                                                "sha256":  "f20dde8676b4917b2edc8f002dae7aaa04e8bf7c4324e92c8d3c1681d54e7538",
+                                                                "bytes":  2953
+                                                            },
+                                       "src/signals.rs":  {
+                                                              "sha256":  "1f1630be57a65e32711b62118014dc6f8c9a4de786e3b345dd044e69afb21672",
+                                                              "bytes":  35342
+                                                          },
+                                       "src/types.rs":  {
+                                                            "sha256":  "8b76a5280db4a08c9b72af019af1bed28da759846e321cc0bda03dcd740f2b08",
+                                                            "bytes":  22390
+                                                        },
+                                       "tests/constraints.rs":  {
+                                                                    "sha256":  "a483d4a58674db9614743793a366261d17b16e26b633bd7ac5153fb1ac3def56",
+                                                                    "bytes":  33673
+                                                                },
+                                       "tests/contextual.rs":  {
+                                                                   "sha256":  "30c2fe15cd43840542a34eebf94e9c84009167df89f93334fb08a1d3d5a502e4",
+                                                                   "bytes":  36919
+                                                               },
+                                       "tests/contextual_quality.rs":  {
+                                                                           "sha256":  "09c075d967c93841e346b297bcde75dea547a4c57965e856bbdfac947145c65a",
+                                                                           "bytes":  27491
+                                                                       },
+                                       "tests/corroboration.rs":  {
+                                                                      "sha256":  "2bb703051df8d2f79fe4ae57874ee2010a7d3cdbad65bc486faaedb07f1a8420",
+                                                                      "bytes":  20774
+                                                                  },
+                                       "tests/diagnostics.rs":  {
+                                                                    "sha256":  "d48848787bb70916628809e02eea3fd251601bca67e72508fc2fd7f7ef0632f4",
+                                                                    "bytes":  7264
+                                                                },
+                                       "tests/errors.rs":  {
+                                                               "sha256":  "bea18a39cfa8d620addcaa891f9f9d7a45e7d56f98dc6807f0058ea9abfa7eb1",
+                                                               "bytes":  8877
+                                                           },
+                                       "tests/evidence.rs":  {
+                                                                 "sha256":  "8312ad9e1ce21b622a5b1954652e84e4a45cc6babf433bb8752a066b07f766ae",
+                                                                 "bytes":  20485
+                                                             },
+                                       "tests/json.rs":  {
+                                                             "sha256":  "10f13f8d7f1d809b77b1ef6fbb1de855d5fce8163f93ea0991eadb15e32c2550",
+                                                             "bytes":  22352
+                                                         },
+                                       "tests/matching.rs":  {
+                                                                 "sha256":  "871662eb5efbfc3ad2b85c4e188de82fde6c5c250fd497266cfc0d1e2464c903",
+                                                                 "bytes":  19402
+                                                             },
+                                       "tests/precision.rs":  {
+                                                                  "sha256":  "c6b9333b65de0dcdfce9edff8c23a21fc54b9d02a4b0cb9cfb905586670286f0",
+                                                                  "bytes":  19830
+                                                              },
+                                       "tests/prepared.rs":  {
+                                                                 "sha256":  "c13b261598849f341fc476910da883c0f74e71f0394b72178eda4376487e0284",
+                                                                 "bytes":  14389
+                                                             },
+                                       "tests/profile.rs":  {
+                                                                "sha256":  "e73dd7431ce0dccd8150d8de8038ed28d5d0ca380c2dc241930954dc6ae3d650",
+                                                                "bytes":  8846
+                                                            },
+                                       "tests/reasons.rs":  {
+                                                                "sha256":  "05a4c0b8d3f171629c2798fc580fcd04a077d28b0d94581bcbe131881045abba",
+                                                                "bytes":  12380
+                                                            },
+                                       "tooling/Cargo.toml":  {
+                                                                  "sha256":  "387ffc3e172099a67a79066b60f0241f6c95982ab5954610f9a5855cdd8fd4e3",
+                                                                  "bytes":  500
+                                                              },
+                                       "tooling/src/common.rs":  {
+                                                                     "sha256":  "971e8833d58932fbc70f75d1a6004adc731326d84cec8d8db9c4759020427080",
+                                                                     "bytes":  10963
+                                                                 },
+                                       "tooling/src/imports.rs":  {
+                                                                      "sha256":  "584cf42318826d4debfeca846d21b4c65be2b3824e2a73003889175c85e5c2dd",
+                                                                      "bytes":  23612
+                                                                  },
+                                       "tooling/src/main.rs":  {
+                                                                   "sha256":  "617cd6a900b6551b11db76b26e1f5e8105620a0e969d969cbeefaeefd97ad25a",
+                                                                   "bytes":  1582
+                                                               },
+                                       "tooling/src/performance.rs":  {
+                                                                          "sha256":  "658ed637da1cc865781e9fd3331ccf1f44dc5e8222c5e184c99c98280190fe37",
+                                                                          "bytes":  90161
+                                                                      },
+                                       "tooling/src/qualification.rs":  {
+                                                                            "sha256":  "c1addb3b8f7108e3fd1a7cac9ce119a5ebc7793f0aff99ee99ab25a2f003c2e1",
+                                                                            "bytes":  37464
+                                                                        },
+                                       "tooling/src/quality.rs":  {
+                                                                      "sha256":  "944c0828eb3dc7e03eb0c1b751c672242bb36388c9033af938edbce1053d057b",
+                                                                      "bytes":  56729
+                                                                  },
+                                       "tooling/src/verified.rs":  {
+                                                                       "sha256":  "3b05ae5334f7396e45e8695e5c1ab3a20d52eb970604ea0f5908ab8cae64ffc7",
+                                                                       "bytes":  29578
+                                                                   }
+                                   },
+    "checks":  [
+                   {
+                       "id":  "fmt-workspace",
+                       "executable":  "cargo",
+                       "arguments":  [
+                                         "+stable",
+                                         "fmt",
+                                         "--all",
+                                         "--",
+                                         "--check"
+                                     ],
+                       "environment_overrides":  {
+
+                                                 },
+                       "started_utc":  "2026-10-05T16:34:02.9026605Z",
+                       "completed_utc":  "2026-10-05T16:34:03.6432208Z",
+                       "elapsed_seconds":  0.7405603,
+                       "exit_code":  0,
+                       "log_path":  "target/quality-engineering/fmt-workspace.log",
+                       "log_sha256":  "c2a48be0a17f9c0c2fbc58802b074abbabec41133a912d6d2f0ea099d256b72a",
+                       "test_summaries":  [
+
+                                          ],
+                       "test_count_passed":  0,
+                       "test_count_failed":  0
+                   },
+                   {
+                       "id":  "fmt-performance",
+                       "executable":  "cargo",
+                       "arguments":  [
+                                         "+stable",
+                                         "fmt",
+                                         "--manifest-path",
+                                         "performance/Cargo.toml",
+                                         "--",
+                                         "--check"
+                                     ],
+                       "environment_overrides":  {
+
+                                                 },
+                       "started_utc":  "2026-10-05T16:34:03.6943056Z",
+                       "completed_utc":  "2026-10-05T16:34:03.8438257Z",
+                       "elapsed_seconds":  0.1495201,
+                       "exit_code":  0,
+                       "log_path":  "target/quality-engineering/fmt-performance.log",
+                       "log_sha256":  "99481cf011904f00023dc694afce6d2c96dd0ce4ede925967479af3a05ad9242",
+                       "test_summaries":  [
+
+                                          ],
+                       "test_count_passed":  0,
+                       "test_count_failed":  0
+                   },
+                   {
+                       "id":  "fmt-qualification",
+                       "executable":  "cargo",
+                       "arguments":  [
+                                         "+stable",
+                                         "fmt",
+                                         "--manifest-path",
+                                         "qualification/Cargo.toml",
+                                         "--",
+                                         "--check"
+                                     ],
+                       "environment_overrides":  {
+
+                                                 },
+                       "started_utc":  "2026-10-05T16:34:03.8472676Z",
+                       "completed_utc":  "2026-10-05T16:34:04.0028188Z",
+                       "elapsed_seconds":  0.1555512,
+                       "exit_code":  0,
+                       "log_path":  "target/quality-engineering/fmt-qualification.log",
+                       "log_sha256":  "eacc591b9e5dae06815e9c2b99859c78ab284ed86916c5000f0b6f00a2e2a3e4",
+                       "test_summaries":  [
+
+                                          ],
+                       "test_count_passed":  0,
+                       "test_count_failed":  0
+                   },
+                   {
+                       "id":  "tests-workspace-all-features",
+                       "executable":  "cargo",
+                       "arguments":  [
+                                         "+stable",
+                                         "test",
+                                         "--locked",
+                                         "--offline",
+                                         "--workspace",
+                                         "--all-features"
+                                     ],
+                       "environment_overrides":  {
+
+                                                 },
+                       "started_utc":  "2026-10-05T16:34:04.0099513Z",
+                       "completed_utc":  "2026-10-05T16:34:42.2866179Z",
+                       "elapsed_seconds":  38.2766666,
+                       "exit_code":  0,
+                       "log_path":  "target/quality-engineering/tests-workspace-all-features.log",
+                       "log_sha256":  "698a47d8968fcc214917e410269eea6cfbdd7bf23e0901f167aba1589206b433",
+                       "test_summaries":  [
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  41,
+                                                  "failed":  0,
+                                                  "ignored":  1,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  23,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  27,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  18,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  17,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  7,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  5,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  18,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  19,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  20,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  13,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  8,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  13,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  10,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  88,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  37,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  9,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              }
+                                          ],
+                       "test_count_passed":  373,
+                       "test_count_failed":  0
+                   },
+                   {
+                       "id":  "tests-library-no-default",
+                       "executable":  "cargo",
+                       "arguments":  [
+                                         "+stable",
+                                         "test",
+                                         "--locked",
+                                         "--offline",
+                                         "-p",
+                                         "fieldkin",
+                                         "--no-default-features"
+                                     ],
+                       "environment_overrides":  {
+
+                                                 },
+                       "started_utc":  "2026-10-05T16:34:42.3731133Z",
+                       "completed_utc":  "2026-10-05T16:35:03.7140734Z",
+                       "elapsed_seconds":  21.3409601,
+                       "exit_code":  0,
+                       "log_path":  "target/quality-engineering/tests-library-no-default.log",
+                       "log_sha256":  "030ad7c4ae2578a9579806149e47791fa9b7ac0bfde0937429d07c3997da29f3",
+                       "test_summaries":  [
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  41,
+                                                  "failed":  0,
+                                                  "ignored":  1,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  23,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  26,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  17,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  17,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  7,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  5,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  18,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  0,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  20,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  12,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  8,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  13,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  10,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              },
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  9,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              }
+                                          ],
+                       "test_count_passed":  226,
+                       "test_count_failed":  0
+                   },
+                   {
+                       "id":  "tests-scale-cost",
+                       "executable":  "cargo",
+                       "arguments":  [
+                                         "+stable",
+                                         "test",
+                                         "--locked",
+                                         "--offline",
+                                         "-p",
+                                         "fieldkin",
+                                         "--example",
+                                         "scale_cost"
+                                     ],
+                       "environment_overrides":  {
+
+                                                 },
+                       "started_utc":  "2026-10-05T16:35:03.7206753Z",
+                       "completed_utc":  "2026-10-05T16:35:06.9465960Z",
+                       "elapsed_seconds":  3.2259206999999996,
+                       "exit_code":  0,
+                       "log_path":  "target/quality-engineering/tests-scale-cost.log",
+                       "log_sha256":  "a39a256d1bf2693911f123905aeeffa7767d8436c7620287c14dc0d3b7a7735d",
+                       "test_summaries":  [
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  2,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              }
+                                          ],
+                       "test_count_passed":  2,
+                       "test_count_failed":  0
+                   },
+                   {
+                       "id":  "tests-performance-all-features",
+                       "executable":  "cargo",
+                       "arguments":  [
+                                         "+stable",
+                                         "test",
+                                         "--locked",
+                                         "--offline",
+                                         "--manifest-path",
+                                         "performance/Cargo.toml",
+                                         "--all-features"
+                                     ],
+                       "environment_overrides":  {
+
+                                                 },
+                       "started_utc":  "2026-10-05T16:35:06.9670596Z",
+                       "completed_utc":  "2026-10-05T16:35:16.1662661Z",
+                       "elapsed_seconds":  9.199206499999999,
+                       "exit_code":  0,
+                       "log_path":  "target/quality-engineering/tests-performance-all-features.log",
+                       "log_sha256":  "a5ef94197ceac7f565e0706620ffa0a08b9438ed65795076009f91c9e5cd9724",
+                       "test_summaries":  [
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  2,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              }
+                                          ],
+                       "test_count_passed":  2,
+                       "test_count_failed":  0
+                   },
+                   {
+                       "id":  "tests-performance-no-default",
+                       "executable":  "cargo",
+                       "arguments":  [
+                                         "+stable",
+                                         "test",
+                                         "--locked",
+                                         "--offline",
+                                         "--manifest-path",
+                                         "performance/Cargo.toml",
+                                         "--no-default-features"
+                                     ],
+                       "environment_overrides":  {
+
+                                                 },
+                       "started_utc":  "2026-10-05T16:35:16.1770599Z",
+                       "completed_utc":  "2026-10-05T16:35:27.0231052Z",
+                       "elapsed_seconds":  10.8460453,
+                       "exit_code":  0,
+                       "log_path":  "target/quality-engineering/tests-performance-no-default.log",
+                       "log_sha256":  "3e7c7cec7ecf8f38f8ebb2ffed0a7846e718ab256f4396710562e6e8343b7e6f",
+                       "test_summaries":  [
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  2,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              }
+                                          ],
+                       "test_count_passed":  2,
+                       "test_count_failed":  0
+                   },
+                   {
+                       "id":  "tests-qualification",
+                       "executable":  "cargo",
+                       "arguments":  [
+                                         "+stable",
+                                         "test",
+                                         "--locked",
+                                         "--offline",
+                                         "--manifest-path",
+                                         "qualification/Cargo.toml"
+                                     ],
+                       "environment_overrides":  {
+
+                                                 },
+                       "started_utc":  "2026-10-05T16:35:27.0332219Z",
+                       "completed_utc":  "2026-10-05T16:35:30.5052343Z",
+                       "elapsed_seconds":  3.4720123999999997,
+                       "exit_code":  0,
+                       "log_path":  "target/quality-engineering/tests-qualification.log",
+                       "log_sha256":  "1269c9e34d29fd7bd44c51f37a519636fa7879bc8d6137df71c62434254faea1",
+                       "test_summaries":  [
+                                              {
+                                                  "status":  "ok",
+                                                  "passed":  2,
+                                                  "failed":  0,
+                                                  "ignored":  0,
+                                                  "measured":  0,
+                                                  "filtered_out":  0
+                                              }
+                                          ],
+                       "test_count_passed":  2,
+                       "test_count_failed":  0
+                   },
+                   {
+                       "id":  "clippy-workspace-all-targets-all-features",
+                       "executable":  "cargo",
+                       "arguments":  [
+                                         "+stable",
+                                         "clippy",
+                                         "--locked",
+                                         "--offline",
+                                         "--workspace",
+                                         "--all-targets",
+                                         "--all-features",
+                                         "--",
+                                         "-D",
+                                         "warnings"
+                                     ],
+                       "environment_overrides":  {
+
+                                                 },
+                       "started_utc":  "2026-10-05T16:35:30.5108301Z",
+                       "completed_utc":  "2026-10-05T16:35:36.8184381Z",
+                       "elapsed_seconds":  6.307608,
+                       "exit_code":  0,
+                       "log_path":  "target/quality-engineering/clippy-workspace-all-targets-all-features.log",
+                       "log_sha256":  "1350770e70e52b844c462f2fab9e3c3a52de78a99c596a7146e5625faea77f47",
+                       "test_summaries":  [
+
+                                          ],
+                       "test_count_passed":  0,
+                       "test_count_failed":  0
+                   },
+                   {
+                       "id":  "clippy-performance-all-targets-all-features",
+                       "executable":  "cargo",
+                       "arguments":  [
+                                         "+stable",
+                                         "clippy",
+                                         "--locked",
+                                         "--offline",
+                                         "--manifest-path",
+                                         "performance/Cargo.toml",
+                                         "--all-targets",
+                                         "--all-features",
+                                         "--",
+                                         "-D",
+                                         "warnings"
+                                     ],
+                       "environment_overrides":  {
+
+                                                 },
+                       "started_utc":  "2026-10-05T16:35:36.8222809Z",
+                       "completed_utc":  "2026-10-05T16:35:37.7471529Z",
+                       "elapsed_seconds":  0.92487199999999992,
+                       "exit_code":  0,
+                       "log_path":  "target/quality-engineering/clippy-performance-all-targets-all-features.log",
+                       "log_sha256":  "02fb0c12c480cd34e6a06e85d53a1779a62529bfdaa663f84850a1631a5fc53d",
+                       "test_summaries":  [
+
+                                          ],
+                       "test_count_passed":  0,
+                       "test_count_failed":  0
+                   },
+                   {
+                       "id":  "clippy-qualification-all-targets",
+                       "executable":  "cargo",
+                       "arguments":  [
+                                         "+stable",
+                                         "clippy",
+                                         "--locked",
+                                         "--offline",
+                                         "--manifest-path",
+                                         "qualification/Cargo.toml",
+                                         "--all-targets",
+                                         "--",
+                                         "-D",
+                                         "warnings"
+                                     ],
+                       "environment_overrides":  {
+
+                                                 },
+                       "started_utc":  "2026-10-05T16:35:37.7540683Z",
+                       "completed_utc":  "2026-10-05T16:35:39.0951659Z",
+                       "elapsed_seconds":  1.3410976,
+                       "exit_code":  0,
+                       "log_path":  "target/quality-engineering/clippy-qualification-all-targets.log",
+                       "log_sha256":  "28c469ca9a815ef0968c7efdbe6f43951ac7f95bbaeab84d3b28b6a249fa196a",
+                       "test_summaries":  [
+
+                                          ],
+                       "test_count_passed":  0,
+                       "test_count_failed":  0
+                   },
+                   {
+                       "id":  "docs-json-warning-free",
+                       "executable":  "cargo",
+                       "arguments":  [
+                                         "+stable",
+                                         "doc",
+                                         "--locked",
+                                         "--offline",
+                                         "-p",
+                                         "fieldkin",
+                                         "--no-deps",
+                                         "--no-default-features",
+                                         "--features",
+                                         "json"
+                                     ],
+                       "environment_overrides":  {
+                                                     "RUSTDOCFLAGS":  "-D warnings"
+                                                 },
+                       "started_utc":  "2026-10-05T16:35:39.1047967Z",
+                       "completed_utc":  "2026-10-05T16:35:41.4739498Z",
+                       "elapsed_seconds":  2.3691530999999997,
+                       "exit_code":  0,
+                       "log_path":  "target/quality-engineering/docs-json-warning-free.log",
+                       "log_sha256":  "8267df154ba2ba6d7587053f4baf5a6129c1ccc8f22c3182c09caf8631abeb47",
+                       "test_summaries":  [
+
+                                          ],
+                       "test_count_passed":  0,
+                       "test_count_failed":  0
+                   },
+                   {
+                       "id":  "docs-default-warning-free",
+                       "executable":  "cargo",
+                       "arguments":  [
+                                         "+stable",
+                                         "doc",
+                                         "--locked",
+                                         "--offline",
+                                         "-p",
+                                         "fieldkin",
+                                         "--no-deps",
+                                         "--no-default-features"
+                                     ],
+                       "environment_overrides":  {
+                                                     "RUSTDOCFLAGS":  "-D warnings"
+                                                 },
+                       "started_utc":  "2026-10-05T16:35:41.4820559Z",
+                       "completed_utc":  "2026-10-05T16:35:42.9652039Z",
+                       "elapsed_seconds":  1.483148,
+                       "exit_code":  0,
+                       "log_path":  "target/quality-engineering/docs-default-warning-free.log",
+                       "log_sha256":  "96aa64d3d4e481183c6450e4ea3e61ad44e2ab102f5315b18fc7f9a6da0c366d",
+                       "test_summaries":  [
+
+                                          ],
+                       "test_count_passed":  0,
+                       "test_count_failed":  0
+                   },
+                   {
+                       "id":  "example-import-review",
+                       "executable":  "cargo",
+                       "arguments":  [
+                                         "+stable",
+                                         "run",
+                                         "--locked",
+                                         "--offline",
+                                         "--example",
+                                         "import_review"
+                                     ],
+                       "environment_overrides":  {
+
+                                                 },
+                       "started_utc":  "2026-10-05T16:35:42.9745673Z",
+                       "completed_utc":  "2026-10-05T16:35:44.4095401Z",
+                       "elapsed_seconds":  1.4349728,
+                       "exit_code":  0,
+                       "log_path":  "target/quality-engineering/example-import-review.log",
+                       "log_sha256":  "738e67267907e5c8ca5936502c15e2691abd49b481d8eb03b8e5b7320f6938d3",
+                       "test_summaries":  [
+
+                                          ],
+                       "test_count_passed":  0,
+                       "test_count_failed":  0
+                   },
+                   {
+                       "id":  "example-catalog-review",
+                       "executable":  "cargo",
+                       "arguments":  [
+                                         "+stable",
+                                         "run",
+                                         "--locked",
+                                         "--offline",
+                                         "--example",
+                                         "catalog_review"
+                                     ],
+                       "environment_overrides":  {
+
+                                                 },
+                       "started_utc":  "2026-10-05T16:35:44.4160717Z",
+                       "completed_utc":  "2026-10-05T16:35:45.6330897Z",
+                       "elapsed_seconds":  1.217018,
+                       "exit_code":  0,
+                       "log_path":  "target/quality-engineering/example-catalog-review.log",
+                       "log_sha256":  "984c6609b3a6f6f3411910754095da7df1f38e0190bed8109cb5f6cbb067acec",
+                       "test_summaries":  [
+
+                                          ],
+                       "test_count_passed":  0,
+                       "test_count_failed":  0
+                   },
+                   {
+                       "id":  "example-corroboration",
+                       "executable":  "cargo",
+                       "arguments":  [
+                                         "+stable",
+                                         "run",
+                                         "--locked",
+                                         "--offline",
+                                         "--example",
+                                         "corroboration"
+                                     ],
+                       "environment_overrides":  {
+
+                                                 },
+                       "started_utc":  "2026-10-05T16:35:45.6410917Z",
+                       "completed_utc":  "2026-10-05T16:35:46.6497624Z",
+                       "elapsed_seconds":  1.0086707,
+                       "exit_code":  0,
+                       "log_path":  "target/quality-engineering/example-corroboration.log",
+                       "log_sha256":  "0f2c31ab4880d68375fe95505e21d6e69f0e0ddda43daffa352f6c8c4c9d5652",
+                       "test_summaries":  [
+
+                                          ],
+                       "test_count_passed":  0,
+                       "test_count_failed":  0
+                   },
+                   {
+                       "id":  "example-contextual-quality",
+                       "executable":  "cargo",
+                       "arguments":  [
+                                         "+stable",
+                                         "run",
+                                         "--locked",
+                                         "--offline",
+                                         "--example",
+                                         "contextual_quality"
+                                     ],
+                       "environment_overrides":  {
+
+                                                 },
+                       "started_utc":  "2026-10-05T16:35:46.6595349Z",
+                       "completed_utc":  "2026-10-05T16:35:47.7164969Z",
+                       "elapsed_seconds":  1.056962,
+                       "exit_code":  0,
+                       "log_path":  "target/quality-engineering/example-contextual-quality.log",
+                       "log_sha256":  "63466dbd97dbed4bf003804b9a85a05e607e5eec2a2a29c0f0f2aa0dd641aa73",
+                       "test_summaries":  [
+
+                                          ],
+                       "test_count_passed":  0,
+                       "test_count_failed":  0
+                   },
+                   {
+                       "id":  "example-reviewed-import",
+                       "executable":  "cargo",
+                       "arguments":  [
+                                         "+stable",
+                                         "run",
+                                         "--locked",
+                                         "--offline",
+                                         "--example",
+                                         "reviewed_import"
+                                     ],
+                       "environment_overrides":  {
+
+                                                 },
+                       "started_utc":  "2026-10-05T16:35:47.7219386Z",
+                       "completed_utc":  "2026-10-05T16:35:48.7086539Z",
+                       "elapsed_seconds":  0.9867153,
+                       "exit_code":  0,
+                       "log_path":  "target/quality-engineering/example-reviewed-import.log",
+                       "log_sha256":  "e830a5d323e2b7926d3999d42942b2bc9aaf6e82a8494fefb0a4463a0f9498b0",
+                       "test_summaries":  [
+
+                                          ],
+                       "test_count_passed":  0,
+                       "test_count_failed":  0
+                   },
+                   {
+                       "id":  "example-persisted-review-json",
+                       "executable":  "cargo",
+                       "arguments":  [
+                                         "+stable",
+                                         "run",
+                                         "--locked",
+                                         "--offline",
+                                         "--features",
+                                         "json",
+                                         "--example",
+                                         "persisted_review"
+                                     ],
+                       "environment_overrides":  {
+
+                                                 },
+                       "started_utc":  "2026-10-05T16:35:48.7169049Z",
+                       "completed_utc":  "2026-10-05T16:35:49.9408103Z",
+                       "elapsed_seconds":  1.2239054,
+                       "exit_code":  0,
+                       "log_path":  "target/quality-engineering/example-persisted-review-json.log",
+                       "log_sha256":  "6a55df458c042a67c6efb736b6416bbc6c3e5750f6689356b0b53a5e4e949837",
+                       "test_summaries":  [
+
+                                          ],
+                       "test_count_passed":  0,
+                       "test_count_failed":  0
+                   },
+                   {
+                       "id":  "assignment-compatibility-1024",
+                       "executable":  "cargo",
+                       "arguments":  [
+                                         "+stable",
+                                         "run",
+                                         "--locked",
+                                         "--offline",
+                                         "--example",
+                                         "assignment_compatibility",
+                                         "--",
+                                         "--check-only"
+                                     ],
+                       "environment_overrides":  {
+
+                                                 },
+                       "started_utc":  "2026-10-05T16:35:49.9463009Z",
+                       "completed_utc":  "2026-10-05T16:35:51.5230779Z",
+                       "elapsed_seconds":  1.5767769999999999,
+                       "exit_code":  0,
+                       "log_path":  "target/quality-engineering/assignment-compatibility-1024.log",
+                       "log_sha256":  "74cd07abad217d69112cabb035fcc8b74bfad9f56b0c9607bb1dffada7abcc11",
+                       "test_summaries":  [
+
+                                          ],
+                       "test_count_passed":  0,
+                       "test_count_failed":  0,
+                       "observed_compatibility_cases":  1024
+                   },
+                   {
+                       "id":  "offline-import-t2d-check",
+                       "executable":  "cargo",
+                       "arguments":  [
+                                         "+stable",
+                                         "run",
+                                         "--locked",
+                                         "--offline",
+                                         "-p",
+                                         "fieldkin-tools",
+                                         "--",
+                                         "import-t2d",
+                                         "--check"
+                                     ],
+                       "environment_overrides":  {
+
+                                                 },
+                       "started_utc":  "2026-10-05T16:35:51.5347618Z",
+                       "completed_utc":  "2026-10-05T16:35:52.0340881Z",
+                       "elapsed_seconds":  0.4993263,
+                       "exit_code":  0,
+                       "log_path":  "target/quality-engineering/offline-import-t2d-check.log",
+                       "log_sha256":  "45004904949d209a7bd70a243c23018a4b61c1c36ee086b73566e4e256e798d5",
+                       "test_summaries":  [
+
+                                          ],
+                       "test_count_passed":  0,
+                       "test_count_failed":  0
+                   },
+                   {
+                       "id":  "offline-import-northix-check",
+                       "executable":  "cargo",
+                       "arguments":  [
+                                         "+stable",
+                                         "run",
+                                         "--locked",
+                                         "--offline",
+                                         "-p",
+                                         "fieldkin-tools",
+                                         "--",
+                                         "import-northix",
+                                         "--check"
+                                     ],
+                       "environment_overrides":  {
+
+                                                 },
+                       "started_utc":  "2026-10-05T16:35:52.0445744Z",
+                       "completed_utc":  "2026-10-05T16:35:52.9223050Z",
+                       "elapsed_seconds":  0.87773059999999992,
+                       "exit_code":  0,
+                       "log_path":  "target/quality-engineering/offline-import-northix-check.log",
+                       "log_sha256":  "8801ff8cc78e70fdfae93a27f252c8961de166c4aa4a5e27ebd840658b44c2ed",
+                       "test_summaries":  [
+
+                                          ],
+                       "test_count_passed":  0,
+                       "test_count_failed":  0
+                   }
+               ],
+    "fresh_reserved_corpus_read_by_validation_agent":  false,
+    "scope":  "Local Windows engineering checks only. Packaging, generated-million campaign, repeated performance measurements, final fresh qualification, and remote platform CI are separate records.",
+    "status":  "passed",
+    "source_input_sha256_after":  {
+                                      ".github/workflows/ci.yml":  {
+                                                                       "sha256":  "33d5ccbf690f4cfeb01cd6bb5a95df56ba0495df9d7ac695a536c4f537cf70ac",
+                                                                       "bytes":  7447
+                                                                   },
+                                      "Cargo.lock":  {
+                                                         "sha256":  "cfbb9eec67db39c87f6487a2457963003ee51bdd79dd947559e95b84d971019d",
+                                                         "bytes":  16535
+                                                     },
+                                      "Cargo.toml":  {
+                                                         "sha256":  "60e51febca5ed1213542ed6a055c1f85ccba5e0302fe81c8142c18d149d2aa32",
+                                                         "bytes":  1264
+                                                     },
+                                      "evaluation/Cargo.toml":  {
+                                                                    "sha256":  "1148d49901ea9dac129c678ef876f919fe377d687f6a58992a89e8085e729460",
+                                                                    "bytes":  385
+                                                                },
+                                      "evaluation/src/context_policy.rs":  {
+                                                                               "sha256":  "cf18c792aed3e00e481bbcaae4c4d806954bbd6c937ef1e274e36903096395a5",
+                                                                               "bytes":  38450
+                                                                           },
+                                      "evaluation/src/context_qualification.rs":  {
+                                                                                      "sha256":  "8168ada9b776de594264887900be66c57ff9621a3d5d9577f6db90fc70f2e52c",
+                                                                                      "bytes":  16146
+                                                                                  },
+                                      "evaluation/src/corpus.rs":  {
+                                                                       "sha256":  "d8a21d30c0bbe4fefdd3de40d1d92284b358fac59800b8b3f20a6a671b5ff062",
+                                                                       "bytes":  12972
+                                                                   },
+                                      "evaluation/src/corrective.rs":  {
+                                                                           "sha256":  "55ed429de1eb118a0cf7bb8390818d5fe1ea6e631e1c5f77e82418015ff463a6",
+                                                                           "bytes":  45109
+                                                                       },
+                                      "evaluation/src/corrective_corpus.rs":  {
+                                                                                  "sha256":  "5a139107b58a6b35bb70c9e093b2cf008bf360310db48115965b14ed3463adcd",
+                                                                                  "bytes":  67026
+                                                                              },
+                                      "evaluation/src/external.rs":  {
+                                                                         "sha256":  "68640e22a43a566ee2974f013ec8d611b5acbe0afcce6e42f6ca2f969d454109",
+                                                                         "bytes":  29650
+                                                                     },
+                                      "evaluation/src/main.rs":  {
+                                                                     "sha256":  "5a939e189e57ef412d156f3cab7004821ddaaf60fd92a999a98ec760c5af5990",
+                                                                     "bytes":  2541
+                                                                 },
+                                      "evaluation/src/metrics.rs":  {
+                                                                        "sha256":  "a8079d92f0c3c80bde2fe0581c9d01f4d8c6c54083541d15b4d5019f8602bec9",
+                                                                        "bytes":  20285
+                                                                    },
+                                      "evaluation/src/model.rs":  {
+                                                                      "sha256":  "ca6be6f50bf9e50e3cceaae73025a176e5c1aee171a72c1cfe607e6723ab28c6",
+                                                                      "bytes":  1381
+                                                                  },
+                                      "evaluation/src/northix.rs":  {
+                                                                        "sha256":  "ea4b5a11d29a23b500bfc7bcd1ce462e2946e009d0d691a0aa2751470cfece1c",
+                                                                        "bytes":  54197
+                                                                    },
+                                      "evaluation/src/precision.rs":  {
+                                                                          "sha256":  "46086272d8865b18e32858ae5ef7dd59466551f0679e4c8407476cbfabb0dc76",
+                                                                          "bytes":  19735
+                                                                      },
+                                      "evaluation/src/quality.rs":  {
+                                                                        "sha256":  "e566ae13c80a44229ad2296af077a7bf6158f46518a56f6f323ab32dc109ed8f",
+                                                                        "bytes":  14814
+                                                                    },
+                                      "evaluation/src/readiness.rs":  {
+                                                                          "sha256":  "ddc45c68d23811510f57f207414b22da0ee4bbdc6c9895c663d9a899d3018158",
+                                                                          "bytes":  39017
+                                                                      },
+                                      "evaluation/src/readiness_regression.rs":  {
+                                                                                     "sha256":  "abca16118fd547939b23bd00d975265b4dfd68487b9ff26cec7a8c01b8fd7283",
+                                                                                     "bytes":  36982
+                                                                                 },
+                                      "evaluation/src/release.rs":  {
+                                                                        "sha256":  "8904c9435f3a53a830e4bee866125b6afb8d2d088f66e09db1981ef2890588bd",
+                                                                        "bytes":  34098
+                                                                    },
+                                      "evaluation/src/runner.rs":  {
+                                                                       "sha256":  "273c0bdf77d20aa6d227191068cd5a6bce218dce70b1b2885eb4a104aebc7d26",
+                                                                       "bytes":  27875
+                                                                   },
+                                      "evaluation/src/snapshot.rs":  {
+                                                                         "sha256":  "46907262d5ec29e721fd867793af93931608904b48ec4211b5821fdd72151f6f",
+                                                                         "bytes":  3396
+                                                                     },
+                                      "evaluation/src/stage3.rs":  {
+                                                                       "sha256":  "b54ad9b2108ff949309841d9326df41419750246d1887fb75bccb9adafb8a59f",
+                                                                       "bytes":  39222
+                                                                   },
+                                      "examples/assignment_compatibility.rs":  {
+                                                                                   "sha256":  "b5d0c49547f804833eaceaf16ef95a08a59c4af79c900542b751e378aa59705a",
+                                                                                   "bytes":  11711
+                                                                               },
+                                      "examples/assignment_cost.rs":  {
+                                                                          "sha256":  "becaf0624c4758ec17392560836b23d02b282655cfd93c00350eacf1b7802bed",
+                                                                          "bytes":  8460
+                                                                      },
+                                      "examples/baseline.rs":  {
+                                                                   "sha256":  "eae46ef0f94c2851f4a48514540625bdbb826baa17a71c90875ad9b0db9a6839",
+                                                                   "bytes":  6346
+                                                               },
+                                      "examples/basic.rs":  {
+                                                                "sha256":  "e9130b5b71de233961fba0dd95ab967cd07628c450f1aef5c742c9854b5119fc",
+                                                                "bytes":  779
+                                                            },
+                                      "examples/catalog_review.rs":  {
+                                                                         "sha256":  "019a742166c4ba787d871e6e5b662c427b0581d4ee1dfe5aa9e6e485ca63bca0",
+                                                                         "bytes":  3122
+                                                                     },
+                                      "examples/contextual_quality.rs":  {
+                                                                             "sha256":  "bec7bdc3690e02007edf9db7c73b58e37131a306d93cf9d2b1024be2d566b905",
+                                                                             "bytes":  1256
+                                                                         },
+                                      "examples/corroboration.rs":  {
+                                                                        "sha256":  "6e5b64f90442f386161043f5acb2e9cdc65b9e5d87e90fa9654286c2a445583a",
+                                                                        "bytes":  2096
+                                                                    },
+                                      "examples/diagnostics_cost.rs":  {
+                                                                           "sha256":  "600d286fa07affdfdefea24c66af7472dc43975a5bedb928470c8b0df75b5029",
+                                                                           "bytes":  5411
+                                                                       },
+                                      "examples/domain_aliases.rs":  {
+                                                                         "sha256":  "b81d6e6e3567e16e51ca041767a8b5f2b36fe92a79e41b1c0e8366a89c8db1c7",
+                                                                         "bytes":  1272
+                                                                     },
+                                      "examples/import_review.rs":  {
+                                                                        "sha256":  "44017bd4dd765b231195610c24895eec56cb25e4b2657bb9f81d2322090631b4",
+                                                                        "bytes":  2901
+                                                                    },
+                                      "examples/persisted_review.rs":  {
+                                                                           "sha256":  "b96c3725606dc916d5d915154439a1669be9c4e03afd6d3f954525a766728905",
+                                                                           "bytes":  2365
+                                                                       },
+                                      "examples/review_cost.rs":  {
+                                                                      "sha256":  "ed6f3a965dedc2a2e04421691d3b734c6cb77ce5a1463ef68834dbe3033f2d6b",
+                                                                      "bytes":  5085
+                                                                  },
+                                      "examples/reviewed_import.rs":  {
+                                                                          "sha256":  "1076fcf6c737c60f17d8e4e9aea4b31df271cd6d3d33b5cf707fdf08ed62f51e",
+                                                                          "bytes":  2914
+                                                                      },
+                                      "examples/scale_cost.rs":  {
+                                                                     "sha256":  "57175f161734de8dc38d2276db244b4ca6398d8c14d9a8d9c602e6c5d8d8319d",
+                                                                     "bytes":  7529
+                                                                 },
+                                      "examples/verified_semantics.rs":  {
+                                                                             "sha256":  "d9ee16cc121d69f8832f213e28b60dd4a949f8a1f3166113f3acb3d28fdd21f4",
+                                                                             "bytes":  1810
+                                                                         },
+                                      "performance/Cargo.lock":  {
+                                                                     "sha256":  "6f34fd85ba3d066c16966bafb0eaa01f1edab0be081c21644b8e3b86b0919a15",
+                                                                     "bytes":  1179
+                                                                 },
+                                      "performance/Cargo.toml":  {
+                                                                     "sha256":  "45fde623a6d1ffa4bed7945ff37abf8f325897dcb250321e2ca6fbc0d0b30b53",
+                                                                     "bytes":  604
+                                                                 },
+                                      "performance/src/main.rs":  {
+                                                                      "sha256":  "ee91c1091678b72c64d0dc31ac5f60f2896723776ad24056a7b43eb344a5d27b",
+                                                                      "bytes":  18322
+                                                                  },
+                                      "qualification/Cargo.lock":  {
+                                                                       "sha256":  "605d3a7559769b1ad64569531c3fc1cceb41a3a73cddcc925da51322d00745b6",
+                                                                       "bytes":  962
+                                                                   },
+                                      "qualification/Cargo.toml":  {
+                                                                       "sha256":  "d4506d6a0a274beae23534fa94ac47ffb361392ab4fea452e9516dd6697f06db",
+                                                                       "bytes":  252
+                                                                   },
+                                      "qualification/src/main.rs":  {
+                                                                        "sha256":  "e1a922eafbbbf3f18b95b512a81f5a980e66210f6e5f94bcae547b37360873e5",
+                                                                        "bytes":  37613
+                                                                    },
+                                      "README.md":  {
+                                                        "sha256":  "e976fc016738bf21b06b80f6e86e453663a52a78e934ce4b822cfafed58e3886",
+                                                        "bytes":  23322
+                                                    },
+                                      "rust-toolchain.toml":  {
+                                                                  "sha256":  "7458b2d74495e6fb1c1edeea4d5a793705476431dadb60627187111f91441e13",
+                                                                  "bytes":  86
+                                                              },
+                                      "src/assignment.rs":  {
+                                                                "sha256":  "597b1b471488525ad794021b5a477c82bf8143af90765bb7cec0d69ce2cdf013",
+                                                                "bytes":  18912
+                                                            },
+                                      "src/constraints.rs":  {
+                                                                 "sha256":  "64cccf13da8e20ec383a6d35a76de6ac1ce62b0549d2d17a11436e46d089f460",
+                                                                 "bytes":  6858
+                                                             },
+                                      "src/contextual.rs":  {
+                                                                "sha256":  "cb09cfdf32319fe76f1e90c36bc078795eef3734bd0f50d6ba83001e65bcc598",
+                                                                "bytes":  46965
+                                                            },
+                                      "src/diagnostics.rs":  {
+                                                                 "sha256":  "4f2926e67c02ac49c0b61a9a36267fe6cc49c42f0bb2dc1ff3a97d9f8d3b117e",
+                                                                 "bytes":  20459
+                                                             },
+                                      "src/engine.rs":  {
+                                                            "sha256":  "d8ffea6ec3c0de2941a2126fc9c71d3efa754eb0195ce84f300fa8c69e2a1352",
+                                                            "bytes":  38186
+                                                        },
+                                      "src/error.rs":  {
+                                                           "sha256":  "5f8fc45fc6d8d57d8eb678c6d6ec0933911d84555c85584678a3bca17ed79ec5",
+                                                           "bytes":  12331
+                                                       },
+                                      "src/json.rs":  {
+                                                          "sha256":  "298cc685f104b006c2ff1865a7cfbf139b6c3b17f1b83f32c833bfb4c864f7bf",
+                                                          "bytes":  27668
+                                                      },
+                                      "src/lib.rs":  {
+                                                         "sha256":  "098d6e8321da893ffa418067d5ed85a628910cc7f12c7e4fe2b860853bb70841",
+                                                         "bytes":  861
+                                                     },
+                                      "src/name_conflicts.rs":  {
+                                                                    "sha256":  "44328bbae682720a2f5de88ca6a1599ec716bf93dd8b940fc5d52d33eecbcf8c",
+                                                                    "bytes":  5462
+                                                                },
+                                      "src/numeric.rs":  {
+                                                             "sha256":  "be62a484aadda8e753428318a8d67f41fdb9fe03ea646b5a781952b8c3ad6623",
+                                                             "bytes":  6783
+                                                         },
+                                      "src/profile.rs":  {
+                                                             "sha256":  "7ea95ca4d2b70954d33013863f4a8f2320bd44c17d79a78d5e291d086ee86559",
+                                                             "bytes":  10961
+                                                         },
+                                      "src/semantic_name.rs":  {
+                                                                   "sha256":  "a2a2cc7743453dd909ebe791af18e330a4526672460bbdaf17e3cc569a07ba9d",
+                                                                   "bytes":  4621
+                                                               },
+                                      "src/semantics.rs":  {
+                                                               "sha256":  "f20dde8676b4917b2edc8f002dae7aaa04e8bf7c4324e92c8d3c1681d54e7538",
+                                                               "bytes":  2953
+                                                           },
+                                      "src/signals.rs":  {
+                                                             "sha256":  "1f1630be57a65e32711b62118014dc6f8c9a4de786e3b345dd044e69afb21672",
+                                                             "bytes":  35342
+                                                         },
+                                      "src/types.rs":  {
+                                                           "sha256":  "8b76a5280db4a08c9b72af019af1bed28da759846e321cc0bda03dcd740f2b08",
+                                                           "bytes":  22390
+                                                       },
+                                      "tests/constraints.rs":  {
+                                                                   "sha256":  "a483d4a58674db9614743793a366261d17b16e26b633bd7ac5153fb1ac3def56",
+                                                                   "bytes":  33673
+                                                               },
+                                      "tests/contextual.rs":  {
+                                                                  "sha256":  "30c2fe15cd43840542a34eebf94e9c84009167df89f93334fb08a1d3d5a502e4",
+                                                                  "bytes":  36919
+                                                              },
+                                      "tests/contextual_quality.rs":  {
+                                                                          "sha256":  "09c075d967c93841e346b297bcde75dea547a4c57965e856bbdfac947145c65a",
+                                                                          "bytes":  27491
+                                                                      },
+                                      "tests/corroboration.rs":  {
+                                                                     "sha256":  "2bb703051df8d2f79fe4ae57874ee2010a7d3cdbad65bc486faaedb07f1a8420",
+                                                                     "bytes":  20774
+                                                                 },
+                                      "tests/diagnostics.rs":  {
+                                                                   "sha256":  "d48848787bb70916628809e02eea3fd251601bca67e72508fc2fd7f7ef0632f4",
+                                                                   "bytes":  7264
+                                                               },
+                                      "tests/errors.rs":  {
+                                                              "sha256":  "bea18a39cfa8d620addcaa891f9f9d7a45e7d56f98dc6807f0058ea9abfa7eb1",
+                                                              "bytes":  8877
+                                                          },
+                                      "tests/evidence.rs":  {
+                                                                "sha256":  "8312ad9e1ce21b622a5b1954652e84e4a45cc6babf433bb8752a066b07f766ae",
+                                                                "bytes":  20485
+                                                            },
+                                      "tests/json.rs":  {
+                                                            "sha256":  "10f13f8d7f1d809b77b1ef6fbb1de855d5fce8163f93ea0991eadb15e32c2550",
+                                                            "bytes":  22352
+                                                        },
+                                      "tests/matching.rs":  {
+                                                                "sha256":  "871662eb5efbfc3ad2b85c4e188de82fde6c5c250fd497266cfc0d1e2464c903",
+                                                                "bytes":  19402
+                                                            },
+                                      "tests/precision.rs":  {
+                                                                 "sha256":  "c6b9333b65de0dcdfce9edff8c23a21fc54b9d02a4b0cb9cfb905586670286f0",
+                                                                 "bytes":  19830
+                                                             },
+                                      "tests/prepared.rs":  {
+                                                                "sha256":  "c13b261598849f341fc476910da883c0f74e71f0394b72178eda4376487e0284",
+                                                                "bytes":  14389
+                                                            },
+                                      "tests/profile.rs":  {
+                                                               "sha256":  "e73dd7431ce0dccd8150d8de8038ed28d5d0ca380c2dc241930954dc6ae3d650",
+                                                               "bytes":  8846
+                                                           },
+                                      "tests/reasons.rs":  {
+                                                               "sha256":  "05a4c0b8d3f171629c2798fc580fcd04a077d28b0d94581bcbe131881045abba",
+                                                               "bytes":  12380
+                                                           },
+                                      "tooling/Cargo.toml":  {
+                                                                 "sha256":  "387ffc3e172099a67a79066b60f0241f6c95982ab5954610f9a5855cdd8fd4e3",
+                                                                 "bytes":  500
+                                                             },
+                                      "tooling/src/common.rs":  {
+                                                                    "sha256":  "971e8833d58932fbc70f75d1a6004adc731326d84cec8d8db9c4759020427080",
+                                                                    "bytes":  10963
+                                                                },
+                                      "tooling/src/imports.rs":  {
+                                                                     "sha256":  "584cf42318826d4debfeca846d21b4c65be2b3824e2a73003889175c85e5c2dd",
+                                                                     "bytes":  23612
+                                                                 },
+                                      "tooling/src/main.rs":  {
+                                                                  "sha256":  "617cd6a900b6551b11db76b26e1f5e8105620a0e969d969cbeefaeefd97ad25a",
+                                                                  "bytes":  1582
+                                                              },
+                                      "tooling/src/performance.rs":  {
+                                                                         "sha256":  "658ed637da1cc865781e9fd3331ccf1f44dc5e8222c5e184c99c98280190fe37",
+                                                                         "bytes":  90161
+                                                                     },
+                                      "tooling/src/qualification.rs":  {
+                                                                           "sha256":  "c1addb3b8f7108e3fd1a7cac9ce119a5ebc7793f0aff99ee99ab25a2f003c2e1",
+                                                                           "bytes":  37464
+                                                                       },
+                                      "tooling/src/quality.rs":  {
+                                                                     "sha256":  "944c0828eb3dc7e03eb0c1b751c672242bb36388c9033af938edbce1053d057b",
+                                                                     "bytes":  56729
+                                                                 },
+                                      "tooling/src/verified.rs":  {
+                                                                      "sha256":  "3b05ae5334f7396e45e8695e5c1ab3a20d52eb970604ea0f5908ab8cae64ffc7",
+                                                                      "bytes":  29578
+                                                                  }
+                                  },
+    "source_inputs_unchanged":  true,
+    "runtime_binaries_sha256":  {
+                                    "target/debug/fieldkin-tools.exe":  {
+                                                                            "sha256":  "a5b500ec3ad8055e49bea27e4c401dfc6206fb24a40ed4ff56e29a7e37a29880",
+                                                                            "bytes":  5543936
+                                                                        },
+                                    "target/debug/examples/import_review.exe":  {
+                                                                                    "sha256":  "927c746d3629c64889475e7412f6a9447cebbe5f52bfd7705a8d98ecdb205a2c",
+                                                                                    "bytes":  1600512
+                                                                                },
+                                    "target/debug/examples/catalog_review.exe":  {
+                                                                                     "sha256":  "790b859a4f8a427dc2a7222bcf4278c6e0b29f2dbba06b991ad6bb5651dbb907",
+                                                                                     "bytes":  1596416
+                                                                                 },
+                                    "target/debug/examples/corroboration.exe":  {
+                                                                                    "sha256":  "c35c9086a1a708967d1b8c870eebaaae0999306c0b7c6a57ec9b1de89c6c7ce1",
+                                                                                    "bytes":  1510400
+                                                                                },
+                                    "target/debug/examples/contextual_quality.exe":  {
+                                                                                         "sha256":  "59e65ff4bbf55fa168f1c0321fc06e4054ac42d334fa67091c1994e228b2323c",
+                                                                                         "bytes":  1515008
+                                                                                     },
+                                    "target/debug/examples/reviewed_import.exe":  {
+                                                                                      "sha256":  "998e8806ad7098c601df0b7b5204dc3ef11175898ab7be0b2465ee61dd8445b3",
+                                                                                      "bytes":  1509888
+                                                                                  },
+                                    "target/debug/examples/persisted_review.exe":  {
+                                                                                       "sha256":  "6f6b2bf2ecc03934bf5951c2244431399e288fe4a2a6c36187099234ddf862e4",
+                                                                                       "bytes":  1871872
+                                                                                   },
+                                    "target/debug/examples/assignment_compatibility.exe":  {
+                                                                                               "sha256":  "1875271b3bb9f980b3fbe6b5a609ec6a7ab8e574597a2515360207d0b0ae5acb",
+                                                                                               "bytes":  1583616
+                                                                                           }
+                                },
+    "completed_utc":  "2026-10-05T16:35:53.1737552Z",
+    "passed_commands":  23,
+    "failed_commands":  0,
+    "native_cli_defect_tests":  "Included in tests-workspace-all-features: fieldkin-tools complete test suite covers quality numerical/provenance defects, native performance protocol inventories, verified build route/identity guards, and output preservation.",
+    "observed_test_binaries_sha256":  {
+                                          "target/debug/deps/fieldkin-fbfcc28e1b37ae45.exe":  {
+                                                                                                  "sha256":  "e2e9d0546bead4fd5abaebd8dd26aa5d4079dc863f46da026f0efc104efa5e88",
+                                                                                                  "bytes":  2062848
+                                                                                              },
+                                          "target/debug/deps/constraints-4e8d472f59e8341e.exe":  {
+                                                                                                     "sha256":  "9937eb31995b52b44ade0a6c503310769505219259dd6c2b45de25d1cfbbafa9",
+                                                                                                     "bytes":  2738688
+                                                                                                 },
+                                          "target/debug/deps/contextual-e821d07c7cbc2e8d.exe":  {
+                                                                                                    "sha256":  "845716eb0419a163c7c7c9d5cc062cd319c154ae3a9453682dccc6ccb45ef7e9",
+                                                                                                    "bytes":  2353664
+                                                                                                },
+                                          "target/debug/deps/contextual_quality-0f737615dc38f6e0.exe":  {
+                                                                                                            "sha256":  "d46e7ab56d4e20fba997856bc624fa032737dea59374dae4029e47d396d2485c",
+                                                                                                            "bytes":  2226176
+                                                                                                        },
+                                          "target/debug/deps/corroboration-a51a2fb5bd7c3c73.exe":  {
+                                                                                                       "sha256":  "75036e075d9ca575df7bfc231b935b47b2bb7d1cfc5f5982726e92ef4bf14504",
+                                                                                                       "bytes":  3641344
+                                                                                                   },
+                                          "target/debug/deps/diagnostics-e6d095c17f10c378.exe":  {
+                                                                                                     "sha256":  "1f09300122502138da1f497100f4886cc8f17c65652dbcd89ed9c83beda5de32",
+                                                                                                     "bytes":  2128896
+                                                                                                 },
+                                          "target/debug/deps/errors-3f0e14753318015f.exe":  {
+                                                                                                "sha256":  "415c96eeb0f9d3138f4f93a568f073ee3b2190e0227c70aa68c096211fa286a7",
+                                                                                                "bytes":  2187776
+                                                                                            },
+                                          "target/debug/deps/evidence-74465dfe0e364736.exe":  {
+                                                                                                  "sha256":  "21f7bf0e1ca5f846bcc8468e489f28200edba6172ecf847826526fcd33ac664b",
+                                                                                                  "bytes":  2684416
+                                                                                              },
+                                          "target/debug/deps/json-660fcf929e401e5b.exe":  {
+                                                                                              "sha256":  "ea79a2041ce9050d57ab3f73de880347446014c68c0b25f5281099121b073023",
+                                                                                              "bytes":  733696
+                                                                                          },
+                                          "target/debug/deps/matching-3d6e37630a8d773d.exe":  {
+                                                                                                  "sha256":  "5f48dcb76294a74982c4540ad50e82202aebda71a96adb7af750c74fd9cbc589",
+                                                                                                  "bytes":  3666432
+                                                                                              },
+                                          "target/debug/deps/precision-5d99026bd224e748.exe":  {
+                                                                                                   "sha256":  "b519db8b84c55638e84ea94cf79ad5f91648c53794d2ee4aab290f135783ca9a",
+                                                                                                   "bytes":  2219520
+                                                                                               },
+                                          "target/debug/deps/prepared-2db6bf9f840e3b2f.exe":  {
+                                                                                                  "sha256":  "5f9c9a8967eb4688e45b423986b1df758ef5b936a748bc2b7cf17025ed412ec9",
+                                                                                                  "bytes":  2277376
+                                                                                              },
+                                          "target/debug/deps/profile-c66976be2ab36edf.exe":  {
+                                                                                                 "sha256":  "a839e8b6b541690610d5ee6666d228a4085e85433814165075870026e9b5938a",
+                                                                                                 "bytes":  2495488
+                                                                                             },
+                                          "target/debug/deps/reasons-05c27d56171bd970.exe":  {
+                                                                                                 "sha256":  "8eacb55c62babac29e3d29f61ea9589ae97f6e4afd5b1ef6ebe6c31d2956dc84",
+                                                                                                 "bytes":  2171904
+                                                                                             },
+                                          "performance/target/debug/deps/fieldkin_performance-00248d2cb35f3f6f.exe":  {
+                                                                                                                          "sha256":  "6b209f6c018f57e21f525a3bdd0f03a495d95e9995540ab0676d1a15c881d27f",
+                                                                                                                          "bytes":  2187264
+                                                                                                                      },
+                                          "performance/target/debug/deps/fieldkin_performance-1f4ca3c17ab818c5.exe":  {
+                                                                                                                          "sha256":  "565f9d37ae20c92331f24365531a5eb693b6fbd02f5b76e700cbc8ead02d03d4",
+                                                                                                                          "bytes":  2160640
+                                                                                                                      },
+                                          "qualification/target/debug/deps/fieldkin_qualification-4bf9b75e6465f1f3.exe":  {
+                                                                                                                              "sha256":  "1170a76e2d8bc90a5adb42e43bdc4d5390e8db8abfb84b25b1ed85d495b1d7ca",
+                                                                                                                              "bytes":  2350592
+                                                                                                                          },
+                                          "target/debug/examples/scale_cost-184adbceaada05b8.exe":  {
+                                                                                                        "sha256":  "ad1ed94ba82e823f3d351cee32f29b42851bc780e7396d9cded9c88f8053a239",
+                                                                                                        "bytes":  2105856
+                                                                                                    },
+                                          "target/debug/deps/fieldkin-f7c409b616b1a8b8.exe":  {
+                                                                                                  "sha256":  "548f99c2eec956d6f9f8b24f9ca0f93597c38eec0c67a0277765ca408715d4c3",
+                                                                                                  "bytes":  2077696
+                                                                                              },
+                                          "target/debug/deps/constraints-f122ff46e9acf9b8.exe":  {
+                                                                                                     "sha256":  "ffe4a48e5f7a1ceb744411ab623e5db6569fdf2481bc24a43dfbc74d642d79ce",
+                                                                                                     "bytes":  2771456
+                                                                                                 },
+                                          "target/debug/deps/contextual-02cd6c4038af122d.exe":  {
+                                                                                                    "sha256":  "1557aee7593ae4eeb3538363b0516d16f4200da2f12e2b7b212fc8f4b9e16c36",
+                                                                                                    "bytes":  2676224
+                                                                                                },
+                                          "target/debug/deps/contextual_quality-abfe3c11b821ff4e.exe":  {
+                                                                                                            "sha256":  "977cd31171f536bf77a2abe82e01c2053bc61f27468df8936267bd57c521ec11",
+                                                                                                            "bytes":  2538496
+                                                                                                        },
+                                          "target/debug/deps/corroboration-e57bd74994f1da65.exe":  {
+                                                                                                       "sha256":  "891f1780c9388c999753e6735ecff2a74bcb09da8b79706a2ad6b8ad0a5c7e58",
+                                                                                                       "bytes":  3674112
+                                                                                                   },
+                                          "target/debug/deps/diagnostics-931576dc72f33b10.exe":  {
+                                                                                                     "sha256":  "ab0a6b7e5044d14660e2dc9064971d074083dcbc0d3abfca4625bcc69b9a9068",
+                                                                                                     "bytes":  2159104
+                                                                                                 },
+                                          "target/debug/deps/errors-8a2dfd0be5ec5b77.exe":  {
+                                                                                                "sha256":  "4de2f36568cba000d8d8c61ee8297f75852daa5287db7c75bb30024696d58112",
+                                                                                                "bytes":  2220032
+                                                                                            },
+                                          "target/debug/deps/evidence-9123fa630efa3f90.exe":  {
+                                                                                                  "sha256":  "91dcf357094e257c7e384a6d97e05517bd23cd64e11e25b7b6bd28f569365585",
+                                                                                                  "bytes":  2727424
+                                                                                              },
+                                          "target/debug/deps/json-f73e075d7c83dd02.exe":  {
+                                                                                              "sha256":  "4b1e36d65138b5f1c173433d6e6abcee1a8c965799a5f269883dc239e885b22e",
+                                                                                              "bytes":  4123136
+                                                                                          },
+                                          "target/debug/deps/matching-bdd8f7ba26880a32.exe":  {
+                                                                                                  "sha256":  "3fb8aacd4907330e56730759277433ca727c8025de5641feb08be62519b428fa",
+                                                                                                  "bytes":  3698688
+                                                                                              },
+                                          "target/debug/deps/precision-2102b405a29da1b6.exe":  {
+                                                                                                   "sha256":  "17e184e7416538d7a63c871f54af575bb5ff9a0e8853827b25d5384c75751696",
+                                                                                                   "bytes":  2566656
+                                                                                               },
+                                          "target/debug/deps/prepared-6175caa24f1041c3.exe":  {
+                                                                                                  "sha256":  "942c7775216d7c0829181df1b17bf51c771a9f00b62d63969cdee15509b38700",
+                                                                                                  "bytes":  2310144
+                                                                                              },
+                                          "target/debug/deps/profile-188de6787be3d96a.exe":  {
+                                                                                                 "sha256":  "e59dfcadf80137eae7a8527eb7bfd883768a77ab5c9ad9f3ebfe49172c287a61",
+                                                                                                 "bytes":  2527232
+                                                                                             },
+                                          "target/debug/deps/reasons-3fda4188c905235d.exe":  {
+                                                                                                 "sha256":  "e4e24d38cb9703a19ddd9c25d6a7bfb4034a6994c180eb8deca90218e996ba14",
+                                                                                                 "bytes":  2203648
+                                                                                             },
+                                          "target/debug/deps/fieldkin_eval-a59cf34b1a0f81e1.exe":  {
+                                                                                                       "sha256":  "7e7ebbb87b8384d547a8cb65b6e922389e2cb2843f1ad392ecab5a24411ded40",
+                                                                                                       "bytes":  13272576
+                                                                                                   },
+                                          "target/debug/deps/fieldkin_tools-adb7b6c889b22832.exe":  {
+                                                                                                        "sha256":  "a6985517f61aee60583fe71dbd9f8ef48a796dc8947a739b470fd0d9a5296d5b",
+                                                                                                        "bytes":  4793344
+                                                                                                    }
+                                      },
+    "executable_hash_scope":  "Persistent test executables named by Cargo logs and public example/tool executables are hashed after checks. Ephemeral doctest executables are not retained; their source identities, commands, logs, exit status and test counts are recorded."
+}

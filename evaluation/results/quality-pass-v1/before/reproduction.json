@@ -1,0 +1,8 @@
+﻿{
+    "revision":  "8a8568033269b5f15fba6cc3958760f24fd9b8ff",
+    "command":  "frozen baseline evaluator --readiness-regression --output target/quality-baseline-recorded",
+    "binary_sha256":  "454ec72945f517649c7e8eb1fb961fd391e4c853e3c75551726d9594c4d3cbba",
+    "rows_match_initial_reproduction":  true,
+    "stable_rust":  "1.99.0",
+    "limitations":  "Local executable/build identity, not a signature or hermetic build"
+}

@@ -1,0 +1,23 @@
+{
+    "candidate_commit":  "b36290af851cbf18b9fa8f84474f9978e8b631cb",
+    "command":  [
+                    "cargo",
+                    "+stable",
+                    "run",
+                    "--locked",
+                    "-p",
+                    "fieldkin-tools",
+                    "--",
+                    "release-acceptance",
+                    "--build-dir",
+                    "target/quality-reserved-build",
+                    "--output",
+                    "target/quality-reserved-results"
+                ],
+    "exit_code":  1,
+    "output":  "cargo.exe :     Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.18s\r\nAt line:2 char:190\r\n+ ... t/quality-reserved-results\u0027);$output=(\u0026 cargo @arguments 2\u003e\u00261 | Out-S ...\r\n+                                           ~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : NotSpecified: (    Finished `d...get(s) in 0.18s:String) [], RemoteException\r\n    + FullyQualifiedErrorId : NativeCommandError\r\n \r\n     Running `target\\debug\\fieldkin-tools.exe release-acceptance --build-dir target/quality-reserved-build --output \r\ntarget/quality-reserved-results`\r\nfieldkin-tools: The system cannot find the path specified. (os error 3)\r\nerror: process didn\u0027t exit successfully: `target\\debug\\fieldkin-tools.exe release-acceptance --build-dir \r\ntarget/quality-reserved-build --output target/quality-reserved-results` (exit code: 1)\r\n",
+    "acceptance_passed":  false,
+    "qualified":  false,
+    "fresh_scored":  false,
+    "reason":  "Fresh qualification freeze/first run absent because development coverage fails"
+}

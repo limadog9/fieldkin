@@ -1,0 +1,148 @@
+{
+  "candidate_commit": "b36290af851cbf18b9fa8f84474f9978e8b631cb",
+  "binary_sha256": "491f5de3dfde0a6960b992dcabfc062465f971d5fa151ae9474439039f974f52",
+  "fresh_build_record": "development-native/frozen-build.json",
+  "new_holdout_scored": false,
+  "checks": [
+    {
+      "name": "baseline",
+      "args": [
+        "--check",
+        "--output",
+        "evaluation/results/quality-pass-v1/current/baseline"
+      ],
+      "status": "fulfilled",
+      "chunk_id": "c81589",
+      "wall_time_seconds": 1.0988585,
+      "exit_code": 0,
+      "original_token_count": 43,
+      "output": "development: 160 pairs / 32 families / 960 source decisions; 6 models x 2 assignment modes\nVerified frozen artifacts in evaluation/results/quality-pass-v1/current/baseline\n"
+    },
+    {
+      "name": "stage3",
+      "args": [
+        "--stage3",
+        "--check",
+        "--output",
+        "evaluation/results/quality-pass-v1/current/stage3"
+      ],
+      "status": "fulfilled",
+      "chunk_id": "77c8d4",
+      "wall_time_seconds": 5.312414,
+      "exit_code": 0,
+      "original_token_count": 35,
+      "output": "Stage 3 development evaluation verified: 172 schema pairs, 32 + 12 families, 992 labels; 588 aggregate threshold rows; no holdout scoring\n"
+    },
+    {
+      "name": "release",
+      "args": [
+        "--release",
+        "--check",
+        "--output",
+        "evaluation/results/quality-pass-v1/current/release"
+      ],
+      "status": "fulfilled",
+      "chunk_id": "5f2cb0",
+      "wall_time_seconds": 2.339794,
+      "exit_code": 0,
+      "original_token_count": 27,
+      "output": "Release development evaluation verified: 160 cases, 84 threshold rows, 3840 per-field default predictions\n"
+    },
+    {
+      "name": "corrective",
+      "args": [
+        "--corrective",
+        "--check",
+        "--output",
+        "evaluation/results/quality-pass-v1/current/corrective"
+      ],
+      "status": "fulfilled",
+      "chunk_id": "703204",
+      "wall_time_seconds": 2.1502,
+      "exit_code": 0,
+      "original_token_count": 43,
+      "output": "Corrective original_regression evaluation verified: 200 cases, 8 model/assignment rows\nCorrective fresh_development evaluation verified: 36 cases, 8 model/assignment rows\n"
+    },
+    {
+      "name": "precision",
+      "args": [
+        "--precision",
+        "--check",
+        "--output",
+        "evaluation/results/quality-pass-v1/current/precision"
+      ],
+      "status": "fulfilled",
+      "chunk_id": "a03ffc",
+      "wall_time_seconds": 1.2558705,
+      "exit_code": 0,
+      "original_token_count": 26,
+      "output": "Verified fixed precision development evidence in evaluation/results/quality-pass-v1/current/precision\n"
+    },
+    {
+      "name": "readiness",
+      "args": [
+        "--readiness",
+        "--check",
+        "--output",
+        "evaluation/results/quality-pass-v1/current/readiness"
+      ],
+      "status": "fulfilled",
+      "chunk_id": "23ed7d",
+      "wall_time_seconds": 2.5580638,
+      "exit_code": 0,
+      "original_token_count": 35,
+      "output": "Verified development-only readiness evidence in evaluation/results/quality-pass-v1/current/readiness; release qualification remains pending\n"
+    },
+    {
+      "name": "readiness-regression",
+      "args": [
+        "--readiness-regression",
+        "--before",
+        "evaluation/results/quality-pass-v1/before",
+        "--check",
+        "--output",
+        "evaluation/results/quality-pass-v1/current/readiness-regression"
+      ],
+      "status": "fulfilled",
+      "chunk_id": "979df5",
+      "wall_time_seconds": 1.5688168999999998,
+      "exit_code": 0,
+      "original_token_count": 38,
+      "output": "Checked or recorded same-input examined regression in evaluation/results/quality-pass-v1/current/readiness-regression; candidate remains not qualified\n"
+    },
+    {
+      "name": "external",
+      "args": [
+        "--external",
+        "--check",
+        "--output",
+        "evaluation/results/quality-pass-v1/current/external"
+      ],
+      "status": "fulfilled",
+      "chunk_id": "854906",
+      "wall_time_seconds": 1.1528602000000001,
+      "exit_code": 0,
+      "original_token_count": 28,
+      "output": "external annotation development verified: 549 tables, 4 fixed model/assignment combinations; holdout reserved\n"
+    },
+    {
+      "name": "northix",
+      "args": [
+        "--northix",
+        "--scores",
+        "evaluation/results/continuation-v1/valentine/valentine-schema_only.json",
+        "--scores",
+        "evaluation/results/continuation-v1/valentine/valentine-schema_and_samples.json",
+        "--check",
+        "--output",
+        "evaluation/results/quality-pass-v1/current/northix"
+      ],
+      "status": "fulfilled",
+      "chunk_id": "896b59",
+      "wall_time_seconds": 1.0082245,
+      "exit_code": 0,
+      "original_token_count": 21,
+      "output": "Northix verified: 84 table pairs, 12 fixed configurations; T2D holdout untouched\n"
+    }
+  ]
+}

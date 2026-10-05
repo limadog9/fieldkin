@@ -1,0 +1,918 @@
+{
+    "protocol":  "fieldkin-quality-package-v1",
+    "candidate_commit":  "b36290af851cbf18b9fa8f84474f9978e8b631cb",
+    "started_utc":  "2026-10-05T16:45:41.0093792Z",
+    "status":  "passed",
+    "toolchain":  {
+                      "rustc":  "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: x86_64-pc-windows-msvc\nrelease: 1.99.0\nLLVM version: 23.1.1",
+                      "cargo":  "cargo 1.99.0 (5f94df478 2026-08-27)"
+                  },
+    "source_sha256_before":  {
+                                 "benches/matching.rs":  "ef458a1259f0561892cf778d590e44b786440dd06afff31212a75d60fe383709",
+                                 "Cargo.lock":  "cfbb9eec67db39c87f6487a2457963003ee51bdd79dd947559e95b84d971019d",
+                                 "Cargo.toml":  "60e51febca5ed1213542ed6a055c1f85ccba5e0302fe81c8142c18d149d2aa32",
+                                 "CONTRIBUTING.md":  "e3f99fb9761dc9b8b3d1f58c03ca4985ca9266c29c794d9f2cb1fc2cf3415794",
+                                 "docs/assignment-performance.md":  "9e0d109d8c5b9a5094d929482a6c29e898d3fbd722518912990491e709d39940",
+                                 "docs/benchmarks.md":  "b436111b4b0a284f29d4290e1b05b003ac05c74b7e6f6cccec8b4864a7759dff",
+                                 "docs/changelog.md":  "de848fd83dfad6b413c9dcb9607e25ec428e733fdd613eb426dd14944ad5f30a",
+                                 "docs/contextual-quality-pass.md":  "4c10457089c9006433800e284d3a393398fd0369d6479619492d5cc43f6b9cf8",
+                                 "docs/continuation-scorecard.md":  "a6970a6f70af9e45450f0c4fb8ff18d5c9ea7f667822d399de41cc1e29fd37f7",
+                                 "docs/corroboration.md":  "3b858f80c9f5356c2170d23741694d14feb03b77c4784e79a86bd07d1f1919d0",
+                                 "docs/corroboration-evaluation.md":  "79dc7ac279a2a4575ec3b5f00f9b7d1a69306f178f35477345a5f4096dbc01f1",
+                                 "docs/dependency-review.md":  "57f367cb4426ff7b391607db46d3c8d96567526171e2aa5ba3547f358b20bc81",
+                                 "docs/design.md":  "b32bfd9a7981822a008483432d1ec8ced9d1ffb1c358ffdfc815fa0dec6f977e",
+                                 "docs/evaluation.md":  "762b169323c7afd691b8bc0a11f5d462fe5ee28577430ff8d827b1e65ce4b14e",
+                                 "docs/exact-numbers.md":  "d9d0403ffe060260370d9fad0b2c5b9b6f965d55907b3fc519ad553fad8dc01c",
+                                 "docs/external-evaluation.md":  "865c67ec31f9e4036f201e82d3ad7080157be4c2e7bd637f8b7635250bac127e",
+                                 "docs/json.md":  "2381f916fcfc51f6beefb3a3d980d679a1c27008da6349114e64290f83685aab",
+                                 "docs/landscape.md":  "fab7b8131001509536cab47addc3c5927abf9800eaa67ff44ff433826b219069",
+                                 "docs/migration.md":  "ab43b26d2737cd2f4299b09510d52444fd1d95b464664bfdf7dfa3838a2f820b",
+                                 "docs/northix-evaluation.md":  "3e58197c0d6af8dc79d5efb0973d890cd13454aaefdc81ad93334abe42853877",
+                                 "docs/precision.md":  "f291ff53a2a282c611a75f62bd842f25572763898eb6734db0dacef38348b841",
+                                 "docs/precision-evaluation.md":  "a798adeaa32fbdd16d782d50104a37db5be78fdf520dc2c408ff7e2dd2eb693e",
+                                 "docs/readiness-package-checks.md":  "9263044de6abb150651e3409c11768fdb4fc8dabdc5ede8b39e92c392168e61e",
+                                 "docs/readiness-pass.md":  "241247128fa8c9d9f2722565d1947bbc506748d0254e044765a828bf9af9cf6a",
+                                 "docs/release-readiness.md":  "af0bf5eb20d7cac30e6e1201bb919f9adca2a98591861cf06254ed504b15678e",
+                                 "docs/release-scorecard.md":  "6590f66733c43824c1f8376c36dad783b5a7a54814c3f3129d07850d4efc9368",
+                                 "docs/repository-security.md":  "e2ee7e7a10536ff7329340474e3a02455a93128cd4b07ea245576ff0ca98ddbd",
+                                 "docs/review-constraints.md":  "d3001e278835b73460b3647f3ee9a6e9dec0fefe92ec42714894d56a62ddcb5c",
+                                 "docs/review-qualification.md":  "6b5055979b2dc3eeb2ffddfdf68b3e0457d4790823607ea7503e889681744409",
+                                 "docs/scale-experiment.md":  "10307ef386a5f9fc392e16a561e0de64a99d8e671f7571be28a10d78f31035eb",
+                                 "docs/stage2-performance.md":  "0b07000ef8a858710e9a7176828d481e5efbc5c387aff96ba0e723fa746bd44d",
+                                 "docs/stage3-evaluation.md":  "a9dea3eb8e12305b5780692b8562d073e4ac1d7499fcb98d1b2bd91a7414fa6e",
+                                 "docs/stage3-migration.md":  "023cc3352d316da794ee8dbca8c9bfbdf8223baf90c87504e08dfbd1b0507f02",
+                                 "docs/stage4-diagnostics.md":  "81fcd7e5db0ef2679c7316f4a8f1f21b73e3cfcaca15f98c5d41ac85449b08c3",
+                                 "docs/usage.md":  "adb6c15760aa8bdecac4b460c7380f7b0385035268e4352155a458a72e92e254",
+                                 "docs/valentine-comparison.md":  "d8a1f66962609dda5842bfa35c9355dfe30a91397f774985dc4158e8f3e167c6",
+                                 "docs/verified-evaluation.md":  "99268aad7906035d4c5c8c09b4f2cc532d18fbcfa14fbf94b1520de4358782b3",
+                                 "examples/assignment_compatibility.rs":  "b5d0c49547f804833eaceaf16ef95a08a59c4af79c900542b751e378aa59705a",
+                                 "examples/assignment_cost.rs":  "becaf0624c4758ec17392560836b23d02b282655cfd93c00350eacf1b7802bed",
+                                 "examples/baseline.rs":  "eae46ef0f94c2851f4a48514540625bdbb826baa17a71c90875ad9b0db9a6839",
+                                 "examples/basic.rs":  "e9130b5b71de233961fba0dd95ab967cd07628c450f1aef5c742c9854b5119fc",
+                                 "examples/catalog_review.rs":  "019a742166c4ba787d871e6e5b662c427b0581d4ee1dfe5aa9e6e485ca63bca0",
+                                 "examples/contextual_quality.rs":  "bec7bdc3690e02007edf9db7c73b58e37131a306d93cf9d2b1024be2d566b905",
+                                 "examples/corroboration.rs":  "6e5b64f90442f386161043f5acb2e9cdc65b9e5d87e90fa9654286c2a445583a",
+                                 "examples/diagnostics_cost.rs":  "600d286fa07affdfdefea24c66af7472dc43975a5bedb928470c8b0df75b5029",
+                                 "examples/domain_aliases.rs":  "b81d6e6e3567e16e51ca041767a8b5f2b36fe92a79e41b1c0e8366a89c8db1c7",
+                                 "examples/import_review.rs":  "44017bd4dd765b231195610c24895eec56cb25e4b2657bb9f81d2322090631b4",
+                                 "examples/persisted_review.rs":  "b96c3725606dc916d5d915154439a1669be9c4e03afd6d3f954525a766728905",
+                                 "examples/review_cost.rs":  "ed6f3a965dedc2a2e04421691d3b734c6cb77ce5a1463ef68834dbe3033f2d6b",
+                                 "examples/reviewed_import.rs":  "1076fcf6c737c60f17d8e4e9aea4b31df271cd6d3d33b5cf707fdf08ed62f51e",
+                                 "examples/scale_cost.rs":  "57175f161734de8dc38d2276db244b4ca6398d8c14d9a8d9c602e6c5d8d8319d",
+                                 "examples/verified_semantics.rs":  "d9ee16cc121d69f8832f213e28b60dd4a949f8a1f3166113f3acb3d28fdd21f4",
+                                 "LICENSE-APACHE":  "54e999838d5c4f37c18677f1123026f60e62f3a9d1e0ca5976fbe3a7cc12d7f8",
+                                 "LICENSE-MIT":  "e712bf9a009c6cc37da38a54a72725ec2076dfab23d525e5f46c3ec48fcf3495",
+                                 "MAINTAINERS.md":  "e027aef75590be738a286ef65401b0c73a7cb605b7ac1aba510f7cf14c7288e1",
+                                 "README.md":  "e976fc016738bf21b06b80f6e86e453663a52a78e934ce4b822cfafed58e3886",
+                                 "ROADMAP.md":  "af3f31d7a7a05d48feff49e7ded96f5113bf67ba052a9205d9714dfbb8462504",
+                                 "src/assignment.rs":  "597b1b471488525ad794021b5a477c82bf8143af90765bb7cec0d69ce2cdf013",
+                                 "src/constraints.rs":  "64cccf13da8e20ec383a6d35a76de6ac1ce62b0549d2d17a11436e46d089f460",
+                                 "src/contextual.rs":  "cb09cfdf32319fe76f1e90c36bc078795eef3734bd0f50d6ba83001e65bcc598",
+                                 "src/diagnostics.rs":  "4f2926e67c02ac49c0b61a9a36267fe6cc49c42f0bb2dc1ff3a97d9f8d3b117e",
+                                 "src/engine.rs":  "d8ffea6ec3c0de2941a2126fc9c71d3efa754eb0195ce84f300fa8c69e2a1352",
+                                 "src/error.rs":  "5f8fc45fc6d8d57d8eb678c6d6ec0933911d84555c85584678a3bca17ed79ec5",
+                                 "src/json.rs":  "298cc685f104b006c2ff1865a7cfbf139b6c3b17f1b83f32c833bfb4c864f7bf",
+                                 "src/lib.rs":  "098d6e8321da893ffa418067d5ed85a628910cc7f12c7e4fe2b860853bb70841",
+                                 "src/name_conflicts.rs":  "44328bbae682720a2f5de88ca6a1599ec716bf93dd8b940fc5d52d33eecbcf8c",
+                                 "src/numeric.rs":  "be62a484aadda8e753428318a8d67f41fdb9fe03ea646b5a781952b8c3ad6623",
+                                 "src/profile.rs":  "7ea95ca4d2b70954d33013863f4a8f2320bd44c17d79a78d5e291d086ee86559",
+                                 "src/semantic_name.rs":  "a2a2cc7743453dd909ebe791af18e330a4526672460bbdaf17e3cc569a07ba9d",
+                                 "src/semantics.rs":  "f20dde8676b4917b2edc8f002dae7aaa04e8bf7c4324e92c8d3c1681d54e7538",
+                                 "src/signals.rs":  "1f1630be57a65e32711b62118014dc6f8c9a4de786e3b345dd044e69afb21672",
+                                 "src/types.rs":  "8b76a5280db4a08c9b72af019af1bed28da759846e321cc0bda03dcd740f2b08",
+                                 "tests/constraints.rs":  "a483d4a58674db9614743793a366261d17b16e26b633bd7ac5153fb1ac3def56",
+                                 "tests/contextual.rs":  "30c2fe15cd43840542a34eebf94e9c84009167df89f93334fb08a1d3d5a502e4",
+                                 "tests/contextual_quality.rs":  "09c075d967c93841e346b297bcde75dea547a4c57965e856bbdfac947145c65a",
+                                 "tests/corroboration.rs":  "2bb703051df8d2f79fe4ae57874ee2010a7d3cdbad65bc486faaedb07f1a8420",
+                                 "tests/diagnostics.rs":  "d48848787bb70916628809e02eea3fd251601bca67e72508fc2fd7f7ef0632f4",
+                                 "tests/errors.rs":  "bea18a39cfa8d620addcaa891f9f9d7a45e7d56f98dc6807f0058ea9abfa7eb1",
+                                 "tests/evidence.rs":  "8312ad9e1ce21b622a5b1954652e84e4a45cc6babf433bb8752a066b07f766ae",
+                                 "tests/json.rs":  "10f13f8d7f1d809b77b1ef6fbb1de855d5fce8163f93ea0991eadb15e32c2550",
+                                 "tests/matching.rs":  "871662eb5efbfc3ad2b85c4e188de82fde6c5c250fd497266cfc0d1e2464c903",
+                                 "tests/precision.rs":  "c6b9333b65de0dcdfce9edff8c23a21fc54b9d02a4b0cb9cfb905586670286f0",
+                                 "tests/prepared.rs":  "c13b261598849f341fc476910da883c0f74e71f0394b72178eda4376487e0284",
+                                 "tests/profile.rs":  "e73dd7431ce0dccd8150d8de8038ed28d5d0ca380c2dc241930954dc6ae3d650",
+                                 "tests/reasons.rs":  "05a4c0b8d3f171629c2798fc580fcd04a077d28b0d94581bcbe131881045abba",
+                                 "THIRD_PARTY.md":  "322dd3da0c6ad1ddfce82eef5dcc7e6e82f8068988998e6a9f203f373c2e0202"
+                             },
+    "package_include_scope":  "src, examples, tests, benches, docs and explicitly listed project metadata/licenses. Evaluation/tooling/performance/qualification workspaces, target output and external datasets must be absent.",
+    "working_tree_allow_dirty":  true,
+    "real_publication_attempted":  false,
+    "fresh_reserved_corpus_read":  false,
+    "commands":  [
+                     {
+                         "completed_utc":  "2026-10-05T16:45:48.5668138Z",
+                         "id":  "package-default",
+                         "environment":  {
+                                             "CARGO_TARGET_DIR":  "C:\\Users\\jakew\\Downloads\\fieldkin\\target\\quality-package"
+                                         },
+                         "started_utc":  "2026-10-05T16:45:41.1078227Z",
+                         "command":  [
+                                         "cargo",
+                                         "+stable",
+                                         "package",
+                                         "--locked",
+                                         "--offline",
+                                         "-p",
+                                         "fieldkin",
+                                         "--allow-dirty",
+                                         "--no-default-features"
+                                     ],
+                         "elapsed_seconds":  7.4589910999999995,
+                         "log_path":  "target/quality-package/logs/package-default.log",
+                         "log_sha256":  "62b07816251b0ee52885251fd8aa759645d6e6555a1dd8552bb3f1edcedb5fc6",
+                         "exit_code":  0,
+                         "upload_aborted_observed":  false
+                     },
+                     {
+                         "completed_utc":  "2026-10-05T16:46:01.0567625Z",
+                         "id":  "package-json",
+                         "environment":  {
+                                             "CARGO_TARGET_DIR":  "C:\\Users\\jakew\\Downloads\\fieldkin\\target\\quality-package"
+                                         },
+                         "started_utc":  "2026-10-05T16:45:48.6940656Z",
+                         "command":  [
+                                         "cargo",
+                                         "+stable",
+                                         "package",
+                                         "--locked",
+                                         "--offline",
+                                         "-p",
+                                         "fieldkin",
+                                         "--allow-dirty",
+                                         "--no-default-features",
+                                         "--features",
+                                         "json"
+                                     ],
+                         "elapsed_seconds":  12.3626969,
+                         "log_path":  "target/quality-package/logs/package-json.log",
+                         "log_sha256":  "5844cfb76f39377b1d40e8782e6f20000a60065ae05a2cb86a6d1ffac23d1e2a",
+                         "exit_code":  0,
+                         "upload_aborted_observed":  false
+                     },
+                     {
+                         "completed_utc":  "2026-10-05T16:46:03.0114929Z",
+                         "id":  "publish-dry-run-default",
+                         "environment":  {
+                                             "CARGO_TARGET_DIR":  "C:\\Users\\jakew\\Downloads\\fieldkin\\target\\quality-package"
+                                         },
+                         "started_utc":  "2026-10-05T16:46:01.0669550Z",
+                         "command":  [
+                                         "cargo",
+                                         "+stable",
+                                         "publish",
+                                         "--locked",
+                                         "-p",
+                                         "fieldkin",
+                                         "--dry-run",
+                                         "--allow-dirty",
+                                         "--no-default-features"
+                                     ],
+                         "elapsed_seconds":  1.9445378999999998,
+                         "log_path":  "target/quality-package/logs/publish-dry-run-default.log",
+                         "log_sha256":  "612b199c80fa31d826101103625fde2a7fc3216d216037711da8994d3b218ed0",
+                         "exit_code":  0,
+                         "upload_aborted_observed":  true
+                     },
+                     {
+                         "completed_utc":  "2026-10-05T16:46:04.6481195Z",
+                         "id":  "publish-dry-run-json",
+                         "environment":  {
+                                             "CARGO_TARGET_DIR":  "C:\\Users\\jakew\\Downloads\\fieldkin\\target\\quality-package"
+                                         },
+                         "started_utc":  "2026-10-05T16:46:03.0300488Z",
+                         "command":  [
+                                         "cargo",
+                                         "+stable",
+                                         "publish",
+                                         "--locked",
+                                         "-p",
+                                         "fieldkin",
+                                         "--dry-run",
+                                         "--allow-dirty",
+                                         "--no-default-features",
+                                         "--features",
+                                         "json"
+                                     ],
+                         "elapsed_seconds":  1.6180706999999999,
+                         "log_path":  "target/quality-package/logs/publish-dry-run-json.log",
+                         "log_sha256":  "fcbe798f20ae33f444ef992719f831c2603ae050e83ba202881b0a5b9d152b18",
+                         "exit_code":  0,
+                         "upload_aborted_observed":  true
+                     },
+                     {
+                         "exit_code":  0,
+                         "elapsed_seconds":  0.0777215,
+                         "completed_utc":  "2026-10-05T16:53:37.4482050Z",
+                         "log_sha256":  "1c370c09f64983edda0f01ca2bc0e710d3f26ea77516aab39c592ccf9b94fec9",
+                         "id":  "archive-list-default",
+                         "command":  [
+                                         "tar.exe",
+                                         "-tf",
+                                         "target/quality-package/package-default.crate"
+                                     ],
+                         "log_path":  "target/quality-package/logs/archive-list-default.log",
+                         "started_utc":  "2026-10-05T16:53:37.3704835Z"
+                     },
+                     {
+                         "exit_code":  0,
+                         "elapsed_seconds":  0.10272289999999999,
+                         "completed_utc":  "2026-10-05T16:53:37.7147023Z",
+                         "log_sha256":  "9685802619e54cc33ad4f2cf50d89ce68ca6b103895cc3b338881e0c0ead5eab",
+                         "id":  "archive-extract-default",
+                         "command":  [
+                                         "tar.exe",
+                                         "-xf",
+                                         "target/quality-package/package-default.crate",
+                                         "-C",
+                                         "target/quality-package/unpacked-default"
+                                     ],
+                         "log_path":  "target/quality-package/logs/archive-extract-default.log",
+                         "started_utc":  "2026-10-05T16:53:37.6119794Z"
+                     },
+                     {
+                         "exit_code":  0,
+                         "elapsed_seconds":  0.036254299999999996,
+                         "completed_utc":  "2026-10-05T16:53:38.7603119Z",
+                         "log_sha256":  "c4fceedc6874d8aff8671528c702d9577f24f73942168933b6e618cb9d482353",
+                         "id":  "archive-list-json",
+                         "command":  [
+                                         "tar.exe",
+                                         "-tf",
+                                         "target/quality-package/package-json.crate"
+                                     ],
+                         "log_path":  "target/quality-package/logs/archive-list-json.log",
+                         "started_utc":  "2026-10-05T16:53:38.7240576Z"
+                     },
+                     {
+                         "exit_code":  0,
+                         "elapsed_seconds":  0.09710089999999999,
+                         "completed_utc":  "2026-10-05T16:53:38.8681468Z",
+                         "log_sha256":  "72189bbdd77829a1b02b0f80b4f26d82b17a2350bb032937a8dfa990a4e6df82",
+                         "id":  "archive-extract-json",
+                         "command":  [
+                                         "tar.exe",
+                                         "-xf",
+                                         "target/quality-package/package-json.crate",
+                                         "-C",
+                                         "target/quality-package/unpacked-json"
+                                     ],
+                         "log_path":  "target/quality-package/logs/archive-extract-json.log",
+                         "started_utc":  "2026-10-05T16:53:38.7710459Z"
+                     },
+                     {
+                         "exit_code":  0,
+                         "elapsed_seconds":  0.1350591,
+                         "completed_utc":  "2026-10-05T16:54:38.5736397Z",
+                         "log_sha256":  "3fa772addb9fed9c14a876368aeb062ab5a25b314de9a7087043318451d7d50b",
+                         "id":  "consumer-lock-default",
+                         "command":  [
+                                         "cargo.exe",
+                                         "+stable",
+                                         "generate-lockfile",
+                                         "--offline",
+                                         "--manifest-path",
+                                         "target/quality-package/consumer-default/Cargo.toml"
+                                     ],
+                         "log_path":  "target/quality-package/logs/consumer-lock-default.log",
+                         "started_utc":  "2026-10-05T16:54:38.4385806Z"
+                     },
+                     {
+                         "exit_code":  0,
+                         "elapsed_seconds":  7.3213165999999994,
+                         "completed_utc":  "2026-10-05T16:54:45.9775846Z",
+                         "log_sha256":  "e79bab3b2a888706330c7e794c0270a9417898fa95c4e195a91cf961a01a58be",
+                         "id":  "consumer-run-default",
+                         "command":  [
+                                         "cargo.exe",
+                                         "+stable",
+                                         "run",
+                                         "--offline",
+                                         "--locked",
+                                         "--manifest-path",
+                                         "target/quality-package/consumer-default/Cargo.toml",
+                                         "--target-dir",
+                                         "target/quality-package/consumer-default-target"
+                                     ],
+                         "log_path":  "target/quality-package/logs/consumer-run-default.log",
+                         "started_utc":  "2026-10-05T16:54:38.6562680Z"
+                     },
+                     {
+                         "exit_code":  0,
+                         "elapsed_seconds":  0.12348609999999999,
+                         "completed_utc":  "2026-10-05T16:54:46.1085467Z",
+                         "log_sha256":  "ecf333c373a9fbe19b7e88ab182a05bfb37128a875b169c5569cfc779d9356c9",
+                         "id":  "consumer-metadata-default",
+                         "command":  [
+                                         "cargo.exe",
+                                         "+stable",
+                                         "metadata",
+                                         "--offline",
+                                         "--locked",
+                                         "--manifest-path",
+                                         "target/quality-package/consumer-default/Cargo.toml",
+                                         "--format-version",
+                                         "1"
+                                     ],
+                         "log_path":  "target/quality-package/logs/consumer-metadata-default.log",
+                         "started_utc":  "2026-10-05T16:54:45.9850606Z"
+                     },
+                     {
+                         "exit_code":  0,
+                         "elapsed_seconds":  0.166089,
+                         "completed_utc":  "2026-10-05T16:54:46.3685556Z",
+                         "log_sha256":  "4191b8c70aef0e739ff1286f8d030176e91e6e45b66f5e4f52a8a9c9e8672ab0",
+                         "id":  "consumer-lock-json",
+                         "command":  [
+                                         "cargo.exe",
+                                         "+stable",
+                                         "generate-lockfile",
+                                         "--offline",
+                                         "--manifest-path",
+                                         "target/quality-package/consumer-json/Cargo.toml"
+                                     ],
+                         "log_path":  "target/quality-package/logs/consumer-lock-json.log",
+                         "started_utc":  "2026-10-05T16:54:46.2024666Z"
+                     },
+                     {
+                         "exit_code":  0,
+                         "elapsed_seconds":  13.8691181,
+                         "completed_utc":  "2026-10-05T16:55:00.2449754Z",
+                         "log_sha256":  "8451d8ab64fdc2d9b8d21ac40f140c2d9e3b0b29476dc65606b8c0f858253e35",
+                         "id":  "consumer-run-json",
+                         "command":  [
+                                         "cargo.exe",
+                                         "+stable",
+                                         "run",
+                                         "--offline",
+                                         "--locked",
+                                         "--manifest-path",
+                                         "target/quality-package/consumer-json/Cargo.toml",
+                                         "--target-dir",
+                                         "target/quality-package/consumer-json-target"
+                                     ],
+                         "log_path":  "target/quality-package/logs/consumer-run-json.log",
+                         "started_utc":  "2026-10-05T16:54:46.3758573Z"
+                     },
+                     {
+                         "exit_code":  0,
+                         "elapsed_seconds":  0.1613456,
+                         "completed_utc":  "2026-10-05T16:55:00.4156381Z",
+                         "log_sha256":  "6955d478c67b55689c6ffb989235ce6b3c48655ef213a6ba406956bae35909e4",
+                         "id":  "consumer-metadata-json",
+                         "command":  [
+                                         "cargo.exe",
+                                         "+stable",
+                                         "metadata",
+                                         "--offline",
+                                         "--locked",
+                                         "--manifest-path",
+                                         "target/quality-package/consumer-json/Cargo.toml",
+                                         "--format-version",
+                                         "1"
+                                     ],
+                         "log_path":  "target/quality-package/logs/consumer-metadata-json.log",
+                         "started_utc":  "2026-10-05T16:55:00.2542925Z"
+                     }
+                 ],
+    "archives":  {
+                     "package-default":  {
+                                             "path":  "target/quality-package/package-default.crate",
+                                             "sha256":  "d4c6fe4a1f7114cf2c21baffd477dfcc6e76e100628a6bef129a7257ceb57a2e",
+                                             "bytes":  259238
+                                         },
+                     "package-json":  {
+                                          "path":  "target/quality-package/package-json.crate",
+                                          "sha256":  "d4c6fe4a1f7114cf2c21baffd477dfcc6e76e100628a6bef129a7257ceb57a2e",
+                                          "bytes":  259238
+                                      },
+                     "publish-dry-run-default":  {
+                                                     "path":  "target/quality-package/publish-dry-run-default.crate",
+                                                     "sha256":  "d4c6fe4a1f7114cf2c21baffd477dfcc6e76e100628a6bef129a7257ceb57a2e",
+                                                     "bytes":  259238
+                                                 },
+                     "publish-dry-run-json":  {
+                                                  "path":  "target/quality-package/publish-dry-run-json.crate",
+                                                  "sha256":  "d4c6fe4a1f7114cf2c21baffd477dfcc6e76e100628a6bef129a7257ceb57a2e",
+                                                  "bytes":  259238
+                                              }
+                 },
+    "content":  {
+                    "default":  {
+                                    "archive_file_count":  88,
+                                    "source_files_matched":  85,
+                                    "files_sha256":  {
+                                                         ".cargo_vcs_info.json":  "5332a98240a58975ce12a349d103cd5922dfcaaaa2af4e25ab23a78c6642e688",
+                                                         "CONTRIBUTING.md":  "e3f99fb9761dc9b8b3d1f58c03ca4985ca9266c29c794d9f2cb1fc2cf3415794",
+                                                         "Cargo.lock":  "92c40184d1ef10cd6457d89c011dce2910987a7ddc9bdec00da98a8546134d97",
+                                                         "Cargo.toml":  "af703dfb409c4320ab020fbadaab69ca34c9e9d82a82c66eb0c206804507580b",
+                                                         "Cargo.toml.orig":  "60e51febca5ed1213542ed6a055c1f85ccba5e0302fe81c8142c18d149d2aa32",
+                                                         "LICENSE-APACHE":  "54e999838d5c4f37c18677f1123026f60e62f3a9d1e0ca5976fbe3a7cc12d7f8",
+                                                         "LICENSE-MIT":  "e712bf9a009c6cc37da38a54a72725ec2076dfab23d525e5f46c3ec48fcf3495",
+                                                         "MAINTAINERS.md":  "e027aef75590be738a286ef65401b0c73a7cb605b7ac1aba510f7cf14c7288e1",
+                                                         "README.md":  "e976fc016738bf21b06b80f6e86e453663a52a78e934ce4b822cfafed58e3886",
+                                                         "ROADMAP.md":  "af3f31d7a7a05d48feff49e7ded96f5113bf67ba052a9205d9714dfbb8462504",
+                                                         "THIRD_PARTY.md":  "322dd3da0c6ad1ddfce82eef5dcc7e6e82f8068988998e6a9f203f373c2e0202",
+                                                         "benches/matching.rs":  "ef458a1259f0561892cf778d590e44b786440dd06afff31212a75d60fe383709",
+                                                         "docs/assignment-performance.md":  "9e0d109d8c5b9a5094d929482a6c29e898d3fbd722518912990491e709d39940",
+                                                         "docs/benchmarks.md":  "b436111b4b0a284f29d4290e1b05b003ac05c74b7e6f6cccec8b4864a7759dff",
+                                                         "docs/changelog.md":  "de848fd83dfad6b413c9dcb9607e25ec428e733fdd613eb426dd14944ad5f30a",
+                                                         "docs/contextual-quality-pass.md":  "4c10457089c9006433800e284d3a393398fd0369d6479619492d5cc43f6b9cf8",
+                                                         "docs/continuation-scorecard.md":  "a6970a6f70af9e45450f0c4fb8ff18d5c9ea7f667822d399de41cc1e29fd37f7",
+                                                         "docs/corroboration-evaluation.md":  "79dc7ac279a2a4575ec3b5f00f9b7d1a69306f178f35477345a5f4096dbc01f1",
+                                                         "docs/corroboration.md":  "3b858f80c9f5356c2170d23741694d14feb03b77c4784e79a86bd07d1f1919d0",
+                                                         "docs/dependency-review.md":  "57f367cb4426ff7b391607db46d3c8d96567526171e2aa5ba3547f358b20bc81",
+                                                         "docs/design.md":  "b32bfd9a7981822a008483432d1ec8ced9d1ffb1c358ffdfc815fa0dec6f977e",
+                                                         "docs/evaluation.md":  "762b169323c7afd691b8bc0a11f5d462fe5ee28577430ff8d827b1e65ce4b14e",
+                                                         "docs/exact-numbers.md":  "d9d0403ffe060260370d9fad0b2c5b9b6f965d55907b3fc519ad553fad8dc01c",
+                                                         "docs/external-evaluation.md":  "865c67ec31f9e4036f201e82d3ad7080157be4c2e7bd637f8b7635250bac127e",
+                                                         "docs/json.md":  "2381f916fcfc51f6beefb3a3d980d679a1c27008da6349114e64290f83685aab",
+                                                         "docs/landscape.md":  "fab7b8131001509536cab47addc3c5927abf9800eaa67ff44ff433826b219069",
+                                                         "docs/migration.md":  "ab43b26d2737cd2f4299b09510d52444fd1d95b464664bfdf7dfa3838a2f820b",
+                                                         "docs/northix-evaluation.md":  "3e58197c0d6af8dc79d5efb0973d890cd13454aaefdc81ad93334abe42853877",
+                                                         "docs/precision-evaluation.md":  "a798adeaa32fbdd16d782d50104a37db5be78fdf520dc2c408ff7e2dd2eb693e",
+                                                         "docs/precision.md":  "f291ff53a2a282c611a75f62bd842f25572763898eb6734db0dacef38348b841",
+                                                         "docs/readiness-package-checks.md":  "9263044de6abb150651e3409c11768fdb4fc8dabdc5ede8b39e92c392168e61e",
+                                                         "docs/readiness-pass.md":  "241247128fa8c9d9f2722565d1947bbc506748d0254e044765a828bf9af9cf6a",
+                                                         "docs/release-readiness.md":  "af0bf5eb20d7cac30e6e1201bb919f9adca2a98591861cf06254ed504b15678e",
+                                                         "docs/release-scorecard.md":  "6590f66733c43824c1f8376c36dad783b5a7a54814c3f3129d07850d4efc9368",
+                                                         "docs/repository-security.md":  "e2ee7e7a10536ff7329340474e3a02455a93128cd4b07ea245576ff0ca98ddbd",
+                                                         "docs/review-constraints.md":  "d3001e278835b73460b3647f3ee9a6e9dec0fefe92ec42714894d56a62ddcb5c",
+                                                         "docs/review-qualification.md":  "6b5055979b2dc3eeb2ffddfdf68b3e0457d4790823607ea7503e889681744409",
+                                                         "docs/scale-experiment.md":  "10307ef386a5f9fc392e16a561e0de64a99d8e671f7571be28a10d78f31035eb",
+                                                         "docs/stage2-performance.md":  "0b07000ef8a858710e9a7176828d481e5efbc5c387aff96ba0e723fa746bd44d",
+                                                         "docs/stage3-evaluation.md":  "a9dea3eb8e12305b5780692b8562d073e4ac1d7499fcb98d1b2bd91a7414fa6e",
+                                                         "docs/stage3-migration.md":  "023cc3352d316da794ee8dbca8c9bfbdf8223baf90c87504e08dfbd1b0507f02",
+                                                         "docs/stage4-diagnostics.md":  "81fcd7e5db0ef2679c7316f4a8f1f21b73e3cfcaca15f98c5d41ac85449b08c3",
+                                                         "docs/usage.md":  "adb6c15760aa8bdecac4b460c7380f7b0385035268e4352155a458a72e92e254",
+                                                         "docs/valentine-comparison.md":  "d8a1f66962609dda5842bfa35c9355dfe30a91397f774985dc4158e8f3e167c6",
+                                                         "docs/verified-evaluation.md":  "99268aad7906035d4c5c8c09b4f2cc532d18fbcfa14fbf94b1520de4358782b3",
+                                                         "examples/assignment_compatibility.rs":  "b5d0c49547f804833eaceaf16ef95a08a59c4af79c900542b751e378aa59705a",
+                                                         "examples/assignment_cost.rs":  "becaf0624c4758ec17392560836b23d02b282655cfd93c00350eacf1b7802bed",
+                                                         "examples/baseline.rs":  "eae46ef0f94c2851f4a48514540625bdbb826baa17a71c90875ad9b0db9a6839",
+                                                         "examples/basic.rs":  "e9130b5b71de233961fba0dd95ab967cd07628c450f1aef5c742c9854b5119fc",
+                                                         "examples/catalog_review.rs":  "019a742166c4ba787d871e6e5b662c427b0581d4ee1dfe5aa9e6e485ca63bca0",
+                                                         "examples/contextual_quality.rs":  "bec7bdc3690e02007edf9db7c73b58e37131a306d93cf9d2b1024be2d566b905",
+                                                         "examples/corroboration.rs":  "6e5b64f90442f386161043f5acb2e9cdc65b9e5d87e90fa9654286c2a445583a",
+                                                         "examples/diagnostics_cost.rs":  "600d286fa07affdfdefea24c66af7472dc43975a5bedb928470c8b0df75b5029",
+                                                         "examples/domain_aliases.rs":  "b81d6e6e3567e16e51ca041767a8b5f2b36fe92a79e41b1c0e8366a89c8db1c7",
+                                                         "examples/import_review.rs":  "44017bd4dd765b231195610c24895eec56cb25e4b2657bb9f81d2322090631b4",
+                                                         "examples/persisted_review.rs":  "b96c3725606dc916d5d915154439a1669be9c4e03afd6d3f954525a766728905",
+                                                         "examples/review_cost.rs":  "ed6f3a965dedc2a2e04421691d3b734c6cb77ce5a1463ef68834dbe3033f2d6b",
+                                                         "examples/reviewed_import.rs":  "1076fcf6c737c60f17d8e4e9aea4b31df271cd6d3d33b5cf707fdf08ed62f51e",
+                                                         "examples/scale_cost.rs":  "57175f161734de8dc38d2276db244b4ca6398d8c14d9a8d9c602e6c5d8d8319d",
+                                                         "examples/verified_semantics.rs":  "d9ee16cc121d69f8832f213e28b60dd4a949f8a1f3166113f3acb3d28fdd21f4",
+                                                         "src/assignment.rs":  "597b1b471488525ad794021b5a477c82bf8143af90765bb7cec0d69ce2cdf013",
+                                                         "src/constraints.rs":  "64cccf13da8e20ec383a6d35a76de6ac1ce62b0549d2d17a11436e46d089f460",
+                                                         "src/contextual.rs":  "cb09cfdf32319fe76f1e90c36bc078795eef3734bd0f50d6ba83001e65bcc598",
+                                                         "src/diagnostics.rs":  "4f2926e67c02ac49c0b61a9a36267fe6cc49c42f0bb2dc1ff3a97d9f8d3b117e",
+                                                         "src/engine.rs":  "d8ffea6ec3c0de2941a2126fc9c71d3efa754eb0195ce84f300fa8c69e2a1352",
+                                                         "src/error.rs":  "5f8fc45fc6d8d57d8eb678c6d6ec0933911d84555c85584678a3bca17ed79ec5",
+                                                         "src/json.rs":  "298cc685f104b006c2ff1865a7cfbf139b6c3b17f1b83f32c833bfb4c864f7bf",
+                                                         "src/lib.rs":  "098d6e8321da893ffa418067d5ed85a628910cc7f12c7e4fe2b860853bb70841",
+                                                         "src/name_conflicts.rs":  "44328bbae682720a2f5de88ca6a1599ec716bf93dd8b940fc5d52d33eecbcf8c",
+                                                         "src/numeric.rs":  "be62a484aadda8e753428318a8d67f41fdb9fe03ea646b5a781952b8c3ad6623",
+                                                         "src/profile.rs":  "7ea95ca4d2b70954d33013863f4a8f2320bd44c17d79a78d5e291d086ee86559",
+                                                         "src/semantic_name.rs":  "a2a2cc7743453dd909ebe791af18e330a4526672460bbdaf17e3cc569a07ba9d",
+                                                         "src/semantics.rs":  "f20dde8676b4917b2edc8f002dae7aaa04e8bf7c4324e92c8d3c1681d54e7538",
+                                                         "src/signals.rs":  "1f1630be57a65e32711b62118014dc6f8c9a4de786e3b345dd044e69afb21672",
+                                                         "src/types.rs":  "8b76a5280db4a08c9b72af019af1bed28da759846e321cc0bda03dcd740f2b08",
+                                                         "tests/constraints.rs":  "a483d4a58674db9614743793a366261d17b16e26b633bd7ac5153fb1ac3def56",
+                                                         "tests/contextual.rs":  "30c2fe15cd43840542a34eebf94e9c84009167df89f93334fb08a1d3d5a502e4",
+                                                         "tests/contextual_quality.rs":  "09c075d967c93841e346b297bcde75dea547a4c57965e856bbdfac947145c65a",
+                                                         "tests/corroboration.rs":  "2bb703051df8d2f79fe4ae57874ee2010a7d3cdbad65bc486faaedb07f1a8420",
+                                                         "tests/diagnostics.rs":  "d48848787bb70916628809e02eea3fd251601bca67e72508fc2fd7f7ef0632f4",
+                                                         "tests/errors.rs":  "bea18a39cfa8d620addcaa891f9f9d7a45e7d56f98dc6807f0058ea9abfa7eb1",
+                                                         "tests/evidence.rs":  "8312ad9e1ce21b622a5b1954652e84e4a45cc6babf433bb8752a066b07f766ae",
+                                                         "tests/json.rs":  "10f13f8d7f1d809b77b1ef6fbb1de855d5fce8163f93ea0991eadb15e32c2550",
+                                                         "tests/matching.rs":  "871662eb5efbfc3ad2b85c4e188de82fde6c5c250fd497266cfc0d1e2464c903",
+                                                         "tests/precision.rs":  "c6b9333b65de0dcdfce9edff8c23a21fc54b9d02a4b0cb9cfb905586670286f0",
+                                                         "tests/prepared.rs":  "c13b261598849f341fc476910da883c0f74e71f0394b72178eda4376487e0284",
+                                                         "tests/profile.rs":  "e73dd7431ce0dccd8150d8de8038ed28d5d0ca380c2dc241930954dc6ae3d650",
+                                                         "tests/reasons.rs":  "05a4c0b8d3f171629c2798fc580fcd04a077d28b0d94581bcbe131881045abba"
+                                                     },
+                                    "licenses_notices_byte_identical":  true,
+                                    "original_manifest_byte_identical":  true,
+                                    "normalized_manifest_sha256":  "af703dfb409c4320ab020fbadaab69ca34c9e9d82a82c66eb0c206804507580b",
+                                    "normalized_manifest_has_workspace_or_overrides":  false,
+                                    "excluded_workspaces_data_targets":  true,
+                                    "vcs":  {
+                                                "git":  {
+                                                            "sha1":  "b36290af851cbf18b9fa8f84474f9978e8b631cb",
+                                                            "dirty":  true
+                                                        },
+                                                "path_in_vcs":  ""
+                                            }
+                                },
+                    "json":  {
+                                 "archive_file_count":  88,
+                                 "source_files_matched":  85,
+                                 "files_sha256":  {
+                                                      ".cargo_vcs_info.json":  "5332a98240a58975ce12a349d103cd5922dfcaaaa2af4e25ab23a78c6642e688",
+                                                      "CONTRIBUTING.md":  "e3f99fb9761dc9b8b3d1f58c03ca4985ca9266c29c794d9f2cb1fc2cf3415794",
+                                                      "Cargo.lock":  "92c40184d1ef10cd6457d89c011dce2910987a7ddc9bdec00da98a8546134d97",
+                                                      "Cargo.toml":  "af703dfb409c4320ab020fbadaab69ca34c9e9d82a82c66eb0c206804507580b",
+                                                      "Cargo.toml.orig":  "60e51febca5ed1213542ed6a055c1f85ccba5e0302fe81c8142c18d149d2aa32",
+                                                      "LICENSE-APACHE":  "54e999838d5c4f37c18677f1123026f60e62f3a9d1e0ca5976fbe3a7cc12d7f8",
+                                                      "LICENSE-MIT":  "e712bf9a009c6cc37da38a54a72725ec2076dfab23d525e5f46c3ec48fcf3495",
+                                                      "MAINTAINERS.md":  "e027aef75590be738a286ef65401b0c73a7cb605b7ac1aba510f7cf14c7288e1",
+                                                      "README.md":  "e976fc016738bf21b06b80f6e86e453663a52a78e934ce4b822cfafed58e3886",
+                                                      "ROADMAP.md":  "af3f31d7a7a05d48feff49e7ded96f5113bf67ba052a9205d9714dfbb8462504",
+                                                      "THIRD_PARTY.md":  "322dd3da0c6ad1ddfce82eef5dcc7e6e82f8068988998e6a9f203f373c2e0202",
+                                                      "benches/matching.rs":  "ef458a1259f0561892cf778d590e44b786440dd06afff31212a75d60fe383709",
+                                                      "docs/assignment-performance.md":  "9e0d109d8c5b9a5094d929482a6c29e898d3fbd722518912990491e709d39940",
+                                                      "docs/benchmarks.md":  "b436111b4b0a284f29d4290e1b05b003ac05c74b7e6f6cccec8b4864a7759dff",
+                                                      "docs/changelog.md":  "de848fd83dfad6b413c9dcb9607e25ec428e733fdd613eb426dd14944ad5f30a",
+                                                      "docs/contextual-quality-pass.md":  "4c10457089c9006433800e284d3a393398fd0369d6479619492d5cc43f6b9cf8",
+                                                      "docs/continuation-scorecard.md":  "a6970a6f70af9e45450f0c4fb8ff18d5c9ea7f667822d399de41cc1e29fd37f7",
+                                                      "docs/corroboration-evaluation.md":  "79dc7ac279a2a4575ec3b5f00f9b7d1a69306f178f35477345a5f4096dbc01f1",
+                                                      "docs/corroboration.md":  "3b858f80c9f5356c2170d23741694d14feb03b77c4784e79a86bd07d1f1919d0",
+                                                      "docs/dependency-review.md":  "57f367cb4426ff7b391607db46d3c8d96567526171e2aa5ba3547f358b20bc81",
+                                                      "docs/design.md":  "b32bfd9a7981822a008483432d1ec8ced9d1ffb1c358ffdfc815fa0dec6f977e",
+                                                      "docs/evaluation.md":  "762b169323c7afd691b8bc0a11f5d462fe5ee28577430ff8d827b1e65ce4b14e",
+                                                      "docs/exact-numbers.md":  "d9d0403ffe060260370d9fad0b2c5b9b6f965d55907b3fc519ad553fad8dc01c",
+                                                      "docs/external-evaluation.md":  "865c67ec31f9e4036f201e82d3ad7080157be4c2e7bd637f8b7635250bac127e",
+                                                      "docs/json.md":  "2381f916fcfc51f6beefb3a3d980d679a1c27008da6349114e64290f83685aab",
+                                                      "docs/landscape.md":  "fab7b8131001509536cab47addc3c5927abf9800eaa67ff44ff433826b219069",
+                                                      "docs/migration.md":  "ab43b26d2737cd2f4299b09510d52444fd1d95b464664bfdf7dfa3838a2f820b",
+                                                      "docs/northix-evaluation.md":  "3e58197c0d6af8dc79d5efb0973d890cd13454aaefdc81ad93334abe42853877",
+                                                      "docs/precision-evaluation.md":  "a798adeaa32fbdd16d782d50104a37db5be78fdf520dc2c408ff7e2dd2eb693e",
+                                                      "docs/precision.md":  "f291ff53a2a282c611a75f62bd842f25572763898eb6734db0dacef38348b841",
+                                                      "docs/readiness-package-checks.md":  "9263044de6abb150651e3409c11768fdb4fc8dabdc5ede8b39e92c392168e61e",
+                                                      "docs/readiness-pass.md":  "241247128fa8c9d9f2722565d1947bbc506748d0254e044765a828bf9af9cf6a",
+                                                      "docs/release-readiness.md":  "af0bf5eb20d7cac30e6e1201bb919f9adca2a98591861cf06254ed504b15678e",
+                                                      "docs/release-scorecard.md":  "6590f66733c43824c1f8376c36dad783b5a7a54814c3f3129d07850d4efc9368",
+                                                      "docs/repository-security.md":  "e2ee7e7a10536ff7329340474e3a02455a93128cd4b07ea245576ff0ca98ddbd",
+                                                      "docs/review-constraints.md":  "d3001e278835b73460b3647f3ee9a6e9dec0fefe92ec42714894d56a62ddcb5c",
+                                                      "docs/review-qualification.md":  "6b5055979b2dc3eeb2ffddfdf68b3e0457d4790823607ea7503e889681744409",
+                                                      "docs/scale-experiment.md":  "10307ef386a5f9fc392e16a561e0de64a99d8e671f7571be28a10d78f31035eb",
+                                                      "docs/stage2-performance.md":  "0b07000ef8a858710e9a7176828d481e5efbc5c387aff96ba0e723fa746bd44d",
+                                                      "docs/stage3-evaluation.md":  "a9dea3eb8e12305b5780692b8562d073e4ac1d7499fcb98d1b2bd91a7414fa6e",
+                                                      "docs/stage3-migration.md":  "023cc3352d316da794ee8dbca8c9bfbdf8223baf90c87504e08dfbd1b0507f02",
+                                                      "docs/stage4-diagnostics.md":  "81fcd7e5db0ef2679c7316f4a8f1f21b73e3cfcaca15f98c5d41ac85449b08c3",
+                                                      "docs/usage.md":  "adb6c15760aa8bdecac4b460c7380f7b0385035268e4352155a458a72e92e254",
+                                                      "docs/valentine-comparison.md":  "d8a1f66962609dda5842bfa35c9355dfe30a91397f774985dc4158e8f3e167c6",
+                                                      "docs/verified-evaluation.md":  "99268aad7906035d4c5c8c09b4f2cc532d18fbcfa14fbf94b1520de4358782b3",
+                                                      "examples/assignment_compatibility.rs":  "b5d0c49547f804833eaceaf16ef95a08a59c4af79c900542b751e378aa59705a",
+                                                      "examples/assignment_cost.rs":  "becaf0624c4758ec17392560836b23d02b282655cfd93c00350eacf1b7802bed",
+                                                      "examples/baseline.rs":  "eae46ef0f94c2851f4a48514540625bdbb826baa17a71c90875ad9b0db9a6839",
+                                                      "examples/basic.rs":  "e9130b5b71de233961fba0dd95ab967cd07628c450f1aef5c742c9854b5119fc",
+                                                      "examples/catalog_review.rs":  "019a742166c4ba787d871e6e5b662c427b0581d4ee1dfe5aa9e6e485ca63bca0",
+                                                      "examples/contextual_quality.rs":  "bec7bdc3690e02007edf9db7c73b58e37131a306d93cf9d2b1024be2d566b905",
+                                                      "examples/corroboration.rs":  "6e5b64f90442f386161043f5acb2e9cdc65b9e5d87e90fa9654286c2a445583a",
+                                                      "examples/diagnostics_cost.rs":  "600d286fa07affdfdefea24c66af7472dc43975a5bedb928470c8b0df75b5029",
+                                                      "examples/domain_aliases.rs":  "b81d6e6e3567e16e51ca041767a8b5f2b36fe92a79e41b1c0e8366a89c8db1c7",
+                                                      "examples/import_review.rs":  "44017bd4dd765b231195610c24895eec56cb25e4b2657bb9f81d2322090631b4",
+                                                      "examples/persisted_review.rs":  "b96c3725606dc916d5d915154439a1669be9c4e03afd6d3f954525a766728905",
+                                                      "examples/review_cost.rs":  "ed6f3a965dedc2a2e04421691d3b734c6cb77ce5a1463ef68834dbe3033f2d6b",
+                                                      "examples/reviewed_import.rs":  "1076fcf6c737c60f17d8e4e9aea4b31df271cd6d3d33b5cf707fdf08ed62f51e",
+                                                      "examples/scale_cost.rs":  "57175f161734de8dc38d2276db244b4ca6398d8c14d9a8d9c602e6c5d8d8319d",
+                                                      "examples/verified_semantics.rs":  "d9ee16cc121d69f8832f213e28b60dd4a949f8a1f3166113f3acb3d28fdd21f4",
+                                                      "src/assignment.rs":  "597b1b471488525ad794021b5a477c82bf8143af90765bb7cec0d69ce2cdf013",
+                                                      "src/constraints.rs":  "64cccf13da8e20ec383a6d35a76de6ac1ce62b0549d2d17a11436e46d089f460",
+                                                      "src/contextual.rs":  "cb09cfdf32319fe76f1e90c36bc078795eef3734bd0f50d6ba83001e65bcc598",
+                                                      "src/diagnostics.rs":  "4f2926e67c02ac49c0b61a9a36267fe6cc49c42f0bb2dc1ff3a97d9f8d3b117e",
+                                                      "src/engine.rs":  "d8ffea6ec3c0de2941a2126fc9c71d3efa754eb0195ce84f300fa8c69e2a1352",
+                                                      "src/error.rs":  "5f8fc45fc6d8d57d8eb678c6d6ec0933911d84555c85584678a3bca17ed79ec5",
+                                                      "src/json.rs":  "298cc685f104b006c2ff1865a7cfbf139b6c3b17f1b83f32c833bfb4c864f7bf",
+                                                      "src/lib.rs":  "098d6e8321da893ffa418067d5ed85a628910cc7f12c7e4fe2b860853bb70841",
+                                                      "src/name_conflicts.rs":  "44328bbae682720a2f5de88ca6a1599ec716bf93dd8b940fc5d52d33eecbcf8c",
+                                                      "src/numeric.rs":  "be62a484aadda8e753428318a8d67f41fdb9fe03ea646b5a781952b8c3ad6623",
+                                                      "src/profile.rs":  "7ea95ca4d2b70954d33013863f4a8f2320bd44c17d79a78d5e291d086ee86559",
+                                                      "src/semantic_name.rs":  "a2a2cc7743453dd909ebe791af18e330a4526672460bbdaf17e3cc569a07ba9d",
+                                                      "src/semantics.rs":  "f20dde8676b4917b2edc8f002dae7aaa04e8bf7c4324e92c8d3c1681d54e7538",
+                                                      "src/signals.rs":  "1f1630be57a65e32711b62118014dc6f8c9a4de786e3b345dd044e69afb21672",
+                                                      "src/types.rs":  "8b76a5280db4a08c9b72af019af1bed28da759846e321cc0bda03dcd740f2b08",
+                                                      "tests/constraints.rs":  "a483d4a58674db9614743793a366261d17b16e26b633bd7ac5153fb1ac3def56",
+                                                      "tests/contextual.rs":  "30c2fe15cd43840542a34eebf94e9c84009167df89f93334fb08a1d3d5a502e4",
+                                                      "tests/contextual_quality.rs":  "09c075d967c93841e346b297bcde75dea547a4c57965e856bbdfac947145c65a",
+                                                      "tests/corroboration.rs":  "2bb703051df8d2f79fe4ae57874ee2010a7d3cdbad65bc486faaedb07f1a8420",
+                                                      "tests/diagnostics.rs":  "d48848787bb70916628809e02eea3fd251601bca67e72508fc2fd7f7ef0632f4",
+                                                      "tests/errors.rs":  "bea18a39cfa8d620addcaa891f9f9d7a45e7d56f98dc6807f0058ea9abfa7eb1",
+                                                      "tests/evidence.rs":  "8312ad9e1ce21b622a5b1954652e84e4a45cc6babf433bb8752a066b07f766ae",
+                                                      "tests/json.rs":  "10f13f8d7f1d809b77b1ef6fbb1de855d5fce8163f93ea0991eadb15e32c2550",
+                                                      "tests/matching.rs":  "871662eb5efbfc3ad2b85c4e188de82fde6c5c250fd497266cfc0d1e2464c903",
+                                                      "tests/precision.rs":  "c6b9333b65de0dcdfce9edff8c23a21fc54b9d02a4b0cb9cfb905586670286f0",
+                                                      "tests/prepared.rs":  "c13b261598849f341fc476910da883c0f74e71f0394b72178eda4376487e0284",
+                                                      "tests/profile.rs":  "e73dd7431ce0dccd8150d8de8038ed28d5d0ca380c2dc241930954dc6ae3d650",
+                                                      "tests/reasons.rs":  "05a4c0b8d3f171629c2798fc580fcd04a077d28b0d94581bcbe131881045abba"
+                                                  },
+                                 "licenses_notices_byte_identical":  true,
+                                 "original_manifest_byte_identical":  true,
+                                 "normalized_manifest_sha256":  "af703dfb409c4320ab020fbadaab69ca34c9e9d82a82c66eb0c206804507580b",
+                                 "normalized_manifest_has_workspace_or_overrides":  false,
+                                 "excluded_workspaces_data_targets":  true,
+                                 "vcs":  {
+                                             "git":  {
+                                                         "sha1":  "b36290af851cbf18b9fa8f84474f9978e8b631cb",
+                                                         "dirty":  true
+                                                     },
+                                             "path_in_vcs":  ""
+                                         }
+                             }
+                },
+    "default_json_contents_identical":  true,
+    "consumers":  {
+                      "default":  {
+                                      "manifest_path":  "C:\\Users\\jakew\\Downloads\\fieldkin\\target\\quality-package\\consumer-default\\Cargo.toml",
+                                      "workspace_members":  [
+                                                                "path+file:///C:/Users/jakew/Downloads/fieldkin/target/quality-package/consumer-default#fieldkin-quality-package-default-smoke@0.0.0"
+                                                            ],
+                                      "workspace_root":  "C:\\Users\\jakew\\Downloads\\fieldkin\\target\\quality-package\\consumer-default",
+                                      "fieldkin_manifest_path":  "C:\\Users\\jakew\\Downloads\\fieldkin\\target\\quality-package\\unpacked-default\\fieldkin-0.1.0\\Cargo.toml",
+                                      "fieldkin_features":  [
+
+                                                            ],
+                                      "only_declared_dependency":  "fieldkin from extracted archive, default-features=false",
+                                      "source_lock_manifest_sha256":  {
+                                                                          "Cargo.toml":  "41a84f080d9866c53fe7d2380c7c598f7e8ff2db67b6ab7a965ee1b237b48001",
+                                                                          "Cargo.lock":  "5f19d02019e620aa6aadcb38d6d6635f8846020e1b93fd9a697303a48fd20301",
+                                                                          "src/main.rs":  "b5bbc11a6df5cb870af1d509a161fba9bbb5207216464facd867fd237490676c"
+                                                                      },
+                                      "binary_sha256":  "570190cbf85e512b76b97d172c6fec0d5fd28a49abf24e7e23eaccde445f9d98",
+                                      "checks_stdout":  "PASS default compatibility; public contextual quality independent populations and missing samples; customer/supplier contradiction; opaque alternatives; both assignments",
+                                      "dependency_licenses":  [
+                                                                  {
+                                                                      "license":  "MIT OR Apache-2.0",
+                                                                      "source":  null,
+                                                                      "name":  "fieldkin",
+                                                                      "version":  "0.1.0"
+                                                                  },
+                                                                  {
+                                                                      "license":  null,
+                                                                      "source":  null,
+                                                                      "name":  "fieldkin-quality-package-default-smoke",
+                                                                      "version":  "0.0.0"
+                                                                  },
+                                                                  {
+                                                                      "license":  "MIT",
+                                                                      "source":  "registry+https://github.com/rust-lang/crates.io-index",
+                                                                      "name":  "strsim",
+                                                                      "version":  "0.11.1"
+                                                                  },
+                                                                  {
+                                                                      "license":  "Zlib OR Apache-2.0 OR MIT",
+                                                                      "source":  "registry+https://github.com/rust-lang/crates.io-index",
+                                                                      "name":  "tinyvec",
+                                                                      "version":  "1.13.3"
+                                                                  },
+                                                                  {
+                                                                      "license":  "MIT OR Apache-2.0",
+                                                                      "source":  "registry+https://github.com/rust-lang/crates.io-index",
+                                                                      "name":  "unicode-normalization",
+                                                                      "version":  "0.1.25"
+                                                                  }
+                                                              ],
+                                      "development_dependencies_absent":  true,
+                                      "normalized_library_dependencies_registry_only":  true
+                                  },
+                      "json":  {
+                                   "manifest_path":  "C:\\Users\\jakew\\Downloads\\fieldkin\\target\\quality-package\\consumer-json\\Cargo.toml",
+                                   "workspace_members":  [
+                                                             "path+file:///C:/Users/jakew/Downloads/fieldkin/target/quality-package/consumer-json#fieldkin-quality-package-json-smoke@0.0.0"
+                                                         ],
+                                   "workspace_root":  "C:\\Users\\jakew\\Downloads\\fieldkin\\target\\quality-package\\consumer-json",
+                                   "fieldkin_manifest_path":  "C:\\Users\\jakew\\Downloads\\fieldkin\\target\\quality-package\\unpacked-json\\fieldkin-0.1.0\\Cargo.toml",
+                                   "fieldkin_features":  [
+                                                             "json"
+                                                         ],
+                                   "only_declared_dependency":  "fieldkin from extracted archive, default-features=false",
+                                   "source_lock_manifest_sha256":  {
+                                                                       "Cargo.toml":  "fa695da87cf5f6c6d83cdb93e212b46d40d8e95ed25682d7f0d436524746f788",
+                                                                       "Cargo.lock":  "53ef14b6c0fb834eb04e3b6c7979a1c6d7dd8713ab63aefdd20155792a662f56",
+                                                                       "src/main.rs":  "51d2fdd8e79cc8f038cabd696a8597836e20bc94f3e598b1447c3ec54238c0c8"
+                                                                   },
+                                   "binary_sha256":  "2f32313292d359bdb05ef4e5134951aeb8e9c52c069a27bae78ce25bedc8b497",
+                                   "checks_stdout":  "PASS JSON contextual reason fidelity, omitted private values/text, explicit review round-trip, stale revision and display-as-review rejection\nPASS JSON contextual reason fidelity, omitted private values/text, explicit review round-trip, stale revision and display-as-review rejection\nPASS default compatibility; public contextual quality independent populations and missing samples; customer/supplier contradiction; opaque alternatives; both assignments",
+                                   "dependency_licenses":  [
+                                                               {
+                                                                   "license":  "MIT OR Apache-2.0",
+                                                                   "source":  null,
+                                                                   "name":  "fieldkin",
+                                                                   "version":  "0.1.0"
+                                                               },
+                                                               {
+                                                                   "license":  null,
+                                                                   "source":  null,
+                                                                   "name":  "fieldkin-quality-package-json-smoke",
+                                                                   "version":  "0.0.0"
+                                                               },
+                                                               {
+                                                                   "license":  "MIT OR Apache-2.0",
+                                                                   "source":  "registry+https://github.com/rust-lang/crates.io-index",
+                                                                   "name":  "itoa",
+                                                                   "version":  "1.0.18"
+                                                               },
+                                                               {
+                                                                   "license":  "Unlicense OR MIT",
+                                                                   "source":  "registry+https://github.com/rust-lang/crates.io-index",
+                                                                   "name":  "memchr",
+                                                                   "version":  "2.8.3"
+                                                               },
+                                                               {
+                                                                   "license":  "MIT OR Apache-2.0",
+                                                                   "source":  "registry+https://github.com/rust-lang/crates.io-index",
+                                                                   "name":  "proc-macro2",
+                                                                   "version":  "1.0.107"
+                                                               },
+                                                               {
+                                                                   "license":  "MIT OR Apache-2.0",
+                                                                   "source":  "registry+https://github.com/rust-lang/crates.io-index",
+                                                                   "name":  "quote",
+                                                                   "version":  "1.0.47"
+                                                               },
+                                                               {
+                                                                   "license":  "MIT OR Apache-2.0",
+                                                                   "source":  "registry+https://github.com/rust-lang/crates.io-index",
+                                                                   "name":  "serde",
+                                                                   "version":  "1.0.229"
+                                                               },
+                                                               {
+                                                                   "license":  "MIT OR Apache-2.0",
+                                                                   "source":  "registry+https://github.com/rust-lang/crates.io-index",
+                                                                   "name":  "serde_core",
+                                                                   "version":  "1.0.229"
+                                                               },
+                                                               {
+                                                                   "license":  "MIT OR Apache-2.0",
+                                                                   "source":  "registry+https://github.com/rust-lang/crates.io-index",
+                                                                   "name":  "serde_derive",
+                                                                   "version":  "1.0.229"
+                                                               },
+                                                               {
+                                                                   "license":  "MIT OR Apache-2.0",
+                                                                   "source":  "registry+https://github.com/rust-lang/crates.io-index",
+                                                                   "name":  "serde_json",
+                                                                   "version":  "1.0.151"
+                                                               },
+                                                               {
+                                                                   "license":  "MIT",
+                                                                   "source":  "registry+https://github.com/rust-lang/crates.io-index",
+                                                                   "name":  "strsim",
+                                                                   "version":  "0.11.1"
+                                                               },
+                                                               {
+                                                                   "license":  "MIT OR Apache-2.0",
+                                                                   "source":  "registry+https://github.com/rust-lang/crates.io-index",
+                                                                   "name":  "syn",
+                                                                   "version":  "3.0.6"
+                                                               },
+                                                               {
+                                                                   "license":  "Zlib OR Apache-2.0 OR MIT",
+                                                                   "source":  "registry+https://github.com/rust-lang/crates.io-index",
+                                                                   "name":  "tinyvec",
+                                                                   "version":  "1.13.3"
+                                                               },
+                                                               {
+                                                                   "license":  "(MIT OR Apache-2.0) AND Unicode-3.0",
+                                                                   "source":  "registry+https://github.com/rust-lang/crates.io-index",
+                                                                   "name":  "unicode-ident",
+                                                                   "version":  "1.0.26"
+                                                               },
+                                                               {
+                                                                   "license":  "MIT OR Apache-2.0",
+                                                                   "source":  "registry+https://github.com/rust-lang/crates.io-index",
+                                                                   "name":  "unicode-normalization",
+                                                                   "version":  "0.1.25"
+                                                               },
+                                                               {
+                                                                   "license":  "MIT",
+                                                                   "source":  "registry+https://github.com/rust-lang/crates.io-index",
+                                                                   "name":  "zmij",
+                                                                   "version":  "1.0.23"
+                                                               }
+                                                           ],
+                                   "development_dependencies_absent":  true,
+                                   "normalized_library_dependencies_registry_only":  true
+                               }
+                  },
+    "cargo_config_sha256":  [
+
+                            ],
+    "cargo_configuration_observation":  "Existing ancestor/Cargo-home config files hashed after checks; no config files were created or edited by validation.",
+    "source_sha256_after":  {
+                                "benches/matching.rs":  "ef458a1259f0561892cf778d590e44b786440dd06afff31212a75d60fe383709",
+                                "Cargo.lock":  "cfbb9eec67db39c87f6487a2457963003ee51bdd79dd947559e95b84d971019d",
+                                "Cargo.toml":  "60e51febca5ed1213542ed6a055c1f85ccba5e0302fe81c8142c18d149d2aa32",
+                                "CONTRIBUTING.md":  "e3f99fb9761dc9b8b3d1f58c03ca4985ca9266c29c794d9f2cb1fc2cf3415794",
+                                "docs/assignment-performance.md":  "9e0d109d8c5b9a5094d929482a6c29e898d3fbd722518912990491e709d39940",
+                                "docs/benchmarks.md":  "b436111b4b0a284f29d4290e1b05b003ac05c74b7e6f6cccec8b4864a7759dff",
+                                "docs/changelog.md":  "de848fd83dfad6b413c9dcb9607e25ec428e733fdd613eb426dd14944ad5f30a",
+                                "docs/contextual-quality-pass.md":  "4c10457089c9006433800e284d3a393398fd0369d6479619492d5cc43f6b9cf8",
+                                "docs/continuation-scorecard.md":  "a6970a6f70af9e45450f0c4fb8ff18d5c9ea7f667822d399de41cc1e29fd37f7",
+                                "docs/corroboration.md":  "3b858f80c9f5356c2170d23741694d14feb03b77c4784e79a86bd07d1f1919d0",
+                                "docs/corroboration-evaluation.md":  "79dc7ac279a2a4575ec3b5f00f9b7d1a69306f178f35477345a5f4096dbc01f1",
+                                "docs/dependency-review.md":  "57f367cb4426ff7b391607db46d3c8d96567526171e2aa5ba3547f358b20bc81",
+                                "docs/design.md":  "b32bfd9a7981822a008483432d1ec8ced9d1ffb1c358ffdfc815fa0dec6f977e",
+                                "docs/evaluation.md":  "762b169323c7afd691b8bc0a11f5d462fe5ee28577430ff8d827b1e65ce4b14e",
+                                "docs/exact-numbers.md":  "d9d0403ffe060260370d9fad0b2c5b9b6f965d55907b3fc519ad553fad8dc01c",
+                                "docs/external-evaluation.md":  "865c67ec31f9e4036f201e82d3ad7080157be4c2e7bd637f8b7635250bac127e",
+                                "docs/json.md":  "2381f916fcfc51f6beefb3a3d980d679a1c27008da6349114e64290f83685aab",
+                                "docs/landscape.md":  "fab7b8131001509536cab47addc3c5927abf9800eaa67ff44ff433826b219069",
+                                "docs/migration.md":  "ab43b26d2737cd2f4299b09510d52444fd1d95b464664bfdf7dfa3838a2f820b",
+                                "docs/northix-evaluation.md":  "3e58197c0d6af8dc79d5efb0973d890cd13454aaefdc81ad93334abe42853877",
+                                "docs/precision.md":  "f291ff53a2a282c611a75f62bd842f25572763898eb6734db0dacef38348b841",
+                                "docs/precision-evaluation.md":  "a798adeaa32fbdd16d782d50104a37db5be78fdf520dc2c408ff7e2dd2eb693e",
+                                "docs/readiness-package-checks.md":  "9263044de6abb150651e3409c11768fdb4fc8dabdc5ede8b39e92c392168e61e",
+                                "docs/readiness-pass.md":  "241247128fa8c9d9f2722565d1947bbc506748d0254e044765a828bf9af9cf6a",
+                                "docs/release-readiness.md":  "af0bf5eb20d7cac30e6e1201bb919f9adca2a98591861cf06254ed504b15678e",
+                                "docs/release-scorecard.md":  "6590f66733c43824c1f8376c36dad783b5a7a54814c3f3129d07850d4efc9368",
+                                "docs/repository-security.md":  "e2ee7e7a10536ff7329340474e3a02455a93128cd4b07ea245576ff0ca98ddbd",
+                                "docs/review-constraints.md":  "d3001e278835b73460b3647f3ee9a6e9dec0fefe92ec42714894d56a62ddcb5c",
+                                "docs/review-qualification.md":  "6b5055979b2dc3eeb2ffddfdf68b3e0457d4790823607ea7503e889681744409",
+                                "docs/scale-experiment.md":  "10307ef386a5f9fc392e16a561e0de64a99d8e671f7571be28a10d78f31035eb",
+                                "docs/stage2-performance.md":  "0b07000ef8a858710e9a7176828d481e5efbc5c387aff96ba0e723fa746bd44d",
+                                "docs/stage3-evaluation.md":  "a9dea3eb8e12305b5780692b8562d073e4ac1d7499fcb98d1b2bd91a7414fa6e",
+                                "docs/stage3-migration.md":  "023cc3352d316da794ee8dbca8c9bfbdf8223baf90c87504e08dfbd1b0507f02",
+                                "docs/stage4-diagnostics.md":  "81fcd7e5db0ef2679c7316f4a8f1f21b73e3cfcaca15f98c5d41ac85449b08c3",
+                                "docs/usage.md":  "adb6c15760aa8bdecac4b460c7380f7b0385035268e4352155a458a72e92e254",
+                                "docs/valentine-comparison.md":  "d8a1f66962609dda5842bfa35c9355dfe30a91397f774985dc4158e8f3e167c6",
+                                "docs/verified-evaluation.md":  "99268aad7906035d4c5c8c09b4f2cc532d18fbcfa14fbf94b1520de4358782b3",
+                                "examples/assignment_compatibility.rs":  "b5d0c49547f804833eaceaf16ef95a08a59c4af79c900542b751e378aa59705a",
+                                "examples/assignment_cost.rs":  "becaf0624c4758ec17392560836b23d02b282655cfd93c00350eacf1b7802bed",
+                                "examples/baseline.rs":  "eae46ef0f94c2851f4a48514540625bdbb826baa17a71c90875ad9b0db9a6839",
+                                "examples/basic.rs":  "e9130b5b71de233961fba0dd95ab967cd07628c450f1aef5c742c9854b5119fc",
+                                "examples/catalog_review.rs":  "019a742166c4ba787d871e6e5b662c427b0581d4ee1dfe5aa9e6e485ca63bca0",
+                                "examples/contextual_quality.rs":  "bec7bdc3690e02007edf9db7c73b58e37131a306d93cf9d2b1024be2d566b905",
+                                "examples/corroboration.rs":  "6e5b64f90442f386161043f5acb2e9cdc65b9e5d87e90fa9654286c2a445583a",
+                                "examples/diagnostics_cost.rs":  "600d286fa07affdfdefea24c66af7472dc43975a5bedb928470c8b0df75b5029",
+                                "examples/domain_aliases.rs":  "b81d6e6e3567e16e51ca041767a8b5f2b36fe92a79e41b1c0e8366a89c8db1c7",
+                                "examples/import_review.rs":  "44017bd4dd765b231195610c24895eec56cb25e4b2657bb9f81d2322090631b4",
+                                "examples/persisted_review.rs":  "b96c3725606dc916d5d915154439a1669be9c4e03afd6d3f954525a766728905",
+                                "examples/review_cost.rs":  "ed6f3a965dedc2a2e04421691d3b734c6cb77ce5a1463ef68834dbe3033f2d6b",
+                                "examples/reviewed_import.rs":  "1076fcf6c737c60f17d8e4e9aea4b31df271cd6d3d33b5cf707fdf08ed62f51e",
+                                "examples/scale_cost.rs":  "57175f161734de8dc38d2276db244b4ca6398d8c14d9a8d9c602e6c5d8d8319d",
+                                "examples/verified_semantics.rs":  "d9ee16cc121d69f8832f213e28b60dd4a949f8a1f3166113f3acb3d28fdd21f4",
+                                "LICENSE-APACHE":  "54e999838d5c4f37c18677f1123026f60e62f3a9d1e0ca5976fbe3a7cc12d7f8",
+                                "LICENSE-MIT":  "e712bf9a009c6cc37da38a54a72725ec2076dfab23d525e5f46c3ec48fcf3495",
+                                "MAINTAINERS.md":  "e027aef75590be738a286ef65401b0c73a7cb605b7ac1aba510f7cf14c7288e1",
+                                "README.md":  "e976fc016738bf21b06b80f6e86e453663a52a78e934ce4b822cfafed58e3886",
+                                "ROADMAP.md":  "af3f31d7a7a05d48feff49e7ded96f5113bf67ba052a9205d9714dfbb8462504",
+                                "src/assignment.rs":  "597b1b471488525ad794021b5a477c82bf8143af90765bb7cec0d69ce2cdf013",
+                                "src/constraints.rs":  "64cccf13da8e20ec383a6d35a76de6ac1ce62b0549d2d17a11436e46d089f460",
+                                "src/contextual.rs":  "cb09cfdf32319fe76f1e90c36bc078795eef3734bd0f50d6ba83001e65bcc598",
+                                "src/diagnostics.rs":  "4f2926e67c02ac49c0b61a9a36267fe6cc49c42f0bb2dc1ff3a97d9f8d3b117e",
+                                "src/engine.rs":  "d8ffea6ec3c0de2941a2126fc9c71d3efa754eb0195ce84f300fa8c69e2a1352",
+                                "src/error.rs":  "5f8fc45fc6d8d57d8eb678c6d6ec0933911d84555c85584678a3bca17ed79ec5",
+                                "src/json.rs":  "298cc685f104b006c2ff1865a7cfbf139b6c3b17f1b83f32c833bfb4c864f7bf",
+                                "src/lib.rs":  "098d6e8321da893ffa418067d5ed85a628910cc7f12c7e4fe2b860853bb70841",
+                                "src/name_conflicts.rs":  "44328bbae682720a2f5de88ca6a1599ec716bf93dd8b940fc5d52d33eecbcf8c",
+                                "src/numeric.rs":  "be62a484aadda8e753428318a8d67f41fdb9fe03ea646b5a781952b8c3ad6623",
+                                "src/profile.rs":  "7ea95ca4d2b70954d33013863f4a8f2320bd44c17d79a78d5e291d086ee86559",
+                                "src/semantic_name.rs":  "a2a2cc7743453dd909ebe791af18e330a4526672460bbdaf17e3cc569a07ba9d",
+                                "src/semantics.rs":  "f20dde8676b4917b2edc8f002dae7aaa04e8bf7c4324e92c8d3c1681d54e7538",
+                                "src/signals.rs":  "1f1630be57a65e32711b62118014dc6f8c9a4de786e3b345dd044e69afb21672",
+                                "src/types.rs":  "8b76a5280db4a08c9b72af019af1bed28da759846e321cc0bda03dcd740f2b08",
+                                "tests/constraints.rs":  "a483d4a58674db9614743793a366261d17b16e26b633bd7ac5153fb1ac3def56",
+                                "tests/contextual.rs":  "30c2fe15cd43840542a34eebf94e9c84009167df89f93334fb08a1d3d5a502e4",
+                                "tests/contextual_quality.rs":  "09c075d967c93841e346b297bcde75dea547a4c57965e856bbdfac947145c65a",
+                                "tests/corroboration.rs":  "2bb703051df8d2f79fe4ae57874ee2010a7d3cdbad65bc486faaedb07f1a8420",
+                                "tests/diagnostics.rs":  "d48848787bb70916628809e02eea3fd251601bca67e72508fc2fd7f7ef0632f4",
+                                "tests/errors.rs":  "bea18a39cfa8d620addcaa891f9f9d7a45e7d56f98dc6807f0058ea9abfa7eb1",
+                                "tests/evidence.rs":  "8312ad9e1ce21b622a5b1954652e84e4a45cc6babf433bb8752a066b07f766ae",
+                                "tests/json.rs":  "10f13f8d7f1d809b77b1ef6fbb1de855d5fce8163f93ea0991eadb15e32c2550",
+                                "tests/matching.rs":  "871662eb5efbfc3ad2b85c4e188de82fde6c5c250fd497266cfc0d1e2464c903",
+                                "tests/precision.rs":  "c6b9333b65de0dcdfce9edff8c23a21fc54b9d02a4b0cb9cfb905586670286f0",
+                                "tests/prepared.rs":  "c13b261598849f341fc476910da883c0f74e71f0394b72178eda4376487e0284",
+                                "tests/profile.rs":  "e73dd7431ce0dccd8150d8de8038ed28d5d0ca380c2dc241930954dc6ae3d650",
+                                "tests/reasons.rs":  "05a4c0b8d3f171629c2798fc580fcd04a077d28b0d94581bcbe131881045abba",
+                                "THIRD_PARTY.md":  "322dd3da0c6ad1ddfce82eef5dcc7e6e82f8068988998e6a9f203f373c2e0202"
+                            },
+    "source_inputs_unchanged":  true,
+    "public_consumer_artifacts":  {
+                                      "default":  {
+                                                      "artifact_directory":  "qualification/results/quality-pass-v1/package-consumers/default",
+                                                      "source_files_sha256":  {
+                                                                                  "Cargo.toml":  "41a84f080d9866c53fe7d2380c7c598f7e8ff2db67b6ab7a965ee1b237b48001",
+                                                                                  "Cargo.lock":  "5f19d02019e620aa6aadcb38d6d6635f8846020e1b93fd9a697303a48fd20301",
+                                                                                  "src/main.rs":  "b5bbc11a6df5cb870af1d509a161fba9bbb5207216464facd867fd237490676c"
+                                                                              }
+                                                  },
+                                      "json":  {
+                                                   "artifact_directory":  "qualification/results/quality-pass-v1/package-consumers/json",
+                                                   "source_files_sha256":  {
+                                                                               "Cargo.toml":  "fa695da87cf5f6c6d83cdb93e212b46d40d8e95ed25682d7f0d436524746f788",
+                                                                               "Cargo.lock":  "53ef14b6c0fb834eb04e3b6c7979a1c6d7dd8713ab63aefdd20155792a662f56",
+                                                                               "src/main.rs":  "51d2fdd8e79cc8f038cabd696a8597836e20bc94f3e598b1447c3ec54238c0c8"
+                                                                           }
+                                               }
+                                  },
+    "consumer_reproduction":  "Copy preserved package-consumers/default and package-consumers/json into target/quality-package/consumer-default and consumer-json; extract freshly built archives under unpacked-default and unpacked-json as recorded, then use the exact generate-lockfile/run/metadata commands. Each consumer has only the archived Fieldkin path dependency, its own workspace, lockfile and target directory.",
+    "normalized_manifest_public_metadata":  {
+                                                "dependency_path_overrides_absent":  true,
+                                                "workspace_members_absent":  true,
+                                                "license":  "MIT OR Apache-2.0",
+                                                "default_features":  [
+
+                                                                     ],
+                                                "registry_dependencies_only":  true,
+                                                "rust_version":  "1.99",
+                                                "edition":  "2021",
+                                                "json_features":  [
+                                                                      "dep:serde",
+                                                                      "dep:serde_json"
+                                                                  ]
+                                            },
+    "completed_utc":  "2026-10-05T16:56:22.5064629Z",
+    "trust_boundary":  "Local working-tree package/extracted-consumer checks with --allow-dirty; clean-commit packaging and remote platform CI are separate records. Locked/offline builds use cached registry packages; publish dry-runs may contact index metadata and explicitly abort upload. No actual publication or production-accuracy claim."
+}

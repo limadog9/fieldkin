@@ -1,0 +1,696 @@
+diff --git a/src/contextual.rs b/src/contextual.rs
+index ac3c085..eb29ecc 100644
+--- a/src/contextual.rs
++++ b/src/contextual.rs
+@@ -56,6 +56,26 @@ pub struct ContextualEvidence {
+     /// entity/event/predicate roles, explicit direction, polarity, qualifiers and
+     /// declared Date/Timestamp representation remain safeguards.
+     pub scoped_support: bool,
++    /// Separate supported equivalence, unresolved names and visible conflict.
++    /// Contradictory pairs do not participate in either sample-contrast axis.
++    /// Unresolved pairs remain competitors regardless of their support score.
++    /// Defaults to false, retaining the original contextual policy.
++    pub distinguish_relationships: bool,
++    /// Permit informative equivalent roles from independently sampled populations.
++    /// Missing or disjoint values are inconclusive; names, representation and
++    /// separation from plausible alternatives must support the correspondence.
++    /// Samples never establish meaning by themselves. Defaults to false.
++    pub independent_sample_populations: bool,
++    /// Keep the weighted score for ranking and assignment. The original
++    /// contextual floors still provide a separate acceptance score checked
++    /// against `min_score`; they do not compress competing ranking scores.
++    /// Defaults to false. Neither score is a calibrated probability.
++    pub preserve_score_ranking: bool,
++    /// Investigate informative identifier renames with mutually distinctive
++    /// observed values. Both fields need explicit identifier roles and compatible
++    /// observed representation; unresolved wording stays reported as unresolved.
++    /// No samples or profile similarity alone confer support. Defaults to false.
++    pub sampled_identifier_renames: bool,
+ }
+ 
+ impl Default for ContextualEvidence {
+@@ -63,10 +83,66 @@ impl Default for ContextualEvidence {
+         Self {
+             strict_identifier_samples: true,
+             scoped_support: true,
++            distinguish_relationships: false,
++            independent_sample_populations: false,
++            preserve_score_ranking: false,
++            sampled_identifier_renames: false,
+         }
+     }
+ }
+ 
++/// Inspectable contextual relationship and support diagnostics.
++/// Reasons can overlap: a pair may have unresolved wording, missing samples
++/// and a plausible competitor. They never contain observed sample values.
++#[derive(Clone, Copy, Debug, PartialEq, Eq)]
++#[non_exhaustive]
++pub enum ContextualReason {
++    /// Explicit meaning, qualifier, direction or representation disagrees.
++    Contradiction,
++    /// Informative canonical names support the same complete role.
++    SupportedEquivalence,
++    /// Different or uninformative names establish neither agreement nor conflict.
++    UnresolvedRelationship,
++    /// The strict identifier path lacks nonempty identifier observations.
++    MissingIdentifierSamples,
++    /// Available observations do not provide adequate corroboration.
++    InsufficientSampleSupport,
++    /// A noncontradictory competing pair prevents required separation.
++    CompetingCandidate,
++    /// Generic or opaque names do not establish a useful concept.
++    InsufficientInformativeName,
++    /// Declared temporal representation or explicit units differ or are missing.
++    RepresentationConflict,
++}
++
++#[derive(Clone, Copy, Default, PartialEq, Eq)]
++enum Relationship {
++    Contradiction,
++    Supported,
++    #[default]
++    Unresolved,
++}
++
++const ROLE_AXES: &[&[&str]] = &[
++    &[
++        "customer", "supplier", "vendor", "account", "order", "invoice", "product", "payment",
++        "refund", "shipment", "coupon",
++    ],
++    &[
++        "created",
++        "updated",
++        "modified",
++        "received",
++        "dispatched",
++        "expiration",
++        "settlement",
++        "reversal",
++        "settled",
++        "reversed",
++    ],
++    &["active", "enabled"],
++];
++
+ #[derive(PartialEq, Eq, PartialOrd, Ord)]
+ enum SampleKey<'a> {
+     Null,
+@@ -130,6 +206,7 @@ struct PairFeatures {
+     jaccard: f64,
+     hard_compatible: bool,
+     sample_adequate: bool,
++    relationship: Relationship,
+ }
+ 
+ // Keep the two best distinct competing identities. Source identities can be
+@@ -190,6 +267,10 @@ pub(crate) fn apply(
+         return Ok(());
+     }
+     let (name_matcher, sample_signal) = signals;
++    let repaired = policy.distinguish_relationships
++        || policy.independent_sample_populations
++        || policy.preserve_score_ranking
++        || policy.sampled_identifier_renames;
+     let units = unit_phrases(&config.name_conflicts);
+     let source_features: Vec<_> = sources
+         .iter()
+@@ -207,6 +288,8 @@ pub(crate) fn apply(
+     let mut pairs = vec![vec![PairFeatures::default(); targets.len()]; sources.len()];
+     let mut row_best = vec![TopTwo::default(); sources.len()];
+     let mut column_best = vec![TopTwo::default(); targets.len()];
++    let mut row_names = vec![TopTwo::default(); sources.len()];
++    let mut column_names = vec![TopTwo::default(); targets.len()];
+     for (source, row) in candidates.iter().enumerate() {
+         for (target, candidate) in row.iter().enumerate() {
+             let coverage = source_features[source]
+@@ -220,22 +303,44 @@ pub(crate) fn apply(
+             } else {
+                 0.0
+             };
++            let hard_compatible = !candidate.issues.iter().any(|issue| match issue {
++                CandidateIssue::IncompatibleTypes => config.reject_incompatible_types,
++                CandidateIssue::SemanticConflict(_) | CandidateIssue::NameConflict(_) => true,
++                _ => false,
++            });
++            let relationship = if !repaired {
++                Relationship::Unresolved
++            } else if hard_compatible {
++                source_features[source].relationship(
++                    &target_features[target],
++                    sources[source].data_type,
++                    targets[target].data_type,
++                )
++            } else {
++                Relationship::Contradiction
++            };
+             let pair = PairFeatures {
+                 jaccard,
+-                hard_compatible: !candidate.issues.iter().any(|issue| match issue {
+-                    CandidateIssue::IncompatibleTypes => config.reject_incompatible_types,
+-                    CandidateIssue::SemanticConflict(_) | CandidateIssue::NameConflict(_) => true,
+-                    _ => false,
+-                }),
++                hard_compatible,
+                 sample_adequate: source_features[source].distinct >= MIN_DISTINCT
+                     && target_features[target].distinct >= MIN_DISTINCT
+                     && coverage >= MIN_COVERAGE
+                     && jaccard >= MIN_JACCARD,
++                relationship,
+             };
+             pairs[source][target] = pair;
+-            if pair.hard_compatible {
++            if pair.hard_compatible
++                && (!policy.distinguish_relationships
++                    || relationship != Relationship::Contradiction)
++            {
+                 row_best[source].insert(target, jaccard);
+                 column_best[target].insert(groups[source], jaccard);
++                if repaired {
++                    let name_support =
++                        source_features[source].core_support(&target_features[target]);
++                    row_names[source].insert(target, name_support);
++                    column_names[target].insert(groups[source], name_support);
++                }
+             }
+         }
+     }
+@@ -253,9 +358,59 @@ pub(crate) fn apply(
+             let informed_exact = feature.informative > 0
+                 && feature.core == target_feature.core
+                 && !feature.core.is_empty();
++            let name_separated = row_names[source]
++                .competing_score(target)
++                .is_none_or(|other| 1.0 >= other + SAMPLE_MARGIN)
++                && column_names[target]
++                    .competing_score(groups[source])
++                    .is_none_or(|other| 1.0 >= other + SAMPLE_MARGIN);
++            // A name-supported population path cannot dismiss an opaque field
++            // carrying equally strong sample evidence. Unresolved competitors
++            // survive contrast even when they lack support for selection.
++            let sample_separated = row_best[source]
++                .competing_score(target)
++                .is_none_or(|other| other < MIN_JACCARD || pair.jaccard >= other + SAMPLE_MARGIN)
++                && column_best[target]
++                    .competing_score(groups[source])
++                    .is_none_or(|other| {
++                        other < MIN_JACCARD || pair.jaccard >= other + SAMPLE_MARGIN
++                    });
++            let population_lexical = policy.independent_sample_populations
++                && pair.relationship == Relationship::Supported
++                && feature.name_informative
++                && target_feature.name_informative
++                && [feature, target_feature].iter().all(|field| {
++                    field.non_null == 0
++                        || field.boolean
++                        || (field.distinct >= MIN_DISTINCT && field.coverage >= MIN_COVERAGE)
++                })
++                && (feature.sample_representation == 0
++                    || target_feature.sample_representation == 0
++                    || feature.sample_representation == target_feature.sample_representation)
++                && name_separated
++                && sample_separated;
++            let sampled_identifier = policy.sampled_identifier_renames
++                && policy.distinguish_relationships
++                && pair.relationship == Relationship::Unresolved
++                && feature.identifier
++                && target_feature.identifier
++                && feature.name_informative
++                && target_feature.name_informative
++                && !feature.boolean
++                && !target_feature.boolean
++                && !feature.temporal
++                && !target_feature.temporal
++                && !feature.named_role
++                && !target_feature.named_role
++                && !feature.directional
++                && !target_feature.directional
++                && feature.sample_representation != 0
++                && feature.sample_representation == target_feature.sample_representation
++                && distinctive;
+             let identifier = feature.identifier || target_feature.identifier;
+             let identifier_support = !identifier
+                 || distinctive
++                || population_lexical
+                 || (!policy.strict_identifier_samples
+                     && (!feature.observed || !target_feature.observed));
+             let both_observed = if identifier {
+@@ -264,6 +419,7 @@ pub(crate) fn apply(
+                 feature.non_null > 0 && target_feature.non_null > 0
+             };
+             let observed_support = !policy.scoped_support
++                || population_lexical
+                 || !both_observed
+                 || (feature.boolean && target_feature.boolean)
+                 || if identifier {
+@@ -281,7 +437,11 @@ pub(crate) fn apply(
+                 || target_feature.temporal
+                 || feature.named_role
+                 || target_feature.named_role)
+-                || feature.core == target_feature.core;
++                || if policy.distinguish_relationships {
++                    pair.relationship == Relationship::Supported || sampled_identifier
++                } else {
++                    feature.core == target_feature.core
++                };
+             let modifiers_agree = feature.modifiers == target_feature.modifiers;
+             let directed_role_agrees = !(feature.directional || target_feature.directional)
+                 || feature.ordered_core == target_feature.ordered_core;
+@@ -307,23 +467,33 @@ pub(crate) fn apply(
+                 && target_feature.units.iter().all(|meaning| *meaning == 0);
+             let units_agree = feature.units_agree(target_feature);
+             let allowed = pair.hard_compatible
++                && (!policy.distinguish_relationships
++                    || pair.relationship != Relationship::Contradiction)
+                 && scoped_role_agrees
+                 && modifiers_agree
+                 && directed_role_agrees
+                 && representation_agrees
+                 && !unqualified_numeric
+                 && units_agree
+-                && (lexical || recovered);
++                && (lexical || recovered || sampled_identifier);
+             let candidate = &mut candidates[source][target];
+             let base = candidate.score;
+-            candidate.score = base
++            let acceptance_score = base
+                 .max(if lexical { 0.9 } else { 0.0 })
+                 .max(if pair.sample_adequate { 0.95 } else { 0.0 })
+                 .clamp(0.0, 1.0);
++            let canonical_tie = pair.relationship == Relationship::Supported
++                && !distinctive
++                && row_names[source].competing_score(target) == Some(1.0);
++            candidate.score = if policy.preserve_score_ranking && !canonical_tie {
++                base
++            } else {
++                acceptance_score
++            };
+             candidate
+                 .issues
+                 .retain(|issue| *issue != CandidateIssue::InsufficientScore);
+-            if candidate.score <= 0.0 || candidate.score < config.min_score {
++            if candidate.score <= 0.0 || acceptance_score < config.min_score {
+                 candidate.issues.push(CandidateIssue::InsufficientScore);
+             }
+             if candidate.score > base {
+@@ -336,9 +506,46 @@ pub(crate) fn apply(
+                     .issues
+                     .push(CandidateIssue::InsufficientContextSupport);
+             }
++            if repaired {
++                candidate
++                    .issues
++                    .push(CandidateIssue::ContextualReason(match pair.relationship {
++                        Relationship::Contradiction => ContextualReason::Contradiction,
++                        Relationship::Supported => ContextualReason::SupportedEquivalence,
++                        Relationship::Unresolved => ContextualReason::UnresolvedRelationship,
++                    }));
++                if identifier && (feature.non_null == 0 || target_feature.non_null == 0) {
++                    candidate.issues.push(CandidateIssue::ContextualReason(
++                        ContextualReason::MissingIdentifierSamples,
++                    ));
++                }
++                if both_observed
++                    && !pair.sample_adequate
++                    && !(feature.boolean && target_feature.boolean)
++                {
++                    candidate.issues.push(CandidateIssue::ContextualReason(
++                        ContextualReason::InsufficientSampleSupport,
++                    ));
++                }
++                if !name_separated || (pair.sample_adequate && !distinctive) || !sample_separated {
++                    candidate.issues.push(CandidateIssue::ContextualReason(
++                        ContextualReason::CompetingCandidate,
++                    ));
++                }
++                if !feature.name_informative || !target_feature.name_informative {
++                    candidate.issues.push(CandidateIssue::ContextualReason(
++                        ContextualReason::InsufficientInformativeName,
++                    ));
++                }
++                if !representation_agrees || !units_agree || unqualified_numeric {
++                    candidate.issues.push(CandidateIssue::ContextualReason(
++                        ContextualReason::RepresentationConflict,
++                    ));
++                }
++            }
+             candidate.eligible = allowed
+                 && candidate.score > 0.0
+-                && candidate.score >= config.min_score
++                && acceptance_score >= config.min_score
+                 && !candidate.issues.iter().any(|issue| {
+                     matches!(
+                         issue,
+@@ -346,7 +553,7 @@ pub(crate) fn apply(
+                             | CandidateIssue::InsufficientSampleSupport
+                     )
+                 });
+-            let explanation = format!(
++            let mut explanation = format!(
+                 "Contextual evidence: weighted score {base:.3}, transformed score {:.3}; informative tokens {}/{}; distinct samples {}/{}; lexical support {lexical}; distinctive sample support {distinctive}; unit representation agreement {units_agree}; unqualified numeric {unqualified_numeric}; scoped role agreement {scoped_role_agrees}; directed role agreement {directed_role_agrees}; modifier agreement {modifiers_agree}; temporal representation agreement {representation_agrees}; contextual support {allowed}. Fixed score floors are heuristics, not calibrated confidence.",
+                 candidate.score,
+                 feature.informative,
+@@ -354,6 +561,20 @@ pub(crate) fn apply(
+                 feature.distinct,
+                 target_feature.distinct,
+             );
++            if repaired {
++                use std::fmt::Write;
++                let relationship = match pair.relationship {
++                    Relationship::Contradiction => "contradiction",
++                    Relationship::Supported => "supported equivalence",
++                    Relationship::Unresolved => "unresolved",
++                };
++                // Writing to String is infallible; charge the complete expanded
++                // explanation below, including explicitly stated assumptions.
++                let _ = write!(explanation,
++                    " Relationship {relationship}; separate acceptance score {acceptance_score:.3}; ranking preserved {}; canonical role tie {canonical_tie}; independent sampling {}; informative population support {population_lexical}; sampled identifier rename support {sampled_identifier}; name separation {name_separated}; sample separation {sample_separated}.",
++                    policy.preserve_score_ranking, policy.independent_sample_populations,
++                );
++            }
+             *explanation_bytes = explanation_bytes
+                 .checked_add(explanation.len())
+                 .ok_or(MatchError::CountOverflow(CountKind::ExplanationBytes))?;
+@@ -370,7 +591,9 @@ struct FieldFeatures {
+     core: BTreeSet<String>,
+     ordered_core: Vec<String>,
+     informative: usize,
++    name_informative: bool,
+     modifiers: BTreeSet<String>,
++    protected_scope: BTreeSet<String>,
+     named_role: bool,
+     directional: bool,
+     identifier: bool,
+@@ -382,6 +605,9 @@ struct FieldFeatures {
+     representation_sensitive: bool,
+     boolean: bool,
+     temporal: bool,
++    sample_representation: u8,
++    role_axes: [u16; 3],
++    numeric_qualifiers: BTreeSet<String>,
+ }
+ 
+ struct UnitPhrase {
+@@ -540,6 +766,40 @@ impl FieldFeatures {
+                     _ => false,
+                 });
+         Self {
++            role_axes: std::array::from_fn(|index| {
++                ROLE_AXES[index]
++                    .iter()
++                    .enumerate()
++                    .fold(0, |mask, (bit, token)| {
++                        mask | if core.contains(*token) { 1 << bit } else { 0 }
++                    })
++            }),
++            numeric_qualifiers: core
++                .iter()
++                .filter(|token| token.chars().all(char::is_numeric))
++                .cloned()
++                .collect(),
++            // Reject conventional opaque placeholders and mixed numeric codes
++            // on the new name-only path. This is a lexical quality heuristic,
++            // not a dictionary or proof that an arbitrary word has a meaning.
++            name_informative: informative_core.iter().any(|token| {
++                token.chars().count() >= 4
++                    && token.chars().all(char::is_alphabetic)
++                    && !matches!(
++                        token.as_str(),
++                        "opaque"
++                            | "unknown"
++                            | "attribute"
++                            | "attr"
++                            | "record"
++                            | "entry"
++                            | "object"
++                            | "entity"
++                            | "event"
++                            | "metric"
++                            | "measurement"
++                    )
++            }),
+             core,
+             ordered_core,
+             informative: informative_core.len(),
+@@ -561,6 +821,23 @@ impl FieldFeatures {
+                 })
+                 .cloned()
+                 .collect(),
++            protected_scope: tokens
++                .iter()
++                .filter(|token| {
++                    matches!(
++                        token.as_str(),
++                        "external"
++                            | "internal"
++                            | "parent"
++                            | "child"
++                            | "billing"
++                            | "shipping"
++                            | "primary"
++                            | "secondary"
++                    )
++                })
++                .cloned()
++                .collect(),
+             // Preserve named event and consent roles even when their values are
+             // represented as counts or text instead of dates and Booleans.
+             named_role: tokens
+@@ -585,6 +862,19 @@ impl FieldFeatures {
+             representation_sensitive: numeric && !declared_integral,
+             boolean: scope.boolean,
+             temporal: scope.temporal,
++            sample_representation: field.samples.as_deref().unwrap_or_default().iter().fold(
++                0,
++                |mask, value| {
++                    mask | match value {
++                        SampleValue::Null => 0,
++                        SampleValue::Boolean(_) => 1,
++                        SampleValue::Number(_)
++                        | SampleValue::Integer(_)
++                        | SampleValue::Decimal(_) => 2,
++                        SampleValue::Text(_) => 4,
++                    }
++                },
++            ),
+         }
+     }
+ 
+@@ -594,6 +884,48 @@ impl FieldFeatures {
+             .zip(&target.units)
+             .all(|(source, target)| (*source == 0 && *target == 0) || (*source & *target != 0))
+     }
++
++    fn core_support(&self, target: &Self) -> f64 {
++        let union = self.core.union(&target.core).count();
++        if union == 0 {
++            0.0
++        } else {
++            self.core.intersection(&target.core).count() as f64 / union as f64
++        }
++    }
++
++    fn relationship(
++        &self,
++        target: &Self,
++        source_type: DataType,
++        target_type: DataType,
++    ) -> Relationship {
++        if self.modifiers != target.modifiers
++            || self.protected_scope != target.protected_scope
++            || self.numeric_qualifiers != target.numeric_qualifiers
++            || ((self.directional || target.directional)
++                && self.ordered_core != target.ordered_core)
++            || !self.units_agree(target)
++            || (self.sample_representation != 0
++                && target.sample_representation != 0
++                && self.sample_representation & target.sample_representation == 0)
++            || matches!(
++                (source_type, target_type),
++                (DataType::Date, DataType::Timestamp) | (DataType::Timestamp, DataType::Date)
++            )
++            || self
++                .role_axes
++                .iter()
++                .zip(target.role_axes)
++                .any(|(source, target)| *source != 0 && target != 0 && *source != target)
++        {
++            Relationship::Contradiction
++        } else if self.informative > 0 && self.core == target.core && !self.core.is_empty() {
++            Relationship::Supported
++        } else {
++            Relationship::Unresolved
++        }
++    }
+ }
+ 
+ #[cfg(test)]
+diff --git a/src/json.rs b/src/json.rs
+index 1a8b6f1..62c2aaa 100644
+--- a/src/json.rs
++++ b/src/json.rs
+@@ -535,6 +535,32 @@ impl Serialize for View<'_, CandidateIssue> {
+             CandidateIssue::ContextualScoreAdjustment => {
+                 ("contextual_score_adjustment", None, None)
+             }
++            CandidateIssue::ContextualReason(reason) => (
++                match reason {
++                    crate::ContextualReason::Contradiction => "contextual_contradiction",
++                    crate::ContextualReason::SupportedEquivalence => {
++                        "contextual_supported_equivalence"
++                    }
++                    crate::ContextualReason::UnresolvedRelationship => {
++                        "contextual_unresolved_relationship"
++                    }
++                    crate::ContextualReason::MissingIdentifierSamples => {
++                        "contextual_missing_identifier_samples"
++                    }
++                    crate::ContextualReason::InsufficientSampleSupport => {
++                        "contextual_insufficient_sample_support"
++                    }
++                    crate::ContextualReason::CompetingCandidate => "contextual_competing_candidate",
++                    crate::ContextualReason::InsufficientInformativeName => {
++                        "contextual_insufficient_informative_name"
++                    }
++                    crate::ContextualReason::RepresentationConflict => {
++                        "contextual_representation_conflict"
++                    }
++                },
++                None,
++                None,
++            ),
+             CandidateIssue::NameConflict(kind) => ("name_conflict", None, Some(kind)),
+             CandidateIssue::SemanticConflict(axis) => ("semantic_conflict", Some(axis), None),
+             CandidateIssue::SemanticAgreement(axis) => ("semantic_agreement", Some(axis), None),
+diff --git a/src/lib.rs b/src/lib.rs
+index 43dbc95..9b3ad73 100644
+--- a/src/lib.rs
++++ b/src/lib.rs
+@@ -19,7 +19,7 @@ mod types;
+ pub mod json;
+ 
+ pub use constraints::{FieldPair, MatchConstraints};
+-pub use contextual::ContextualEvidence;
++pub use contextual::{ContextualEvidence, ContextualReason};
+ pub use diagnostics::*;
+ pub use engine::{MatchEngine, WeightedMatcher};
+ pub use error::*;
+diff --git a/src/types.rs b/src/types.rs
+index 0978ec4..c201b57 100644
+--- a/src/types.rs
++++ b/src/types.rs
+@@ -247,7 +247,7 @@ pub struct Config {
+     pub name_conflicts: Vec<crate::NameConflictRule>,
+     /// Optional experimental contextual evidence and score transformation.
+     /// Defaults to `None`, preserving weighted scoring and streamed evaluation.
+-    /// See [`crate::ContextualEvidence`] for fixed floors and support requirements.
++    /// See [`crate::ContextualEvidence`] for acceptance, ranking and support requirements.
+     pub contextual_evidence: Option<crate::ContextualEvidence>,
+     /// Optional bounded alternative-assignment analysis; never changes selection.
+     pub global_diagnostics: crate::GlobalDiagnosticsConfig,
+@@ -273,6 +273,79 @@ impl Default for Config {
+     }
+ }
+ 
++impl Config {
++    /// Experimental contextual quality candidate with explicit independent
++    /// sampling, relationship checks and uncompressed ranking evidence.
++    ///
++    /// Ordinary defaults and [`crate::ContextualEvidence::default`] stay unchanged.
++    /// This preset includes a fixed inspectable qualifier/unit vocabulary; it
++    /// never converts units or Date/Timestamp representations. Applications
++    /// should review these assumptions for their own schemas. No sample-set
++    /// population identity is inferred or supplied through hidden metadata.
++    pub fn contextual_quality() -> Self {
++        use crate::{ContextualEvidence, NameConflictKind, NameConflictRule};
++        let qualifier_axes: &[&[&[&str]]] = &[
++            &[&["gross"], &["net"]],
++            &[&["billing", "bill"], &["shipping", "ship"]],
++            &[&["minimum", "min"], &["maximum", "max"]],
++            &[&["start", "begin"], &["end", "finish"]],
++        ];
++        let unit_axes: &[&[&[&str]]] = &[
++            &[
++                &["pa", "pascal", "pascals"],
++                &["kpa", "k pa", "kilopascal", "kilopascals"],
++                &["mpa", "m pa", "megapascal", "megapascals"],
++                &["psi"],
++            ],
++            &[
++                &["g", "gram", "grams"],
++                &["kg", "kilogram", "kilograms"],
++                &["lb", "lbs", "pound", "pounds"],
++            ],
++            &[
++                &["m", "meter", "meters", "metre", "metres"],
++                &["cm", "centimeter", "centimeters"],
++                &["mm", "millimeter", "millimeters"],
++                &["ft", "foot", "feet"],
++            ],
++            &[
++                &["ms", "millisecond", "milliseconds"],
++                &["s", "sec", "second", "seconds"],
++                &["minute", "minutes"],
++                &["hour", "hours"],
++            ],
++            &[&["celsius"], &["fahrenheit"], &["kelvin"]],
++            &[&["usd"], &["eur"], &["gbp"], &["jpy"]],
++        ];
++        let name_conflicts = [
++            (NameConflictKind::Qualifier, qualifier_axes),
++            (NameConflictKind::Unit, unit_axes),
++        ]
++        .into_iter()
++        .flat_map(|(kind, axes)| {
++            axes.iter().map(move |alternatives| NameConflictRule {
++                kind,
++                alternatives: alternatives
++                    .iter()
++                    .map(|words| words.iter().map(|word| (*word).to_owned()).collect())
++                    .collect(),
++            })
++        })
++        .collect();
++        Self {
++            contextual_evidence: Some(ContextualEvidence {
++                distinguish_relationships: true,
++                independent_sample_populations: true,
++                preserve_score_ranking: true,
++                sampled_identifier_renames: true,
++                ..ContextualEvidence::default()
++            }),
++            name_conflicts,
++            ..Self::default()
++        }
++    }
++}
++
+ /// One matcher's bounded score and privacy-safe explanation.
+ #[derive(Clone, Debug, PartialEq)]
+ pub struct Evidence {
+@@ -319,10 +392,12 @@ pub struct Candidate {
+     /// Target identity.
+     pub target: FieldId,
+     /// Weighted sum in [0, 1], not a probability. With contextual evidence enabled,
+-    /// the score is transformed by the documented fixed heuristic floors; original
+-    /// signal evidence and weights remain available to reconstruct the base score.
++    /// the score uses the configured heuristic transformation unless ranking is
++    /// preserved. In that mode contextual acceptance is checked separately and
++    /// an eligible candidate may have a ranking score below `Config::min_score`.
++    /// Original evidence and weights always reconstruct the weighted base score.
+     pub score: f64,
+-    /// Passes threshold, optional corroboration and name conflict checks, type veto
++    /// Passes the acceptance threshold, optional corroboration and name conflict checks, type veto
+     /// and semantic-hint constraints, plus caller exclusions/reserved targets; ambiguity is
+     /// source-level. This describes automatic eligibility. An explicit caller
+     /// confirmation can select a candidate with `eligible == false` without
+@@ -377,6 +452,9 @@ pub enum CandidateIssue {
+     /// The opt-in contextual policy raised the weighted base score to a fixed
+     /// heuristic floor. Original signal evidence and weights remain unchanged.
+     ContextualScoreAdjustment,
++    /// An opt-in contextual repair's relationship or support diagnostic.
++    /// Multiple reasons may apply; these do not expose sample values.
++    ContextualReason(crate::ContextualReason),
+     /// Caller-configured raw-name token meanings disagree; this excludes
+     /// automatic selection without changing scores or verified semantic hints.
+     NameConflict(crate::NameConflictKind),

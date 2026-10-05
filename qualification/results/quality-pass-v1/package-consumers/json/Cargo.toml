@@ -1,0 +1,8 @@
+[package]
+name = "fieldkin-quality-package-json-smoke"
+version = "0.0.0"
+edition = "2021"
+publish = false
+[workspace]
+[dependencies]
+fieldkin = { path = "../unpacked-json/fieldkin-0.1.0", default-features = false, features = ["json"] }

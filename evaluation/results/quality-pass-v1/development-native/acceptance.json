@@ -1,0 +1,20 @@
+﻿{
+    "candidate_commit":  "b36290af851cbf18b9fa8f84474f9978e8b631cb",
+    "command":  [
+                    "cargo",
+                    "+stable",
+                    "run",
+                    "--locked",
+                    "-p",
+                    "fieldkin-tools",
+                    "--",
+                    "development-acceptance",
+                    "--development",
+                    "evaluation/results/quality-pass-v1/development-native/artifacts"
+                ],
+    "exit_code":  1,
+    "output":  "cargo.exe :     Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.06s\r\nAt line:2 char:401\r\n+ ... tive/artifacts\u0027); $qualityOutput = (\u0026 cargo @qualityArgs 2\u003e\u00261 | Out-S ...\r\n+                                         ~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : NotSpecified: (    Finished `d...get(s) in 0.06s:String) [], RemoteException\r\n    + FullyQualifiedErrorId : NativeCommandError\r\n \r\n     Running `target\\debug\\fieldkin-tools.exe development-acceptance --development \r\nevaluation/results/quality-pass-v1/development-native/artifacts`\r\nfieldkin-tools: actual counts fail nonempty/95% precision/60% aggregate unique coverage/90% recall@5\r\nerror: process didn\u0027t exit successfully: `target\\debug\\fieldkin-tools.exe development-acceptance --development \r\nevaluation/results/quality-pass-v1/development-native/artifacts` (exit code: 1)\r\n",
+    "development_run_sha256":  "51f0353c9d939d2fa4a0faa48f1f59de4fe8bb7aa3c2f9af03fea6ceca312dd5",
+    "new_holdout_scored":  false,
+    "acceptance_passed":  false
+}

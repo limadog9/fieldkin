@@ -1,0 +1,257 @@
+{
+    "version":  "fieldkin-quality-v1",
+    "candidate":  "contextual_quality",
+    "models":  [
+                   "default",
+                   "name_only_070",
+                   "name_only_exact",
+                   "contextual_quality"
+               ],
+    "assignments":  [
+                        "independent",
+                        "one_to_one"
+                    ],
+    "variants":  [
+                     "base",
+                     "reordered",
+                     "without_samples",
+                     "null_heavy",
+                     "separator_noise"
+                 ],
+    "inventory":  {
+                      "decisions":  360,
+                      "cases":  60,
+                      "families":  12
+                  },
+    "configuration":  {
+                          "abstain_on_ambiguity":  true,
+                          "ambiguity_margin":  0.08,
+                          "built_in_signals":  {
+                                                   "name_aliases":  {
+                                                                        "amt":  "amount",
+                                                                        "trans":  "transaction"
+                                                                    },
+                                                   "sample_min_non_null":  3,
+                                                   "sample_reliability":  "Distinct"
+                                               },
+                          "contextual_evidence":  {
+                                                      "distinguish_relationships":  true,
+                                                      "identifier_word_forms":  true,
+                                                      "independent_sample_populations":  true,
+                                                      "preserve_score_ranking":  false,
+                                                      "scoped_support":  true,
+                                                      "strict_identifier_samples":  true
+                                                  },
+                          "corroboration":  null,
+                          "global_diagnostics":  {
+                                                     "max_solves":  0,
+                                                     "max_work":  8388608,
+                                                     "objective_margin":  0.08
+                                                 },
+                          "limits":  {
+                                         "max_explanation_bytes":  16777216,
+                                         "max_fields":  128,
+                                         "max_name_bytes":  256,
+                                         "max_pairs":  16384,
+                                         "max_sample_bytes":  1024,
+                                         "max_samples_per_field":  256,
+                                         "max_signal_evaluations":  65536,
+                                         "max_total_sample_bytes":  8388608
+                                     },
+                          "min_score":  0.7,
+                          "name_conflicts":  [
+                                                 {
+                                                     "alternatives":  [
+                                                                          [
+                                                                              "gross"
+                                                                          ],
+                                                                          [
+                                                                              "net"
+                                                                          ]
+                                                                      ],
+                                                     "kind":  "Qualifier"
+                                                 },
+                                                 {
+                                                     "alternatives":  [
+                                                                          [
+                                                                              "billing",
+                                                                              "bill"
+                                                                          ],
+                                                                          [
+                                                                              "shipping",
+                                                                              "ship"
+                                                                          ]
+                                                                      ],
+                                                     "kind":  "Qualifier"
+                                                 },
+                                                 {
+                                                     "alternatives":  [
+                                                                          [
+                                                                              "minimum",
+                                                                              "min"
+                                                                          ],
+                                                                          [
+                                                                              "maximum",
+                                                                              "max"
+                                                                          ]
+                                                                      ],
+                                                     "kind":  "Qualifier"
+                                                 },
+                                                 {
+                                                     "alternatives":  [
+                                                                          [
+                                                                              "start",
+                                                                              "begin"
+                                                                          ],
+                                                                          [
+                                                                              "end",
+                                                                              "finish"
+                                                                          ]
+                                                                      ],
+                                                     "kind":  "Qualifier"
+                                                 },
+                                                 {
+                                                     "alternatives":  [
+                                                                          [
+                                                                              "pa",
+                                                                              "pascal",
+                                                                              "pascals"
+                                                                          ],
+                                                                          [
+                                                                              "kpa",
+                                                                              "k pa",
+                                                                              "kilopascal",
+                                                                              "kilopascals"
+                                                                          ],
+                                                                          [
+                                                                              "mpa",
+                                                                              "m pa",
+                                                                              "megapascal",
+                                                                              "megapascals"
+                                                                          ],
+                                                                          [
+                                                                              "psi"
+                                                                          ]
+                                                                      ],
+                                                     "kind":  "Unit"
+                                                 },
+                                                 {
+                                                     "alternatives":  [
+                                                                          [
+                                                                              "g",
+                                                                              "gram",
+                                                                              "grams"
+                                                                          ],
+                                                                          [
+                                                                              "kg",
+                                                                              "kilogram",
+                                                                              "kilograms"
+                                                                          ],
+                                                                          [
+                                                                              "lb",
+                                                                              "lbs",
+                                                                              "pound",
+                                                                              "pounds"
+                                                                          ]
+                                                                      ],
+                                                     "kind":  "Unit"
+                                                 },
+                                                 {
+                                                     "alternatives":  [
+                                                                          [
+                                                                              "m",
+                                                                              "meter",
+                                                                              "meters",
+                                                                              "metre",
+                                                                              "metres"
+                                                                          ],
+                                                                          [
+                                                                              "cm",
+                                                                              "centimeter",
+                                                                              "centimeters"
+                                                                          ],
+                                                                          [
+                                                                              "mm",
+                                                                              "millimeter",
+                                                                              "millimeters"
+                                                                          ],
+                                                                          [
+                                                                              "ft",
+                                                                              "foot",
+                                                                              "feet"
+                                                                          ]
+                                                                      ],
+                                                     "kind":  "Unit"
+                                                 },
+                                                 {
+                                                     "alternatives":  [
+                                                                          [
+                                                                              "ms",
+                                                                              "millisecond",
+                                                                              "milliseconds"
+                                                                          ],
+                                                                          [
+                                                                              "s",
+                                                                              "sec",
+                                                                              "second",
+                                                                              "seconds"
+                                                                          ],
+                                                                          [
+                                                                              "minute",
+                                                                              "minutes"
+                                                                          ],
+                                                                          [
+                                                                              "hour",
+                                                                              "hours"
+                                                                          ]
+                                                                      ],
+                                                     "kind":  "Unit"
+                                                 },
+                                                 {
+                                                     "alternatives":  [
+                                                                          [
+                                                                              "celsius"
+                                                                          ],
+                                                                          [
+                                                                              "fahrenheit"
+                                                                          ],
+                                                                          [
+                                                                              "kelvin"
+                                                                          ]
+                                                                      ],
+                                                     "kind":  "Unit"
+                                                 },
+                                                 {
+                                                     "alternatives":  [
+                                                                          [
+                                                                              "usd"
+                                                                          ],
+                                                                          [
+                                                                              "eur"
+                                                                          ],
+                                                                          [
+                                                                              "gbp"
+                                                                          ],
+                                                                          [
+                                                                              "jpy"
+                                                                          ]
+                                                                      ],
+                                                     "kind":  "Unit"
+                                                 }
+                                             ],
+                          "reject_incompatible_types":  true,
+                          "sample_population_assumption":  "independent populations; disjoint sample values are inconclusive when informative lexical and representation support agree",
+                          "top_k":  5,
+                          "weights":  {
+                                          "name":  0.65,
+                                          "sample":  0.15,
+                                          "type":  0.2
+                                      }
+                      },
+    "quality_targets":  {
+                            "candidate_recall_at_5":  0.9,
+                            "precision":  0.95,
+                            "unique_coverage":  0.6,
+                            "nonzero_proposals":  true
+                        }
+}

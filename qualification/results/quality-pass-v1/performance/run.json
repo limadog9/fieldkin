@@ -1,0 +1,265 @@
+{
+  "execution": [
+    {
+      "command": [
+        "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\quality-baseline\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\timing\\release\\fieldkin-performance.exe",
+        "--contextual"
+      ],
+      "file": "timing-baseline-run-1.jsonl",
+      "mode": "timing",
+      "revision": "baseline",
+      "run": 1,
+      "sha256": "13bbe9ce133fd021338a025c41668d26d816e069b4664d31103d94230241c220",
+      "started_utc": "2026-10-05T16:38:15.694828000Z"
+    },
+    {
+      "command": [
+        "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\timing\\release\\fieldkin-performance.exe",
+        "--contextual"
+      ],
+      "file": "timing-candidate-run-1.jsonl",
+      "mode": "timing",
+      "revision": "candidate",
+      "run": 1,
+      "sha256": "1bc08be0d48ba7a5872ad64e4199a7dd4178738f8d3e35435cd24467e0678a9d",
+      "started_utc": "2026-10-05T16:38:19.531979000Z"
+    },
+    {
+      "command": [
+        "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\timing\\release\\fieldkin-performance.exe",
+        "--contextual"
+      ],
+      "file": "timing-candidate-run-2.jsonl",
+      "mode": "timing",
+      "revision": "candidate",
+      "run": 2,
+      "sha256": "8d86c060cbb38b89dbe5940c148ff50e9adfce1d2f317ccb34d6c775e8141def",
+      "started_utc": "2026-10-05T16:38:23.619742400Z"
+    },
+    {
+      "command": [
+        "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\quality-baseline\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\timing\\release\\fieldkin-performance.exe",
+        "--contextual"
+      ],
+      "file": "timing-baseline-run-2.jsonl",
+      "mode": "timing",
+      "revision": "baseline",
+      "run": 2,
+      "sha256": "b6427692aa2fee9f76a31fe550acc16366801e3ba33e10003c0dac055710f184",
+      "started_utc": "2026-10-05T16:38:27.851975400Z"
+    },
+    {
+      "command": [
+        "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\quality-baseline\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\timing\\release\\fieldkin-performance.exe",
+        "--contextual"
+      ],
+      "file": "timing-baseline-run-3.jsonl",
+      "mode": "timing",
+      "revision": "baseline",
+      "run": 3,
+      "sha256": "8d6d4db44b54edba61ccd0018cf64f33936ff46bcbcfe677732976d06e5093f6",
+      "started_utc": "2026-10-05T16:38:31.388624100Z"
+    },
+    {
+      "command": [
+        "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\timing\\release\\fieldkin-performance.exe",
+        "--contextual"
+      ],
+      "file": "timing-candidate-run-3.jsonl",
+      "mode": "timing",
+      "revision": "candidate",
+      "run": 3,
+      "sha256": "84cc07c96e10d35afd302b40ffecca117b9df26c1b289e4ee8df7aecb7bba64c",
+      "started_utc": "2026-10-05T16:38:35.127809100Z"
+    },
+    {
+      "command": [
+        "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\timing\\release\\fieldkin-performance.exe",
+        "--contextual"
+      ],
+      "file": "timing-candidate-run-4.jsonl",
+      "mode": "timing",
+      "revision": "candidate",
+      "run": 4,
+      "sha256": "ee578c1265c42db233bc39e941de56c717e865691adcdcbaff6e6dfc87422cc6",
+      "started_utc": "2026-10-05T16:38:39.247712100Z"
+    },
+    {
+      "command": [
+        "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\quality-baseline\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\timing\\release\\fieldkin-performance.exe",
+        "--contextual"
+      ],
+      "file": "timing-baseline-run-4.jsonl",
+      "mode": "timing",
+      "revision": "baseline",
+      "run": 4,
+      "sha256": "c53082709b57c790b9c1a0c4df8b2e68c48e4290e4a479c37c3eb8dc3aa5eb3c",
+      "started_utc": "2026-10-05T16:38:43.405999800Z"
+    },
+    {
+      "command": [
+        "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\quality-baseline\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\timing\\release\\fieldkin-performance.exe",
+        "--contextual"
+      ],
+      "file": "timing-baseline-run-5.jsonl",
+      "mode": "timing",
+      "revision": "baseline",
+      "run": 5,
+      "sha256": "0b3300ae704796beb753fdf870d492a43c456af8aaa8e4b0064a518b9b8fd6a1",
+      "started_utc": "2026-10-05T16:38:47.182082600Z"
+    },
+    {
+      "command": [
+        "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\timing\\release\\fieldkin-performance.exe",
+        "--contextual"
+      ],
+      "file": "timing-candidate-run-5.jsonl",
+      "mode": "timing",
+      "revision": "candidate",
+      "run": 5,
+      "sha256": "14bbfb88ff00359c1aff817648e48a659530c3b02fda077afe2257ad0e329aa4",
+      "started_utc": "2026-10-05T16:38:50.895094900Z"
+    },
+    {
+      "command": [
+        "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\quality-baseline\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\allocations\\release\\fieldkin-performance.exe",
+        "--smoke",
+        "--contextual"
+      ],
+      "file": "allocations-baseline-run-1.jsonl",
+      "mode": "allocations",
+      "revision": "baseline",
+      "run": 1,
+      "sha256": "d2098d4341bd1e399961ffcfec0e75b0a060c1830937c1fe01bfeabb8a81bb8f",
+      "started_utc": "2026-10-05T16:38:55.060660900Z"
+    },
+    {
+      "command": [
+        "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\allocations\\release\\fieldkin-performance.exe",
+        "--smoke",
+        "--contextual"
+      ],
+      "file": "allocations-candidate-run-1.jsonl",
+      "mode": "allocations",
+      "revision": "candidate",
+      "run": 1,
+      "sha256": "3f37cad9f3e105679c5eb2eb814ab4282133325ab2eb631769959c317b90549c",
+      "started_utc": "2026-10-05T16:38:56.242415200Z"
+    },
+    {
+      "command": [
+        "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\allocations\\release\\fieldkin-performance.exe",
+        "--smoke",
+        "--contextual"
+      ],
+      "file": "allocations-candidate-run-2.jsonl",
+      "mode": "allocations",
+      "revision": "candidate",
+      "run": 2,
+      "sha256": "703aafcba9af6837ca91e283c472c7c123088afc04121bac927c40841b03bf6a",
+      "started_utc": "2026-10-05T16:38:57.752683000Z"
+    },
+    {
+      "command": [
+        "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\quality-baseline\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\allocations\\release\\fieldkin-performance.exe",
+        "--smoke",
+        "--contextual"
+      ],
+      "file": "allocations-baseline-run-2.jsonl",
+      "mode": "allocations",
+      "revision": "baseline",
+      "run": 2,
+      "sha256": "f0d5d92554875c592aab865c5338895cb49e1dbe754c8275fab9fae2d35b08f4",
+      "started_utc": "2026-10-05T16:38:58.994472700Z"
+    },
+    {
+      "command": [
+        "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\quality-baseline\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\allocations\\release\\fieldkin-performance.exe",
+        "--smoke",
+        "--contextual"
+      ],
+      "file": "allocations-baseline-run-3.jsonl",
+      "mode": "allocations",
+      "revision": "baseline",
+      "run": 3,
+      "sha256": "ae8b1d29abd7d6d39c949d58d99fbbeaafa97480b579671ef30d91b640643075",
+      "started_utc": "2026-10-05T16:39:00.067357500Z"
+    },
+    {
+      "command": [
+        "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\allocations\\release\\fieldkin-performance.exe",
+        "--smoke",
+        "--contextual"
+      ],
+      "file": "allocations-candidate-run-3.jsonl",
+      "mode": "allocations",
+      "revision": "candidate",
+      "run": 3,
+      "sha256": "a6ea55173006d48ab5ef4fcdecb69296f142891f737073cd0752efb0a5476617",
+      "started_utc": "2026-10-05T16:39:01.169049600Z"
+    },
+    {
+      "command": [
+        "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\allocations\\release\\fieldkin-performance.exe",
+        "--smoke",
+        "--contextual"
+      ],
+      "file": "allocations-candidate-run-4.jsonl",
+      "mode": "allocations",
+      "revision": "candidate",
+      "run": 4,
+      "sha256": "30001e316332eced914e2869734a98e7e2ce463d8f4611f53a79c9e03457d949",
+      "started_utc": "2026-10-05T16:39:02.337120100Z"
+    },
+    {
+      "command": [
+        "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\quality-baseline\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\allocations\\release\\fieldkin-performance.exe",
+        "--smoke",
+        "--contextual"
+      ],
+      "file": "allocations-baseline-run-4.jsonl",
+      "mode": "allocations",
+      "revision": "baseline",
+      "run": 4,
+      "sha256": "4faff4dea51d5e3096acb1ba3b8efadcf8746c7e5f25cae9f1c7d69919d0a0eb",
+      "started_utc": "2026-10-05T16:39:03.518203400Z"
+    },
+    {
+      "command": [
+        "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\quality-baseline\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\allocations\\release\\fieldkin-performance.exe",
+        "--smoke",
+        "--contextual"
+      ],
+      "file": "allocations-baseline-run-5.jsonl",
+      "mode": "allocations",
+      "revision": "baseline",
+      "run": 5,
+      "sha256": "f4057317f3d48be8dabb81929f14acb3231a0ff8613da35fe0c83363fa1fc629",
+      "started_utc": "2026-10-05T16:39:04.577302000Z"
+    },
+    {
+      "command": [
+        "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\allocations\\release\\fieldkin-performance.exe",
+        "--smoke",
+        "--contextual"
+      ],
+      "file": "allocations-candidate-run-5.jsonl",
+      "mode": "allocations",
+      "revision": "candidate",
+      "run": 5,
+      "sha256": "0bdcad199141fdde8019c4e8be0ab0297d585c5a9f77d56877a3a10760e60138",
+      "started_utc": "2026-10-05T16:39:05.864012600Z"
+    }
+  ],
+  "finished_utc": "2026-10-05T16:39:07.643070800Z",
+  "machine": {
+    "logical_cpus": 12,
+    "machine": "x86_64",
+    "platform": "windows",
+    "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+    "runner": "native Rust",
+    "runner_crate_version": "0.1.0"
+  },
+  "protocol": "fieldkin-contextual-cost-native-v1",
+  "started_utc": "2026-10-05T16:38:15.694772700Z"
+}

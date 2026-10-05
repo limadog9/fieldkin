@@ -1,0 +1,25 @@
+{
+    "candidate_commit":  "b36290af851cbf18b9fa8f84474f9978e8b631cb",
+    "reviewer":  "separately instructed independent_review agent",
+    "scope":  [
+                  "matcher correctness and conservative name/sample evidence",
+                  "JSON diagnostic privacy",
+                  "original-pair work and explanation budget accounting",
+                  "development/fresh count gate identities and first-attempt controls"
+              ],
+    "remaining_source_blockers":  [
+
+                                  ],
+    "resolved_findings":  [
+                              "opaque same-spelled sampled identifier proposals",
+                              "canonical semantic duplicate targets with custom positive weights and thresholds",
+                              "public configuration check against freshly built freeze executable",
+                              "name-only comparator metadata weights",
+                              "Unknown-type sampled date/timestamp representation conflict"
+                          ],
+    "fresh_corpus_read":  false,
+    "reserved_labels_read":  false,
+    "isolation_limitations":  "Reviewer had task context and access to shared filesystem; this is independent source review, not isolated qualification authorship",
+    "tests":  "18 quality contracts and 27 legacy contextual contracts with json; external reproductions covered both assignment modes",
+    "benchmark_capacity_limitation":  "Additional diagnostics exhaust unchanged 16MiB explanation default on 128x128 sampled representative workload; benchmark uses explicit32MiB in both revisions; one-byte rejection remains required"
+}

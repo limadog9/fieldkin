@@ -1,0 +1,918 @@
+{
+  "build_environment": {
+    "CARGO_HOME": "C:\\Users\\jakew\\.cargo",
+    "RUSTUP_HOME": "C:\\Users\\jakew\\.rustup",
+    "RUSTUP_TOOLCHAIN": "stable-x86_64-pc-windows-msvc"
+  },
+  "built_utc": "2026-10-05T16:32:13.110742300Z",
+  "checkouts": {
+    "baseline": {
+      "binaries": {
+        "allocations": {
+          "build_command": [
+            "cargo",
+            "+stable",
+            "build",
+            "--release",
+            "--locked",
+            "--manifest-path",
+            "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\quality-baseline\\performance\\Cargo.toml",
+            "--target-dir",
+            "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\quality-baseline\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\allocations",
+            "--message-format=json",
+            "--features",
+            "allocations"
+          ],
+          "path": "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\quality-baseline\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\allocations\\release\\fieldkin-performance.exe",
+          "sha256": "727e2ba8116520ca6ea179783e8e80c4f7457c7e83d12cb2cb19e525a1f2b3f4",
+          "smoke_behavior": [
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-16-empty-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-16-empty-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-16-sampled-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-16-sampled-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-64-empty-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-64-empty-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-64-sampled-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-64-sampled-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 128,
+              "targets": 128,
+              "workload": "context-128-empty-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 128,
+              "targets": 128,
+              "workload": "context-128-empty-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 128,
+              "targets": 128,
+              "workload": "context-128-sampled-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 128,
+              "targets": 128,
+              "workload": "context-128-sampled-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-ambiguous-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-ambiguous-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-disjoint-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-disjoint-assignment"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-input-independent"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-input-assignment"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-pairs-independent"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-pairs-assignment"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-signals-independent"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-signals-assignment"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-report-independent"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-report-assignment"
+            }
+          ]
+        },
+        "timing": {
+          "build_command": [
+            "cargo",
+            "+stable",
+            "build",
+            "--release",
+            "--locked",
+            "--manifest-path",
+            "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\quality-baseline\\performance\\Cargo.toml",
+            "--target-dir",
+            "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\quality-baseline\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\timing",
+            "--message-format=json"
+          ],
+          "path": "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\quality-baseline\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\timing\\release\\fieldkin-performance.exe",
+          "sha256": "39fb4145ffac067c523df595f6a8a9c12b8989db6d520b820a7cace10c65ef90",
+          "smoke_behavior": [
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-16-empty-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-16-empty-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-16-sampled-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-16-sampled-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-64-empty-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-64-empty-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-64-sampled-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-64-sampled-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 128,
+              "targets": 128,
+              "workload": "context-128-empty-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 128,
+              "targets": 128,
+              "workload": "context-128-empty-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 128,
+              "targets": 128,
+              "workload": "context-128-sampled-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 128,
+              "targets": 128,
+              "workload": "context-128-sampled-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-ambiguous-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-ambiguous-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-disjoint-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-disjoint-assignment"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-input-independent"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-input-assignment"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-pairs-independent"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-pairs-assignment"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-signals-independent"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-signals-assignment"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-report-independent"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-report-assignment"
+            }
+          ]
+        }
+      },
+      "cargo_config_sha256": {},
+      "commit": "8a8568033269b5f15fba6cc3958760f24fd9b8ff",
+      "git_status": "M performance/Cargo.toml\n M performance/src/main.rs\n?? performance/Cargo.toml.baseline-original\n?? performance/src/main.rs.baseline-original",
+      "path": "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\.local\\quality-baseline",
+      "source_sha256": {
+        "Cargo.lock": "cfbb9eec67db39c87f6487a2457963003ee51bdd79dd947559e95b84d971019d",
+        "Cargo.toml": "a2c4a9eaafec892b56c5503ab79c6e6188a2b665acca1e1b20dd40dd17cc6712",
+        "README.md": "d3065bebdd3dacd6d5711cbfb6549f620457d64dd924e6eef7465748e5e24768",
+        "evaluation/Cargo.toml": "5632bfa85cf85b1eaeae7c11ba9ea687fffa38789f271fa54ba58e71ae9f527a",
+        "performance/Cargo.lock": "5433ce6ade0f2aaaccf59f23f75d781ab9761f00d43b5672c4cf03c06adcd264",
+        "performance/Cargo.toml": "6e0cc60abcdf59b5ae4652c7d4e92cf466155024f07152117101fedabf38a491",
+        "performance/src/main.rs": "ee91c1091678b72c64d0dc31ac5f60f2896723776ad24056a7b43eb344a5d27b",
+        "rust-toolchain.toml": "7458b2d74495e6fb1c1edeea4d5a793705476431dadb60627187111f91441e13",
+        "src/assignment.rs": "cc3b962605f7677498d4ab66dd14f569ff9fad7456afd9c970f01098eb6e87e0",
+        "src/constraints.rs": "83e7d2b9bcc37d55f4e9d208488500eba5c0aeba104d35007e824ad92054ae52",
+        "src/contextual.rs": "17921a455cb04107b02996aeea7abe4e1cc19831087cf5d11b841d3b168509b3",
+        "src/diagnostics.rs": "d74013589a7759f789d69c866a90361df76f07c14ce7ef31ca8ec4f5281f142e",
+        "src/engine.rs": "d8fd9d99690e4860879bb2639a885add2f136e2cc02c03819ff5ee12ea0fa043",
+        "src/error.rs": "13622630d93314cbe418fc25b0f5ebec6609b938a781ca0b981e3fae05230dcb",
+        "src/json.rs": "8b77ed363f795e0661dc7ce0ddc3be040d36e0cc0e999b35293d02bba5cd13be",
+        "src/lib.rs": "b07e85d7eff3c12191fd7727169e4c34bb9eafd00e960cc58dc47f53b411b313",
+        "src/name_conflicts.rs": "44328bbae682720a2f5de88ca6a1599ec716bf93dd8b940fc5d52d33eecbcf8c",
+        "src/numeric.rs": "2ecc76698bfa567a3f44a349b0c931c2acbc2c7f9583fe85ee147913f04a1fd2",
+        "src/profile.rs": "60e07c3d16fc2658c5408b4d1e371463087f1e1673b0e8e430476cf7dccfc303",
+        "src/semantic_name.rs": "5c8f35ef981755484d679021e56e327bcb10a0252682648cd5544cd1a4cebcb1",
+        "src/semantics.rs": "4927f23eb9388cee7df9c4aef0d7a3f6da2c5aa7d966527e136aa5cea2e6dffa",
+        "src/signals.rs": "ce3b32dec1cc012c5b650d9988ece8490155edd8d2301123263124fc7624efb4",
+        "src/types.rs": "89f612efed922ed5310098d0752f9005264853ab27c10a35b5feef539465c84d"
+      }
+    },
+    "candidate": {
+      "binaries": {
+        "allocations": {
+          "build_command": [
+            "cargo",
+            "+stable",
+            "build",
+            "--release",
+            "--locked",
+            "--manifest-path",
+            "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\performance\\Cargo.toml",
+            "--target-dir",
+            "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\allocations",
+            "--message-format=json",
+            "--features",
+            "allocations,quality-policy"
+          ],
+          "path": "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\allocations\\release\\fieldkin-performance.exe",
+          "sha256": "272c8082c70a35245e8055a2079d8f6ac1c44ef516525fdc986dc2dbbf44ebdd",
+          "smoke_behavior": [
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-16-empty-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-16-empty-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-16-sampled-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-16-sampled-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-64-empty-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-64-empty-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-64-sampled-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-64-sampled-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 128,
+              "targets": 128,
+              "workload": "context-128-empty-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 128,
+              "targets": 128,
+              "workload": "context-128-empty-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 128,
+              "targets": 128,
+              "workload": "context-128-sampled-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 128,
+              "targets": 128,
+              "workload": "context-128-sampled-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-ambiguous-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-ambiguous-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-disjoint-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-disjoint-assignment"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-input-independent"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-input-assignment"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-pairs-independent"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-pairs-assignment"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-signals-independent"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-signals-assignment"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-report-independent"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-report-assignment"
+            }
+          ]
+        },
+        "timing": {
+          "build_command": [
+            "cargo",
+            "+stable",
+            "build",
+            "--release",
+            "--locked",
+            "--manifest-path",
+            "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\performance\\Cargo.toml",
+            "--target-dir",
+            "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\timing",
+            "--message-format=json",
+            "--features",
+            "quality-policy"
+          ],
+          "path": "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin\\target\\native-performance\\fieldkin-contextual-cost-native-v1\\79df4285a68ca9a5\\timing\\release\\fieldkin-performance.exe",
+          "sha256": "3948db72ab32cd5191440d6c48d143bc66856e0f4f25f9e3a470df891a5badb7",
+          "smoke_behavior": [
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-16-empty-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-16-empty-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-16-sampled-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-16-sampled-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-64-empty-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-64-empty-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-64-sampled-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-64-sampled-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 128,
+              "targets": 128,
+              "workload": "context-128-empty-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 128,
+              "targets": 128,
+              "workload": "context-128-empty-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 128,
+              "targets": 128,
+              "workload": "context-128-sampled-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 128,
+              "targets": 128,
+              "workload": "context-128-sampled-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-ambiguous-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-ambiguous-assignment"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-disjoint-independent"
+            },
+            {
+              "expects_error": false,
+              "iterations": 1,
+              "sources": 64,
+              "targets": 64,
+              "workload": "context-disjoint-assignment"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-input-independent"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-input-assignment"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-pairs-independent"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-pairs-assignment"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-signals-independent"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-signals-assignment"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-report-independent"
+            },
+            {
+              "expects_error": true,
+              "iterations": 1,
+              "sources": 16,
+              "targets": 16,
+              "workload": "context-budget-report-assignment"
+            }
+          ]
+        }
+      },
+      "cargo_config_sha256": {},
+      "commit": "b36290af851cbf18b9fa8f84474f9978e8b631cb",
+      "git_status": "?? evaluation/results/quality-pass-v1/\n?? qualification/results/quality-pass-v1/",
+      "path": "\\\\?\\C:\\Users\\jakew\\Downloads\\fieldkin",
+      "source_sha256": {
+        "Cargo.lock": "cfbb9eec67db39c87f6487a2457963003ee51bdd79dd947559e95b84d971019d",
+        "Cargo.toml": "a2c4a9eaafec892b56c5503ab79c6e6188a2b665acca1e1b20dd40dd17cc6712",
+        "README.md": "31839e117656076d738cc8b26996bba5d8fadb7a0db559af9c1dd36688ee4637",
+        "evaluation/Cargo.toml": "5632bfa85cf85b1eaeae7c11ba9ea687fffa38789f271fa54ba58e71ae9f527a",
+        "performance/Cargo.lock": "5433ce6ade0f2aaaccf59f23f75d781ab9761f00d43b5672c4cf03c06adcd264",
+        "performance/Cargo.toml": "6e0cc60abcdf59b5ae4652c7d4e92cf466155024f07152117101fedabf38a491",
+        "performance/src/main.rs": "ee91c1091678b72c64d0dc31ac5f60f2896723776ad24056a7b43eb344a5d27b",
+        "rust-toolchain.toml": "7458b2d74495e6fb1c1edeea4d5a793705476431dadb60627187111f91441e13",
+        "src/assignment.rs": "cc3b962605f7677498d4ab66dd14f569ff9fad7456afd9c970f01098eb6e87e0",
+        "src/constraints.rs": "83e7d2b9bcc37d55f4e9d208488500eba5c0aeba104d35007e824ad92054ae52",
+        "src/contextual.rs": "cb09cfdf32319fe76f1e90c36bc078795eef3734bd0f50d6ba83001e65bcc598",
+        "src/diagnostics.rs": "d74013589a7759f789d69c866a90361df76f07c14ce7ef31ca8ec4f5281f142e",
+        "src/engine.rs": "d8fd9d99690e4860879bb2639a885add2f136e2cc02c03819ff5ee12ea0fa043",
+        "src/error.rs": "13622630d93314cbe418fc25b0f5ebec6609b938a781ca0b981e3fae05230dcb",
+        "src/json.rs": "298cc685f104b006c2ff1865a7cfbf139b6c3b17f1b83f32c833bfb4c864f7bf",
+        "src/lib.rs": "e06e7786d3e051413a9de539ac83f7b5fc787ae9b370c80fd55a410b838b3fdb",
+        "src/name_conflicts.rs": "44328bbae682720a2f5de88ca6a1599ec716bf93dd8b940fc5d52d33eecbcf8c",
+        "src/numeric.rs": "2ecc76698bfa567a3f44a349b0c931c2acbc2c7f9583fe85ee147913f04a1fd2",
+        "src/profile.rs": "60e07c3d16fc2658c5408b4d1e371463087f1e1673b0e8e430476cf7dccfc303",
+        "src/semantic_name.rs": "ded647ecde43c2826eee4413f30ce9f2fc958ede708029a38f02fc7dd6de8d74",
+        "src/semantics.rs": "4927f23eb9388cee7df9c4aef0d7a3f6da2c5aa7d966527e136aa5cea2e6dffa",
+        "src/signals.rs": "ce3b32dec1cc012c5b650d9988ece8490155edd8d2301123263124fc7624efb4",
+        "src/types.rs": "8b76a5280db4a08c9b72af019af1bed28da759846e321cc0bda03dcd740f2b08"
+      }
+    }
+  },
+  "cli": [
+    "target\\debug\\fieldkin-tools.exe",
+    "perf-context",
+    "build",
+    "--baseline",
+    ".local/quality-baseline",
+    "--candidate",
+    ".",
+    "--output",
+    "target/quality-costs"
+  ],
+  "compiler": {
+    "cargo": "cargo 1.99.0 (5f94df478 2026-08-27)\nrelease: 1.99.0\ncommit-hash: 5f94df4789f005f9a352888e8355ffc645b7ed0e\ncommit-date: 2026-08-27\nhost: x86_64-pc-windows-msvc\nlibgit2: 1.9.6 (sys:0.21.0 vendored)\nlibcurl: 8.21.0-DEV (sys:0.4.90+curl-8.21.0 vendored ssl:Schannel)\nos: Windows 10.0.26200 (Windows 11 Core) [64-bit]",
+    "channel": "stable",
+    "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: x86_64-pc-windows-msvc\nrelease: 1.99.0\nLLVM version: 23.1.1"
+  },
+  "copied_harness_sha256": {
+    "performance/Cargo.lock": "6f34fd85ba3d066c16966bafb0eaa01f1edab0be081c21644b8e3b86b0919a15",
+    "performance/Cargo.toml": "45fde623a6d1ffa4bed7945ff37abf8f325897dcb250321e2ca6fbc0d0b30b53",
+    "performance/src/main.rs": "ee91c1091678b72c64d0dc31ac5f60f2896723776ad24056a7b43eb344a5d27b"
+  },
+  "machine": {
+    "logical_cpus": 12,
+    "machine": "x86_64",
+    "platform": "windows",
+    "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+    "runner": "native Rust",
+    "runner_crate_version": "0.1.0"
+  },
+  "protocol": "fieldkin-contextual-cost-native-v1",
+  "runner": {
+    "binary_path": "C:\\Users\\jakew\\Downloads\\fieldkin\\target\\debug\\fieldkin-tools.exe",
+    "binary_sha256": "a5b500ec3ad8055e49bea27e4c401dfc6206fb24a40ed4ff56e29a7e37a29880",
+    "source_sha256": {
+      "Cargo.lock": "cfbb9eec67db39c87f6487a2457963003ee51bdd79dd947559e95b84d971019d",
+      "Cargo.toml": "60e51febca5ed1213542ed6a055c1f85ccba5e0302fe81c8142c18d149d2aa32",
+      "rust-toolchain.toml": "7458b2d74495e6fb1c1edeea4d5a793705476431dadb60627187111f91441e13",
+      "tooling/Cargo.toml": "387ffc3e172099a67a79066b60f0241f6c95982ab5954610f9a5855cdd8fd4e3",
+      "tooling/src/common.rs": "971e8833d58932fbc70f75d1a6004adc731326d84cec8d8db9c4759020427080",
+      "tooling/src/imports.rs": "584cf42318826d4debfeca846d21b4c65be2b3824e2a73003889175c85e5c2dd",
+      "tooling/src/main.rs": "617cd6a900b6551b11db76b26e1f5e8105620a0e969d969cbeefaeefd97ad25a",
+      "tooling/src/performance.rs": "658ed637da1cc865781e9fd3331ccf1f44dc5e8222c5e184c99c98280190fe37",
+      "tooling/src/qualification.rs": "c1addb3b8f7108e3fd1a7cac9ce119a5ebc7793f0aff99ee99ab25a2f003c2e1",
+      "tooling/src/quality.rs": "944c0828eb3dc7e03eb0c1b751c672242bb36388c9033af938edbce1053d057b",
+      "tooling/src/verified.rs": "3b05ae5334f7396e45e8695e5c1ab3a20d52eb970604ea0f5908ab8cae64ffc7"
+    }
+  },
+  "runs": 5,
+  "specification": {
+    "allocation_iterations": 1,
+    "allocations_warmup_calls": 1,
+    "assignments": [
+      "independent",
+      "one_to_one"
+    ],
+    "baseline_policy": "ContextualEvidence::default() with no configured conflict rules",
+    "budget_cases": [
+      "input",
+      "pairs",
+      "signals",
+      "report"
+    ],
+    "budget_iterations": 500,
+    "candidate_policy": "Config::contextual_quality()",
+    "extended_iterations": 5,
+    "extra_cases": [
+      "ambiguous",
+      "disjoint"
+    ],
+    "harness_feature": "quality-policy enabled only for candidate",
+    "interpretation": "Policies can produce different decisions; this is their actual runtime cost on identical schemas, not a calibrated confidence comparison",
+    "iterations_by_core_size": {
+      "128": 5,
+      "16": 30,
+      "64": 10
+    },
+    "max_explanation_bytes": 33554432,
+    "report_rejection_max_explanation_bytes": 1,
+    "runs": 5,
+    "sampled": [
+      false,
+      true
+    ],
+    "sizes": [
+      16,
+      64,
+      128
+    ],
+    "timing_scope": "matching and report destruction; input and engine construction excluded",
+    "warmup_calls": 3,
+    "workloads": 24
+  }
+}

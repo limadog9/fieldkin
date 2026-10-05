@@ -15,3 +15,10 @@ qualification/results/continuation-v2/** text eol=lf linguist-generated=true
 performance/results/continuation-v2/solver-cost/** -text whitespace=cr-at-eol linguist-generated=true
 qualification/results/continuation-v3/** text eol=lf linguist-generated=true
 qualification/results/continuation-v4/** text eol=lf linguist-generated=true
+# Preserve exact new evidence bytes and hash records across platform checkouts.
+evaluation/results/quality-pass-v1/** -text whitespace=cr-at-eol linguist-generated=true
+qualification/results/quality-pass-v1/** -text whitespace=cr-at-eol linguist-generated=true
+# Unified patch context uses a literal space on unchanged blank lines.
+evaluation/results/quality-pass-v1/rejected-sampled-rename/runtime.patch whitespace=-blank-at-eol,cr-at-eol
+# Preserve the exact smoke source referenced by its recorded source hash.
+qualification/results/quality-pass-v1/package-consumers/default/src/main.rs whitespace=-blank-at-eol,cr-at-eol

@@ -1,0 +1,8 @@
+[package]
+name = "fieldkin-quality-package-default-smoke"
+version = "0.0.0"
+edition = "2021"
+publish = false
+[workspace]
+[dependencies]
+fieldkin = { path = "../unpacked-default/fieldkin-0.1.0", default-features = false }
