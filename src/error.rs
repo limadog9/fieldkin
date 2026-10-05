@@ -21,6 +21,12 @@ pub enum ConfigurationError {
     /// Corroboration requires a finite name floor in `[0, 1]` and a finite
     /// sample floor in `(0, 1]`.
     Corroboration,
+    /// Name conflict rules exceed their bounds, contain duplicate phrases or
+    /// contain phrases that are not canonical normalized sequences of 1 to 4 tokens.
+    NameConflicts,
+    /// Contextual evidence requires active concrete name and default distinct-aware
+    /// sample signals. Custom signal names, wrappers and disabled signals cannot qualify.
+    ContextualEvidence,
 }
 
 impl fmt::Display for ConfigurationError {
@@ -37,6 +43,10 @@ impl fmt::Display for ConfigurationError {
             Self::GlobalDiagnostics => "invalid global assignment diagnostic configuration",
             Self::Corroboration => {
                 "corroboration floors must be finite: name in [0, 1], samples in (0, 1]"
+            }
+            Self::NameConflicts => "invalid bounded name conflict rules or normalized phrases",
+            Self::ContextualEvidence => {
+                "contextual evidence requires active built-in name and default distinct sample signals"
             }
         })
     }

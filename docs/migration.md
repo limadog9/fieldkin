@@ -86,10 +86,11 @@ and `ConfigurationError::Corroboration` reports invalid floors. Existing wildcar
 error/issue arms remain valid. No default weights, scores, thresholds or selections
 change. See [the gate's limits](corroboration.md) before enabling it.
 
-The minimum supported compiler remains Rust 1.85.0, edition 2021. Qualification
-also pins Rust 1.99.0, the current stable verified on October 3, 2026, across Linux,
-Windows and macOS. The default and `--no-default-features` library builds retain
-the existing dependency graph. The optional `json` feature adds the bounded JSON
+New development and qualification require latest stable Rust, with Rust 1.99.0
+used for the October 4, 2026 validation. The repository selects `stable`; older
+compiler maintenance has ended. Edition 2021 is unchanged. CI exercises stable
+across Linux, Windows and macOS. The default and `--no-default-features` library
+builds retain the existing dependency graph. The optional `json` feature adds the bounded JSON
 module and its Serde dependencies; `--all-features` exercises it. The separate
 performance tool's `allocations` feature is not a library feature.
 
@@ -103,7 +104,55 @@ stable wire format. Public reusable prepared schemas and richer transformations
 remain deferred. The in-memory API has
 no network, database, LLM, credential or runtime service requirement.
 
+Fixture reproduction and verified build/run recording now use the unpublished
+native Rust `fieldkin-tools` package. Replace Python importer/runner commands with
+the commands in [verified evaluation](verified-evaluation.md) and
+[evaluation](../evaluation/README.md). Imports check the vendored pinned archives
+offline. Local Python/Valentine COMA execution is retired; archived score import
+remains available in Rust. Historical artifacts retain their dated compiler and
+runner provenance.
+
+## Contextual evidence
+
+`Config::contextual_evidence: Option<ContextualEvidence>` defaults to `None`.
+Exhaustive configuration literals must add `contextual_evidence: None` to preserve
+weighted matching; literals using `..Config::default()` need no change.
+`Some(ContextualEvidence::default())` enables the experimental strict-identifier,
+scoped-support policy. Its two options are `strict_identifier_samples` and
+`scoped_support`, both true in the opt-in preset.
+
+Unlike corroboration and name-conflict checks, this option can raise the overall
+heuristic score: it takes the maximum of the original weighted sum, 0.90 when
+informative lexical agreement has required support, and 0.95 when samples are
+adequate. Original `SignalReport` evidence and weights remain unchanged and can
+reconstruct the weighted base score. `ContextualScoreAdjustment` identifies the
+transformation; no probability calibration is claimed.
+
+`InsufficientContextSupport` explains a contextual exclusion and can produce
+`Decision::InsufficientEvidence` when other automatic requirements pass. Caller
+confirmations override this soft gate while retaining hard semantic constraints
+and an enabled declared-type veto. Context is derived before review directives,
+ambiguity, assignment and top-k. Only active concrete built-in name and default
+distinct-aware sample signals qualify; otherwise construction returns
+`ConfigurationError::ContextualEvidence`. Custom signal names cannot substitute.
+JSON adds these issue codes; the saved-review format is unchanged. See
+[development evidence and release limits](release-readiness.md).
+
 ## Caller review constraints
+
+The precision improvement adds `Config::name_conflicts: Vec<NameConflictRule>`.
+Full configuration literals must add `name_conflicts: Vec::new()` to retain
+ordinary weighted matching; `..Config::default()` needs no change. Each rule
+declares qualifier or unit alternatives with synonymous normalized phrases.
+No rule is enabled by default. See [configuration and limits](precision.md).
+
+Exhaustive `Decision` matches must now handle `InsufficientEvidence`. Enabled
+corroboration returns it when an otherwise viable edge fails required support;
+it previously returned `BelowThreshold`. This is a reporting change to that
+opt-in policy; scores and selected proposals are unchanged. New non-exhaustive
+candidate/field reasons and `ConfigurationError::NameConflicts` support callers
+with wildcard handling. JSON reports add `insufficient_evidence` and a
+`name_conflict` issue with `kind: qualifier|unit`; review JSON is unchanged.
 
 `match_schemas_with_constraints` adds per-call `MatchConstraints` without changing
 `Config` or existing report fields. `match_schemas` and empty constraints retain

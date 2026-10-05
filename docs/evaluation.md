@@ -98,19 +98,26 @@ All ablation counts are published rather than selecting only favorable compariso
 
 ## Reproduce and verify
 
+The measurements above are the archived October 3 baseline. Its Rust 1.85.0
+compiler and source hashes remain part of that record; current development
+supports only latest stable Rust. The original held-out families are now
+regression evidence, not a fresh test set.
+
+Current development checks use the native evaluator and the planned strict
+snapshot at `evaluation/results/rust-native-v1/baseline`:
+
 ```text
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --split all --acknowledge-holdout --output target/evaluation-full
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --check-behavior --output evaluation/results/baseline-v1
-cargo +1.85.0 test --locked --all-features
-cargo +1.85.0 clippy --locked --workspace --all-targets --all-features -- -D warnings
+cargo +stable run --locked --release -p fieldkin-eval -- --check --output evaluation/results/rust-native-v1/baseline
+cargo +stable test --locked --all-features
+cargo +stable clippy --locked --workspace --all-targets --all-features -- -D warnings
 ```
 
-The first command evaluates both partitions; the second checks development only.
-After Stage 2, `--check-behavior` compares the frozen results while allowing engine
-and evaluator source hashes to change. It still compares configuration, corpus,
-dependencies, every development prediction and aggregate result. The historical
-`--check` mode also compares implementation provenance and is appropriate at the
-original baseline revision. The original result files remain unchanged.
+The evaluator command checks development only and requires the snapshot to exist.
+For a new record, use a fresh `target/` directory without `--check`. The historical
+`--check-behavior` mode allowed engine/evaluator source hashes to differ while
+comparing behavior; it does not make the old provenance a current strict snapshot.
+Exact reproduction of the archived record requires its frozen checkout. The
+original result files remain unchanged.
 Baseline generation used Rust 1.85.0 on Windows x86_64. Source hashes normalize
 line endings so CI can verify the same deterministic artifacts on Linux. Compiler
 metadata is recorded separately and is not required to be byte-identical across

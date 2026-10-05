@@ -89,14 +89,14 @@ verification or a million independent real-world schemas. It found no failures;
 that is not proof of absence of bugs. Tooling records and checks source/binary
 hashes before and after execution.
 
-Local Rust 1.85.0 and 1.99.0 validation passes 149 workspace tests including five
+In the archived qualification, local Rust 1.85.0 and 1.99.0 validation passed 149 workspace tests including five
 doctests. Two qualification tests and one performance-harness test bring the
 total to **152**; one preparation microbenchmark stays intentionally ignored.
 Strict clippy, formatting and warning-free docs pass. Both realistic consumer
 examples run, and historical decisions plus current full development reports are
-checked separately. CI requires every Linux/Windows/macOS and minimum/current
+checked separately. The historical CI required every Linux/Windows/macOS and minimum/current
 compiler matrix job through the existing required `test` gate. Holdout scoring
-is never part of CI. There are no optional library feature combinations; the
+was never part of CI. There were no optional library feature combinations; the
 performance tool independently tests its allocator feature.
 
 The dependency review inventories 42 third-party versions and records zero
@@ -150,45 +150,53 @@ and the [algorithmic bounds](stage4-diagnostics.md).
 
 ## Reproduce the checks
 
-Normal development and CI use only the development partition:
+The records above retain their original compiler, source and measurement facts.
+Rust 1.85 maintenance and the Python runners are retired. Current development and
+CI use latest stable Rust and only the development partition:
 
 ```text
-cargo +1.85.0 fmt --all -- --check
-cargo +1.85.0 clippy --locked --workspace --all-targets --all-features -- -D warnings
-cargo +1.85.0 test --locked --all-features
-cargo +1.85.0 doc --locked --no-deps --all-features
-cargo +1.85.0 run --locked --example import_review
-cargo +1.85.0 run --locked --example catalog_review
-cargo +1.85.0 package --locked -p fieldkin
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --check-behavior --output evaluation/results/baseline-v1
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --stage3 --check --output evaluation/results/rc-v1/stage3-development
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --release --check --output evaluation/results/rc-v1/release
+cargo +stable fmt --all -- --check
+cargo +stable clippy --locked --workspace --all-targets --all-features -- -D warnings
+cargo +stable test --locked --all-features
+cargo +stable doc --locked --no-deps --all-features
+cargo +stable run --locked --example import_review
+cargo +stable run --locked --example catalog_review
+cargo +stable package --locked -p fieldkin
+cargo +stable run --locked --release -p fieldkin-eval -- --check --output evaluation/results/rust-native-v1/baseline
+cargo +stable run --locked --release -p fieldkin-eval -- --stage3 --check --output evaluation/results/rust-native-v1/stage3
+cargo +stable run --locked --release -p fieldkin-eval -- --release --check --output evaluation/results/rust-native-v1/release
 ```
 
-Set `RUSTDOCFLAGS=-D warnings` for docs. Repeat compiler checks with `+1.99.0`.
+The native strict snapshot paths are planned; `--check` requires them to exist.
+Set `RUSTDOCFLAGS=-D warnings` for docs.
 Run `fmt`, `clippy` and `test` with the standalone `performance/Cargo.toml`
 (`--all-features`) and `qualification/Cargo.toml` manifests as configured in CI.
-From a clean frozen checkout, these commands reproduce qualification artifacts
-in fresh directories:
+For a new native record, build into fresh directories:
 
 ```text
-python qualification/run.py build --output target/qualification-reproduction
-python qualification/run.py run --output target/qualification-reproduction --cases 1000000 --seed 20261003
-python performance/run.py build --baseline .local/stage2-baseline --candidate . --output target/cost-reproduction
-python performance/run.py run --output target/cost-reproduction
-python performance/diagnostics.py build --output target/diagnostics-reproduction
-python performance/diagnostics.py run --output target/diagnostics-reproduction
+cargo +stable run --locked -p fieldkin-tools -- qualify-build --output target/qualification-native
+cargo +stable run --locked -p fieldkin-tools -- perf-run build --baseline .local/stage2-baseline --candidate . --output target/cost-native
+cargo +stable run --locked -p fieldkin-tools -- perf-diagnostics build --output target/diagnostics-native
 ```
 
 The before/after baseline is a separate detached checkout of `00b12b5`, created
 with `git worktree add --detach .local/stage2-baseline 00b12b5` if absent. Builders
 record exact sources and binaries; measurements refuse stale artifacts and do
-not overwrite prior runs. Timings will vary by machine. The final held-out run
-was explicitly authorized after freezing and used:
+not overwrite prior runs. Finish builds and tests, then run sequentially without
+concurrent work:
 
 ```text
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --release --output evaluation/results/rc-v1/release --acknowledge-holdout
+cargo +stable run --locked -p fieldkin-tools -- qualify-run --output target/qualification-native --cases 1000000 --seed 20261003
+cargo +stable run --locked -p fieldkin-tools -- perf-run run --output target/cost-native
+cargo +stable run --locked -p fieldkin-tools -- perf-run summarize --output target/cost-native
+cargo +stable run --locked -p fieldkin-tools -- perf-diagnostics run --output target/diagnostics-native
 ```
+
+These runs use native protocols and the actual installed stable compiler. The
+generated campaign now has seven categories, including contextual evidence; no
+new full campaign measurement is claimed here. Timings vary by machine. The
+historical final held-out evaluation was authorized and scored once after its
+freeze; its original command and provenance remain in the archived record.
 
 Do not use those now-examined families for future tuning and still call them an
 untouched final test. Preserve them as regression evidence and reserve new

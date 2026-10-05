@@ -6,7 +6,8 @@ service. It returns ranked candidates, individual signal explanations, ambiguous
 alternatives, and unmatched fields. It does not rewrite data.
 
 **Status:** first-release implementation; not yet published to
-crates.io. The API is experimental. Rust 1.85 or later; MIT OR Apache-2.0.
+crates.io. The API is experimental. Latest stable Rust is required
+(Rust 1.99.0 for the October 4, 2026 validation); MIT OR Apache-2.0.
 The sole maintainer and final decision-maker is [@limadog9](https://github.com/limadog9).
 
 ## Quick start
@@ -69,7 +70,7 @@ needs domain review.
 
 Use `Field::with_samples` with `SampleValue::{Null, Boolean, Number, Integer, Decimal, Text}`.
 `None`, empty samples, and insufficient non-null values are explained separately.
-Text values compare exactly; Fieldkin does not parse dates or cast strings to numbers.
+Text sample equality is exact, with no value conversions.
 `Number` retains `f64` measurements. Use `Integer(i128)` and
 `Decimal(ExactDecimal)` for exact values; numeric kinds are not implicitly cast.
 See [exact numeric samples](docs/exact-numbers.md) for scale and range rules.
@@ -107,7 +108,7 @@ unrelated fields can have identical profiles. See [Stage 3 migration and limits]
 An application can require sampled support before accepting a pair as eligible:
 
 ```rust
-use fieldkin::{CandidateIssue, Config, Corroboration, DataType, Field, MatchEngine, Schema};
+use fieldkin::{CandidateIssue, Config, Corroboration, DataType, Decision, Field, MatchEngine, Schema};
 
 let source = Schema::new(vec![Field::new("s", "amount", DataType::Decimal)]);
 let target = Schema::new(vec![Field::new("t", "amount", DataType::Decimal)]);
@@ -116,6 +117,7 @@ let report = MatchEngine::new(Config {
     ..Config::default()
 })?.match_schemas(&source, &target)?;
 assert!(report.fields[0].selected.is_none());
+assert_eq!(report.fields[0].decision, Decision::InsufficientEvidence);
 assert!(report.fields[0].candidates[0].issues.contains(&CandidateIssue::InsufficientSampleSupport));
 # Ok::<(), fieldkin::MatchError>(())
 ```
@@ -126,6 +128,48 @@ unsupported candidates are retained for review. Unavailable or disjoint samples
 lose eligibility, and coincidental shared values can still mislead. The weighted
 default remains unchanged. See [corroboration and its tradeoffs](docs/corroboration.md)
 and the [complete example](examples/corroboration.rs).
+
+`Config::name_conflicts` can separately exclude conflicting qualifiers or unit
+phrases using caller-configured alternatives and synonyms. It inspects normalized
+names before aliases and preserves scores and ranked evidence. The default rule
+list is empty. On the unchanged 960-decision development baseline, the fixed
+conflict vocabulary removes five false proposals while retaining all 321 correct
+independent matches: precision rises from 76.07% to 76.98%, with unique coverage
+unchanged at 44.66%. See [configuration](docs/precision.md) and the
+[precision and coverage report](docs/precision-evaluation.md).
+
+`Config::contextual_evidence` enables an experimental policy that combines
+informative name agreement with adequate or distinctive sampled support:
+
+```rust
+use fieldkin::{Config, ContextualEvidence, DataType, Field, MatchEngine, SampleValue, Schema};
+
+let samples = vec![SampleValue::Integer(10), SampleValue::Integer(20), SampleValue::Integer(30)];
+let source = Schema::new(vec![Field::new("s", "customer_id", DataType::Unknown)
+    .with_samples(samples.clone())]);
+let target = Schema::new(vec![Field::new("t", "customer_id", DataType::Unknown)
+    .with_samples(samples)]);
+let report = MatchEngine::new(Config {
+    contextual_evidence: Some(ContextualEvidence::default()),
+    ..Config::default()
+})?.match_schemas(&source, &target)?;
+assert!(report.fields[0].selected.is_some());
+assert!(report.fields[0].selected.as_ref().unwrap().score >= 0.95);
+# Ok::<(), fieldkin::MatchError>(())
+```
+
+This option defaults to `None`. Original signal evidence and weights are preserved;
+the overall score becomes the maximum of their weighted sum, a 0.90 supported
+lexical floor and a 0.95 adequate-sample floor. These are heuristic choices,
+not confidence probabilities. Contextual support additionally governs eligibility:
+unsupported viable pairs return `InsufficientEvidence` with
+`InsufficientContextSupport`, while `ContextualScoreAdjustment` identifies a raised
+score. Strict identifiers require distinctive samples; scoped support checks
+observed agreement, measurement representation and temporal roles. Context uses
+every original hard-compatible pair before caller review, ambiguity, assignment
+and display truncation. It requires active concrete built-in name and default
+distinct-aware sample signals; custom signal names cannot substitute. See
+[release-readiness evidence and limits](docs/release-readiness.md).
 
 ## API and customization
 
@@ -226,20 +270,24 @@ is provided. See [the JSON boundary](docs/json.md) and the compiling
 ## Validation and development
 
 ```text
-cargo fmt --all -- --check
-cargo clippy --locked --all-targets --all-features -- -D warnings
-cargo test --locked --all-features
-cargo test --locked -p fieldkin --no-default-features
-cargo test --locked --doc
-cargo doc --locked --no-deps --all-features
-cargo run --locked --example baseline
-cargo bench --locked --bench matching
+rustup update stable --no-self-update
+cargo +stable fmt --all -- --check
+cargo +stable clippy --locked --workspace --all-targets --all-features -- -D warnings
+cargo +stable test --locked --workspace --all-features
+cargo +stable test --locked -p fieldkin --no-default-features
+cargo +stable test --locked --doc
+cargo +stable doc --locked --no-deps --all-features
+cargo +stable run --locked --example baseline
+cargo +stable bench --locked --bench matching
+cargo +stable run --locked -p fieldkin-tools -- import-northix --check
+cargo +stable run --locked -p fieldkin-tools -- import-t2d --check
 ```
 
-CI checks Rust 1.85.0 and 1.99.0 on Linux, Windows and macOS, including tests,
+CI checks latest stable Rust on Linux, Windows and macOS, including tests,
 clippy, documentation, consumer examples, packaging and development/regression evaluation.
-Formatting is checked on both compilers. Workflow permissions remain
-read-only. Library tests and performance inputs are original synthetic fixtures.
+Formatting uses that same toolchain. Older compiler maintenance has ended.
+Workflow permissions remain read-only. Library tests and performance inputs are
+original synthetic fixtures.
 The separate external evaluation includes Apache-licensed T2D correspondences
 and the CC-BY-4.0 Northix benchmark, each with provenance and notices. The baseline example compares name-only matching with the
 default engine on small labeled cases; it is a regression illustration, not a
@@ -270,14 +318,14 @@ unmet. See the [migration guide](docs/stage3-migration.md) for API changes.
 
 ## Release qualification
 
-The remaining roadmap implementation and release qualification are recorded in
+The October 3, 2026 roadmap implementation and qualification are recorded in
 the [candidate scorecard](docs/release-scorecard.md). One million generated cases
 passed, but original held-out precision is **37.5%** and unique-field coverage **40%**:
 the planned quality bar is unmet. Fieldkin remains experimental and unpublished.
 See the [changelog](docs/changelog.md) for delivered features and deferred work.
 
-The subsequent [corroboration experiment](docs/corroboration-evaluation.md) reserves
-24 new synthetic families. On its fresh holdout, the opt-in sample gate reduces
+The subsequent historical [corroboration experiment](docs/corroboration-evaluation.md)
+introduced 24 synthetic families. On that experiment's frozen holdout, the opt-in sample gate reduces
 false independent proposals from 55 to 32, while the number of correct independent
 proposals stays at 20: precision improves from 26.67% to 38.46%, but unique coverage
 is only 16.30%. These harder challenge cases are a separate dataset, not a trend
@@ -303,11 +351,13 @@ unused target columns and solves with no eligible positive edges.
 All pairs are still scored, and diagnostics retain their original work budgets.
 The report documents full-report compatibility checks and measured costs.
 
-The [remaining build cycle](docs/continuation-scorecard.md) adds optional review
-persistence, a bounded 1,000-field scale experiment and a frozen Northix/Valentine
-comparison. The external comparison is development tooling; Python and Valentine
-are not library dependencies. Existing matching policy and default input limits
-remain unchanged.
+The historical [remaining build cycle](docs/continuation-scorecard.md) added optional
+review persistence, a bounded 1,000-field scale experiment and a frozen
+Northix/Valentine comparison. Active fixture imports and verified evaluation now
+use the native Rust `fieldkin-tools` package. Local Python/Valentine COMA execution
+has been retired; Rust can still import the archived comparison score files.
+Reusing those scores is a reproducibility comparison, not a newly executed
+external matcher. Default input limits and weighted matching remain unchanged.
 
 ## License
 

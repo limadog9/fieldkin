@@ -5,6 +5,22 @@ It is excluded from the library archive and normal workspace dependency graph.
 All fixtures are original synthetic data under MIT OR Apache-2.0. No input files,
 randomness, network access or sample logging occur in the benchmark process.
 
+All measurement drivers and protocol tests now live in native Rust in
+[`tooling/src/performance.rs`](../tooling/src/performance.rs). Commands select
+the installed stable Rust channel and record the actual Rust and Cargo releases,
+the executing runner binary and source hashes, scoped checkout inputs, Cargo
+configuration, environment and measured binary hashes. Compiler wrappers,
+compiler replacement and cross-target configuration are rejected. Build and run
+remain separate; run checks recorded inputs before and after every process.
+Outputs are exclusive and never replace earlier records. A fresh baseline must
+accept the common harness; an existing different harness is rejected.
+
+Historical measurements under `performance/results` are archival records from
+their original toolchains and runners. Their numbers and metadata have not been
+rewritten. Native protocol names distinguish new measurements from that archive;
+the native commands refuse to run old build records as fresh measurements.
+Protocol tests validate archived raw workload shapes without retiming them.
+
 The protocol has 50 workloads: the original 24 combined/name-only combinations
 (16/64/128 fields, samples absent or 16 values, independent/one-to-one), plus both
 assignment modes for short names, long names, sparse/null-heavy samples, dense
@@ -22,13 +38,13 @@ The baseline for Stage 2 is the Stage 1 main revision, `00b12b5`.
 
 ```text
 git worktree add --detach .local/stage2-baseline 00b12b5
-python performance/run.py build --baseline .local/stage2-baseline --candidate . --output performance/results/stage2-v1
-python performance/run.py run --output performance/results/stage2-v1
+cargo +stable run --locked -p fieldkin-tools -- perf-run build --baseline .local/stage2-baseline --candidate . --output target/native-stage2
+cargo +stable run --locked -p fieldkin-tools -- perf-run run --output target/native-stage2
 ```
 
 The worktree needs to be created only once. Build copies these exact harness files
 into the baseline checkout, without editing its library sources. The `build`
-command compiles both revisions using `cargo +1.85.0 build --release --locked` and
+command compiles both revisions using `cargo +stable build --release --locked` and
 records source/lockfile hashes, compiler output, machine information, Git state,
 relevant compiler flags and release-profile environment overrides,
 build commands and binary hashes. Line endings are normalized only for source
@@ -69,11 +85,11 @@ cross-machine guarantee or claim about other matchers. Shared CI timing must not
 be a hard gate. The original one-run timing table is not used as the baseline.
 
 ```text
-cargo +1.85.0 fmt --manifest-path performance/Cargo.toml -- --check
-cargo +1.85.0 clippy --locked --manifest-path performance/Cargo.toml --all-features -- -D warnings
-cargo +1.85.0 test --locked --manifest-path performance/Cargo.toml --all-features
-cargo +1.85.0 run --release --locked --manifest-path performance/Cargo.toml -- --smoke
-cargo +1.85.0 run --release --locked --manifest-path performance/Cargo.toml --features allocations -- --smoke
+cargo +stable fmt --manifest-path performance/Cargo.toml -- --check
+cargo +stable clippy --locked --manifest-path performance/Cargo.toml --all-features -- -D warnings
+cargo +stable test --locked --manifest-path performance/Cargo.toml --all-features
+cargo +stable run --release --locked --manifest-path performance/Cargo.toml -- --smoke
+cargo +stable run --release --locked --manifest-path performance/Cargo.toml --features allocations -- --smoke
 ```
 
 `--smoke` runs one warm-up and one measured call, useful for checking workload
@@ -92,8 +108,8 @@ public `Corroboration::default()`; supplied samples and displayed scores remain
 the same, while eligibility and report construction can change.
 
 ```text
-python performance/corroboration.py build --output target/corroboration-cost
-python performance/corroboration.py run --output target/corroboration-cost
+cargo +stable run --locked -p fieldkin-tools -- perf-corroboration build --output target/native-corroboration-cost
+cargo +stable run --locked -p fieldkin-tools -- perf-corroboration run --output target/native-corroboration-cost
 ```
 
 Build first, then stop concurrent builds/tests before measuring. The runner
@@ -105,11 +121,11 @@ engine/input setup. Summaries use the median and min/max of five process means.
 Order is fixed, without CPU affinity or confidence intervals; these are
 descriptive costs, not an optimization claim or a wall-clock budget.
 
-To assess unchanged-default overhead, the existing 50-workload `run.py` protocol
+To assess unchanged-default overhead, the existing 50-workload `perf-run` protocol
 can separately compare the pre-correction `3b8d65a` checkout against the frozen
 candidate, with instrumentation in separate processes. Its generated table
-retains the historical Stage 2 protocol name; `build.json` identifies the actual
-revisions. Neither cost harness reads accuracy evaluation fixtures.
+uses a distinct native protocol name; `build.json` identifies the actual
+revisions and compiler. Neither cost harness reads accuracy evaluation fixtures.
 
 ## Caller-review costs
 
@@ -121,9 +137,9 @@ source. Global alternative diagnostics are disabled. All source-target pairs
 still receive evidence evaluations.
 
 ```text
-cargo +1.85.0 run --locked --release --example review_cost -- --smoke
-python performance/review.py build --output target/review-cost
-python performance/review.py run --output target/review-cost
+cargo +stable run --locked --release --example review_cost -- --smoke
+cargo +stable run --locked -p fieldkin-tools -- perf-review build --output target/native-review-cost
+cargo +stable run --locked -p fieldkin-tools -- perf-review run --output target/native-review-cost
 ```
 
 The smoke command checks execution only. Build first; run measurements with no
@@ -147,13 +163,13 @@ not schema-matching accuracy, and all original pairs are scored.
 
 ```text
 git worktree add --detach .local/assignment-baseline 8674c70
-python performance/assignment.py build --baseline .local/assignment-baseline --candidate . --output target/assignment-cost
-python performance/assignment.py run --output target/assignment-cost
-python -m unittest discover -s performance -p test_assignment.py
+cargo +stable run --locked -p fieldkin-tools -- perf-assignment build --baseline .local/assignment-baseline --candidate . --output target/native-assignment-cost
+cargo +stable run --locked -p fieldkin-tools -- perf-assignment run --output target/native-assignment-cost
+cargo +stable test --locked -p fieldkin-tools performance::tests
 ```
 
 Skip the worktree command if the baseline already exists. The builder copies only
-the common example and driver into the baseline, keeps runtime sources unchanged,
+the common example into the baseline, keeps runtime sources unchanged,
 and records fresh isolated binaries and raw input hashes. Measurements alternate
 the two revisions across five processes each. Each workload has one warmup and
 10/4/2 timed calls by size; timings include matching and report destruction, and
@@ -164,3 +180,24 @@ Finish builds and tests before measurement. The existing 50-workload timing and
 allocation protocol provides a separate default-behavior cost comparison. See
 [the assignment report](../docs/assignment-performance.md) for results and the
 source-row tie behavior that limits the optimization.
+
+## Diagnostics and scale characterization
+
+The diagnostics runner measures the existing 20 dimension/mode combinations,
+with one warmup and three measured calls each, across five release processes.
+The scale runner retains 128/512/1000-field diagonal, partial and built-in
+workloads under both assignment modes. Its explicit limits apply only to the
+benchmark; library defaults remain unchanged.
+
+```text
+cargo +stable run --locked -p fieldkin-tools -- perf-diagnostics build --output target/native-diagnostics-cost
+cargo +stable run --locked -p fieldkin-tools -- perf-diagnostics run --output target/native-diagnostics-cost
+cargo +stable run --locked -p fieldkin-tools -- perf-scale build --output target/native-scale-cost
+cargo +stable run --locked -p fieldkin-tools -- perf-scale run --output target/native-scale-cost
+```
+
+All six commands accept `--help`. Their protocol tests reject changed decision
+counts, budgets, objectives, iterations, duplicate or reordered workloads,
+malformed durations and pre-existing output. Timing comparisons report medians
+and min/max across five process means. They do not establish accuracy, worst-case
+latency, a confidence interval or peak memory.

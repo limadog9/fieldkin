@@ -103,14 +103,17 @@ visible and must not be renamed false positives or silently excluded to imply
 overall accuracy. Nothing here establishes calibrated scores or production safety.
 
 ```text
-python evaluation/import_t2d.py --check
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --external --output target/t2d-development
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --external --check --output evaluation/results/t2d-v1
+cargo +stable run --locked -p fieldkin-tools -- import-t2d --check
+cargo +stable run --locked --release -p fieldkin-eval -- --external --output target/t2d-development
+cargo +stable run --locked --release -p fieldkin-eval -- --external --check --output evaluation/results/rust-native-v1/external
 ```
 
 Fixture reproduction is offline by default and verifies pinned upstream bytes
 before conversion. It reads archive members in memory without extracting paths.
-CI runs development only and verifies deterministic results. Original synthetic
+The original Python importer is retired; its dated artifacts remain unchanged.
+Latest stable Rust is the supported toolchain. The strict native snapshot above
+is planned at `evaluation/results/rust-native-v1/external`; `--check` requires it
+to exist. CI runs development only and verifies deterministic results. Original synthetic
 results and the missed 95% precision / 60% coverage release targets remain in
 force; these limited external annotations cannot certify those targets. Genuine
 consumer validation still needs independently provided source/target schemas,
@@ -119,12 +122,13 @@ representative values when available, and explicit negative/unmatched labels.
 For new recorded executions, use the [verified build/run workflow](verified-evaluation.md).
 It builds into a fresh target directory, records the Cargo-reported executable,
 checks its inputs before and after execution, and records success only after the
-three development artifacts are complete. Direct commands above retain their
-original source-hash semantics. The historical results in this document are not
+three development artifacts are complete. Direct evaluator commands record source
+hashes. The historical results in this document are not
 retroactively upgraded to executable-verified records.
 
 Later implementation changes have their own strict snapshots. The
 [partial-assignment record](assignment-performance.md) compares the new version's
-complete development behavior with these historical results; current CI checks
-`evaluation/results/assignment-v1/external/artifacts`. Reproducing `t2d-v1` with
+complete development behavior with these historical results. The
+`evaluation/results/assignment-v1/external/artifacts` snapshot belongs to that
+archived implementation. Reproducing `t2d-v1` with
 its exact implementation metadata requires its frozen checkout.

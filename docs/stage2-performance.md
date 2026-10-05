@@ -113,42 +113,51 @@ that decision for demonstrated repeated-schema workloads.
 
 ## Reproduction and validation
 
-Run from the repository root with a fresh output directory. The worktree needs
-to be created only once:
+The results above preserve their historical Rust 1.85/Python provenance. Older
+compiler support and the Python runner are retired. Current tools use latest
+stable Rust and distinct native protocol records. Run from the repository root
+with a fresh output directory; create the baseline worktree only once:
 
 ```text
 git worktree add --detach .local/stage2-baseline 00b12b5
-python performance/run.py build --baseline .local/stage2-baseline --candidate . --output target/stage2-comparison
-python performance/run.py run --output target/stage2-comparison
-cargo +1.85.0 test --locked --release -p fieldkin --lib signals::tests::prepare_original_128_cost -- --ignored --exact --nocapture
+cargo +stable run --locked -p fieldkin-tools -- perf-run build --baseline .local/stage2-baseline --candidate . --output target/stage2-native
+cargo +stable test --locked --release -p fieldkin --lib signals::tests::prepare_original_128_cost -- --ignored --exact --nocapture
 ```
 
-The script copies the same harness into the baseline checkout, without changing
-its library sources. Keep builds and tests idle during `run`. Later revisions
-will naturally have different hashes and may have different performance; use the
-frozen after revision above to reproduce this exact implementation.
-
-Validation commands run for this stage:
+The native tool copies the same harness into the baseline checkout, without
+changing its library sources. After builds and tests finish, run:
 
 ```text
-cargo +1.85.0 fmt --all -- --check
-cargo +1.85.0 clippy --locked --workspace --all-targets --all-features -- -D warnings
-cargo +1.85.0 test --locked --all-features
-cargo +1.85.0 doc --locked --no-deps --all-features
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --check-behavior --output evaluation/results/baseline-v1
-cargo +1.85.0 fmt --manifest-path performance/Cargo.toml -- --check
-cargo +1.85.0 clippy --locked --manifest-path performance/Cargo.toml --all-targets --all-features -- -D warnings
-cargo +1.85.0 test --locked --manifest-path performance/Cargo.toml --all-features
-cargo +1.85.0 package --locked --allow-dirty -p fieldkin
+cargo +stable run --locked -p fieldkin-tools -- perf-run run --output target/stage2-native
+cargo +stable run --locked -p fieldkin-tools -- perf-run summarize --output target/stage2-native
 ```
 
-Documentation uses `RUSTDOCFLAGS=-D warnings`. There are 64 passing workspace
+Keep builds and tests idle during measurements. Later revisions and the current
+compiler have different hashes and may have different performance. Exact archived
+provenance requires the frozen checkout and its retired tooling.
+
+Current equivalents of the historical validation commands follow. The native
+baseline snapshot path is planned; `--check` requires it to exist:
+
+```text
+cargo +stable fmt --all -- --check
+cargo +stable clippy --locked --workspace --all-targets --all-features -- -D warnings
+cargo +stable test --locked --all-features
+cargo +stable doc --locked --no-deps --all-features
+cargo +stable run --locked --release -p fieldkin-eval -- --check --output evaluation/results/rust-native-v1/baseline
+cargo +stable fmt --manifest-path performance/Cargo.toml -- --check
+cargo +stable clippy --locked --manifest-path performance/Cargo.toml --all-targets --all-features -- -D warnings
+cargo +stable test --locked --manifest-path performance/Cargo.toml --all-features
+cargo +stable package --locked --allow-dirty -p fieldkin
+```
+
+Documentation uses `RUSTDOCFLAGS=-D warnings`. The historical stage had 64 passing workspace
 tests, including README doctests, plus one performance-harness test covering all
 50 successful/rejected calls. The ignored preparation measurement was run
-separately. CI preserves the four required check names and read-only permissions;
-it checks behavior and harness correctness, with no timing threshold.
+separately. That cycle's CI preserved the four required check names and read-only
+permissions; it checked behavior and harness correctness, with no timing threshold.
 
-The library still has coarse numeric samples, semantic false positives and
-limited global ambiguity diagnostics. This stage makes those same decisions
+At this stage the library still had coarse numeric samples, semantic false
+positives and limited global ambiguity diagnostics. This stage made those same decisions
 cheaper. Candidate generation for 512–1,000 fields remains deferred; exact
 all-pairs behavior and the default 128-field limit are unchanged.

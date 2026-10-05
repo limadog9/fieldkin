@@ -1,4 +1,6 @@
 //! Annotation-only external evidence. Reserved classes are never scored here.
+//! `--check` retains complete provenance equality; explicit `--check-behavior`
+//! exempts only the two implementation-source hash maps in the summary.
 
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
@@ -250,6 +252,7 @@ fn corpus(protocol: &Value) -> Result<Corpus, String> {
 
 fn engine(model: &str, one_to_one: bool) -> Result<MatchEngine, String> {
     let config = Config {
+        name_conflicts: Vec::new(),
         min_score: 0.7,
         ambiguity_margin: 0.08,
         max_candidates: 5,
@@ -257,6 +260,7 @@ fn engine(model: &str, one_to_one: bool) -> Result<MatchEngine, String> {
         abstain_on_ambiguity: true,
         reject_incompatible_types: model != "name_only",
         corroboration: None,
+        contextual_evidence: None,
         global_diagnostics: GlobalDiagnosticsConfig {
             max_solves: 0,
             max_work: 8_388_608,
@@ -472,6 +476,7 @@ fn evaluate(corpus: &Corpus) -> Result<(Vec<Value>, String), String> {
 struct Options {
     output: PathBuf,
     check: bool,
+    check_behavior: bool,
 }
 
 impl Options {
@@ -479,22 +484,39 @@ impl Options {
         let mut result = Self {
             output: root().join("target/fieldkin-external"),
             check: false,
+            check_behavior: false,
         };
         let mut arguments = args.into_iter();
         while let Some(argument) = arguments.next() {
             match argument.as_str() {
                 "--output" => result.output = arguments.next().ok_or("--output needs a directory")?.into(),
                 "--check" => result.check = true,
-                _ => return Err("external evaluation accepts --output DIR and --check only; holdout classes remain reserved".into()),
+                "--check-behavior" => result.check_behavior = true,
+                _ => return Err("external evaluation accepts --output DIR, --check or --check-behavior only; holdout classes remain reserved".into()),
             }
         }
+        if result.check && result.check_behavior {
+            return Err("--check and --check-behavior are mutually exclusive".into());
+        }
+        result.check |= result.check_behavior;
         Ok(result)
     }
 }
 
-fn write_or_check(path: &Path, contents: &str, check: bool) -> Result<(), String> {
+fn write_or_check(
+    path: &Path,
+    contents: &str,
+    check: bool,
+    check_behavior: bool,
+) -> Result<(), String> {
     if check || path.exists() {
-        if read(path)? != contents {
+        let existing = read(path)?;
+        let same = if check_behavior {
+            crate::snapshot::same_behavior_json(&existing, contents)?
+        } else {
+            existing == contents
+        };
+        if !same {
             return Err(format!(
                 "{} differs; refusing to replace existing evaluation evidence",
                 path.display()
@@ -516,7 +538,7 @@ pub fn run(args: Vec<String>) -> Result<(), String> {
         "library_manifest_sha256":hash(&read(&root().join("Cargo.toml"))?),
         "evaluator_manifest_sha256":hash(&read(&root().join("evaluation/Cargo.toml"))?),
         "dependency_lock_sha256":hash(&read(&root().join("Cargo.lock"))?),
-        "importer_sha256":hash(&read(&root().join("evaluation/import_t2d.py"))?),
+        "importer_sha256":hash(&read(&root().join("tooling/src/imports.rs"))?),
         "partition":"development","holdout":"reserved; no matcher executed for holdout classes"});
     let summary = serde_json::to_string_pretty(&json!({"metadata":metadata,"rows":rows}))
         .map_err(|error| error.to_string())?
@@ -550,16 +572,19 @@ pub fn run(args: Vec<String>) -> Result<(), String> {
         &options.output.join("development.json"),
         &summary,
         options.check,
+        options.check_behavior,
     )?;
     write_or_check(
         &options.output.join("development-predictions.jsonl"),
         &predictions,
         options.check,
+        false,
     )?;
     write_or_check(
         &options.output.join("development.md"),
         &markdown,
         options.check,
+        false,
     )?;
     println!("external annotation development {}: 549 tables, 4 fixed model/assignment combinations; holdout reserved", if options.check { "verified" } else { "written" });
     Ok(())
@@ -591,7 +616,68 @@ mod tests {
         for flag in ["--acknowledge-holdout", "--holdout", "--split"] {
             assert!(Options::parse(vec![flag.into()]).is_err());
         }
-        assert!(Options::parse(vec!["--check".into()]).unwrap().check);
+        let exact = Options::parse(vec!["--check".into()]).unwrap();
+        assert!(exact.check && !exact.check_behavior);
+        let behavior = Options::parse(vec!["--check-behavior".into()]).unwrap();
+        assert!(behavior.check && behavior.check_behavior);
+        assert!(Options::parse(vec!["--check".into(), "--check-behavior".into()]).is_err());
+        for mode in ["--check", "--check-behavior"] {
+            for flag in ["--acknowledge-holdout", "--holdout", "--split"] {
+                assert!(Options::parse(vec![mode.into(), flag.into()]).is_err());
+            }
+        }
+    }
+
+    #[test]
+    fn behavior_snapshot_exempts_only_implementation_hashes_and_never_rewrites() {
+        let path = std::env::temp_dir().join(format!(
+            "fieldkin-external-snapshot-{}-{}.json",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let original = json!({"metadata":{
+            "engine_source_sha256":{"engine.rs":"old"},
+            "evaluator_source_sha256":{"external.rs":"old"},
+            "corpus_sha256":"corpus", "protocol_sha256":"protocol",
+            "provenance_sha256":"license", "dependency_lock_sha256":"lock",
+            "library_manifest_sha256":"manifest", "evaluator_manifest_sha256":"eval-manifest",
+            "importer_sha256":"importer", "protocol":{"min_score":0.7}
+        },"rows":[{"counts":{"proposed":3},"known_positive_field_recall":0.5}]})
+        .to_string();
+        let mut file = fs::OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(&path)
+            .unwrap();
+        std::io::Write::write_all(&mut file, original.as_bytes()).unwrap();
+        drop(file);
+        let base: Value = serde_json::from_str(&original).unwrap();
+        let mut current = base.clone();
+        current["metadata"]["engine_source_sha256"] = json!({"engine.rs":"new", "new.rs":"new"});
+        current["metadata"]["evaluator_source_sha256"] = json!({"external.rs":"new"});
+        assert!(write_or_check(&path, &current.to_string(), true, false).is_err());
+        assert!(write_or_check(&path, &current.to_string(), true, true).is_ok());
+        for pointer in [
+            "/metadata/corpus_sha256",
+            "/metadata/protocol_sha256",
+            "/metadata/provenance_sha256",
+            "/metadata/dependency_lock_sha256",
+            "/metadata/library_manifest_sha256",
+            "/metadata/evaluator_manifest_sha256",
+            "/metadata/importer_sha256",
+            "/metadata/protocol/min_score",
+            "/rows/0/counts/proposed",
+            "/rows/0/known_positive_field_recall",
+        ] {
+            let mut current = base.clone();
+            *current.pointer_mut(pointer).unwrap() = json!("changed");
+            assert!(write_or_check(&path, &current.to_string(), true, true).is_err());
+        }
+        assert_eq!(fs::read_to_string(&path).unwrap(), original);
+        fs::remove_file(path).unwrap();
     }
 
     #[test]

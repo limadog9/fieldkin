@@ -53,12 +53,12 @@ struct ExtensionFamily {
     labels: Vec<Label>,
 }
 
-struct EvaluationCase {
-    id: String,
-    family: String,
-    source: Schema,
-    target: Schema,
-    labels: Vec<Label>,
+pub(crate) struct EvaluationCase {
+    pub(crate) id: String,
+    pub(crate) family: String,
+    pub(crate) source: Schema,
+    pub(crate) target: Schema,
+    pub(crate) labels: Vec<Label>,
 }
 
 #[derive(Clone, Serialize)]
@@ -165,7 +165,7 @@ fn extension_schema(fields: &[ExtensionField]) -> Result<Schema, String> {
     Ok(Schema::new(converted))
 }
 
-fn extension_cases() -> Result<Vec<EvaluationCase>, String> {
+pub(crate) fn extension_cases() -> Result<Vec<EvaluationCase>, String> {
     let families: Vec<ExtensionFamily> =
         serde_json::from_str(FIXTURES).map_err(|error| error.to_string())?;
     if families.len() != 12 {
@@ -271,7 +271,9 @@ fn engine(
 ) -> Result<MatchEngine, String> {
     let limits = &protocol["limits"];
     let config = Config {
+        name_conflicts: Vec::new(),
         corroboration: None,
+        contextual_evidence: None,
         global_diagnostics: Default::default(),
         min_score: threshold,
         ambiguity_margin: number(protocol, "ambiguity_margin")?,

@@ -32,6 +32,15 @@ these results do not establish production readiness or authorize publication.
 The subsequent build cycles deliver bounded follow-up phases while retaining the
 original release targets and experimental status:
 
+The compiler and tooling policy has since moved to latest stable Rust only
+(Rust 1.99.0 at the October 4 transition). Rust 1.85 maintenance and the Python
+import, evaluation, performance and qualification runners are retired. Native
+`fieldkin-tools` commands replace them; archived measurements retain their
+original toolchain facts. Local Valentine COMA execution is retired, while
+native import of its existing comparison scores remains available. New generated
+qualification uses seven categories, including contextual evidence; a new full
+campaign remains to be measured.
+
 | Phase | Delivered scope | Evidence and remaining gap |
 | --- | --- | --- |
 | 7. Bring in independent annotations | Pinned, explicitly Apache-licensed original T2D correspondences; offline importer; 549 development tables; 218 tables reserved by whole class | [External evaluation](docs/external-evaluation.md). This induced annotation-only task supplies real original headers and positive labels, but lacks independent target schemas, sample values and negative/unmatched labels; it cannot certify precision. |
@@ -49,9 +58,9 @@ optimization, remaining latency regressions and unmet accuracy targets.
 | Phase | Scope | Completion evidence |
 | --- | --- | --- |
 | 11. Bound larger-schema costs | Evaluate scratch-buffer reuse and measure 128/512/1,000-field inputs with explicitly raised limits and unchanged defaults | Buffer reuse failed the frozen performance gate and was reverted; its complete measurements remain archived. The existing solver passed functional requalification; final timings still include regressions. No new prepared-schema API without evidence that consumers need one. |
-| 12. Persist application review | Optional bounded JSON report export and explicit, schema-version-bound review documents; resume the importer reference consumer | Delivered and checked on both compilers: feature-on/off support, privacy and malformed-input tests, selected/ambiguous/unmatched report fidelity and stale-revision rejection. No schema/sample serialization, service or automatic acceptance of proposals. |
+| 12. Persist application review | Optional bounded JSON report export and explicit, schema-version-bound review documents; resume the importer reference consumer | Delivered and checked on both then-supported compilers: feature-on/off support, privacy and malformed-input tests, selected/ambiguous/unmatched report fidelity and stale-revision rejection. No schema/sample serialization, service or automatic acceptance of proposals. |
 | 13. Compare independent matching evidence | Licensed Northix table schemas and manual classes, including explicit unmatched fields; pinned local Valentine comparison | Frozen and completed: raw scores, predictions, class-defined precision/recall and UNCLASSED errors. Weighted defaults have zero coverage on this task; the T2D holdout remains unscored. |
-| 14. Requalify the completed build | Integrate the reference consumer, experimental benchmark findings and supported feature matrix | 1.2-million-case campaign and 247 Rust tests per compiler passed; packaging, CI on three operating systems and two compilers and updated attribution are integrated. Accuracy and performance acceptance remain unmet; no publication. |
+| 14. Requalify the completed build | Integrate the reference consumer, experimental benchmark findings and supported feature matrix | Historical 1.2-million-case campaign and 247 Rust tests per compiler passed; packaging, then-current CI on three operating systems and two compilers, and updated attribution were integrated. Current CI follows the latest-stable-only policy. Accuracy and performance acceptance remain unmet; no publication. |
 
 Saved review is now a concrete reference-consumer requirement: an importer can
 close and resume while retaining only explicit human decisions and the caller's
@@ -337,8 +346,8 @@ Prove that the selected feature set is supportable before expanding it again.
 - Freeze features and run the full evaluation on the untouched holdout. Publish
   scenario-level successes, failures, counts and configuration; make regressions
   visible instead of changing the benchmark to make the release look better.
-- Run formatting, clippy, tests and docs on the supported minimum Rust version
-  and current stable. Cover Linux, Windows and macOS, plus every supported feature
+- Run formatting, clippy, tests and docs on latest stable Rust.
+  Cover Linux, Windows and macOS, plus every supported feature
   combination. Retain read-only CI permissions and the existing ownership rules.
 - Add bounded fuzz/property campaigns for normalization, malformed inputs,
   configuration limits and assignment invariants. Target at least **one million

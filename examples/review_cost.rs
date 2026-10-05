@@ -1,4 +1,4 @@
-//! Reproducible caller-review cost workloads; use performance/review.py to measure.
+//! Reproducible caller-review cost workloads; use `fieldkin-tools perf-review` to measure.
 //! `--smoke` executes one timed call per workload and is only a functional check.
 
 use std::hint::black_box;

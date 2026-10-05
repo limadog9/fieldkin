@@ -10,117 +10,98 @@ permissions:
 
 jobs:
   platform:
-    name: ${{ matrix.os }} / Rust ${{ matrix.rust }}
+    name: ${{ matrix.os }} / stable Rust
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        rust: [1.85.0, 1.99.0]
     env:
       RUSTDOCFLAGS: -D warnings
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
-      - run: rustup toolchain install ${{ matrix.rust }} --profile minimal --component rustfmt --component clippy
-      - run: cargo +${{ matrix.rust }} fmt --all -- --check
-      - run: cargo +${{ matrix.rust }} fmt --manifest-path performance/Cargo.toml -- --check
-      - run: cargo +${{ matrix.rust }} fmt --manifest-path qualification/Cargo.toml -- --check
-      - run: cargo +${{ matrix.rust }} test --locked --all-features
-      - name: Test the library with optional features disabled
-        run: cargo +${{ matrix.rust }} test --locked -p fieldkin --no-default-features
-      - name: Validate bounded scale fixtures without timing large workloads
-        run: cargo +${{ matrix.rust }} test --locked -p fieldkin --example scale_cost
-      - run: cargo +${{ matrix.rust }} test --locked --manifest-path performance/Cargo.toml --all-features
-      - run: cargo +${{ matrix.rust }} test --locked --manifest-path qualification/Cargo.toml
-      - run: cargo +${{ matrix.rust }} clippy --locked --workspace --all-targets --all-features -- -D warnings
-      - run: cargo +${{ matrix.rust }} doc --locked --no-deps --all-features
-      - run: cargo +${{ matrix.rust }} run --locked --example import_review
-      - run: cargo +${{ matrix.rust }} run --locked --example catalog_review
-      - run: cargo +${{ matrix.rust }} run --locked --example corroboration
-      - run: cargo +${{ matrix.rust }} run --locked --example reviewed_import
-      - run: cargo +${{ matrix.rust }} run --locked --features json --example persisted_review
-      - name: Verify assignment compatibility invariants
-        run: cargo +${{ matrix.rust }} run --locked --example assignment_compatibility -- --check-only
-      - run: cargo +${{ matrix.rust }} package --locked -p fieldkin
-      - name: Verify original decisions with historical sample reliability
-        run: cargo +${{ matrix.rust }} run --locked --release -p fieldkin-eval -- --check --output evaluation/results/continuation-v3/baseline
-      - name: Verify current full development reports
-        run: cargo +${{ matrix.rust }} run --locked --release -p fieldkin-eval -- --stage3 --check --output evaluation/results/continuation-v3/stage3
-      - name: Verify release development snapshot
-        run: cargo +${{ matrix.rust }} run --locked --release -p fieldkin-eval -- --release --check --output evaluation/results/continuation-v3/release
-      - name: Verify corrective development and original regression (no fresh holdout)
-        run: cargo +${{ matrix.rust }} run --locked --release -p fieldkin-eval -- --corrective --check --output evaluation/results/continuation-v3/corrective
-      - name: Verify external annotation development (holdout remains reserved)
-        run: cargo +${{ matrix.rust }} run --locked --release -p fieldkin-eval -- --external --check --output evaluation/results/continuation-v3/external/artifacts
-      - name: Verify Northix reports using stored Valentine scores
-        run: cargo +${{ matrix.rust }} run --locked --release -p fieldkin-eval -- --northix --check --scores evaluation/results/continuation-v1/valentine/valentine-schema_only.json --scores evaluation/results/continuation-v1/valentine/valentine-schema_and_samples.json --output evaluation/results/continuation-v4/northix/artifacts
-      - name: Validate assignment measurement protocol
-        run: python -m unittest discover -s performance -p test_assignment.py
-      - name: Validate scale measurement protocol without running measurements
-        run: python -m unittest discover -s performance -p test_scale.py
-      - name: Reproduce Northix fixture from its pinned archive offline
-        run: python evaluation/import_northix.py --check
-      - name: Validate Northix importer invariants
-        run: python -m unittest discover -s evaluation -p test_import_northix.py
-      - name: Test recorded Northix execution failure paths
-        run: python -m unittest discover -s evaluation -p test_record_northix.py
-      - name: Validate the external comparison protocol without importing Valentine
-        run: python -m unittest discover -s evaluation -p test_compare_valentine.py
-      - name: Reproduce external fixture from pinned annotations offline
-        if: matrix.os == 'ubuntu-latest' && matrix.rust == '1.85.0'
-        run: python3 evaluation/import_t2d.py --check
-      - name: Validate external importer invariants
-        if: matrix.os == 'ubuntu-latest' && matrix.rust == '1.85.0'
-        run: python3 -m unittest discover -s evaluation -p test_import_t2d.py
-      - name: Test verified evaluation failure paths
-        run: python -m unittest discover -s evaluation -p test_verified.py
-      - name: Build a separately recorded external evaluator
-        run: python evaluation/verified.py build --build-dir target/verified-external --toolchain ${{ matrix.rust }}
-      - name: Run verified development-only external evaluation
-        run: python evaluation/verified.py run --build-dir target/verified-external --output target/verified-external-results
+      - run: rustup update stable --no-self-update
+      - run: rustup component add rustfmt clippy --toolchain stable
+      - run: cargo fmt --all -- --check
+      - run: cargo fmt --manifest-path performance/Cargo.toml -- --check
+      - run: cargo fmt --manifest-path qualification/Cargo.toml -- --check
+      - run: cargo test --locked --workspace --all-features
+      - run: cargo test --locked -p fieldkin --no-default-features
+      - run: cargo test --locked -p fieldkin --example scale_cost
+      - run: cargo test --locked --manifest-path performance/Cargo.toml --all-features
+      - run: cargo test --locked --manifest-path qualification/Cargo.toml
+      - run: cargo clippy --locked --workspace --all-targets --all-features -- -D warnings
+      - run: cargo clippy --locked --manifest-path performance/Cargo.toml --all-targets --all-features -- -D warnings
+      - run: cargo clippy --locked --manifest-path qualification/Cargo.toml --all-targets -- -D warnings
+      - run: cargo doc --locked --no-deps --all-features
+      - run: cargo run --locked --example import_review
+      - run: cargo run --locked --example catalog_review
+      - run: cargo run --locked --example corroboration
+      - run: cargo run --locked --example reviewed_import
+      - run: cargo run --locked --features json --example persisted_review
+      - run: cargo run --locked --example assignment_compatibility -- --check-only
+      - run: cargo package --locked -p fieldkin
+      - name: Verify original development snapshots with native tooling provenance
+        run: cargo run --locked --release -p fieldkin-eval -- --check --output evaluation/results/rust-native-v1/baseline
+      - name: Verify complete Stage3 development reports
+        run: cargo run --locked --release -p fieldkin-eval -- --stage3 --check --output evaluation/results/rust-native-v1/stage3
+      - name: Verify release development reports
+        run: cargo run --locked --release -p fieldkin-eval -- --release --check --output evaluation/results/rust-native-v1/release
+      - name: Verify corrective development and retired original regression
+        run: cargo run --locked --release -p fieldkin-eval -- --corrective --check --output evaluation/results/rust-native-v1/corrective
+      - name: Verify conflict and abstention precision against the unchanged baseline
+        run: cargo run --locked --release -p fieldkin-eval -- --precision --check --output evaluation/results/precision-v2
+      - name: Verify development candidate precision and useful coverage
+        run: cargo run --locked --release -p fieldkin-eval -- --readiness --check --output evaluation/results/readiness-v3
+      - name: Verify external annotation development
+        run: cargo run --locked --release -p fieldkin-eval -- --external --check --output evaluation/results/rust-native-v1/external
+      - name: Verify archived external scores with native matching
+        run: cargo run --locked --release -p fieldkin-eval -- --northix --check --scores evaluation/results/continuation-v1/valentine/valentine-schema_only.json --scores evaluation/results/continuation-v1/valentine/valentine-schema_and_samples.json --output evaluation/results/rust-native-v1/northix
+      - name: Reproduce licensed fixture archives offline in Rust
+        run: cargo run --locked -p fieldkin-tools -- import-northix --check
+      - run: cargo run --locked -p fieldkin-tools -- import-t2d --check
+      - name: Build a separately recorded native evaluator
+        run: cargo run --locked -p fieldkin-tools -- verify-build --build-dir target/verified-external --toolchain stable
+      - name: Run verified development evaluation with source and binary guards
+        run: cargo run --locked -p fieldkin-tools -- verify-run --build-dir target/verified-external --output target/verified-external-results
+      - name: Exercise generated invariants without reading reserved fixtures
+        run: cargo run --locked --release --manifest-path qualification/Cargo.toml -- --cases 5000 --seed 20261003
   test:
     name: test
     needs: platform
     if: always()
     runs-on: ubuntu-latest
     steps:
-      - name: Require every platform and compiler check
+      - name: Require every platform check
         env:
           PLATFORM_RESULT: ${{ needs.platform.result }}
         run: test "$PLATFORM_RESULT" = success
   format:
     name: format
+    needs: platform
+    if: always()
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          persist-credentials: false
-      - run: rustup toolchain install 1.85.0 --profile minimal --component rustfmt
-      - run: cargo +1.85.0 fmt --all -- --check
-      - run: cargo +1.85.0 fmt --manifest-path performance/Cargo.toml -- --check
-      - run: cargo +1.85.0 fmt --manifest-path qualification/Cargo.toml -- --check
+      - env:
+          PLATFORM_RESULT: ${{ needs.platform.result }}
+        run: test "$PLATFORM_RESULT" = success
   clippy:
     name: clippy
+    needs: platform
+    if: always()
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          persist-credentials: false
-      - run: rustup toolchain install 1.85.0 --profile minimal --component clippy
-      - run: cargo +1.85.0 clippy --locked --workspace --all-targets --all-features -- -D warnings
-      - run: cargo +1.85.0 clippy --locked --manifest-path performance/Cargo.toml --all-targets --all-features -- -D warnings
-      - run: cargo +1.85.0 clippy --locked --manifest-path qualification/Cargo.toml --all-targets -- -D warnings
+      - env:
+          PLATFORM_RESULT: ${{ needs.platform.result }}
+        run: test "$PLATFORM_RESULT" = success
   docs:
     name: docs
+    needs: platform
+    if: always()
     runs-on: ubuntu-latest
-    env:
-      RUSTDOCFLAGS: -D warnings
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          persist-credentials: false
-      - run: rustup toolchain install 1.85.0 --profile minimal
-      - run: cargo +1.85.0 doc --locked --no-deps --all-features
-      - run: cargo +1.85.0 test --locked --doc
+      - env:
+          PLATFORM_RESULT: ${{ needs.platform.result }}
+        run: test "$PLATFORM_RESULT" = success

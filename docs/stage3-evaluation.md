@@ -15,9 +15,13 @@ Stage 3 corpus scoring. Runtime and evaluator sources were then frozen at
 after seeing results. Original Stage 1 corpus, protocol and artifacts remain
 unchanged. All fixtures are original MIT OR Apache-2.0 data.
 
+The commands below use current latest stable Rust and the planned native strict
+snapshot. They do not rewrite the archived Stage 3 record; older compiler
+maintenance is retired and `--check` requires its snapshot to exist.
+
 ```text
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --stage3 --output target/fieldkin-stage3
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --stage3 --check --output evaluation/results/stage3-v1
+cargo +stable run --locked --release -p fieldkin-eval -- --stage3 --output target/fieldkin-stage3
+cargo +stable run --locked --release -p fieldkin-eval -- --stage3 --check --output evaluation/results/rust-native-v1/stage3
 ```
 
 The [machine-readable report](https://github.com/limadog9/fieldkin/blob/main/evaluation/results/stage3-v1/report.json)
@@ -208,20 +212,22 @@ separate performance-harness test exercised all 50 success/rejection workloads.
 One preparation microbenchmark test remains intentionally ignored in ordinary
 test runs. Formatting, strict clippy and warning-free documentation passed.
 
+Current equivalents of those historical checks use latest stable Rust:
+
 ```text
-cargo +1.85.0 fmt --all -- --check
-cargo +1.85.0 clippy --locked --workspace --all-targets --all-features -- -D warnings
-cargo +1.85.0 test --locked --all-features
-cargo +1.85.0 doc --locked --no-deps --all-features
-cargo +1.85.0 run --locked --example baseline
-cargo +1.85.0 run --locked --example verified_semantics
-cargo +1.85.0 package --locked --allow-dirty -p fieldkin
-cargo +1.85.0 fmt --manifest-path performance/Cargo.toml -- --check
-cargo +1.85.0 clippy --locked --manifest-path performance/Cargo.toml --all-targets --all-features -- -D warnings
-cargo +1.85.0 test --locked --manifest-path performance/Cargo.toml --all-features
-cargo +1.85.0 run --release --locked --manifest-path performance/Cargo.toml -- --smoke
-cargo +1.85.0 run --release --locked --manifest-path performance/Cargo.toml --features allocations -- --smoke
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --check-behavior --output evaluation/results/baseline-v1
+cargo +stable fmt --all -- --check
+cargo +stable clippy --locked --workspace --all-targets --all-features -- -D warnings
+cargo +stable test --locked --all-features
+cargo +stable doc --locked --no-deps --all-features
+cargo +stable run --locked --example baseline
+cargo +stable run --locked --example verified_semantics
+cargo +stable package --locked --allow-dirty -p fieldkin
+cargo +stable fmt --manifest-path performance/Cargo.toml -- --check
+cargo +stable clippy --locked --manifest-path performance/Cargo.toml --all-targets --all-features -- -D warnings
+cargo +stable test --locked --manifest-path performance/Cargo.toml --all-features
+cargo +stable run --release --locked --manifest-path performance/Cargo.toml -- --smoke
+cargo +stable run --release --locked --manifest-path performance/Cargo.toml --features allocations -- --smoke
+cargo +stable run --locked --release -p fieldkin-eval -- --check --output evaluation/results/rust-native-v1/baseline
 ```
 
 Documentation used `RUSTDOCFLAGS=-D warnings`; the Stage 3 reproduction/check

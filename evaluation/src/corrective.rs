@@ -6,8 +6,9 @@ use std::path::{Path, PathBuf};
 use std::process::Command;
 
 use fieldkin::{
-    Config, Corroboration, FieldMatch, GlobalDiagnosticsConfig, Limits, MatchEngine, NameMatcher,
-    SampleMatcher, SampleReliability, SemanticHints, TypeMatcher, WeightedMatcher,
+    Config, Corroboration, Decision, FieldDiagnostic, FieldMatch, GlobalDiagnosticsConfig, Limits,
+    MatchEngine, MatchReport, NameMatcher, SampleMatcher, SampleReliability, SemanticHints,
+    TypeMatcher, WeightedMatcher,
 };
 use serde::Serialize;
 use serde_json::{json, Value};
@@ -20,6 +21,12 @@ use crate::{corpus, corrective_corpus};
 const PROTOCOL: &str = include_str!("../corrective-protocol.json");
 const MODELS: [&str; 4] = ["combined", "sample_gate", "corroborated", "name_only"];
 const MODES: [&str; 2] = ["independent", "one_to_one"];
+const USAGE: &str = "Corrective evaluation: --output DIR [--check | --check-legacy-decisions | --acknowledge-holdout]\n\
+    --check compares current reports exactly (apart from existing source-hash exceptions).\n\
+    --check-legacy-decisions checks historical development/regression reports after projecting only\n\
+    InsufficientEvidence decisions to BelowThreshold and removing that new diagnostic.\n\
+    This explicit compatibility mode preserves historical artifacts and never scores fresh holdout.\n\
+    --acknowledge-holdout requires the recorded frozen experiment; it cannot accompany a check.";
 const FROZEN_PATHS: [&str; 11] = [
     "src",
     "evaluation/src",
@@ -37,6 +44,7 @@ const FROZEN_PATHS: [&str; 11] = [
 struct Options {
     output: PathBuf,
     check: bool,
+    check_legacy_decisions: bool,
     acknowledge_holdout: bool,
 }
 
@@ -45,25 +53,44 @@ impl Options {
         let mut result = Self {
             output: root().join("target/fieldkin-corrective"),
             check: false,
+            check_legacy_decisions: false,
             acknowledge_holdout: false,
         };
         let mut args = args.into_iter();
         while let Some(argument) = args.next() {
             match argument.as_str() {
-                "--output" => result.output = args.next().ok_or("--output needs a directory")?.into(),
+                "--output" => {
+                    result.output = args.next().ok_or("--output needs a directory")?.into()
+                }
                 "--check" => result.check = true,
+                "--check-legacy-decisions" => result.check_legacy_decisions = true,
                 "--acknowledge-holdout" => result.acknowledge_holdout = true,
-                _ => return Err("corrective evaluation accepts --output DIR, --check and --acknowledge-holdout only".into()),
+                _ => return Err(format!("unknown corrective evaluation option\n{USAGE}")),
             }
+        }
+        if result.check && result.check_legacy_decisions {
+            return Err("--check and --check-legacy-decisions are mutually exclusive".into());
         }
         if result.check && result.acknowledge_holdout {
             return Err("--check never scores fresh holdout and cannot acknowledge it".into());
         }
+        if result.check_legacy_decisions && result.acknowledge_holdout {
+            return Err(
+                "--check-legacy-decisions never scores fresh holdout and cannot acknowledge it"
+                    .into(),
+            );
+        }
         Ok(result)
     }
 
+    fn checking(&self) -> bool {
+        self.check || self.check_legacy_decisions
+    }
+
     fn partitions(&self) -> &[&'static str] {
-        if self.acknowledge_holdout {
+        if self.checking() {
+            &["original_regression", "fresh_development"]
+        } else if self.acknowledge_holdout {
             &["original_regression", "fresh_development", "fresh_holdout"]
         } else {
             &["original_regression", "fresh_development"]
@@ -258,6 +285,7 @@ fn engine(protocol: &Value, model: &str, one_to_one: bool) -> Result<MatchEngine
         None
     };
     let config = Config {
+        name_conflicts: Vec::new(),
         min_score: number(protocol, "threshold")?,
         ambiguity_margin: number(common, "ambiguity_margin")?,
         max_candidates: size(common, "max_candidates")?,
@@ -265,6 +293,7 @@ fn engine(protocol: &Value, model: &str, one_to_one: bool) -> Result<MatchEngine
         abstain_on_ambiguity: boolean(common, "abstain_on_ambiguity")?,
         reject_incompatible_types: boolean(base, "reject_incompatible_types")?,
         corroboration,
+        contextual_evidence: None,
         global_diagnostics: GlobalDiagnosticsConfig {
             max_solves: size(global, "max_solves")?,
             max_work: size(global, "max_work")?,
@@ -370,6 +399,21 @@ fn prediction(label: &Label, field: &FieldMatch) -> Value {
         "candidates":field.candidates.iter().map(|candidate|json!({"target":candidate.target.0,"score":candidate.score,"eligible":candidate.eligible,
             "issues":candidate.issues.iter().map(|issue|format!("{issue:?}")).collect::<Vec<_>>()})).collect::<Vec<_>>()
     })
+}
+
+// Compatibility is an explicit reporting projection after matching and scoring.
+// It cannot affect matcher input, eligibility, selection, counts or evidence.
+fn legacy_decision_projection(report: &MatchReport) -> MatchReport {
+    let mut projected = report.clone();
+    for field in &mut projected.fields {
+        if field.decision == Decision::InsufficientEvidence {
+            field.decision = Decision::BelowThreshold;
+        }
+        field
+            .diagnostics
+            .retain(|reason| *reason != FieldDiagnostic::InsufficientEvidence);
+    }
+    projected
 }
 
 fn normalized(value: &str) -> String {
@@ -598,7 +642,13 @@ fn evaluate_partition(
     partition: &str,
     output: &Path,
     check: bool,
+    check_legacy_decisions: bool,
 ) -> Result<(), String> {
+    if check_legacy_decisions
+        && (!check || !matches!(partition, "original_regression" | "fresh_development"))
+    {
+        return Err("legacy decision compatibility only checks development/regression artifacts; no fresh holdout is scored".into());
+    }
     let cases = cases(partition)?;
     let mut rows = Vec::new();
     let mut grouped_rows = Vec::new();
@@ -629,6 +679,9 @@ fn evaluate_partition(
                 for key in group_keys(case) {
                     groups.entry(key).or_default().add(&counts);
                 }
+                let legacy_report =
+                    check_legacy_decisions.then(|| legacy_decision_projection(&report));
+                let report = legacy_report.as_ref().unwrap_or(&report);
                 let fields = report
                     .fields
                     .iter()
@@ -682,7 +735,13 @@ fn evaluate_partition(
     )?;
     println!(
         "Corrective {partition} evaluation {}: {} cases, {} model/assignment rows",
-        if check { "verified" } else { "written" },
+        if check_legacy_decisions {
+            "verified with explicit legacy decision compatibility"
+        } else if check {
+            "verified"
+        } else {
+            "written"
+        },
         cases.len(),
         rows.len()
     );
@@ -690,16 +749,26 @@ fn evaluate_partition(
 }
 
 pub fn run(args: Vec<String>) -> Result<(), String> {
+    if args.as_slice() == ["--help"] {
+        println!("{USAGE}");
+        return Ok(());
+    }
     let options = Options::parse(args)?;
     let protocol = protocol()?;
     if options.acknowledge_holdout {
         require_freeze(&protocol)?;
     }
-    if !options.check {
+    if !options.checking() {
         fs::create_dir_all(&options.output).map_err(|e| e.to_string())?;
     }
     for partition in options.partitions() {
-        evaluate_partition(&protocol, partition, &options.output, options.check)?;
+        evaluate_partition(
+            &protocol,
+            partition,
+            &options.output,
+            options.checking(),
+            options.check_legacy_decisions,
+        )?;
     }
     Ok(())
 }
@@ -709,6 +778,105 @@ mod tests {
     use fieldkin::{DataType, Field, SampleValue, Schema};
 
     use super::*;
+
+    #[test]
+    fn legacy_check_is_explicit_and_rejects_other_checks_or_holdout() {
+        let legacy = Options::parse(vec!["--check-legacy-decisions".into()]).unwrap();
+        assert!(legacy.check_legacy_decisions);
+        assert!(legacy.checking());
+        assert!(!legacy.check);
+        assert_eq!(
+            legacy.partitions(),
+            &["original_regression", "fresh_development"]
+        );
+        for arguments in [
+            vec!["--check", "--check-legacy-decisions"],
+            vec!["--check-legacy-decisions", "--check"],
+            vec!["--check-legacy-decisions", "--acknowledge-holdout"],
+            vec!["--acknowledge-holdout", "--check-legacy-decisions"],
+        ] {
+            assert!(Options::parse(arguments.into_iter().map(str::to_owned).collect()).is_err());
+        }
+        let strict = Options::parse(vec!["--check".into()]).unwrap();
+        assert!(strict.check);
+        assert!(!strict.check_legacy_decisions);
+        assert!(!Options::parse(vec![]).unwrap().checking());
+    }
+
+    #[test]
+    fn legacy_check_rejects_holdout_or_writing_before_loading_cases() {
+        for (partition, checking) in [
+            ("fresh_holdout", true),
+            ("fresh_development", false),
+            ("unknown_partition", true),
+        ] {
+            let result = evaluate_partition(
+                &Value::Null,
+                partition,
+                Path::new("unused-legacy-test-output"),
+                checking,
+                true,
+            );
+            assert!(result
+                .unwrap_err()
+                .contains("only checks development/regression artifacts"));
+        }
+    }
+
+    #[test]
+    fn legacy_projection_preserves_matching_evidence_and_all_other_report_fields() {
+        let input = schema();
+        let actual = MatchEngine::new(Config {
+            one_to_one: true,
+            corroboration: Some(Corroboration::default()),
+            ..Config::default()
+        })
+        .unwrap()
+        .match_schemas(&input, &input)
+        .unwrap();
+        assert_eq!(actual.fields[0].decision, Decision::Proposed);
+        assert_eq!(actual.fields[1].decision, Decision::InsufficientEvidence);
+        assert_eq!(
+            actual.fields[1].diagnostics,
+            vec![
+                FieldDiagnostic::NoEligibleTarget,
+                FieldDiagnostic::InsufficientEvidence
+            ]
+        );
+        let unchanged = actual.clone();
+        let projected = legacy_decision_projection(&actual);
+        assert_eq!(actual, unchanged);
+        assert_eq!(projected.fields[0], actual.fields[0]);
+        assert_eq!(projected.fields[1].decision, Decision::BelowThreshold);
+        assert_eq!(
+            projected.fields[1].diagnostics,
+            vec![FieldDiagnostic::NoEligibleTarget]
+        );
+        let mut expected = actual.clone();
+        expected.fields[1].decision = Decision::BelowThreshold;
+        expected.fields[1].diagnostics = vec![FieldDiagnostic::NoEligibleTarget];
+        // Full structural equality includes scores, candidate issues/warnings,
+        // selection, alternatives, identities and every global report field.
+        assert_eq!(projected, expected);
+        assert_eq!(legacy_decision_projection(&projected), projected);
+        assert_ne!(
+            hash(&format!("{actual:?}")),
+            hash(&format!("{projected:?}"))
+        );
+        for decision in [
+            Decision::Confirmed,
+            Decision::ExcludedByCaller,
+            Decision::Proposed,
+            Decision::Ambiguous,
+            Decision::BelowThreshold,
+            Decision::AssignmentConflict,
+        ] {
+            let mut report = projected.clone();
+            report.fields[0].decision = decision;
+            report.fields[0].diagnostics = vec![FieldDiagnostic::LocalAmbiguity];
+            assert_eq!(legacy_decision_projection(&report), report);
+        }
+    }
 
     #[test]
     fn only_acknowledged_frozen_runs_can_score_fresh_holdout() {

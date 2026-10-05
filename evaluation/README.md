@@ -9,11 +9,66 @@ provenance in `external/t2d-v1`; it includes no raw table values or Valentine da
 
 The separate [Northix diagnostic](../docs/northix-evaluation.md) uses native table
 schemas, sampled values and manual classes from the CC-BY-4.0 archive in
-`external/northix-v1`. Its [Valentine COMA comparison](../docs/valentine-comparison.md)
-uses a pinned local Python environment outside the Rust dependency graph.
-The strict current regression snapshots are in `results/continuation-v3`, except
+`external/northix-v1`. Its historical
+[Valentine COMA comparison](../docs/valentine-comparison.md) used a pinned local
+Python environment. That execution path is retired; the Rust evaluator retains
+strict import of its archived score files, without rerunning COMA.
+The historical regression snapshots are in `results/continuation-v3`, except
 Northix's test-fixture metadata refresh in `results/continuation-v4/northix`;
 historical snapshots below retain their original implementation provenance.
+
+Active tooling requires latest stable Rust, validated with 1.99.0 on October 4,
+2026. `fieldkin-tools` imports pinned licensed archives offline and records native
+verified builds/runs. Older compiler maintenance and Python helpers are retired.
+Planned current native regression snapshots use `results/rust-native-v1`; earlier
+snapshots remain archived without rewriting their dated compiler/source facts.
+The planned precision and readiness snapshots use `results/precision-v2` and
+`results/readiness-v3`. A `--check` command requires its committed snapshot to
+exist; generate new records in fresh `target/` directories without `--check`.
+
+## Focused precision comparison
+
+`--precision` compares the current default, configured qualifier/unit conflicts,
+existing sample support, and their combination on the same original 32
+development families / 160 cases / 960 decisions. The fixed
+[protocol](precision-protocol.json) retains threshold 0.70 and margin 0.08.
+No tuning or holdout option exists, and labels/concepts/rationales never enter
+matching. Every default report digest and aggregate count must match the frozen
+Stage 3 baseline before results are written. See the
+[precision and coverage report](../docs/precision-evaluation.md).
+
+```text
+cargo +stable run --locked --release -p fieldkin-eval -- --precision --output target/precision-development
+cargo +stable run --locked --release -p fieldkin-eval -- --precision --check --output evaluation/results/precision-v2
+```
+
+The native snapshot check includes exact implementation provenance. Historical
+comparisons used explicit behavior modes while preserving their original
+artifacts: `--check-behavior` exempts only engine/evaluator Rust source hashes,
+with every outcome, input, protocol, dependency and prediction still checked.
+Those older Northix snapshots also retained the retired Python source hashes.
+Corrective
+`--check-legacy-decisions` additionally projects only `InsufficientEvidence`
+into historical `BelowThreshold` and removes its added field diagnostic, so
+old full-report digests can verify unchanged support-policy behavior. Actual
+new decisions are checked by the precision snapshot and regression tests.
+Neither compatibility mode permits reserved holdout scoring. Existing exact
+`--check` options remain available at their historical source revisions.
+
+## Readiness regression
+
+The data-only readiness comparison uses retired synthetic families as development
+stress and regression evidence. It never turns their now-known labels into
+matcher hints or treats them as a fresh holdout. The current planned snapshot
+records default-to-candidate transitions and unchanged observable-input hashes:
+
+```text
+cargo +stable run --locked --release -p fieldkin-eval -- --readiness --output target/readiness-development
+cargo +stable run --locked --release -p fieldkin-eval -- --readiness --check --output evaluation/results/readiness-v3
+```
+
+See [release readiness](../docs/release-readiness.md) for the evidence limits and
+qualification status. This regression workflow does not score a new holdout.
 
 For new external evidence records, use the [verified build/run workflow](../docs/verified-evaluation.md).
 Direct Cargo commands below remain useful regression tools, but their on-disk
@@ -28,8 +83,8 @@ were committed before scoring. Original development and new extension results
 are kept separate; no held-out family is scored.
 
 ```text
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --stage3 --output target/fieldkin-stage3
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --stage3 --check --output evaluation/results/continuation-v3/stage3
+cargo +stable run --locked --release -p fieldkin-eval -- --stage3 --output target/fieldkin-stage3
+cargo +stable run --locked --release -p fieldkin-eval -- --stage3 --check --output evaluation/results/rust-native-v1/stage3
 ```
 
 The second command is the current-default CI gate. It compares all 588 aggregate
@@ -38,7 +93,8 @@ source/dependency provenance and 2,408 full-report digests at the default thresh
 Digests include explanations, warnings and alternatives without sample values.
 There are no implementation-hash exceptions in this check. Generation refuses
 to overwrite changed artifacts; use a new versioned directory for future changes.
-The Stage 3 CLI accepts only `--output` and `--check`, not holdout options.
+The Stage 3 CLI accepts an output directory and snapshot checking modes, without
+holdout options.
 
 The sections below describe the original v1 protocol. Since Stage 3, that runner
 explicitly selects `SampleReliability::Legacy`. Its `combined` model is the
@@ -47,51 +103,43 @@ compatibility of the legacy policy from intentional changes to default evidence.
 
 ## Reproduce
 
-From the repository root, one command generates the complete corpus and both
-partition reports for the current checkout with its locked dependencies:
+Routine development defaults to the development partition. From the repository
+root, record current native provenance in a fresh destination:
 
 ```text
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --split all --acknowledge-holdout --output target/evaluation-full
+cargo +stable run --locked --release -p fieldkin-eval -- --output target/evaluation-development
 ```
 
-Use the Stage 1 checkout to reproduce the historical baseline with its original
-source hashes. Running this command at a later revision records that revision's
-implementation provenance; it does not recreate the historical source metadata.
-
-Routine development deliberately defaults to the development partition:
-
-```text
-cargo +1.85.0 run --locked --release -p fieldkin-eval
-```
-
-Verify that the historical models preserve the committed development behavior
+Verify that the historical models preserve the committed native development behavior
 without writing files or evaluating holdout outcomes:
 
 ```text
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --check-behavior --output evaluation/results/baseline-v1
+cargo +stable run --locked --release -p fieldkin-eval -- --check --output evaluation/results/rust-native-v1/baseline
 ```
 
-This was the current-default CI regression command for Stage 2 performance work;
-it now checks historical models using `Legacy` sample reliability. It compares the
+This checks historical models using `Legacy` sample reliability with current
+native tooling provenance. It compares the
 exact corpus, readable tables and prediction records, including ranks, scores,
 eligibility, decisions and alternatives. It compares every aggregate count,
-metric, inventory entry and frozen configuration in JSON. Only these two
-implementation provenance entries in `development.json` are excluded:
-`engine_source_sha256` and `evaluator_source_sha256`. Manifests and the complete
-dependency lockfile must still match. Source changes require ordinary review;
-this command does not establish source provenance equality. It is restricted
-to the development split.
+metric, inventory entry and frozen configuration in JSON. Sources, manifests and
+the complete dependency lockfile must match the native snapshot. This command is
+restricted to the development split.
 
-`--check` retains the original stricter meaning: compare all deterministic
-artifacts, including implementation provenance. To reproduce the original
-snapshot with that command, use the frozen Stage 1 checkout. It is expected to
-fail after source changes, including performance-only changes. The two check
-flags cannot be combined. Neither rewrites the baseline or creates artifacts.
+`--check` compares all deterministic artifacts, including implementation
+provenance. It is expected to fail after source changes; choose a new output
+directory when deliberately recording new evidence. The historical
+`--check-behavior` compatibility route exempts only engine/evaluator source
+hashes, preserving every outcome, input, manifest and locked dependency. It does
+not recreate historical provenance. The two check flags cannot be combined;
+neither rewrites a baseline.
 
 `--split holdout` and `--split all` require `--acknowledge-holdout`. The flag is a
 procedural safeguard, not secrecy: this is a public synthetic corpus. CI runs
 only development predictions; structural validation covers the complete corpus.
-The historical seven cases in `examples/baseline.rs` remain regression examples
+The original holdout was subsequently designated regression data. Historical
+published holdouts cannot be tuned and described as new unseen validation. New
+qualification requires a new withheld corpus and a frozen policy. The historical
+seven cases in `examples/baseline.rs` remain regression examples
 and are not counted as new holdout observations.
 
 ## Corpus and ground truth
@@ -255,34 +303,37 @@ comparison remain separate work; Stage 1 does not claim superiority to Valentine
 `--corrective` evaluates four predeclared models without a threshold sweep. All
 40 previously examined families, including the original holdout, are now explicit
 regression data for this new experiment. They retain their original labels and
-artifacts. New independently authored synthetic families have separately reserved
-development and fresh holdout partitions; they are not independent consumer data.
+artifacts. That experiment introduced separately authored synthetic families with
+development and withheld partitions. Its holdout results have since been published;
+these fixtures are not independent consumer data.
 
 ```text
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --corrective --output target/corrective-development
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --corrective --check --output evaluation/results/corrective-v1
+cargo +stable run --locked --release -p fieldkin-eval -- --corrective --output target/corrective-development
+cargo +stable run --locked --release -p fieldkin-eval -- --corrective --check --output evaluation/results/rust-native-v1/corrective
 ```
 
 The default and `--check` score only original regression and fresh development.
-The final `--acknowledge-holdout` run additionally requires a feature-freeze commit
-whose actual source/fixture/configuration/dependency contents match this checkout.
-Only recording the freeze SHA itself may differ. Git and complete source history
-are required for that explicit final run. CI never acknowledges fresh holdout.
+The historical final `--acknowledge-holdout` run required a feature-freeze commit
+whose actual source/fixture/configuration/dependency contents matched that checkout.
+Only recording the freeze SHA itself could differ. Git and complete source history
+were required for that explicit final run. Its results are already published;
+current routine CI never acknowledges a reserved holdout.
 Compact summaries and per-case JSONL preserve counts, decision reasons and full
 report digests without emitting sample values. `--check` ignores only the current
 engine/evaluator source-hash maps; fixture, protocol, dependency and behavioral
 changes still fail. New results do not overwrite different historical artifacts.
 
 Historical `--stage3` and `--release` runs retain their exact `--check` mode.
-Their explicit `--check-behavior` mode, used in current CI, permits only the same
+Their explicit historical `--check-behavior` mode permits only the same
 two implementation-source hash maps to differ. Counts, predictions/full report
 digests, protocols, fixtures, dependency locks and manifests remain checked.
 This verifies preserved behavior after adding an opt-in API without rewriting the
 frozen RC artifacts. Both check modes reject holdout acknowledgment.
 
-`python evaluation/analyze_support.py` separately describes filters over published
-RC-v1 proposals. Those filters do not recompute ambiguity or assignment and must
-not be presented as evaluation of a new engine policy. See the
+The retired support-analysis helper described filters over published RC-v1
+proposals. Those archived filters did not recompute ambiguity or assignment and
+are not evaluations of a new engine policy. Current candidate evaluation uses
+actual matcher outcomes. See the
 [corrective protocol](corrective-protocol.json) and [API guide](../docs/corroboration.md).
 
 ## External correspondence annotations
@@ -294,18 +345,19 @@ derived from labels, with unknown types and no samples. It is not the native T2D
 benchmark or an independent consumer schema pair.
 
 ```text
-python import_t2d.py --check
-python -m unittest discover -s . -p test_import_t2d.py
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --external --output ../target/t2d-development
+cargo +stable run --locked -p fieldkin-tools -- import-t2d --check
+cargo +stable run --locked -p fieldkin-tools -- import-northix --check
+cargo +stable test --locked -p fieldkin-tools
+cargo +stable run --locked --release -p fieldkin-eval -- --external --output target/t2d-development
 ```
 
-The Python commands above run from `evaluation/`; repository-root commands and
-results are in the [external report](../docs/external-evaluation.md). The evaluator
+All commands above run from the repository root. Historical results are in the
+[external report](../docs/external-evaluation.md). The evaluator
 uses 549 development tables and cannot score the 218 reserved tables. The split
 is by SHA256 of whole class URIs, committed before matching. Known-positive recall,
 candidate recall, unknown proposals, abstentions and input rejections are separate;
 no absent correspondence becomes a negative label or contributes to a precision
-claim. `--check --output evaluation/results/t2d-v1` from the repository root
+claim. `--check --output evaluation/results/rust-native-v1/external` from the repository root
 compares complete artifacts, including all current implementation/protocol/corpus
 and dependency hashes. These are source-file hashes, not binary attestation.
 Fresh result directories prevent accidental rewriting of historical evidence.

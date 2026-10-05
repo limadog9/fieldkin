@@ -1,0 +1,28 @@
+{
+  "version": "precision-v1",
+  "corpus": "original_development",
+  "baseline": "results/continuation-v3/stage3",
+  "models": ["default", "conflicts", "support", "conflicts_and_support"],
+  "assignment_modes": ["independent", "one_to_one"],
+  "min_score": 0.70,
+  "ambiguity_margin": 0.08,
+  "max_candidates": 5,
+  "weights": {"name": 0.65, "type": 0.20, "samples": 0.15},
+  "aliases": {"amt": "amount", "trans": "transaction"},
+  "sample_min_non_null": 3,
+  "sample_reliability": "distinct",
+  "corroboration": {"min_name_score": 0.0, "min_sample_score": 0.5},
+  "rules": [
+    {"kind": "qualifier", "alternatives": [["gross"], ["net"]]},
+    {"kind": "qualifier", "alternatives": [["billing", "bill"], ["shipping", "ship"]]},
+    {"kind": "qualifier", "alternatives": [["minimum", "min"], ["maximum", "max"]]},
+    {"kind": "qualifier", "alternatives": [["start", "begin"], ["end", "finish"]]},
+    {"kind": "unit", "alternatives": [["pa", "pascal", "pascals"], ["kpa", "k pa", "kilopascal", "kilopascals"], ["mpa", "m pa", "megapascal", "megapascals"], ["psi"]]},
+    {"kind": "unit", "alternatives": [["g", "gram", "grams"], ["kg", "kilogram", "kilograms"], ["lb", "lbs", "pound", "pounds"]]},
+    {"kind": "unit", "alternatives": [["m", "meter", "meters", "metre", "metres"], ["cm", "centimeter", "centimeters"], ["mm", "millimeter", "millimeters"], ["ft", "foot", "feet"]]},
+    {"kind": "unit", "alternatives": [["ms", "millisecond", "milliseconds"], ["s", "sec", "second", "seconds"], ["minute", "minutes"], ["hour", "hours"]]},
+    {"kind": "unit", "alternatives": [["celsius"], ["fahrenheit"], ["kelvin"]]},
+    {"kind": "unit", "alternatives": [["usd"], ["eur"], ["gbp"], ["jpy"]]}
+  ],
+  "discipline": "Fixed vocabulary and four policies declared before the first precision run. No threshold sweep or selection from holdout results. Only the original 32 development families and their original five variants are scored. Labels, concepts, tags and rationales are never matcher inputs; no gold-derived semantic hints or review constraints. One-sided missing qualifiers/units do not imply a conflict. Unit synonyms denote the same representation, never a conversion. No default change is authorized by this descriptive synthetic development experiment."
+}

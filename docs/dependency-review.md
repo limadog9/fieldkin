@@ -1,5 +1,13 @@
 # Dependency review — 2026-10-03
 
+This is the preserved historical review. Current development supports only latest
+stable Rust; the older compiler maintenance policy and Python review runner are
+retired. The newer [native review](../qualification/results/rust-native-v1/dependencies.json)
+inventories **72 third-party versions**, all five manifest graphs and all three
+lockfiles, with no reported vulnerabilities. That is a dated advisory inspection,
+not a security guarantee. The development-only `proptest` pin is now 1.11.0;
+the historical table below deliberately retains the 1.6.0 decision made then.
+
 The three committed lockfiles contain **42 distinct third-party package versions**
 across the library, tests, evaluator and isolated measurement tools. The library
 runtime graph remains `strsim` 0.11.1, `unicode-normalization` 0.1.25 and transitive
@@ -15,7 +23,7 @@ assurance about future advisories or every reachable code path.
 ## Advisory checks
 
 Installed `cargo-audit` **0.22.2** with its locked dependencies under the ignored
-local tools directory using Rust 1.98.1. Fieldkin continues to build on Rust 1.85;
+local tools directory using Rust 1.98.1. At that time Fieldkin built on Rust 1.85;
 the audit tool is separate and never becomes a project dependency. Scans used
 the [RustSec database](https://github.com/rustsec/advisory-db/tree/ef6173cbc5c50ec8166f9a5b28f07834144373ee)
 at commit `ef6173cbc5c50ec8166f9a5b28f07834144373ee`, dated
@@ -45,12 +53,19 @@ cargo audit --json --db PATH_TO_DATABASE --no-fetch --file performance/Cargo.loc
 cargo audit --json --db PATH_TO_DATABASE --no-fetch --file qualification/Cargo.lock --deny warnings
 ```
 
-For a new review, fetch the current database first and save a new dated artifact;
-do not silently replace this result. `qualification/dependencies.py` captures
-all three audits and inventories using explicit `--audit`, `--database` and
-fresh `--output` paths. The script additionally fetches current public crates.io
-and GitHub metadata without authentication, so those observations change over
-time. No account integrations or automated dependency updater were installed.
+For a new review, fetch the current database first and save a fresh artifact;
+do not silently replace either dated result. The retired
+`qualification/dependencies.py` produced the historical record. The current
+native runner captures all three audits and five manifest inventories:
+
+```text
+cargo +stable run --locked -p fieldkin-tools -- dependency-review --output target/dependency-review.json --audit C:/path/to/cargo-audit.exe --database C:/path/to/advisory-db
+```
+
+Use actual local paths to the separately installed audit executable and database
+checkout. The native runner also fetches current public crates.io and GitHub
+metadata without authentication, so these observations change over time. No
+account integrations or automated dependency updater were installed.
 
 ## Licensing and attribution
 

@@ -2,7 +2,7 @@
 name = "fieldkin"
 version = "0.1.0"
 edition = "2021"
-rust-version = "1.85"
+rust-version = "1.99"
 description = "Explainable, conservative schema matching in memory"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/limadog9/fieldkin"
@@ -22,10 +22,10 @@ serde = { version = "1.0", features = ["derive"], optional = true }
 serde_json = { version = "1.0", optional = true }
 
 [dev-dependencies]
-proptest = { version = "=1.6.0", default-features = false, features = ["std"] }
+proptest = { version = "1.11", default-features = false, features = ["std"] }
 
 [workspace]
-members = ["evaluation"]
+members = ["evaluation", "tooling"]
 default-members = [".", "evaluation"]
 resolver = "2"
 

@@ -15,7 +15,7 @@ use serde::{Deserialize, Serialize};
 use crate::{
     AssignmentAlternative, AssignmentChange, AssignmentDiagnosticStatus, AssignmentDiagnostics,
     Candidate, CandidateIssue, Decision, FieldDiagnostic, FieldId, FieldMatch, FieldPair,
-    MatchConstraints, MatchReport, SemanticAxis, SignalReport, TargetCompetition,
+    MatchConstraints, MatchReport, NameConflictKind, SemanticAxis, SignalReport, TargetCompetition,
 };
 
 /// Bounds for JSON input, output and record traversal. Increasing them opts into
@@ -518,32 +518,47 @@ impl Serialize for View<'_, Candidate> {
 }
 impl Serialize for View<'_, CandidateIssue> {
     fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
-        let (code, axis) = match self.0 {
-            CandidateIssue::ForbiddenByCaller => ("forbidden_by_caller", None),
-            CandidateIssue::SourceExcludedByCaller => ("source_excluded_by_caller", None),
-            CandidateIssue::TargetConfirmedByCaller => ("target_confirmed_by_caller", None),
-            CandidateIssue::IncompatibleTypes => ("incompatible_types", None),
-            CandidateIssue::MissingEvidence => ("missing_evidence", None),
-            CandidateIssue::InsufficientScore => ("insufficient_score", None),
-            CandidateIssue::InsufficientNameSupport => ("insufficient_name_support", None),
-            CandidateIssue::InsufficientSampleSupport => ("insufficient_sample_support", None),
-            CandidateIssue::SemanticConflict(axis) => ("semantic_conflict", Some(axis)),
-            CandidateIssue::SemanticAgreement(axis) => ("semantic_agreement", Some(axis)),
-            CandidateIssue::SemanticMissing(axis) => ("semantic_missing", Some(axis)),
-            CandidateIssue::TargetCompetition => ("target_competition", None),
+        let (code, axis, kind) = match self.0 {
+            CandidateIssue::ForbiddenByCaller => ("forbidden_by_caller", None, None),
+            CandidateIssue::SourceExcludedByCaller => ("source_excluded_by_caller", None, None),
+            CandidateIssue::TargetConfirmedByCaller => ("target_confirmed_by_caller", None, None),
+            CandidateIssue::IncompatibleTypes => ("incompatible_types", None, None),
+            CandidateIssue::MissingEvidence => ("missing_evidence", None, None),
+            CandidateIssue::InsufficientScore => ("insufficient_score", None, None),
+            CandidateIssue::InsufficientNameSupport => ("insufficient_name_support", None, None),
+            CandidateIssue::InsufficientSampleSupport => {
+                ("insufficient_sample_support", None, None)
+            }
+            CandidateIssue::InsufficientContextSupport => {
+                ("insufficient_context_support", None, None)
+            }
+            CandidateIssue::ContextualScoreAdjustment => {
+                ("contextual_score_adjustment", None, None)
+            }
+            CandidateIssue::NameConflict(kind) => ("name_conflict", None, Some(kind)),
+            CandidateIssue::SemanticConflict(axis) => ("semantic_conflict", Some(axis), None),
+            CandidateIssue::SemanticAgreement(axis) => ("semantic_agreement", Some(axis), None),
+            CandidateIssue::SemanticMissing(axis) => ("semantic_missing", Some(axis), None),
+            CandidateIssue::TargetCompetition => ("target_competition", None, None),
         };
         let axis = axis.map(|axis| match axis {
             SemanticAxis::Unit => "unit",
             SemanticAxis::Currency => "currency",
             SemanticAxis::IdentifierScope => "identifier_scope",
         });
+        let kind = kind.map(|kind| match kind {
+            NameConflictKind::Qualifier => "qualifier",
+            NameConflictKind::Unit => "unit",
+        });
         #[derive(Serialize)]
         struct Reason {
             code: &'static str,
             #[serde(skip_serializing_if = "Option::is_none")]
             axis: Option<&'static str>,
+            #[serde(skip_serializing_if = "Option::is_none")]
+            kind: Option<&'static str>,
         }
-        Reason { code, axis }.serialize(serializer)
+        Reason { code, axis, kind }.serialize(serializer)
     }
 }
 impl Serialize for View<'_, FieldDiagnostic> {
@@ -552,6 +567,7 @@ impl Serialize for View<'_, FieldDiagnostic> {
             FieldDiagnostic::ConfirmedByCaller => ("confirmed_by_caller", None),
             FieldDiagnostic::ExcludedByCaller => ("excluded_by_caller", None),
             FieldDiagnostic::NoEligibleTarget => ("no_eligible_target", None),
+            FieldDiagnostic::InsufficientEvidence => ("insufficient_evidence", None),
             FieldDiagnostic::LocalAmbiguity => ("local_ambiguity", None),
             FieldDiagnostic::TargetCompetition(id) => ("target_competition", Some(id.0.as_str())),
             FieldDiagnostic::Displaced { preferred_target } => {
@@ -578,6 +594,7 @@ impl Serialize for View<'_, FieldMatch> {
             Decision::Proposed => "proposed",
             Decision::Ambiguous => "ambiguous",
             Decision::BelowThreshold => "below_threshold",
+            Decision::InsufficientEvidence => "insufficient_evidence",
             Decision::AssignmentConflict => "assignment_conflict",
         };
         #[derive(Serialize)]

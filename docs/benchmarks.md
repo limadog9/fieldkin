@@ -10,21 +10,29 @@ Windows 11 Home 10.0.26200, `x86_64-pc-windows-msvc`, Rust 1.85.0
 committed lockfile. The machine was not isolated; these are one-run wall-clock
 observations, not statistical estimates or performance claims.
 
-## Commands and checks
+## Historical checks and current commands
+
+The following commands use current latest stable Rust. They are equivalent kinds
+of checks, not an instruction to regenerate the archived Rust 1.85 observations
+below. The older compiler support policy has been retired.
 
 ```text
-cargo +1.85.0 fmt --all -- --check
-cargo +1.85.0 clippy --locked --all-targets --all-features -- -D warnings
-cargo +1.85.0 test --locked --all-features
-cargo +1.85.0 test --locked --doc
-cargo +1.85.0 doc --locked --no-deps --all-features
-cargo +1.85.0 run --locked --example basic
-cargo +1.85.0 run --locked --example domain_aliases
-cargo +1.85.0 run --locked --example baseline
-cargo +1.85.0 bench --locked --bench matching
+cargo +stable fmt --all -- --check
+cargo +stable clippy --locked --all-targets --all-features -- -D warnings
+cargo +stable test --locked --all-features
+cargo +stable test --locked --doc
+cargo +stable doc --locked --no-deps --all-features
+cargo +stable run --locked --example basic
+cargo +stable run --locked --example domain_aliases
+cargo +stable run --locked --example baseline
+cargo +stable bench --locked --bench matching
 ```
 
-Documentation was built with `RUSTDOCFLAGS=-D warnings`. Full tests passed:
+For repeated recorded native measurements, use the separate build/run workflow
+in [performance/README.md](../performance/README.md), with fresh outputs and no
+concurrent builds or tests. Retired Python performance records remain historical.
+
+In the archived initial run, documentation was built with `RUSTDOCFLAGS=-D warnings`. Full tests passed:
 16 unit tests, 20 integration/property tests, and 2 README doctests. The property
 test generates 64 schema-pair cases, checks repeated-call and input-reordering
 invariance, score bounds, candidate ordering and assignment uniqueness. The

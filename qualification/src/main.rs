@@ -4,9 +4,10 @@ use std::collections::BTreeSet;
 use std::time::Instant;
 
 use fieldkin::{
-    normalize_name, AssignmentDiagnosticStatus, Config, Corroboration, DataType, Decision,
-    Evidence, ExactDecimal, Field, FieldPair, GlobalDiagnosticsConfig, MatchConstraints,
-    MatchEngine, MatchReport, Matcher, SampleValue, Schema, SemanticHints, WeightedMatcher,
+    normalize_name, AssignmentDiagnosticStatus, Config, ContextualEvidence, Corroboration,
+    DataType, Decision, Evidence, ExactDecimal, Field, FieldPair, GlobalDiagnosticsConfig,
+    MatchConstraints, MatchEngine, MatchReport, Matcher, NameConflictKind, NameConflictRule,
+    SampleValue, Schema, SemanticHints, WeightedMatcher,
 };
 
 struct Random(u64);
@@ -884,13 +885,105 @@ fn reviewed_assignment(random: &mut Random) -> Result<(), String> {
     )
 }
 
+fn contextual(random: &mut Random) -> Result<(), String> {
+    let policy = Config {
+        contextual_evidence: Some(ContextualEvidence::default()),
+        one_to_one: random.index(2) == 1,
+        ..Config::default()
+    };
+    let engine = MatchEngine::new(policy).map_err(|error| error.to_string())?;
+    let offset = random.index(10_000);
+    let values: Vec<_> = (0..3)
+        .map(|index| SampleValue::Text(format!("entity-{}", offset + index)))
+        .collect();
+    let mut source = Field::new("source", "customer_id", DataType::Text);
+    source.samples = Some(values.clone());
+    let mut target = Field::new("target", "CustomerId", DataType::Text);
+    target.samples = Some(values.clone());
+    let mode = random.index(3);
+    let mut targets = vec![target];
+    if mode == 1 {
+        source.samples = None;
+        targets[0].samples = None;
+    } else if mode == 2 {
+        let mut competitor = Field::new("competitor", "invoice_key", DataType::Text);
+        competitor.samples = Some(values);
+        targets.push(competitor);
+    }
+    let source = Schema::new(vec![source]);
+    let mut target = Schema::new(targets);
+    let report = engine
+        .match_schemas(&source, &target)
+        .map_err(|error| error.to_string())?;
+    if mode == 0 {
+        ensure(
+            report.fields[0]
+                .selected
+                .as_ref()
+                .is_some_and(|pair| pair.target.0 == "target"),
+            "distinct identifier lost",
+        )?;
+    } else {
+        ensure(
+            report.fields[0].selected.is_none(),
+            "unsupported identifier proposed",
+        )?;
+        ensure(
+            report.fields[0].decision == Decision::InsufficientEvidence,
+            "missing explicit context abstention",
+        )?;
+    }
+    target.fields.reverse();
+    ensure(
+        report
+            == engine
+                .match_schemas(&source, &target)
+                .map_err(|error| error.to_string())?,
+        "context depends on field order",
+    )?;
+
+    let mut left = Field::new("left", "gross_weight_kg", DataType::Integer);
+    let mut right = Field::new("right", "net_weight_lb", DataType::Integer);
+    let values = Some(
+        (0..3)
+            .map(|index| SampleValue::Integer((offset + index) as i128))
+            .collect(),
+    );
+    left.samples = values.clone();
+    right.samples = values;
+    let conflict = MatchEngine::new(Config {
+        contextual_evidence: Some(ContextualEvidence::default()),
+        name_conflicts: vec![
+            NameConflictRule {
+                kind: NameConflictKind::Qualifier,
+                alternatives: vec![vec!["gross".into()], vec!["net".into()]],
+            },
+            NameConflictRule {
+                kind: NameConflictKind::Unit,
+                alternatives: vec![vec!["kg".into()], vec!["lb".into()]],
+            },
+        ],
+        ..Config::default()
+    })
+    .map_err(|error| error.to_string())?;
+    ensure(
+        conflict
+            .match_schemas(&Schema::new(vec![left]), &Schema::new(vec![right]))
+            .map_err(|error| error.to_string())?
+            .fields[0]
+            .selected
+            .is_none(),
+        "sample overlap bypassed configured contradictions",
+    )
+}
+
 fn run(cases: u64, seed: u64) -> Result<(), String> {
     if cases == 0 || cases > 10_000_000 {
         return Err("cases must be in 1..=10000000".into());
     }
     let started = Instant::now();
     let mut random = Random(seed);
-    let mut counts = [0_u64; 6];
+    let mut counts = [0_u64; 7];
     for index in 0..cases {
         let category = index as usize % counts.len();
         let outcome = match category {
@@ -899,7 +992,8 @@ fn run(cases: u64, seed: u64) -> Result<(), String> {
             2 => config_and_limits(&mut random),
             3 => default_reports(&mut random),
             4 => assignment(&mut random),
-            _ => reviewed_assignment(&mut random),
+            5 => reviewed_assignment(&mut random),
+            _ => contextual(&mut random),
         };
         outcome.map_err(|reason| {
             format!("case {index}, category {category}, seed {seed}: {reason}")
@@ -909,7 +1003,7 @@ fn run(cases: u64, seed: u64) -> Result<(), String> {
             eprintln!("completed {} generated cases", index + 1);
         }
     }
-    println!("{{\"protocol\":\"fieldkin-qualification-v2\",\"seed\":{seed},\"cases\":{cases},\"passed\":true,\"elapsed_seconds\":{:.6},\"categories\":{{\"normalization\":{},\"malformed_schemas\":{},\"configuration_and_limits\":{},\"default_report_invariants\":{},\"assignment_oracle\":{},\"reviewed_assignment_oracle\":{}}}}}", started.elapsed().as_secs_f64(), counts[0], counts[1], counts[2], counts[3], counts[4], counts[5]);
+    println!("{{\"protocol\":\"fieldkin-qualification-v3\",\"seed\":{seed},\"cases\":{cases},\"passed\":true,\"elapsed_seconds\":{:.6},\"categories\":{{\"normalization\":{},\"malformed_schemas\":{},\"configuration_and_limits\":{},\"default_report_invariants\":{},\"assignment_oracle\":{},\"reviewed_assignment_oracle\":{},\"contextual_support_and_conflicts\":{}}}}}", started.elapsed().as_secs_f64(), counts[0], counts[1], counts[2], counts[3], counts[4], counts[5], counts[6]);
     Ok(())
 }
 

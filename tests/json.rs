@@ -1,3 +1,4 @@
+#![cfg_attr(not(feature = "json"), allow(missing_docs))]
 #![cfg(feature = "json")]
 //! The JSON boundary preserves review intent without manufacturing evidence.
 

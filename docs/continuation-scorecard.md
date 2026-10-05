@@ -7,6 +7,11 @@ The original 95% precision and 60% unique-coverage targets are unchanged.
 
 ## Frozen acceptance and measurement plan
 
+This section preserves the continuation's historical acceptance plan. Current
+development supports only latest stable Rust; Rust 1.85 maintenance and the
+Python runners, including local Valentine COMA execution, are retired. The
+archived COMA scores can still be imported by native Rust tools.
+
 The baseline is main commit `104b8e9e41cdcf31efdc268ad58c81514dd3568d`.
 Matching weights, thresholds, ambiguity rules and default resource limits do not
 change. Scratch buffers may be reused only with complete report/callback equality
@@ -29,11 +34,11 @@ table pairs, deterministic samples, published-class label interpretation and the
 same selector settings for Fieldkin and imported COMA scores. Independent
 selection is primary: one-to-one selection can recover at most 27 of 28 positive
 edges in this task. There is no model tuning, threshold search or holdout claim.
-The 218 reserved T2D tables remain unscored. The pinned comparator runs with
+The 218 reserved T2D tables remain unscored. The archived pinned comparator ran with
 `PYTHONHASHSEED=0` and `OMP_NUM_THREADS`, `OPENBLAS_NUM_THREADS` and
 `MKL_NUM_THREADS` each set to `1`; it records those environment values by hash.
 
-Qualification requires both Rust 1.85.0 and 1.99.0, JSON enabled and disabled,
+The historical qualification required both Rust 1.85.0 and 1.99.0, JSON enabled and disabled,
 strict formatting/Clippy/documentation checks, the importer and runner failure
 tests, packaging, and a fresh 1,200,000-case generated campaign with seed
 `20261007`. CI must pass on Linux, Windows and macOS. Historical result files stay
@@ -113,7 +118,8 @@ Exact commands, compiler selections and counts are in
 [regression comparison](../qualification/results/continuation-v3/regression-comparison.json),
 [snapshot checks](../qualification/results/continuation-v3/snapshot-checks.json), and
 [dependency review](../qualification/results/continuation-v1/dependencies.json).
-The current CI matrix runs both compilers on Linux, Windows and macOS.
+The archived CI matrix ran both compilers on Linux, Windows and macOS. Current
+CI uses latest stable Rust on those three operating systems.
 [Packaging verification](../qualification/results/continuation-v4/packaging.json)
 records all four compiler/feature combinations and the complete archive inventory
 after the final documentation and portable test-fixture updates.
@@ -123,10 +129,10 @@ the evaluator's ambient `rustc -Vv` reports the machine's default 1.98.1, wherea
 the executable was built with verified 1.85.0. That environment-only difference
 and the initial failed recording are retained. All other environment fields and
 all outcome bytes match. New snapshots record current implementation and root
-Cargo provenance without rewriting historical evidence. Corrective's existing
-`--check` deliberately exempts its two implementation-hash maps; the separate
-recording comparison verifies those maps against the frozen checkout. Other
-current snapshot checks retain their strict source checks.
+Cargo provenance without rewriting historical evidence. The historical corrective
+`--check` exempted its two implementation-hash maps; that cycle's separate
+recording comparison verified those maps against the frozen checkout. Current
+native snapshots check their own implementation provenance strictly.
 
 ## Measured costs and failed performance gate
 
@@ -181,18 +187,34 @@ for the larger calls; defaults stay at 128 fields and 16,384 pairs. Global probe
 are disabled, all pairs are scored, and one displayed candidate does not bound
 the internal graph. These are neither worst-case nor peak-memory measurements.
 
-The exact measurement commands were, after separate recorded builds:
+The archived runs used the retired Python runners after separate recorded builds.
+Their original commands, binary hashes and inputs remain in each directory's
+`build.json`; this does not make them current development instructions.
+
+For new native measurements, first build into fresh directories:
 
 ```text
-py -3.11 performance/assignment.py run --output performance/results/continuation-v2/solver-cost
-py -3.11 performance/run.py run --output performance/results/continuation-v2/default-regression
-py -3.11 performance/scale.py run --output performance/results/continuation-v2/scale
-py -3.11 qualification/run.py run --output qualification/results/continuation-v3 --cases 1200000 --seed 20261007
+cargo +stable run --locked -p fieldkin-tools -- perf-assignment build --baseline .local/continuation-baseline --candidate . --output target/continuation-solver-native
+cargo +stable run --locked -p fieldkin-tools -- perf-run build --baseline .local/continuation-baseline --candidate . --output target/continuation-default-native
+cargo +stable run --locked -p fieldkin-tools -- perf-scale build --output target/continuation-scale-native
+cargo +stable run --locked -p fieldkin-tools -- qualify-build --output target/continuation-campaign-native
 ```
 
-Build commands, binary hashes and inputs are in each directory's `build.json`.
-Choose fresh destinations for reproduction; runners reject overwriting evidence.
-The first-freeze commands use `continuation-v1` instead. Raw assignment CSV and
+The paired baseline must be a detached checkout of the recorded baseline above;
+create it once with `git worktree add --detach .local/continuation-baseline 104b8e9`.
+After builds and tests finish, measure sequentially without concurrent work:
+
+```text
+cargo +stable run --locked -p fieldkin-tools -- perf-assignment run --output target/continuation-solver-native
+cargo +stable run --locked -p fieldkin-tools -- perf-run run --output target/continuation-default-native
+cargo +stable run --locked -p fieldkin-tools -- perf-run summarize --output target/continuation-default-native
+cargo +stable run --locked -p fieldkin-tools -- perf-scale run --output target/continuation-scale-native
+cargo +stable run --locked -p fieldkin-tools -- qualify-run --output target/continuation-campaign-native --cases 1200000 --seed 20261007
+```
+
+These native records use distinct protocols and latest stable Rust. The generated
+campaign now includes a seventh contextual-evidence category; no new full campaign
+measurement is claimed here. Runners reject overwriting evidence. Raw assignment CSV and
 scale JSONL hashes survive Git archival; the older default driver records
 workload inventories without raw-file hashes. These are local drift records,
 not signed or hermetic attestations.

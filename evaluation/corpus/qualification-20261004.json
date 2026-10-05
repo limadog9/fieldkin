@@ -1,0 +1,2564 @@
+[
+  {
+    "id": "4b3f721f784b5b116078479864ec451c",
+    "domain": "product_import",
+    "title": "Supplier catalog for household containers",
+    "tags": [
+      "synthetic",
+      "reserved",
+      "qualification"
+    ],
+    "rationale": "Independently specified supplier catalog transfer. Product identity and carton contents retain meaning; package roles, units, and unsupported import administration do not become direct equivalents.",
+    "source": [
+      {
+        "id": "b1da696200f91bc4167d68c3eb1ed4a4",
+        "name": "seller-item-ref",
+        "data_type": "Text",
+        "concept": "Supplier's stock reference for a purchasable product.",
+        "samples": [
+          "CL-104",
+          "CL-208",
+          "CL-311",
+          "CL-419"
+        ]
+      },
+      {
+        "id": "dc292f68621acaad80ce935d6c51d48d",
+        "name": "qty_per_case",
+        "data_type": "Integer",
+        "concept": "Number of individual sale items in a supplier case.",
+        "samples": [
+          6,
+          12,
+          8,
+          4
+        ]
+      },
+      {
+        "id": "cc8cd4e060caa91a7e1b1771617139ed",
+        "name": "net_weight_kg",
+        "data_type": "Decimal",
+        "concept": "Product contents mass in kilograms, excluding all packaging.",
+        "samples": [
+          0.42,
+          0.88,
+          1.15,
+          0.73
+        ]
+      },
+      {
+        "id": "a3ed55a88c6916b8b6856fdc1c6bb443",
+        "name": "title",
+        "data_type": "Text",
+        "concept": "Public product display name.",
+        "samples": [
+          "Cedar storage jar",
+          "Basil lunch box",
+          "Amber pouring jug",
+          "Slate utensil cup"
+        ]
+      },
+      {
+        "id": "eda1f51615026b5f8a8b0cc97db3ba60",
+        "name": "shade",
+        "data_type": "Text",
+        "concept": "Unqualified visible product color.",
+        "samples": []
+      },
+      {
+        "id": "5239282fb2236f740f8e2442eacde984",
+        "name": "audit_batch",
+        "data_type": "Text",
+        "concept": "Internal identifier of the supplier export audit batch.",
+        "samples": [
+          "EX-714",
+          "EX-715",
+          "EX-716",
+          "EX-717"
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "9bef570cd55886a7183022c4cab8dbb6",
+        "name": "colour",
+        "data_type": "Text",
+        "concept": "Unqualified visible product color.",
+        "samples": []
+      },
+      {
+        "id": "f9fac406abf5d52eb4d4c3d00b5fc66e",
+        "name": "item_name",
+        "data_type": "Text",
+        "concept": "Public product display name.",
+        "samples": [
+          "Cedar storage jar",
+          "Basil lunch box",
+          "Amber pouring jug",
+          "Slate utensil cup"
+        ]
+      },
+      {
+        "id": "2467580ed10d9cac21535d0ee9665711",
+        "name": "shipping_weight_kg",
+        "data_type": "Decimal",
+        "concept": "Packed shipping parcel mass in kilograms.",
+        "samples": [
+          0.63,
+          1.11,
+          1.44,
+          0.92
+        ]
+      },
+      {
+        "id": "0818912479546bf023c0cd4d8403f258",
+        "name": "inventory_sku",
+        "data_type": "Text",
+        "concept": "Supplier's stock reference for a purchasable product.",
+        "samples": [
+          "CL-104",
+          "CL-208",
+          "CL-311",
+          "CL-419"
+        ]
+      },
+      {
+        "id": "d175ee24e0c1c3885d98154e72f9e37f",
+        "name": "items_per_carton",
+        "data_type": "Integer",
+        "concept": "Number of individual sale items in a supplier case.",
+        "samples": [
+          6,
+          12,
+          8,
+          4
+        ]
+      },
+      {
+        "id": "141011a2ffc6ba7b9b8d37dd99722f9a",
+        "name": "supplier_name",
+        "data_type": "Text",
+        "concept": "Legal supplier business display name.",
+        "samples": [
+          "Juniper Works",
+          "Juniper Works",
+          "Juniper Works",
+          "Juniper Works"
+        ]
+      },
+      {
+        "id": "93051ee9b12f7de978bfe259040dbf04",
+        "name": "color",
+        "data_type": "Text",
+        "concept": "Unqualified visible product color.",
+        "samples": []
+      },
+      {
+        "id": "d805f7a795dbb744ed3a88fa68f1b39a",
+        "name": "net_weight_g",
+        "data_type": "Decimal",
+        "concept": "Product contents mass in grams, excluding all packaging.",
+        "samples": [
+          420,
+          880,
+          1150,
+          730
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "b1da696200f91bc4167d68c3eb1ed4a4",
+        "kind": "match",
+        "targets": [
+          "0818912479546bf023c0cd4d8403f258"
+        ],
+        "rationale": "Both columns identify the supplier stock item."
+      },
+      {
+        "source": "dc292f68621acaad80ce935d6c51d48d",
+        "kind": "match",
+        "targets": [
+          "d175ee24e0c1c3885d98154e72f9e37f"
+        ],
+        "rationale": "Both count individual items within one supplier case."
+      },
+      {
+        "source": "cc8cd4e060caa91a7e1b1771617139ed",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "The available contents mass uses grams; the kilogram alternative measures the packed shipping parcel. Neither is a direct field equivalent."
+      },
+      {
+        "source": "a3ed55a88c6916b8b6856fdc1c6bb443",
+        "kind": "match",
+        "targets": [
+          "f9fac406abf5d52eb4d4c3d00b5fc66e"
+        ],
+        "rationale": "Both are the public product name."
+      },
+      {
+        "source": "eda1f51615026b5f8a8b0cc97db3ba60",
+        "kind": "ambiguous",
+        "targets": [
+          "9bef570cd55886a7183022c4cab8dbb6",
+          "93051ee9b12f7de978bfe259040dbf04"
+        ],
+        "rationale": "Both target spellings denote color and neither carries a distinguishing role or observations."
+      },
+      {
+        "source": "5239282fb2236f740f8e2442eacde984",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "The target has no supplier export audit batch identifier."
+      }
+    ]
+  },
+  {
+    "id": "82d47b1cddce160d1f41abc3931a990f",
+    "domain": "product_import",
+    "title": "Variant availability transfer",
+    "tags": [
+      "synthetic",
+      "reserved",
+      "qualification"
+    ],
+    "rationale": "Independently specified sellable-variant import. A vendor's opaque columns are supported by observed variant references, while a size field remains unresolved between equivalent receiving columns.",
+    "source": [
+      {
+        "id": "5386b03bebb21300f22366a66a407d59",
+        "name": "item_code",
+        "data_type": "Text",
+        "concept": "Parent product style reference.",
+        "samples": [
+          "ST-81",
+          "ST-82",
+          "ST-83",
+          "ST-84"
+        ]
+      },
+      {
+        "id": "ccf08ee8242e3caf4890e73a79997900",
+        "name": "f17",
+        "data_type": "Text",
+        "concept": "Supplier reference for the individual sellable variant.",
+        "samples": [
+          "G9S2",
+          "G9S3",
+          "H2M4",
+          "J8L1"
+        ]
+      },
+      {
+        "id": "611b7c0fcb5213e34b608c4de80a8f38",
+        "name": "available_on",
+        "data_type": "Date",
+        "concept": "First date on which the variant may be sold.",
+        "samples": [
+          "2026-02-12",
+          "2026-02-14",
+          "2026-03-01",
+          "2026-03-09"
+        ]
+      },
+      {
+        "id": "7e0b4647eb2578108a405783d1279aa0",
+        "name": "active",
+        "data_type": "Boolean",
+        "concept": "Whether the variant is enabled for ordering.",
+        "samples": [
+          true,
+          false,
+          true,
+          true
+        ]
+      },
+      {
+        "id": "effe3dfce3d34416570f8cc7323345c0",
+        "name": "size",
+        "data_type": "Text",
+        "concept": "Unqualified garment size associated with the variant.",
+        "samples": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "id": "3b0dbebfedb8156d068601871dc16afb",
+        "name": "warehouse_bin",
+        "data_type": "Text",
+        "concept": "Storage bin within the supplier warehouse.",
+        "samples": [
+          "W-A-12",
+          "W-B-03",
+          "W-A-14",
+          "W-C-09"
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "ec798b31709609e8f6eb0566c826da10",
+        "name": "size_code",
+        "data_type": "Text",
+        "concept": "Unqualified garment size associated with the variant.",
+        "samples": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "id": "63fd57020526bf0155abf86d9b0eea6f",
+        "name": "release_date",
+        "data_type": "Date",
+        "concept": "First date on which the variant may be sold.",
+        "samples": [
+          "2026-02-12",
+          "2026-02-14",
+          "2026-03-01",
+          "2026-03-09"
+        ]
+      },
+      {
+        "id": "5bffb68889df9a8e985f3683fceb21dd",
+        "name": "is_enabled",
+        "data_type": "Boolean",
+        "concept": "Whether the variant is enabled for ordering.",
+        "samples": [
+          true,
+          false,
+          true,
+          true
+        ]
+      },
+      {
+        "id": "796ba31910544b059d26bfa019973032",
+        "name": "v02",
+        "data_type": "Text",
+        "concept": "Supplier reference for the individual sellable variant.",
+        "samples": [
+          "G9S2",
+          "G9S3",
+          "H2M4",
+          "J8L1"
+        ]
+      },
+      {
+        "id": "866e3626e75c6d03467e86e2b92ff26e",
+        "name": "item_code",
+        "data_type": "Text",
+        "concept": "Parent product style reference.",
+        "samples": [
+          "ST-81",
+          "ST-82",
+          "ST-83",
+          "ST-84"
+        ]
+      },
+      {
+        "id": "420e3fdb9d83436440003d104ea04c2e",
+        "name": "manufacturer_name",
+        "data_type": "Text",
+        "concept": "Manufacturer display name.",
+        "samples": [
+          "Alder Apparel",
+          "Alder Apparel",
+          "Rowan Cloth",
+          "Rowan Cloth"
+        ]
+      },
+      {
+        "id": "86104460070c2659ac9734c08000e707",
+        "name": "size_code",
+        "data_type": "Text",
+        "concept": "Unqualified garment size associated with the variant.",
+        "samples": [
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "5386b03bebb21300f22366a66a407d59",
+        "kind": "match",
+        "targets": [
+          "866e3626e75c6d03467e86e2b92ff26e"
+        ],
+        "rationale": "The exact field name denotes the same parent product style reference."
+      },
+      {
+        "source": "ccf08ee8242e3caf4890e73a79997900",
+        "kind": "match",
+        "targets": [
+          "796ba31910544b059d26bfa019973032"
+        ],
+        "rationale": "The independent variant reference specification and distinct observed reference values establish this opaque pair."
+      },
+      {
+        "source": "611b7c0fcb5213e34b608c4de80a8f38",
+        "kind": "match",
+        "targets": [
+          "63fd57020526bf0155abf86d9b0eea6f"
+        ],
+        "rationale": "Availability and release both mean the first permitted sale date in this transfer."
+      },
+      {
+        "source": "7e0b4647eb2578108a405783d1279aa0",
+        "kind": "match",
+        "targets": [
+          "5bffb68889df9a8e985f3683fceb21dd"
+        ],
+        "rationale": "Both flags control whether the sellable variant can be ordered."
+      },
+      {
+        "source": "effe3dfce3d34416570f8cc7323345c0",
+        "kind": "ambiguous",
+        "targets": [
+          "ec798b31709609e8f6eb0566c826da10",
+          "86104460070c2659ac9734c08000e707"
+        ],
+        "rationale": "The receiving schema repeats the same size field; null observations provide no choice between its occurrences."
+      },
+      {
+        "source": "3b0dbebfedb8156d068601871dc16afb",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "No target field represents a warehouse storage bin."
+      }
+    ]
+  },
+  {
+    "id": "f4afb68dfe5fac00c929647f6a12e364",
+    "domain": "product_import",
+    "title": "Lot receipt with repeated batch columns",
+    "tags": [
+      "synthetic",
+      "reserved",
+      "qualification"
+    ],
+    "rationale": "Independently specified carton receiving export. The flat export repeats one batch identifier twice, so both source decisions have the same semantic target even though a one-to-one assignment would collide.",
+    "source": [
+      {
+        "id": "18fcc59915295dabac9014f76a53c820",
+        "name": "lot",
+        "data_type": "Text",
+        "concept": "Production batch identifier for the received carton.",
+        "samples": [
+          "LQ-402",
+          "LQ-403",
+          "LQ-404",
+          "LQ-405"
+        ]
+      },
+      {
+        "id": "697d9322b293aa5026262965836e4661",
+        "name": "lot",
+        "data_type": "Text",
+        "concept": "Production batch identifier for the received carton, repeated by the export.",
+        "samples": [
+          "LQ-402",
+          "LQ-403",
+          "LQ-404",
+          "LQ-405"
+        ]
+      },
+      {
+        "id": "eeed4857eee77274c89352dfd99f1363",
+        "name": "expiry",
+        "data_type": "Date",
+        "concept": "Calendar date after which the product must not be sold.",
+        "samples": [
+          "2027-01-15",
+          "2027-01-19",
+          "2027-02-01",
+          "2027-02-07"
+        ]
+      },
+      {
+        "id": "1a718a17b8237a1306380965c4bbf4f3",
+        "name": "sealed",
+        "data_type": "Boolean",
+        "concept": "Whether the carton seal is intact at receipt.",
+        "samples": [
+          true,
+          true,
+          false,
+          true
+        ]
+      },
+      {
+        "id": "2bb6cb7e77507ce7165daa6d70fddd79",
+        "name": "carton_weight_lb",
+        "data_type": "Float",
+        "concept": "Received carton mass in pounds.",
+        "samples": [
+          14.8,
+          15.2,
+          10.6,
+          12.4
+        ]
+      },
+      {
+        "id": "6f507708ff385016e2ae878d64f5851c",
+        "name": "zone",
+        "data_type": "Text",
+        "concept": "Unqualified storage zone for the received carton."
+      }
+    ],
+    "target": [
+      {
+        "id": "90fea474c7b6938a8abc33b6ebd65423",
+        "name": "zone",
+        "data_type": "Text",
+        "concept": "Unqualified storage zone for the received carton."
+      },
+      {
+        "id": "9fd49f68311b8351da178c76fb06f887",
+        "name": "is_sealed",
+        "data_type": "Boolean",
+        "concept": "Whether the carton seal is intact at receipt.",
+        "samples": [
+          true,
+          true,
+          false,
+          true
+        ]
+      },
+      {
+        "id": "1089db49e83bf9128c0a73eb70a9d15f",
+        "name": "carton_weight_kg",
+        "data_type": "Float",
+        "concept": "Received carton mass in kilograms.",
+        "samples": [
+          6.71,
+          6.89,
+          4.81,
+          5.62
+        ]
+      },
+      {
+        "id": "22d0b7ee94e88955404b8abdb0a0e23e",
+        "name": "batch_id",
+        "data_type": "Text",
+        "concept": "Production batch identifier for the received carton.",
+        "samples": [
+          "LQ-402",
+          "LQ-403",
+          "LQ-404",
+          "LQ-405"
+        ]
+      },
+      {
+        "id": "2b0f8e0806bbf5522637528b1c62a422",
+        "name": "zone",
+        "data_type": "Text",
+        "concept": "Unqualified storage zone for the received carton."
+      },
+      {
+        "id": "b0ff64b5cdc20c1c917faabdeb3e2b48",
+        "name": "expiration_date",
+        "data_type": "Date",
+        "concept": "Calendar date after which the product must not be sold.",
+        "samples": [
+          "2027-01-15",
+          "2027-01-19",
+          "2027-02-01",
+          "2027-02-07"
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "18fcc59915295dabac9014f76a53c820",
+        "kind": "match",
+        "targets": [
+          "22d0b7ee94e88955404b8abdb0a0e23e"
+        ],
+        "rationale": "This occurrence is the carton production batch identifier."
+      },
+      {
+        "source": "697d9322b293aa5026262965836e4661",
+        "kind": "match",
+        "targets": [
+          "22d0b7ee94e88955404b8abdb0a0e23e"
+        ],
+        "rationale": "The repeated source column has the same batch meaning and sole corresponding target; its collision is intentional."
+      },
+      {
+        "source": "eeed4857eee77274c89352dfd99f1363",
+        "kind": "match",
+        "targets": [
+          "b0ff64b5cdc20c1c917faabdeb3e2b48"
+        ],
+        "rationale": "Both dates mark the sale expiration boundary."
+      },
+      {
+        "source": "1a718a17b8237a1306380965c4bbf4f3",
+        "kind": "match",
+        "targets": [
+          "9fd49f68311b8351da178c76fb06f887"
+        ],
+        "rationale": "Both flags describe the carton seal condition on receipt."
+      },
+      {
+        "source": "2bb6cb7e77507ce7165daa6d70fddd79",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "The target mass is declared in kilograms rather than pounds; conversion would be required."
+      },
+      {
+        "source": "6f507708ff385016e2ae878d64f5851c",
+        "kind": "ambiguous",
+        "targets": [
+          "90fea474c7b6938a8abc33b6ebd65423",
+          "2b0f8e0806bbf5522637528b1c62a422"
+        ],
+        "rationale": "Two indistinguishable target zone occurrences fit the source and no observations resolve them."
+      }
+    ]
+  },
+  {
+    "id": "10a023db83e3e52157b01d36511586d9",
+    "domain": "financial_records",
+    "title": "Merchant settlement handoff",
+    "tags": [
+      "synthetic",
+      "reserved",
+      "qualification"
+    ],
+    "rationale": "Independently specified payment settlement transfer. Direct monetary and event fields retain their roles, while a percentage, customer identity, and unqualified free text are kept distinct from incompatible or unresolved targets.",
+    "source": [
+      {
+        "id": "c46342ee6cee16d8413099d9abce9349",
+        "name": "merchant_transaction_id",
+        "data_type": "Text",
+        "concept": "Payment transaction identifier assigned by the merchant.",
+        "samples": [
+          "TX-7401",
+          "TX-7402",
+          "TX-7403",
+          "TX-7404"
+        ]
+      },
+      {
+        "id": "f51f40341fde75730a16a6ae0725222d",
+        "name": "gross_usd",
+        "data_type": "Decimal",
+        "concept": "Gross payment amount in US dollars before deductions.",
+        "samples": [
+          74.5,
+          125,
+          38.75,
+          260
+        ]
+      },
+      {
+        "id": "9ced65f6e0174fe4a0cccf7b02e9c55a",
+        "name": "settled_at",
+        "data_type": "Timestamp",
+        "concept": "Instant at which the payment settlement completed.",
+        "samples": [
+          "2026-04-12T17:04:11Z",
+          "2026-04-12T17:06:29Z",
+          "2026-04-13T16:02:07Z",
+          "2026-04-13T16:09:44Z"
+        ]
+      },
+      {
+        "id": "6c5313d362a97fd24516abd1206a33b0",
+        "name": "fee_percent",
+        "data_type": "Decimal",
+        "concept": "Processor fee rate expressed as a percentage.",
+        "samples": [
+          1.8,
+          2.1,
+          1.8,
+          2.4
+        ]
+      },
+      {
+        "id": "e95bc6acd3b35bfb0bfee822837228a8",
+        "name": "customer_account",
+        "data_type": "Text",
+        "concept": "Customer billing account identifier.",
+        "samples": [
+          "CA-31",
+          "CA-32",
+          "CA-33",
+          "CA-34"
+        ]
+      },
+      {
+        "id": "41cc15582cf9c757edfc036632d65a7d",
+        "name": "memo",
+        "data_type": "Text",
+        "concept": "Unclassified free text accompanying a settlement.",
+        "samples": [
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "56e372038be94121b931d78c8a484e20",
+        "name": "ledger_account",
+        "data_type": "Text",
+        "concept": "General ledger account identifier used for bookkeeping.",
+        "samples": [
+          "GL-410",
+          "GL-410",
+          "GL-412",
+          "GL-414"
+        ]
+      },
+      {
+        "id": "69a5cd1b17358da6b2e5d624c8db8ec8",
+        "name": "settlement_timestamp",
+        "data_type": "Timestamp",
+        "concept": "Instant at which the payment settlement completed.",
+        "samples": [
+          "2026-04-12T17:04:11Z",
+          "2026-04-12T17:06:29Z",
+          "2026-04-13T16:02:07Z",
+          "2026-04-13T16:09:44Z"
+        ]
+      },
+      {
+        "id": "9b38813ea51265d6bbfebbaecf34bc35",
+        "name": "notes",
+        "data_type": "Text",
+        "concept": "Unclassified free text accompanying a settlement.",
+        "samples": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "id": "2857f781f61f9a3088efa058954e0f53",
+        "name": "amount_gross_usd",
+        "data_type": "Decimal",
+        "concept": "Gross payment amount in US dollars before deductions.",
+        "samples": [
+          74.5,
+          125,
+          38.75,
+          260
+        ]
+      },
+      {
+        "id": "88a5f71bfd0b1f919e818825847965fe",
+        "name": "txn_ref",
+        "data_type": "Text",
+        "concept": "Payment transaction identifier assigned by the merchant.",
+        "samples": [
+          "TX-7401",
+          "TX-7402",
+          "TX-7403",
+          "TX-7404"
+        ]
+      },
+      {
+        "id": "fa30a4a0cf9fc6909dfcf97e76376e29",
+        "name": "fee_bps",
+        "data_type": "Decimal",
+        "concept": "Processor fee rate expressed in basis points.",
+        "samples": [
+          180,
+          210,
+          180,
+          240
+        ]
+      },
+      {
+        "id": "b0fae6ea3db0e08462ccb3ef9ed4c468",
+        "name": "description",
+        "data_type": "Text",
+        "concept": "Unclassified free text accompanying a settlement.",
+        "samples": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "id": "9700d8b9e6d09f40972a411d6b4c7713",
+        "name": "net_usd",
+        "data_type": "Decimal",
+        "concept": "Net payment amount in US dollars after deductions.",
+        "samples": [
+          73.159,
+          122.375,
+          38.0525,
+          253.76
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "c46342ee6cee16d8413099d9abce9349",
+        "kind": "match",
+        "targets": [
+          "88a5f71bfd0b1f919e818825847965fe"
+        ],
+        "rationale": "Both identify the merchant payment transaction."
+      },
+      {
+        "source": "f51f40341fde75730a16a6ae0725222d",
+        "kind": "match",
+        "targets": [
+          "2857f781f61f9a3088efa058954e0f53"
+        ],
+        "rationale": "Both represent the gross amount in the same currency and before deductions."
+      },
+      {
+        "source": "9ced65f6e0174fe4a0cccf7b02e9c55a",
+        "kind": "match",
+        "targets": [
+          "69a5cd1b17358da6b2e5d624c8db8ec8"
+        ],
+        "rationale": "Both timestamps describe completed settlement rather than payment creation."
+      },
+      {
+        "source": "6c5313d362a97fd24516abd1206a33b0",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Basis points and percentage points are different declared rate units."
+      },
+      {
+        "source": "e95bc6acd3b35bfb0bfee822837228a8",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "A customer billing account and a general ledger account identify different entities."
+      },
+      {
+        "source": "41cc15582cf9c757edfc036632d65a7d",
+        "kind": "ambiguous",
+        "targets": [
+          "9b38813ea51265d6bbfebbaecf34bc35",
+          "b0fae6ea3db0e08462ccb3ef9ed4c468"
+        ],
+        "rationale": "The two unclassified settlement text targets have no semantic or observed distinction."
+      }
+    ]
+  },
+  {
+    "id": "cc2459795b907245dbbd41be9d8da393",
+    "domain": "financial_records",
+    "title": "Journal close export",
+    "tags": [
+      "synthetic",
+      "reserved",
+      "qualification"
+    ],
+    "rationale": "Independently specified general ledger journal transfer. Signed posting amounts have a defined role, but an unlabeled balance lacks the boundary needed to choose opening or closing balance.",
+    "source": [
+      {
+        "id": "1cea9b0b517794c7f57f9c6edf612533",
+        "name": "posting_date",
+        "data_type": "Date",
+        "concept": "Date on which a journal entry is posted to the ledger.",
+        "samples": [
+          "2026-05-01",
+          "2026-05-02",
+          "2026-05-03",
+          "2026-05-04"
+        ]
+      },
+      {
+        "id": "3bfb2dde8881c8dd1e98806c039a675c",
+        "name": "entry_ref",
+        "data_type": "Text",
+        "concept": "Unique journal entry identifier.",
+        "samples": [
+          "JE-1201",
+          "JE-1202",
+          "JE-1203",
+          "JE-1204"
+        ]
+      },
+      {
+        "id": "e91cbba760f3719bc0f1a7b31c61be8e",
+        "name": "amount",
+        "data_type": "Decimal",
+        "concept": "Signed journal posting amount in US dollars.",
+        "samples": [
+          650,
+          -125,
+          78.2,
+          -42.15
+        ]
+      },
+      {
+        "id": "973fbedd77df8a7423e06c3d9bdaf3f3",
+        "name": "is_reversed",
+        "data_type": "Boolean",
+        "concept": "Whether this journal entry has been reversed.",
+        "samples": [
+          false,
+          false,
+          true,
+          false
+        ]
+      },
+      {
+        "id": "4c0d6fae44d01abaf1f4a5268284658d",
+        "name": "balance",
+        "data_type": "Decimal",
+        "concept": "Balance whose opening or closing boundary was omitted by the export.",
+        "samples": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "158ed8dc161a1eaa54ee41cb6a1ced79",
+        "name": "vendor_tax_id",
+        "data_type": "Text",
+        "concept": "Supplier legal tax registration identifier.",
+        "samples": [
+          "VT-1082",
+          "VT-1091",
+          "VT-1104",
+          "VT-1113"
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "e9a3e1511832b9dd987030d6e9168f18",
+        "name": "employee_tax_id",
+        "data_type": "Text",
+        "concept": "Employee personal tax registration identifier.",
+        "samples": [
+          "ET-7021",
+          "ET-7022",
+          "ET-7023",
+          "ET-7024"
+        ]
+      },
+      {
+        "id": "0d25075ad4d852b91313a45f2e762ab1",
+        "name": "amount",
+        "data_type": "Decimal",
+        "concept": "Signed journal posting amount in US dollars.",
+        "samples": [
+          650,
+          -125,
+          78.2,
+          -42.15
+        ]
+      },
+      {
+        "id": "015cd610ffac54019e07417ea89212cf",
+        "name": "closing_balance",
+        "data_type": "Decimal",
+        "concept": "Ledger account balance at the end of the accounting period.",
+        "samples": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "8a7b7f8f3625abd40e2284a55169b99d",
+        "name": "journal_key",
+        "data_type": "Text",
+        "concept": "Unique journal entry identifier.",
+        "samples": [
+          "JE-1201",
+          "JE-1202",
+          "JE-1203",
+          "JE-1204"
+        ]
+      },
+      {
+        "id": "c15bca84dfb483407ede30bcbddcd27f",
+        "name": "reversal_flag",
+        "data_type": "Boolean",
+        "concept": "Whether this journal entry has been reversed.",
+        "samples": [
+          false,
+          false,
+          true,
+          false
+        ]
+      },
+      {
+        "id": "3b52917ef8d66804b9dab5a3d8d8ee6d",
+        "name": "opening_balance",
+        "data_type": "Decimal",
+        "concept": "Ledger account balance at the start of the accounting period.",
+        "samples": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "144e49e25732fbc389e8958a3bafb485",
+        "name": "entry_date",
+        "data_type": "Date",
+        "concept": "Date on which a journal entry is posted to the ledger.",
+        "samples": [
+          "2026-05-01",
+          "2026-05-02",
+          "2026-05-03",
+          "2026-05-04"
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "1cea9b0b517794c7f57f9c6edf612533",
+        "kind": "match",
+        "targets": [
+          "144e49e25732fbc389e8958a3bafb485"
+        ],
+        "rationale": "Both are ledger posting dates."
+      },
+      {
+        "source": "3bfb2dde8881c8dd1e98806c039a675c",
+        "kind": "match",
+        "targets": [
+          "8a7b7f8f3625abd40e2284a55169b99d"
+        ],
+        "rationale": "Both identify a journal entry."
+      },
+      {
+        "source": "e91cbba760f3719bc0f1a7b31c61be8e",
+        "kind": "match",
+        "targets": [
+          "0d25075ad4d852b91313a45f2e762ab1"
+        ],
+        "rationale": "The exact name carries the same signed posting amount and currency."
+      },
+      {
+        "source": "973fbedd77df8a7423e06c3d9bdaf3f3",
+        "kind": "match",
+        "targets": [
+          "c15bca84dfb483407ede30bcbddcd27f"
+        ],
+        "rationale": "Both flags indicate that a journal entry has been reversed."
+      },
+      {
+        "source": "4c0d6fae44d01abaf1f4a5268284658d",
+        "kind": "ambiguous",
+        "targets": [
+          "015cd610ffac54019e07417ea89212cf",
+          "3b52917ef8d66804b9dab5a3d8d8ee6d"
+        ],
+        "rationale": "The source omits the balance boundary; constant zero observations fit both opening and closing balances."
+      },
+      {
+        "source": "158ed8dc161a1eaa54ee41cb6a1ced79",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Vendor and employee tax identifiers belong to unrelated entity scopes."
+      }
+    ]
+  },
+  {
+    "id": "0bfbfb2839479db42df58250d40f3ca0",
+    "domain": "financial_records",
+    "title": "Cash receipt allocation bridge",
+    "tags": [
+      "synthetic",
+      "reserved",
+      "qualification"
+    ],
+    "rationale": "Independently specified cash receipt allocation feed. An opaque applied-amount pair is part of the business specification; currency, account role, and unspecified event time prevent unsupported direct equivalences.",
+    "source": [
+      {
+        "id": "71562e0c190872c016139cb43776916e",
+        "name": "receipt #",
+        "data_type": "Text",
+        "concept": "Unique cash receipt identifier.",
+        "samples": [
+          "RC-901",
+          "RC-902",
+          "RC-903",
+          "RC-904"
+        ]
+      },
+      {
+        "id": "28e05283cf3a96662f4f890dbaa6fcf1",
+        "name": "p4",
+        "data_type": "Decimal",
+        "concept": "US dollar amount from a receipt allocated to the current invoice.",
+        "samples": [
+          327.5,
+          86.75,
+          413.25,
+          1099
+        ]
+      },
+      {
+        "id": "2e8647e5982b978ee7dc9cbabbc7cf23",
+        "name": "cleared",
+        "data_type": "Boolean",
+        "concept": "Whether the receipt has cleared bank processing.",
+        "samples": [
+          true,
+          false,
+          true,
+          true
+        ]
+      },
+      {
+        "id": "f2df8852e8672ca46445ae990b3e1cb8",
+        "name": "paid_eur",
+        "data_type": "Decimal",
+        "concept": "Total receipt amount in euros.",
+        "samples": [
+          310,
+          79,
+          399,
+          1020
+        ]
+      },
+      {
+        "id": "0525a3935cd0f589f6c1ab92e96075c4",
+        "name": "bank_account",
+        "data_type": "Text",
+        "concept": "Bank deposit account identifier.",
+        "samples": [
+          "BK-201",
+          "BK-201",
+          "BK-202",
+          "BK-202"
+        ]
+      },
+      {
+        "id": "9898d8cca89868adfaa04e666f16ac85",
+        "name": "recorded_on",
+        "data_type": "Timestamp",
+        "concept": "Receipt record event time with its creation or update role unspecified."
+      }
+    ],
+    "target": [
+      {
+        "id": "94cbf5ffeb0ea7472c5334818f542902",
+        "name": "created_at",
+        "data_type": "Timestamp",
+        "concept": "Time at which the receipt record was created."
+      },
+      {
+        "id": "c046ec7260410ed5dc2c2baf67e56a35",
+        "name": "receipt_id",
+        "data_type": "Text",
+        "concept": "Unique cash receipt identifier.",
+        "samples": [
+          "RC-901",
+          "RC-902",
+          "RC-903",
+          "RC-904"
+        ]
+      },
+      {
+        "id": "608a9111444703ee27d04b2d111dcae2",
+        "name": "invoice_account",
+        "data_type": "Text",
+        "concept": "Customer invoicing account identifier.",
+        "samples": [
+          "IN-521",
+          "IN-522",
+          "IN-523",
+          "IN-524"
+        ]
+      },
+      {
+        "id": "05703372f8c19c091749261db1656d6a",
+        "name": "d9",
+        "data_type": "Decimal",
+        "concept": "US dollar amount from a receipt allocated to the current invoice.",
+        "samples": [
+          327.5,
+          86.75,
+          413.25,
+          1099
+        ]
+      },
+      {
+        "id": "f17da38f71a2a4ee60505c6a3296b80a",
+        "name": "paid_usd",
+        "data_type": "Decimal",
+        "concept": "Total receipt amount in US dollars.",
+        "samples": [
+          338,
+          88.15,
+          434.7,
+          1111
+        ]
+      },
+      {
+        "id": "1609de75daafc36807fc10ee1aa30411",
+        "name": "updated_at",
+        "data_type": "Timestamp",
+        "concept": "Time at which the receipt record was most recently updated."
+      },
+      {
+        "id": "1caeae66b4f2007612645f54941fb1f8",
+        "name": "is_cleared",
+        "data_type": "Boolean",
+        "concept": "Whether the receipt has cleared bank processing.",
+        "samples": [
+          true,
+          false,
+          true,
+          true
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "71562e0c190872c016139cb43776916e",
+        "kind": "match",
+        "targets": [
+          "c046ec7260410ed5dc2c2baf67e56a35"
+        ],
+        "rationale": "Both identify the cash receipt."
+      },
+      {
+        "source": "28e05283cf3a96662f4f890dbaa6fcf1",
+        "kind": "match",
+        "targets": [
+          "05703372f8c19c091749261db1656d6a"
+        ],
+        "rationale": "Both are the invoice allocation amount, supported by distinct observed amounts despite opaque names."
+      },
+      {
+        "source": "2e8647e5982b978ee7dc9cbabbc7cf23",
+        "kind": "match",
+        "targets": [
+          "1caeae66b4f2007612645f54941fb1f8"
+        ],
+        "rationale": "Both flags describe bank clearance of the receipt."
+      },
+      {
+        "source": "f2df8852e8672ca46445ae990b3e1cb8",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "The only total-paid target is denominated in US dollars rather than euros."
+      },
+      {
+        "source": "0525a3935cd0f589f6c1ab92e96075c4",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Bank deposit accounts and customer invoicing accounts identify different entities."
+      },
+      {
+        "source": "9898d8cca89868adfaa04e666f16ac85",
+        "kind": "ambiguous",
+        "targets": [
+          "94cbf5ffeb0ea7472c5334818f542902",
+          "1609de75daafc36807fc10ee1aa30411"
+        ],
+        "rationale": "The source does not specify creation versus update time and has no observations to choose an event role."
+      }
+    ]
+  },
+  {
+    "id": "aa9905c02c785e7260f1b3a9330f3712",
+    "domain": "crm_contacts",
+    "title": "Support contact synchronization",
+    "tags": [
+      "synthetic",
+      "reserved",
+      "qualification"
+    ],
+    "rationale": "Independently specified contact directory synchronization. The primary channels and contact identity are clear; an unclassified extra telephone number cannot be assigned to a home or work role.",
+    "source": [
+      {
+        "id": "9b5af8260c517c36e285930139c6356e",
+        "name": "contact_uuid",
+        "data_type": "Text",
+        "concept": "Internal identifier for an individual contact.",
+        "samples": [
+          "PC-601",
+          "PC-602",
+          "PC-603",
+          "PC-604"
+        ]
+      },
+      {
+        "id": "56782d35be4f26248fa58d6041b425b9",
+        "name": "primary-email",
+        "data_type": "Text",
+        "concept": "Primary email address for the individual contact.",
+        "samples": [
+          "mara@example.invalid",
+          "dev@example.invalid",
+          "lin@example.invalid",
+          "sol@example.invalid"
+        ]
+      },
+      {
+        "id": "b8c639b39056f69c63db8c78e2a7ba5d",
+        "name": "mobile_phone",
+        "data_type": "Text",
+        "concept": "Mobile telephone number for the individual contact.",
+        "samples": [
+          "+1-202-555-0101",
+          "+1-202-555-0102",
+          "+1-202-555-0103",
+          "+1-202-555-0104"
+        ]
+      },
+      {
+        "id": "dd2a3e71f02a6a70e76b5c6bbe22587a",
+        "name": "active",
+        "data_type": "Boolean",
+        "concept": "Whether the contact record is enabled for use.",
+        "samples": [
+          true,
+          true,
+          false,
+          true
+        ]
+      },
+      {
+        "id": "c96157f3b85808fe7785e25db7d1c21f",
+        "name": "organization_id",
+        "data_type": "Text",
+        "concept": "Employer organization identifier.",
+        "samples": [
+          "OR-42",
+          "OR-42",
+          "OR-57",
+          "OR-63"
+        ]
+      },
+      {
+        "id": "02a94653c408c32ce96ae4aeb9214783",
+        "name": "phone",
+        "data_type": "Text",
+        "concept": "Additional contact telephone number with home or work role unspecified.",
+        "samples": [
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "1bb3382db9279cb225e7c2ac9b36d0d8",
+        "name": "work_phone",
+        "data_type": "Text",
+        "concept": "Contact telephone number used for work.",
+        "samples": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "id": "e9867e89b3e7a4a14a9b0a324f02ec1a",
+        "name": "person_id",
+        "data_type": "Text",
+        "concept": "Internal identifier for an individual contact.",
+        "samples": [
+          "PC-601",
+          "PC-602",
+          "PC-603",
+          "PC-604"
+        ]
+      },
+      {
+        "id": "9e8bccef57b43a5375b8b4acfd845910",
+        "name": "enabled",
+        "data_type": "Boolean",
+        "concept": "Whether the contact record is enabled for use.",
+        "samples": [
+          true,
+          true,
+          false,
+          true
+        ]
+      },
+      {
+        "id": "5d6f4cb754f5382d2fae8214c455bcdf",
+        "name": "household_id",
+        "data_type": "Text",
+        "concept": "Residential household identifier.",
+        "samples": [
+          "HH-11",
+          "HH-12",
+          "HH-13",
+          "HH-14"
+        ]
+      },
+      {
+        "id": "6f2623df5a530cb41f716d010a2ea584",
+        "name": "cell-number",
+        "data_type": "Text",
+        "concept": "Mobile telephone number for the individual contact.",
+        "samples": [
+          "+1-202-555-0101",
+          "+1-202-555-0102",
+          "+1-202-555-0103",
+          "+1-202-555-0104"
+        ]
+      },
+      {
+        "id": "d2d2e9c2a091bea6d840a607374eb319",
+        "name": "home_phone",
+        "data_type": "Text",
+        "concept": "Contact telephone number used at home.",
+        "samples": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "id": "bdfb3e0005811fda272a331fda5c584e",
+        "name": "email_address",
+        "data_type": "Text",
+        "concept": "Primary email address for the individual contact.",
+        "samples": [
+          "mara@example.invalid",
+          "dev@example.invalid",
+          "lin@example.invalid",
+          "sol@example.invalid"
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "9b5af8260c517c36e285930139c6356e",
+        "kind": "match",
+        "targets": [
+          "e9867e89b3e7a4a14a9b0a324f02ec1a"
+        ],
+        "rationale": "Both identify the same individual contact scope."
+      },
+      {
+        "source": "56782d35be4f26248fa58d6041b425b9",
+        "kind": "match",
+        "targets": [
+          "bdfb3e0005811fda272a331fda5c584e"
+        ],
+        "rationale": "Both are the contact's primary email channel."
+      },
+      {
+        "source": "b8c639b39056f69c63db8c78e2a7ba5d",
+        "kind": "match",
+        "targets": [
+          "6f2623df5a530cb41f716d010a2ea584"
+        ],
+        "rationale": "Both specify the mobile telephone channel."
+      },
+      {
+        "source": "dd2a3e71f02a6a70e76b5c6bbe22587a",
+        "kind": "match",
+        "targets": [
+          "9e8bccef57b43a5375b8b4acfd845910"
+        ],
+        "rationale": "Both flags control contact record availability."
+      },
+      {
+        "source": "c96157f3b85808fe7785e25db7d1c21f",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "An employer organization identifier is not a residential household identifier."
+      },
+      {
+        "source": "02a94653c408c32ce96ae4aeb9214783",
+        "kind": "ambiguous",
+        "targets": [
+          "1bb3382db9279cb225e7c2ac9b36d0d8",
+          "d2d2e9c2a091bea6d840a607374eb319"
+        ],
+        "rationale": "No source qualifier or observed number distinguishes work from home telephone use."
+      }
+    ]
+  },
+  {
+    "id": "ab5d28b6398c58ce866d0f412bf026b5",
+    "domain": "crm_contacts",
+    "title": "Client renewal account transfer",
+    "tags": [
+      "synthetic",
+      "reserved",
+      "qualification"
+    ],
+    "rationale": "Independently specified business client renewal handoff. Identity and renewal timing are defined; revenue periods, interaction events, and an unclassified status from a combined report remain distinct.",
+    "source": [
+      {
+        "id": "a4d7c4de8837b0a7735b87bb803251ce",
+        "name": "account_id",
+        "data_type": "Text",
+        "concept": "Identifier of the client organization account.",
+        "samples": [
+          "AC-210",
+          "AC-211",
+          "AC-212",
+          "AC-213"
+        ]
+      },
+      {
+        "id": "4a01c8da37ab8528ae67490cec2a0604",
+        "name": "renewal date",
+        "data_type": "Date",
+        "concept": "Date on which the current client subscription renews.",
+        "samples": [
+          "2026-09-15",
+          "2026-10-01",
+          "2026-10-14",
+          "2026-11-03"
+        ]
+      },
+      {
+        "id": "c29339ab5b14140679d1d3ba3fdddd6c",
+        "name": "q6",
+        "data_type": "Text",
+        "concept": "External reference assigned to the client by a partner registry.",
+        "samples": [
+          "PR-A71",
+          "PR-B18",
+          "PR-C29",
+          "PR-D40"
+        ]
+      },
+      {
+        "id": "96926031ccb7c68093a8c01475e1e9d6",
+        "name": "annual_revenue_usd",
+        "data_type": "Decimal",
+        "concept": "Client organization revenue over one year in US dollars.",
+        "samples": [
+          960000,
+          1440000,
+          720000,
+          1800000
+        ]
+      },
+      {
+        "id": "303ba13a6ef5aa4da88c273235e18127",
+        "name": "last_touch",
+        "data_type": "Timestamp",
+        "concept": "Most recent outreach interaction with the client.",
+        "samples": [
+          "2026-08-04T12:14:00Z",
+          "2026-08-06T09:31:00Z",
+          "2026-08-09T15:45:00Z",
+          "2026-08-10T11:02:00Z"
+        ]
+      },
+      {
+        "id": "2fd7db9e6c2974c2d8f621fde51b1197",
+        "name": "status",
+        "data_type": "Text",
+        "concept": "Status from a combined contact and account export whose entity scope was omitted.",
+        "samples": []
+      }
+    ],
+    "target": [
+      {
+        "id": "bf78b0c8417f25dfd93c88bc179855da",
+        "name": "account_status",
+        "data_type": "Text",
+        "concept": "Lifecycle status of the client organization account.",
+        "samples": []
+      },
+      {
+        "id": "6a29d4f03ae58be4fb5e218b08b65d9c",
+        "name": "subscription-renewal",
+        "data_type": "Date",
+        "concept": "Date on which the current client subscription renews.",
+        "samples": [
+          "2026-09-15",
+          "2026-10-01",
+          "2026-10-14",
+          "2026-11-03"
+        ]
+      },
+      {
+        "id": "5cfa0e84582bbb28397a3aa1a231c3ec",
+        "name": "last_purchase",
+        "data_type": "Timestamp",
+        "concept": "Most recent purchase transaction by the client.",
+        "samples": [
+          "2026-07-28T14:00:00Z",
+          "2026-07-30T08:19:00Z",
+          "2026-08-02T10:22:00Z",
+          "2026-08-05T16:10:00Z"
+        ]
+      },
+      {
+        "id": "b1c5548d15baf596a609578b3a443f38",
+        "name": "organization_id",
+        "data_type": "Text",
+        "concept": "Identifier of the client organization account.",
+        "samples": [
+          "AC-210",
+          "AC-211",
+          "AC-212",
+          "AC-213"
+        ]
+      },
+      {
+        "id": "592733bc6508019f4db86b38f9a9bc28",
+        "name": "r2",
+        "data_type": "Text",
+        "concept": "External reference assigned to the client by a partner registry.",
+        "samples": [
+          "PR-A71",
+          "PR-B18",
+          "PR-C29",
+          "PR-D40"
+        ]
+      },
+      {
+        "id": "018cbce1159cb6bc5e490a169907cc6e",
+        "name": "contact_status",
+        "data_type": "Text",
+        "concept": "Lifecycle status of the individual contact record.",
+        "samples": []
+      },
+      {
+        "id": "292b8b1f2f4ddfcefe5994b839762ec1",
+        "name": "monthly_revenue_usd",
+        "data_type": "Decimal",
+        "concept": "Client organization revenue over one month in US dollars.",
+        "samples": [
+          80000,
+          120000,
+          60000,
+          150000
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "a4d7c4de8837b0a7735b87bb803251ce",
+        "kind": "match",
+        "targets": [
+          "b1c5548d15baf596a609578b3a443f38"
+        ],
+        "rationale": "The source account and target organization identify the same client organization record."
+      },
+      {
+        "source": "4a01c8da37ab8528ae67490cec2a0604",
+        "kind": "match",
+        "targets": [
+          "6a29d4f03ae58be4fb5e218b08b65d9c"
+        ],
+        "rationale": "Both dates concern renewal of the current subscription."
+      },
+      {
+        "source": "c29339ab5b14140679d1d3ba3fdddd6c",
+        "kind": "match",
+        "targets": [
+          "592733bc6508019f4db86b38f9a9bc28"
+        ],
+        "rationale": "Both are the partner registry client reference, supported by the observed distinct reference values."
+      },
+      {
+        "source": "96926031ccb7c68093a8c01475e1e9d6",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Annual and monthly revenue have different measurement periods and are not direct field equivalents."
+      },
+      {
+        "source": "303ba13a6ef5aa4da88c273235e18127",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Outreach interactions and purchase transactions are different events."
+      },
+      {
+        "source": "2fd7db9e6c2974c2d8f621fde51b1197",
+        "kind": "ambiguous",
+        "targets": [
+          "bf78b0c8417f25dfd93c88bc179855da",
+          "018cbce1159cb6bc5e490a169907cc6e"
+        ],
+        "rationale": "The combined export omitted the status entity scope, so either account or contact status remains plausible."
+      }
+    ]
+  },
+  {
+    "id": "237c2b6de1903083f54466b12cbc93a9",
+    "domain": "crm_contacts",
+    "title": "Contact consent export with duplicated email",
+    "tags": [
+      "synthetic",
+      "reserved",
+      "qualification"
+    ],
+    "rationale": "Independently specified consent export. Two flattened source columns repeat the same authoritative contact email and each has one semantic target; a score lacks its business role.",
+    "source": [
+      {
+        "id": "ed25e2df90e9ab9e1ac829a9079815e5",
+        "name": "email",
+        "data_type": "Text",
+        "concept": "Authoritative primary email address of the individual contact.",
+        "samples": [
+          "nora@example.invalid",
+          "amir@example.invalid",
+          "essa@example.invalid",
+          "kai@example.invalid"
+        ]
+      },
+      {
+        "id": "273da0de85de787644cd35ec7c82a548",
+        "name": "email",
+        "data_type": "Text",
+        "concept": "Authoritative primary email address of the individual contact, repeated by the export.",
+        "samples": [
+          "nora@example.invalid",
+          "amir@example.invalid",
+          "essa@example.invalid",
+          "kai@example.invalid"
+        ]
+      },
+      {
+        "id": "18e09ff155e80343140c663ff76bf819",
+        "name": "opted_in",
+        "data_type": "Boolean",
+        "concept": "Whether the contact consented to marketing messages.",
+        "samples": [
+          true,
+          false,
+          true,
+          false
+        ]
+      },
+      {
+        "id": "865b36b829b2a19a72dbae58c999136d",
+        "name": "locale",
+        "data_type": "Text",
+        "concept": "Preferred language and regional locale for contact communications.",
+        "samples": [
+          "en-GB",
+          "de-DE",
+          "ja-JP",
+          "es-MX"
+        ]
+      },
+      {
+        "id": "8087558aa03207644b826f05a5c27788",
+        "name": "age_years",
+        "data_type": "Integer",
+        "concept": "Age of the contact expressed in completed years.",
+        "samples": [
+          29,
+          44,
+          37,
+          52
+        ]
+      },
+      {
+        "id": "dbaca2328fd750f3d187da17854c36e7",
+        "name": "score",
+        "data_type": "Decimal",
+        "concept": "Client relationship score whose engagement or health role was omitted.",
+        "samples": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "fd5254371992d39e0dfc26def50989c6",
+        "name": "customer_health_score",
+        "data_type": "Decimal",
+        "concept": "Score describing the health of the client relationship.",
+        "samples": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "263c0109d1b05f0f672208ceb2ffb74f",
+        "name": "preferred_locale",
+        "data_type": "Text",
+        "concept": "Preferred language and regional locale for contact communications.",
+        "samples": [
+          "en-GB",
+          "de-DE",
+          "ja-JP",
+          "es-MX"
+        ]
+      },
+      {
+        "id": "b997caa13433dc1edef7028ca7ce383d",
+        "name": "email_address",
+        "data_type": "Text",
+        "concept": "Authoritative primary email address of the individual contact.",
+        "samples": [
+          "nora@example.invalid",
+          "amir@example.invalid",
+          "essa@example.invalid",
+          "kai@example.invalid"
+        ]
+      },
+      {
+        "id": "f72cf381b97ba00d48761ccf73c56c25",
+        "name": "birth_year",
+        "data_type": "Integer",
+        "concept": "Calendar year in which the contact was born.",
+        "samples": [
+          1997,
+          1982,
+          1989,
+          1974
+        ]
+      },
+      {
+        "id": "4bcfbb1a799f2178c2c7c2de39efd099",
+        "name": "engagement_score",
+        "data_type": "Decimal",
+        "concept": "Score describing the contact's recent engagement.",
+        "samples": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "674eff4d1b0721f347c7abd8a6d881cf",
+        "name": "marketing_opt_in",
+        "data_type": "Boolean",
+        "concept": "Whether the contact consented to marketing messages.",
+        "samples": [
+          true,
+          false,
+          true,
+          false
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "ed25e2df90e9ab9e1ac829a9079815e5",
+        "kind": "match",
+        "targets": [
+          "b997caa13433dc1edef7028ca7ce383d"
+        ],
+        "rationale": "This source occurrence is the authoritative contact email."
+      },
+      {
+        "source": "273da0de85de787644cd35ec7c82a548",
+        "kind": "match",
+        "targets": [
+          "b997caa13433dc1edef7028ca7ce383d"
+        ],
+        "rationale": "The duplicate source occurrence has the same authoritative email meaning and sole semantic target; its assignment collision is deliberate."
+      },
+      {
+        "source": "18e09ff155e80343140c663ff76bf819",
+        "kind": "match",
+        "targets": [
+          "674eff4d1b0721f347c7abd8a6d881cf"
+        ],
+        "rationale": "Both flags describe consent to receive marketing messages."
+      },
+      {
+        "source": "865b36b829b2a19a72dbae58c999136d",
+        "kind": "match",
+        "targets": [
+          "263c0109d1b05f0f672208ceb2ffb74f"
+        ],
+        "rationale": "Both preserve the same preferred communication locale, including region."
+      },
+      {
+        "source": "8087558aa03207644b826f05a5c27788",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Age in completed years and calendar birth year are different quantities requiring derivation."
+      },
+      {
+        "source": "dbaca2328fd750f3d187da17854c36e7",
+        "kind": "ambiguous",
+        "targets": [
+          "fd5254371992d39e0dfc26def50989c6",
+          "4bcfbb1a799f2178c2c7c2de39efd099"
+        ],
+        "rationale": "Neither the unqualified score name nor constant observations identify engagement versus relationship health."
+      }
+    ]
+  },
+  {
+    "id": "a1597792cc012e47623146e03c2c196c",
+    "domain": "operational_telemetry",
+    "title": "Machine observation stream",
+    "tags": [
+      "synthetic",
+      "reserved",
+      "qualification"
+    ],
+    "rationale": "Independently specified industrial observation transfer. Observation identity and timing are known, while rotational units, operational entity scopes, and an unqualified vibration measure remain distinct.",
+    "source": [
+      {
+        "id": "a10eefa369461ef0946b2281682b1235",
+        "name": "sensor_id",
+        "data_type": "Text",
+        "concept": "Identifier of the measurement probe.",
+        "samples": [
+          "SN-701",
+          "SN-702",
+          "SN-703",
+          "SN-704"
+        ]
+      },
+      {
+        "id": "bef88b1b37cdae80b9472f439ef08b41",
+        "name": "sampled_at",
+        "data_type": "Timestamp",
+        "concept": "Instant when the probe took the observation.",
+        "samples": [
+          "2026-06-08T10:01:01Z",
+          "2026-06-08T10:01:02Z",
+          "2026-06-08T10:01:03Z",
+          "2026-06-08T10:01:04Z"
+        ]
+      },
+      {
+        "id": "04f52091b837be4ce7bfd01f5b06a42e",
+        "name": "temperature_c",
+        "data_type": "Float",
+        "concept": "Measured machine temperature in degrees Celsius.",
+        "samples": [
+          42.6,
+          43.1,
+          41.8,
+          44.2
+        ]
+      },
+      {
+        "id": "fb8b7c96428ce69a4e7e793e0f5a0369",
+        "name": "rpm",
+        "data_type": "Float",
+        "concept": "Shaft rotational speed in revolutions per minute.",
+        "samples": [
+          900,
+          1200,
+          1500,
+          1800
+        ]
+      },
+      {
+        "id": "41a59501c3cc5598f0dfc24e9d8bdf55",
+        "name": "device_serial",
+        "data_type": "Text",
+        "concept": "Manufacturer serial identifier of the monitored device.",
+        "samples": [
+          "DV-341",
+          "DV-342",
+          "DV-343",
+          "DV-344"
+        ]
+      },
+      {
+        "id": "13e09bd1b6c5e4d0c34a7a80b029af53",
+        "name": "value",
+        "data_type": "Float",
+        "concept": "Vibration amplitude whose RMS or peak summary was omitted.",
+        "samples": [
+          null,
+          null,
+          null,
+          0.8
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "941fbe21f6b7df0823691e23b8526e8e",
+        "name": "vibration_peak",
+        "data_type": "Float",
+        "concept": "Peak vibration amplitude.",
+        "samples": [
+          null,
+          null,
+          null,
+          0.8
+        ]
+      },
+      {
+        "id": "91c25a1c2491089a4a3cab7deaa39d2a",
+        "name": "work_order_id",
+        "data_type": "Text",
+        "concept": "Identifier of the maintenance work order.",
+        "samples": [
+          "WO-341",
+          "WO-342",
+          "WO-343",
+          "WO-344"
+        ]
+      },
+      {
+        "id": "90de24c516c4fead03a1edfae505b489",
+        "name": "probe_ref",
+        "data_type": "Text",
+        "concept": "Identifier of the measurement probe.",
+        "samples": [
+          "SN-701",
+          "SN-702",
+          "SN-703",
+          "SN-704"
+        ]
+      },
+      {
+        "id": "3dacfd5bfa6fc08d5454b6331a22e7bb",
+        "name": "rotational_frequency_hz",
+        "data_type": "Float",
+        "concept": "Shaft rotational frequency in cycles per second.",
+        "samples": [
+          15,
+          20,
+          25,
+          30
+        ]
+      },
+      {
+        "id": "d83de5c0cff71906a753924d068ac41a",
+        "name": "temperature_c",
+        "data_type": "Float",
+        "concept": "Measured machine temperature in degrees Celsius.",
+        "samples": [
+          42.6,
+          43.1,
+          41.8,
+          44.2
+        ]
+      },
+      {
+        "id": "5f128b1a6e2eed5c082318c409319e58",
+        "name": "vibration_rms",
+        "data_type": "Float",
+        "concept": "Root mean square vibration amplitude.",
+        "samples": [
+          null,
+          null,
+          null,
+          0.8
+        ]
+      },
+      {
+        "id": "5ad9d2c19d5d7c37e91d814264008c73",
+        "name": "observation_time",
+        "data_type": "Timestamp",
+        "concept": "Instant when the probe took the observation.",
+        "samples": [
+          "2026-06-08T10:01:01Z",
+          "2026-06-08T10:01:02Z",
+          "2026-06-08T10:01:03Z",
+          "2026-06-08T10:01:04Z"
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "a10eefa369461ef0946b2281682b1235",
+        "kind": "match",
+        "targets": [
+          "90de24c516c4fead03a1edfae505b489"
+        ],
+        "rationale": "Both identify the measurement probe."
+      },
+      {
+        "source": "bef88b1b37cdae80b9472f439ef08b41",
+        "kind": "match",
+        "targets": [
+          "5ad9d2c19d5d7c37e91d814264008c73"
+        ],
+        "rationale": "Both timestamps refer to acquisition of the observation."
+      },
+      {
+        "source": "04f52091b837be4ce7bfd01f5b06a42e",
+        "kind": "match",
+        "targets": [
+          "d83de5c0cff71906a753924d068ac41a"
+        ],
+        "rationale": "Both are the same Celsius temperature measurement."
+      },
+      {
+        "source": "fb8b7c96428ce69a4e7e793e0f5a0369",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Revolutions per minute and cycles per second are different declared rotational units."
+      },
+      {
+        "source": "41a59501c3cc5598f0dfc24e9d8bdf55",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Device serials and maintenance work order identifiers refer to unrelated operational entities."
+      },
+      {
+        "source": "13e09bd1b6c5e4d0c34a7a80b029af53",
+        "kind": "ambiguous",
+        "targets": [
+          "941fbe21f6b7df0823691e23b8526e8e",
+          "5f128b1a6e2eed5c082318c409319e58"
+        ],
+        "rationale": "The summary role is missing and the sparse shared amplitude is consistent with either RMS or peak."
+      }
+    ]
+  },
+  {
+    "id": "78dcb1d60b547999d5ef32be454fd888",
+    "domain": "operational_telemetry",
+    "title": "Fleet journey export",
+    "tags": [
+      "synthetic",
+      "reserved",
+      "qualification"
+    ],
+    "rationale": "Independently specified fleet journey transfer. Origin coordinates and trip identity retain their roles, and a timestamp pair is intentionally opaque; speed units and unspecified duration summaries remain unresolved.",
+    "source": [
+      {
+        "id": "6d8859df27b485a23c752ec15eb9e769",
+        "name": "trip_id",
+        "data_type": "Text",
+        "concept": "Identifier of the completed vehicle journey.",
+        "samples": [
+          "JR-810",
+          "JR-811",
+          "JR-812",
+          "JR-813"
+        ]
+      },
+      {
+        "id": "1d48d519184a7b302332ad78404e6252",
+        "name": "start-latitude",
+        "data_type": "Float",
+        "concept": "Latitude of the journey origin in decimal degrees.",
+        "samples": [
+          40.724,
+          41.033,
+          39.951,
+          40.112
+        ]
+      },
+      {
+        "id": "ba1bba3592430a7191b8ae3645d70be8",
+        "name": "start_longitude",
+        "data_type": "Float",
+        "concept": "Longitude of the journey origin in decimal degrees.",
+        "samples": [
+          -73.982,
+          -74.114,
+          -75.164,
+          -74.551
+        ]
+      },
+      {
+        "id": "81ed74ae9a8e55eb58cf566e1d599097",
+        "name": "q8",
+        "data_type": "Timestamp",
+        "concept": "Instant at which the vehicle journey ended.",
+        "samples": [
+          "2026-07-11T13:21:07Z",
+          "2026-07-11T14:09:51Z",
+          "2026-07-12T08:54:33Z",
+          "2026-07-12T10:15:46Z"
+        ]
+      },
+      {
+        "id": "225fd0a6d3174bf6e0d120d76caf4134",
+        "name": "speed_kph",
+        "data_type": "Float",
+        "concept": "Reported vehicle speed in kilometers per hour.",
+        "samples": [
+          64,
+          72,
+          48,
+          88
+        ]
+      },
+      {
+        "id": "38f3c8f1cc9fab1c6b7d9bb7dab1fa2e",
+        "name": "duration",
+        "data_type": "Float",
+        "concept": "Journey duration in seconds whose moving or total elapsed summary was omitted.",
+        "samples": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "daf41b2e0340ad0580216acd25620806",
+        "name": "elapsed_seconds",
+        "data_type": "Float",
+        "concept": "Total elapsed journey duration in seconds.",
+        "samples": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "79c5c1351550feac27e24ad7e9296ee9",
+        "name": "origin_longitude",
+        "data_type": "Float",
+        "concept": "Longitude of the journey origin in decimal degrees.",
+        "samples": [
+          -73.982,
+          -74.114,
+          -75.164,
+          -74.551
+        ]
+      },
+      {
+        "id": "1d4906dc5ffc3483f63989ae059fbc3b",
+        "name": "journey_ref",
+        "data_type": "Text",
+        "concept": "Identifier of the completed vehicle journey.",
+        "samples": [
+          "JR-810",
+          "JR-811",
+          "JR-812",
+          "JR-813"
+        ]
+      },
+      {
+        "id": "e1b097f21df27efef56aa4615b22e5ac",
+        "name": "z3",
+        "data_type": "Timestamp",
+        "concept": "Instant at which the vehicle journey ended.",
+        "samples": [
+          "2026-07-11T13:21:07Z",
+          "2026-07-11T14:09:51Z",
+          "2026-07-12T08:54:33Z",
+          "2026-07-12T10:15:46Z"
+        ]
+      },
+      {
+        "id": "91a32df80a1efd779eb5aab6e7d5b404",
+        "name": "origin_latitude",
+        "data_type": "Float",
+        "concept": "Latitude of the journey origin in decimal degrees.",
+        "samples": [
+          40.724,
+          41.033,
+          39.951,
+          40.112
+        ]
+      },
+      {
+        "id": "25a1687358e3842197d0f5fe995a956f",
+        "name": "moving_seconds",
+        "data_type": "Float",
+        "concept": "Journey duration while the vehicle is moving, in seconds.",
+        "samples": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "e150a2e5a02ce99c7bc526fec4021b08",
+        "name": "speed_mph",
+        "data_type": "Float",
+        "concept": "Reported vehicle speed in miles per hour.",
+        "samples": [
+          39.77,
+          44.74,
+          29.83,
+          54.68
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "6d8859df27b485a23c752ec15eb9e769",
+        "kind": "match",
+        "targets": [
+          "1d4906dc5ffc3483f63989ae059fbc3b"
+        ],
+        "rationale": "Both identify the vehicle journey."
+      },
+      {
+        "source": "1d48d519184a7b302332ad78404e6252",
+        "kind": "match",
+        "targets": [
+          "91a32df80a1efd779eb5aab6e7d5b404"
+        ],
+        "rationale": "Both are latitude at the origin, in the same coordinate unit."
+      },
+      {
+        "source": "ba1bba3592430a7191b8ae3645d70be8",
+        "kind": "match",
+        "targets": [
+          "79c5c1351550feac27e24ad7e9296ee9"
+        ],
+        "rationale": "Both are longitude at the origin, in the same coordinate unit."
+      },
+      {
+        "source": "81ed74ae9a8e55eb58cf566e1d599097",
+        "kind": "match",
+        "targets": [
+          "e1b097f21df27efef56aa4615b22e5ac"
+        ],
+        "rationale": "Both are journey completion instants, supported by distinct observed timestamps despite opaque names."
+      },
+      {
+        "source": "225fd0a6d3174bf6e0d120d76caf4134",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "The declared speed units differ between kilometers and miles per hour."
+      },
+      {
+        "source": "38f3c8f1cc9fab1c6b7d9bb7dab1fa2e",
+        "kind": "ambiguous",
+        "targets": [
+          "daf41b2e0340ad0580216acd25620806",
+          "25a1687358e3842197d0f5fe995a956f"
+        ],
+        "rationale": "The source duration omits whether stops are included; constant observations do not separate moving and elapsed time."
+      }
+    ]
+  },
+  {
+    "id": "a57c4e2138ceb1579be623e83ca9dce7",
+    "domain": "operational_telemetry",
+    "title": "Queue dispatch record transfer",
+    "tags": [
+      "synthetic",
+      "reserved",
+      "qualification"
+    ],
+    "rationale": "Independently specified asynchronous job queue transfer. Queue identity and admission timing are known; retry policy, latency units, and duplicate mirrored state projections have separate semantic treatment.",
+    "source": [
+      {
+        "id": "fa6234ef453f04225a17c783b1258373",
+        "name": "job token",
+        "data_type": "Text",
+        "concept": "Identifier of the queued job.",
+        "samples": [
+          "QT-501",
+          "QT-502",
+          "QT-503",
+          "QT-504"
+        ]
+      },
+      {
+        "id": "889f74d740d008eb2488b54a30f9f4f5",
+        "name": "queue_depth",
+        "data_type": "Integer",
+        "concept": "Number of jobs waiting in the queue at observation.",
+        "samples": [
+          12,
+          8,
+          15,
+          4
+        ]
+      },
+      {
+        "id": "4cde58d5887548a3c161f5f99bb5cb2f",
+        "name": "enqueue_time",
+        "data_type": "Timestamp",
+        "concept": "Instant when the job entered the queue.",
+        "samples": [
+          "2026-08-18T09:00:03Z",
+          "2026-08-18T09:00:05Z",
+          "2026-08-18T09:00:09Z",
+          "2026-08-18T09:00:12Z"
+        ]
+      },
+      {
+        "id": "29415b87c6b099d58555bc20953161fe",
+        "name": "retry_count",
+        "data_type": "Integer",
+        "concept": "Number of retry attempts already performed for the job.",
+        "samples": [
+          0,
+          1,
+          2,
+          1
+        ]
+      },
+      {
+        "id": "e9afcb2091c51bb60296b278519af9c3",
+        "name": "latency_ms",
+        "data_type": "Float",
+        "concept": "Observed dispatch latency in milliseconds.",
+        "samples": [
+          3.2,
+          4.8,
+          2.6,
+          6.4
+        ]
+      },
+      {
+        "id": "0627eec0cebbeb4a85997ad477b1ced4",
+        "name": "state",
+        "data_type": "Text",
+        "concept": "Current workflow state of the queue item.",
+        "samples": [
+          "queued",
+          "queued",
+          "queued",
+          "queued"
+        ]
+      }
+    ],
+    "target": [
+      {
+        "id": "e764f02485178e4867d1ffc25fd2ffa5",
+        "name": "status",
+        "data_type": "Text",
+        "concept": "Current workflow state of the queue item in one equivalent mirrored projection.",
+        "samples": [
+          "queued",
+          "queued",
+          "queued",
+          "queued"
+        ]
+      },
+      {
+        "id": "24bac59875ded29159cd13659cfde5f7",
+        "name": "retry_limit",
+        "data_type": "Integer",
+        "concept": "Maximum number of retry attempts permitted for the job.",
+        "samples": [
+          3,
+          3,
+          4,
+          3
+        ]
+      },
+      {
+        "id": "a602055a8fca5c5db8cdca10a15c0210",
+        "name": "task_ref",
+        "data_type": "Text",
+        "concept": "Identifier of the queued job.",
+        "samples": [
+          "QT-501",
+          "QT-502",
+          "QT-503",
+          "QT-504"
+        ]
+      },
+      {
+        "id": "694fb7fe93d282f2865051e3f234f567",
+        "name": "latency_us",
+        "data_type": "Float",
+        "concept": "Observed dispatch latency in microseconds.",
+        "samples": [
+          3200,
+          4800,
+          2600,
+          6400
+        ]
+      },
+      {
+        "id": "e82b845f75ab12a3831dc2af3816b5f7",
+        "name": "created_at",
+        "data_type": "Timestamp",
+        "concept": "Instant when the job entered the queue.",
+        "samples": [
+          "2026-08-18T09:00:03Z",
+          "2026-08-18T09:00:05Z",
+          "2026-08-18T09:00:09Z",
+          "2026-08-18T09:00:12Z"
+        ]
+      },
+      {
+        "id": "d431a469a950c3a7308a99cf66e17b09",
+        "name": "status",
+        "data_type": "Text",
+        "concept": "Current workflow state of the queue item in another equivalent mirrored projection.",
+        "samples": [
+          "queued",
+          "queued",
+          "queued",
+          "queued"
+        ]
+      },
+      {
+        "id": "71372bf87513bfe9d24af9b4bbac17fd",
+        "name": "pending-count",
+        "data_type": "Integer",
+        "concept": "Number of jobs waiting in the queue at observation.",
+        "samples": [
+          12,
+          8,
+          15,
+          4
+        ]
+      }
+    ],
+    "labels": [
+      {
+        "source": "fa6234ef453f04225a17c783b1258373",
+        "kind": "match",
+        "targets": [
+          "a602055a8fca5c5db8cdca10a15c0210"
+        ],
+        "rationale": "Both identify the queued job."
+      },
+      {
+        "source": "889f74d740d008eb2488b54a30f9f4f5",
+        "kind": "match",
+        "targets": [
+          "71372bf87513bfe9d24af9b4bbac17fd"
+        ],
+        "rationale": "Both count jobs waiting in the queue at the observation."
+      },
+      {
+        "source": "4cde58d5887548a3c161f5f99bb5cb2f",
+        "kind": "match",
+        "targets": [
+          "e82b845f75ab12a3831dc2af3816b5f7"
+        ],
+        "rationale": "In this independently specified record, creation means admission of the job to the queue."
+      },
+      {
+        "source": "29415b87c6b099d58555bc20953161fe",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Retry attempts already performed are not the configured maximum retry allowance."
+      },
+      {
+        "source": "e9afcb2091c51bb60296b278519af9c3",
+        "kind": "no_match",
+        "targets": [],
+        "rationale": "Dispatch latency uses different declared units, milliseconds and microseconds."
+      },
+      {
+        "source": "0627eec0cebbeb4a85997ad477b1ced4",
+        "kind": "ambiguous",
+        "targets": [
+          "e764f02485178e4867d1ffc25fd2ffa5",
+          "d431a469a950c3a7308a99cf66e17b09"
+        ],
+        "rationale": "Both target status occurrences are equivalent mirrored projections and the constant samples do not select one."
+      }
+    ]
+  }
+]

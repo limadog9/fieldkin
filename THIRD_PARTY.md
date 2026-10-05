@@ -4,16 +4,22 @@ Fieldkin's original code and synthetic fixtures are copyright 2026 Fieldkin cont
 
 ## Dependencies
 
-The [October 4, 2026 dependency review](qualification/results/continuation-v1/dependencies.json)
-inventories all 42 locked third-party versions across runtime and development
-tools, including advisory results and license-file hashes. All three lockfile
-scans reported zero vulnerabilities and zero warnings against the freshly
-fetched RustSec database at `ef6173cbc5c50ec8166f9a5b28f07834144373ee`;
+The [native Rust dependency review](qualification/results/rust-native-v1/dependencies.json)
+inventories all 72 locked third-party versions across five manifest graphs,
+including advisory results and license-file hashes. All three lockfile
+scans reported zero vulnerabilities against the freshly fetched RustSec
+database at `ef6173cbc5c50ec8166f9a5b28f07834144373ee`;
 this is a dated advisory check, not a source-code security audit. The
 [earlier review and interpretation](docs/dependency-review.md) retain the
 October 3 observations, the additional Unicode-3.0 notice for `unicode-ident`,
 and the missing standalone notice file in the optional `stats_alloc` package.
-Qualification adds no dependency beyond Fieldkin itself.
+The isolated qualification executable adds no dependency beyond Fieldkin itself.
+The unpublished Rust tooling crate adds CSV and bounded ZIP/gzip/tar importers,
+TOML configuration parsing and provenance hashing. These are development tools
+and are excluded from the published library dependency graph. The review records
+their complete dependency licenses and available notice hashes. Existing dated
+reviews remain archived. The former Rust 1.85 development pin for proptest has
+been removed; the project now uses current stable Rust and proptest 1.11.
 
 The default library feature set resolves these runtime crates:
 
@@ -39,7 +45,7 @@ notice in addition to an MIT or Apache-2.0 choice. These feature-specific edges
 do not change the default library dependency graph. No locked versions were
 upgraded to add JSON support.
 
-[`proptest` 1.6.0](https://github.com/proptest-rs/proptest/tree/v1.6.0) is a development-only direct dependency, licensed MIT OR Apache-2.0, copyright 2016 FullContact, Inc. Its transitive test dependencies are recorded in `Cargo.lock` and retain their upstream licenses. They are not dependencies of consumers of the Fieldkin library. Cargo registry packages supply their own license files; preserve the relevant notices when redistributing bundled dependency code. The runtime MIT notices are reproduced below for convenience.
+[`proptest` 1.11.0](https://github.com/proptest-rs/proptest/tree/v1.11.0) is a development-only direct dependency, licensed MIT OR Apache-2.0, copyright 2016 FullContact, Inc. Its transitive test dependencies are recorded in `Cargo.lock` and retain their upstream licenses. They are not dependencies of consumers of the Fieldkin library. Cargo registry packages supply their own license files; preserve the relevant notices when redistributing bundled dependency code. The runtime MIT notices are reproduced below for convenience.
 
 ## Research acknowledgment
 

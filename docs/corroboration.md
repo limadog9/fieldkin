@@ -39,6 +39,12 @@ alternative and resolve a local tie, or change the global assignment; new
 selections are therefore not necessarily a subset of old selections. Top-k
 presentation limits do not affect this analysis.
 
+When no edge is eligible and an otherwise viable edge lacks the required support,
+the source returns `Decision::InsufficientEvidence` and the corresponding field
+diagnostic. Low scores, incompatible types, semantic/name conflicts and caller
+exclusions retain their separate reasons. This reporting distinction preserves
+scores and selections. See [configurable precision checks](precision.md).
+
 This policy fits applications where representative overlapping samples are
 available and unsupported proposals are more costly than missed matches. It
 loses coverage when matching fields have disjoint samples, many nulls, constant

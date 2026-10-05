@@ -1,5 +1,10 @@
 # Bounded Valentine comparison protocol
 
+This document preserves the archived comparison protocol and measured results.
+Local Python/Valentine COMA execution is retired. Current tools use latest stable
+Rust and can import the existing score exports; they do not produce fresh COMA
+measurements. The original Python environment facts below remain historical.
+
 This experiment compares Fieldkin with the COMA implementation supplied by
 Valentine 1.0.0 on the fixed Northix fixture. It is a development diagnostic over
 84 table pairs, not a reproduction of a COMA or Valentine research paper, an
@@ -105,18 +110,11 @@ connections and URL download entry points during matching. This prevents the
 normal fallback from downloading corpora into the user's home directory. It is a
 guard against unintended I/O, not a hostile-code security sandbox.
 
-Freeze all matching inputs, protocol, wrapper and environment records before
-preparation or scoring. Provisioning dependencies/resources is a separate step.
-Once the pinned local environment exists, the commands are:
-
-```powershell
-$env:PYTHONHASHSEED = "0"
-$env:OMP_NUM_THREADS = "1"
-$env:OPENBLAS_NUM_THREADS = "1"
-$env:MKL_NUM_THREADS = "1"
-.local/valentine-env/Scripts/python.exe evaluation/compare_valentine.py prepare --nltk-data .local/nltk_data --output evaluation/results/valentine-v1
-.local/valentine-env/Scripts/python.exe evaluation/compare_valentine.py run --nltk-data .local/nltk_data --output evaluation/results/valentine-v1
-```
+The archived run froze all matching inputs, protocol, wrapper and environment
+records before preparation or scoring. Dependency/resource provisioning was
+separate. It set `PYTHONHASHSEED=0` and `OMP_NUM_THREADS`,
+`OPENBLAS_NUM_THREADS` and `MKL_NUM_THREADS` each to `1`. Its original preparation
+and run commands remain in the archived records; the runner is retired.
 
 The destination must be fresh at preparation and contain only `prepare.json`
 when running. The tool writes `valentine-schema_only.json` and
@@ -128,12 +126,23 @@ All JSON uses explicit LF newlines and rejects nonfinite numbers.
 
 Third-party output and exception details are suppressed because they could expose
 sample values. Output artifacts contain stable identities and scores, not samples.
-The test command below uses only the standard library, mock contexts and tiny
-synthetic fixtures. It never imports Valentine or scores the Northix corpus:
+The historical Python tests used only the standard library, mock contexts and
+tiny synthetic fixtures, without importing Valentine or scoring Northix. Current
+native tooling tests run without executing COMA:
 
 ```sh
-python -m unittest discover -s evaluation -p test_compare_valentine.py
+cargo +stable test --locked -p fieldkin-tools
 ```
+
+For a new verified Fieldkin execution against the archived comparison scores:
+
+```text
+cargo +stable run --locked -p fieldkin-tools -- verify-build --build-dir target/northix-comparison-native --toolchain stable
+cargo +stable run --locked -p fieldkin-tools -- record-northix --build-dir target/northix-comparison-native --output target/northix-comparison-results --scores evaluation/results/continuation-v1/valentine/valentine-schema_only.json --scores evaluation/results/continuation-v1/valentine/valentine-schema_and_samples.json
+```
+
+Use fresh directories. The Rust record binds the executable and imported-score
+hashes to this execution; the COMA producer remains the original archived run.
 
 These records detect accidental local drift and assume the wrapper, installed
 packages, interpreter, standard library and local processes are trusted. They do

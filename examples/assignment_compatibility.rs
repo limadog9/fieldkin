@@ -92,10 +92,10 @@ fn scores(case: usize, rows: usize, columns: usize, rng: &mut Generator) -> Vec<
                         0 => None,
                         1 => (row == column && row % 2 == 1).then_some(0.75),
                         2 => (row % 2 == 1 && column % 2 == 1).then_some(0.5),
-                        3 => (random % 3 != 0).then_some((random % 5) as f64 / 4.0),
-                        4 => (random % 3 != 0)
+                        3 => (!random.is_multiple_of(3)).then_some((random % 5) as f64 / 4.0),
+                        4 => (!random.is_multiple_of(3))
                             .then_some(f64::from_bits(0.5_f64.to_bits() + random as u64)),
-                        5 => (random % 3 != 0).then_some(f64::from_bits(random as u64)),
+                        5 => (!random.is_multiple_of(3)).then_some(f64::from_bits(random as u64)),
                         6 => Some(random as f64 / 15.0),
                         7 => (row != 0 && column != 0 && row.abs_diff(column) <= 1).then_some(0.5),
                         8 => (row % 3 == 1 && column % 3 == 2)

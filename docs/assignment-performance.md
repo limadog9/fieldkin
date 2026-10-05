@@ -88,8 +88,8 @@ add results and documentation, without changing the measured implementation.
   Rust 1.85 and 1.99 workspace tests, strict clippy, formatting and documentation
   checks passed locally. There are 218 passing Rust tests across the workspace,
   standalone performance crate and qualification crate, including eight library
-  doctests; one manual preparation microbenchmark stays ignored. The new Python
-  measurement-protocol suite adds five tests. CI runs the compatibility harness,
+  doctests; one manual preparation microbenchmark stays ignored. The archived Python
+  measurement-protocol suite added five tests. The then-current CI ran the compatibility harness,
   package verification and existing importer/evaluation tests on its supported
   platform/compiler matrix.
 
@@ -184,48 +184,56 @@ Empty-target assignment falls from 2.49564 to 0.03494 ms (98.60% lower median); 
 
 ## Reproduction commands
 
-The commands below were run from the repository root. On this Windows host,
-`py -3.11` selects the Python version required by the verified evaluator. Use fresh
-output directories for new measurements; archived result directories are not
-scratch space. Keep build/test work separate from the measurement phase.
+The measurements above retain their historical Rust 1.85/Python provenance.
+Those Python runners and the older compiler support policy are retired. The
+commands below use current native tools and latest stable Rust; their protocol
+records distinguish new measurements from archived artifacts. Use fresh output
+directories and keep build/test work separate from measurement.
 
 ```text
-cargo +1.85.0 fmt --all -- --check
-cargo +1.99.0 fmt --all -- --check
-cargo +1.85.0 test --locked --all-features
-cargo +1.99.0 test --locked --all-features
-cargo +1.85.0 test --locked --manifest-path performance/Cargo.toml --all-features
-cargo +1.85.0 test --locked --manifest-path qualification/Cargo.toml
-cargo +1.85.0 clippy --locked --workspace --all-targets --all-features -- -D warnings
-cargo +1.99.0 clippy --locked --workspace --all-targets --all-features -- -D warnings
+cargo +stable fmt --all -- --check
+cargo +stable test --locked --all-features
+cargo +stable test --locked --manifest-path performance/Cargo.toml --all-features
+cargo +stable test --locked --manifest-path qualification/Cargo.toml
+cargo +stable test --locked -p fieldkin-tools
+cargo +stable clippy --locked --workspace --all-targets --all-features -- -D warnings
 # With RUSTDOCFLAGS=-D warnings:
-cargo +1.85.0 doc --locked --no-deps --all-features
-cargo +1.99.0 doc --locked --no-deps --all-features
-py -3.11 -m unittest discover -s performance -p test_assignment.py
-cargo +1.85.0 package --locked -p fieldkin
+cargo +stable doc --locked --no-deps --all-features
+cargo +stable package --locked -p fieldkin
 
-cargo +1.85.0 run --locked --release --example assignment_compatibility -- --check-only
+cargo +stable run --locked --release --example assignment_compatibility -- --check-only
 # For full cross-revision comparison, run without --check-only in each checkout
 # with the identical example copied in; compare stdout bytes, not just summaries.
 
-py -3.11 qualification/run.py build --output qualification/results/assignment-v1
-py -3.11 qualification/run.py run --output qualification/results/assignment-v1 --cases 1200000 --seed 20261006
-py -3.11 evaluation/verified.py build --build-dir target/external-assignment-v1 --toolchain 1.85.0
-py -3.11 evaluation/verified.py run --build-dir target/external-assignment-v1 --output evaluation/results/assignment-v1/external
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --external --check --output evaluation/results/assignment-v1/external/artifacts
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --check-behavior --output evaluation/results/baseline-v1
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --stage3 --check-behavior --output evaluation/results/rc-v1/stage3-development
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --release --check-behavior --output evaluation/results/rc-v1/release
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --corrective --check --output evaluation/results/corrective-v1
+cargo +stable run --locked -p fieldkin-tools -- qualify-build --output target/assignment-qualification-native
+cargo +stable run --locked -p fieldkin-tools -- verify-build --build-dir target/external-assignment-native --toolchain stable
+cargo +stable run --locked -p fieldkin-tools -- verify-run --build-dir target/external-assignment-native --output target/external-assignment-results
+cargo +stable run --locked --release -p fieldkin-eval -- --external --check --output evaluation/results/rust-native-v1/external
+cargo +stable run --locked --release -p fieldkin-eval -- --check --output evaluation/results/rust-native-v1/baseline
+cargo +stable run --locked --release -p fieldkin-eval -- --stage3 --check --output evaluation/results/rust-native-v1/stage3
+cargo +stable run --locked --release -p fieldkin-eval -- --release --check --output evaluation/results/rust-native-v1/release
+cargo +stable run --locked --release -p fieldkin-eval -- --corrective --check --output evaluation/results/rust-native-v1/corrective
 
 # Create the detached baseline once; retain its runtime sources unchanged.
 git worktree add --detach .local/assignment-baseline 8674c70
-py -3.11 performance/assignment.py build --baseline .local/assignment-baseline --candidate . --output performance/results/assignment-v1/solver-cost
-py -3.11 performance/run.py build --baseline .local/assignment-baseline --candidate . --output performance/results/assignment-v1/default-regression
-# After all builds and tests finish, run these sequentially:
-py -3.11 performance/assignment.py run --output performance/results/assignment-v1/solver-cost
-py -3.11 performance/run.py run --output performance/results/assignment-v1/default-regression
+cargo +stable run --locked -p fieldkin-tools -- perf-assignment build --baseline .local/assignment-baseline --candidate . --output target/assignment-solver-native
+cargo +stable run --locked -p fieldkin-tools -- perf-run build --baseline .local/assignment-baseline --candidate . --output target/assignment-default-native
 ```
+
+Strict snapshot checks require the planned native result directories to exist.
+Skip the worktree command if its baseline already exists. After all builds and
+tests finish, run these sequentially without other active measurements:
+
+```text
+cargo +stable run --locked -p fieldkin-tools -- qualify-run --output target/assignment-qualification-native --cases 1200000 --seed 20261006
+cargo +stable run --locked -p fieldkin-tools -- perf-assignment run --output target/assignment-solver-native
+cargo +stable run --locked -p fieldkin-tools -- perf-run run --output target/assignment-default-native
+cargo +stable run --locked -p fieldkin-tools -- perf-run summarize --output target/assignment-default-native
+```
+
+The native generated campaign now includes seven categories, including contextual
+evidence. A new full campaign measurement is still required; the old campaign
+counts above remain evidence for their recorded implementation.
 
 The package remains experimental and unpublished. This change reduces selected
 assignment costs; it does not reduce all-pairs evidence work, introduce a sparse

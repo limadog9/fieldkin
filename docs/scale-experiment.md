@@ -48,8 +48,8 @@ memory even when only one candidate is displayed.
 
 ## Measurement protocol
 
-The [driver](../performance/scale.py) pins Rust 1.85.0, creates a fresh isolated
-release executable, and records recursive library input, harness, helper-script,
+The archived Python driver pinned Rust 1.85.0 and created a fresh isolated
+release executable, and recorded recursive library input, harness, helper-script,
 manifest, lockfile, Cargo-configuration and executable hashes. Compiler, recorded
 inputs and configuration must match before and after measurement. A build does
 not run any measurements. Existing output destinations are rejected.
@@ -68,16 +68,19 @@ configured full product rather than instrumented callback counts. Raw JSONL uses
 explicit LF newlines so its recorded byte hashes survive archival normalization.
 
 ```sh
-python performance/scale.py build --output performance/results/scale-v1
+cargo +stable run --locked -p fieldkin-tools -- perf-scale build --output target/scale-native
 # Stop concurrent builds and tests before running the measurement command.
-python performance/scale.py run --output performance/results/scale-v1
+cargo +stable run --locked -p fieldkin-tools -- perf-scale run --output target/scale-native
 ```
 
-The small fixture unit tests and parser tests do not measure large cases:
+The Python runner and older compiler support are retired. New native records use
+latest stable Rust and a distinct protocol; the archived numbers above retain
+their original provenance. The small fixture and parser tests do not measure
+large cases:
 
 ```sh
-cargo +1.85.0 test --locked -p fieldkin --example scale_cost
-python -m unittest discover -s performance -p test_scale.py
+cargo +stable test --locked -p fieldkin --example scale_cost
+cargo +stable test --locked -p fieldkin-tools performance::tests
 ```
 
 ## Interpretation and limits

@@ -35,7 +35,8 @@ tasks cannot establish precision or unmatched-field safety. The 218 tables from
 Validation passed **213 Rust tests**, including eight doctests, 23 review tests
 and a 256-case independent exhaustive-assignment property, plus **five Python
 importer tests**. One manual preparation microbenchmark remains intentionally
-ignored. Formatting, strict clippy and warning-free docs pass on Rust 1.85/1.99.
+ignored. Formatting, strict clippy and warning-free docs passed on Rust 1.85/1.99
+in that archived cycle.
 Historical original, Stage 3, release-development and corrective regression
 checks preserve default full reports; no historical artifact was rewritten.
 
@@ -94,29 +95,42 @@ are observations, not evidence of a faster API. Read
 
 ## Reproduce
 
-Use a clean frozen checkout and fresh output directories. Standard tests,
-formatting, clippy and documentation commands are in CONTRIBUTING and CI.
+The results above belong to the frozen review cycle. Its Python runners and
+Rust 1.85 support are retired; dated compiler facts and counts remain unchanged.
+Current checks use latest stable Rust. Use fresh output directories for new
+native records; they have their own protocol and do not replace archived evidence.
+Standard formatting, clippy and documentation checks are in CONTRIBUTING and CI.
 
 ```text
-cargo +1.85.0 test --locked --all-features
-cargo +1.85.0 test --locked --manifest-path qualification/Cargo.toml
-cargo +1.85.0 test --locked --manifest-path performance/Cargo.toml --all-features
-python -m unittest discover -s evaluation -p test_import_t2d.py
-python evaluation/import_t2d.py --check
-cargo +1.85.0 run --locked --example reviewed_import
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --external --check --output evaluation/results/t2d-v1
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --corrective --check --output evaluation/results/corrective-v1
-python qualification/run.py build --output target/review-qualification
-python qualification/run.py run --output target/review-qualification --cases 1200000 --seed 20261005
-python performance/review.py build --output target/review-cost
+cargo +stable test --locked --all-features
+cargo +stable test --locked --manifest-path qualification/Cargo.toml
+cargo +stable test --locked --manifest-path performance/Cargo.toml --all-features
+cargo +stable test --locked -p fieldkin-tools
+cargo +stable run --locked -p fieldkin-tools -- import-t2d --check
+cargo +stable run --locked --example reviewed_import
+cargo +stable run --locked --release -p fieldkin-eval -- --external --check --output evaluation/results/rust-native-v1/external
+cargo +stable run --locked --release -p fieldkin-eval -- --corrective --check --output evaluation/results/rust-native-v1/corrective
+cargo +stable run --locked -p fieldkin-tools -- qualify-build --output target/review-qualification-native
+cargo +stable run --locked -p fieldkin-tools -- perf-review build --output target/review-cost-native
 git worktree add --detach .local/review-baseline 1519dff
-python performance/run.py build --baseline .local/review-baseline --candidate . --output target/review-default-cost
-python performance/review.py run --output target/review-cost
-python performance/run.py run --output target/review-default-cost
+cargo +stable run --locked -p fieldkin-tools -- perf-run build --baseline .local/review-baseline --candidate . --output target/review-default-cost-native
 ```
 
-Skip the worktree command if that baseline exists. Finish builds/tests before
-measurements. Run Rust checks with `+1.99.0` as well. CI checks all six supported
-OS/compiler combinations with read-only credentials and never scores the external
+The strict evaluator snapshots are planned; `--check` requires them to exist.
+Skip the worktree command if that baseline exists. Finish builds and tests before
+running these commands sequentially, without concurrent measurements:
+
+```text
+cargo +stable run --locked -p fieldkin-tools -- qualify-run --output target/review-qualification-native --cases 1200000 --seed 20261005
+cargo +stable run --locked -p fieldkin-tools -- perf-review run --output target/review-cost-native
+cargo +stable run --locked -p fieldkin-tools -- perf-run run --output target/review-default-cost-native
+cargo +stable run --locked -p fieldkin-tools -- perf-run summarize --output target/review-default-cost-native
+```
+
+The native campaign protocol now includes a seventh contextual-evidence category;
+no new full campaign measurement is claimed here. CI checks latest stable on
+Linux, Windows and macOS with read-only credentials and never scores the external
 holdout. Source/migration changes and failed accuracy targets remain explicit;
-serialization, larger-schema pruning and publication are still deferred.
+the historical feature deferrals above belong to this cycle; later continuation
+work delivered optional report/review serialization. Larger-schema pruning and
+publication remain deferred.

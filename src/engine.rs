@@ -1,13 +1,14 @@
 use std::collections::BTreeSet;
 
+use crate::name_conflicts::{CompiledNameConflictRule, PreparedNameConflicts};
 use crate::profile::PreparedProfile;
 use crate::signals::{type_compatibility, PreparedName, PreparedSamples};
 use crate::{
     assignment, AssignmentDiagnostics, BudgetKind, Candidate, CandidateIssue, Config,
     ConfigurationError, CountKind, Decision, Field, FieldDiagnostic, FieldMatch, InputError,
-    MatchConstraints, MatchError, MatchReport, Matcher, NameMatcher, SampleMatcher,
-    SampleProfileMatcher, SampleReliability, SampleValue, Schema, SemanticAxis, SignalReport,
-    TargetCompetition, TypeMatcher,
+    MatchConstraints, MatchError, MatchReport, Matcher, NameConflictKind, NameMatcher,
+    SampleMatcher, SampleProfileMatcher, SampleReliability, SampleValue, Schema, SemanticAxis,
+    SignalReport, TargetCompetition, TypeMatcher,
 };
 
 /// A signal and its relative weight. Zero-weight signals are disabled.
@@ -32,6 +33,8 @@ impl WeightedMatcher {
 pub struct MatchEngine {
     config: Config,
     matchers: Vec<WeightedMatcher>,
+    name_conflicts: Vec<CompiledNameConflictRule>,
+    contextual_sample_signal: Option<usize>,
 }
 
 // This cache borrows validated fields and lives only for one match call. It is
@@ -145,7 +148,44 @@ impl MatchEngine {
         for signal in &mut matchers {
             signal.weight /= total;
         }
-        Ok(Self { config, matchers })
+        let contextual_sample_signal = if config.contextual_evidence.is_some() {
+            let active = || matchers.iter().filter(|signal| signal.weight > 0.0);
+            let names = active().any(|signal| {
+                signal
+                    .matcher
+                    .as_any()
+                    .is_some_and(|matcher| matcher.is::<NameMatcher>())
+            });
+            let samples = active().position(|signal| {
+                signal
+                    .matcher
+                    .as_any()
+                    .and_then(|matcher| matcher.downcast_ref::<SampleMatcher>())
+                    .is_some_and(|matcher| {
+                        matcher.reliability == SampleReliability::Distinct
+                            && matcher.min_non_null == SampleMatcher::default().min_non_null
+                    })
+            });
+            if !names || samples.is_none() {
+                return Err(MatchError::InvalidConfiguration(
+                    ConfigurationError::ContextualEvidence,
+                ));
+            }
+            samples
+        } else {
+            None
+        };
+        let name_conflicts = config
+            .name_conflicts
+            .iter()
+            .map(CompiledNameConflictRule::new)
+            .collect();
+        Ok(Self {
+            config,
+            matchers,
+            name_conflicts,
+            contextual_sample_signal,
+        })
     }
 
     /// Rank every pair, abstain when appropriate, and optionally compute a partial
@@ -166,8 +206,8 @@ impl MatchEngine {
     ///
     /// All original fields and all pairs are validated and evaluated, including
     /// excluded ones. Constraints do not reduce budgets or matcher callbacks.
-    /// Confirmations override score, corroboration and ambiguity, but never the
-    /// enabled type veto or conflicting semantic hints. Scores remain unchanged;
+    /// Confirmations override score, corroboration, name conflicts and ambiguity,
+    /// but never the enabled type veto or conflicting semantic hints. Scores remain unchanged;
     /// [`Decision::Confirmed`] distinguishes a caller decision from a proposal.
     ///
     /// In one-to-one mode confirmed targets are reserved before automatic local
@@ -209,53 +249,97 @@ impl MatchEngine {
             .iter()
             .map(|signal| PreparedSignal::new(signal, &sources, &targets))
             .collect();
+        let name_conflicts = (!self.name_conflicts.is_empty()).then(|| {
+            let prepare = |fields: &[&Field]| {
+                fields
+                    .iter()
+                    .map(|field| PreparedNameConflicts::new(&field.name, &self.name_conflicts))
+                    .collect::<Vec<_>>()
+            };
+            (prepare(&sources), prepare(&targets))
+        });
+        // Schema context needs every pair before row decisions. The default
+        // keeps streaming rows and never allocates this additional matrix.
+        let mut contextual_rows = if let Some(policy) = self.config.contextual_evidence {
+            let mut candidates = (0..sources.len())
+                .map(|source| {
+                    self.evaluate_row(
+                        source,
+                        &sources,
+                        &targets,
+                        &prepared,
+                        name_conflicts.as_ref(),
+                        &mut explanation_bytes,
+                    )
+                })
+                .collect::<Result<Vec<_>, _>>()?;
+            crate::contextual::apply(
+                &self.config,
+                policy,
+                &sources,
+                &targets,
+                &mut candidates,
+                self.contextual_sample_signal
+                    .ok_or(MatchError::InvalidConfiguration(
+                        ConfigurationError::ContextualEvidence,
+                    ))?,
+                &mut explanation_bytes,
+            )?;
+            Some(candidates.into_iter())
+        } else {
+            None
+        };
         let mut fields = Vec::with_capacity(sources.len());
         let mut matrix = Vec::new();
         if self.config.one_to_one {
             matrix.reserve(sources.len());
         }
         for (source_index, source) in sources.iter().enumerate() {
-            let mut candidates = targets
-                .iter()
-                .enumerate()
-                .map(|(target_index, target)| {
-                    let mut candidate = self.evaluate(
-                        source,
-                        target,
-                        &prepared,
-                        (source_index, target_index),
-                        &mut explanation_bytes,
-                    )?;
-                    if let Some(constraints) = &constraints {
-                        if constraints.forbidden(source_index, target_index) {
-                            candidate.eligible = false;
-                            candidate.issues.push(CandidateIssue::ForbiddenByCaller);
-                            candidate.warnings.push(
-                                "Caller forbids this pair; automatic selection excluded.".into(),
-                            );
-                        }
-                        if constraints.unmatched[source_index] {
-                            candidate.eligible = false;
-                            candidate.issues.push(CandidateIssue::SourceExcludedByCaller);
-                            candidate.warnings.push(
-                                "Caller keeps this source unmatched; automatic selection excluded."
-                                    .into(),
-                            );
-                        }
-                        if constraints.reserved[target_index]
-                            .is_some_and(|owner| owner != source_index)
-                        {
-                            candidate.eligible = false;
-                            candidate.issues.push(CandidateIssue::TargetConfirmedByCaller);
-                            candidate.warnings.push(
+            let mut candidates = if let Some(rows) = &mut contextual_rows {
+                rows.next()
+                    .ok_or(MatchError::CountOverflow(CountKind::Pairs))?
+            } else {
+                self.evaluate_row(
+                    source_index,
+                    &sources,
+                    &targets,
+                    &prepared,
+                    name_conflicts.as_ref(),
+                    &mut explanation_bytes,
+                )?
+            };
+            for (target_index, candidate) in candidates.iter_mut().enumerate() {
+                if let Some(constraints) = &constraints {
+                    if constraints.forbidden(source_index, target_index) {
+                        candidate.eligible = false;
+                        candidate.issues.push(CandidateIssue::ForbiddenByCaller);
+                        candidate
+                            .warnings
+                            .push("Caller forbids this pair; automatic selection excluded.".into());
+                    }
+                    if constraints.unmatched[source_index] {
+                        candidate.eligible = false;
+                        candidate
+                            .issues
+                            .push(CandidateIssue::SourceExcludedByCaller);
+                        candidate.warnings.push(
+                            "Caller keeps this source unmatched; automatic selection excluded."
+                                .into(),
+                        );
+                    }
+                    if constraints.reserved[target_index].is_some_and(|owner| owner != source_index)
+                    {
+                        candidate.eligible = false;
+                        candidate
+                            .issues
+                            .push(CandidateIssue::TargetConfirmedByCaller);
+                        candidate.warnings.push(
                                 "Target is reserved by another caller-confirmed source; automatic selection excluded."
                                     .into(),
                             );
-                        }
                     }
-                    Ok(candidate)
-                })
-                .collect::<Result<Vec<_>, _>>()?;
+                }
+            }
             let confirmed = constraints
                 .as_ref()
                 .and_then(|constraints| constraints.confirmed[source_index]);
@@ -277,9 +361,36 @@ impl MatchEngine {
                 .map(|c| c.target.clone())
                 .collect();
             let abstain = self.config.abstain_on_ambiguity && alternatives.len() > 1;
+            let insufficient_evidence = (self.config.corroboration.is_some()
+                || self.config.contextual_evidence.is_some())
+                && best_score.is_none()
+                && confirmed.is_none()
+                && !excluded
+                && candidates.iter().any(|candidate| {
+                    candidate.issues.iter().any(|issue| {
+                        matches!(
+                            issue,
+                            CandidateIssue::InsufficientNameSupport
+                                | CandidateIssue::InsufficientSampleSupport
+                                | CandidateIssue::InsufficientContextSupport
+                        )
+                    }) && !candidate.issues.iter().any(|issue| match issue {
+                        CandidateIssue::InsufficientScore
+                        | CandidateIssue::NameConflict(_)
+                        | CandidateIssue::SemanticConflict(_)
+                        | CandidateIssue::ForbiddenByCaller
+                        | CandidateIssue::SourceExcludedByCaller
+                        | CandidateIssue::TargetConfirmedByCaller => true,
+                        CandidateIssue::IncompatibleTypes => self.config.reject_incompatible_types,
+                        _ => false,
+                    })
+                });
             let mut diagnostics = Vec::new();
             if best_score.is_none() && !excluded {
                 diagnostics.push(FieldDiagnostic::NoEligibleTarget);
+            }
+            if insufficient_evidence {
+                diagnostics.push(FieldDiagnostic::InsufficientEvidence);
             }
             if alternatives.len() > 1 {
                 diagnostics.push(FieldDiagnostic::LocalAmbiguity);
@@ -331,6 +442,8 @@ impl MatchEngine {
                 Decision::Ambiguous
             } else if best_score.is_some() {
                 Decision::Proposed
+            } else if insufficient_evidence {
+                Decision::InsufficientEvidence
             } else {
                 Decision::BelowThreshold
             };
@@ -448,12 +561,39 @@ impl MatchEngine {
         })
     }
 
+    fn evaluate_row(
+        &self,
+        source_index: usize,
+        sources: &[&Field],
+        targets: &[&Field],
+        prepared: &[PreparedSignal<'_>],
+        name_conflicts: Option<&(Vec<PreparedNameConflicts>, Vec<PreparedNameConflicts>)>,
+        explanation_bytes: &mut usize,
+    ) -> Result<Vec<Candidate>, MatchError> {
+        targets
+            .iter()
+            .enumerate()
+            .map(|(target_index, target)| {
+                self.evaluate(
+                    sources[source_index],
+                    target,
+                    prepared,
+                    (source_index, target_index),
+                    name_conflicts
+                        .map(|(source, target)| (&source[source_index], &target[target_index])),
+                    explanation_bytes,
+                )
+            })
+            .collect()
+    }
+
     fn evaluate(
         &self,
         source: &Field,
         target: &Field,
         prepared: &[PreparedSignal<'_>],
         (source_index, target_index): (usize, usize),
+        name_conflicts: Option<(&PreparedNameConflicts, &PreparedNameConflicts)>,
         explanation_bytes: &mut usize,
     ) -> Result<Candidate, MatchError> {
         let mut signals = Vec::with_capacity(self.matchers.len());
@@ -563,6 +703,26 @@ impl MatchEngine {
                 ));
             }
         }
+        let mut name_conflict = false;
+        if let Some((source, target)) = name_conflicts {
+            for kind in source.conflicts_with(target, &self.name_conflicts) {
+                name_conflict = true;
+                let issue = CandidateIssue::NameConflict(kind);
+                if !issues.contains(&issue) {
+                    issues.push(issue);
+                    warnings.push(match kind {
+                        NameConflictKind::Qualifier => {
+                            "Configured qualifier meanings conflict in normalized names; automatic pair excluded."
+                                .into()
+                        }
+                        NameConflictKind::Unit => {
+                            "Configured unit meanings conflict in normalized names; automatic pair excluded, no conversion inferred."
+                                .into()
+                        }
+                    });
+                }
+            }
+        }
         for (axis, source, target) in [
             (SemanticAxis::Unit, &source.hints.unit, &target.hints.unit),
             (
@@ -592,6 +752,7 @@ impl MatchEngine {
             eligible: score > 0.0
                 && score >= self.config.min_score
                 && (self.config.corroboration.is_none() || (name_support && sample_support))
+                && !name_conflict
                 && !semantic_conflict
                 && !(incompatible && self.config.reject_incompatible_types),
             signals,
@@ -649,6 +810,7 @@ impl MatchEngine {
 }
 
 fn validate_config(config: &Config) -> Result<(), MatchError> {
+    crate::name_conflicts::validate(&config.name_conflicts)?;
     if !config.min_score.is_finite()
         || !(0.0..=1.0).contains(&config.min_score)
         || !config.ambiguity_margin.is_finite()

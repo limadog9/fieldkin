@@ -241,6 +241,14 @@ pub struct Config {
     /// Optional built-in name/sample support gate. Defaults to `None`, preserving
     /// weighted matching when samples are unavailable. See [`Corroboration`].
     pub corroboration: Option<Corroboration>,
+    /// Optional raw-name token disagreement checks. Defaults to an empty list,
+    /// preserving existing matching. These affect eligibility, not scores;
+    /// caller confirmations can override them. See [`crate::NameConflictRule`].
+    pub name_conflicts: Vec<crate::NameConflictRule>,
+    /// Optional experimental contextual evidence and score transformation.
+    /// Defaults to `None`, preserving weighted scoring and streamed evaluation.
+    /// See [`crate::ContextualEvidence`] for fixed floors and support requirements.
+    pub contextual_evidence: Option<crate::ContextualEvidence>,
     /// Optional bounded alternative-assignment analysis; never changes selection.
     pub global_diagnostics: crate::GlobalDiagnosticsConfig,
     /// Resource budgets.
@@ -257,6 +265,8 @@ impl Default for Config {
             abstain_on_ambiguity: true,
             reject_incompatible_types: true,
             corroboration: None,
+            name_conflicts: Vec::new(),
+            contextual_evidence: None,
             global_diagnostics: crate::GlobalDiagnosticsConfig::default(),
             limits: Limits::default(),
         }
@@ -308,10 +318,12 @@ pub struct SignalReport {
 pub struct Candidate {
     /// Target identity.
     pub target: FieldId,
-    /// Weighted sum in [0, 1], not a probability.
+    /// Weighted sum in [0, 1], not a probability. With contextual evidence enabled,
+    /// the score is transformed by the documented fixed heuristic floors; original
+    /// signal evidence and weights remain available to reconstruct the base score.
     pub score: f64,
-    /// Passes threshold, optional corroboration, type veto and semantic-hint
-    /// constraints, plus caller exclusions/reserved targets; ambiguity is
+    /// Passes threshold, optional corroboration and name conflict checks, type veto
+    /// and semantic-hint constraints, plus caller exclusions/reserved targets; ambiguity is
     /// source-level. This describes automatic eligibility. An explicit caller
     /// confirmation can select a candidate with `eligible == false` without
     /// changing its evidence or score.
@@ -359,6 +371,15 @@ pub enum CandidateIssue {
     /// The enabled corroboration gate requires a distinct-aware built-in sample
     /// score meeting its floor; absent, disabled, Legacy or custom evidence cannot qualify.
     InsufficientSampleSupport,
+    /// The enabled contextual policy lacks sufficient lexical, distinctive-sample,
+    /// identifier, temporal-role or representation support for automatic selection.
+    InsufficientContextSupport,
+    /// The opt-in contextual policy raised the weighted base score to a fixed
+    /// heuristic floor. Original signal evidence and weights remain unchanged.
+    ContextualScoreAdjustment,
+    /// Caller-configured raw-name token meanings disagree; this excludes
+    /// automatic selection without changing scores or verified semantic hints.
+    NameConflict(crate::NameConflictKind),
     /// Supplied semantics conflict; this always excludes the pair.
     SemanticConflict(SemanticAxis),
     /// Supplied labels agree, without increasing the score.
@@ -377,8 +398,11 @@ pub enum FieldDiagnostic {
     ConfirmedByCaller,
     /// The caller explicitly keeps this source unmatched.
     ExcludedByCaller,
-    /// No candidate passes the score, corroboration and semantic/type constraints.
+    /// No candidate passes the score, support and lexical/semantic/type constraints.
     NoEligibleTarget,
+    /// An otherwise automatically viable candidate fails enabled name/sample/context
+    /// support requirements, so the engine explicitly abstains.
+    InsufficientEvidence,
     /// Several eligible candidates are within the local ambiguity margin.
     LocalAmbiguity,
     /// Another assignable source also has an eligible edge to this target.
@@ -416,6 +440,9 @@ pub enum Decision {
     Ambiguous,
     /// No candidate meets evidence requirements.
     BelowThreshold,
+    /// No eligible candidate remains and an otherwise viable candidate fails
+    /// enabled support requirements. Scores and candidate ranking are unchanged.
+    InsufficientEvidence,
     /// Eligible candidates were consumed by other sources in one-to-one assignment.
     AssignmentConflict,
 }

@@ -170,7 +170,9 @@ fn engine(
     let limits = &protocol["limits"];
     let global = &common["global_diagnostics"];
     let config = Config {
+        name_conflicts: Vec::new(),
         corroboration: None,
+        contextual_evidence: None,
         min_score: threshold,
         ambiguity_margin: number(common, "ambiguity_margin")?,
         max_candidates: size(common, "max_candidates")?,

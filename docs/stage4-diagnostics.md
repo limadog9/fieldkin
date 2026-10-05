@@ -101,10 +101,10 @@ real edges; that analysis is vacuously complete.
 
 ## Reproducible cost experiment
 
-Run:
+Current development supports latest stable Rust only. Run the public-API example:
 
 ```console
-cargo +1.85.0 run --locked --release --example diagnostics_cost
+cargo +stable run --locked --release --example diagnostics_cost
 ```
 
 The public-API example uses deterministic synthetic dense matrices with equal
@@ -127,8 +127,9 @@ a performance comparison against another library.
 Five-process measurements for the frozen candidate are now in the
 [release scorecard](release-scorecard.md#cost-measurements) and
 [raw artifacts](https://github.com/limadog9/fieldkin/tree/main/performance/results/diagnostics-v1).
-Reproduce with `python performance/diagnostics.py build --output FRESH_DIR`, then
-`python performance/diagnostics.py run --output FRESH_DIR` while builds/tests are
+The historical Python runner is retired. Create a new native record with
+`cargo +stable run --locked -p fieldkin-tools -- perf-diagnostics build --output FRESH_DIR`, then
+`cargo +stable run --locked -p fieldkin-tools -- perf-diagnostics run --output FRESH_DIR` while builds/tests are
 idle. The runner captures Cargo's actual executable, source/binary hashes,
 compiler and machine. Timings exclude input/engine setup, assertions and the
 destruction of the returned report.

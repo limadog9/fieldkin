@@ -2,9 +2,11 @@
 
 mod assignment;
 mod constraints;
+mod contextual;
 mod diagnostics;
 mod engine;
 mod error;
+mod name_conflicts;
 mod numeric;
 mod profile;
 mod semantics;
@@ -16,9 +18,11 @@ mod types;
 pub mod json;
 
 pub use constraints::{FieldPair, MatchConstraints};
+pub use contextual::ContextualEvidence;
 pub use diagnostics::*;
 pub use engine::{MatchEngine, WeightedMatcher};
 pub use error::*;
+pub use name_conflicts::{NameConflictKind, NameConflictRule};
 pub use numeric::ExactDecimal;
 pub use profile::SampleProfileMatcher;
 pub use semantics::SemanticHints;

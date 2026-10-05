@@ -32,9 +32,10 @@ impl FieldPair {
 /// [`crate::Limits::max_pairs`]. Referenced IDs obey `max_name_bytes` and must
 /// exist in the corresponding schema. Schema/version ownership stays with the caller.
 ///
-/// Confirmations override score, corroboration and local ambiguity, but never
-/// conflicting supplied semantics or an enabled declared-type veto. They do not
-/// change evidence scores or turn those scores into confidence probabilities.
+/// Confirmations override score, corroboration, lexical name conflicts and local
+/// ambiguity, but never conflicting supplied semantics or an enabled declared-type
+/// veto. They do not change evidence scores or turn those scores into confidence
+/// probabilities.
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
 pub struct MatchConstraints {
     /// Caller-confirmed pairs. One source cannot be confirmed to distinct targets.

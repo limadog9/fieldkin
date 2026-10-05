@@ -95,9 +95,13 @@ regression, so those diagnostic filter counts differ from real engine results.
 
 ## Reliability and cost
 
+The validation and measurements in this section are the archived corrective
+cycle. Current tooling uses latest stable Rust; its Python runners are retired.
+
 Validation covers **184 passing tests**, including seven doctests and 17 gate tests
 with a 256-case property, plus one intentionally ignored preparation microbenchmark.
-Rust 1.85/1.99 formatting, strict clippy and warning-free documentation pass.
+Rust 1.85/1.99 formatting, strict clippy and warning-free documentation passed
+in that cycle.
 The extended generated campaign passed **1,000,000 cases**, seed `20261004`, in
 19.28 seconds in the Rust process. Each of five categories contributes 200,000
 cases; report cases randomly exercise disabled, sample-gated and strict modes.
@@ -140,25 +144,33 @@ and uses fixed workload order. See [all measurements](../performance/results/cor
 ## Reproduction and next work
 
 ```text
-cargo +1.85.0 run --locked --example corroboration
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --corrective --check --output evaluation/results/corrective-v1
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --stage3 --check-behavior --output evaluation/results/rc-v1/stage3-development
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --release --check-behavior --output evaluation/results/rc-v1/release
-python qualification/run.py build --output target/corrective-qualification
-python qualification/run.py run --output target/corrective-qualification --cases 1000000 --seed 20261004
-python performance/corroboration.py build --output target/corroboration-cost
-python performance/corroboration.py run --output target/corroboration-cost
+cargo +stable run --locked --example corroboration
+cargo +stable run --locked --release -p fieldkin-eval -- --corrective --check --output evaluation/results/rust-native-v1/corrective
+cargo +stable run --locked --release -p fieldkin-eval -- --stage3 --check --output evaluation/results/rust-native-v1/stage3
+cargo +stable run --locked --release -p fieldkin-eval -- --release --check --output evaluation/results/rust-native-v1/release
+cargo +stable run --locked -p fieldkin-tools -- qualify-build --output target/corrective-qualification-native
+cargo +stable run --locked -p fieldkin-tools -- perf-corroboration build --output target/corroboration-cost-native
 git worktree add --detach .local/corroboration-baseline 3b8d65a
-python performance/run.py build --baseline .local/corroboration-baseline --candidate . --output target/default-cost
-python performance/run.py run --output target/default-cost
+cargo +stable run --locked -p fieldkin-tools -- perf-run build --baseline .local/corroboration-baseline --candidate . --output target/default-cost-native
 ```
 
-Use fresh output directories and the frozen checkout for exact provenance; skip
-the worktree command if that baseline already exists. Normal tests, clippy and
-formatting follow CONTRIBUTING and CI for both compiler versions. The final run
-used `--corrective --output evaluation/results/corrective-v1 --acknowledge-holdout`
-after recording and verifying the freeze. Do not treat these now-examined families
-as untouched validation in the next iteration.
+These strict development snapshots are planned; `--check` requires them to exist.
+Use fresh output directories; skip the worktree command if that baseline already
+exists. Finish builds and normal checks before running the following sequentially:
+
+```text
+cargo +stable run --locked -p fieldkin-tools -- qualify-run --output target/corrective-qualification-native --cases 1000000 --seed 20261004
+cargo +stable run --locked -p fieldkin-tools -- perf-corroboration run --output target/corroboration-cost-native
+cargo +stable run --locked -p fieldkin-tools -- perf-run run --output target/default-cost-native
+cargo +stable run --locked -p fieldkin-tools -- perf-run summarize --output target/default-cost-native
+```
+
+New native records use a distinct protocol, including seven generated-case
+categories rather than the historical five; no new full campaign result is
+claimed here. Exact archived provenance requires its frozen checkout and retired
+tooling. The final corrective holdout was scored once after verifying its freeze.
+Do not treat these now-examined families as untouched validation in the next
+iteration.
 
 The next accuracy work needs independently labeled, appropriately licensed consumer
 schemas and application-verified semantic distinctions, with a new reserved test

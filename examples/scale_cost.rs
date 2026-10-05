@@ -1,4 +1,4 @@
-//! Bounded opt-in scale experiment; use `performance/scale.py` for measurements.
+//! Bounded opt-in scale experiment; use `fieldkin-tools perf-scale` for measurements.
 //! This raises caller budgets for fixed synthetic inputs, never library defaults.
 
 use std::hint::black_box;

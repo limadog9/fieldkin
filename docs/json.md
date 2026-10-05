@@ -30,7 +30,9 @@ scores. A zero-score, automatically ineligible selection can still be explicitly
 
 Decision/status/reason codes use lowercase snake_case. Semantic reasons contain
 `code` and `axis`; source competition/displacement reasons contain `code` and
-`target`. Missing selections, scores and objectives use JSON `null`. Arrays
+`target`. Name conflicts contain `code: name_conflict` and `kind: qualifier|unit`.
+The `insufficient_evidence` decision/field reason identifies abstention caused
+by required support on an otherwise viable edge. Missing selections, scores and objectives use JSON `null`. Arrays
 retain supplied order. Engine reports already have deterministic stable-ID order;
 the exporter does not reorder caller-mutated reports. Numbers are JSON numbers;
 consumers must preserve their needed integer/floating-point range. Integer work

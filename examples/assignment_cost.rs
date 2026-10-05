@@ -1,4 +1,4 @@
-//! Fixed assignment-cost workloads for `performance/assignment.py`.
+//! Fixed assignment-cost workloads for the native `fieldkin-tools perf-assignment` command.
 //! No fixture values are logged. `--smoke` performs only one timed call per case.
 
 use std::hint::black_box;

@@ -166,6 +166,7 @@ fn expected_indices(rows: usize) -> Vec<usize> {
 
 fn config(one_to_one: bool, reject_types: bool) -> Config {
     Config {
+        name_conflicts: Vec::new(),
         min_score: 0.7,
         ambiguity_margin: 0.08,
         max_candidates: 5,
@@ -173,6 +174,7 @@ fn config(one_to_one: bool, reject_types: bool) -> Config {
         abstain_on_ambiguity: true,
         reject_incompatible_types: reject_types,
         corroboration: None,
+        contextual_evidence: None,
         global_diagnostics: GlobalDiagnosticsConfig {
             max_solves: 0,
             max_work: 8_388_608,
@@ -799,11 +801,12 @@ fn input_hashes() -> Result<BTreeMap<String, String>, String> {
     let mut result = BTreeMap::new();
     visit(&base, &base.join("src"), true, &mut result)?;
     visit(&base, &base.join("evaluation/src"), true, &mut result)?;
-    visit(&base, &base.join("evaluation"), false, &mut result)?;
+    visit(&base, &base.join("tooling/src"), true, &mut result)?;
     for name in [
         "Cargo.toml",
         "Cargo.lock",
         "evaluation/Cargo.toml",
+        "tooling/Cargo.toml",
         "evaluation/fixtures/northix-v1.json",
         "evaluation/northix-protocol.json",
         "evaluation/external/northix-v1/northix.zip",
@@ -813,7 +816,10 @@ fn input_hashes() -> Result<BTreeMap<String, String>, String> {
         "evaluation/external/northix-v1/NOTICE",
     ] {
         let bytes = read(&base.join(name))?;
-        let digest = if matches!(name, "Cargo.toml" | "Cargo.lock" | "evaluation/Cargo.toml") {
+        let digest = if matches!(
+            name,
+            "Cargo.toml" | "Cargo.lock" | "evaluation/Cargo.toml" | "tooling/Cargo.toml"
+        ) {
             text_hash(&String::from_utf8(bytes).map_err(|e| e.to_string())?)
         } else {
             hash(&bytes)
@@ -841,21 +847,27 @@ fn input_hashes() -> Result<BTreeMap<String, String>, String> {
 struct Options {
     output: PathBuf,
     check: bool,
+    check_behavior: bool,
     scores: Vec<PathBuf>,
 }
 impl Options {
     fn parse(args: Vec<String>) -> Result<Self, String> {
         let mut output = None;
         let mut check = false;
+        let mut check_behavior = false;
         let mut scores = Vec::new();
         let mut args = args.into_iter();
         while let Some(arg) = args.next() {
             match arg.as_str() {
             "--output" if output.is_none()=>output=Some(PathBuf::from(args.next().ok_or("--output needs a directory")?)),
             "--check" if !check=>check=true,
+            "--check-behavior" if !check_behavior=>check_behavior=true,
             "--scores" if scores.len()<2=>scores.push(args.next().ok_or("--scores needs a file")?.into()),
-            _=>return Err("Northix accepts --output DIR, --check, and at most two --scores FILE arguments".into()),
+            _=>return Err("Northix accepts --output DIR, --check or --check-behavior, and at most two --scores FILE arguments; holdout scoring is unavailable".into()),
         }
+            if check && check_behavior {
+                return Err("--check and --check-behavior are mutually exclusive".into());
+            }
         }
         if scores.len() == 1 {
             return Err(
@@ -864,19 +876,55 @@ impl Options {
         }
         Ok(Self {
             output: output.ok_or("Northix requires --output DIR")?,
-            check,
+            check: check || check_behavior,
+            check_behavior,
             scores,
         })
     }
 }
 
-fn write_or_check(path: &Path, text: &str, check: bool) -> Result<(), String> {
+// Northix mixes source and data hashes in one map. Exempt only Rust source
+// entries; fixture/protocol/archive/dependency/Python hashes remain mandatory.
+fn same_behavior_json(existing: &str, current: &str) -> Result<bool, String> {
+    let strip_implementation_hashes = |text: &str| -> Result<Value, String> {
+        let mut value: Value = serde_json::from_str(text).map_err(|error| error.to_string())?;
+        let metadata = value["metadata"]
+            .as_object_mut()
+            .ok_or("Northix snapshot metadata is missing")?;
+        let hashes = metadata
+            .get_mut("input_sha256")
+            .and_then(Value::as_object_mut)
+            .ok_or("Northix snapshot input hashes must be a map")?;
+        hashes.retain(|path, _| {
+            let source = (path.starts_with("src/") || path.starts_with("evaluation/src/"))
+                && path.ends_with(".rs")
+                && !path.contains('\\')
+                && path
+                    .split('/')
+                    .all(|part| !part.is_empty() && part != "." && part != "..");
+            !source
+        });
+        Ok(value)
+    };
+    Ok(strip_implementation_hashes(existing)? == strip_implementation_hashes(current)?)
+}
+
+fn write_or_check(
+    path: &Path,
+    text: &str,
+    check: bool,
+    check_behavior: bool,
+) -> Result<(), String> {
     if check {
-        if read(path)? != text.as_bytes() {
-            return Err(format!(
-                "{} differs from strict Northix snapshot",
-                path.display()
-            ));
+        let existing = read(path)?;
+        let same = if check_behavior {
+            let existing = std::str::from_utf8(&existing).map_err(|error| error.to_string())?;
+            same_behavior_json(existing, text)?
+        } else {
+            existing == text.as_bytes()
+        };
+        if !same {
+            return Err(format!("{} differs from Northix snapshot", path.display()));
         }
     } else {
         fs::OpenOptions::new()
@@ -896,7 +944,7 @@ pub fn run(args: Vec<String>) -> Result<(), String> {
     let corpus = corpus(&protocol)?;
     if !options.check && options.output.exists() {
         return Err(
-            "Northix output must be a new directory; use --check to verify existing evidence"
+            "Northix output must be a new directory; use --check or --check-behavior to verify existing evidence"
                 .into(),
         );
     }
@@ -967,13 +1015,20 @@ pub fn run(args: Vec<String>) -> Result<(), String> {
         &options.output.join("results.json"),
         &summary,
         options.check,
+        options.check_behavior,
     )?;
     write_or_check(
         &options.output.join("predictions.jsonl"),
         &predictions,
         options.check,
+        false,
     )?;
-    write_or_check(&options.output.join("results.md"), &markdown, options.check)?;
+    write_or_check(
+        &options.output.join("results.md"),
+        &markdown,
+        options.check,
+        false,
+    )?;
     println!(
         "Northix {}: 84 table pairs, {} fixed configurations; T2D holdout untouched",
         if options.check { "verified" } else { "written" },
@@ -1187,6 +1242,24 @@ mod tests {
     fn cli_requires_explicit_destination_and_rejects_holdout_flags() {
         assert!(Options::parse(vec![]).is_err());
         assert!(Options::parse(vec!["--holdout".into()]).is_err());
+        for mode in ["--check", "--check-behavior"] {
+            for flag in ["--acknowledge-holdout", "--holdout", "--split"] {
+                assert!(Options::parse(vec![
+                    "--output".into(),
+                    "existing".into(),
+                    mode.into(),
+                    flag.into()
+                ])
+                .is_err());
+            }
+        }
+        assert!(Options::parse(vec![
+            "--output".into(),
+            "existing".into(),
+            "--check".into(),
+            "--check-behavior".into()
+        ])
+        .is_err());
         assert!(Options::parse(vec![
             "--output".into(),
             "fresh".into(),
@@ -1204,7 +1277,90 @@ mod tests {
             "b".into(),
         ])
         .unwrap();
-        assert!(options.check);
+        assert!(options.check && !options.check_behavior);
         assert_eq!(options.scores.len(), 2);
+        let behavior = Options::parse(vec![
+            "--output".into(),
+            "existing".into(),
+            "--check-behavior".into(),
+        ])
+        .unwrap();
+        assert!(behavior.check && behavior.check_behavior);
+    }
+
+    #[test]
+    fn behavior_snapshot_exempts_only_rust_sources_and_never_rewrites() {
+        let path = std::env::temp_dir().join(format!(
+            "fieldkin-northix-snapshot-{}-{}.json",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let original = json!({"metadata":{
+            "input_sha256":{
+                "src/engine.rs":"old", "evaluation/src/northix.rs":"old",
+                "Cargo.toml":"manifest", "Cargo.lock":"lock", "evaluation/Cargo.toml":"eval-manifest",
+                "evaluation/fixtures/northix-v1.json":"corpus", "evaluation/northix-protocol.json":"protocol",
+                "evaluation/import_northix.py":"importer", "evaluation/test_northix.py":"test-source",
+                "evaluation/external/northix-v1/northix.zip":"archive",
+                "evaluation/external/northix-v1/LICENSE-CC-BY-4.0":"license"
+            },
+            "corpus_sha256":"corpus", "protocol_sha256":"protocol",
+            "protocol":{"settings":{"min_score":0.7}},
+            "external_scores":[{"file_sha256":"scores","producer":{"version":"1.0.0"}}]
+        },"rows":[{"counts":{"proposed":3},"precision":0.5}]}).to_string();
+        let mut file = fs::OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(&path)
+            .unwrap();
+        std::io::Write::write_all(&mut file, original.as_bytes()).unwrap();
+        drop(file);
+        let base: Value = serde_json::from_str(&original).unwrap();
+        let mut current = base.clone();
+        let inputs = current["metadata"]["input_sha256"].as_object_mut().unwrap();
+        inputs.insert("src/engine.rs".into(), json!("new"));
+        inputs.remove("evaluation/src/northix.rs");
+        inputs.insert("evaluation/src/precision.rs".into(), json!("new"));
+        assert!(write_or_check(&path, &current.to_string(), true, false).is_err());
+        assert!(write_or_check(&path, &current.to_string(), true, true).is_ok());
+        for key in [
+            "Cargo.toml",
+            "Cargo.lock",
+            "evaluation/Cargo.toml",
+            "evaluation/fixtures/northix-v1.json",
+            "evaluation/northix-protocol.json",
+            "evaluation/import_northix.py",
+            "evaluation/test_northix.py",
+            "evaluation/external/northix-v1/northix.zip",
+            "evaluation/external/northix-v1/LICENSE-CC-BY-4.0",
+            "evaluation/precision-protocol.json",
+            "src/../evaluation/protocol.rs",
+            "src/config.json",
+        ] {
+            let mut current = base.clone();
+            current["metadata"]["input_sha256"][key] = json!("changed");
+            assert!(write_or_check(&path, &current.to_string(), true, true).is_err());
+        }
+        for pointer in [
+            "/metadata/corpus_sha256",
+            "/metadata/protocol_sha256",
+            "/metadata/protocol/settings/min_score",
+            "/metadata/external_scores/0/file_sha256",
+            "/metadata/external_scores/0/producer/version",
+            "/rows/0/counts/proposed",
+            "/rows/0/precision",
+        ] {
+            let mut current = base.clone();
+            *current.pointer_mut(pointer).unwrap() = json!("changed");
+            assert!(write_or_check(&path, &current.to_string(), true, true).is_err());
+        }
+        let mut invalid = base.clone();
+        invalid["metadata"]["input_sha256"] = json!("not a map");
+        assert!(write_or_check(&path, &invalid.to_string(), true, true).is_err());
+        assert_eq!(fs::read_to_string(&path).unwrap(), original);
+        fs::remove_file(path).unwrap();
     }
 }

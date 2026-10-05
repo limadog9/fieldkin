@@ -19,7 +19,7 @@ a guarantee of business-compatible mappings.
 
 ## Task and input construction
 
-The [offline importer](../evaluation/import_northix.py) reads the pinned ZIP in
+The [native offline importer](../tooling/src/imports.rs) reads the pinned ZIP in
 memory. It bounds member counts, declared and read sizes, and total expansion;
 rejects unsafe/noncanonical paths, duplicate IDs, links and unsupported members;
 and never extracts paths or executes files. The original archive is 1,240,631
@@ -192,26 +192,41 @@ The original score producer was not rerun or tuned.
 
 ## Reproduction and evidence handling
 
+The earlier Python importer, verified runner and local Valentine COMA execution
+are retired. Their dated records and comparison scores remain archived. Current
+tools use latest stable Rust; importing those existing scores supplies a
+historical comparison and does not rerun COMA.
+
 ```text
-python evaluation/import_northix.py --check
-python -m unittest discover -s evaluation -p test_import_northix.py
-cargo +1.85.0 test --locked -p fieldkin-eval northix::tests
+cargo +stable run --locked -p fieldkin-tools -- import-northix --check
+cargo +stable test --locked -p fieldkin-tools
+cargo +stable test --locked -p fieldkin-eval northix::tests
 ```
 
 Those checks reproduce metadata and exercise toy cases without scoring Northix.
 After committing the policy and implementation freeze, a recorded run can use:
 
 ```text
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --northix --output target/northix-first-run
-cargo +1.85.0 run --locked --release -p fieldkin-eval -- --northix --output target/northix-with-valentine --scores path/to/schema-only.json --scores path/to/schema-and-samples.json
+cargo +stable run --locked -p fieldkin-tools -- verify-build --build-dir target/northix-verified --toolchain stable
+cargo +stable run --locked -p fieldkin-tools -- record-northix --build-dir target/northix-verified --output target/northix-first-run
+cargo +stable run --locked -p fieldkin-tools -- record-northix --build-dir target/northix-verified --output target/northix-with-valentine --scores evaluation/results/continuation-v1/valentine/valentine-schema_only.json --scores evaluation/results/continuation-v1/valentine/valentine-schema_and_samples.json
 ```
 
-Outputs are `results.json`, `predictions.jsonl` and `results.md`. A write run
-requires a fresh output directory. `--check` recomputes and strictly compares
+The verified runner writes `run.json` plus `artifacts/results.json`,
+`artifacts/predictions.jsonl` and `artifacts/results.md`. A write run
+requires a fresh output directory. The direct evaluator's `--check` recomputes and strictly compares
 existing artifacts, including all recorded source/input hashes; it does not
-replace them. Score files are bounded to 16 MiB each. Input inventories are
-checked before and after execution. These source hashes alone do not attest to
-the executed binary; use the verified build/run workflow for recorded evidence.
+replace them. The planned direct-evaluator strict snapshot uses
+`evaluation/results/rust-native-v1/northix` and both archived comparison scores:
+
+```text
+cargo +stable run --locked --release -p fieldkin-eval -- --northix --check --output evaluation/results/rust-native-v1/northix --scores evaluation/results/continuation-v1/valentine/valentine-schema_only.json --scores evaluation/results/continuation-v1/valentine/valentine-schema_and_samples.json
+```
+
+That check requires the snapshot to exist. Score files are bounded to 16 MiB
+each. Input inventories are checked before and after execution. The verified
+workflow additionally binds the record to the Cargo-reported executable; it is
+not a signed or hermetic attestation.
 
 This corpus is a fixed external diagnostic with no tuning split or unseen-domain
 claim. Its 28 positive edges cannot establish the library's 95% precision / 60%

@@ -1,0 +1,20 @@
+{
+  "version": "context-qualification-v1",
+  "corpus": "qualification-20261004.json",
+  "corpus_lf_sha256": "8baabaf30a7232a8e1595bf38edc1e33a53505ef8e23680e8aeed6e50cf73a6e",
+  "partition": "all_holdout",
+  "families": 12,
+  "cases": 60,
+  "decisions": 360,
+  "models": ["default", "name_only_070", "name_only_exact", "context_v3"],
+  "nominated_candidate": "context_v3",
+  "assignments": ["independent", "one_to_one"],
+  "threshold": 0.70,
+  "ambiguity_margin": 0.08,
+  "top_k": 5,
+  "contextual_evidence": {"strict_identifier_samples": true, "scoped_support": true},
+  "conflict_rules": "precision-protocol.json",
+  "quality_targets": {"precision": 0.95, "unique_coverage": 0.60, "candidate_recall_at_5": 0.90, "nonzero_proposals": true},
+  "discipline": "Fixed candidate and fixed name-only comparators nominated before any new reserved scoring. A separate agent authored the new families without seeing matcher algorithms, policies, fixtures or results. Freeze implementation, protocols, corpus, configuration, compiler and executable before this one prospective run. Matcher inputs are observable schemas only; labels, concepts, rationales and tags reach only validation and the scorer. No caller hints, confirmations, threshold sweeps or holdout-driven changes. Report each assignment and all families, domains and variants. Older published holdouts remain retired; T2D and corrective reserved partitions remain unscored.",
+  "limits": "One agent-authored synthetic holdout with related variants, not independent production adjudication or a confidence bound on deployment accuracy. Success qualifies these fixed synthetic targets; publication remains the maintainer's decision."
+}

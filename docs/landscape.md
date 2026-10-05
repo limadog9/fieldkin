@@ -27,11 +27,17 @@ This is a scope and API distinction, not a claim of novel matching theory, state
 
 ## Dependency decisions
 
+The inspected options below retain the October 3 provenance. Current development
+supports only latest stable Rust, and the development-only `proptest` dependency
+has since moved from 1.6.0 to 1.11.0. The older compiler floor is retired; the
+internal solver decision still rests on its narrow API, bounded dimensions and
+independent oracle checks. See the [updated dependency review](dependency-review.md).
+
 | Component | Inspected option | Decision |
 | --- | --- | --- |
 | String similarity | [`strsim` 0.11.1](https://docs.rs/strsim/0.11.1/strsim/), MIT | Reuse established similarity primitives instead of writing edit-distance code. |
 | Unicode normalization | [`unicode-normalization` 0.1.25](https://docs.rs/unicode-normalization/0.1.25/unicode_normalization/), MIT OR Apache-2.0 | Reuse normalization tables and algorithms. `Cargo.toml` permits compatible 0.1 releases; `Cargo.lock` records the reviewed build. Normalization does not supply semantic translation. |
-| Global assignment | [`pathfinding` 4.16.0 Kuhn–Munkres](https://docs.rs/pathfinding/4.16.0/pathfinding/kuhn_munkres/fn.kuhn_munkres.html), Apache-2.0/MIT | Considered but not added. Its API assigns every row and documents dimension/overflow preconditions; the latest inspected crate requires Rust 1.88. Fieldkin keeps a narrow internal rectangular solver with dummy unmatched choices, bounded dimensions, and independent brute-force checks on small cases. This keeps its Rust 1.85 floor and avoids a general graph dependency. |
+| Global assignment | [`pathfinding` 4.16.0 Kuhn–Munkres](https://docs.rs/pathfinding/4.16.0/pathfinding/kuhn_munkres/fn.kuhn_munkres.html), Apache-2.0/MIT | Considered but not added. Its API assigns every row and documents dimension/overflow preconditions; the inspected crate required Rust 1.88. Fieldkin keeps a narrow internal rectangular solver with dummy unmatched choices, bounded dimensions, and independent brute-force checks on small cases. This avoids a general graph dependency; its former Rust 1.85 compatibility rationale is historical. |
 | Property testing | [`proptest` 1.6.0](https://docs.rs/proptest/1.6.0/proptest/), MIT OR Apache-2.0 | Development-only dependency with default features disabled and `std` enabled. Small generated cases test invariants and assignment optimality. |
 
 Registry metadata was inspected through the crates.io API for each crate, including license and Rust-version fields. [THIRD_PARTY.md](../THIRD_PARTY.md) records direct dependencies and runtime attribution. Future dependency changes need another review; these observations are not a promise about future releases.

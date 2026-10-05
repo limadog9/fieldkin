@@ -5,6 +5,21 @@
 No crate has been published. Final version and publication remain @limadog9's
 decision. See the release scorecard for qualification evidence and limitations.
 
+- Added opt-in configurable qualifier/unit contradictions and explicit
+  `InsufficientEvidence` abstention, with unchanged weighted defaults and
+  correctly matched, unmatched and ambiguous regression coverage.
+- Added experimental `Config::contextual_evidence`, preserving original signal
+  reports while applying documented heuristic score floors and contextual
+  support before assignment. Defaults remain disabled; caller confirmations
+  remain distinct from automatic proposals.
+- Replaced active Python fixture and verified-evaluation helpers with native Rust
+  `fieldkin-tools`. Imports are offline against pinned licensed archives. Local
+  Valentine COMA execution is retired; archived comparison scores remain
+  importable by the Rust evaluator.
+- Moved active development and CI to latest stable Rust, validated with 1.99.0 on
+  October 4, 2026. Older compiler maintenance has ended; earlier qualification
+  artifacts retain their original dated toolchain facts.
+
 - Added an optional `json` feature for bounded, versioned report export and
   explicit saved-review documents. Report exports omit arbitrary matcher text
   by default; importing review decisions requires matching application-owned
@@ -47,7 +62,7 @@ decision. See the release scorecard for qualification evidence and limitations.
 - Replaced string-only `MatchError` with typed non-exhaustive errors, preserving
   human-readable messages and suppressing arbitrary matcher error details.
 - Added importer and catalog examples with application-owned review decisions.
-- Added cross-platform minimum/current compiler CI and deterministic generated
+- Established cross-platform CI and deterministic generated
   qualification tooling. Holdout evaluation is explicitly gated and kept out of CI.
 - Documented source-breaking changes, usage and deferred adapters; bounded JSON
   report/review interchange is now available as an optional feature.

@@ -903,7 +903,7 @@ mod tests {
             serde_json::to_string(&cases).unwrap(),
             serde_json::to_string(&super::cases().unwrap()).unwrap()
         );
-        for group in cases.chunks_exact(3) {
+        for group in cases.as_chunks::<3>().0 {
             for variant in &group[1..] {
                 assert_eq!(variant.family_id, group[0].family_id);
                 assert_eq!(variant.split, group[0].split);
@@ -927,7 +927,7 @@ mod tests {
 
     #[test]
     fn null_variant_preserves_non_null_values_and_missingness() {
-        for group in cases().unwrap().chunks_exact(3) {
+        for group in cases().unwrap().as_chunks::<3>().0 {
             for (original, changed) in group[0]
                 .source
                 .iter()

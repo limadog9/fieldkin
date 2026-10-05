@@ -1,18 +1,20 @@
 # Generated-case qualification
 
-This isolated, unpublished Rust 1.85 package calls only Fieldkin's public API.
+This isolated, unpublished package uses the latest stable Rust toolchain and calls only Fieldkin's public API.
 It adds no dependencies beyond the library itself. Inputs are original synthetic
 data under MIT OR Apache-2.0; no evaluation fixtures or held-out examples are read.
 
 Build after freezing the candidate source revision, then run:
 
 ```text
-python qualification/run.py build --output qualification/results/candidate-v1
-python qualification/run.py run --output qualification/results/candidate-v1 --cases 1200000 --seed 20261005
+cargo +stable run --locked --offline -p fieldkin-tools -- qualify-build --output target/qualification/candidate-v3
+cargo +stable run --locked --offline -p fieldkin-tools -- qualify-run --output target/qualification/candidate-v3 --cases 1000000 --seed 20261003
 ```
 
-The six round-robin categories each execute 200,000 generated cases in the full
-1,200,000-case v2 campaign. A case counts once after its checks succeed; repeated calls, assertions,
+The current v3 campaign distributes cases across seven round-robin categories.
+The default one-million-case run gives each category 142,857 or 142,858 cases.
+The earlier v2 campaign used six categories; its dated records remain archived.
+A case counts once after its checks succeed; repeated calls, assertions,
 candidate pairs and assignment-oracle search nodes do not increase the count.
 
 | Category | Generation and checks |
@@ -31,6 +33,13 @@ mode with ambiguity abstention disabled. Confirmations retain their original sco
 reserved targets cannot be reused, diagnostic witnesses respect review decisions,
 unmatched lists are complements, and input/directive reordering preserves reports.
 No gold evaluation labels are supplied to this generated-case campaign.
+
+The seventh category exercises optional contextual evidence using generated
+identifier samples under both assignments. It preserves distinctive supported
+matches, explicitly abstains when identifier samples are missing or reused by a
+competing field, remains invariant under field reordering, and rejects configured
+gross/net and kg/lb contradictions despite sample overlap. It supplies no
+evaluation fixtures or gold metadata to the matcher.
 
 The generator uses wrapping 64-bit LCG constants recorded in source, seed
 20,261,003 by default, and bounded small inputs. This is a deterministic generated
@@ -55,18 +64,42 @@ built-in engine; applications must not authenticate custom matchers by name.
 These additions change generated inputs at the same seed, so use new result
 directories. Preserve earlier campaigns with their recorded source hashes.
 
-The runner records compiler, platform, source/manifest/lockfile and binary hashes,
-actual case totals, category totals, seed and elapsed time. It rejects changed
-sources/binaries and existing result files; campaign execution has a ten-minute
-wall-time limit. Timings describe this run and are not performance benchmarks.
+The native runner defaults to 1,000,000 cases and seed 20,261,003. It records the
+actual stable compiler and Cargo versions, platform, source/manifest/lockfile and
+binary hashes, case totals, category totals, seed and elapsed time. Each build
+uses a fresh Cargo target directory and copies the executable into its output
+directory. Before and after build/run, it checks sources, compiler, Cargo
+configuration and hashed build environment; it also checks the executable and
+build record. Existing output directories or run records are rejected. Campaign
+execution has a ten-minute wall-time limit. Records carry a checksum and explicit
+trust boundary: they are local reproducibility records, not signatures or
+hermetic builds, and cannot detect a change restored between checks. Source
+hashes normalize CRLF to LF; executable hashes use raw bytes. Native v3 records
+use Unix timestamps. Timings describe this run and are not performance benchmarks.
 On failure it reports the case index/category and seed; replay with the same seed
 and at least that many cases. Sample values are not printed.
 
 Small CI smoke run and tool checks:
 
 ```text
-cargo +1.85.0 fmt --manifest-path qualification/Cargo.toml -- --check
-cargo +1.85.0 clippy --locked --manifest-path qualification/Cargo.toml --all-targets -- -D warnings
-cargo +1.85.0 test --locked --manifest-path qualification/Cargo.toml
-cargo +1.85.0 run --locked --release --manifest-path qualification/Cargo.toml -- --cases 5000 --seed 20261003
+cargo +stable fmt --manifest-path qualification/Cargo.toml -- --check
+cargo +stable clippy --locked --manifest-path qualification/Cargo.toml --all-targets -- -D warnings
+cargo +stable test --locked --manifest-path qualification/Cargo.toml
+cargo +stable run --locked --release --manifest-path qualification/Cargo.toml -- --cases 5000 --seed 20261003
 ```
+
+Capture a fresh dependency inventory and a pinned local RustSec review with the
+native tooling. HTTPS metadata requests use `curl` (`curl.exe` on Windows), with
+certificate verification and bounded request time; no Python runtime is used.
+
+```text
+cargo +stable run --locked --offline -p fieldkin-tools -- dependency-review --output target/dependency-review.json --audit C:/path/to/cargo-audit.exe --database C:/path/to/advisory-db
+```
+
+The review covers the root, evaluation, tooling, performance and qualification
+manifests and their deduplicated lockfiles. It records all locked third-party
+versions, declared licenses, license notice hashes, source manifest hashes,
+upstream release metadata, audit executable hash and clean advisory database
+commit. It preserves failed audit reports and exits unsuccessfully if any audit
+fails. Historical qualification and dependency records retain their original
+toolchain and source hashes; native tooling creates new records in fresh paths.
