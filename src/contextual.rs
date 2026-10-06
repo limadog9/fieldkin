@@ -444,6 +444,10 @@ fn scoped_word_form_core(
                 applied = true;
                 "reversal"
             }
+            "approved" | "approval" if boolean => {
+                applied = true;
+                "approval"
+            }
             "sample" | "sampled" | "observation" if temporal => {
                 applied = true;
                 "observation"

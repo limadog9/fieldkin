@@ -221,6 +221,21 @@ fn scoped_email_address_form_is_text_only_and_preserves_roles() {
     assert!(report.fields[0].selected.is_none());
 }
 #[test]
+fn approval_word_forms_preserve_boolean_ambiguity() {
+    let report = match_fields(
+        vec![Field::new("s", "approved", DataType::Boolean)],
+        vec![
+            Field::new("a", "is_approved", DataType::Boolean),
+            Field::new("b", "approval_flag", DataType::Boolean),
+        ],
+        config(),
+    );
+
+    assert!(report.fields[0].selected.is_none());
+    assert_eq!(report.fields[0].decision, Decision::Ambiguous);
+    assert_eq!(report.fields[0].alternatives.len(), 2);
+}
+#[test]
 fn scoped_geo_roles_recover_start_and_origin_coordinates() {
     for (source_name, target_name) in [
         ("start-latitude", "origin_latitude"),
