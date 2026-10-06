@@ -44,6 +44,11 @@ const SAMPLE_MARGIN: f64 = 0.1;
 /// do not qualify. Competing full-role names, existing support and explicit
 /// semantic or corroboration vetoes are preserved.
 ///
+/// A bare description can also inherit one entity qualifier from a unique,
+/// already-supported, reliably sampled key pair. Each schema must have just one
+/// named key and one description; both descriptions still need reliable Text
+/// samples. This is heuristic pre-review evidence, not a confirmed relationship.
+///
 /// Context uses all hard-compatible original pairs before caller review, local
 /// ambiguity, assignment and display truncation. No labels, stored mappings or
 /// caller confirmations inform the derived evidence. Defaults are unchanged
@@ -380,7 +385,7 @@ pub(crate) fn apply(
         (&source_features, &target_features),
         explanation_bytes,
     )?;
-    apply_display_name_suffix(
+    apply_descriptive_names(
         config,
         sources,
         targets,
@@ -438,7 +443,96 @@ fn descriptive_name_samples(field: &Field, features: &FieldFeatures) -> bool {
         })
 }
 
-fn apply_display_name_suffix(
+// A bare description may inherit entity scope from one already-supported key
+// pair. This is observable pre-review evidence, not a caller confirmation or a
+// semantic guarantee. Do not infer scope when another key or description exists.
+fn description_context_pair(
+    sources: &[&Field],
+    targets: &[&Field],
+    candidates: &[Vec<Candidate>],
+    features: (&[FieldFeatures], &[FieldFeatures]),
+) -> Option<(usize, usize)> {
+    fn key_marker(token: &str) -> bool {
+        identifier_token(token) || matches!(token, "uuid" | "guid" | "sku" | "no")
+    }
+    fn single_key(fields: &[&Field]) -> Option<(usize, String)> {
+        // Count ALL named keys before type, reliability or eligibility checks.
+        let mut keys = fields.iter().enumerate().filter_map(|(i, field)| {
+            let tokens = normalize_name(&field.name);
+            tokens.iter().any(|t| key_marker(t)).then_some((i, tokens))
+        });
+        let (i, tokens) = keys.next()?;
+        if keys.next().is_some() || fields[i].data_type != DataType::Text {
+            return None;
+        }
+        let [entity, marker] = tokens.as_slice() else {
+            return None;
+        };
+        if !key_marker(marker)
+            || entity.len() < 3
+            || !entity.bytes().all(|b| b.is_ascii_lowercase())
+            || generic_token(entity)
+            || matches!(entity.as_str(), "row" | "record" | "entity" | "object")
+        {
+            return None;
+        }
+        Some((i, entity.clone()))
+    }
+    fn single_description(fields: &[&Field]) -> Option<(usize, Vec<String>)> {
+        // Even an Unknown, empty, differently qualified or abbreviated
+        // description blocks this route. Review cannot hide a competitor.
+        let mut descriptions = fields.iter().enumerate().filter_map(|(i, field)| {
+            let tokens = normalize_name(&field.name);
+            tokens
+                .iter()
+                .any(|t| matches!(t.as_str(), "description" | "desc"))
+                .then_some((i, tokens))
+        });
+        let result = descriptions.next()?;
+        (descriptions.next().is_none()).then_some(result)
+    }
+    fn reliable_key(field: &Field, features: &FieldFeatures) -> bool {
+        features.distinct >= MIN_DISTINCT
+            && features.coverage >= MIN_COVERAGE
+            && field.samples.as_deref().is_some_and(|samples| {
+                samples.iter().all(|value| match value {
+                    SampleValue::Null => true,
+                    SampleValue::Text(text) => !text.is_empty(),
+                    _ => false,
+                })
+            })
+    }
+    let (source_key, source_entity) = single_key(sources)?;
+    let (target_key, target_entity) = single_key(targets)?;
+    if !candidates[source_key][target_key].eligible
+        || candidates[source_key].iter().filter(|c| c.eligible).count() != 1
+        || candidates
+            .iter()
+            .filter(|row| row[target_key].eligible)
+            .count()
+            != 1
+        || !reliable_key(sources[source_key], &features.0[source_key])
+        || !reliable_key(targets[target_key], &features.1[target_key])
+    {
+        return None;
+    }
+    let (i, source_name) = single_description(sources)?;
+    let (j, target_name) = single_description(targets)?;
+    if sources[i].data_type != DataType::Text || targets[j].data_type != DataType::Text {
+        return None;
+    }
+    let bare = |tokens: &[String]| tokens.len() == 1 && tokens[0] == "description";
+    let scoped = |tokens: &[String], entity: &str| {
+        tokens.len() == 2 && tokens[0] == entity && tokens[1] == "description"
+    };
+    // Exactly one side is bare. No synonyms, arbitrary qualifiers, ID values or
+    // schema metadata are copied into a field name or used as a scoring label.
+    ((bare(&source_name) && scoped(&target_name, &target_entity))
+        || (scoped(&source_name, &source_entity) && bare(&target_name)))
+    .then_some((i, j))
+}
+
+fn apply_descriptive_names(
     config: &Config,
     sources: &[&Field],
     targets: &[&Field],
@@ -473,6 +567,7 @@ fn apply_display_name_suffix(
             target_groups.entry(key.clone()).or_default().push(j);
         }
     }
+    let mut pairs = Vec::new();
     // Count competing names BEFORE reliability, eligibility, review or top-k
     // filtering. Sparse/empty observations cannot make a competing column vanish.
     for (i, source_name) in source_names.iter().enumerate() {
@@ -489,8 +584,18 @@ fn apply_display_name_suffix(
         let Some((_, explicit_target_name)) = &target_names[j] else {
             continue;
         };
-        if supported_targets[j]
-            || explicit_source_name == explicit_target_name
+        if explicit_source_name != explicit_target_name {
+            pairs.push((i, j, false));
+        }
+    }
+    if let Some((i, j)) = description_context_pair(sources, targets, candidates, features) {
+        pairs.push((i, j, true));
+    }
+    // Both routes reuse the same reliability, ownership, veto and budget checks.
+    // Context is evaluated once, before adding any descriptor edge.
+    for (i, j, entity_context) in pairs {
+        if supported_rows[i]
+            || supported_targets[j]
             || !descriptive_name_samples(sources[i], &features.0[i])
             || !descriptive_name_samples(targets[j], &features.1[j])
             || !features.0[i].units_agree(&features.1[j])
@@ -514,7 +619,11 @@ fn apply_display_name_suffix(
         if score < config.min_score {
             continue;
         }
-        let warning = "Display-name suffix support: complete ordered role tokens agree after removing one trailing name token; both Text fields have reliable descriptive samples. Original row and target had no eligible edge; no competing full-role name was omitted. Samples are not required to overlap. The fixed score floor is a heuristic, not proof of shared meaning.";
+        let warning = if entity_context {
+            "Entity-description support: each schema has one named key and one description; a unique, reliable, automatically supported key pair supplies the entity qualifier on one side. Both descriptions have reliable descriptive Text samples. Existing support, ambiguity and caller constraints remain in force. Pre-review evidence is heuristic, not proof of shared meaning; sample values are omitted."
+        } else {
+            "Display-name suffix support: complete ordered role tokens agree after removing one trailing name token; both Text fields have reliable descriptive samples. Original row and target had no eligible edge; no competing full-role name was omitted. Samples are not required to overlap. The fixed score floor is a heuristic, not proof of shared meaning."
+        };
         let charged = explanation_bytes
             .checked_add(warning.len())
             .ok_or(MatchError::CountOverflow(CountKind::ExplanationBytes))?;
