@@ -1,0 +1,384 @@
+//! Bounded sample-format fallback for the opt-in contextual policy.
+//!
+//! Scores are fixed development heuristics, not calibrated probabilities. This
+//! adds edges only to previously unsupported rows and unclaimed targets. The
+//! normal constraint, ambiguity and assignment paths still own every decision.
+
+use std::collections::{BTreeMap, BTreeSet};
+
+use crate::{
+    BudgetKind, Candidate, CandidateIssue, Config, CountKind, DataType, Field, MatchError,
+    SampleValue,
+};
+
+use super::{FieldFeatures, TopTwo};
+
+const FORMAT_FLOOR: f64 = 0.90;
+const NAME_FLOOR: f64 = 0.40;
+const MARGIN: f64 = 0.20;
+const PROPOSAL_FLOOR: f64 = 0.90;
+
+// Private and deliberately not Debug: a derived prefix may contain user data.
+// Summarize once per field, not once per source/target pair.
+struct Profile {
+    email: bool,
+    prefix: Option<String>,
+    shape: Option<String>,
+    alpha: bool,
+    digit: bool,
+    structured: bool,
+    distinct: usize,
+}
+
+impl Profile {
+    fn new(field: &Field) -> Option<Self> {
+        if field.data_type != DataType::Text {
+            return None;
+        }
+        let samples = field.samples.as_deref()?;
+        if samples.is_empty() {
+            return None;
+        }
+        let mut values = Vec::new();
+        for sample in samples {
+            match sample {
+                SampleValue::Null => {}
+                SampleValue::Text(value) if !value.is_empty() => values.push(value.as_str()),
+                // Do not improve apparent reliability by dropping malformed data.
+                _ => return None,
+            }
+        }
+        let distinct = values.iter().copied().collect::<BTreeSet<_>>().len();
+        if distinct < 3 || values.len() < samples.len().div_ceil(4) {
+            return None;
+        }
+        Some(Self {
+            email: values.iter().all(|value| looks_email(value)),
+            prefix: meaningful_prefix(&common_prefix(&values)),
+            shape: dominant_shape(&values),
+            alpha: values
+                .iter()
+                .all(|v| v.chars().any(|c| c.is_ascii_alphabetic())),
+            digit: values.iter().all(|v| v.chars().any(|c| c.is_ascii_digit())),
+            structured: values
+                .iter()
+                .all(|v| v.chars().any(|c| !c.is_ascii_alphanumeric())),
+            distinct,
+        })
+    }
+}
+
+fn looks_email(value: &str) -> bool {
+    let Some((local, domain)) = value.split_once('@') else {
+        return false;
+    };
+    !local.is_empty() && domain.contains('.') && !domain.ends_with('.')
+}
+
+fn common_prefix(values: &[&str]) -> String {
+    let Some(first) = values.first() else {
+        return String::new();
+    };
+    let mut prefix = (*first).to_owned();
+    for value in &values[1..] {
+        let bytes: usize = prefix
+            .chars()
+            .zip(value.chars())
+            .take_while(|(a, b)| a == b)
+            .map(|(c, _)| c.len_utf8())
+            .sum();
+        prefix.truncate(bytes);
+        if prefix.is_empty() {
+            break;
+        }
+    }
+    prefix
+}
+
+fn meaningful_prefix(prefix: &str) -> Option<String> {
+    let trimmed = prefix.trim_matches(|c: char| !c.is_ascii_alphanumeric());
+    (trimmed.chars().filter(|c| c.is_ascii_alphabetic()).count() >= 2)
+        .then(|| trimmed.to_ascii_lowercase())
+}
+
+fn skeleton(value: &str) -> String {
+    let mut out = String::new();
+    let mut last = '\0';
+    let mut run = 0usize;
+    let flush = |out: &mut String, last: char, run: usize| {
+        if run > 0 {
+            out.push(last);
+            out.push_str(&run.min(99).to_string());
+        }
+    };
+    for c in value.chars() {
+        let class = if c.is_ascii_alphabetic() {
+            'A'
+        } else if c.is_ascii_digit() {
+            '9'
+        } else if c.is_whitespace() {
+            ' '
+        } else {
+            c
+        };
+        if class == last {
+            run += 1;
+        } else {
+            flush(&mut out, last, run);
+            last = class;
+            run = 1;
+        }
+    }
+    flush(&mut out, last, run);
+    out
+}
+
+fn dominant_shape(values: &[&str]) -> Option<String> {
+    let mut counts = BTreeMap::<String, usize>::new();
+    for value in values {
+        *counts.entry(skeleton(value)).or_default() += 1;
+    }
+    let (shape, count) = counts
+        .into_iter()
+        .max_by(|a, b| a.1.cmp(&b.1).then_with(|| b.0.cmp(&a.0)))?;
+    (count >= values.len().div_ceil(2)).then_some(shape)
+}
+
+fn format_score(source: Option<&Profile>, target: Option<&Profile>) -> f64 {
+    let (Some(s), Some(t)) = (source, target) else {
+        return 0.0;
+    };
+    if (s.email && t.email) || (s.prefix.is_some() && s.prefix == t.prefix) {
+        return 1.0;
+    }
+    if s.shape.is_some() && s.shape == t.shape {
+        if s.alpha && t.alpha && s.digit && t.digit {
+            return if s.structured && t.structured {
+                0.90
+            } else {
+                0.80
+            };
+        }
+        // Match the audited probe's conservative all-numeric tier; never admitted
+        // by the fixed 0.90 floor in this integration.
+        if !(s.alpha && t.alpha) && s.digit && t.digit {
+            return 0.70;
+        }
+    }
+    0.0
+}
+
+fn hard_blocked(candidate: &Candidate) -> bool {
+    candidate.issues.iter().any(|issue| {
+        matches!(
+            issue,
+            CandidateIssue::IncompatibleTypes
+                | CandidateIssue::NameConflict(_)
+                | CandidateIssue::SemanticConflict(_)
+        )
+    })
+}
+
+fn clear_margin(score: f64, other: Option<f64>) -> bool {
+    other.map_or(score >= MARGIN, |other| {
+        score > other && score - other >= MARGIN
+    })
+}
+
+#[derive(Clone, Copy)]
+struct Winner {
+    target: usize,
+    format: f64,
+    name: f64,
+    combined: f64,
+}
+
+pub(super) fn apply(
+    config: &Config,
+    sources: &[&Field],
+    targets: &[&Field],
+    candidates: &mut [Vec<Candidate>],
+    features: (&[FieldFeatures], &[FieldFeatures]),
+    name_signal: usize,
+    explanation_bytes: &mut usize,
+) -> Result<(), MatchError> {
+    if sources.is_empty() || targets.is_empty() {
+        return Ok(());
+    }
+    // Snapshot support before adding any edge. This is deliberately stricter
+    // than the additive probe: do not compete with ANY original eligible edge,
+    // including an edge in an originally ambiguous row.
+    let supported_rows: Vec<_> = candidates
+        .iter()
+        .map(|row| row.iter().any(|candidate| candidate.eligible))
+        .collect();
+    let mut supported_targets = vec![false; targets.len()];
+    for row in candidates.iter() {
+        for (j, candidate) in row.iter().enumerate() {
+            supported_targets[j] |= candidate.eligible;
+        }
+    }
+    if supported_rows.iter().all(|supported| *supported)
+        || supported_targets.iter().all(|supported| *supported)
+    {
+        return Ok(());
+    }
+    let source_profiles: Vec<_> = sources.iter().map(|field| Profile::new(field)).collect();
+    let target_profiles: Vec<_> = targets.iter().map(|field| Profile::new(field)).collect();
+    let mut rows = vec![TopTwo::default(); sources.len()];
+    let mut columns = vec![TopTwo::default(); targets.len()];
+    let mut winners: Vec<Option<Winner>> = vec![None; sources.len()];
+    for (i, row) in candidates.iter().enumerate() {
+        for (j, candidate) in row.iter().enumerate() {
+            if sources[i].data_type != DataType::Text
+                || targets[j].data_type != DataType::Text
+                || hard_blocked(candidate)
+            {
+                continue;
+            }
+            // Supplied by the engine's concrete built-in identity, not a
+            // caller-chosen signal name. Original signals and weights are kept.
+            let name = candidate.signals[name_signal].evidence.score.unwrap_or(0.0);
+            let format = format_score(source_profiles[i].as_ref(), target_profiles[j].as_ref());
+            let combined = 0.75 * format + 0.25 * name;
+            rows[i].insert(j, combined);
+            columns[j].insert(i, combined);
+            if winners[i].is_none_or(|winner| combined > winner.combined) {
+                winners[i] = Some(Winner {
+                    target: j,
+                    name,
+                    format,
+                    combined,
+                });
+            }
+        }
+    }
+    for (i, winner) in winners.into_iter().enumerate() {
+        let Some(winner) = winner else {
+            continue;
+        };
+        let j = winner.target;
+        if supported_rows[i] || supported_targets[j]
+            || winner.format < FORMAT_FLOOR || winner.name < NAME_FLOOR
+            || !clear_margin(winner.combined, rows[i].competing_score(j))
+            || !clear_margin(winner.combined, columns[j].competing_score(i))
+            // Timestamp-like Text is not an identifier-format rescue route.
+            || features.0[i].temporal || features.1[j].temporal
+            || !features.0[i].units_agree(&features.1[j])
+        {
+            continue;
+        }
+        let candidate = &mut candidates[i][j];
+        // An explicit corroboration requirement is NOT weakened by this fallback.
+        if candidate.issues.iter().any(|issue| {
+            matches!(
+                issue,
+                CandidateIssue::InsufficientNameSupport | CandidateIssue::InsufficientSampleSupport
+            )
+        }) {
+            continue;
+        }
+        let score = candidate.score.max(PROPOSAL_FLOOR);
+        if score < config.min_score {
+            continue;
+        }
+        let warning = format!(
+            "Sample-format fallback: format {:.3}, name {:.3}, combined {:.3}; both contrast margins >= {MARGIN:.2}; distinct text {}/{}. Original row and target had no eligible edge. Fixed scores are heuristics, not confidence or proof of shared meaning.",
+            winner.format, winner.name, winner.combined,
+            source_profiles[i].as_ref().map_or(0, |p| p.distinct),
+            target_profiles[j].as_ref().map_or(0, |p| p.distinct),
+        );
+        let charged = explanation_bytes
+            .checked_add(warning.len())
+            .ok_or(MatchError::CountOverflow(CountKind::ExplanationBytes))?;
+        if charged > config.limits.max_explanation_bytes {
+            return Err(MatchError::BudgetExceeded(BudgetKind::ExplanationBytes));
+        }
+        *explanation_bytes = charged;
+        if score > candidate.score
+            && !candidate
+                .issues
+                .contains(&CandidateIssue::ContextualScoreAdjustment)
+        {
+            candidate
+                .issues
+                .push(CandidateIssue::ContextualScoreAdjustment);
+        }
+        candidate.score = score;
+        candidate.issues.retain(|issue| {
+            !matches!(
+                issue,
+                CandidateIssue::InsufficientScore | CandidateIssue::InsufficientContextSupport
+            )
+        });
+        candidate.eligible = true;
+        candidate.warnings.push(warning);
+    }
+    Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn field(values: &[&str]) -> Field {
+        Field::new("s", "code", DataType::Text).with_samples(
+            values
+                .iter()
+                .map(|value| SampleValue::Text((*value).to_owned()))
+                .collect(),
+        )
+    }
+
+    #[test]
+    fn format_reliability_rejects_sentinels_two_values_and_mixed_kinds() {
+        for values in [vec!["UNKNOWN"; 4], vec!["INV-001", "INV-002", "INV-001"]] {
+            assert!(Profile::new(&field(&values)).is_none());
+        }
+        let mut mixed = field(&["INV-001", "INV-002", "INV-003"]);
+        mixed
+            .samples
+            .as_mut()
+            .unwrap()
+            .push(SampleValue::Boolean(true));
+        assert!(Profile::new(&mixed).is_none());
+    }
+
+    #[test]
+    fn shape_classification_and_coverage_match_the_audited_rule() {
+        let mut source = field(&["INV-001", "INV-002", "INV-003"]);
+        let target = field(&["INV-101", "INV-102", "INV-103"]);
+        assert_eq!(
+            format_score(
+                Profile::new(&source).as_ref(),
+                Profile::new(&target).as_ref()
+            ),
+            0.9
+        );
+        source
+            .samples
+            .as_mut()
+            .unwrap()
+            .extend(vec![SampleValue::Null; 9]);
+        assert!(Profile::new(&source).is_some());
+        source.samples.as_mut().unwrap().push(SampleValue::Null);
+        assert!(Profile::new(&source).is_none());
+        let source = field(&["ABCDEFGHI", "JKLMNOPQR", "STUVWXYZA"]);
+        let target = field(&["BCDEFGHIJ", "KLMNOPQRS", "TUVWXYZAB"]);
+        assert_eq!(
+            format_score(
+                Profile::new(&source).as_ref(),
+                Profile::new(&target).as_ref()
+            ),
+            0.0
+        );
+    }
+
+    #[test]
+    fn close_or_tied_competitors_never_gain_an_edge() {
+        assert!(!clear_margin(0.85, Some(0.8475)));
+        assert!(!clear_margin(0.9, Some(0.9)));
+        assert!(!clear_margin(0.8, Some(0.9)));
+        assert!(clear_margin(0.9, Some(0.6)));
+    }
+}

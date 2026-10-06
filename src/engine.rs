@@ -279,10 +279,24 @@ impl MatchEngine {
                 &sources,
                 &targets,
                 &mut candidates,
-                self.contextual_sample_signal
-                    .ok_or(MatchError::InvalidConfiguration(
-                        ConfigurationError::ContextualEvidence,
-                    ))?,
+                (
+                    self.matchers
+                        .iter()
+                        .filter(|signal| signal.weight > 0.0)
+                        .position(|signal| {
+                            signal
+                                .matcher
+                                .as_any()
+                                .is_some_and(|matcher| matcher.is::<NameMatcher>())
+                        })
+                        .ok_or(MatchError::InvalidConfiguration(
+                            ConfigurationError::ContextualEvidence,
+                        ))?,
+                    self.contextual_sample_signal
+                        .ok_or(MatchError::InvalidConfiguration(
+                            ConfigurationError::ContextualEvidence,
+                        ))?,
+                ),
                 &mut explanation_bytes,
             )?;
             Some(candidates.into_iter())

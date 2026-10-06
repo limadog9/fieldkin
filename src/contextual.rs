@@ -1,5 +1,8 @@
 //! Opt-in contextual evidence derived from validated observable inputs.
 
+#[path = "sample_format.rs"]
+mod sample_format;
+
 use std::collections::{BTreeMap, BTreeSet};
 
 use crate::{
@@ -21,15 +24,21 @@ const SAMPLE_MARGIN: f64 = 0.1;
 /// heuristic choices, never calibrated confidence. Selection additionally needs
 /// contextual support; sample overlap alone does not establish shared meaning.
 ///
+/// A bounded Text-only format fallback can supply a 0.90 score floor. It needs
+/// three distinct nonempty text values, at least 25% non-null coverage, format
+/// agreement >=0.90, name evidence >=0.40 and mutual margins >=0.20. It never
+/// adds to an already-supported row or target, and preserves explicit semantic,
+/// unit and corroboration vetoes. Similar formats do not prove shared meaning.
+///
 /// Context uses all hard-compatible original pairs before caller review, local
 /// ambiguity, assignment and display truncation. No labels, stored mappings or
 /// caller confirmations inform the derived evidence. Defaults are unchanged
 /// unless this policy is explicitly enabled in [`Config::contextual_evidence`].
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct ContextualEvidence {
-    /// Require distinctive samples for identifier fields even when samples are
-    /// unavailable. Defaults to true. False permits informative name agreement
-    /// when at least one identifier field has no observed samples.
+    /// Require observed identifier support: distinctive value overlap or the
+    /// bounded text-format fallback. Defaults to true. False also permits
+    /// informative names when at least one field has no observed samples.
     pub strict_identifier_samples: bool,
     /// Require adequate nonempty observed samples for non-Boolean informative
     /// lexical matches, representation-qualified singleton measurements, and
@@ -163,9 +172,10 @@ pub(crate) fn apply(
     sources: &[&Field],
     targets: &[&Field],
     candidates: &mut [Vec<Candidate>],
-    sample_signal: usize,
+    concrete_signals: (usize, usize),
     explanation_bytes: &mut usize,
 ) -> Result<(), MatchError> {
+    let (name_signal, sample_signal) = concrete_signals;
     let units = unit_phrases(&config.name_conflicts);
     let source_features: Vec<_> = sources
         .iter()
@@ -339,7 +349,15 @@ pub(crate) fn apply(
             candidate.warnings.push(explanation);
         }
     }
-    Ok(())
+    sample_format::apply(
+        config,
+        sources,
+        targets,
+        candidates,
+        (&source_features, &target_features),
+        name_signal,
+        explanation_bytes,
+    )
 }
 
 struct FieldFeatures {
