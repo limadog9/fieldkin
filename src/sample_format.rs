@@ -27,6 +27,7 @@ struct Profile {
     shape: Option<String>,
     initialism: Option<Initialism>,
     code_shapes: Option<BTreeSet<String>>,
+    identifier_pattern: Option<IdentifierPattern>,
     alpha: bool,
     digit: bool,
     structured: bool,
@@ -62,6 +63,7 @@ impl Profile {
             shape: dominant_shape(&values),
             initialism: Initialism::new(&field.name),
             code_shapes: code_shapes(&values),
+            identifier_pattern: IdentifierPattern::new(&field.name, &values),
             alpha: values
                 .iter()
                 .all(|v| v.chars().any(|c| c.is_ascii_alphabetic())),
@@ -72,6 +74,111 @@ impl Profile {
             distinct,
         })
     }
+}
+
+// A role-constrained hexadecimal-code pattern. This is NOT a UUID parser and
+// never rewrites a value. Only a final identifier marker is removed from the
+// field name; every entity/qualifier token remains in its original order.
+// No Debug: even a derived literal prefix can contain user data.
+#[derive(PartialEq, Eq)]
+struct IdentifierPattern {
+    role: Vec<String>,
+    prefix: String,
+    widths: BTreeSet<usize>,
+}
+
+fn identifier_role(name: &str) -> Option<Vec<String>> {
+    let mut tokens = crate::normalize_name(name);
+    if !matches!(
+        tokens.last()?.as_str(),
+        "id" | "identifier" | "uuid" | "guid"
+    ) {
+        return None;
+    }
+    tokens.pop();
+    if tokens.is_empty()
+        || tokens.iter().any(|token| {
+            !token.bytes().all(|b| b.is_ascii_lowercase())
+                || super::identifier_token(token)
+                || matches!(token.as_str(), "uuid" | "guid")
+        })
+        || !tokens.iter().any(|token| {
+            token.len() > 2
+                && !super::generic_token(token)
+                && !matches!(token.as_str(), "row" | "record" | "entity" | "object")
+        })
+    {
+        return None;
+    }
+    Some(tokens)
+}
+
+impl IdentifierPattern {
+    fn new(name: &str, values: &[&str]) -> Option<Self> {
+        let role = identifier_role(name)?;
+        let mut prefix = None;
+        let mut widths = BTreeSet::new();
+        for value in values {
+            let bytes = value.as_bytes();
+            let end = bytes.iter().take_while(|b| b.is_ascii_alphabetic()).count();
+            if end == 0 || !matches!(bytes.get(end).copied(), Some(b'-' | b'_' | b':')) {
+                return None;
+            }
+            let tail = &bytes[end + 1..];
+            if tail.is_empty()
+                || !tail.iter().all(u8::is_ascii_hexdigit)
+                || !tail.iter().any(u8::is_ascii_digit)
+            {
+                return None;
+            }
+            // Prefix/delimiter are literal and case-sensitive; only positions
+            // within a hexadecimal serial can alternate between letters/digits.
+            let current = &value[..end + 1];
+            match prefix {
+                None => prefix = Some(current),
+                Some(previous) if previous == current => {}
+                _ => return None,
+            }
+            widths.insert(tail.len());
+        }
+        Some(Self {
+            role,
+            prefix: prefix?.to_owned(),
+            widths,
+        })
+    }
+}
+
+fn unique_identifier_roles(fields: &[&Field]) -> BTreeSet<Vec<String>> {
+    let mut counts = BTreeMap::<Vec<String>, usize>::new();
+    for field in fields {
+        // Count even unavailable samples and Unknown types. Neither review nor
+        // reliability filtering may hide a same-role alternative.
+        if matches!(field.data_type, DataType::Text | DataType::Unknown) {
+            if let Some(role) = identifier_role(&field.name) {
+                *counts.entry(role).or_default() += 1;
+            }
+        }
+    }
+    counts
+        .into_iter()
+        .filter_map(|(role, count)| (count == 1).then_some(role))
+        .collect()
+}
+
+fn identifier_pattern_support(
+    source: Option<&Profile>,
+    target: Option<&Profile>,
+    source_roles: &BTreeSet<Vec<String>>,
+    target_roles: &BTreeSet<Vec<String>>,
+) -> bool {
+    let (Some(source), Some(target)) = (source, target) else {
+        return false;
+    };
+    let (Some(a), Some(b)) = (&source.identifier_pattern, &target.identifier_pattern) else {
+        return false;
+    };
+    a == b && source_roles.contains(&a.role) && target_roles.contains(&b.role)
 }
 
 // A whole-field initialism, not a synonym dictionary. Keep every word in the
@@ -301,6 +408,7 @@ struct Winner {
     name: f64,
     combined: f64,
     initialism: bool,
+    identifier_pattern: bool,
 }
 
 pub(super) fn apply(
@@ -335,6 +443,8 @@ pub(super) fn apply(
     }
     let source_profiles: Vec<_> = sources.iter().map(|field| Profile::new(field)).collect();
     let target_profiles: Vec<_> = targets.iter().map(|field| Profile::new(field)).collect();
+    let source_roles = unique_identifier_roles(sources);
+    let target_roles = unique_identifier_roles(targets);
     let mut rows = vec![TopTwo::default(); sources.len()];
     let mut columns = vec![TopTwo::default(); targets.len()];
     let mut winners: Vec<Option<Winner>> = vec![None; sources.len()];
@@ -351,8 +461,14 @@ pub(super) fn apply(
             let name = candidate.signals[name_signal].evidence.score.unwrap_or(0.0);
             let initialism =
                 initialism_support(source_profiles[i].as_ref(), target_profiles[j].as_ref());
+            let identifier_pattern = identifier_pattern_support(
+                source_profiles[i].as_ref(),
+                target_profiles[j].as_ref(),
+                &source_roles,
+                &target_roles,
+            );
             let raw_format = format_score(source_profiles[i].as_ref(), target_profiles[j].as_ref());
-            let format = if initialism {
+            let format = if initialism || identifier_pattern {
                 raw_format.max(FORMAT_FLOOR)
             } else {
                 raw_format
@@ -371,6 +487,7 @@ pub(super) fn apply(
                     format,
                     combined,
                     initialism,
+                    identifier_pattern,
                 });
             }
         }
@@ -421,6 +538,9 @@ pub(super) fn apply(
         }
         if winner.initialism {
             warning.push_str(" Additional support: whole-name initialism plus equal observed code-shape sets; contrast uses derived name agreement 1.0. Raw name signals are unchanged. Sample shapes and values omitted; this is not proof of shared meaning.");
+        }
+        if winner.identifier_pattern {
+            warning.push_str(" Additional support: identical complete identifier role, literal prefix and observed hexadecimal serial lengths. Letter/digit positions may differ within the serial; original values are unchanged. Prefix and values omitted. Shared spelling does not prove identifier scope.");
         }
         let charged = explanation_bytes
             .checked_add(warning.len())
