@@ -25,6 +25,8 @@ struct Profile {
     prefix: Option<String>,
     code_prefix: Option<String>,
     shape: Option<String>,
+    initialism: Option<Initialism>,
+    code_shapes: Option<BTreeSet<String>>,
     alpha: bool,
     digit: bool,
     structured: bool,
@@ -58,6 +60,8 @@ impl Profile {
             prefix: meaningful_prefix(&common_prefix(&values)),
             code_prefix: stable_code_prefix(&values),
             shape: dominant_shape(&values),
+            initialism: Initialism::new(&field.name),
+            code_shapes: code_shapes(&values),
             alpha: values
                 .iter()
                 .all(|v| v.chars().any(|c| c.is_ascii_alphabetic())),
@@ -68,6 +72,68 @@ impl Profile {
             distinct,
         })
     }
+}
+
+// A whole-field initialism, not a synonym dictionary. Keep every word in the
+// expansion: prefixes, suffixes and qualifiers cannot be silently dropped.
+enum Initialism {
+    Short(String),
+    Expanded(String),
+}
+
+impl Initialism {
+    fn new(name: &str) -> Option<Self> {
+        let tokens = crate::normalize_name(name);
+        if tokens.len() == 1 {
+            let token = &tokens[0];
+            if (3..=8).contains(&token.len()) && token.bytes().all(|b| b.is_ascii_lowercase()) {
+                return Some(Self::Short(token.clone()));
+            }
+        } else if (3..=8).contains(&tokens.len())
+            && tokens
+                .iter()
+                .all(|token| token.len() >= 2 && token.bytes().all(|b| b.is_ascii_lowercase()))
+        {
+            return Some(Self::Expanded(
+                tokens.iter().map(|t| t.as_bytes()[0] as char).collect(),
+            ));
+        }
+        None
+    }
+}
+
+// Retain all observed code shapes, not only a majority shape. This evidence is
+// used ONLY with a complete initialism/expansion relation. Require ASCII codes
+// containing letters, digits and a delimiter; never treat free text as a code.
+// Shape strings and prefixes remain private and never enter explanations.
+fn code_shapes(values: &[&str]) -> Option<BTreeSet<String>> {
+    let valid = |value: &&str| {
+        let bytes = value.as_bytes();
+        bytes.first().is_some_and(u8::is_ascii_alphanumeric)
+            && bytes.last().is_some_and(u8::is_ascii_alphanumeric)
+            && bytes.iter().any(u8::is_ascii_alphabetic)
+            && bytes.iter().any(u8::is_ascii_digit)
+            && bytes.iter().any(|b| matches!(*b, b'-' | b'_' | b':'))
+            && bytes
+                .iter()
+                .all(|b| b.is_ascii_alphanumeric() || matches!(*b, b'-' | b'_' | b':'))
+    };
+    if values.is_empty() || !values.iter().all(valid) {
+        return None;
+    }
+    Some(values.iter().map(|value| skeleton(value)).collect())
+}
+
+fn initialism_support(source: Option<&Profile>, target: Option<&Profile>) -> bool {
+    let (Some(source), Some(target)) = (source, target) else {
+        return false;
+    };
+    let names_agree = match (&source.initialism, &target.initialism) {
+        (Some(Initialism::Short(a)), Some(Initialism::Expanded(b)))
+        | (Some(Initialism::Expanded(b)), Some(Initialism::Short(a))) => a == b,
+        _ => false,
+    };
+    names_agree && source.code_shapes.is_some() && source.code_shapes == target.code_shapes
 }
 
 // This is observable spelling evidence, not proof of an identifier namespace.
@@ -234,6 +300,7 @@ struct Winner {
     format: f64,
     name: f64,
     combined: f64,
+    initialism: bool,
 }
 
 pub(super) fn apply(
@@ -282,8 +349,19 @@ pub(super) fn apply(
             // Supplied by the engine's concrete built-in identity, not a
             // caller-chosen signal name. Original signals and weights are kept.
             let name = candidate.signals[name_signal].evidence.score.unwrap_or(0.0);
-            let format = format_score(source_profiles[i].as_ref(), target_profiles[j].as_ref());
-            let combined = 0.75 * format + 0.25 * name;
+            let initialism =
+                initialism_support(source_profiles[i].as_ref(), target_profiles[j].as_ref());
+            let raw_format = format_score(source_profiles[i].as_ref(), target_profiles[j].as_ref());
+            let format = if initialism {
+                raw_format.max(FORMAT_FLOOR)
+            } else {
+                raw_format
+            };
+            // A complete initialism with matching code-shape sets supplies
+            // derived name agreement for contrast only. Raw signal reports stay
+            // unchanged. All competing expansions receive the same treatment.
+            let contrast_name = if initialism { 1.0 } else { name };
+            let combined = 0.75 * format + 0.25 * contrast_name;
             rows[i].insert(j, combined);
             columns[j].insert(i, combined);
             if winners[i].is_none_or(|winner| combined > winner.combined) {
@@ -292,6 +370,7 @@ pub(super) fn apply(
                     name,
                     format,
                     combined,
+                    initialism,
                 });
             }
         }
@@ -308,7 +387,7 @@ pub(super) fn apply(
         // prefix is NOT removed from the competition to manufacture certainty.
         if supported_rows[i] || supported_targets[j]
             || winner.format < FORMAT_FLOOR
-            || (winner.name < NAME_FLOOR && !literal_prefix)
+            || (winner.name < NAME_FLOOR && !literal_prefix && !winner.initialism)
             || !clear_margin(winner.combined, rows[i].competing_score(j))
             || !clear_margin(winner.combined, columns[j].competing_score(i))
             // Timestamp-like Text is not an identifier-format rescue route.
@@ -339,6 +418,9 @@ pub(super) fn apply(
         );
         if winner.name < NAME_FLOOR && literal_prefix {
             warning.push_str(" Additional support: exact literal code prefix; prefix contents omitted. This does not establish entity scope.");
+        }
+        if winner.initialism {
+            warning.push_str(" Additional support: whole-name initialism plus equal observed code-shape sets; contrast uses derived name agreement 1.0. Raw name signals are unchanged. Sample shapes and values omitted; this is not proof of shared meaning.");
         }
         let charged = explanation_bytes
             .checked_add(warning.len())
