@@ -236,6 +236,55 @@ fn approval_word_forms_preserve_boolean_ambiguity() {
     assert_eq!(report.fields[0].alternatives.len(), 2);
 }
 #[test]
+fn trusted_normalizations_can_match_across_disjoint_rows() {
+    let cases = [
+        ("debit_amount", "debit_amt", DataType::Decimal),
+        ("settled_at", "settlement_ts", DataType::Timestamp),
+        ("posting_date", "post_date", DataType::Date),
+        ("email_address", "email", DataType::Text),
+    ];
+
+    for (source_name, target_name, data_type) in cases {
+        let source = Field::new("s", source_name, data_type).with_samples(vec![
+            SampleValue::Text("source-a".into()),
+            SampleValue::Text("source-b".into()),
+            SampleValue::Text("source-c".into()),
+        ]);
+        let target = Field::new("t", target_name, data_type).with_samples(vec![
+            SampleValue::Text("target-x".into()),
+            SampleValue::Text("target-y".into()),
+            SampleValue::Text("target-z".into()),
+        ]);
+
+        let report = match_fields(vec![source], vec![target], config());
+
+        assert!(
+            report.fields[0].selected.is_some(),
+            "{source_name} -> {target_name}"
+        );
+    }
+}
+
+#[test]
+fn raw_exact_names_still_do_not_ignore_conflicting_observations() {
+    let source = Field::new("s", "status", DataType::Text).with_samples(
+        ["picked", "packed", "ready"]
+            .into_iter()
+            .map(|value| SampleValue::Text(value.into()))
+            .collect(),
+    );
+    let target = Field::new("t", "status", DataType::Text).with_samples(
+        ["delivered", "failed", "returned"]
+            .into_iter()
+            .map(|value| SampleValue::Text(value.into()))
+            .collect(),
+    );
+
+    let report = match_fields(vec![source], vec![target], config());
+
+    assert!(report.fields[0].selected.is_none());
+}
+#[test]
 fn scoped_geo_roles_recover_start_and_origin_coordinates() {
     for (source_name, target_name) in [
         ("start-latitude", "origin_latitude"),

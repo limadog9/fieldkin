@@ -235,12 +235,15 @@ pub(crate) fn apply(
                 && feature.geo_role_core == target_feature.geo_role_core;
             let email_form_exact = feature.email_form_core.is_some()
                 && feature.email_form_core == target_feature.email_form_core;
+            let default_alias_exact = feature.core == target_feature.core
+                && !feature.core.is_empty()
+                && (feature.default_alias_applied || target_feature.default_alias_applied);
+            let trusted_normalized_exact =
+                word_form_exact || geo_role_exact || email_form_exact || default_alias_exact;
             let informed_exact = (feature.informative > 0
                 && feature.core == target_feature.core
                 && !feature.core.is_empty())
-                || word_form_exact
-                || geo_role_exact
-                || email_form_exact;
+                || trusted_normalized_exact;
             let identifier = feature.identifier || target_feature.identifier;
             let identifier_support = !identifier
                 || distinctive
@@ -254,6 +257,7 @@ pub(crate) fn apply(
             let observed_support = !policy.scoped_support
                 || !both_observed
                 || (feature.boolean && target_feature.boolean)
+                || trusted_normalized_exact
                 || if identifier {
                     distinctive
                 } else {
@@ -345,6 +349,7 @@ struct FieldFeatures {
     word_form_core: Option<BTreeSet<String>>,
     geo_role_core: Option<BTreeSet<String>>,
     email_form_core: Option<BTreeSet<String>>,
+    default_alias_applied: bool,
     identifier: bool,
     observed: bool,
     non_null: usize,
@@ -448,6 +453,10 @@ fn scoped_word_form_core(
                 applied = true;
                 "approval"
             }
+            "posting" | "post" if temporal => {
+                applied = true;
+                "post"
+            }
             "sample" | "sampled" | "observation" if temporal => {
                 applied = true;
                 "observation"
@@ -460,7 +469,7 @@ fn scoped_word_form_core(
         if structural_token(canonical)
             || (temporal
                 && index + 1 == tokens.len()
-                && matches!(canonical, "time" | "date" | "timestamp"))
+                && matches!(canonical, "time" | "date" | "timestamp" | "ts"))
         {
             continue;
         }
@@ -608,6 +617,9 @@ fn temporal_text(value: &str) -> bool {
 impl FieldFeatures {
     fn new(field: &Field, unit_rules: &[Vec<UnitPhrase>]) -> Self {
         let tokens = normalize_name(&field.name);
+        let default_alias_applied = tokens
+            .iter()
+            .any(|token| matches!(token.as_str(), "amt" | "trans"));
         let core: BTreeSet<_> = tokens
             .iter()
             .map(|token| match token.as_str() {
@@ -702,6 +714,7 @@ impl FieldFeatures {
             word_form_core,
             geo_role_core,
             email_form_core,
+            default_alias_applied,
             identifier: tokens.iter().any(|token| identifier_token(token)),
             observed: field.samples.is_some(),
             non_null,
