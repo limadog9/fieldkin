@@ -28,6 +28,7 @@ struct Profile {
     initialism: Option<Initialism>,
     code_shapes: Option<BTreeSet<String>>,
     identifier_pattern: Option<IdentifierPattern>,
+    postal_pattern: Option<PostalPattern>,
     alpha: bool,
     digit: bool,
     structured: bool,
@@ -64,6 +65,7 @@ impl Profile {
             initialism: Initialism::new(&field.name),
             code_shapes: code_shapes(&values),
             identifier_pattern: IdentifierPattern::new(&field.name, &values),
+            postal_pattern: PostalPattern::new(&field.name, &values),
             alpha: values
                 .iter()
                 .all(|v| v.chars().any(|c| c.is_ascii_alphabetic())),
@@ -74,6 +76,111 @@ impl Profile {
             distinct,
         })
     }
+}
+
+// Scoped postal-code spelling backed by the complete observed text format.
+// This does not validate postal codes or establish a country/address identity.
+// All address-role qualifiers remain ordered; only bill/ship at the beginning
+// and an explicit postal-code suffix have a bounded conventional spelling map.
+#[derive(PartialEq, Eq)]
+struct PostalPattern {
+    role: Vec<String>,
+    shapes: BTreeSet<String>,
+}
+
+fn postal_role(name: &str) -> Option<Vec<String>> {
+    let mut tokens = crate::normalize_name(name);
+    let suffix = if tokens.ends_with(&["postal".into(), "code".into()])
+        || tokens.ends_with(&["zip".into(), "code".into()])
+    {
+        2
+    } else if matches!(
+        tokens.last()?.as_str(),
+        "postcode" | "postalcode" | "zip" | "zipcode"
+    ) {
+        1
+    } else {
+        return None;
+    };
+    tokens.truncate(tokens.len() - suffix);
+    // Bare zip/postcode is deliberately insufficient for this scoped route.
+    if tokens.is_empty()
+        || tokens.iter().any(|token| {
+            !token.bytes().all(|b| b.is_ascii_lowercase())
+                || super::identifier_token(token)
+                || matches!(token.as_str(), "uuid" | "guid" | "name")
+        })
+    {
+        return None;
+    }
+    if let Some(first) = tokens.first_mut() {
+        match first.as_str() {
+            "bill" => *first = "billing".into(),
+            "ship" => *first = "shipping".into(),
+            _ => {}
+        }
+    }
+    Some(tokens)
+}
+
+impl PostalPattern {
+    fn new(name: &str, values: &[&str]) -> Option<Self> {
+        let role = postal_role(name)?;
+        let mut shapes = BTreeSet::new();
+        for value in values {
+            let bytes = value.as_bytes();
+            // Keep leading zeroes, widths and separators. No integer parsing,
+            // padding, ZIP-extension removal, or conversion is performed.
+            let digits = bytes.iter().filter(|b| b.is_ascii_digit()).count();
+            if !(3..=10).contains(&digits)
+                || !bytes.first().is_some_and(u8::is_ascii_digit)
+                || !bytes.last().is_some_and(u8::is_ascii_digit)
+                || bytes.iter().filter(|b| **b == b'-').count() > 1
+                || !bytes.iter().all(|b| b.is_ascii_digit() || *b == b'-')
+            {
+                return None;
+            }
+            shapes.insert(
+                value
+                    .chars()
+                    .map(|c| if c.is_ascii_digit() { '9' } else { c })
+                    .collect(),
+            );
+        }
+        (!shapes.is_empty()).then_some(Self { role, shapes })
+    }
+}
+
+fn unique_postal_roles(fields: &[&Field]) -> BTreeSet<Vec<String>> {
+    let mut counts = BTreeMap::<Vec<String>, usize>::new();
+    for field in fields {
+        // Count same-role alternatives before sample, type-reliability, review,
+        // or display filtering, including Unknown fields without samples.
+        if matches!(field.data_type, DataType::Text | DataType::Unknown) {
+            if let Some(role) = postal_role(&field.name) {
+                *counts.entry(role).or_default() += 1;
+            }
+        }
+    }
+    counts
+        .into_iter()
+        .filter_map(|(role, count)| (count == 1).then_some(role))
+        .collect()
+}
+
+fn postal_pattern_support(
+    source: Option<&Profile>,
+    target: Option<&Profile>,
+    source_roles: &BTreeSet<Vec<String>>,
+    target_roles: &BTreeSet<Vec<String>>,
+) -> bool {
+    let (Some(source), Some(target)) = (source, target) else {
+        return false;
+    };
+    let (Some(a), Some(b)) = (&source.postal_pattern, &target.postal_pattern) else {
+        return false;
+    };
+    a == b && source_roles.contains(&a.role) && target_roles.contains(&b.role)
 }
 
 // A role-constrained hexadecimal-code pattern. This is NOT a UUID parser and
@@ -409,6 +516,7 @@ struct Winner {
     combined: f64,
     initialism: bool,
     identifier_pattern: bool,
+    postal_pattern: bool,
 }
 
 pub(super) fn apply(
@@ -445,6 +553,8 @@ pub(super) fn apply(
     let target_profiles: Vec<_> = targets.iter().map(|field| Profile::new(field)).collect();
     let source_roles = unique_identifier_roles(sources);
     let target_roles = unique_identifier_roles(targets);
+    let source_postal_roles = unique_postal_roles(sources);
+    let target_postal_roles = unique_postal_roles(targets);
     let mut rows = vec![TopTwo::default(); sources.len()];
     let mut columns = vec![TopTwo::default(); targets.len()];
     let mut winners: Vec<Option<Winner>> = vec![None; sources.len()];
@@ -467,16 +577,26 @@ pub(super) fn apply(
                 &source_roles,
                 &target_roles,
             );
+            let postal_pattern = postal_pattern_support(
+                source_profiles[i].as_ref(),
+                target_profiles[j].as_ref(),
+                &source_postal_roles,
+                &target_postal_roles,
+            );
             let raw_format = format_score(source_profiles[i].as_ref(), target_profiles[j].as_ref());
-            let format = if initialism || identifier_pattern {
+            let format = if initialism || identifier_pattern || postal_pattern {
                 raw_format.max(FORMAT_FLOOR)
             } else {
                 raw_format
             };
-            // A complete initialism with matching code-shape sets supplies
-            // derived name agreement for contrast only. Raw signal reports stay
-            // unchanged. All competing expansions receive the same treatment.
-            let contrast_name = if initialism { 1.0 } else { name };
+            // Complete initialisms or scoped postal spellings with matching
+            // observed representation supply derived name agreement for contrast.
+            // Raw signals and all other compatible competitors remain unchanged.
+            let contrast_name = if initialism || postal_pattern {
+                1.0
+            } else {
+                name
+            };
             let combined = 0.75 * format + 0.25 * contrast_name;
             rows[i].insert(j, combined);
             columns[j].insert(i, combined);
@@ -488,6 +608,7 @@ pub(super) fn apply(
                     combined,
                     initialism,
                     identifier_pattern,
+                    postal_pattern,
                 });
             }
         }
@@ -504,7 +625,7 @@ pub(super) fn apply(
         // prefix is NOT removed from the competition to manufacture certainty.
         if supported_rows[i] || supported_targets[j]
             || winner.format < FORMAT_FLOOR
-            || (winner.name < NAME_FLOOR && !literal_prefix && !winner.initialism)
+            || (winner.name < NAME_FLOOR && !literal_prefix && !winner.initialism && !winner.postal_pattern)
             || !clear_margin(winner.combined, rows[i].competing_score(j))
             || !clear_margin(winner.combined, columns[j].competing_score(i))
             // Timestamp-like Text is not an identifier-format rescue route.
@@ -541,6 +662,9 @@ pub(super) fn apply(
         }
         if winner.identifier_pattern {
             warning.push_str(" Additional support: identical complete identifier role, literal prefix and observed hexadecimal serial lengths. Letter/digit positions may differ within the serial; original values are unchanged. Prefix and values omitted. Shared spelling does not prove identifier scope.");
+        }
+        if winner.postal_pattern {
+            warning.push_str(" Additional support: scoped postal-code spelling and complete observed numeric text-format sets agree; contrast uses derived name agreement 1.0. Leading zeroes, widths, separators and qualifiers are preserved. Raw signals are unchanged. Values and formats omitted; no country or address equivalence is proved.");
         }
         let charged = explanation_bytes
             .checked_add(warning.len())
