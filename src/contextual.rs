@@ -32,6 +32,9 @@ const SAMPLE_MARGIN: f64 = 0.1;
 ///
 /// A physical-measurement name can also supply a 0.90 floor when its complete
 /// quantity, qualifiers, explicit supported unit token and numeric type agree.
+/// Integer warranty/retention lengths additionally allow one optional trailing
+/// `period` before an identical days/weeks/months/years unit. They must retain
+/// every other qualifier; observed lengths must be nonnegative and integral.
 /// This route preserves already-supported rows and targets, performs no unit or
 /// sample conversion, and remains subject to normal ambiguity and constraints.
 ///
@@ -566,6 +569,38 @@ fn measurement_name(field: &Field) -> Option<Vec<String>> {
     let mut tokens = normalize_name(&field.name);
     if tokens.iter().any(|token| identifier_token(token)) {
         return None;
+    }
+    // Integer warranty/retention lengths explicitly name a duration unit.
+    // An optional terminal "period" does not change that length; retain every
+    // preceding qualifier, token order and the literal unit. This never applies
+    // to a calendar date, an unqualified reporting period or fractional lengths.
+    if field.data_type == DataType::Integer
+        && matches!(
+            tokens.last().map(String::as_str),
+            Some("days" | "weeks" | "months" | "years")
+        )
+    {
+        let unit_index = tokens.len() - 1;
+        let period = unit_index > 0 && tokens[unit_index - 1] == "period";
+        let role_end = unit_index - usize::from(period);
+        if role_end > 0 && matches!(tokens[role_end - 1].as_str(), "warranty" | "retention") {
+            if field
+                .samples
+                .as_deref()
+                .unwrap_or_default()
+                .iter()
+                .any(|sample| {
+                    matches!(sample, SampleValue::Integer(value) if *value < 0)
+                        || matches!(sample, SampleValue::Number(value) if *value < 0.0)
+                })
+            {
+                return None;
+            }
+            if period {
+                tokens.remove(role_end);
+            }
+            return Some(tokens);
+        }
     }
     let unit = tokens.last()?.as_str();
     let thermal = matches!(unit, "c" | "f" | "k" | "celsius" | "fahrenheit" | "kelvin");
