@@ -23,6 +23,7 @@ const PROPOSAL_FLOOR: f64 = 0.90;
 struct Profile {
     email: bool,
     prefix: Option<String>,
+    code_prefix: Option<String>,
     shape: Option<String>,
     alpha: bool,
     digit: bool,
@@ -55,6 +56,7 @@ impl Profile {
         Some(Self {
             email: values.iter().all(|value| looks_email(value)),
             prefix: meaningful_prefix(&common_prefix(&values)),
+            code_prefix: stable_code_prefix(&values),
             shape: dominant_shape(&values),
             alpha: values
                 .iter()
@@ -66,6 +68,47 @@ impl Profile {
             distinct,
         })
     }
+}
+
+// This is observable spelling evidence, not proof of an identifier namespace.
+// Require the exact same case-sensitive leading letters AND delimiter in every
+// usable value. Serial digits are not part of the prefix; free text, pure
+// numbers, single-letter prefixes and mixed prefix populations do not qualify.
+fn code_prefix(value: &str) -> Option<&str> {
+    let bytes = value.as_bytes();
+    let end = bytes
+        .iter()
+        .take_while(|byte| byte.is_ascii_alphabetic())
+        .count();
+    if end < 2 || !matches!(bytes.get(end).copied(), Some(b'-' | b'_' | b':')) {
+        return None;
+    }
+    let suffix = &bytes[end + 1..];
+    if !suffix.first().is_some_and(u8::is_ascii_alphanumeric)
+        || !suffix.iter().any(u8::is_ascii_digit)
+        || !suffix
+            .iter()
+            .all(|byte| byte.is_ascii_alphanumeric() || matches!(*byte, b'-' | b'_' | b':'))
+    {
+        return None;
+    }
+    // All bytes before this boundary are ASCII, so this is a UTF-8 boundary.
+    Some(&value[..end + 1])
+}
+
+fn stable_code_prefix(values: &[&str]) -> Option<String> {
+    let prefix = code_prefix(values.first().copied()?)?;
+    values
+        .iter()
+        .all(|value| code_prefix(value) == Some(prefix))
+        .then(|| prefix.to_owned())
+}
+
+fn code_prefix_agrees(source: Option<&Profile>, target: Option<&Profile>) -> bool {
+    let (Some(source), Some(target)) = (source, target) else {
+        return false;
+    };
+    source.code_prefix.is_some() && source.code_prefix == target.code_prefix
 }
 
 fn looks_email(value: &str) -> bool {
@@ -258,8 +301,14 @@ pub(super) fn apply(
             continue;
         };
         let j = winner.target;
+        let literal_prefix =
+            code_prefix_agrees(source_profiles[i].as_ref(), target_profiles[j].as_ref());
+        // A reliable exact code prefix can supplement weak names. The format
+        // floor, scores, competitors and margins are unchanged; a different
+        // prefix is NOT removed from the competition to manufacture certainty.
         if supported_rows[i] || supported_targets[j]
-            || winner.format < FORMAT_FLOOR || winner.name < NAME_FLOOR
+            || winner.format < FORMAT_FLOOR
+            || (winner.name < NAME_FLOOR && !literal_prefix)
             || !clear_margin(winner.combined, rows[i].competing_score(j))
             || !clear_margin(winner.combined, columns[j].competing_score(i))
             // Timestamp-like Text is not an identifier-format rescue route.
@@ -282,12 +331,15 @@ pub(super) fn apply(
         if score < config.min_score {
             continue;
         }
-        let warning = format!(
+        let mut warning = format!(
             "Sample-format fallback: format {:.3}, name {:.3}, combined {:.3}; both contrast margins >= {MARGIN:.2}; distinct text {}/{}. Original row and target had no eligible edge. Fixed scores are heuristics, not confidence or proof of shared meaning.",
             winner.format, winner.name, winner.combined,
             source_profiles[i].as_ref().map_or(0, |p| p.distinct),
             target_profiles[j].as_ref().map_or(0, |p| p.distinct),
         );
+        if winner.name < NAME_FLOOR && literal_prefix {
+            warning.push_str(" Additional support: exact literal code prefix; prefix contents omitted. This does not establish entity scope.");
+        }
         let charged = explanation_bytes
             .checked_add(warning.len())
             .ok_or(MatchError::CountOverflow(CountKind::ExplanationBytes))?;
@@ -380,5 +432,33 @@ mod tests {
         assert!(!clear_margin(0.9, Some(0.9)));
         assert!(!clear_margin(0.8, Some(0.9)));
         assert!(clear_margin(0.9, Some(0.6)));
+    }
+    #[test]
+    fn literal_prefix_is_bounded_by_a_delimiter_not_a_serial_digit() {
+        assert_eq!(code_prefix("INV-0001"), Some("INV-"));
+        assert_eq!(code_prefix("INV-9001"), Some("INV-"));
+        assert_eq!(code_prefix("AB:X9-01"), Some("AB:"));
+        assert_eq!(code_prefix("ab_X901"), Some("ab_"));
+        for value in [
+            "",
+            "1",
+            "C-001",
+            "INV001",
+            "INV-ABC",
+            "INV-",
+            "Invoice 001",
+            " INV-001",
+            "INV-001@host",
+            "\u{00c9}T-001",
+        ] {
+            assert_eq!(code_prefix(value), None, "{value}");
+        }
+        assert_eq!(
+            stable_code_prefix(&["INV-001", "INV-002", "INV-003"]),
+            Some("INV-".into())
+        );
+        assert_eq!(stable_code_prefix(&["INV-001", "OTH-002", "INV-003"]), None);
+        assert_eq!(stable_code_prefix(&["INV-001", "inv-002", "INV-003"]), None);
+        assert_eq!(stable_code_prefix(&["INV-001", "INV_002", "INV-003"]), None);
     }
 }
