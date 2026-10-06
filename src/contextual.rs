@@ -35,6 +35,12 @@ const SAMPLE_MARGIN: f64 = 0.1;
 /// This route preserves already-supported rows and targets, performs no unit or
 /// sample conversion, and remains subject to normal ambiguity and constraints.
 ///
+/// A trailing Text-field name suffix can supply a 0.90 floor when complete
+/// ordered role tokens agree and both sides have three distinct descriptive
+/// text samples with at least 25% coverage. Numeric/code-like or missing values
+/// do not qualify. Competing full-role names, existing support and explicit
+/// semantic or corroboration vetoes are preserved.
+///
 /// Context uses all hard-compatible original pairs before caller review, local
 /// ambiguity, assignment and display truncation. No labels, stored mappings or
 /// caller confirmations inform the derived evidence. Defaults are unchanged
@@ -370,7 +376,169 @@ pub(crate) fn apply(
         candidates,
         (&source_features, &target_features),
         explanation_bytes,
+    )?;
+    apply_display_name_suffix(
+        config,
+        sources,
+        targets,
+        candidates,
+        (&source_features, &target_features),
+        explanation_bytes,
     )
+}
+
+// A trailing "name" can describe an existing text label, but is not permission
+// to drop arbitrary tokens or equate a stored code with a human-readable name.
+fn display_name_key(field: &Field) -> Option<(Vec<String>, bool)> {
+    if field.data_type != DataType::Text {
+        return None;
+    }
+    let mut tokens = normalize_name(&field.name);
+    let explicit_name = tokens.last().is_some_and(|token| token == "name");
+    if explicit_name {
+        tokens.pop();
+    }
+    if tokens.is_empty()
+        || tokens.iter().any(|token| {
+            structural_token(token) || matches!(token.as_str(), "uuid" | "guid" | "name")
+        })
+        || !tokens.iter().any(|token| {
+            token.chars().count() > 2
+                && !generic_token(token)
+                && !token.chars().all(char::is_numeric)
+        })
+    {
+        return None;
+    }
+    Some((tokens, explicit_name))
+}
+
+fn descriptive_name_samples(field: &Field, features: &FieldFeatures) -> bool {
+    // Reuse the already-prepared reliability counts. Require observations here:
+    // missing samples cannot establish that a bare field stores labels, not codes.
+    features.distinct >= MIN_DISTINCT
+        && features.coverage >= MIN_COVERAGE
+        && field.samples.as_deref().is_some_and(|samples| {
+            samples.iter().all(|sample| match sample {
+                SampleValue::Null => true,
+                SampleValue::Text(value) => {
+                    value.chars().filter(|c| c.is_alphabetic()).count() >= 3
+                        && value.chars().any(char::is_lowercase)
+                        && value.chars().all(|c| {
+                            c.is_alphabetic()
+                                || c.is_whitespace()
+                                || matches!(c, '-' | '\'' | '\u{2019}' | '.' | '&')
+                        })
+                }
+                _ => false,
+            })
+        })
+}
+
+fn apply_display_name_suffix(
+    config: &Config,
+    sources: &[&Field],
+    targets: &[&Field],
+    candidates: &mut [Vec<Candidate>],
+    features: (&[FieldFeatures], &[FieldFeatures]),
+    explanation_bytes: &mut usize,
+) -> Result<(), MatchError> {
+    let supported_rows: Vec<_> = candidates
+        .iter()
+        .map(|row| row.iter().any(|candidate| candidate.eligible))
+        .collect();
+    let mut supported_targets = vec![false; targets.len()];
+    for row in candidates.iter() {
+        for (j, candidate) in row.iter().enumerate() {
+            supported_targets[j] |= candidate.eligible;
+        }
+    }
+    if supported_rows.iter().all(|supported| *supported)
+        || supported_targets.iter().all(|supported| *supported)
+    {
+        return Ok(());
+    }
+    let source_names: Vec<_> = sources.iter().map(|f| display_name_key(f)).collect();
+    let target_names: Vec<_> = targets.iter().map(|f| display_name_key(f)).collect();
+    let mut source_counts = BTreeMap::<Vec<String>, usize>::new();
+    let mut target_groups = BTreeMap::<Vec<String>, Vec<usize>>::new();
+    for (key, _) in source_names.iter().flatten() {
+        *source_counts.entry(key.clone()).or_default() += 1;
+    }
+    for (j, name) in target_names.iter().enumerate() {
+        if let Some((key, _)) = name {
+            target_groups.entry(key.clone()).or_default().push(j);
+        }
+    }
+    // Count competing names BEFORE reliability, eligibility, review or top-k
+    // filtering. Sparse/empty observations cannot make a competing column vanish.
+    for (i, source_name) in source_names.iter().enumerate() {
+        let Some((key, explicit_source_name)) = source_name else {
+            continue;
+        };
+        let Some(destinations) = target_groups.get(key) else {
+            continue;
+        };
+        if supported_rows[i] || source_counts.get(key) != Some(&1) || destinations.len() != 1 {
+            continue;
+        }
+        let j = destinations[0];
+        let Some((_, explicit_target_name)) = &target_names[j] else {
+            continue;
+        };
+        if supported_targets[j]
+            || explicit_source_name == explicit_target_name
+            || !descriptive_name_samples(sources[i], &features.0[i])
+            || !descriptive_name_samples(targets[j], &features.1[j])
+            || !features.0[i].units_agree(&features.1[j])
+        {
+            continue;
+        }
+        let candidate = &mut candidates[i][j];
+        if candidate.issues.iter().any(|issue| {
+            matches!(
+                issue,
+                CandidateIssue::IncompatibleTypes
+                    | CandidateIssue::NameConflict(_)
+                    | CandidateIssue::SemanticConflict(_)
+                    | CandidateIssue::InsufficientNameSupport
+                    | CandidateIssue::InsufficientSampleSupport
+            )
+        }) {
+            continue;
+        }
+        let score = candidate.score.max(0.90);
+        if score < config.min_score {
+            continue;
+        }
+        let warning = "Display-name suffix support: complete ordered role tokens agree after removing one trailing name token; both Text fields have reliable descriptive samples. Original row and target had no eligible edge; no competing full-role name was omitted. Samples are not required to overlap. The fixed score floor is a heuristic, not proof of shared meaning.";
+        let charged = explanation_bytes
+            .checked_add(warning.len())
+            .ok_or(MatchError::CountOverflow(CountKind::ExplanationBytes))?;
+        if charged > config.limits.max_explanation_bytes {
+            return Err(MatchError::BudgetExceeded(BudgetKind::ExplanationBytes));
+        }
+        *explanation_bytes = charged;
+        if score > candidate.score
+            && !candidate
+                .issues
+                .contains(&CandidateIssue::ContextualScoreAdjustment)
+        {
+            candidate
+                .issues
+                .push(CandidateIssue::ContextualScoreAdjustment);
+        }
+        candidate.score = score;
+        candidate.issues.retain(|issue| {
+            !matches!(
+                issue,
+                CandidateIssue::InsufficientScore | CandidateIssue::InsufficientContextSupport
+            )
+        });
+        candidate.eligible = true;
+        candidate.warnings.push(warning.to_owned());
+    }
+    Ok(())
 }
 
 // Exact physical-measurement names are a separate evidence route, not permission
