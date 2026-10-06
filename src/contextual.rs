@@ -30,6 +30,11 @@ const SAMPLE_MARGIN: f64 = 0.1;
 /// adds to an already-supported row or target, and preserves explicit semantic,
 /// unit and corroboration vetoes. Similar formats do not prove shared meaning.
 ///
+/// A physical-measurement name can also supply a 0.90 floor when its complete
+/// quantity, qualifiers, explicit supported unit token and numeric type agree.
+/// This route preserves already-supported rows and targets, performs no unit or
+/// sample conversion, and remains subject to normal ambiguity and constraints.
+///
 /// Context uses all hard-compatible original pairs before caller review, local
 /// ambiguity, assignment and display truncation. No labels, stored mappings or
 /// caller confirmations inform the derived evidence. Defaults are unchanged
@@ -357,7 +362,171 @@ pub(crate) fn apply(
         (&source_features, &target_features),
         name_signal,
         explanation_bytes,
+    )?;
+    apply_measurement_names(
+        config,
+        sources,
+        targets,
+        candidates,
+        (&source_features, &target_features),
+        explanation_bytes,
     )
+}
+
+// Exact physical-measurement names are a separate evidence route, not permission
+// to trust every identical numeric name. Keep all tokens and do no conversion.
+fn measurement_name(field: &Field) -> Option<Vec<String>> {
+    if !matches!(
+        field.data_type,
+        DataType::Integer | DataType::Float | DataType::Decimal
+    ) || field
+        .samples
+        .as_deref()
+        .unwrap_or_default()
+        .iter()
+        .any(|sample| match sample {
+            SampleValue::Null | SampleValue::Integer(_) => false,
+            SampleValue::Number(value) => {
+                !value.is_finite() || (field.data_type == DataType::Integer && value.fract() != 0.0)
+            }
+            SampleValue::Decimal(_) => field.data_type == DataType::Integer,
+            _ => true,
+        })
+    {
+        return None;
+    }
+    let mut tokens = normalize_name(&field.name);
+    if tokens.iter().any(|token| identifier_token(token)) {
+        return None;
+    }
+    let unit = tokens.last()?.as_str();
+    let thermal = matches!(unit, "c" | "f" | "k" | "celsius" | "fahrenheit" | "kelvin");
+    // Interpret temp as temperature only with an explicit temperature unit.
+    if thermal {
+        for token in &mut tokens {
+            if token == "temp" {
+                *token = "temperature".to_owned();
+            }
+        }
+    }
+    let (unit, role) = tokens.split_last()?;
+    let has = |names: &[&str]| role.iter().any(|token| names.contains(&token.as_str()));
+    let explicit_quantity_and_unit = match unit.as_str() {
+        "km" | "m" | "cm" | "mm" | "ft" | "inch" | "inches" => has(&[
+            "distance",
+            "length",
+            "width",
+            "height",
+            "depth",
+            "odometer",
+            "altitude",
+            "elevation",
+            "radius",
+            "diameter",
+        ]),
+        "g" | "kg" | "mg" | "lb" | "lbs" => has(&["weight", "mass"]),
+        "c" | "f" | "k" | "celsius" | "fahrenheit" | "kelvin" => has(&["temperature"]),
+        "pa" | "kpa" | "mpa" | "psi" | "bar" => has(&["pressure"]),
+        "v" | "mv" | "volts" => has(&["voltage"]),
+        "ns" | "us" | "ms" | "s" | "seconds" | "minutes" | "hours" => {
+            has(&["duration", "latency", "elapsed", "timeout"])
+        }
+        _ => false,
+    };
+    explicit_quantity_and_unit.then_some(tokens)
+}
+
+fn apply_measurement_names(
+    config: &Config,
+    sources: &[&Field],
+    targets: &[&Field],
+    candidates: &mut [Vec<Candidate>],
+    features: (&[FieldFeatures], &[FieldFeatures]),
+    explanation_bytes: &mut usize,
+) -> Result<(), MatchError> {
+    // Preserve existing support before adding any edges, including ambiguous
+    // rows and nonwinning eligible edges. New edges cannot take claimed targets.
+    let supported_rows: Vec<_> = candidates
+        .iter()
+        .map(|row| row.iter().any(|candidate| candidate.eligible))
+        .collect();
+    let mut supported_targets = vec![false; targets.len()];
+    for row in candidates.iter() {
+        for (j, candidate) in row.iter().enumerate() {
+            supported_targets[j] |= candidate.eligible;
+        }
+    }
+    if supported_rows.iter().all(|supported| *supported)
+        || supported_targets.iter().all(|supported| *supported)
+    {
+        return Ok(());
+    }
+    let source_names: Vec<_> = sources
+        .iter()
+        .map(|field| measurement_name(field))
+        .collect();
+    let target_names: Vec<_> = targets
+        .iter()
+        .map(|field| measurement_name(field))
+        .collect();
+    for (i, row) in candidates.iter_mut().enumerate() {
+        let Some(name) = source_names[i].as_ref() else {
+            continue;
+        };
+        if supported_rows[i] {
+            continue;
+        }
+        for (j, candidate) in row.iter_mut().enumerate() {
+            if supported_targets[j]
+                || sources[i].data_type != targets[j].data_type
+                || target_names[j].as_ref() != Some(name)
+                || !features.0[i].units_agree(&features.1[j])
+                || candidate.issues.iter().any(|issue| {
+                    matches!(
+                        issue,
+                        CandidateIssue::IncompatibleTypes
+                            | CandidateIssue::NameConflict(_)
+                            | CandidateIssue::SemanticConflict(_)
+                            | CandidateIssue::InsufficientNameSupport
+                            | CandidateIssue::InsufficientSampleSupport
+                    )
+                })
+            {
+                continue;
+            }
+            let score = candidate.score.max(0.90);
+            if score < config.min_score {
+                continue;
+            }
+            let warning = "Explicit measurement-name support: complete quantity, qualifiers, unit token and declared numeric type agree. Sample values are not required to overlap. No value or unit conversion is performed. The fixed score floor is a heuristic, not proof of shared meaning.";
+            let charged = explanation_bytes
+                .checked_add(warning.len())
+                .ok_or(MatchError::CountOverflow(CountKind::ExplanationBytes))?;
+            if charged > config.limits.max_explanation_bytes {
+                return Err(MatchError::BudgetExceeded(BudgetKind::ExplanationBytes));
+            }
+            *explanation_bytes = charged;
+            if score > candidate.score
+                && !candidate
+                    .issues
+                    .contains(&CandidateIssue::ContextualScoreAdjustment)
+            {
+                candidate
+                    .issues
+                    .push(CandidateIssue::ContextualScoreAdjustment);
+            }
+            candidate.score = score;
+            candidate.issues.retain(|issue| {
+                !matches!(
+                    issue,
+                    CandidateIssue::InsufficientScore | CandidateIssue::InsufficientContextSupport
+                )
+            });
+            candidate.eligible = true;
+            candidate.warnings.push(warning.to_owned());
+        }
+    }
+    Ok(())
 }
 
 struct FieldFeatures {
