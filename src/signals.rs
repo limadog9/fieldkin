@@ -1,13 +1,10 @@
 use std::collections::BTreeSet;
 
-use fuzzy_matcher::{
-    skim::SkimMatcherV2,
-    FuzzyMatcher,
-};
+use fuzzy_matcher::{FuzzyMatcher, skim::SkimMatcherV2};
 use rapidfuzz::distance::jaro_winkler;
 
-use crate::synonyms::canonical_token;
 use crate::DataType;
+use crate::synonyms::canonical_token;
 
 pub fn exact_name_match(left: &str, right: &str) -> bool {
     normalize_name(left) == normalize_name(right)
@@ -21,11 +18,8 @@ pub fn name_score(left: &str, right: &str) -> f64 {
         return 1.0;
     }
 
-    // Normal Fieldkin name comparison stays unchanged.
-    let string_score = jaro_winkler::normalized_similarity(
-        left_normalized.chars(),
-        right_normalized.chars(),
-    );
+    let string_score =
+        jaro_winkler::normalized_similarity(left_normalized.chars(), right_normalized.chars());
 
     let left_tokens = tokenize_name(left);
     let right_tokens = tokenize_name(right);
@@ -41,9 +35,7 @@ pub fn name_score(left: &str, right: &str) -> f64 {
     string_score.max(token_score)
 }
 
-// Only used by engine.rs after normal matching returns NoMatch.
-//
-// This experiment replaces Nucleo with SkimMatcherV2.
+// Used only after normal matching returns NoMatch.
 pub(crate) fn abbreviation_score(left: &str, right: &str) -> f64 {
     let left = normalize_name(left);
     let right = normalize_name(right);
@@ -66,8 +58,8 @@ pub fn type_score(left: &DataType, right: &DataType) -> f64 {
         return 0.5;
     }
 
-    let both_numeric = matches!(left, Integer | Float | Decimal)
-        && matches!(right, Integer | Float | Decimal);
+    let both_numeric =
+        matches!(left, Integer | Float | Decimal) && matches!(right, Integer | Float | Decimal);
 
     if both_numeric {
         return 0.75;
@@ -85,11 +77,9 @@ pub fn sample_score(left: &[String], right: &[String]) -> Option<f64> {
         return None;
     }
 
-    let left: BTreeSet<String> =
-        left.iter().map(|v| normalize_sample(v)).collect();
+    let left: BTreeSet<String> = left.iter().map(|v| normalize_sample(v)).collect();
 
-    let right: BTreeSet<String> =
-        right.iter().map(|v| normalize_sample(v)).collect();
+    let right: BTreeSet<String> = right.iter().map(|v| normalize_sample(v)).collect();
 
     // One repeated value is not useful sample evidence.
     if left.len() < 2 || right.len() < 2 {
@@ -189,10 +179,7 @@ mod tests {
 
     #[test]
     fn incompatible_types_score_zero() {
-        assert_eq!(
-            type_score(&DataType::Text, &DataType::Boolean),
-            0.0
-        );
+        assert_eq!(type_score(&DataType::Text, &DataType::Boolean), 0.0);
     }
 
     #[test]

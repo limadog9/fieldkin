@@ -1,6 +1,6 @@
 use std::{collections::BTreeSet, env, fs};
 
-use fieldkin::{match_schemas, Config, Decision, Schema};
+use fieldkin::{Config, Decision, Schema, match_schemas};
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
@@ -104,7 +104,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!();
     println!("CASE: {}", case.name);
     println!("{}", "=".repeat(100));
-    println!("{:<22} {:<32} {:<32} RESULT", "SOURCE", "EXPECTED", "PREDICTED");
+    println!(
+        "{:<22} {:<32} {:<32} RESULT",
+        "SOURCE", "EXPECTED", "PREDICTED"
+    );
     println!("{}", "-".repeat(100));
 
     let mut correct = 0usize;

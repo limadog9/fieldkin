@@ -1,11 +1,6 @@
-use std::{
-    collections::BTreeSet,
-    env,
-    fs,
-    path::Path,
-};
+use std::{collections::BTreeSet, env, fs, path::Path};
 
-use fieldkin::{match_schemas, Config, Decision, FieldResult, Schema};
+use fieldkin::{Config, Decision, FieldResult, Schema, match_schemas};
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
@@ -46,8 +41,7 @@ impl Answer {
             (
                 Self::Match { target, .. },
                 Decision::Match {
-                    target: predicted,
-                    ..
+                    target: predicted, ..
                 },
             ) => target == predicted,
 
@@ -56,15 +50,12 @@ impl Answer {
             (
                 Self::Ambiguous { targets, .. },
                 Decision::Ambiguous {
-                    targets: predicted,
-                    ..
+                    targets: predicted, ..
                 },
             ) => {
-                let expected =
-                    targets.iter().cloned().collect::<BTreeSet<_>>();
+                let expected = targets.iter().cloned().collect::<BTreeSet<_>>();
 
-                let predicted =
-                    predicted.iter().cloned().collect::<BTreeSet<_>>();
+                let predicted = predicted.iter().cloned().collect::<BTreeSet<_>>();
 
                 expected == predicted
             }
@@ -79,9 +70,7 @@ impl Answer {
                 format!("match -> {target}")
             }
 
-            Self::NoMatch { .. } => {
-                "no_match".to_string()
-            }
+            Self::NoMatch { .. } => "no_match".to_string(),
 
             Self::Ambiguous { targets, .. } => {
                 format!("ambiguous -> [{}]", targets.join(", "))
@@ -105,19 +94,12 @@ fn decision_display(decision: &Decision) -> String {
             targets,
             best_score,
         } => {
-            format!(
-                "ambiguous -> [{}] ({best_score:.3})",
-                targets.join(", ")
-            )
+            format!("ambiguous -> [{}] ({best_score:.3})", targets.join(", "))
         }
     }
 }
 
-fn print_failure(
-    dataset_name: &str,
-    answer: &Answer,
-    result: &FieldResult,
-) {
+fn print_failure(dataset_name: &str, answer: &Answer, result: &FieldResult) {
     println!();
     println!("{}", "=".repeat(100));
     println!("DATASET:  {dataset_name}");
@@ -141,29 +123,21 @@ fn print_failure(
 
         println!(
             "  {:<32} total={:.3}  name={:.3}  type={:.3}  samples={}",
-            candidate.target,
-            candidate.score,
-            candidate.name_score,
-            candidate.type_score,
-            sample
+            candidate.target, candidate.score, candidate.name_score, candidate.type_score, sample
         );
     }
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let eval_dir_arg = env::args()
-        .nth(1)
-        .unwrap_or_else(|| "eval".to_string());
+    let eval_dir_arg = env::args().nth(1).unwrap_or_else(|| "eval".to_string());
 
     let eval_dir = Path::new(&eval_dir_arg);
 
     let mut files = fs::read_dir(eval_dir)?
-        .filter_map(Result::ok)
+        .collect::<Result<Vec<_>, _>>()?
+        .into_iter()
         .map(|entry| entry.path())
-        .filter(|path| {
-            path.extension()
-                .is_some_and(|ext| ext == "json")
-        })
+        .filter(|path| path.extension().is_some_and(|ext| ext == "json"))
         .collect::<Vec<_>>();
 
     files.sort();
@@ -173,16 +147,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let mut dataset_scores: Vec<(String, usize, usize)> = Vec::new();
 
-    // IMPORTANT:
-    // Store owned copies here instead of references.
     let mut failures: Vec<(String, Answer, FieldResult)> = Vec::new();
 
     for path in files {
         let raw = fs::read_to_string(&path)?;
         let case: EvalCase = serde_json::from_str(&raw)?;
 
-        let report =
-            match_schemas(&case.source, &case.target, Config::default());
+        let report = match_schemas(&case.source, &case.target, Config::default());
 
         let mut correct = 0usize;
 
@@ -196,22 +167,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             if answer.is_correct(&result.decision) {
                 correct += 1;
             } else {
-                failures.push((
-                    case.name.clone(),
-                    answer.clone(),
-                    result.clone(),
-                ));
+                failures.push((case.name.clone(), answer.clone(), result.clone()));
             }
         }
 
         total_correct += correct;
         total_answers += case.answers.len();
 
-        dataset_scores.push((
-            case.name,
-            correct,
-            case.answers.len(),
-        ));
+        dataset_scores.push((case.name, correct, case.answers.len()));
     }
 
     println!();
@@ -222,12 +185,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("{}", "-".repeat(82));
 
     for (name, correct, total) in &dataset_scores {
-        println!(
-            "{:<70} {:>3}/{:<3}",
-            name,
-            correct,
-            total
-        );
+        println!("{:<70} {:>3}/{:<3}", name, correct, total);
     }
 
     println!("{}", "-".repeat(82));
@@ -240,30 +198,21 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     println!(
         "{:<70} {:>3}/{:<3} ({:.1}%)",
-        "TOTAL",
-        total_correct,
-        total_answers,
-        percentage
+        "TOTAL", total_correct, total_answers, percentage
     );
 
     println!();
     println!("FAILURES: {}", failures.len());
 
     for (dataset_name, answer, result) in &failures {
-        print_failure(
-            dataset_name,
-            answer,
-            result,
-        );
+        print_failure(dataset_name, answer, result);
     }
 
     println!();
     println!("{}", "=".repeat(100));
     println!(
         "FINAL SCORE: {}/{} ({:.1}%)",
-        total_correct,
-        total_answers,
-        percentage
+        total_correct, total_answers, percentage
     );
     println!("TOTAL FAILURES: {}", failures.len());
     println!();

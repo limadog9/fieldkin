@@ -2,12 +2,18 @@
 name = "fieldkin"
 version = "0.1.0"
 edition = "2024"
-description = "Small, explainable schema matching in Rust"
-license = "MIT OR Apache-2.0"
+description = "Experimental field correspondence suggestions for flat schemas"
+license = "MIT"
+repository = "https://github.com/limadog9/fieldkin"
+readme = "README.md"
+keywords = ["schema", "matching", "data", "integration"]
+categories = ["algorithms"]
+include = ["/src/**", "/tests/**", "/Cargo.toml", "/Cargo.lock", "/README.md", "/CHANGELOG.md", "/LICENSE-MIT"]
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }
-serde_json = "1"
 rapidfuzz = "0.5"
-chrono = "0.4"
 fuzzy-matcher = "0.3.7"
+
+[dev-dependencies]
+serde_json = "1"

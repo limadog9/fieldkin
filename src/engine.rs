@@ -1,10 +1,4 @@
-use crate::signals::{
-    abbreviation_score,
-    exact_name_match,
-    name_score,
-    sample_score,
-    type_score,
-};
+use crate::signals::{abbreviation_score, exact_name_match, name_score, sample_score, type_score};
 use crate::{Candidate, Decision, Field, FieldResult, MatchReport, Schema};
 
 const NAME_WEIGHT: f64 = 0.60;
@@ -13,10 +7,17 @@ const SAMPLE_WEIGHT: f64 = 0.15;
 
 const EXACT_NAME_SCORE_FLOOR: f64 = 0.98;
 
+/// Decision thresholds and the number of candidate explanations to return.
 #[derive(Clone, Copy, Debug)]
 pub struct Config {
+    /// Minimum score for a match or ambiguous candidate; defaults to `0.72`.
+    /// Must be finite. Scores are heuristic values in `0.0..=1.0`.
     pub min_score: f64,
+    /// Maximum score gap from the best candidate to consider ambiguous.
+    /// Must be finite and nonnegative; defaults to `0.05`.
     pub ambiguity_margin: f64,
+    /// Maximum candidates returned per source field; defaults to `5`.
+    /// This limit does not affect the decision. Zero omits candidate details.
     pub max_candidates: usize,
 }
 
@@ -30,41 +31,41 @@ impl Default for Config {
     }
 }
 
-pub fn match_schemas(
-    source: &Schema,
-    target: &Schema,
-    config: Config,
-) -> MatchReport {
+/// Suggest correspondences for every source field against all target fields.
+///
+/// Source fields are evaluated independently, so several may select the same
+/// target. Names identify results; duplicate and empty names are accepted.
+/// Abbreviation matching runs only after normal matching returns `NoMatch`.
+/// Decisions use all candidates before the returned details are truncated.
+///
+/// # Panics
+///
+/// Panics if either threshold is nonfinite or `ambiguity_margin` is negative.
+pub fn match_schemas(source: &Schema, target: &Schema, config: Config) -> MatchReport {
+    assert!(config.min_score.is_finite(), "min_score must be finite");
+    assert!(
+        config.ambiguity_margin.is_finite() && config.ambiguity_margin >= 0.0,
+        "ambiguity_margin must be finite and nonnegative"
+    );
     let mut fields = Vec::with_capacity(source.fields.len());
 
     for source_field in &source.fields {
-        // PASS 1:
-        // normal Fieldkin only.
-        let normal_candidates =
-            build_candidates(source_field, target, false);
+        let normal_candidates = build_candidates(source_field, target, false);
 
         let normal_decision = decide(&normal_candidates, config);
 
-        let should_try_abbreviation_fallback =
-            matches!(&normal_decision, Decision::NoMatch { .. });
+        let should_try_abbreviation_fallback = matches!(&normal_decision, Decision::NoMatch { .. });
 
-        let (mut candidates, decision) =
-            if should_try_abbreviation_fallback {
-                // PASS 2:
-                // normal Fieldkin failed, so allow Nucleo to boost
-                // abbreviation-like name matches.
-                let fallback_candidates =
-                    build_candidates(source_field, target, true);
+        let (mut candidates, decision) = if should_try_abbreviation_fallback {
+            // Retry with abbreviation evidence only after NoMatch.
+            let fallback_candidates = build_candidates(source_field, target, true);
 
-                let fallback_decision =
-                    decide(&fallback_candidates, config);
+            let fallback_decision = decide(&fallback_candidates, config);
 
-                (fallback_candidates, fallback_decision)
-            } else {
-                // Normal Fieldkin already found something.
-                // Do not let Nucleo interfere.
-                (normal_candidates, normal_decision)
-            };
+            (fallback_candidates, fallback_decision)
+        } else {
+            (normal_candidates, normal_decision)
+        };
 
         candidates.truncate(config.max_candidates);
 
@@ -87,33 +88,25 @@ fn build_candidates(
         .fields
         .iter()
         .map(|target_field| {
-            let normal_name =
-                name_score(&source_field.name, &target_field.name);
+            let normal_name = name_score(&source_field.name, &target_field.name);
 
             let name = if use_abbreviation_fallback {
-                normal_name.max(abbreviation_score(
-                    &source_field.name,
-                    &target_field.name,
-                ))
+                normal_name.max(abbreviation_score(&source_field.name, &target_field.name))
             } else {
                 normal_name
             };
 
-            let data_type =
-                type_score(&source_field.data_type, &target_field.data_type);
+            let data_type = type_score(&source_field.data_type, &target_field.data_type);
 
-            let samples =
-                sample_score(&source_field.samples, &target_field.samples);
+            let samples = sample_score(&source_field.samples, &target_field.samples);
 
-            let exact_name =
-                exact_name_match(&source_field.name, &target_field.name);
+            let exact_name = exact_name_match(&source_field.name, &target_field.name);
 
             (target_field, name, data_type, samples, exact_name)
         })
         .collect::<Vec<_>>();
 
-    // Existing rule:
-    // if several candidates share the strongest positive sample score,
+    // If several candidates share the strongest positive sample score,
     // that sample evidence is less discriminating.
     let best_sample_score = raw_candidates
         .iter()
@@ -124,50 +117,40 @@ fn build_candidates(
         raw_candidates
             .iter()
             .filter(|(_, _, _, samples, _)| {
-                samples.is_some_and(|score| {
-                    (score - best).abs() < 1e-12
-                })
+                samples.is_some_and(|score| (score - best).abs() < 1e-12)
             })
             .count()
     });
 
-    let sample_tie =
-        best_sample_score.is_some_and(|best| best > 0.0)
-            && best_sample_count > 1;
+    let sample_tie = best_sample_score.is_some_and(|best| best > 0.0) && best_sample_count > 1;
 
     let mut candidates = raw_candidates
         .into_iter()
-        .map(
-            |(target_field, name, data_type, samples, exact_name)| {
-                let effective_samples =
-                    match (samples, best_sample_score, sample_tie) {
-                        (Some(score), Some(best), true)
-                            if (score - best).abs() < 1e-12 =>
-                        {
-                            Some(score * 0.5)
-                        }
-
-                        _ => samples,
-                    };
-
-                let mut score =
-                    combined_score(name, data_type, effective_samples);
-
-                // Exact same normalized name + compatible type
-                // gets strong preference.
-                if exact_name && data_type >= 0.75 {
-                    score = score.max(EXACT_NAME_SCORE_FLOOR);
+        .map(|(target_field, name, data_type, samples, exact_name)| {
+            let effective_samples = match (samples, best_sample_score, sample_tie) {
+                (Some(score), Some(best), true) if (score - best).abs() < 1e-12 => {
+                    Some(score * 0.5)
                 }
 
-                Candidate {
-                    target: target_field.name.clone(),
-                    score,
-                    name_score: name,
-                    type_score: data_type,
-                    sample_score: effective_samples,
-                }
-            },
-        )
+                _ => samples,
+            };
+
+            let mut score = combined_score(name, data_type, effective_samples);
+
+            // Exact same normalized name + compatible type
+            // gets strong preference.
+            if exact_name && data_type >= 0.75 {
+                score = score.max(EXACT_NAME_SCORE_FLOOR);
+            }
+
+            Candidate {
+                target: target_field.name.clone(),
+                score,
+                name_score: name,
+                type_score: data_type,
+                sample_score: effective_samples,
+            }
+        })
         .collect::<Vec<_>>();
 
     candidates.sort_by(|a, b| {
@@ -179,13 +162,8 @@ fn build_candidates(
     candidates
 }
 
-fn combined_score(
-    name: f64,
-    data_type: f64,
-    samples: Option<f64>,
-) -> f64 {
-    let mut numerator =
-        (name * NAME_WEIGHT) + (data_type * TYPE_WEIGHT);
+fn combined_score(name: f64, data_type: f64, samples: Option<f64>) -> f64 {
+    let mut numerator = (name * NAME_WEIGHT) + (data_type * TYPE_WEIGHT);
 
     let mut denominator = NAME_WEIGHT + TYPE_WEIGHT;
 
@@ -197,10 +175,7 @@ fn combined_score(
     numerator / denominator
 }
 
-fn decide(
-    candidates: &[Candidate],
-    config: Config,
-) -> Decision {
+fn decide(candidates: &[Candidate], config: Config) -> Decision {
     let Some(best) = candidates.first() else {
         return Decision::NoMatch { best_score: None };
     };
@@ -215,8 +190,7 @@ fn decide(
         .iter()
         .take_while(|candidate| {
             candidate.score >= config.min_score
-                && (best.score - candidate.score)
-                    <= config.ambiguity_margin
+                && (best.score - candidate.score) <= config.ambiguity_margin
         })
         .map(|candidate| candidate.target.clone())
         .collect::<Vec<_>>();
@@ -239,18 +213,11 @@ mod tests {
     use super::*;
     use crate::DataType;
 
-    fn field(
-        name: &str,
-        data_type: DataType,
-        samples: &[&str],
-    ) -> Field {
+    fn field(name: &str, data_type: DataType, samples: &[&str]) -> Field {
         Field {
             name: name.into(),
             data_type,
-            samples: samples
-                .iter()
-                .map(|s| (*s).to_string())
-                .collect(),
+            samples: samples.iter().map(|s| (*s).to_string()).collect(),
         }
     }
 
@@ -266,21 +233,12 @@ mod tests {
 
         let target = Schema {
             fields: vec![
-                field(
-                    "cust_id",
-                    DataType::Integer,
-                    &["101", "102", "103"],
-                ),
-                field(
-                    "email",
-                    DataType::Text,
-                    &["a@x.com", "b@x.com"],
-                ),
+                field("cust_id", DataType::Integer, &["101", "102", "103"]),
+                field("email", DataType::Text, &["a@x.com", "b@x.com"]),
             ],
         };
 
-        let report =
-            match_schemas(&source, &target, Config::default());
+        let report = match_schemas(&source, &target, Config::default());
 
         assert!(matches!(
             &report.fields[0].decision,
@@ -301,21 +259,12 @@ mod tests {
 
         let target = Schema {
             fields: vec![
-                field(
-                    "citymarketid_1",
-                    DataType::Integer,
-                    &["100", "200", "300"],
-                ),
-                field(
-                    "citymarketid_2",
-                    DataType::Integer,
-                    &["200", "300", "400"],
-                ),
+                field("citymarketid_1", DataType::Integer, &["100", "200", "300"]),
+                field("citymarketid_2", DataType::Integer, &["200", "300", "400"]),
             ],
         };
 
-        let report =
-            match_schemas(&source, &target, Config::default());
+        let report = match_schemas(&source, &target, Config::default());
 
         assert!(matches!(
             &report.fields[0].decision,
@@ -327,30 +276,17 @@ mod tests {
     #[test]
     fn abbreviation_fallback_can_rescue_no_match() {
         let source = Schema {
-            fields: vec![field(
-                "wind_spd",
-                DataType::Float,
-                &["1.1", "2.2", "3.3"],
-            )],
+            fields: vec![field("wind_spd", DataType::Float, &["1.1", "2.2", "3.3"])],
         };
 
         let target = Schema {
             fields: vec![
-                field(
-                    "wspd",
-                    DataType::Float,
-                    &["1.1", "2.2", "3.3"],
-                ),
-                field(
-                    "temperature",
-                    DataType::Float,
-                    &["10", "20", "30"],
-                ),
+                field("wspd", DataType::Float, &["1.1", "2.2", "3.3"]),
+                field("temperature", DataType::Float, &["10", "20", "30"]),
             ],
         };
 
-        let report =
-            match_schemas(&source, &target, Config::default());
+        let report = match_schemas(&source, &target, Config::default());
 
         assert!(matches!(
             &report.fields[0].decision,
@@ -371,21 +307,12 @@ mod tests {
 
         let target = Schema {
             fields: vec![
-                field(
-                    "status",
-                    DataType::Text,
-                    &["open", "paid", "scheduled"],
-                ),
-                field(
-                    "payment_state_code",
-                    DataType::Text,
-                    &["x", "y", "z"],
-                ),
+                field("status", DataType::Text, &["open", "paid", "scheduled"]),
+                field("payment_state_code", DataType::Text, &["x", "y", "z"]),
             ],
         };
 
-        let report =
-            match_schemas(&source, &target, Config::default());
+        let report = match_schemas(&source, &target, Config::default());
 
         assert!(matches!(
             &report.fields[0].decision,
