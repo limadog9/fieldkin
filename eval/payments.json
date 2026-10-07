@@ -1,0 +1,275 @@
+{
+  "name": "Card processor settlement export",
+  "source": {
+    "fields": [
+      {
+        "name": "transaction_id",
+        "data_type": "text",
+        "samples": [
+          "TXN-9001",
+          "TXN-9002",
+          "TXN-9003",
+          "TXN-9004"
+        ]
+      },
+      {
+        "name": "settled_at",
+        "data_type": "timestamp",
+        "samples": [
+          "2026-09-01T15:30:00Z",
+          "2026-09-01T16:02:00Z",
+          "2026-09-02T09:10:00Z",
+          "2026-09-02T11:45:00Z"
+        ]
+      },
+      {
+        "name": "gross_amount",
+        "data_type": "decimal",
+        "samples": [
+          "105.00",
+          "220.00",
+          "89.50",
+          "410.00"
+        ]
+      },
+      {
+        "name": "fee_amount",
+        "data_type": "decimal",
+        "samples": [
+          "3.15",
+          "6.60",
+          "2.69",
+          "12.30"
+        ]
+      },
+      {
+        "name": "net_amount",
+        "data_type": "decimal",
+        "samples": [
+          "101.85",
+          "213.40",
+          "86.81",
+          "397.70"
+        ]
+      },
+      {
+        "name": "currency_code",
+        "data_type": "text",
+        "samples": [
+          "USD",
+          "USD",
+          "USD",
+          "USD"
+        ]
+      },
+      {
+        "name": "settlement_status",
+        "data_type": "text",
+        "samples": [
+          "paid",
+          "paid",
+          "pending",
+          "paid"
+        ]
+      },
+      {
+        "name": "merchant_account_id",
+        "data_type": "integer",
+        "samples": [
+          "501",
+          "502",
+          "503",
+          "504"
+        ]
+      },
+      {
+        "name": "bank_account_id",
+        "data_type": "integer",
+        "samples": [
+          "501",
+          "502",
+          "503",
+          "504"
+        ]
+      },
+      {
+        "name": "reference",
+        "data_type": "text",
+        "samples": [
+          "REF-A1",
+          "REF-A2",
+          "REF-A3",
+          "REF-A4"
+        ]
+      }
+    ]
+  },
+  "target": {
+    "fields": [
+      {
+        "name": "payment_id",
+        "data_type": "text",
+        "samples": [
+          "TXN-9001",
+          "TXN-9002",
+          "TXN-9003",
+          "TXN-9004"
+        ]
+      },
+      {
+        "name": "settlement_ts",
+        "data_type": "timestamp",
+        "samples": [
+          "2026-09-01T15:30:00Z",
+          "2026-09-01T16:02:00Z",
+          "2026-09-02T09:10:00Z",
+          "2026-09-02T11:45:00Z"
+        ]
+      },
+      {
+        "name": "amount_before_fees",
+        "data_type": "decimal",
+        "samples": [
+          "105.00",
+          "220.00",
+          "89.50",
+          "410.00"
+        ]
+      },
+      {
+        "name": "processor_fee",
+        "data_type": "decimal",
+        "samples": [
+          "3.15",
+          "6.60",
+          "2.69",
+          "12.30"
+        ]
+      },
+      {
+        "name": "amount_received",
+        "data_type": "decimal",
+        "samples": [
+          "101.85",
+          "213.40",
+          "86.81",
+          "397.70"
+        ]
+      },
+      {
+        "name": "currency",
+        "data_type": "text",
+        "samples": [
+          "USD",
+          "USD",
+          "USD",
+          "USD"
+        ]
+      },
+      {
+        "name": "status",
+        "data_type": "text",
+        "samples": [
+          "paid",
+          "paid",
+          "pending",
+          "paid"
+        ]
+      },
+      {
+        "name": "merchant_id",
+        "data_type": "integer",
+        "samples": [
+          "501",
+          "502",
+          "503",
+          "504"
+        ]
+      },
+      {
+        "name": "processor_reference",
+        "data_type": "text",
+        "samples": [
+          "REF-A1",
+          "REF-A2",
+          "REF-A3",
+          "REF-A4"
+        ]
+      },
+      {
+        "name": "gateway_reference",
+        "data_type": "text",
+        "samples": [
+          "REF-A1",
+          "REF-A2",
+          "REF-A3",
+          "REF-A4"
+        ]
+      },
+      {
+        "name": "batch_number",
+        "data_type": "integer",
+        "samples": [
+          "501",
+          "502",
+          "503",
+          "504"
+        ]
+      }
+    ]
+  },
+  "answers": [
+    {
+      "kind": "match",
+      "source": "transaction_id",
+      "target": "payment_id"
+    },
+    {
+      "kind": "match",
+      "source": "settled_at",
+      "target": "settlement_ts"
+    },
+    {
+      "kind": "match",
+      "source": "gross_amount",
+      "target": "amount_before_fees"
+    },
+    {
+      "kind": "match",
+      "source": "fee_amount",
+      "target": "processor_fee"
+    },
+    {
+      "kind": "match",
+      "source": "net_amount",
+      "target": "amount_received"
+    },
+    {
+      "kind": "match",
+      "source": "currency_code",
+      "target": "currency"
+    },
+    {
+      "kind": "match",
+      "source": "settlement_status",
+      "target": "status"
+    },
+    {
+      "kind": "match",
+      "source": "merchant_account_id",
+      "target": "merchant_id"
+    },
+    {
+      "kind": "no_match",
+      "source": "bank_account_id"
+    },
+    {
+      "kind": "ambiguous",
+      "source": "reference",
+      "targets": [
+        "processor_reference",
+        "gateway_reference"
+      ]
+    }
+  ]
+}

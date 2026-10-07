@@ -1,0 +1,289 @@
+{
+  "name": "Inventory system migration",
+  "source": {
+    "fields": [
+      {
+        "name": "sku",
+        "data_type": "text",
+        "samples": [
+          "SKU-1001",
+          "SKU-1002",
+          "SKU-1003",
+          "SKU-1004"
+        ]
+      },
+      {
+        "name": "product_name",
+        "data_type": "text",
+        "samples": [
+          "Widget A",
+          "Widget B",
+          "Widget C",
+          "Widget D"
+        ]
+      },
+      {
+        "name": "qty_on_hand",
+        "data_type": "integer",
+        "samples": [
+          "25",
+          "10",
+          "50",
+          "8"
+        ]
+      },
+      {
+        "name": "unit_cost",
+        "data_type": "decimal",
+        "samples": [
+          "4.50",
+          "12.00",
+          "3.25",
+          "40.00"
+        ]
+      },
+      {
+        "name": "retail_price",
+        "data_type": "decimal",
+        "samples": [
+          "7.99",
+          "19.99",
+          "5.49",
+          "64.99"
+        ]
+      },
+      {
+        "name": "category",
+        "data_type": "text",
+        "samples": [
+          "hardware",
+          "hardware",
+          "office",
+          "electronics"
+        ]
+      },
+      {
+        "name": "active_flag",
+        "data_type": "boolean",
+        "samples": [
+          "true",
+          "true",
+          "false",
+          "true"
+        ]
+      },
+      {
+        "name": "supplier_id",
+        "data_type": "integer",
+        "samples": [
+          "200",
+          "201",
+          "202",
+          "203"
+        ]
+      },
+      {
+        "name": "reorder_point",
+        "data_type": "integer",
+        "samples": [
+          "5",
+          "5",
+          "10",
+          "2"
+        ]
+      },
+      {
+        "name": "internal_bin_number",
+        "data_type": "integer",
+        "samples": [
+          "5",
+          "5",
+          "10",
+          "2"
+        ]
+      },
+      {
+        "name": "description",
+        "data_type": "text",
+        "samples": [
+          "Small steel widget",
+          "Large steel widget",
+          "Paper organizer",
+          "USB hub"
+        ]
+      }
+    ]
+  },
+  "target": {
+    "fields": [
+      {
+        "name": "stock_code",
+        "data_type": "text",
+        "samples": [
+          "SKU-1001",
+          "SKU-1002",
+          "SKU-1003",
+          "SKU-1004"
+        ]
+      },
+      {
+        "name": "item_name",
+        "data_type": "text",
+        "samples": [
+          "Widget A",
+          "Widget B",
+          "Widget C",
+          "Widget D"
+        ]
+      },
+      {
+        "name": "inventory_quantity",
+        "data_type": "integer",
+        "samples": [
+          "25",
+          "10",
+          "50",
+          "8"
+        ]
+      },
+      {
+        "name": "cost_per_unit",
+        "data_type": "decimal",
+        "samples": [
+          "4.50",
+          "12.00",
+          "3.25",
+          "40.00"
+        ]
+      },
+      {
+        "name": "sale_price",
+        "data_type": "decimal",
+        "samples": [
+          "7.99",
+          "19.99",
+          "5.49",
+          "64.99"
+        ]
+      },
+      {
+        "name": "product_category",
+        "data_type": "text",
+        "samples": [
+          "hardware",
+          "hardware",
+          "office",
+          "electronics"
+        ]
+      },
+      {
+        "name": "is_active",
+        "data_type": "boolean",
+        "samples": [
+          "true",
+          "true",
+          "false",
+          "true"
+        ]
+      },
+      {
+        "name": "vendor_id",
+        "data_type": "integer",
+        "samples": [
+          "200",
+          "201",
+          "202",
+          "203"
+        ]
+      },
+      {
+        "name": "safety_stock",
+        "data_type": "integer",
+        "samples": [
+          "5",
+          "5",
+          "10",
+          "2"
+        ]
+      },
+      {
+        "name": "short_description",
+        "data_type": "text",
+        "samples": [
+          "Small steel widget",
+          "Large steel widget",
+          "Paper organizer",
+          "USB hub"
+        ]
+      },
+      {
+        "name": "long_description",
+        "data_type": "text",
+        "samples": [
+          "Small steel widget",
+          "Large steel widget",
+          "Paper organizer",
+          "USB hub"
+        ]
+      }
+    ]
+  },
+  "answers": [
+    {
+      "kind": "match",
+      "source": "sku",
+      "target": "stock_code"
+    },
+    {
+      "kind": "match",
+      "source": "product_name",
+      "target": "item_name"
+    },
+    {
+      "kind": "match",
+      "source": "qty_on_hand",
+      "target": "inventory_quantity"
+    },
+    {
+      "kind": "match",
+      "source": "unit_cost",
+      "target": "cost_per_unit"
+    },
+    {
+      "kind": "match",
+      "source": "retail_price",
+      "target": "sale_price"
+    },
+    {
+      "kind": "match",
+      "source": "category",
+      "target": "product_category"
+    },
+    {
+      "kind": "match",
+      "source": "active_flag",
+      "target": "is_active"
+    },
+    {
+      "kind": "match",
+      "source": "supplier_id",
+      "target": "vendor_id"
+    },
+    {
+      "kind": "no_match",
+      "source": "reorder_point"
+    },
+    {
+      "kind": "no_match",
+      "source": "internal_bin_number"
+    },
+    {
+      "kind": "ambiguous",
+      "source": "description",
+      "targets": [
+        "short_description",
+        "long_description"
+      ]
+    }
+  ]
+}

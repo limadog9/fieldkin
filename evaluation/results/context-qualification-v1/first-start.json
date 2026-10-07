@@ -1,8 +1,0 @@
-{
-  "binary_sha256": "5a733cde6abdf218df5c68a8242563acd18bc44f05347dbeac68c7c14d50f1fa",
-  "build_record_sha256": "ffbad40342a0b8e301420b6091732c9c5db20537ee43225385d0ae2447acc7a5",
-  "corpus_sha256": "8baabaf30a7232a8e1595bf38edc1e33a53505ef8e23680e8aeed6e50cf73a6e",
-  "output": "C:\\Users\\jakew\\Downloads\\fieldkin\\evaluation/results/context-qualification-v1",
-  "protocol": "context-qualification-v1",
-  "started_unix_seconds": 1791173623
-}

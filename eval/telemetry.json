@@ -1,0 +1,290 @@
+{
+  "name": "Application telemetry migration",
+  "source": {
+    "fields": [
+      {
+        "name": "event_id",
+        "data_type": "text",
+        "samples": [
+          "evt-1001",
+          "evt-1002",
+          "evt-1003",
+          "evt-1004"
+        ]
+      },
+      {
+        "name": "event_time",
+        "data_type": "timestamp",
+        "samples": [
+          "2026-10-01T12:00:01Z",
+          "2026-10-01T12:00:02Z",
+          "2026-10-01T12:00:03Z",
+          "2026-10-01T12:00:04Z"
+        ]
+      },
+      {
+        "name": "service_name",
+        "data_type": "text",
+        "samples": [
+          "api",
+          "worker",
+          "api",
+          "scheduler"
+        ]
+      },
+      {
+        "name": "response_ms",
+        "data_type": "integer",
+        "samples": [
+          "120",
+          "85",
+          "450",
+          "210"
+        ]
+      },
+      {
+        "name": "http_status",
+        "data_type": "integer",
+        "samples": [
+          "200",
+          "200",
+          "500",
+          "204"
+        ]
+      },
+      {
+        "name": "request_path",
+        "data_type": "text",
+        "samples": [
+          "/users",
+          "/jobs",
+          "/users",
+          "/health"
+        ]
+      },
+      {
+        "name": "host_name",
+        "data_type": "text",
+        "samples": [
+          "app-01",
+          "app-02",
+          "app-01",
+          "app-03"
+        ]
+      },
+      {
+        "name": "region",
+        "data_type": "text",
+        "samples": [
+          "us-east",
+          "us-east",
+          "us-west",
+          "us-east"
+        ]
+      },
+      {
+        "name": "retry_count",
+        "data_type": "integer",
+        "samples": [
+          "0",
+          "1",
+          "3",
+          "0"
+        ]
+      },
+      {
+        "name": "attempt_number",
+        "data_type": "integer",
+        "samples": [
+          "0",
+          "1",
+          "3",
+          "0"
+        ]
+      },
+      {
+        "name": "message",
+        "data_type": "text",
+        "samples": [
+          "request complete",
+          "job complete",
+          "internal error",
+          "health check complete"
+        ]
+      }
+    ]
+  },
+  "target": {
+    "fields": [
+      {
+        "name": "trace_event_key",
+        "data_type": "text",
+        "samples": [
+          "evt-1001",
+          "evt-1002",
+          "evt-1003",
+          "evt-1004"
+        ]
+      },
+      {
+        "name": "timestamp",
+        "data_type": "timestamp",
+        "samples": [
+          "2026-10-01T12:00:01Z",
+          "2026-10-01T12:00:02Z",
+          "2026-10-01T12:00:03Z",
+          "2026-10-01T12:00:04Z"
+        ]
+      },
+      {
+        "name": "application",
+        "data_type": "text",
+        "samples": [
+          "api",
+          "worker",
+          "api",
+          "scheduler"
+        ]
+      },
+      {
+        "name": "latency_ms",
+        "data_type": "integer",
+        "samples": [
+          "120",
+          "85",
+          "450",
+          "210"
+        ]
+      },
+      {
+        "name": "status_code",
+        "data_type": "integer",
+        "samples": [
+          "200",
+          "200",
+          "500",
+          "204"
+        ]
+      },
+      {
+        "name": "endpoint",
+        "data_type": "text",
+        "samples": [
+          "/users",
+          "/jobs",
+          "/users",
+          "/health"
+        ]
+      },
+      {
+        "name": "machine_name",
+        "data_type": "text",
+        "samples": [
+          "app-01",
+          "app-02",
+          "app-01",
+          "app-03"
+        ]
+      },
+      {
+        "name": "deployment_region",
+        "data_type": "text",
+        "samples": [
+          "us-east",
+          "us-east",
+          "us-west",
+          "us-east"
+        ]
+      },
+      {
+        "name": "retries",
+        "data_type": "integer",
+        "samples": [
+          "0",
+          "1",
+          "3",
+          "0"
+        ]
+      },
+      {
+        "name": "log_message",
+        "data_type": "text",
+        "samples": [
+          "request complete",
+          "job complete",
+          "internal error",
+          "health check complete"
+        ]
+      },
+      {
+        "name": "error_message",
+        "data_type": "text",
+        "samples": [
+          "request complete",
+          "job complete",
+          "internal error",
+          "health check complete"
+        ]
+      }
+    ]
+  },
+  "answers": [
+    {
+      "kind": "match",
+      "source": "event_id",
+      "target": "trace_event_key"
+    },
+    {
+      "kind": "match",
+      "source": "event_time",
+      "target": "timestamp"
+    },
+    {
+      "kind": "match",
+      "source": "service_name",
+      "target": "application"
+    },
+    {
+      "kind": "match",
+      "source": "response_ms",
+      "target": "latency_ms"
+    },
+    {
+      "kind": "match",
+      "source": "http_status",
+      "target": "status_code"
+    },
+    {
+      "kind": "match",
+      "source": "request_path",
+      "target": "endpoint"
+    },
+    {
+      "kind": "match",
+      "source": "host_name",
+      "target": "machine_name"
+    },
+    {
+      "kind": "match",
+      "source": "region",
+      "target": "deployment_region"
+    },
+    {
+      "kind": "match",
+      "source": "retry_count",
+      "target": "retries"
+    },
+    {
+      "kind": "no_match",
+      "source": "attempt_number"
+    },
+    {
+      "kind": "ambiguous",
+      "source": "message",
+      "targets": [
+        "log_message",
+        "error_message"
+      ]
+    }
+  ]
+}

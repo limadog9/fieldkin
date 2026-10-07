@@ -1,45 +1,12 @@
 [package]
 name = "fieldkin"
 version = "0.1.0"
-edition = "2021"
-rust-version = "1.99"
-description = "Explainable, conservative schema matching in memory"
+edition = "2024"
+description = "Small, explainable schema matching in Rust"
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/limadog9/fieldkin"
-keywords = ["schema", "matching", "data", "integration"]
-categories = ["algorithms"]
-readme = "README.md"
-include = ["/src/**", "/examples/**", "/tests/**", "/benches/**", "/docs/**", "/README.md", "/LICENSE-*", "/THIRD_PARTY.md", "/CONTRIBUTING.md", "/MAINTAINERS.md", "/ROADMAP.md", "/Cargo.toml", "/Cargo.lock"]
-
-[package.metadata.docs.rs]
-features = ["json"]
-
-[features]
-default = []
-json = ["dep:serde", "dep:serde_json"]
 
 [dependencies]
-strsim = "0.11.1"
-unicode-normalization = "0.1.24"
-serde = { version = "1.0", features = ["derive"], optional = true }
-serde_json = { version = "1.0", optional = true }
-
-[dev-dependencies]
-proptest = { version = "1.11", default-features = false, features = ["std"] }
-
-[workspace]
-members = ["evaluation", "tooling"]
-default-members = [".", "evaluation"]
-resolver = "2"
-
-[[bench]]
-name = "matching"
-harness = false
-
-[[example]]
-name = "persisted_review"
-required-features = ["json"]
-
-[lints.rust]
-unsafe_code = "forbid"
-missing_docs = "warn"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+strsim = "0.11"
+chrono = "0.4"

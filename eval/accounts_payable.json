@@ -1,0 +1,275 @@
+{
+  "name": "Accounts payable invoice migration",
+  "source": {
+    "fields": [
+      {
+        "name": "vendor_id",
+        "data_type": "integer",
+        "samples": [
+          "1001",
+          "1002",
+          "1003",
+          "1004"
+        ]
+      },
+      {
+        "name": "invoice_number",
+        "data_type": "text",
+        "samples": [
+          "INV-10021",
+          "INV-10022",
+          "INV-10023",
+          "INV-10024"
+        ]
+      },
+      {
+        "name": "invoice_date",
+        "data_type": "date",
+        "samples": [
+          "2026-08-01",
+          "2026-08-03",
+          "2026-08-05",
+          "2026-08-07"
+        ]
+      },
+      {
+        "name": "due_date",
+        "data_type": "date",
+        "samples": [
+          "2026-08-31",
+          "2026-09-02",
+          "2026-09-04",
+          "2026-09-06"
+        ]
+      },
+      {
+        "name": "amount",
+        "data_type": "decimal",
+        "samples": [
+          "1250.00",
+          "800.00",
+          "4500.00",
+          "975.50"
+        ]
+      },
+      {
+        "name": "tax_amount",
+        "data_type": "decimal",
+        "samples": [
+          "100.00",
+          "64.00",
+          "360.00",
+          "78.04"
+        ]
+      },
+      {
+        "name": "currency_code",
+        "data_type": "text",
+        "samples": [
+          "USD",
+          "USD",
+          "EUR",
+          "USD"
+        ]
+      },
+      {
+        "name": "payment_status",
+        "data_type": "text",
+        "samples": [
+          "open",
+          "paid",
+          "open",
+          "scheduled"
+        ]
+      },
+      {
+        "name": "payment_reference",
+        "data_type": "text",
+        "samples": [
+          "ACH-7712",
+          "WIRE-9918",
+          "ACH-7719",
+          "CHK-2204"
+        ]
+      },
+      {
+        "name": "internal_review_note",
+        "data_type": "text",
+        "samples": [
+          "hold for approval",
+          "ok to pay",
+          "tax review",
+          "manager approved"
+        ]
+      }
+    ]
+  },
+  "target": {
+    "fields": [
+      {
+        "name": "supplier_key",
+        "data_type": "integer",
+        "samples": [
+          "1001",
+          "1002",
+          "1003",
+          "1004"
+        ]
+      },
+      {
+        "name": "invoice_ref",
+        "data_type": "text",
+        "samples": [
+          "INV-10021",
+          "INV-10022",
+          "INV-10023",
+          "INV-10024"
+        ]
+      },
+      {
+        "name": "document_date",
+        "data_type": "date",
+        "samples": [
+          "2026-08-01",
+          "2026-08-03",
+          "2026-08-05",
+          "2026-08-07"
+        ]
+      },
+      {
+        "name": "payment_due_date",
+        "data_type": "date",
+        "samples": [
+          "2026-08-31",
+          "2026-09-02",
+          "2026-09-04",
+          "2026-09-06"
+        ]
+      },
+      {
+        "name": "gross_amount",
+        "data_type": "decimal",
+        "samples": [
+          "1250.00",
+          "800.00",
+          "4500.00",
+          "975.50"
+        ]
+      },
+      {
+        "name": "net_amount",
+        "data_type": "decimal",
+        "samples": [
+          "1250.00",
+          "800.00",
+          "4500.00",
+          "975.50"
+        ]
+      },
+      {
+        "name": "vat_amount",
+        "data_type": "decimal",
+        "samples": [
+          "100.00",
+          "64.00",
+          "360.00",
+          "78.04"
+        ]
+      },
+      {
+        "name": "currency",
+        "data_type": "text",
+        "samples": [
+          "USD",
+          "USD",
+          "EUR",
+          "USD"
+        ]
+      },
+      {
+        "name": "status",
+        "data_type": "text",
+        "samples": [
+          "open",
+          "paid",
+          "open",
+          "scheduled"
+        ]
+      },
+      {
+        "name": "bank_payment_reference",
+        "data_type": "text",
+        "samples": [
+          "ACH-7712",
+          "WIRE-9918",
+          "ACH-7719",
+          "CHK-2204"
+        ]
+      },
+      {
+        "name": "purchase_order_number",
+        "data_type": "text",
+        "samples": [
+          "PO-8801",
+          "PO-8802",
+          "PO-8803",
+          "PO-8804"
+        ]
+      }
+    ]
+  },
+  "answers": [
+    {
+      "kind": "match",
+      "source": "vendor_id",
+      "target": "supplier_key"
+    },
+    {
+      "kind": "match",
+      "source": "invoice_number",
+      "target": "invoice_ref"
+    },
+    {
+      "kind": "match",
+      "source": "invoice_date",
+      "target": "document_date"
+    },
+    {
+      "kind": "match",
+      "source": "due_date",
+      "target": "payment_due_date"
+    },
+    {
+      "kind": "ambiguous",
+      "source": "amount",
+      "targets": [
+        "gross_amount",
+        "net_amount"
+      ]
+    },
+    {
+      "kind": "match",
+      "source": "tax_amount",
+      "target": "vat_amount"
+    },
+    {
+      "kind": "match",
+      "source": "currency_code",
+      "target": "currency"
+    },
+    {
+      "kind": "match",
+      "source": "payment_status",
+      "target": "status"
+    },
+    {
+      "kind": "match",
+      "source": "payment_reference",
+      "target": "bank_payment_reference"
+    },
+    {
+      "kind": "no_match",
+      "source": "internal_review_note"
+    }
+  ]
+}
