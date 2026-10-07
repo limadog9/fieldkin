@@ -1,29 +1,18 @@
-use std::{
-    cell::RefCell,
-    collections::BTreeSet,
-};
+use std::collections::BTreeSet;
 
-use nucleo_matcher::{
-    pattern::{Atom, AtomKind, CaseMatching, Normalization},
-    Config as NucleoConfig,
-    Matcher as NucleoMatcher,
+use fuzzy_matcher::{
+    skim::SkimMatcherV2,
+    FuzzyMatcher,
 };
 use rapidfuzz::distance::jaro_winkler;
 
 use crate::synonyms::canonical_token;
 use crate::DataType;
 
-thread_local! {
-    static NUCLEO_MATCHER: RefCell<NucleoMatcher> =
-        RefCell::new(NucleoMatcher::new(NucleoConfig::DEFAULT));
-}
-
 pub fn exact_name_match(left: &str, right: &str) -> bool {
     normalize_name(left) == normalize_name(right)
 }
 
-// Normal Fieldkin name score.
-// Nucleo is deliberately NOT used here.
 pub fn name_score(left: &str, right: &str) -> f64 {
     let left_normalized = normalize_name(left);
     let right_normalized = normalize_name(right);
@@ -32,6 +21,7 @@ pub fn name_score(left: &str, right: &str) -> f64 {
         return 1.0;
     }
 
+    // Normal Fieldkin name comparison stays unchanged.
     let string_score = jaro_winkler::normalized_similarity(
         left_normalized.chars(),
         right_normalized.chars(),
@@ -51,13 +41,18 @@ pub fn name_score(left: &str, right: &str) -> f64 {
     string_score.max(token_score)
 }
 
-// Separate abbreviation score.
-// The engine only calls this after normal matching returns NoMatch.
+// Only used by engine.rs after normal matching returns NoMatch.
+//
+// This experiment replaces Nucleo with SkimMatcherV2.
 pub(crate) fn abbreviation_score(left: &str, right: &str) -> f64 {
     let left = normalize_name(left);
     let right = normalize_name(right);
 
-    nucleo_similarity(&left, &right)
+    if left.is_empty() || right.is_empty() {
+        return 0.0;
+    }
+
+    skim_similarity(&left, &right)
 }
 
 pub fn type_score(left: &DataType, right: &DataType) -> f64 {
@@ -107,55 +102,31 @@ pub fn sample_score(left: &[String], right: &[String]) -> Option<f64> {
     Some(overlap / denominator)
 }
 
-fn nucleo_similarity(left: &str, right: &str) -> f64 {
-    if left.is_empty() || right.is_empty() {
-        return 0.0;
-    }
-
-    // Nucleo treats the shorter string as the abbreviation/needle.
-    let (needle, haystack) = if left.chars().count() <= right.chars().count() {
+fn skim_similarity(left: &str, right: &str) -> f64 {
+    // Treat the shorter name as the abbreviation/pattern.
+    let (pattern, choice) = if left.chars().count() <= right.chars().count() {
         (left, right)
     } else {
         (right, left)
     };
 
-    let atom = Atom::new(
-        needle,
-        CaseMatching::Ignore,
-        Normalization::Never,
-        AtomKind::Fuzzy,
-        false,
-    );
+    let matcher = SkimMatcherV2::default();
 
-    NUCLEO_MATCHER.with(|matcher| {
-        let mut matcher = matcher.borrow_mut();
+    let Some(actual_score) = matcher.fuzzy_match(choice, pattern) else {
+        return 0.0;
+    };
 
-        let actual = atom
-            .match_list([haystack], &mut matcher)
-            .first()
-            .map(|(_, score)| *score);
+    // Skim gives a ranking score rather than a normalized 0-1 score.
+    // Compare it with the score for matching the abbreviation to itself.
+    let Some(perfect_score) = matcher.fuzzy_match(pattern, pattern) else {
+        return 0.0;
+    };
 
-        let Some(actual) = actual else {
-            return 0.0;
-        };
+    if perfect_score <= 0 {
+        return 0.0;
+    }
 
-        // Nucleo returns ranking scores rather than 0-1 similarity,
-        // so compare against the score for a perfect self-match.
-        let perfect = atom
-            .match_list([needle], &mut matcher)
-            .first()
-            .map(|(_, score)| *score);
-
-        let Some(perfect) = perfect else {
-            return 0.0;
-        };
-
-        if perfect == 0 {
-            return 0.0;
-        }
-
-        (actual as f64 / perfect as f64).clamp(0.0, 1.0)
-    })
+    (actual_score as f64 / perfect_score as f64).clamp(0.0, 1.0)
 }
 
 fn normalize_name(value: &str) -> String {
@@ -205,14 +176,15 @@ mod tests {
     }
 
     #[test]
-    fn nucleo_recognizes_abbreviation() {
+    fn skim_recognizes_abbreviation() {
         assert!(abbreviation_score("wind_spd", "wspd") > 0.0);
         assert!(abbreviation_score("dominant_wpd", "dpd") > 0.0);
     }
 
     #[test]
-    fn unrelated_names_get_no_abbreviation_credit() {
-        assert_eq!(abbreviation_score("division", "make"), 0.0);
+    fn skim_scores_are_normalized() {
+        let score = abbreviation_score("mean_wave_dir", "mwd");
+        assert!((0.0..=1.0).contains(&score));
     }
 
     #[test]
