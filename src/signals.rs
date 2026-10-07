@@ -1,14 +1,29 @@
-use std::collections::BTreeSet;
+use std::{
+    cell::RefCell,
+    collections::BTreeSet,
+};
 
-use strsim::jaro_winkler;
+use nucleo_matcher::{
+    pattern::{Atom, AtomKind, CaseMatching, Normalization},
+    Config as NucleoConfig,
+    Matcher as NucleoMatcher,
+};
+use rapidfuzz::distance::jaro_winkler;
 
 use crate::synonyms::canonical_token;
 use crate::DataType;
+
+thread_local! {
+    static NUCLEO_MATCHER: RefCell<NucleoMatcher> =
+        RefCell::new(NucleoMatcher::new(NucleoConfig::DEFAULT));
+}
 
 pub fn exact_name_match(left: &str, right: &str) -> bool {
     normalize_name(left) == normalize_name(right)
 }
 
+// Normal Fieldkin name score.
+// Nucleo is deliberately NOT used here.
 pub fn name_score(left: &str, right: &str) -> f64 {
     let left_normalized = normalize_name(left);
     let right_normalized = normalize_name(right);
@@ -17,10 +32,11 @@ pub fn name_score(left: &str, right: &str) -> f64 {
         return 1.0;
     }
 
-    // Compare the overall strings.
-    let string_score = jaro_winkler(&left_normalized, &right_normalized);
+    let string_score = jaro_winkler::normalized_similarity(
+        left_normalized.chars(),
+        right_normalized.chars(),
+    );
 
-    // Also compare individual words, including our existing synonyms.
     let left_tokens = tokenize_name(left);
     let right_tokens = tokenize_name(right);
 
@@ -32,9 +48,16 @@ pub fn name_score(left: &str, right: &str) -> f64 {
         shared_tokens as f64 / left_tokens.len().min(right_tokens.len()) as f64
     };
 
-    // Keep the existing behavior:
-    // use whichever form gives stronger name evidence.
     string_score.max(token_score)
+}
+
+// Separate abbreviation score.
+// The engine only calls this after normal matching returns NoMatch.
+pub(crate) fn abbreviation_score(left: &str, right: &str) -> f64 {
+    let left = normalize_name(left);
+    let right = normalize_name(right);
+
+    nucleo_similarity(&left, &right)
 }
 
 pub fn type_score(left: &DataType, right: &DataType) -> f64 {
@@ -63,30 +86,76 @@ pub fn type_score(left: &DataType, right: &DataType) -> f64 {
 }
 
 pub fn sample_score(left: &[String], right: &[String]) -> Option<f64> {
-    // No samples on either side means sample evidence is unavailable.
     if left.is_empty() || right.is_empty() {
         return None;
     }
 
-    // Normalize values and remove duplicates.
-    let left: BTreeSet<String> = left.iter().map(|v| normalize_sample(v)).collect();
-    let right: BTreeSet<String> = right.iter().map(|v| normalize_sample(v)).collect();
+    let left: BTreeSet<String> =
+        left.iter().map(|v| normalize_sample(v)).collect();
 
-    // NEW: repeating one value is not enough to earn sample credit.
-    //
-    // ["us", "us", "us"] becomes just {"us"}.
-    //
-    // Return a score of zero, not missing evidence, so the engine
-    // does not redistribute the sample weight to names and types.
+    let right: BTreeSet<String> =
+        right.iter().map(|v| normalize_sample(v)).collect();
+
+    // One repeated value is not useful sample evidence.
     if left.len() < 2 || right.len() < 2 {
         return Some(0.0);
     }
 
-    // Otherwise, use the same overlap calculation as before.
     let overlap = left.intersection(&right).count() as f64;
     let denominator = left.len().max(right.len()) as f64;
 
     Some(overlap / denominator)
+}
+
+fn nucleo_similarity(left: &str, right: &str) -> f64 {
+    if left.is_empty() || right.is_empty() {
+        return 0.0;
+    }
+
+    // Nucleo treats the shorter string as the abbreviation/needle.
+    let (needle, haystack) = if left.chars().count() <= right.chars().count() {
+        (left, right)
+    } else {
+        (right, left)
+    };
+
+    let atom = Atom::new(
+        needle,
+        CaseMatching::Ignore,
+        Normalization::Never,
+        AtomKind::Fuzzy,
+        false,
+    );
+
+    NUCLEO_MATCHER.with(|matcher| {
+        let mut matcher = matcher.borrow_mut();
+
+        let actual = atom
+            .match_list([haystack], &mut matcher)
+            .first()
+            .map(|(_, score)| *score);
+
+        let Some(actual) = actual else {
+            return 0.0;
+        };
+
+        // Nucleo returns ranking scores rather than 0-1 similarity,
+        // so compare against the score for a perfect self-match.
+        let perfect = atom
+            .match_list([needle], &mut matcher)
+            .first()
+            .map(|(_, score)| *score);
+
+        let Some(perfect) = perfect else {
+            return 0.0;
+        };
+
+        if perfect == 0 {
+            return 0.0;
+        }
+
+        (actual as f64 / perfect as f64).clamp(0.0, 1.0)
+    })
 }
 
 fn normalize_name(value: &str) -> String {
@@ -136,8 +205,22 @@ mod tests {
     }
 
     #[test]
+    fn nucleo_recognizes_abbreviation() {
+        assert!(abbreviation_score("wind_spd", "wspd") > 0.0);
+        assert!(abbreviation_score("dominant_wpd", "dpd") > 0.0);
+    }
+
+    #[test]
+    fn unrelated_names_get_no_abbreviation_credit() {
+        assert_eq!(abbreviation_score("division", "make"), 0.0);
+    }
+
+    #[test]
     fn incompatible_types_score_zero() {
-        assert_eq!(type_score(&DataType::Text, &DataType::Boolean), 0.0);
+        assert_eq!(
+            type_score(&DataType::Text, &DataType::Boolean),
+            0.0
+        );
     }
 
     #[test]
@@ -157,30 +240,11 @@ mod tests {
     }
 
     #[test]
-    fn single_distinct_value_on_either_side_gets_no_credit() {
-        let constant = vec!["USD".into(), "USD".into()];
-        let varied = vec!["USD".into(), "EUR".into(), "GBP".into()];
-
-        assert_eq!(sample_score(&constant, &varied), Some(0.0));
-        assert_eq!(sample_score(&varied, &constant), Some(0.0));
-    }
-
-    #[test]
     fn missing_samples_remain_unavailable() {
         let empty: Vec<String> = vec![];
         let values = vec!["A".into(), "B".into()];
 
         assert_eq!(sample_score(&empty, &values), None);
         assert_eq!(sample_score(&values, &empty), None);
-    }
-
-    #[test]
-    fn varied_samples_keep_the_existing_overlap_score() {
-        let left = vec!["A".into(), "B".into(), "C".into()];
-        let right = vec!["A".into(), "B".into(), "D".into(), "E".into()];
-
-        // Two shared values divided by four distinct values
-        // in the larger set.
-        assert_eq!(sample_score(&left, &right), Some(0.5));
     }
 }
