@@ -8,7 +8,9 @@ use std::{
     time::{SystemTime, UNIX_EPOCH},
 };
 
-use fieldkin::algorithms::{JaccardDistanceMatcher, SimilarityFlooding};
+use fieldkin::algorithms::{
+    Coma, ComaConfig, Cupid, DistributionBased, JaccardDistanceMatcher, SimilarityFlooding,
+};
 use fieldkin::{
     ColumnPair, DataType, Error, Field, MatchOptions, Matcher, MatcherResults, Table, match_tables,
     valentine_match,
@@ -167,6 +169,146 @@ fn zero_sampling_clears_instances_and_keeps_schema_matching_available() {
         1
     );
     assert_eq!(tables[0].columns[0].samples, ["one", "two"]);
+}
+
+// Keep the previous sampler as a behavioral reference for the optimized path.
+fn reference_sampled(table: &Table, limit: Option<usize>) -> Table {
+    let mut table = table.clone();
+    for column in &mut table.columns {
+        column.samples.retain(|value| !value.is_empty());
+        if let Some(limit) = limit.filter(|n| *n < column.samples.len()) {
+            let length = column.samples.len();
+            column.samples = (0..limit)
+                .map(|i| column.samples[i * length / limit].clone())
+                .collect();
+        }
+    }
+    table
+}
+
+fn sampling_tables() -> [Table; 3] {
+    let mut tables = [
+        table(
+            "source",
+            &[
+                "", "one", "two", "", "three", "four", "four", " ", "five", "six", "",
+            ],
+        ),
+        table("target", &["one", "", "three", "four", "seven"]),
+        table("third", &["", "two", "three", "seven", ""]),
+    ];
+    for table in &mut tables {
+        table.columns.extend([
+            Field {
+                name: "number".into(),
+                data_type: DataType::Integer,
+                samples: ["", "0001", "002", "", "003"]
+                    .into_iter()
+                    .map(str::to_owned)
+                    .collect(),
+            },
+            Field {
+                name: "event_date".into(),
+                data_type: DataType::Date,
+                samples: ["", "2025-01-01", "2025-02-03"]
+                    .into_iter()
+                    .map(str::to_owned)
+                    .collect(),
+            },
+            Field {
+                name: "missing".into(),
+                data_type: DataType::Timestamp,
+                samples: vec![String::new(); 3],
+            },
+            Field {
+                name: "empty".into(),
+                data_type: DataType::Unknown,
+                samples: Vec::new(),
+            },
+        ]);
+    }
+    tables
+}
+
+#[test]
+fn sampling_matches_previous_inputs_across_limits_and_preserves_metadata() {
+    let tables = sampling_tables();
+    let original = tables.clone();
+    for limit in std::iter::once(None)
+        .chain((0..=9).map(Some))
+        .chain([Some(usize::MAX)])
+    {
+        let expected = tables
+            .each_ref()
+            .map(|table| reference_sampled(table, limit));
+        let matcher = RecordingMatcher::default();
+        match_tables(
+            &tables,
+            &matcher,
+            MatchOptions {
+                instance_sample_size: limit,
+            },
+        )
+        .unwrap();
+        let calls = matcher.calls.borrow();
+        assert_eq!(calls.len(), 3);
+        for (call, (source, target)) in calls.iter().zip([(0, 1), (0, 2), (1, 2)]) {
+            assert_eq!(
+                (&call.0, &call.1),
+                (&expected[source], &expected[target]),
+                "limit={limit:?}"
+            );
+        }
+        assert_eq!(tables, original);
+    }
+}
+
+#[test]
+fn all_matchers_preserve_results_with_the_previous_sampling_rule() {
+    let tables = sampling_tables();
+    let original = tables.clone();
+    let matchers: [(&str, Box<dyn Matcher>); 5] = [
+        ("Jaccard", Box::new(JaccardDistanceMatcher::default())),
+        (
+            "COMA",
+            Box::new(
+                Coma::new(ComaConfig {
+                    use_instances: true,
+                    ..Default::default()
+                })
+                .unwrap(),
+            ),
+        ),
+        ("Cupid", Box::new(Cupid::default())),
+        ("Distribution", Box::new(DistributionBased::default())),
+        ("Flooding", Box::new(SimilarityFlooding::default())),
+    ];
+    for limit in [
+        None,
+        Some(0),
+        Some(1),
+        Some(2),
+        Some(3),
+        Some(8),
+        Some(usize::MAX),
+    ] {
+        let expected = tables
+            .each_ref()
+            .map(|table| reference_sampled(table, limit));
+        for (name, matcher) in &matchers {
+            let expected_results = matcher.get_matches_batch(&expected).unwrap();
+            let actual = match_tables(
+                &tables,
+                matcher.as_ref(),
+                MatchOptions {
+                    instance_sample_size: limit,
+                },
+            )
+            .unwrap();
+            assert_eq!(actual, expected_results, "{name}: limit={limit:?}");
+            assert_eq!(tables, original);
+        }
+    }
 }
 
 struct Fixtures(PathBuf);

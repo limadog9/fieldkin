@@ -141,18 +141,27 @@ impl Table {
     /// Read UTF-8 CSV with a header, quoting, and consistent row widths.
     pub fn from_csv(name: impl Into<String>, reader: impl Read) -> Result<Self, Error> {
         let mut csv = csv::Reader::from_reader(reader);
-        let headers = csv.headers()?.iter().map(str::to_owned).collect();
-        let rows: Result<Vec<_>, csv::Error> = csv
-            .records()
-            .map(|r| {
-                r.map(|r| {
-                    r.iter()
-                        .map(|v| (!v.is_empty()).then(|| v.to_owned()))
-                        .collect()
-                })
+        let mut columns: Vec<_> = csv
+            .headers()?
+            .iter()
+            .map(|name| Field {
+                name: name.to_owned(),
+                data_type: DataType::Unknown,
+                samples: Vec::new(),
             })
             .collect();
-        Self::from_rows(name, headers, rows?)
+        let mut record = csv::StringRecord::new();
+        while csv.read_record(&mut record)? {
+            for (column, value) in columns.iter_mut().zip(record.iter()) {
+                if !value.is_empty() {
+                    column.samples.push(value.to_owned());
+                }
+            }
+        }
+        for column in &mut columns {
+            column.data_type = infer_type(&column.samples);
+        }
+        Self::new(name, columns)
     }
 
     /// Read an array of JSON objects. Missing keys and null values are omitted.
@@ -189,17 +198,46 @@ impl Table {
     }
 
     pub(crate) fn sampled(&self, limit: Option<usize>) -> Self {
-        let mut table = self.clone();
-        for col in &mut table.columns {
-            col.samples.retain(|v| !v.is_empty());
-            if let Some(limit) = limit.filter(|n| *n < col.samples.len()) {
-                let length = col.samples.len();
-                col.samples = (0..limit)
-                    .map(|i| col.samples[i * length / limit].clone())
-                    .collect();
-            }
+        let columns = self
+            .columns
+            .iter()
+            .map(|column| {
+                let values = column.samples.iter().filter(|value| !value.is_empty());
+                let samples = match limit {
+                    None => values.cloned().collect(),
+                    Some(0) => Vec::new(),
+                    Some(limit) => {
+                        let length = values.clone().count();
+                        if limit >= length {
+                            values.cloned().collect()
+                        } else {
+                            let mut selected = 0;
+                            values
+                                .enumerate()
+                                .filter_map(|(index, value)| {
+                                    if index == selected * length / limit {
+                                        selected += 1;
+                                        Some(value.clone())
+                                    } else {
+                                        None
+                                    }
+                                })
+                                .take(limit)
+                                .collect()
+                        }
+                    }
+                };
+                Field {
+                    name: column.name.clone(),
+                    data_type: column.data_type.clone(),
+                    samples,
+                }
+            })
+            .collect();
+        Self {
+            name: self.name.clone(),
+            columns,
         }
-        table
     }
 }
 
