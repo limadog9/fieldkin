@@ -11,11 +11,11 @@ Runtime. Similarity scores are not probabilities.
 
 ## Install
 
-Use the repository version (this change does not publish to crates.io):
+Install the release from [crates.io](https://crates.io/crates/fieldkin):
 
 ```toml
 [dependencies]
-fieldkin = { git = "https://github.com/limadog9/fieldkin" }
+fieldkin = "0.2.0"
 ```
 
 Optional features: `polars` for native Polars DataFrames and `embeddings` for
