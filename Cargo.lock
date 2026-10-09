@@ -1580,6 +1580,7 @@ dependencies = [
  "boxcar",
  "bytemuck",
  "chrono",
+ "chrono-tz",
  "either",
  "getrandom 0.4.3",
  "hashbrown 0.17.1",

@@ -26,5 +26,5 @@ csv = "1"
 flate2 = "1"
 sha2 = "0.10"
 good_lp = { version = "1", default-features = false, features = ["microlp"] }
-polars-core = { version = "0.55", default-features = false, features = ["dtype-date", "dtype-datetime"], optional = true }
+polars-core = { version = "0.55", default-features = false, features = ["dtype-date", "dtype-datetime", "timezones"], optional = true }
 fastembed = { version = "7.1", default-features = false, features = ["ort-download-binaries-rustls-tls", "hf-hub-rustls-tls"], optional = true }
