@@ -44,6 +44,9 @@ Python is development tooling only.
   evenly spaced per nonempty column and affects every matcher. Python's default
   samples the first 1,000 nonempty rows for COMA instance matching only. Use
   uncapped matching for parity or preselect dataframe rows.
+- Empty strings are missing samples for native table matching, including direct
+  and batch matcher calls. Python's table adapters can retain empty strings;
+  general string and set similarity still treat them as values.
 - Rust threads replace multiprocessing and default to one worker.
 - Cupid applies Treebank-style tokenization to a label as one sentence. Punkt
   paragraph sentence segmentation is not bundled; identifier/camel/snake-case,

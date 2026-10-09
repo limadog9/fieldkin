@@ -74,10 +74,12 @@ impl DistributionBased {
                 ));
             }
         }
+        // Empty strings are missing samples and receive no value rank.
         let raw_corpus: BTreeSet<&str> = tables
             .iter()
             .flat_map(|table| &table.columns)
             .flat_map(|column| column.samples.iter().map(String::as_str))
+            .filter(|value| !value.is_empty())
             .collect();
         // Keep numeric aliases until ranks are assigned: upstream first deduplicates
         // raw values, then converts them and overwrites aliases at their final rank.

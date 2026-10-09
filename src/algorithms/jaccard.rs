@@ -275,23 +275,22 @@ impl JaccardDistanceMatcher {
                 )));
             }
         }
-        let embeddings = self.prepare_embeddings(
-            tables
-                .iter()
-                .flat_map(|table| &table.columns)
-                .flat_map(|column| &column.samples)
-                .map(String::as_str),
-        )?;
         let values: Vec<Vec<Vec<&str>>> = tables
             .iter()
             .map(|table| {
                 table
                     .columns
                     .iter()
-                    .map(|column| unique_values(&column.samples))
+                    .map(|column| {
+                        unique_values(&column.samples)
+                            .into_iter()
+                            .filter(|value| !value.is_empty())
+                            .collect()
+                    })
                     .collect()
             })
             .collect();
+        let embeddings = self.prepare_embeddings(values.iter().flatten().flatten().copied())?;
         let mut pairs = Vec::new();
         for (i, source) in tables.iter().enumerate() {
             for (j, target) in tables.iter().enumerate().skip(i + 1) {
