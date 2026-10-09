@@ -82,6 +82,127 @@ fn selectors_preserve_immutable_details() {
 }
 
 #[test]
+fn every_selector_retains_only_selected_details_and_preserves_order() {
+    let a = pair("a", "x");
+    let b = pair("a", "y");
+    let c = pair("b", "x");
+    let d = pair("b", "y");
+    let results = MatcherResults::with_details(
+        vec![
+            (d.clone(), 0.1),
+            (c.clone(), 0.8),
+            (b.clone(), 0.8),
+            (a.clone(), 0.9),
+        ],
+        [
+            (
+                a.clone(),
+                [("NameCM".into(), 0.7), ("InstancesCM".into(), 0.9)].into(),
+            ),
+            (
+                c.clone(),
+                [("NameCM".into(), 0.2), ("InstancesCM".into(), 0.8)].into(),
+            ),
+            (d.clone(), Default::default()),
+        ]
+        .into(),
+    )
+    .unwrap();
+    let original = results.clone();
+    let cases = [
+        (
+            "filter",
+            results.filter(0.8).unwrap(),
+            vec![(a.clone(), 0.9), (b.clone(), 0.8), (c.clone(), 0.8)],
+            vec![a.clone(), c.clone()],
+        ),
+        (
+            "top n",
+            results.take_top_n(2),
+            vec![(a.clone(), 0.9), (b.clone(), 0.8)],
+            vec![a.clone()],
+        ),
+        (
+            "top percent",
+            results.take_top_percent(50.0).unwrap(),
+            vec![(a.clone(), 0.9), (b.clone(), 0.8)],
+            vec![a.clone()],
+        ),
+        (
+            "top n per source",
+            results.take_top_n_per_source(1),
+            vec![(a.clone(), 0.9), (c.clone(), 0.8)],
+            vec![a.clone(), c.clone()],
+        ),
+        (
+            "Hungarian",
+            results.one_to_one_hungarian(Some(0.0)).unwrap(),
+            vec![(b.clone(), 0.8), (c.clone(), 0.8)],
+            vec![c.clone()],
+        ),
+        (
+            "greedy",
+            results.one_to_one_greedy(Some(0.0)).unwrap(),
+            vec![(a.clone(), 0.9), (d.clone(), 0.1)],
+            vec![a.clone(), d.clone()],
+        ),
+        (
+            "mutual top",
+            results.one_to_one_mutual_top(1).unwrap(),
+            vec![(a.clone(), 0.9)],
+            vec![a.clone()],
+        ),
+    ];
+    for (name, selected, entries, detail_keys) in cases {
+        assert_eq!(
+            selected
+                .iter()
+                .map(|(pair, score)| (pair.clone(), *score))
+                .collect::<Vec<_>>(),
+            entries,
+            "{name}: entries or ordering changed"
+        );
+        assert_eq!(
+            selected.details().keys().cloned().collect::<Vec<_>>(),
+            detail_keys,
+            "{name}: details retained for the wrong entries"
+        );
+        for (pair, _) in &original {
+            let expected = if selected.get(pair).is_some() {
+                original.get_details(pair)
+            } else {
+                None
+            };
+            assert_eq!(selected.get_details(pair), expected, "{name}: {pair:?}");
+        }
+        assert_eq!(results, original, "{name}: original results changed");
+    }
+}
+
+#[test]
+fn selecting_no_entries_discards_all_details_without_changing_original() {
+    let key = pair("a", "x");
+    let results = MatcherResults::with_details(
+        vec![(key.clone(), 0.9)],
+        [(key, [("NameCM".into(), 0.8)].into())].into(),
+    )
+    .unwrap();
+    let original = results.clone();
+    for selected in [
+        results.filter(1.1).unwrap(),
+        results.take_top_n(0),
+        results.take_top_percent(0.0).unwrap(),
+        results.take_top_n_per_source(0),
+        results.one_to_one_hungarian(Some(1.1)).unwrap(),
+        results.one_to_one_greedy(Some(1.1)).unwrap(),
+    ] {
+        assert!(selected.is_empty());
+        assert!(selected.details().is_empty());
+        assert_eq!(results, original);
+    }
+}
+
+#[test]
 fn known_metrics_and_source_local_reciprocal_rank() {
     let results = MatcherResults::new(vec![
         (pair("a", "wrong"), 0.95),

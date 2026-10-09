@@ -117,15 +117,21 @@ impl MatcherResults {
     }
     fn select(&self, mut keep: impl FnMut(&(ColumnPair, f64)) -> bool) -> Self {
         // Entries and details have already passed validation.
-        Self::with_details(
-            self.entries
-                .iter()
-                .filter(|entry| keep(entry))
-                .cloned()
-                .collect(),
-            self.details.clone(),
-        )
-        .expect("validated result subset")
+        let entries: Vec<_> = self
+            .entries
+            .iter()
+            .filter(|entry| keep(entry))
+            .cloned()
+            .collect();
+        let details = entries
+            .iter()
+            .filter_map(|(pair, _)| {
+                self.details
+                    .get(pair)
+                    .map(|details| (pair.clone(), details.clone()))
+            })
+            .collect();
+        Self::with_details(entries, details).expect("validated result subset")
     }
     pub fn filter(&self, min_score: f64) -> Result<Self, Error> {
         finite_threshold(min_score)?;
