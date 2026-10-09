@@ -1,0 +1,3296 @@
+{
+  "cases": [
+    {
+      "algorithm": "coma",
+      "config": {},
+      "expected": [
+        {
+          "details": {
+            "NameCM": 0.8
+          },
+          "pair": {
+            "source_column": "ApproxDate",
+            "source_table": "s",
+            "target_column": "date_created_approximation",
+            "target_table": "t"
+          },
+          "score": 0.8
+        },
+        {
+          "details": {
+            "NameCM": 1.0
+          },
+          "pair": {
+            "source_column": "Dept",
+            "source_table": "s",
+            "target_column": "department",
+            "target_table": "t"
+          },
+          "score": 1.0
+        },
+        {
+          "details": {
+            "NameCM": 1.0
+          },
+          "pair": {
+            "source_column": "mgr",
+            "source_table": "s",
+            "target_column": "manager",
+            "target_table": "t"
+          },
+          "score": 1.0
+        },
+        {
+          "details": {
+            "NameCM": 1.0
+          },
+          "pair": {
+            "source_column": "personName",
+            "source_table": "s",
+            "target_column": "name_person",
+            "target_table": "t"
+          },
+          "score": 1.0
+        }
+      ],
+      "name": "schema_default",
+      "tables": [
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "ApproxDate",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "Dept",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "personName",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "mgr",
+              "samples": []
+            }
+          ],
+          "name": "s"
+        },
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "date_created_approximation",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "department",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "name_person",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "manager",
+              "samples": []
+            }
+          ],
+          "name": "t"
+        }
+      ]
+    },
+    {
+      "algorithm": "coma",
+      "config": {
+        "delta": 0.0
+      },
+      "expected": [
+        {
+          "details": {
+            "NameCM": 0.8
+          },
+          "pair": {
+            "source_column": "ApproxDate",
+            "source_table": "s",
+            "target_column": "date_created_approximation",
+            "target_table": "t"
+          },
+          "score": 0.8
+        },
+        {
+          "details": {
+            "NameCM": 0.6666666666666666
+          },
+          "pair": {
+            "source_column": "ApproxDate",
+            "source_table": "s",
+            "target_column": "department",
+            "target_table": "t"
+          },
+          "score": 0.6666666666666666
+        },
+        {
+          "details": {
+            "NameCM": 1.0
+          },
+          "pair": {
+            "source_column": "Dept",
+            "source_table": "s",
+            "target_column": "department",
+            "target_table": "t"
+          },
+          "score": 1.0
+        },
+        {
+          "details": {
+            "NameCM": 1.0
+          },
+          "pair": {
+            "source_column": "mgr",
+            "source_table": "s",
+            "target_column": "manager",
+            "target_table": "t"
+          },
+          "score": 1.0
+        },
+        {
+          "details": {
+            "NameCM": 1.0
+          },
+          "pair": {
+            "source_column": "personName",
+            "source_table": "s",
+            "target_column": "name_person",
+            "target_table": "t"
+          },
+          "score": 1.0
+        }
+      ],
+      "name": "schema_all",
+      "tables": [
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "ApproxDate",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "Dept",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "personName",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "mgr",
+              "samples": []
+            }
+          ],
+          "name": "s"
+        },
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "date_created_approximation",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "department",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "name_person",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "manager",
+              "samples": []
+            }
+          ],
+          "name": "t"
+        }
+      ]
+    },
+    {
+      "algorithm": "coma",
+      "config": {
+        "delta": 0.0,
+        "threshold": 0.7
+      },
+      "expected": [
+        {
+          "details": {
+            "NameCM": 0.8
+          },
+          "pair": {
+            "source_column": "ApproxDate",
+            "source_table": "s",
+            "target_column": "date_created_approximation",
+            "target_table": "t"
+          },
+          "score": 0.8
+        },
+        {
+          "details": {
+            "NameCM": 1.0
+          },
+          "pair": {
+            "source_column": "Dept",
+            "source_table": "s",
+            "target_column": "department",
+            "target_table": "t"
+          },
+          "score": 1.0
+        },
+        {
+          "details": {
+            "NameCM": 1.0
+          },
+          "pair": {
+            "source_column": "mgr",
+            "source_table": "s",
+            "target_column": "manager",
+            "target_table": "t"
+          },
+          "score": 1.0
+        },
+        {
+          "details": {
+            "NameCM": 1.0
+          },
+          "pair": {
+            "source_column": "personName",
+            "source_table": "s",
+            "target_column": "name_person",
+            "target_table": "t"
+          },
+          "score": 1.0
+        }
+      ],
+      "name": "schema_threshold",
+      "tables": [
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "ApproxDate",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "Dept",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "personName",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "mgr",
+              "samples": []
+            }
+          ],
+          "name": "s"
+        },
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "date_created_approximation",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "department",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "name_person",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "manager",
+              "samples": []
+            }
+          ],
+          "name": "t"
+        }
+      ]
+    },
+    {
+      "algorithm": "coma",
+      "config": {
+        "delta": 0.0,
+        "max_n": 1
+      },
+      "expected": [
+        {
+          "details": {
+            "NameCM": 1.0
+          },
+          "pair": {
+            "source_column": "account",
+            "source_table": "s",
+            "target_column": "account",
+            "target_table": "t"
+          },
+          "score": 1.0
+        },
+        {
+          "details": {
+            "NameCM": 1.0
+          },
+          "pair": {
+            "source_column": "account_name",
+            "source_table": "s",
+            "target_column": "Account_Name",
+            "target_table": "t"
+          },
+          "score": 1.0
+        },
+        {
+          "details": {
+            "NameCM": 1.0
+          },
+          "pair": {
+            "source_column": "account_name",
+            "source_table": "s",
+            "target_column": "accountName",
+            "target_table": "t"
+          },
+          "score": 1.0
+        }
+      ],
+      "name": "schema_max_n_ties",
+      "tables": [
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "account",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "account_name",
+              "samples": []
+            }
+          ],
+          "name": "s"
+        },
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "accountName",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "Account_Name",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "account",
+              "samples": []
+            }
+          ],
+          "name": "t"
+        }
+      ]
+    },
+    {
+      "algorithm": "coma",
+      "config": {
+        "delta": 0.0,
+        "instance_weight": 2.5,
+        "use_instances": true
+      },
+      "expected": [
+        {
+          "details": {
+            "InstancesCM": 0.40000004768371583,
+            "NameCM": 0.0
+          },
+          "pair": {
+            "source_column": "left",
+            "source_table": "s",
+            "target_column": "right",
+            "target_table": "t"
+          },
+          "score": 0.28571431977408274
+        },
+        {
+          "details": {
+            "InstancesCM": 1.0,
+            "NameCM": 0.0
+          },
+          "pair": {
+            "source_column": "number",
+            "source_table": "s",
+            "target_column": "identifier",
+            "target_table": "t"
+          },
+          "score": 0.7142857142857143
+        }
+      ],
+      "name": "combined_weighted",
+      "tables": [
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "left",
+              "samples": [
+                "red apple",
+                "green pear",
+                "green pear",
+                "the and or",
+                ""
+              ]
+            },
+            {
+              "data_type": "integer",
+              "name": "number",
+              "samples": [
+                "42",
+                "43",
+                "44"
+              ]
+            }
+          ],
+          "name": "s"
+        },
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "right",
+              "samples": [
+                "red apple",
+                "yellow banana"
+              ]
+            },
+            {
+              "data_type": "integer",
+              "name": "identifier",
+              "samples": [
+                "42",
+                "43",
+                "44"
+              ]
+            }
+          ],
+          "name": "t"
+        }
+      ]
+    },
+    {
+      "algorithm": "coma",
+      "config": {
+        "delta": 0.0,
+        "use_instances": true,
+        "use_schema": false
+      },
+      "expected": [
+        {
+          "details": {
+            "InstancesCM": 0.40000004768371583
+          },
+          "pair": {
+            "source_column": "left",
+            "source_table": "s",
+            "target_column": "right",
+            "target_table": "t"
+          },
+          "score": 0.40000004768371583
+        },
+        {
+          "details": {
+            "InstancesCM": 1.0
+          },
+          "pair": {
+            "source_column": "number",
+            "source_table": "s",
+            "target_column": "identifier",
+            "target_table": "t"
+          },
+          "score": 1.0
+        }
+      ],
+      "name": "instance_only",
+      "tables": [
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "left",
+              "samples": [
+                "red apple",
+                "green pear",
+                "green pear",
+                "the and or",
+                ""
+              ]
+            },
+            {
+              "data_type": "integer",
+              "name": "number",
+              "samples": [
+                "42",
+                "43",
+                "44"
+              ]
+            }
+          ],
+          "name": "s"
+        },
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "right",
+              "samples": [
+                "red apple",
+                "yellow banana"
+              ]
+            },
+            {
+              "data_type": "integer",
+              "name": "identifier",
+              "samples": [
+                "42",
+                "43",
+                "44"
+              ]
+            }
+          ],
+          "name": "t"
+        }
+      ]
+    },
+    {
+      "algorithm": "coma",
+      "config": {
+        "delta": 0.0,
+        "use_instances": true,
+        "use_schema": false
+      },
+      "expected": [
+        {
+          "details": {
+            "InstancesCM": 0.13733318448066711
+          },
+          "pair": {
+            "source_column": "a",
+            "source_table": "s",
+            "target_column": "b",
+            "target_table": "t"
+          },
+          "score": 0.13733318448066711
+        },
+        {
+          "details": {
+            "InstancesCM": 0.10299988836050034
+          },
+          "pair": {
+            "source_column": "a",
+            "source_table": "s",
+            "target_column": "c",
+            "target_table": "u"
+          },
+          "score": 0.10299988836050034
+        },
+        {
+          "details": {
+            "InstancesCM": 0.7499999105930328
+          },
+          "pair": {
+            "source_column": "b",
+            "source_table": "t",
+            "target_column": "c",
+            "target_table": "u"
+          },
+          "score": 0.7499999105930328
+        }
+      ],
+      "name": "global_batch",
+      "tables": [
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "a",
+              "samples": [
+                "common rare"
+              ]
+            }
+          ],
+          "name": "s"
+        },
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "b",
+              "samples": [
+                "common other"
+              ]
+            }
+          ],
+          "name": "t"
+        },
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "c",
+              "samples": [
+                "common",
+                "common",
+                "extra"
+              ]
+            }
+          ],
+          "name": "u"
+        }
+      ]
+    },
+    {
+      "algorithm": "coma",
+      "config": {
+        "delta": 0.0,
+        "use_instances": true,
+        "use_schema": false
+      },
+      "expected": [],
+      "name": "pairwise_idf_differs",
+      "tables": [
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "a",
+              "samples": [
+                "common rare"
+              ]
+            }
+          ],
+          "name": "s"
+        },
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "b",
+              "samples": [
+                "common other"
+              ]
+            }
+          ],
+          "name": "t"
+        }
+      ]
+    },
+    {
+      "algorithm": "coma",
+      "config": {
+        "use_instances": true,
+        "use_schema": false
+      },
+      "expected": [],
+      "name": "stopword_values",
+      "tables": [
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "a",
+              "samples": [
+                "the and or"
+              ]
+            }
+          ],
+          "name": "s"
+        },
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "b",
+              "samples": [
+                "was is"
+              ]
+            }
+          ],
+          "name": "t"
+        }
+      ]
+    },
+    {
+      "algorithm": "coma",
+      "config": {
+        "use_instances": true,
+        "use_schema": false
+      },
+      "expected": [],
+      "name": "common_idf_zero",
+      "tables": [
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "a",
+              "samples": [
+                "same"
+              ]
+            }
+          ],
+          "name": "s"
+        },
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "b",
+              "samples": [
+                "same"
+              ]
+            }
+          ],
+          "name": "t"
+        }
+      ]
+    },
+    {
+      "algorithm": "cupid",
+      "config": {},
+      "expected": [
+        {
+          "details": {
+            "lsim": 1.0,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.8656100000000001
+          },
+          "pair": {
+            "source_column": "best",
+            "source_table": "source",
+            "target_column": "good",
+            "target_table": "target"
+          },
+          "score": 0.8656100000000001
+        },
+        {
+          "details": {
+            "lsim": 1.0,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.8656100000000001
+          },
+          "pair": {
+            "source_column": "car",
+            "source_table": "source",
+            "target_column": "automobile",
+            "target_table": "target"
+          },
+          "score": 0.8656100000000001
+        },
+        {
+          "details": {
+            "lsim": 1.0,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.8656100000000001
+          },
+          "pair": {
+            "source_column": "physician",
+            "source_table": "source",
+            "target_column": "doctor",
+            "target_table": "target"
+          },
+          "score": 0.8656100000000001
+        },
+        {
+          "details": {
+            "lsim": 1.0,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.8656100000000001
+          },
+          "pair": {
+            "source_column": "quick",
+            "source_table": "source",
+            "target_column": "fast",
+            "target_table": "target"
+          },
+          "score": 0.8656100000000001
+        },
+        {
+          "details": {
+            "lsim": 0.9,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.7856100000000001
+          },
+          "pair": {
+            "source_column": "running",
+            "source_table": "source",
+            "target_column": "walking",
+            "target_table": "target"
+          },
+          "score": 0.7856100000000001
+        }
+      ],
+      "name": "wordnet_default",
+      "tables": [
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "car",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "physician",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "running",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "quick",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "cats",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "best",
+              "samples": []
+            }
+          ],
+          "name": "source"
+        },
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "automobile",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "doctor",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "walking",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "fast",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "dogs",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "good",
+              "samples": []
+            }
+          ],
+          "name": "target"
+        }
+      ]
+    },
+    {
+      "algorithm": "cupid",
+      "config": {
+        "th_accept": 0.0
+      },
+      "expected": [
+        {
+          "details": {
+            "lsim": 0.42105263157894735,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.4024521052631579
+          },
+          "pair": {
+            "source_column": "best",
+            "source_table": "source",
+            "target_column": "automobile",
+            "target_table": "target"
+          },
+          "score": 0.4024521052631579
+        },
+        {
+          "details": {
+            "lsim": 0.7058823529411765,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.6303158823529413
+          },
+          "pair": {
+            "source_column": "best",
+            "source_table": "source",
+            "target_column": "doctor",
+            "target_table": "target"
+          },
+          "score": 0.6303158823529413
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.06561000000000002
+          },
+          "pair": {
+            "source_column": "best",
+            "source_table": "source",
+            "target_column": "dogs",
+            "target_table": "target"
+          },
+          "score": 0.06561000000000002
+        },
+        {
+          "details": {
+            "lsim": 0.6666666666666666,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.5989433333333334
+          },
+          "pair": {
+            "source_column": "best",
+            "source_table": "source",
+            "target_column": "fast",
+            "target_table": "target"
+          },
+          "score": 0.5989433333333334
+        },
+        {
+          "details": {
+            "lsim": 1.0,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.8656100000000001
+          },
+          "pair": {
+            "source_column": "best",
+            "source_table": "source",
+            "target_column": "good",
+            "target_table": "target"
+          },
+          "score": 0.8656100000000001
+        },
+        {
+          "details": {
+            "lsim": 0.5555555555555556,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.5100544444444445
+          },
+          "pair": {
+            "source_column": "best",
+            "source_table": "source",
+            "target_column": "walking",
+            "target_table": "target"
+          },
+          "score": 0.5100544444444445
+        },
+        {
+          "details": {
+            "lsim": 1.0,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.8656100000000001
+          },
+          "pair": {
+            "source_column": "car",
+            "source_table": "source",
+            "target_column": "automobile",
+            "target_table": "target"
+          },
+          "score": 0.8656100000000001
+        },
+        {
+          "details": {
+            "lsim": 0.42105263157894735,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.4024521052631579
+          },
+          "pair": {
+            "source_column": "car",
+            "source_table": "source",
+            "target_column": "doctor",
+            "target_table": "target"
+          },
+          "score": 0.4024521052631579
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.06561000000000002
+          },
+          "pair": {
+            "source_column": "car",
+            "source_table": "source",
+            "target_column": "dogs",
+            "target_table": "target"
+          },
+          "score": 0.06561000000000002
+        },
+        {
+          "details": {
+            "lsim": 0.16666666666666666,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.19894333333333336
+          },
+          "pair": {
+            "source_column": "car",
+            "source_table": "source",
+            "target_column": "fast",
+            "target_table": "target"
+          },
+          "score": 0.19894333333333336
+        },
+        {
+          "details": {
+            "lsim": 0.6666666666666666,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.5989433333333334
+          },
+          "pair": {
+            "source_column": "car",
+            "source_table": "source",
+            "target_column": "good",
+            "target_table": "target"
+          },
+          "score": 0.5989433333333334
+        },
+        {
+          "details": {
+            "lsim": 0.16666666666666666,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.19894333333333336
+          },
+          "pair": {
+            "source_column": "car",
+            "source_table": "source",
+            "target_column": "walking",
+            "target_table": "target"
+          },
+          "score": 0.19894333333333336
+        },
+        {
+          "details": {
+            "lsim": 0.09999999999999998,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.14561000000000002
+          },
+          "pair": {
+            "source_column": "cats",
+            "source_table": "source",
+            "target_column": "automobile",
+            "target_table": "target"
+          },
+          "score": 0.14561000000000002
+        },
+        {
+          "details": {
+            "lsim": 0.16666666666666663,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.1989433333333333
+          },
+          "pair": {
+            "source_column": "cats",
+            "source_table": "source",
+            "target_column": "doctor",
+            "target_table": "target"
+          },
+          "score": 0.1989433333333333
+        },
+        {
+          "details": {
+            "lsim": 0.25,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.26561
+          },
+          "pair": {
+            "source_column": "cats",
+            "source_table": "source",
+            "target_column": "dogs",
+            "target_table": "target"
+          },
+          "score": 0.26561
+        },
+        {
+          "details": {
+            "lsim": 0.25,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.26561
+          },
+          "pair": {
+            "source_column": "cats",
+            "source_table": "source",
+            "target_column": "fast",
+            "target_table": "target"
+          },
+          "score": 0.26561
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.06561000000000002
+          },
+          "pair": {
+            "source_column": "cats",
+            "source_table": "source",
+            "target_column": "good",
+            "target_table": "target"
+          },
+          "score": 0.06561000000000002
+        },
+        {
+          "details": {
+            "lsim": 0.1428571428571429,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.17989571428571433
+          },
+          "pair": {
+            "source_column": "cats",
+            "source_table": "source",
+            "target_column": "walking",
+            "target_table": "target"
+          },
+          "score": 0.17989571428571433
+        },
+        {
+          "details": {
+            "lsim": 0.34782608695652173,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.3438708695652174
+          },
+          "pair": {
+            "source_column": "physician",
+            "source_table": "source",
+            "target_column": "automobile",
+            "target_table": "target"
+          },
+          "score": 0.3438708695652174
+        },
+        {
+          "details": {
+            "lsim": 1.0,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.8656100000000001
+          },
+          "pair": {
+            "source_column": "physician",
+            "source_table": "source",
+            "target_column": "doctor",
+            "target_table": "target"
+          },
+          "score": 0.8656100000000001
+        },
+        {
+          "details": {
+            "lsim": 0.11111111111111116,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.15449888888888896
+          },
+          "pair": {
+            "source_column": "physician",
+            "source_table": "source",
+            "target_column": "dogs",
+            "target_table": "target"
+          },
+          "score": 0.15449888888888896
+        },
+        {
+          "details": {
+            "lsim": 0.15384615384615385,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.18868692307692309
+          },
+          "pair": {
+            "source_column": "physician",
+            "source_table": "source",
+            "target_column": "fast",
+            "target_table": "target"
+          },
+          "score": 0.18868692307692309
+        },
+        {
+          "details": {
+            "lsim": 0.4444444444444444,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.42116555555555557
+          },
+          "pair": {
+            "source_column": "physician",
+            "source_table": "source",
+            "target_column": "good",
+            "target_table": "target"
+          },
+          "score": 0.42116555555555557
+        },
+        {
+          "details": {
+            "lsim": 0.15384615384615385,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.18868692307692309
+          },
+          "pair": {
+            "source_column": "physician",
+            "source_table": "source",
+            "target_column": "walking",
+            "target_table": "target"
+          },
+          "score": 0.18868692307692309
+        },
+        {
+          "details": {
+            "lsim": 0.4000000000000001,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.38561000000000006
+          },
+          "pair": {
+            "source_column": "quick",
+            "source_table": "source",
+            "target_column": "automobile",
+            "target_table": "target"
+          },
+          "score": 0.38561000000000006
+        },
+        {
+          "details": {
+            "lsim": 0.4000000000000001,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.38561000000000006
+          },
+          "pair": {
+            "source_column": "quick",
+            "source_table": "source",
+            "target_column": "doctor",
+            "target_table": "target"
+          },
+          "score": 0.38561000000000006
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.06561000000000002
+          },
+          "pair": {
+            "source_column": "quick",
+            "source_table": "source",
+            "target_column": "dogs",
+            "target_table": "target"
+          },
+          "score": 0.06561000000000002
+        },
+        {
+          "details": {
+            "lsim": 1.0,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.8656100000000001
+          },
+          "pair": {
+            "source_column": "quick",
+            "source_table": "source",
+            "target_column": "fast",
+            "target_table": "target"
+          },
+          "score": 0.8656100000000001
+        },
+        {
+          "details": {
+            "lsim": 0.5,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.46561
+          },
+          "pair": {
+            "source_column": "quick",
+            "source_table": "source",
+            "target_column": "good",
+            "target_table": "target"
+          },
+          "score": 0.46561
+        },
+        {
+          "details": {
+            "lsim": 0.5,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.46561
+          },
+          "pair": {
+            "source_column": "quick",
+            "source_table": "source",
+            "target_column": "walking",
+            "target_table": "target"
+          },
+          "score": 0.46561
+        },
+        {
+          "details": {
+            "lsim": 0.4000000000000001,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.38561000000000006
+          },
+          "pair": {
+            "source_column": "running",
+            "source_table": "source",
+            "target_column": "automobile",
+            "target_table": "target"
+          },
+          "score": 0.38561000000000006
+        },
+        {
+          "details": {
+            "lsim": 0.7368421052631577,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.6550836842105263
+          },
+          "pair": {
+            "source_column": "running",
+            "source_table": "source",
+            "target_column": "doctor",
+            "target_table": "target"
+          },
+          "score": 0.6550836842105263
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.06561000000000002
+          },
+          "pair": {
+            "source_column": "running",
+            "source_table": "source",
+            "target_column": "dogs",
+            "target_table": "target"
+          },
+          "score": 0.06561000000000002
+        },
+        {
+          "details": {
+            "lsim": 0.6,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.54561
+          },
+          "pair": {
+            "source_column": "running",
+            "source_table": "source",
+            "target_column": "fast",
+            "target_table": "target"
+          },
+          "score": 0.54561
+        },
+        {
+          "details": {
+            "lsim": 0.5,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.46561
+          },
+          "pair": {
+            "source_column": "running",
+            "source_table": "source",
+            "target_column": "good",
+            "target_table": "target"
+          },
+          "score": 0.46561
+        },
+        {
+          "details": {
+            "lsim": 0.9,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.7856100000000001
+          },
+          "pair": {
+            "source_column": "running",
+            "source_table": "source",
+            "target_column": "walking",
+            "target_table": "target"
+          },
+          "score": 0.7856100000000001
+        }
+      ],
+      "name": "wordnet_all",
+      "tables": [
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "car",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "physician",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "running",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "quick",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "cats",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "best",
+              "samples": []
+            }
+          ],
+          "name": "source"
+        },
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "automobile",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "doctor",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "walking",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "fast",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "dogs",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "good",
+              "samples": []
+            }
+          ],
+          "name": "target"
+        }
+      ]
+    },
+    {
+      "algorithm": "cupid",
+      "config": {
+        "process_num": 2
+      },
+      "expected": [
+        {
+          "details": {
+            "lsim": 1.0,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.8656100000000001
+          },
+          "pair": {
+            "source_column": "best",
+            "source_table": "source",
+            "target_column": "good",
+            "target_table": "target"
+          },
+          "score": 0.8656100000000001
+        },
+        {
+          "details": {
+            "lsim": 1.0,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.8656100000000001
+          },
+          "pair": {
+            "source_column": "car",
+            "source_table": "source",
+            "target_column": "automobile",
+            "target_table": "target"
+          },
+          "score": 0.8656100000000001
+        },
+        {
+          "details": {
+            "lsim": 1.0,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.8656100000000001
+          },
+          "pair": {
+            "source_column": "physician",
+            "source_table": "source",
+            "target_column": "doctor",
+            "target_table": "target"
+          },
+          "score": 0.8656100000000001
+        },
+        {
+          "details": {
+            "lsim": 1.0,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.8656100000000001
+          },
+          "pair": {
+            "source_column": "quick",
+            "source_table": "source",
+            "target_column": "fast",
+            "target_table": "target"
+          },
+          "score": 0.8656100000000001
+        },
+        {
+          "details": {
+            "lsim": 0.9,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.7856100000000001
+          },
+          "pair": {
+            "source_column": "running",
+            "source_table": "source",
+            "target_column": "walking",
+            "target_table": "target"
+          },
+          "score": 0.7856100000000001
+        }
+      ],
+      "name": "wordnet_parallel",
+      "tables": [
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "car",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "physician",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "running",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "quick",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "cats",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "best",
+              "samples": []
+            }
+          ],
+          "name": "source"
+        },
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "automobile",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "doctor",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "walking",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "fast",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "dogs",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "good",
+              "samples": []
+            }
+          ],
+          "name": "target"
+        }
+      ]
+    },
+    {
+      "algorithm": "cupid",
+      "config": {
+        "th_accept": 0.0
+      },
+      "expected": [
+        {
+          "details": {
+            "lsim": 0.08333333333333336,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.1322766666666667
+          },
+          "pair": {
+            "source_column": "car12",
+            "source_table": "source",
+            "target_column": "automobile13",
+            "target_table": "target"
+          },
+          "score": 0.1322766666666667
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.0,
+            "wsim": 0.0
+          },
+          "pair": {
+            "source_column": "car12",
+            "source_table": "source",
+            "target_column": "eventDate",
+            "target_table": "target"
+          },
+          "score": 0.0
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.0,
+            "wsim": 0.0
+          },
+          "pair": {
+            "source_column": "car12",
+            "source_table": "source",
+            "target_column": "name",
+            "target_table": "target"
+          },
+          "score": 0.0
+        },
+        {
+          "details": {
+            "lsim": 0.19999999999999996,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.22560999999999998
+          },
+          "pair": {
+            "source_column": "car12",
+            "source_table": "source",
+            "target_column": "value",
+            "target_table": "target"
+          },
+          "score": 0.22560999999999998
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.0,
+            "wsim": 0.0
+          },
+          "pair": {
+            "source_column": "event_date",
+            "source_table": "source",
+            "target_column": "automobile13",
+            "target_table": "target"
+          },
+          "score": 0.0
+        },
+        {
+          "details": {
+            "lsim": 1.0,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.8656100000000001
+          },
+          "pair": {
+            "source_column": "event_date",
+            "source_table": "source",
+            "target_column": "eventDate",
+            "target_table": "target"
+          },
+          "score": 0.8656100000000001
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.0,
+            "wsim": 0.0
+          },
+          "pair": {
+            "source_column": "event_date",
+            "source_table": "source",
+            "target_column": "name",
+            "target_table": "target"
+          },
+          "score": 0.0
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.0,
+            "wsim": 0.0
+          },
+          "pair": {
+            "source_column": "event_date",
+            "source_table": "source",
+            "target_column": "value",
+            "target_table": "target"
+          },
+          "score": 0.0
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.0,
+            "wsim": 0.0
+          },
+          "pair": {
+            "source_column": "theName",
+            "source_table": "source",
+            "target_column": "automobile13",
+            "target_table": "target"
+          },
+          "score": 0.0
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.0,
+            "wsim": 0.0
+          },
+          "pair": {
+            "source_column": "theName",
+            "source_table": "source",
+            "target_column": "eventDate",
+            "target_table": "target"
+          },
+          "score": 0.0
+        },
+        {
+          "details": {
+            "lsim": 1.0,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.8656100000000001
+          },
+          "pair": {
+            "source_column": "theName",
+            "source_table": "source",
+            "target_column": "name",
+            "target_table": "target"
+          },
+          "score": 0.8656100000000001
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.0,
+            "wsim": 0.0
+          },
+          "pair": {
+            "source_column": "theName",
+            "source_table": "source",
+            "target_column": "value",
+            "target_table": "target"
+          },
+          "score": 0.0
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.0,
+            "wsim": 0.0
+          },
+          "pair": {
+            "source_column": "value",
+            "source_table": "source",
+            "target_column": "automobile13",
+            "target_table": "target"
+          },
+          "score": 0.0
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.0,
+            "wsim": 0.0
+          },
+          "pair": {
+            "source_column": "value",
+            "source_table": "source",
+            "target_column": "eventDate",
+            "target_table": "target"
+          },
+          "score": 0.0
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.0,
+            "wsim": 0.0
+          },
+          "pair": {
+            "source_column": "value",
+            "source_table": "source",
+            "target_column": "name",
+            "target_table": "target"
+          },
+          "score": 0.0
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.0,
+            "wsim": 0.0
+          },
+          "pair": {
+            "source_column": "value",
+            "source_table": "source",
+            "target_column": "value",
+            "target_table": "target"
+          },
+          "score": 0.0
+        }
+      ],
+      "name": "typed_weighted",
+      "tables": [
+        {
+          "columns": [
+            {
+              "data_type": "integer",
+              "name": "car12",
+              "samples": []
+            },
+            {
+              "data_type": "float",
+              "name": "value",
+              "samples": []
+            },
+            {
+              "data_type": "date",
+              "name": "event_date",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "theName",
+              "samples": []
+            }
+          ],
+          "name": "source"
+        },
+        {
+          "columns": [
+            {
+              "data_type": "integer",
+              "name": "automobile13",
+              "samples": []
+            },
+            {
+              "data_type": "integer",
+              "name": "value",
+              "samples": []
+            },
+            {
+              "data_type": "timestamp",
+              "name": "eventDate",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "name",
+              "samples": []
+            }
+          ],
+          "name": "target"
+        }
+      ]
+    },
+    {
+      "algorithm": "cupid",
+      "config": {
+        "th_accept": 0.0,
+        "th_ns": 1.0
+      },
+      "expected": [
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.06561000000000002
+          },
+          "pair": {
+            "source_column": "car12",
+            "source_table": "source",
+            "target_column": "automobile13",
+            "target_table": "target"
+          },
+          "score": 0.06561000000000002
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.0,
+            "wsim": 0.0
+          },
+          "pair": {
+            "source_column": "car12",
+            "source_table": "source",
+            "target_column": "eventDate",
+            "target_table": "target"
+          },
+          "score": 0.0
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.0,
+            "wsim": 0.0
+          },
+          "pair": {
+            "source_column": "car12",
+            "source_table": "source",
+            "target_column": "name",
+            "target_table": "target"
+          },
+          "score": 0.0
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.06561000000000002
+          },
+          "pair": {
+            "source_column": "car12",
+            "source_table": "source",
+            "target_column": "value",
+            "target_table": "target"
+          },
+          "score": 0.06561000000000002
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.0,
+            "wsim": 0.0
+          },
+          "pair": {
+            "source_column": "event_date",
+            "source_table": "source",
+            "target_column": "automobile13",
+            "target_table": "target"
+          },
+          "score": 0.0
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.06561000000000002
+          },
+          "pair": {
+            "source_column": "event_date",
+            "source_table": "source",
+            "target_column": "eventDate",
+            "target_table": "target"
+          },
+          "score": 0.06561000000000002
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.0,
+            "wsim": 0.0
+          },
+          "pair": {
+            "source_column": "event_date",
+            "source_table": "source",
+            "target_column": "name",
+            "target_table": "target"
+          },
+          "score": 0.0
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.0,
+            "wsim": 0.0
+          },
+          "pair": {
+            "source_column": "event_date",
+            "source_table": "source",
+            "target_column": "value",
+            "target_table": "target"
+          },
+          "score": 0.0
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.0,
+            "wsim": 0.0
+          },
+          "pair": {
+            "source_column": "theName",
+            "source_table": "source",
+            "target_column": "automobile13",
+            "target_table": "target"
+          },
+          "score": 0.0
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.0,
+            "wsim": 0.0
+          },
+          "pair": {
+            "source_column": "theName",
+            "source_table": "source",
+            "target_column": "eventDate",
+            "target_table": "target"
+          },
+          "score": 0.0
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.06561000000000002
+          },
+          "pair": {
+            "source_column": "theName",
+            "source_table": "source",
+            "target_column": "name",
+            "target_table": "target"
+          },
+          "score": 0.06561000000000002
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.0,
+            "wsim": 0.0
+          },
+          "pair": {
+            "source_column": "theName",
+            "source_table": "source",
+            "target_column": "value",
+            "target_table": "target"
+          },
+          "score": 0.0
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.0,
+            "wsim": 0.0
+          },
+          "pair": {
+            "source_column": "value",
+            "source_table": "source",
+            "target_column": "automobile13",
+            "target_table": "target"
+          },
+          "score": 0.0
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.0,
+            "wsim": 0.0
+          },
+          "pair": {
+            "source_column": "value",
+            "source_table": "source",
+            "target_column": "eventDate",
+            "target_table": "target"
+          },
+          "score": 0.0
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.0,
+            "wsim": 0.0
+          },
+          "pair": {
+            "source_column": "value",
+            "source_table": "source",
+            "target_column": "name",
+            "target_table": "target"
+          },
+          "score": 0.0
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 0.0,
+            "wsim": 0.0
+          },
+          "pair": {
+            "source_column": "value",
+            "source_table": "source",
+            "target_column": "value",
+            "target_table": "target"
+          },
+          "score": 0.0
+        }
+      ],
+      "name": "typed_strict_category",
+      "tables": [
+        {
+          "columns": [
+            {
+              "data_type": "integer",
+              "name": "car12",
+              "samples": []
+            },
+            {
+              "data_type": "float",
+              "name": "value",
+              "samples": []
+            },
+            {
+              "data_type": "date",
+              "name": "event_date",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "theName",
+              "samples": []
+            }
+          ],
+          "name": "source"
+        },
+        {
+          "columns": [
+            {
+              "data_type": "integer",
+              "name": "automobile13",
+              "samples": []
+            },
+            {
+              "data_type": "integer",
+              "name": "value",
+              "samples": []
+            },
+            {
+              "data_type": "timestamp",
+              "name": "eventDate",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "name",
+              "samples": []
+            }
+          ],
+          "name": "target"
+        }
+      ]
+    },
+    {
+      "algorithm": "cupid",
+      "config": {
+        "th_high": 0.4,
+        "th_low": 0.0,
+        "w_struct": 0.9
+      },
+      "expected": [
+        {
+          "details": {
+            "lsim": 0.7058823529411765,
+            "ssim": 1.0,
+            "wsim": 0.7647058823529413
+          },
+          "pair": {
+            "source_column": "best",
+            "source_table": "source",
+            "target_column": "doctor",
+            "target_table": "target"
+          },
+          "score": 0.7647058823529413
+        },
+        {
+          "details": {
+            "lsim": 0.6666666666666666,
+            "ssim": 1.0,
+            "wsim": 0.7333333333333334
+          },
+          "pair": {
+            "source_column": "best",
+            "source_table": "source",
+            "target_column": "fast",
+            "target_table": "target"
+          },
+          "score": 0.7333333333333334
+        },
+        {
+          "details": {
+            "lsim": 1.0,
+            "ssim": 1.0,
+            "wsim": 1.0
+          },
+          "pair": {
+            "source_column": "best",
+            "source_table": "source",
+            "target_column": "good",
+            "target_table": "target"
+          },
+          "score": 1.0
+        },
+        {
+          "details": {
+            "lsim": 1.0,
+            "ssim": 1.0,
+            "wsim": 1.0
+          },
+          "pair": {
+            "source_column": "car",
+            "source_table": "source",
+            "target_column": "automobile",
+            "target_table": "target"
+          },
+          "score": 1.0
+        },
+        {
+          "details": {
+            "lsim": 0.6666666666666666,
+            "ssim": 1.0,
+            "wsim": 0.7333333333333334
+          },
+          "pair": {
+            "source_column": "car",
+            "source_table": "source",
+            "target_column": "good",
+            "target_table": "target"
+          },
+          "score": 0.7333333333333334
+        },
+        {
+          "details": {
+            "lsim": 1.0,
+            "ssim": 1.0,
+            "wsim": 1.0
+          },
+          "pair": {
+            "source_column": "physician",
+            "source_table": "source",
+            "target_column": "doctor",
+            "target_table": "target"
+          },
+          "score": 1.0
+        },
+        {
+          "details": {
+            "lsim": 1.0,
+            "ssim": 1.0,
+            "wsim": 1.0
+          },
+          "pair": {
+            "source_column": "quick",
+            "source_table": "source",
+            "target_column": "fast",
+            "target_table": "target"
+          },
+          "score": 1.0
+        },
+        {
+          "details": {
+            "lsim": 0.7368421052631577,
+            "ssim": 1.0,
+            "wsim": 0.7894736842105263
+          },
+          "pair": {
+            "source_column": "running",
+            "source_table": "source",
+            "target_column": "doctor",
+            "target_table": "target"
+          },
+          "score": 0.7894736842105263
+        },
+        {
+          "details": {
+            "lsim": 0.9,
+            "ssim": 1.0,
+            "wsim": 0.9200000000000002
+          },
+          "pair": {
+            "source_column": "running",
+            "source_table": "source",
+            "target_column": "walking",
+            "target_table": "target"
+          },
+          "score": 0.9200000000000002
+        }
+      ],
+      "name": "reinforcement",
+      "tables": [
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "car",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "physician",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "running",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "quick",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "cats",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "best",
+              "samples": []
+            }
+          ],
+          "name": "source"
+        },
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "automobile",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "doctor",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "walking",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "fast",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "dogs",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "good",
+              "samples": []
+            }
+          ],
+          "name": "target"
+        }
+      ]
+    },
+    {
+      "algorithm": "cupid",
+      "config": {
+        "c_dec": 0.7,
+        "c_inc": 1.5,
+        "leaf_w_struct": 0.6,
+        "th_accept": 0.3,
+        "w_struct": 0.8
+      },
+      "expected": [
+        {
+          "details": {
+            "lsim": 0.42105263157894735,
+            "ssim": 1.0,
+            "wsim": 0.7684210526315789
+          },
+          "pair": {
+            "source_column": "best",
+            "source_table": "source",
+            "target_column": "automobile",
+            "target_table": "target"
+          },
+          "score": 0.7684210526315789
+        },
+        {
+          "details": {
+            "lsim": 0.7058823529411765,
+            "ssim": 1.0,
+            "wsim": 0.8823529411764706
+          },
+          "pair": {
+            "source_column": "best",
+            "source_table": "source",
+            "target_column": "doctor",
+            "target_table": "target"
+          },
+          "score": 0.8823529411764706
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 1.0,
+            "wsim": 0.6
+          },
+          "pair": {
+            "source_column": "best",
+            "source_table": "source",
+            "target_column": "dogs",
+            "target_table": "target"
+          },
+          "score": 0.6
+        },
+        {
+          "details": {
+            "lsim": 0.6666666666666666,
+            "ssim": 1.0,
+            "wsim": 0.8666666666666667
+          },
+          "pair": {
+            "source_column": "best",
+            "source_table": "source",
+            "target_column": "fast",
+            "target_table": "target"
+          },
+          "score": 0.8666666666666667
+        },
+        {
+          "details": {
+            "lsim": 1.0,
+            "ssim": 1.0,
+            "wsim": 1.0
+          },
+          "pair": {
+            "source_column": "best",
+            "source_table": "source",
+            "target_column": "good",
+            "target_table": "target"
+          },
+          "score": 1.0
+        },
+        {
+          "details": {
+            "lsim": 0.5555555555555556,
+            "ssim": 1.0,
+            "wsim": 0.8222222222222222
+          },
+          "pair": {
+            "source_column": "best",
+            "source_table": "source",
+            "target_column": "walking",
+            "target_table": "target"
+          },
+          "score": 0.8222222222222222
+        },
+        {
+          "details": {
+            "lsim": 1.0,
+            "ssim": 1.0,
+            "wsim": 1.0
+          },
+          "pair": {
+            "source_column": "car",
+            "source_table": "source",
+            "target_column": "automobile",
+            "target_table": "target"
+          },
+          "score": 1.0
+        },
+        {
+          "details": {
+            "lsim": 0.42105263157894735,
+            "ssim": 1.0,
+            "wsim": 0.7684210526315789
+          },
+          "pair": {
+            "source_column": "car",
+            "source_table": "source",
+            "target_column": "doctor",
+            "target_table": "target"
+          },
+          "score": 0.7684210526315789
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 1.0,
+            "wsim": 0.6
+          },
+          "pair": {
+            "source_column": "car",
+            "source_table": "source",
+            "target_column": "dogs",
+            "target_table": "target"
+          },
+          "score": 0.6
+        },
+        {
+          "details": {
+            "lsim": 0.16666666666666666,
+            "ssim": 1.0,
+            "wsim": 0.6666666666666666
+          },
+          "pair": {
+            "source_column": "car",
+            "source_table": "source",
+            "target_column": "fast",
+            "target_table": "target"
+          },
+          "score": 0.6666666666666666
+        },
+        {
+          "details": {
+            "lsim": 0.6666666666666666,
+            "ssim": 1.0,
+            "wsim": 0.8666666666666667
+          },
+          "pair": {
+            "source_column": "car",
+            "source_table": "source",
+            "target_column": "good",
+            "target_table": "target"
+          },
+          "score": 0.8666666666666667
+        },
+        {
+          "details": {
+            "lsim": 0.16666666666666666,
+            "ssim": 1.0,
+            "wsim": 0.6666666666666666
+          },
+          "pair": {
+            "source_column": "car",
+            "source_table": "source",
+            "target_column": "walking",
+            "target_table": "target"
+          },
+          "score": 0.6666666666666666
+        },
+        {
+          "details": {
+            "lsim": 0.09999999999999998,
+            "ssim": 1.0,
+            "wsim": 0.64
+          },
+          "pair": {
+            "source_column": "cats",
+            "source_table": "source",
+            "target_column": "automobile",
+            "target_table": "target"
+          },
+          "score": 0.64
+        },
+        {
+          "details": {
+            "lsim": 0.16666666666666663,
+            "ssim": 1.0,
+            "wsim": 0.6666666666666666
+          },
+          "pair": {
+            "source_column": "cats",
+            "source_table": "source",
+            "target_column": "doctor",
+            "target_table": "target"
+          },
+          "score": 0.6666666666666666
+        },
+        {
+          "details": {
+            "lsim": 0.25,
+            "ssim": 1.0,
+            "wsim": 0.7
+          },
+          "pair": {
+            "source_column": "cats",
+            "source_table": "source",
+            "target_column": "dogs",
+            "target_table": "target"
+          },
+          "score": 0.7
+        },
+        {
+          "details": {
+            "lsim": 0.25,
+            "ssim": 1.0,
+            "wsim": 0.7
+          },
+          "pair": {
+            "source_column": "cats",
+            "source_table": "source",
+            "target_column": "fast",
+            "target_table": "target"
+          },
+          "score": 0.7
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 1.0,
+            "wsim": 0.6
+          },
+          "pair": {
+            "source_column": "cats",
+            "source_table": "source",
+            "target_column": "good",
+            "target_table": "target"
+          },
+          "score": 0.6
+        },
+        {
+          "details": {
+            "lsim": 0.1428571428571429,
+            "ssim": 1.0,
+            "wsim": 0.6571428571428571
+          },
+          "pair": {
+            "source_column": "cats",
+            "source_table": "source",
+            "target_column": "walking",
+            "target_table": "target"
+          },
+          "score": 0.6571428571428571
+        },
+        {
+          "details": {
+            "lsim": 0.34782608695652173,
+            "ssim": 1.0,
+            "wsim": 0.7391304347826086
+          },
+          "pair": {
+            "source_column": "physician",
+            "source_table": "source",
+            "target_column": "automobile",
+            "target_table": "target"
+          },
+          "score": 0.7391304347826086
+        },
+        {
+          "details": {
+            "lsim": 1.0,
+            "ssim": 1.0,
+            "wsim": 1.0
+          },
+          "pair": {
+            "source_column": "physician",
+            "source_table": "source",
+            "target_column": "doctor",
+            "target_table": "target"
+          },
+          "score": 1.0
+        },
+        {
+          "details": {
+            "lsim": 0.11111111111111116,
+            "ssim": 1.0,
+            "wsim": 0.6444444444444445
+          },
+          "pair": {
+            "source_column": "physician",
+            "source_table": "source",
+            "target_column": "dogs",
+            "target_table": "target"
+          },
+          "score": 0.6444444444444445
+        },
+        {
+          "details": {
+            "lsim": 0.15384615384615385,
+            "ssim": 1.0,
+            "wsim": 0.6615384615384615
+          },
+          "pair": {
+            "source_column": "physician",
+            "source_table": "source",
+            "target_column": "fast",
+            "target_table": "target"
+          },
+          "score": 0.6615384615384615
+        },
+        {
+          "details": {
+            "lsim": 0.4444444444444444,
+            "ssim": 1.0,
+            "wsim": 0.7777777777777778
+          },
+          "pair": {
+            "source_column": "physician",
+            "source_table": "source",
+            "target_column": "good",
+            "target_table": "target"
+          },
+          "score": 0.7777777777777778
+        },
+        {
+          "details": {
+            "lsim": 0.15384615384615385,
+            "ssim": 1.0,
+            "wsim": 0.6615384615384615
+          },
+          "pair": {
+            "source_column": "physician",
+            "source_table": "source",
+            "target_column": "walking",
+            "target_table": "target"
+          },
+          "score": 0.6615384615384615
+        },
+        {
+          "details": {
+            "lsim": 0.4000000000000001,
+            "ssim": 1.0,
+            "wsim": 0.76
+          },
+          "pair": {
+            "source_column": "quick",
+            "source_table": "source",
+            "target_column": "automobile",
+            "target_table": "target"
+          },
+          "score": 0.76
+        },
+        {
+          "details": {
+            "lsim": 0.4000000000000001,
+            "ssim": 1.0,
+            "wsim": 0.76
+          },
+          "pair": {
+            "source_column": "quick",
+            "source_table": "source",
+            "target_column": "doctor",
+            "target_table": "target"
+          },
+          "score": 0.76
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 1.0,
+            "wsim": 0.6
+          },
+          "pair": {
+            "source_column": "quick",
+            "source_table": "source",
+            "target_column": "dogs",
+            "target_table": "target"
+          },
+          "score": 0.6
+        },
+        {
+          "details": {
+            "lsim": 1.0,
+            "ssim": 1.0,
+            "wsim": 1.0
+          },
+          "pair": {
+            "source_column": "quick",
+            "source_table": "source",
+            "target_column": "fast",
+            "target_table": "target"
+          },
+          "score": 1.0
+        },
+        {
+          "details": {
+            "lsim": 0.5,
+            "ssim": 1.0,
+            "wsim": 0.8
+          },
+          "pair": {
+            "source_column": "quick",
+            "source_table": "source",
+            "target_column": "good",
+            "target_table": "target"
+          },
+          "score": 0.8
+        },
+        {
+          "details": {
+            "lsim": 0.5,
+            "ssim": 1.0,
+            "wsim": 0.8
+          },
+          "pair": {
+            "source_column": "quick",
+            "source_table": "source",
+            "target_column": "walking",
+            "target_table": "target"
+          },
+          "score": 0.8
+        },
+        {
+          "details": {
+            "lsim": 0.4000000000000001,
+            "ssim": 1.0,
+            "wsim": 0.76
+          },
+          "pair": {
+            "source_column": "running",
+            "source_table": "source",
+            "target_column": "automobile",
+            "target_table": "target"
+          },
+          "score": 0.76
+        },
+        {
+          "details": {
+            "lsim": 0.7368421052631577,
+            "ssim": 1.0,
+            "wsim": 0.894736842105263
+          },
+          "pair": {
+            "source_column": "running",
+            "source_table": "source",
+            "target_column": "doctor",
+            "target_table": "target"
+          },
+          "score": 0.894736842105263
+        },
+        {
+          "details": {
+            "lsim": 0.0,
+            "ssim": 1.0,
+            "wsim": 0.6
+          },
+          "pair": {
+            "source_column": "running",
+            "source_table": "source",
+            "target_column": "dogs",
+            "target_table": "target"
+          },
+          "score": 0.6
+        },
+        {
+          "details": {
+            "lsim": 0.6,
+            "ssim": 1.0,
+            "wsim": 0.84
+          },
+          "pair": {
+            "source_column": "running",
+            "source_table": "source",
+            "target_column": "fast",
+            "target_table": "target"
+          },
+          "score": 0.84
+        },
+        {
+          "details": {
+            "lsim": 0.5,
+            "ssim": 1.0,
+            "wsim": 0.8
+          },
+          "pair": {
+            "source_column": "running",
+            "source_table": "source",
+            "target_column": "good",
+            "target_table": "target"
+          },
+          "score": 0.8
+        },
+        {
+          "details": {
+            "lsim": 0.9,
+            "ssim": 1.0,
+            "wsim": 0.96
+          },
+          "pair": {
+            "source_column": "running",
+            "source_table": "source",
+            "target_column": "walking",
+            "target_table": "target"
+          },
+          "score": 0.96
+        }
+      ],
+      "name": "weighted_structure",
+      "tables": [
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "car",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "physician",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "running",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "quick",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "cats",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "best",
+              "samples": []
+            }
+          ],
+          "name": "source"
+        },
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "automobile",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "doctor",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "walking",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "fast",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "dogs",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "good",
+              "samples": []
+            }
+          ],
+          "name": "target"
+        }
+      ]
+    },
+    {
+      "algorithm": "cupid",
+      "config": {
+        "th_accept": 0.0
+      },
+      "expected": [
+        {
+          "details": {
+            "lsim": 1.0,
+            "ssim": 0.5,
+            "wsim": 0.9
+          },
+          "pair": {
+            "source_column": "alpha",
+            "source_table": "s",
+            "target_column": "alpha",
+            "target_table": "t"
+          },
+          "score": 0.9
+        },
+        {
+          "details": {
+            "lsim": 0.8888888888888888,
+            "ssim": 0.5,
+            "wsim": 0.8111111111111111
+          },
+          "pair": {
+            "source_column": "alpha",
+            "source_table": "s",
+            "target_column": "beta",
+            "target_table": "t"
+          },
+          "score": 0.8111111111111111
+        },
+        {
+          "details": {
+            "lsim": 0.8888888888888888,
+            "ssim": 0.5,
+            "wsim": 0.8111111111111111
+          },
+          "pair": {
+            "source_column": "alpha",
+            "source_table": "s",
+            "target_column": "gamma",
+            "target_table": "t"
+          },
+          "score": 0.8111111111111111
+        }
+      ],
+      "name": "shape_ratio_skips_propagation",
+      "tables": [
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "alpha",
+              "samples": []
+            }
+          ],
+          "name": "s"
+        },
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "alpha",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "beta",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "gamma",
+              "samples": []
+            }
+          ],
+          "name": "t"
+        }
+      ]
+    },
+    {
+      "algorithm": "cupid",
+      "config": {
+        "th_accept": 0.0
+      },
+      "expected": [
+        {
+          "details": {
+            "lsim": 0.3315315315315315,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.3308352252252252
+          },
+          "pair": {
+            "source_column": "HelloWorld, 123 and hello",
+            "source_table": "s",
+            "target_column": "They will save 3.88",
+            "target_table": "t"
+          },
+          "score": 0.3308352252252252
+        },
+        {
+          "details": {
+            "lsim": 0.9841269841269842,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.8529115873015874
+          },
+          "pair": {
+            "source_column": "HelloWorld, 123 and hello",
+            "source_table": "s",
+            "target_column": "hello world 124",
+            "target_table": "t"
+          },
+          "score": 0.8529115873015874
+        },
+        {
+          "details": {
+            "lsim": 0.689655172413793,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.6173341379310345
+          },
+          "pair": {
+            "source_column": "They'll save $3.88.",
+            "source_table": "s",
+            "target_column": "They will save 3.88",
+            "target_table": "t"
+          },
+          "score": 0.6173341379310345
+        },
+        {
+          "details": {
+            "lsim": 0.4235294117647059,
+            "ssim": 0.32805000000000006,
+            "wsim": 0.40443352941176475
+          },
+          "pair": {
+            "source_column": "They'll save $3.88.",
+            "source_table": "s",
+            "target_column": "hello world 124",
+            "target_table": "t"
+          },
+          "score": 0.40443352941176475
+        }
+      ],
+      "name": "punctuation_contractions",
+      "tables": [
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "HelloWorld, 123 and hello",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "They'll save $3.88.",
+              "samples": []
+            }
+          ],
+          "name": "s"
+        },
+        {
+          "columns": [
+            {
+              "data_type": "text",
+              "name": "hello world 124",
+              "samples": []
+            },
+            {
+              "data_type": "text",
+              "name": "They will save 3.88",
+              "samples": []
+            }
+          ],
+          "name": "t"
+        }
+      ]
+    }
+  ],
+  "upstream_commit": "d8fa9ee6d312b49ce2c45b62824df1fd31b94a72",
+  "word_pairs": [
+    {
+      "a": "car",
+      "b": "automobile",
+      "score": 1.0
+    },
+    {
+      "a": "physician",
+      "b": "doctor",
+      "score": 1.0
+    },
+    {
+      "a": "dog",
+      "b": "cat",
+      "score": 0.8571428571428571
+    },
+    {
+      "a": "cats",
+      "b": "dogs",
+      "score": 0.25
+    },
+    {
+      "a": "running",
+      "b": "walking",
+      "score": 0.9
+    },
+    {
+      "a": "eat",
+      "b": "consume",
+      "score": 1.0
+    },
+    {
+      "a": "big",
+      "b": "large",
+      "score": 1.0
+    },
+    {
+      "a": "best",
+      "b": "good",
+      "score": 1.0
+    },
+    {
+      "a": "quick",
+      "b": "fast",
+      "score": 1.0
+    },
+    {
+      "a": "employee",
+      "b": "worker",
+      "score": 0.7058823529411765
+    },
+    {
+      "a": "department",
+      "b": "division",
+      "score": 0.9411764705882353
+    },
+    {
+      "a": "12",
+      "b": "13",
+      "score": 0.875
+    },
+    {
+      "a": "zxqabc",
+      "b": "zxqabd",
+      "score": 0.8333333333333334
+    },
+    {
+      "a": "physical_entity",
+      "b": "thing",
+      "score": 0.8
+    }
+  ],
+  "wordnet_version": "3.0"
+}

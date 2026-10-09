@@ -1,19 +1,30 @@
 [package]
 name = "fieldkin"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
-description = "Experimental field correspondence suggestions for flat schemas"
-license = "MIT"
+description = "Native Rust schema and instance matching: Valentine algorithms and Fieldkin suggestions"
+license = "MIT AND Apache-2.0 AND WordNet"
 repository = "https://github.com/limadog9/fieldkin"
 readme = "README.md"
 keywords = ["schema", "matching", "data", "integration"]
 categories = ["algorithms"]
-include = ["/src/**", "/tests/**", "/Cargo.toml", "/Cargo.lock", "/README.md", "/CHANGELOG.md", "/LICENSE-MIT"]
+include = ["/src/**", "/assets/**", "/tests/**", "/examples/valentine.rs", "/Cargo.toml", "/Cargo.lock", "/README.md", "/CHANGELOG.md", "/LICENSE-MIT", "/LICENSE-APACHE", "/NOTICE", "/PORTING.md"]
+
+[features]
+default = []
+polars = ["dep:polars-core"]
+embeddings = ["dep:fastembed"]
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }
 rapidfuzz = "0.5"
 fuzzy-matcher = "0.3.7"
-
-[dev-dependencies]
+strsim = "0.11"
+regex = "1"
 serde_json = "1"
+csv = "1"
+flate2 = "1"
+sha2 = "0.10"
+good_lp = { version = "1", default-features = false, features = ["microlp"] }
+polars-core = { version = "0.55", default-features = false, features = ["dtype-date", "dtype-datetime"], optional = true }
+fastembed = { version = "7.1", default-features = false, features = ["ort-download-binaries-rustls-tls", "hf-hub-rustls-tls"], optional = true }

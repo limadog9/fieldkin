@@ -1,91 +1,196 @@
 # Fieldkin
 
-Fieldkin is a small, experimental Rust library for suggesting correspondences
-between fields in two flat schemas. It uses field names, declared types, and
-optional sample values. Results are heuristic suggestions for review, not verified
-mappings. Scores are not probabilities.
+Fieldkin matches columns across tabular datasets in native Rust. It ports all
+five current [Valentine](https://github.com/delftdata/valentine) algorithms:
+COMA, Cupid, DistributionBased, JaccardDistanceMatcher and SimilarityFlooding.
+The original Fieldkin suggestion API remains available.
 
-## Usage
+The matchers execute in Rust. Python is used only to regenerate development
+fixtures. Cupid bundles WordNet; optional sentence embeddings use native ONNX
+Runtime. Similarity scores are not probabilities.
 
-Add Fieldkin to your `Cargo.toml`:
+## Install
+
+Use the repository version (this change does not publish to crates.io):
 
 ```toml
 [dependencies]
-fieldkin = "0.1.0"
+fieldkin = { git = "https://github.com/limadog9/fieldkin" }
 ```
+
+Optional features: `polars` for native Polars DataFrames and `embeddings` for
+FastEmbed model inference. Both are disabled by default.
+
+## Match tables
 
 ```rust
-use fieldkin::{match_schemas, Config, DataType, Decision, Field, Schema};
+use fieldkin::{Table, valentine_match};
+use fieldkin::algorithms::{Coma, ComaConfig};
 
-let source = Schema {
-    fields: vec![Field {
-        name: "customer_id".into(),
-        data_type: DataType::Integer,
-        samples: vec![],
-    }],
-};
-let target = Schema {
-    fields: vec![Field {
-        name: "customer-id".into(),
-        data_type: DataType::Integer,
-        samples: vec![],
-    }],
-};
+# fn main() -> Result<(), Box<dyn std::error::Error>> {
+let source = Table::from_csv(
+    "customers", "customer_id,email\n1,alice@example.org\n2,bob@example.org\n".as_bytes(),
+)?;
+let target = Table::from_csv(
+    "orders", "customerId,email_address\n1,alice@example.org\n2,bob@example.org\n".as_bytes(),
+)?;
+let matcher = Coma::new(ComaConfig { use_instances: true, ..Default::default() })?;
+let matches = valentine_match(&[source, target], &matcher)?;
 
-let report = match_schemas(&source, &target, Config::default());
-assert!(matches!(
-    &report.fields[0].decision,
-    Decision::Match { target, .. } if target == "customer-id"
-));
+for (pair, score) in &matches {
+    println!("{}.{} -> {}.{}: {:.3}",
+        pair.source_table, pair.source_column,
+        pair.target_table, pair.target_column, score);
+    println!("{:?}", matches.get_details(pair));
+}
+# Ok(())
+# }
 ```
 
-Each source field receives one decision:
+Batch matching visits every unique pair of named tables. COMA, DistributionBased,
+Flooding TF-IDF, and embeddings share statistics/vocabulary across the batch.
 
-- `Match`: one candidate meets the threshold and stands apart from the others.
-- `Ambiguous`: multiple candidates meet the threshold and fall within the
-  ambiguity margin of the best score.
-- `NoMatch`: no candidate meets the threshold, or the target schema is empty.
+`Table::new(name, columns)` accepts existing `Field` values with declared
+`DataType` and string samples. `from_schema` wraps an existing `Schema`.
+`from_rows`, `from_csv`, and `from_json` infer boolean/numeric types and otherwise
+use text. JSON input is an array of flat records; nulls are omitted. Supply
+date/timestamp types explicitly when constructing fields.
 
-The report also includes ranked candidates and their component scores.
-`Config` controls the threshold, ambiguity margin, and number of returned
-candidates. Candidate truncation does not affect decisions.
+The table API requires nonempty names, distinct columns within a table and
+distinct table names in a batch. Empty columns and schemas are supported.
+The original suggestion API retains its duplicate/empty-name behavior.
 
-## Evidence and limitations
+`valentine_match` uses all supplied values. `match_tables` with `MatchOptions`
+applies evenly spaced, deterministic per-column sampling to every matcher.
+The options default limits columns to 1,000 nonempty values; `None` keeps all
+values and zero clears samples. See [PORTING.md](PORTING.md) for Python differences.
 
-Name evidence combines RapidFuzz Jaro-Winkler similarity with shared tokens and a
-small synonym normalization layer. Declared type compatibility contributes to
-the score; differing types do not automatically forbid a match. Optional sample
-evidence measures overlap after trimming and lowercasing values. A column with
-only one distinct sampled value receives no positive sample credit, and shared
-strongest sample evidence across multiple targets is weakened.
+## Algorithms
 
-Exact names after case and separator normalization receive strong preference
-when types are compatible. Fuzzy abbreviation matching with
-`fuzzy-matcher` / `SkimMatcherV2` runs only after normal matching returns
-`NoMatch`.
+| Matcher | Evidence and controls |
+| --- | --- |
+| `Coma` | Complex name similarity, optional global TF-IDF instances, weighted combination and bidirectional max-N/delta/threshold selection. |
+| `Cupid` | Typed tokens, all-sense WordNet Wu-Palmer semantics, datatype compatibility and structural reinforcement. |
+| `DistributionBased` | Global ranks, quantile histograms, EMD, distribution/attribute discovery, exact integer correlation clustering and optional Bloom filters. |
+| `JaccardDistanceMatcher` | Exact/fuzzy value sets with six lexical distances or cosine embeddings; Tversky penalties support Dice and containment. |
+| `SimilarityFlooding` | Labelled schema graphs, both coefficient policies, all four fixpoint formulas and three initial string matchers. |
 
-Fieldkin matches source fields independently, so several sources may select the
-same target. It accepts empty and duplicate names, including empty names that
-normalize identically; use nonempty, distinct names for meaningful review.
-Reported fields are identified by name, so duplicate names cannot be distinguished
-in a decision. Fieldkin does not infer types, handle nested schemas, or transform
-values. Review suggestions in your application's context before using them.
+All implement `Matcher`; applications can implement custom algorithms.
+Invalid input/configuration returns `Error`. Configure matchers using `Default`
+and struct updates or validated constructors. Native worker counts default to one.
 
-## Development evaluation
+## Select and evaluate
 
-On the current included development corpora, Fieldkin produces 44/49 correct
-decisions on the synthetic set and 171/207 on the real-world-derived set. These
-are development measurements, not general accuracy guarantees.
+`MatcherResults` is immutable and ranked by descending score with deterministic
+ties. `ColumnPair` identifies both tables and columns. Transformations retain
+only the selected component details.
 
-From the [repository](https://github.com/limadog9/fieldkin), run:
+```rust
+# use fieldkin::{ColumnPair, MatcherResults};
+use fieldkin::metrics::GroundTruth;
+# fn main() -> Result<(), fieldkin::Error> {
+# let matches = MatcherResults::new(vec![(ColumnPair::new("a","id","b","identifier"),1.0)])?;
+let top = matches.take_top_n(5);
+let top_quarter = matches.take_top_percent(25.0)?;
+let confident = matches.filter(0.7)?;
+let per_source = matches.take_top_n_per_source(3);
+let optimal = matches.one_to_one_hungarian(Some(0.5))?;
+let greedy = matches.one_to_one_greedy(Some(0.5))?;
+let mutual = matches.one_to_one_mutual_top(1)?;
+
+let truth = GroundTruth::Names(vec![("id".into(), "identifier".into())]);
+let metrics = matches.get_metrics(&truth)?;
+assert_eq!(metrics["F1Score"], 1.0);
+# Ok(())
+# }
+```
+
+Use `GroundTruth::Columns(Vec<ColumnPair>)` for table-aware evaluation.
+Core metrics: precision, recall, F1, precision at top 10%, recall at ground-truth
+size and reciprocal rank per source. `Metric`, `get_metrics_with`, and
+`OneToOneMethod` support custom metrics/configurations.
+`metrics::precision_increasing_n` evaluates cutoffs from 10% to 100%.
+The predefined `METRICS_CORE`, `METRICS_ALL`, `METRICS_PRECISION_RECALL` and
+`METRICS_PRECISION_INCREASING_N` sets can be passed to `get_metrics_with`.
+`NamedMetric` assigns distinct keys to differently configured metrics.
+
+For Hungarian/greedy, `None` uses Valentine's distinct-score cutoff (descending
+unique scores indexed at ceil(count/2), clamped to the last index).
+Equal-score collections still receive true one-to-one selection. Hungarian
+maximizes total similarity before threshold filtering. Serialization emits a
+`matches` array containing each pair, score and any component details.
+
+## Polars and sentence embeddings
+
+With `features = ["polars"]`, `Table::from_polars(name, &frame)` supports native
+Polars 0.55 scalar columns, preserves types and omits null/NaN values. Nested
+and binary columns are rejected.
+
+With `features = ["embeddings"]`, construct `embeddings::FastEmbedProvider`,
+wrap it in `Arc` and call `JaccardDistanceMatcher::with_embedding_provider`.
+`all_minilm_l6_v2()` selects the upstream default sentence-transformer model.
+`new(TextInitOptions, batch_size)` controls model/cache, threads, tokenizer limits
+and supported ONNX execution providers. Model construction downloads missing
+files; lexical matching never loads a model. CPU inference is the default.
+CUDA/MPS support depends on the ONNX runtime/provider, rather than PyTorch's
+device autodetection.
+
+Without that feature, applications can implement `EmbeddingProvider` or use
+`PrecomputedEmbeddings`. Real vectors are validated and normalized, and the
+vocabulary is encoded once per batch.
+
+## Original suggestion API
+
+```rust
+use fieldkin::{Config, DataType, Decision, Field, Schema, match_schemas};
+let source = Schema { fields: vec![Field {
+    name: "customer_id".into(), data_type: DataType::Integer, samples: vec![],
+}] };
+let target = Schema { fields: vec![Field {
+    name: "customer-id".into(), data_type: DataType::Integer, samples: vec![],
+}] };
+let report = match_schemas(&source, &target, Config::default());
+assert!(matches!(&report.fields[0].decision, Decision::Match { .. }));
+```
+
+This API returns ranked candidates and `Match`, `Ambiguous` or `NoMatch` for
+each source independently. Names, types and optional normalized sample overlap
+contribute evidence; target reuse is allowed. Abbreviation fallback runs after
+the usual matching returns `NoMatch`. `match_schemas_with` instead returns
+`MatcherResults` from a chosen Valentine algorithm.
+
+## CLI and development
+
+```sh
+cargo run --bin fieldkin -- coma source.csv target.csv
+cargo run --bin fieldkin -- distribution source.json target.json sales orders
+cargo run --example valentine
+cargo test --locked --all-targets --all-features --jobs 1
+cargo test --locked --doc
+cargo clippy --locked --all-targets --all-features --jobs 1 -- -D warnings
+```
+
+The CLI writes ranked JSON to stdout and errors to stderr. Builds with embeddings
+download ONNX Runtime. The explicit model test is excluded from offline runs:
+
+```sh
+cargo test --locked --features embeddings --jobs 1 real_minilm_model -- --ignored
+```
+
+Checked-in fixtures come directly from pinned Valentine source and cover matcher
+variants, distribution phases, semantic behavior, lexical distances, fuzzy sets
+and Tversky penalties. Regeneration instructions are in [PORTING.md](PORTING.md).
+
+Existing suggestion evaluation corpora remain available:
 
 ```sh
 cargo run --example evaluate_all -- eval
 cargo run --example evaluate_all -- eval_realworld
 ```
 
-The development corpora and evaluators are excluded from the published crate.
-
 ## License
 
-MIT.
+Existing Fieldkin code is MIT. Valentine-derived ports are Apache-2.0.
+Princeton WordNet data retains its redistribution license. See [LICENSE-MIT](LICENSE-MIT),
+[LICENSE-APACHE](LICENSE-APACHE), [NOTICE](NOTICE) and
+[assets/WORDNET-LICENSE](assets/WORDNET-LICENSE).

@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.2.0 - 2026-10-08
+
+- Port all five current Valentine matcher families to native Rust, including
+  global statistics, WordNet, graph propagation, quantile EMD, integer
+  clustering, fuzzy/Tversky set matching and optional ONNX embeddings.
+- Add immutable table-aware results, selectors, metrics, CSV/JSON loading,
+  optional native Polars and a JSON-output matching CLI.
+- Preserve the original suggestion API and evaluation datasets.
+- Add pinned Python-reference fixtures, offline tests and cross-platform CI.
+- Include Apache-2.0/WordNet licenses, attribution and porting notes.
+
 ## 0.1.0 - 2026-10-07
 
 - Initial experimental release for suggesting field correspondences between flat

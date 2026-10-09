@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 
-/// A field's declared type; Fieldkin does not infer types from sample values.
+/// A field's declared type. The original suggestion API uses it as supplied;
+/// table row/CSV/JSON constructors can infer boolean and numeric types.
 ///
 /// Serialized as a snake_case string, such as `"integer"` or `"timestamp"`.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -26,8 +27,8 @@ pub enum DataType {
 
 /// A named field in a flat schema, with optional string sample values.
 ///
-/// Empty and duplicate names are accepted. Use nonempty, distinct names because
-/// results identify fields by name.
+/// The original `Schema` API accepts empty and duplicate names. `Table`
+/// requires nonempty, distinct names because results identify fields by name.
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Field {
     /// The field name used for name similarity and result identification.
@@ -36,8 +37,9 @@ pub struct Field {
     pub data_type: DataType,
     /// Optional sample values; omitted samples deserialize as an empty vector.
     ///
-    /// Comparison trims and lowercases values. A single distinct value receives
-    /// no positive sample credit.
+    /// The original `match_schemas` API trims/lowercases values and gives no
+    /// positive sample credit to a single distinct value. Interpretation in
+    /// the Valentine matchers depends on the chosen algorithm.
     #[serde(default)]
     pub samples: Vec<String>,
 }

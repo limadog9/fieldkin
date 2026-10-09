@@ -1,0 +1,7144 @@
+[
+  {
+    "name": "sf_INVERSE_AVERAGE_BASIC_PREFIX_SUFFIX",
+    "algorithm": "flooding",
+    "tables": [
+      {
+        "name": "Employee",
+        "columns": [
+          {
+            "name": "EmpNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "Birthdate",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "FirstName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "Department",
+        "columns": [
+          {
+            "name": "DeptNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "date",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "Name",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "config": {
+      "policy": "INVERSE_AVERAGE",
+      "formula": "BASIC",
+      "string_matcher": "PREFIX_SUFFIX"
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.1770026664395401
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.17425302991361474
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.1770026665952655
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.16545420228712482
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.18987425044598247
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.17700433270335814
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.18987424729254324
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.170906001622029
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.17700283620424934
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.17425613626993003
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.1770028364013393
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.16545172232844996
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.18987424647264906
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.17700432873002472
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.18987424729254324
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.170906001622029
+      }
+    ]
+  },
+  {
+    "name": "sf_INVERSE_AVERAGE_BASIC_PREFIX_SUFFIX_TFIDF",
+    "algorithm": "flooding",
+    "tables": [
+      {
+        "name": "Employee",
+        "columns": [
+          {
+            "name": "EmpNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "Birthdate",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "FirstName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "Department",
+        "columns": [
+          {
+            "name": "DeptNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "date",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "Name",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "config": {
+      "policy": "INVERSE_AVERAGE",
+      "formula": "BASIC",
+      "string_matcher": "PREFIX_SUFFIX_TFIDF"
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.1770014590328878
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.17425484574146757
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.1770014593441487
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.16545768133704264
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.18987711362028464
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.17700420746497494
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.1898771056568084
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.17090465845761105
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.1770016479835656
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.17426019436292411
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.1770016483143978
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.16545336861357757
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.18987710275252398
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.17700419860146005
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.18987710331271623
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.17090465789308443
+      }
+    ]
+  },
+  {
+    "name": "sf_INVERSE_AVERAGE_BASIC_LEVENSHTEIN",
+    "algorithm": "flooding",
+    "tables": [
+      {
+        "name": "Employee",
+        "columns": [
+          {
+            "name": "EmpNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "Birthdate",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "FirstName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "Department",
+        "columns": [
+          {
+            "name": "DeptNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "date",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "Name",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "config": {
+      "policy": "INVERSE_AVERAGE",
+      "formula": "BASIC",
+      "string_matcher": "LEVENSHTEIN"
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.17700289483661996
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.17424996186215172
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.17700289440458264
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.16545779179827477
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.18986732939173856
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.17700308553643557
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.18986732744757068
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.1709116840368983
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.17700218908715107
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.17425123081541338
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.17700218811506713
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.16545646094406768
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.18986732766358932
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.1770030839703003
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.18986732723155203
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.17091168392888897
+      }
+    ]
+  },
+  {
+    "name": "sf_INVERSE_AVERAGE_FORMULA_A_PREFIX_SUFFIX",
+    "algorithm": "flooding",
+    "tables": [
+      {
+        "name": "Employee",
+        "columns": [
+          {
+            "name": "EmpNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "Birthdate",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "FirstName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "Department",
+        "columns": [
+          {
+            "name": "DeptNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "date",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "Name",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "config": {
+      "policy": "INVERSE_AVERAGE",
+      "formula": "FORMULA_A",
+      "string_matcher": "PREFIX_SUFFIX"
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.1584353436784165
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.15737518657042232
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.1595599738333157
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.18220627278430399
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.2493683775668485
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.19691011116552812
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.22659461693014002
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.16189809301494335
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.1606901318488908
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.2141376852200243
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.16211349188868507
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.1477359314828012
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.22067343916459584
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.16821517276327544
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.22659461693014005
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.16189809301494332
+      }
+    ]
+  },
+  {
+    "name": "sf_INVERSE_AVERAGE_FORMULA_A_PREFIX_SUFFIX_TFIDF",
+    "algorithm": "flooding",
+    "tables": [
+      {
+        "name": "Employee",
+        "columns": [
+          {
+            "name": "EmpNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "Birthdate",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "FirstName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "Department",
+        "columns": [
+          {
+            "name": "DeptNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "date",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "Name",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "config": {
+      "policy": "INVERSE_AVERAGE",
+      "formula": "FORMULA_A",
+      "string_matcher": "PREFIX_SUFFIX_TFIDF"
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.1593593491315368
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.15814932124704897
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.16035321300210437
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.18258329674438598
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.25010375378674055
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.19749005833573857
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.22467617413161237
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.16229134371250092
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.1609453124816348
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.21427691505292262
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.16200166793964538
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.14780327344123628
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.21540272096351956
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.1691886326438861
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.21719142895862478
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.16048879597037383
+      }
+    ]
+  },
+  {
+    "name": "sf_INVERSE_AVERAGE_FORMULA_A_LEVENSHTEIN",
+    "algorithm": "flooding",
+    "tables": [
+      {
+        "name": "Employee",
+        "columns": [
+          {
+            "name": "EmpNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "Birthdate",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "FirstName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "Department",
+        "columns": [
+          {
+            "name": "DeptNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "date",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "Name",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "config": {
+      "policy": "INVERSE_AVERAGE",
+      "formula": "FORMULA_A",
+      "string_matcher": "LEVENSHTEIN"
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.18063150447188403
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.16878996683044215
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.17320222598726753
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.1978779207471741
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.24437563304014293
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.1992788116010559
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.21094387985936855
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.1683807004710005
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.17210635102396724
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.21121165267635353
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.15539047443358006
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.15145625935434645
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.21465851910167685
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.172347677094321
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.2072292406170603
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.1665233808498464
+      }
+    ]
+  },
+  {
+    "name": "sf_INVERSE_AVERAGE_FORMULA_B_PREFIX_SUFFIX",
+    "algorithm": "flooding",
+    "tables": [
+      {
+        "name": "Employee",
+        "columns": [
+          {
+            "name": "EmpNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "Birthdate",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "FirstName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "Department",
+        "columns": [
+          {
+            "name": "DeptNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "date",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "Name",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "config": {
+      "policy": "INVERSE_AVERAGE",
+      "formula": "FORMULA_B",
+      "string_matcher": "PREFIX_SUFFIX"
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.16738844021979143
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.16545585061036483
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.17070074346041747
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.23742362561374702
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.39729477321332685
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.2775269782006216
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.3302206325906493
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.18785817359318263
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.17370501901792582
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.3125155781324447
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.17789715280684315
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.1537960006019369
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.3127813560287532
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.19301356101604783
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.3302206325906493
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.1878581735931826
+      }
+    ]
+  },
+  {
+    "name": "sf_INVERSE_AVERAGE_FORMULA_B_PREFIX_SUFFIX_TFIDF",
+    "algorithm": "flooding",
+    "tables": [
+      {
+        "name": "Employee",
+        "columns": [
+          {
+            "name": "EmpNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "Birthdate",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "FirstName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "Department",
+        "columns": [
+          {
+            "name": "DeptNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "date",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "Name",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "config": {
+      "policy": "INVERSE_AVERAGE",
+      "formula": "FORMULA_B",
+      "string_matcher": "PREFIX_SUFFIX_TFIDF"
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.16931828812450353
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.16698764123616774
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.1722496950021266
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.23864476400179363
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.3998816977892675
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.2786231876451375
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.32488291366022537
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.18889487522599022
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.17377834947095025
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.31250660374617045
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.17689407562473286
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.15396567412808868
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.29753081323550773
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.19514797904110914
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.3028066171702221
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.1835782508823587
+      }
+    ]
+  },
+  {
+    "name": "sf_INVERSE_AVERAGE_FORMULA_B_LEVENSHTEIN",
+    "algorithm": "flooding",
+    "tables": [
+      {
+        "name": "Employee",
+        "columns": [
+          {
+            "name": "EmpNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "Birthdate",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "FirstName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "Department",
+        "columns": [
+          {
+            "name": "DeptNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "date",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "Name",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "config": {
+      "policy": "INVERSE_AVERAGE",
+      "formula": "FORMULA_B",
+      "string_matcher": "LEVENSHTEIN"
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.22289509053953258
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.18865840178096077
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.2013695324931224
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.27393975767733736
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.37613182409899243
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.2771255095678735
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.27926681289014693
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.19885745190765827
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.2014295136031975
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.2961790187215569
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.1529970079987747
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.15523669238829202
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.290029591913352
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.19909536164963682
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.2685040338669419
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.19347606239605572
+      }
+    ]
+  },
+  {
+    "name": "sf_INVERSE_AVERAGE_FORMULA_C_PREFIX_SUFFIX",
+    "algorithm": "flooding",
+    "tables": [
+      {
+        "name": "Employee",
+        "columns": [
+          {
+            "name": "EmpNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "Birthdate",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "FirstName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "Department",
+        "columns": [
+          {
+            "name": "DeptNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "date",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "Name",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "config": {
+      "policy": "INVERSE_AVERAGE",
+      "formula": "FORMULA_C",
+      "string_matcher": "PREFIX_SUFFIX"
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.1678175788464377
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.1654454190792363
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.17152174507475934
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.24421117011268195
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.4210522580233617
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.290534889219015
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.34604289189984855
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.19142110777294774
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.1748354099667691
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.32656322947772687
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.1795234953494887
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.15370967432719718
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.32654045670773507
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.19602308790338835
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.34604289189984855
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.19142110777294774
+      }
+    ]
+  },
+  {
+    "name": "sf_INVERSE_AVERAGE_FORMULA_C_PREFIX_SUFFIX_TFIDF",
+    "algorithm": "flooding",
+    "tables": [
+      {
+        "name": "Employee",
+        "columns": [
+          {
+            "name": "EmpNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "Birthdate",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "FirstName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "Department",
+        "columns": [
+          {
+            "name": "DeptNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "date",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "Name",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "config": {
+      "policy": "INVERSE_AVERAGE",
+      "formula": "FORMULA_C",
+      "string_matcher": "PREFIX_SUFFIX_TFIDF"
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.1698784396748701
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.16705855733217523
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.17316063270229112
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.24564813297297444
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.4242274589647479
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.29180606829430883
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.34025396207065717
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.19260944157576415
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.1748407260641739
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.32660961097250424
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.17832929489280092
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.15390558314393968
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.30962877865288424
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.19834181748214752
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.31553591048802565
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.1866566045665825
+      }
+    ]
+  },
+  {
+    "name": "sf_INVERSE_AVERAGE_FORMULA_C_LEVENSHTEIN",
+    "algorithm": "flooding",
+    "tables": [
+      {
+        "name": "Employee",
+        "columns": [
+          {
+            "name": "EmpNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "Birthdate",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "FirstName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "Department",
+        "columns": [
+          {
+            "name": "DeptNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "date",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "Name",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "config": {
+      "policy": "INVERSE_AVERAGE",
+      "formula": "FORMULA_C",
+      "string_matcher": "LEVENSHTEIN"
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.22906863962987012
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.1906616737595087
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.20517930458639633
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.2841679070694329
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.396422837459594
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.2893236447693753
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.28892082976396194
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.20324177063566023
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.20570711534646416
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.30763464334000645
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.15195611149864816
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.1548378742155148
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.30086549728569884
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.20272480523678277
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.27697616224222504
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.1972694368747918
+      }
+    ]
+  },
+  {
+    "name": "sf_INVERSE_PRODUCT_BASIC_PREFIX_SUFFIX",
+    "algorithm": "flooding",
+    "tables": [
+      {
+        "name": "Employee",
+        "columns": [
+          {
+            "name": "EmpNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "Birthdate",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "FirstName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "Department",
+        "columns": [
+          {
+            "name": "DeptNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "date",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "Name",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "config": {
+      "policy": "INVERSE_PRODUCT",
+      "formula": "BASIC",
+      "string_matcher": "PREFIX_SUFFIX"
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.08973486626510835
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.10157573766840086
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.0897348664993653
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.08152799124624298
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.08388671506652774
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.08975942123348539
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.08388671032282474
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.07967367414894394
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.08973737107079796
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.1016940227476271
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.0897373713672794
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.08143355789235264
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.08388670908946193
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.08975941525641958
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.08388671032282474
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.07967367414894395
+      }
+    ]
+  },
+  {
+    "name": "sf_INVERSE_PRODUCT_BASIC_PREFIX_SUFFIX_TFIDF",
+    "algorithm": "flooding",
+    "tables": [
+      {
+        "name": "Employee",
+        "columns": [
+          {
+            "name": "EmpNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "Birthdate",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "FirstName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "Department",
+        "columns": [
+          {
+            "name": "DeptNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "date",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "Name",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "config": {
+      "policy": "INVERSE_PRODUCT",
+      "formula": "BASIC",
+      "string_matcher": "PREFIX_SUFFIX_TFIDF"
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.08973524809302107
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.10157619034336662
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.0897352483064246
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.08153174286523425
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.08388420342108176
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.089760453548878
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.08388419796124456
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.0796732855473694
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.08973698369485832
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.10169770015955168
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.0897369839216801
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.08143376574878348
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.08388419597003874
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.0897604474719655
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.08388419635411205
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.0796732851603244
+      }
+    ]
+  },
+  {
+    "name": "sf_INVERSE_PRODUCT_BASIC_LEVENSHTEIN",
+    "algorithm": "flooding",
+    "tables": [
+      {
+        "name": "Employee",
+        "columns": [
+          {
+            "name": "EmpNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "Birthdate",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "FirstName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "Department",
+        "columns": [
+          {
+            "name": "DeptNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "date",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "Name",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "config": {
+      "policy": "INVERSE_PRODUCT",
+      "formula": "BASIC",
+      "string_matcher": "LEVENSHTEIN"
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.08972912494144371
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.10155432898120369
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.08972912125447396
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.08161049295956577
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.08387359180772418
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.0897371138145084
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.08387357521636031
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.07969461074756326
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.08970506869806967
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.10167653787682983
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.08970506040238772
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.08148232265340066
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.08387357705984519
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.08973710044924306
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.08387357337287545
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.07969460982582084
+      }
+    ]
+  },
+  {
+    "name": "sf_INVERSE_PRODUCT_FORMULA_A_PREFIX_SUFFIX",
+    "algorithm": "flooding",
+    "tables": [
+      {
+        "name": "Employee",
+        "columns": [
+          {
+            "name": "EmpNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "Birthdate",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "FirstName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "Department",
+        "columns": [
+          {
+            "name": "DeptNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "date",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "Name",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "config": {
+      "policy": "INVERSE_PRODUCT",
+      "formula": "FORMULA_A",
+      "string_matcher": "PREFIX_SUFFIX"
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.0711504004283292
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.07624196563441935
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.0732761245307229
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.1489987790544386
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.2204923797725799
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.14640282488998463
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.1774464666991075
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.08377289351269153
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.07567033101770138
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.20955926717713041
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.0783607005847934
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.06140981683435334
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.16625452930000467
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.09216497441740941
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.1774464666991075
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.08377289351269153
+      }
+    ]
+  },
+  {
+    "name": "sf_INVERSE_PRODUCT_FORMULA_A_PREFIX_SUFFIX_TFIDF",
+    "algorithm": "flooding",
+    "tables": [
+      {
+        "name": "Employee",
+        "columns": [
+          {
+            "name": "EmpNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "Birthdate",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "FirstName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "Department",
+        "columns": [
+          {
+            "name": "DeptNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "date",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "Name",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "config": {
+      "policy": "INVERSE_PRODUCT",
+      "formula": "FORMULA_A",
+      "string_matcher": "PREFIX_SUFFIX_TFIDF"
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.07229036617312332
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.07727033006075616
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.0741820881290497
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.1510876682913555
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.22221496348571196
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.14749264560151684
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.17381607089672726
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.08450079783245869
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.07548981419604839
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.21091149187780028
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.07750048273160966
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.06163343841269147
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.15616496647000355
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.09362367023095503
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.1595695959039613
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.08106982580362335
+      }
+    ]
+  },
+  {
+    "name": "sf_INVERSE_PRODUCT_FORMULA_A_LEVENSHTEIN",
+    "algorithm": "flooding",
+    "tables": [
+      {
+        "name": "Employee",
+        "columns": [
+          {
+            "name": "EmpNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "Birthdate",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "FirstName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "Department",
+        "columns": [
+          {
+            "name": "DeptNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "date",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "Name",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "config": {
+      "policy": "INVERSE_PRODUCT",
+      "formula": "FORMULA_A",
+      "string_matcher": "LEVENSHTEIN"
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.11210771689512558
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.1003646674123061
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.09855427170287616
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.1736924879136228
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.20485543884579363
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.1467711828807129
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.14386493548067122
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.09463971831061088
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.0952531410651485
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.19453781530512623
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.06475788938258732
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.0716681682541249
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.15064165807679591
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.09763994405880877
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.1370882128845465
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.09125135701254852
+      }
+    ]
+  },
+  {
+    "name": "sf_INVERSE_PRODUCT_FORMULA_B_PREFIX_SUFFIX",
+    "algorithm": "flooding",
+    "tables": [
+      {
+        "name": "Employee",
+        "columns": [
+          {
+            "name": "EmpNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "Birthdate",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "FirstName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "Department",
+        "columns": [
+          {
+            "name": "DeptNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "date",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "Name",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "config": {
+      "policy": "INVERSE_PRODUCT",
+      "formula": "FORMULA_B",
+      "string_matcher": "PREFIX_SUFFIX"
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.0653571146945094
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.06442065191954144
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.06974390536054703
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.18569982664784382
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.35185911335435166
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.21283203363282965
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.26302660236708947
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.09763426596090476
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.07388682152827285
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.2843155432304498
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.07943885346497674
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.052574952370600114
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.23993014951040129
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.10090306978887924
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.26302660236708947
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.09763426596090477
+      }
+    ]
+  },
+  {
+    "name": "sf_INVERSE_PRODUCT_FORMULA_B_PREFIX_SUFFIX_TFIDF",
+    "algorithm": "flooding",
+    "tables": [
+      {
+        "name": "Employee",
+        "columns": [
+          {
+            "name": "EmpNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "Birthdate",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "FirstName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "Department",
+        "columns": [
+          {
+            "name": "DeptNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "date",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "Name",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "config": {
+      "policy": "INVERSE_PRODUCT",
+      "formula": "FORMULA_B",
+      "string_matcher": "PREFIX_SUFFIX_TFIDF"
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.0670124930491004
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.06565218921301479
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.07091708373213707
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.18912573699574212
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.3561015728097907
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.21432745575154055
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.2562042995978292
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.09904569602993071
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.0730718489683121
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.28575909302755936
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.07722195020598738
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.05284059518831097
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.21977170564607013
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.10313971028097145
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.2267989985975409
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.09196403089643615
+      }
+    ]
+  },
+  {
+    "name": "sf_INVERSE_PRODUCT_FORMULA_B_LEVENSHTEIN",
+    "algorithm": "flooding",
+    "tables": [
+      {
+        "name": "Employee",
+        "columns": [
+          {
+            "name": "EmpNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "Birthdate",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "FirstName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "Department",
+        "columns": [
+          {
+            "name": "DeptNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "date",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "Name",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "config": {
+      "policy": "INVERSE_PRODUCT",
+      "formula": "FORMULA_B",
+      "string_matcher": "LEVENSHTEIN"
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.14356366812071794
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.10458499515158529
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.11579075753956312
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.23326603346016583
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.3241618178126809
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.2141370592256495
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.19918372019748432
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.11695680069315066
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.1154295228304357
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.25824416348448814
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.05294047402283738
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.06479502133737083
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.21307017548806173
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.1134602583689633
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.1852972649069069
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.11001357304786197
+      }
+    ]
+  },
+  {
+    "name": "sf_INVERSE_PRODUCT_FORMULA_C_PREFIX_SUFFIX",
+    "algorithm": "flooding",
+    "tables": [
+      {
+        "name": "Employee",
+        "columns": [
+          {
+            "name": "EmpNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "Birthdate",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "FirstName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "Department",
+        "columns": [
+          {
+            "name": "DeptNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "date",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "Name",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "config": {
+      "policy": "INVERSE_PRODUCT",
+      "formula": "FORMULA_C",
+      "string_matcher": "PREFIX_SUFFIX"
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.06498033006338147
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.06264947539427551
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.06991864922614187
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.1921261487488533
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.38341659365348213
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.22976029153313618
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.2834156306075839
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.10183956206813045
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.07445631123598331
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.2998945450288009
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.08070637142635195
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.05135927816868745
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.2574153802156504
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.10375907809530445
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.2834156306075839
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.10183956206813044
+      }
+    ]
+  },
+  {
+    "name": "sf_INVERSE_PRODUCT_FORMULA_C_PREFIX_SUFFIX_TFIDF",
+    "algorithm": "flooding",
+    "tables": [
+      {
+        "name": "Employee",
+        "columns": [
+          {
+            "name": "EmpNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "Birthdate",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "FirstName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "Department",
+        "columns": [
+          {
+            "name": "DeptNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "date",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "Name",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "config": {
+      "policy": "INVERSE_PRODUCT",
+      "formula": "FORMULA_C",
+      "string_matcher": "PREFIX_SUFFIX_TFIDF"
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.06671386286510558
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.06384982559687917
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.07111731521783365
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.19585782647217087
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.3887497909973637
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.23156457322323434
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.27608935653302236
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.10346969638789802
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.07345884166928957
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.30143324484579226
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.07813917170708194
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.051605015074887545
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.23500203020971833
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.10617116348274686
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.24292715020114278
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.09548325746901325
+      }
+    ]
+  },
+  {
+    "name": "sf_INVERSE_PRODUCT_FORMULA_C_LEVENSHTEIN",
+    "algorithm": "flooding",
+    "tables": [
+      {
+        "name": "Employee",
+        "columns": [
+          {
+            "name": "EmpNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "Birthdate",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "FirstName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "Department",
+        "columns": [
+          {
+            "name": "DeptNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "date",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "Name",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "config": {
+      "policy": "INVERSE_PRODUCT",
+      "formula": "FORMULA_C",
+      "string_matcher": "LEVENSHTEIN"
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.15117872021892548
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.10586812620732457
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.12025934217675543
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.24437572411175293
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.35045737563018065
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.2297866899499645
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.21132017444041537
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.1224996208625657
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.12085066045305182
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.27038820723768947
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.05128205985816917
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.06354327897107712
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.22677986346150036
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.11770394454709798
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.19586048541933032
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.11476977635202318
+      }
+    ]
+  },
+  {
+    "name": "sf_idf_corpus",
+    "algorithm": "flooding",
+    "tables": [
+      {
+        "name": "Employee",
+        "columns": [
+          {
+            "name": "EmpNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "Birthdate",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "FirstName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "Department",
+        "columns": [
+          {
+            "name": "DeptNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "date",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "Name",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "corpus": [
+      {
+        "name": "Payroll",
+        "columns": [
+          {
+            "name": "EmployeeNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "EmployeeName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "config": {
+      "string_matcher": "PREFIX_SUFFIX_TFIDF"
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.1703799467549905
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.16749605971688988
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.17360414348590397
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.24633041624177615
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.42508066639874925
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.29560111500131375
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.33743896500009846
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.19354870985904157
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.17450035868503147
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.3215092383256372
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.17778838009096926
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.15424837942711075
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.30513712542552396
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.19915241697810634
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.30811966887317144
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.18657943556329046
+      }
+    ]
+  },
+  {
+    "name": "sf_idf_batch",
+    "algorithm": "flooding",
+    "tables": [
+      {
+        "name": "Employee",
+        "columns": [
+          {
+            "name": "EmpNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "Birthdate",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "FirstName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "Department",
+        "columns": [
+          {
+            "name": "DeptNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "date",
+            "data_type": "date",
+            "samples": []
+          },
+          {
+            "name": "Name",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "Payroll",
+        "columns": [
+          {
+            "name": "EmployeeNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "EmployeeName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "corpus": [
+      {
+        "name": "Payroll",
+        "columns": [
+          {
+            "name": "EmployeeNo",
+            "data_type": "integer",
+            "samples": []
+          },
+          {
+            "name": "DeptName",
+            "data_type": "text",
+            "samples": []
+          },
+          {
+            "name": "EmployeeName",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      }
+    ],
+    "config": {
+      "string_matcher": "PREFIX_SUFFIX_TFIDF"
+    },
+    "batch": true,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "Department",
+          "source_column": "DeptName",
+          "target_table": "Payroll",
+          "target_column": "DeptName"
+        },
+        "score": 0.47545341043211986
+      },
+      {
+        "pair": {
+          "source_table": "Department",
+          "source_column": "DeptName",
+          "target_table": "Payroll",
+          "target_column": "EmployeeName"
+        },
+        "score": 0.34305626120490074
+      },
+      {
+        "pair": {
+          "source_table": "Department",
+          "source_column": "DeptName",
+          "target_table": "Payroll",
+          "target_column": "EmployeeNo"
+        },
+        "score": 0.21579146356944587
+      },
+      {
+        "pair": {
+          "source_table": "Department",
+          "source_column": "DeptNo",
+          "target_table": "Payroll",
+          "target_column": "DeptName"
+        },
+        "score": 0.3364771967276522
+      },
+      {
+        "pair": {
+          "source_table": "Department",
+          "source_column": "DeptNo",
+          "target_table": "Payroll",
+          "target_column": "EmployeeName"
+        },
+        "score": 0.21465285197863135
+      },
+      {
+        "pair": {
+          "source_table": "Department",
+          "source_column": "DeptNo",
+          "target_table": "Payroll",
+          "target_column": "EmployeeNo"
+        },
+        "score": 0.38251179649589256
+      },
+      {
+        "pair": {
+          "source_table": "Department",
+          "source_column": "Name",
+          "target_table": "Payroll",
+          "target_column": "DeptName"
+        },
+        "score": 0.38341462177999064
+      },
+      {
+        "pair": {
+          "source_table": "Department",
+          "source_column": "Name",
+          "target_table": "Payroll",
+          "target_column": "EmployeeName"
+        },
+        "score": 0.3819849527800337
+      },
+      {
+        "pair": {
+          "source_table": "Department",
+          "source_column": "Name",
+          "target_table": "Payroll",
+          "target_column": "EmployeeNo"
+        },
+        "score": 0.22175279798938674
+      },
+      {
+        "pair": {
+          "source_table": "Department",
+          "source_column": "date",
+          "target_table": "Payroll",
+          "target_column": "DeptName"
+        },
+        "score": 0.22559296238640292
+      },
+      {
+        "pair": {
+          "source_table": "Department",
+          "source_column": "date",
+          "target_table": "Payroll",
+          "target_column": "EmployeeName"
+        },
+        "score": 0.2290192443283545
+      },
+      {
+        "pair": {
+          "source_table": "Department",
+          "source_column": "date",
+          "target_table": "Payroll",
+          "target_column": "EmployeeNo"
+        },
+        "score": 0.19435892350271233
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.1703799467549905
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.16749605971688988
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.17360414348590397
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.24633041624177615
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Payroll",
+          "target_column": "DeptName"
+        },
+        "score": 0.20849281450634327
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Payroll",
+          "target_column": "EmployeeName"
+        },
+        "score": 0.22148987032146683
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "Birthdate",
+          "target_table": "Payroll",
+          "target_column": "EmployeeNo"
+        },
+        "score": 0.22349311685317347
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.42508066639874925
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.29560111500131375
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.33743896500009846
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.19354870985904157
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Payroll",
+          "target_column": "DeptName"
+        },
+        "score": 0.4877482260108241
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Payroll",
+          "target_column": "EmployeeName"
+        },
+        "score": 0.3511125105100045
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "DeptName",
+          "target_table": "Payroll",
+          "target_column": "EmployeeNo"
+        },
+        "score": 0.2189235007615927
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.17450035868503147
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.3215092383256372
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.17778838009096926
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.15424837942711075
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Payroll",
+          "target_column": "DeptName"
+        },
+        "score": 0.21320755528580546
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Payroll",
+          "target_column": "EmployeeName"
+        },
+        "score": 0.23340117542365152
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "EmpNo",
+          "target_table": "Payroll",
+          "target_column": "EmployeeNo"
+        },
+        "score": 0.3935837772731649
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptName"
+        },
+        "score": 0.30513712542552396
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "DeptNo"
+        },
+        "score": 0.19915241697810634
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "Name"
+        },
+        "score": 0.30811966887317144
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Department",
+          "target_column": "date"
+        },
+        "score": 0.18657943556329046
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Payroll",
+          "target_column": "DeptName"
+        },
+        "score": 0.35775444930671974
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Payroll",
+          "target_column": "EmployeeName"
+        },
+        "score": 0.3340077712634744
+      },
+      {
+        "pair": {
+          "source_table": "Employee",
+          "source_column": "FirstName",
+          "target_table": "Payroll",
+          "target_column": "EmployeeNo"
+        },
+        "score": 0.21618786373579066
+      }
+    ]
+  },
+  {
+    "name": "dist_identical_and_disjoint_exact",
+    "algorithm": "distribution",
+    "tables": [
+      {
+        "name": "z_source",
+        "columns": [
+          {
+            "name": "id",
+            "data_type": "integer",
+            "samples": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10"
+            ]
+          },
+          {
+            "name": "city",
+            "data_type": "text",
+            "samples": [
+              "A",
+              "B",
+              "C",
+              "D"
+            ]
+          },
+          {
+            "name": "empty",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "a_target",
+        "columns": [
+          {
+            "name": "identifier",
+            "data_type": "integer",
+            "samples": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10"
+            ]
+          },
+          {
+            "name": "location",
+            "data_type": "text",
+            "samples": [
+              "A",
+              "B",
+              "C",
+              "D"
+            ]
+          },
+          {
+            "name": "shifted",
+            "data_type": "integer",
+            "samples": [
+              "100",
+              "101",
+              "102",
+              "103",
+              "104",
+              "105",
+              "106",
+              "107",
+              "108",
+              "109"
+            ]
+          }
+        ]
+      }
+    ],
+    "config": {
+      "use_bloom_filters": false
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "z_source",
+          "source_column": "city",
+          "target_table": "a_target",
+          "target_column": "location"
+        },
+        "score": 1.0
+      },
+      {
+        "pair": {
+          "source_table": "z_source",
+          "source_column": "id",
+          "target_table": "a_target",
+          "target_column": "identifier"
+        },
+        "score": 1.0
+      }
+    ]
+  },
+  {
+    "name": "dist_identical_and_disjoint_bloom",
+    "algorithm": "distribution",
+    "tables": [
+      {
+        "name": "z_source",
+        "columns": [
+          {
+            "name": "id",
+            "data_type": "integer",
+            "samples": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10"
+            ]
+          },
+          {
+            "name": "city",
+            "data_type": "text",
+            "samples": [
+              "A",
+              "B",
+              "C",
+              "D"
+            ]
+          },
+          {
+            "name": "empty",
+            "data_type": "text",
+            "samples": []
+          }
+        ]
+      },
+      {
+        "name": "a_target",
+        "columns": [
+          {
+            "name": "identifier",
+            "data_type": "integer",
+            "samples": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10"
+            ]
+          },
+          {
+            "name": "location",
+            "data_type": "text",
+            "samples": [
+              "A",
+              "B",
+              "C",
+              "D"
+            ]
+          },
+          {
+            "name": "shifted",
+            "data_type": "integer",
+            "samples": [
+              "100",
+              "101",
+              "102",
+              "103",
+              "104",
+              "105",
+              "106",
+              "107",
+              "108",
+              "109"
+            ]
+          }
+        ]
+      }
+    ],
+    "config": {
+      "use_bloom_filters": true
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "z_source",
+          "source_column": "city",
+          "target_table": "a_target",
+          "target_column": "location"
+        },
+        "score": 1.0
+      },
+      {
+        "pair": {
+          "source_table": "z_source",
+          "source_column": "id",
+          "target_table": "a_target",
+          "target_column": "identifier"
+        },
+        "score": 1.0
+      }
+    ]
+  },
+  {
+    "name": "dist_overlap_shift_exact",
+    "algorithm": "distribution",
+    "tables": [
+      {
+        "name": "aaa",
+        "columns": [
+          {
+            "name": "value",
+            "data_type": "integer",
+            "samples": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "bbb",
+        "columns": [
+          {
+            "name": "shift",
+            "data_type": "integer",
+            "samples": [
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10",
+              "11"
+            ]
+          }
+        ]
+      }
+    ],
+    "config": {
+      "quantiles": 4,
+      "use_bloom_filters": false
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "aaa",
+          "source_column": "value",
+          "target_table": "bbb",
+          "target_column": "shift"
+        },
+        "score": 0.9491525423732674
+      }
+    ]
+  },
+  {
+    "name": "dist_overlap_shift_bloom",
+    "algorithm": "distribution",
+    "tables": [
+      {
+        "name": "aaa",
+        "columns": [
+          {
+            "name": "value",
+            "data_type": "integer",
+            "samples": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "bbb",
+        "columns": [
+          {
+            "name": "shift",
+            "data_type": "integer",
+            "samples": [
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10",
+              "11"
+            ]
+          }
+        ]
+      }
+    ],
+    "config": {
+      "quantiles": 4,
+      "use_bloom_filters": true
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "aaa",
+          "source_column": "value",
+          "target_table": "bbb",
+          "target_column": "shift"
+        },
+        "score": 0.9491525423732674
+      }
+    ]
+  },
+  {
+    "name": "dist_overlap_shift_transpose_exact",
+    "algorithm": "distribution",
+    "tables": [
+      {
+        "name": "bbb",
+        "columns": [
+          {
+            "name": "shift",
+            "data_type": "integer",
+            "samples": [
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10",
+              "11"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "aaa",
+        "columns": [
+          {
+            "name": "value",
+            "data_type": "integer",
+            "samples": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10"
+            ]
+          }
+        ]
+      }
+    ],
+    "config": {
+      "quantiles": 4,
+      "use_bloom_filters": false
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "bbb",
+          "source_column": "shift",
+          "target_table": "aaa",
+          "target_column": "value"
+        },
+        "score": 0.9491525423732674
+      }
+    ]
+  },
+  {
+    "name": "dist_overlap_shift_transpose_bloom",
+    "algorithm": "distribution",
+    "tables": [
+      {
+        "name": "bbb",
+        "columns": [
+          {
+            "name": "shift",
+            "data_type": "integer",
+            "samples": [
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10",
+              "11"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "aaa",
+        "columns": [
+          {
+            "name": "value",
+            "data_type": "integer",
+            "samples": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10"
+            ]
+          }
+        ]
+      }
+    ],
+    "config": {
+      "quantiles": 4,
+      "use_bloom_filters": true
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "bbb",
+          "source_column": "shift",
+          "target_table": "aaa",
+          "target_column": "value"
+        },
+        "score": 0.9491525423732674
+      }
+    ]
+  },
+  {
+    "name": "dist_single_quantile_exact",
+    "algorithm": "distribution",
+    "tables": [
+      {
+        "name": "aaa",
+        "columns": [
+          {
+            "name": "value",
+            "data_type": "integer",
+            "samples": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "bbb",
+        "columns": [
+          {
+            "name": "shift",
+            "data_type": "integer",
+            "samples": [
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10",
+              "11"
+            ]
+          }
+        ]
+      }
+    ],
+    "config": {
+      "quantiles": 1,
+      "use_bloom_filters": false
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "aaa",
+          "source_column": "value",
+          "target_table": "bbb",
+          "target_column": "shift"
+        },
+        "score": 1.0
+      }
+    ]
+  },
+  {
+    "name": "dist_single_quantile_bloom",
+    "algorithm": "distribution",
+    "tables": [
+      {
+        "name": "aaa",
+        "columns": [
+          {
+            "name": "value",
+            "data_type": "integer",
+            "samples": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "bbb",
+        "columns": [
+          {
+            "name": "shift",
+            "data_type": "integer",
+            "samples": [
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10",
+              "11"
+            ]
+          }
+        ]
+      }
+    ],
+    "config": {
+      "quantiles": 1,
+      "use_bloom_filters": true
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "aaa",
+          "source_column": "value",
+          "target_table": "bbb",
+          "target_column": "shift"
+        },
+        "score": 1.0
+      }
+    ]
+  },
+  {
+    "name": "dist_constant_exact",
+    "algorithm": "distribution",
+    "tables": [
+      {
+        "name": "aaa",
+        "columns": [
+          {
+            "name": "same",
+            "data_type": "text",
+            "samples": [
+              "x",
+              "x",
+              "x"
+            ]
+          },
+          {
+            "name": "different",
+            "data_type": "text",
+            "samples": [
+              "z",
+              "z"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "bbb",
+        "columns": [
+          {
+            "name": "same2",
+            "data_type": "text",
+            "samples": [
+              "x",
+              "x"
+            ]
+          },
+          {
+            "name": "nan",
+            "data_type": "float",
+            "samples": [
+              "NaN",
+              "NaN"
+            ]
+          }
+        ]
+      }
+    ],
+    "config": {
+      "use_bloom_filters": false
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "aaa",
+          "source_column": "same",
+          "target_table": "bbb",
+          "target_column": "same2"
+        },
+        "score": 1.0
+      }
+    ]
+  },
+  {
+    "name": "dist_constant_bloom",
+    "algorithm": "distribution",
+    "tables": [
+      {
+        "name": "aaa",
+        "columns": [
+          {
+            "name": "same",
+            "data_type": "text",
+            "samples": [
+              "x",
+              "x",
+              "x"
+            ]
+          },
+          {
+            "name": "different",
+            "data_type": "text",
+            "samples": [
+              "z",
+              "z"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "bbb",
+        "columns": [
+          {
+            "name": "same2",
+            "data_type": "text",
+            "samples": [
+              "x",
+              "x"
+            ]
+          },
+          {
+            "name": "nan",
+            "data_type": "float",
+            "samples": [
+              "NaN",
+              "NaN"
+            ]
+          }
+        ]
+      }
+    ],
+    "config": {
+      "use_bloom_filters": true
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "aaa",
+          "source_column": "same",
+          "target_table": "bbb",
+          "target_column": "same2"
+        },
+        "score": 1.0
+      }
+    ]
+  },
+  {
+    "name": "dist_duplicate_numeric_aliases_exact",
+    "algorithm": "distribution",
+    "tables": [
+      {
+        "name": "aaa",
+        "columns": [
+          {
+            "name": "value",
+            "data_type": "integer",
+            "samples": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "bbb",
+        "columns": [
+          {
+            "name": "other",
+            "data_type": "float",
+            "samples": [
+              "1.0",
+              "2",
+              "3.0",
+              "4",
+              "5"
+            ]
+          }
+        ]
+      }
+    ],
+    "config": {
+      "threshold1": 1.0,
+      "threshold2": 1.0,
+      "quantiles": 4,
+      "use_bloom_filters": false
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "aaa",
+          "source_column": "value",
+          "target_table": "bbb",
+          "target_column": "other"
+        },
+        "score": 1.0
+      }
+    ]
+  },
+  {
+    "name": "dist_duplicate_numeric_aliases_bloom",
+    "algorithm": "distribution",
+    "tables": [
+      {
+        "name": "aaa",
+        "columns": [
+          {
+            "name": "value",
+            "data_type": "integer",
+            "samples": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "bbb",
+        "columns": [
+          {
+            "name": "other",
+            "data_type": "float",
+            "samples": [
+              "1.0",
+              "2",
+              "3.0",
+              "4",
+              "5"
+            ]
+          }
+        ]
+      }
+    ],
+    "config": {
+      "threshold1": 1.0,
+      "threshold2": 1.0,
+      "quantiles": 4,
+      "use_bloom_filters": true
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "aaa",
+          "source_column": "value",
+          "target_table": "bbb",
+          "target_column": "other"
+        },
+        "score": 1.0
+      }
+    ]
+  },
+  {
+    "name": "dist_batch_global_ranks_exact",
+    "algorithm": "distribution",
+    "tables": [
+      {
+        "name": "aaa",
+        "columns": [
+          {
+            "name": "id",
+            "data_type": "integer",
+            "samples": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10"
+            ]
+          },
+          {
+            "name": "name",
+            "data_type": "text",
+            "samples": [
+              "Adam",
+              "Bob",
+              "Eve",
+              "Tom"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "bbb",
+        "columns": [
+          {
+            "name": "no",
+            "data_type": "integer",
+            "samples": [
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10",
+              "11"
+            ]
+          },
+          {
+            "name": "person",
+            "data_type": "text",
+            "samples": [
+              "Adam",
+              "Bob",
+              "Eve",
+              "Tom"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ccc",
+        "columns": [
+          {
+            "name": "other_id",
+            "data_type": "integer",
+            "samples": [
+              "1",
+              "1",
+              "2",
+              "2",
+              "5",
+              "9"
+            ]
+          },
+          {
+            "name": "first",
+            "data_type": "text",
+            "samples": [
+              "Adam",
+              "Bob",
+              "Eve",
+              "Tom"
+            ]
+          }
+        ]
+      }
+    ],
+    "config": {
+      "quantiles": 8,
+      "threshold1": 0.5,
+      "threshold2": 0.5,
+      "use_bloom_filters": false
+    },
+    "batch": true,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "aaa",
+          "source_column": "id",
+          "target_table": "bbb",
+          "target_column": "no"
+        },
+        "score": 0.9536423841060614
+      },
+      {
+        "pair": {
+          "source_table": "aaa",
+          "source_column": "id",
+          "target_table": "ccc",
+          "target_column": "other_id"
+        },
+        "score": 0.8372093023258929
+      },
+      {
+        "pair": {
+          "source_table": "aaa",
+          "source_column": "name",
+          "target_table": "bbb",
+          "target_column": "person"
+        },
+        "score": 1.0
+      },
+      {
+        "pair": {
+          "source_table": "aaa",
+          "source_column": "name",
+          "target_table": "ccc",
+          "target_column": "first"
+        },
+        "score": 1.0
+      },
+      {
+        "pair": {
+          "source_table": "bbb",
+          "source_column": "no",
+          "target_table": "ccc",
+          "target_column": "other_id"
+        },
+        "score": 0.8727272727275266
+      },
+      {
+        "pair": {
+          "source_table": "bbb",
+          "source_column": "person",
+          "target_table": "ccc",
+          "target_column": "first"
+        },
+        "score": 1.0
+      }
+    ]
+  },
+  {
+    "name": "dist_batch_global_ranks_bloom",
+    "algorithm": "distribution",
+    "tables": [
+      {
+        "name": "aaa",
+        "columns": [
+          {
+            "name": "id",
+            "data_type": "integer",
+            "samples": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10"
+            ]
+          },
+          {
+            "name": "name",
+            "data_type": "text",
+            "samples": [
+              "Adam",
+              "Bob",
+              "Eve",
+              "Tom"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "bbb",
+        "columns": [
+          {
+            "name": "no",
+            "data_type": "integer",
+            "samples": [
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10",
+              "11"
+            ]
+          },
+          {
+            "name": "person",
+            "data_type": "text",
+            "samples": [
+              "Adam",
+              "Bob",
+              "Eve",
+              "Tom"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ccc",
+        "columns": [
+          {
+            "name": "other_id",
+            "data_type": "integer",
+            "samples": [
+              "1",
+              "1",
+              "2",
+              "2",
+              "5",
+              "9"
+            ]
+          },
+          {
+            "name": "first",
+            "data_type": "text",
+            "samples": [
+              "Adam",
+              "Bob",
+              "Eve",
+              "Tom"
+            ]
+          }
+        ]
+      }
+    ],
+    "config": {
+      "quantiles": 8,
+      "threshold1": 0.5,
+      "threshold2": 0.5,
+      "use_bloom_filters": true
+    },
+    "batch": true,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "aaa",
+          "source_column": "id",
+          "target_table": "bbb",
+          "target_column": "no"
+        },
+        "score": 0.9536423841060614
+      },
+      {
+        "pair": {
+          "source_table": "aaa",
+          "source_column": "id",
+          "target_table": "ccc",
+          "target_column": "other_id"
+        },
+        "score": 0.8372093023258929
+      },
+      {
+        "pair": {
+          "source_table": "aaa",
+          "source_column": "name",
+          "target_table": "bbb",
+          "target_column": "person"
+        },
+        "score": 1.0
+      },
+      {
+        "pair": {
+          "source_table": "aaa",
+          "source_column": "name",
+          "target_table": "ccc",
+          "target_column": "first"
+        },
+        "score": 1.0
+      },
+      {
+        "pair": {
+          "source_table": "bbb",
+          "source_column": "no",
+          "target_table": "ccc",
+          "target_column": "other_id"
+        },
+        "score": 0.8727272727275266
+      },
+      {
+        "pair": {
+          "source_table": "bbb",
+          "source_column": "person",
+          "target_table": "ccc",
+          "target_column": "first"
+        },
+        "score": 1.0
+      }
+    ]
+  },
+  {
+    "name": "dist_attribute_integer_program_exact",
+    "algorithm": "distribution",
+    "tables": [
+      {
+        "name": "aaa",
+        "columns": [
+          {
+            "name": "a",
+            "data_type": "text",
+            "samples": [
+              "a",
+              "a",
+              "a",
+              "a",
+              "b",
+              "b",
+              "c",
+              "d",
+              "d",
+              "d"
+            ]
+          },
+          {
+            "name": "b",
+            "data_type": "text",
+            "samples": [
+              "a",
+              "a",
+              "b",
+              "b",
+              "c",
+              "c",
+              "d",
+              "d",
+              "d",
+              "e"
+            ]
+          },
+          {
+            "name": "c",
+            "data_type": "text",
+            "samples": [
+              "d",
+              "d",
+              "e",
+              "e",
+              "f",
+              "f",
+              "g",
+              "g",
+              "g"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "bbb",
+        "columns": [
+          {
+            "name": "x",
+            "data_type": "text",
+            "samples": [
+              "a",
+              "b",
+              "b",
+              "c",
+              "c",
+              "c",
+              "d",
+              "d",
+              "d",
+              "d"
+            ]
+          },
+          {
+            "name": "y",
+            "data_type": "text",
+            "samples": [
+              "c",
+              "c",
+              "d",
+              "d",
+              "d",
+              "e",
+              "e",
+              "e",
+              "e",
+              "e"
+            ]
+          },
+          {
+            "name": "z",
+            "data_type": "text",
+            "samples": [
+              "e",
+              "e",
+              "f",
+              "f",
+              "f",
+              "g",
+              "g",
+              "g",
+              "g"
+            ]
+          }
+        ]
+      }
+    ],
+    "config": {
+      "quantiles": 8,
+      "threshold1": 0.8,
+      "threshold2": 0.1,
+      "use_bloom_filters": false
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "aaa",
+          "source_column": "a",
+          "target_table": "bbb",
+          "target_column": "x"
+        },
+        "score": 0.851063829787234
+      },
+      {
+        "pair": {
+          "source_table": "aaa",
+          "source_column": "b",
+          "target_table": "bbb",
+          "target_column": "x"
+        },
+        "score": 0.9230769230772071
+      },
+      {
+        "pair": {
+          "source_table": "aaa",
+          "source_column": "c",
+          "target_table": "bbb",
+          "target_column": "z"
+        },
+        "score": 0.8630136986302551
+      }
+    ]
+  },
+  {
+    "name": "dist_attribute_integer_program_bloom",
+    "algorithm": "distribution",
+    "tables": [
+      {
+        "name": "aaa",
+        "columns": [
+          {
+            "name": "a",
+            "data_type": "text",
+            "samples": [
+              "a",
+              "a",
+              "a",
+              "a",
+              "b",
+              "b",
+              "c",
+              "d",
+              "d",
+              "d"
+            ]
+          },
+          {
+            "name": "b",
+            "data_type": "text",
+            "samples": [
+              "a",
+              "a",
+              "b",
+              "b",
+              "c",
+              "c",
+              "d",
+              "d",
+              "d",
+              "e"
+            ]
+          },
+          {
+            "name": "c",
+            "data_type": "text",
+            "samples": [
+              "d",
+              "d",
+              "e",
+              "e",
+              "f",
+              "f",
+              "g",
+              "g",
+              "g"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "bbb",
+        "columns": [
+          {
+            "name": "x",
+            "data_type": "text",
+            "samples": [
+              "a",
+              "b",
+              "b",
+              "c",
+              "c",
+              "c",
+              "d",
+              "d",
+              "d",
+              "d"
+            ]
+          },
+          {
+            "name": "y",
+            "data_type": "text",
+            "samples": [
+              "c",
+              "c",
+              "d",
+              "d",
+              "d",
+              "e",
+              "e",
+              "e",
+              "e",
+              "e"
+            ]
+          },
+          {
+            "name": "z",
+            "data_type": "text",
+            "samples": [
+              "e",
+              "e",
+              "f",
+              "f",
+              "f",
+              "g",
+              "g",
+              "g",
+              "g"
+            ]
+          }
+        ]
+      }
+    ],
+    "config": {
+      "quantiles": 8,
+      "threshold1": 0.8,
+      "threshold2": 0.1,
+      "use_bloom_filters": true
+    },
+    "batch": false,
+    "expected": [
+      {
+        "pair": {
+          "source_table": "aaa",
+          "source_column": "a",
+          "target_table": "bbb",
+          "target_column": "x"
+        },
+        "score": 0.851063829787234
+      },
+      {
+        "pair": {
+          "source_table": "aaa",
+          "source_column": "b",
+          "target_table": "bbb",
+          "target_column": "x"
+        },
+        "score": 0.9230769230772071
+      },
+      {
+        "pair": {
+          "source_table": "aaa",
+          "source_column": "c",
+          "target_table": "bbb",
+          "target_column": "z"
+        },
+        "score": 0.8630136986302551
+      }
+    ]
+  }
+]

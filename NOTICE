@@ -1,0 +1,14 @@
+Fieldkin includes a native Rust port of the Valentine library.
+
+Valentine: https://github.com/delftdata/valentine
+Upstream revision: d8fa9ee6d312b49ce2c45b62824df1fd31b94a72
+Copyright Delft Data and Valentine contributors.
+Valentine-derived algorithms are licensed under Apache License 2.0;
+see LICENSE-APACHE. Existing Fieldkin code remains under LICENSE-MIT.
+
+Cupid's tokenization and Wu-Palmer implementation also derive from NLTK.
+NLTK Project: https://github.com/nltk/nltk
+Copyright 2001-2026 NLTK Project; Apache License 2.0.
+
+Cupid includes Princeton WordNet data, redistributed under its own license;
+see assets/WORDNET-LICENSE. WordNet is not covered by the Apache or MIT license.
