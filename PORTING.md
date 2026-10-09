@@ -48,9 +48,19 @@ Python is development tooling only.
 - Cupid applies Treebank-style tokenization to a label as one sentence. Punkt
   paragraph sentence segmentation is not bundled; identifier/camel/snake-case,
   symbol and contraction behavior is tested against upstream.
+- Cupid uses deterministic WordNet synset ordering. Upstream sorts synset pairs
+  by Python object addresses before calling NLTK Wu-Palmer similarity; some
+  sense pairs have different forward/reverse scores, so upstream scores can
+  change across processes or matching histories. The optional reference source
+  fix orders pairs by canonical WordNet names, matching Rust's bundled index.
 - COMA uses f64 instead of float32 instance matrices, so reference comparisons
   allow small rounding differences. Flooding/Distribution use tight f64
   tolerances. Equal-optimum integer clusters may differ between microlp and CBC.
+- Distribution preserves original column identifiers. Upstream decodes
+  identifiers from PuLP variable names, which can replace punctuation such as
+  square brackets with underscores. The optional reference source fix gives
+  variables unique numeric IDs and retrieves column keys from the original
+  dictionary, avoiding sanitization and collisions.
 - Jaccard preserves RapidFuzz's float32 scorer cutoff conversion for lexical
   fuzzy matching. Exact and cosine modes do not use that conversion.
 - Equal-score Hungarian/greedy results always remain one-to-one. Upstream's
@@ -92,3 +102,63 @@ the input checksum. assets/WORDNET-LICENSE is included unchanged.
 Standard Rust tests read checked-in JSON, with no Python, NLTK data download,
 external solver executable or model download. The optional ignored model test
 explicitly exercises native ONNX inference with downloaded MiniLM weights.
+
+## Compare the evaluation datasets live
+
+After preparing the same reference dependencies and NLTK corpora above, run:
+
+```sh
+cargo run --locked --example valentine_parity
+python scripts/run_valentine_parity.py
+python scripts/compare_valentine_parity.py
+```
+
+Both runners use every checked-in JSON dataset in `eval` and `eval_realworld`,
+preserving column names, sample order, duplicates and numeric string formatting.
+Declared types are mapped to the same `int`, `float`, `date` and `varchar`
+categories before matching; independent type inference is outside this check.
+The comparison checks input SHA256 hashes, complete column-pair sets and scores
+for all five default matchers plus COMA with instance matching enabled. It
+records exact equality separately from numerical tolerances (`1e-6` for COMA,
+`1e-10` for the other matchers), and exits unsuccessfully on differences or
+incomplete runs. Results are written to `target/parity`.
+
+The default Python run uses the unmodified upstream commit. To resolve the two
+upstream defects above, compare with an explicitly patched source copy:
+
+```sh
+cargo run --locked --example valentine_parity -- target/parity/rust_results_resolved.json
+python scripts/run_valentine_parity.py --reference-fixes
+python scripts/compare_valentine_parity.py --rust target/parity/rust_results_resolved.json --python target/parity/python_results_resolved.json --output target/parity/comparison_resolved.json
+python scripts/test_distribution_reference_patch.py
+```
+
+The two auditable source patches are
+[`cupid.patch`](scripts/reference_patches/cupid.patch) and
+[`distribution.patch`](scripts/reference_patches/distribution.patch).
+`scripts/valentine_reference.py` verifies the pinned, clean checkout and applies
+them to a separate package under `target/parity/reference`. The run records
+patch hashes and the original/patched source hashes. The comparator checks
+provenance and requires every returned identifier to exist in the input schema;
+it retains the original score tolerances and compares raw outputs.
+
+The original `python_results.json` and `comparison.json` remain the evidence for
+unmodified upstream behavior. The `_resolved.json` files report the corrected
+reference separately. Rust's matching behavior already implements both fixes;
+the released library does not need a runtime behavior change for these cases.
+
+The checked-in [validation summary](validation/valentine_parity.json) records a
+full corrected-reference run: 90/90 comparisons pass, with 60 numerically exact
+cases and 30 within the unchanged rounding tolerances. It includes every input
+hash and both source patch hashes; full pair-by-pair reports stay in `target`.
+
+To exercise Cupid in three fresh processes with different lookup orders, use
+the `reference.source_root` path from `python_results_resolved.json`:
+
+```sh
+python scripts/test_cupid_reference_fix.py --reference-dir PATH_TO_PATCHED_REFERENCE
+```
+
+Rust regression tests cover canonical WordNet ties, changed Cupid weights and
+worker counts, and distinct column names that would collide after solver
+sanitization. Python regressions check the actual patched matcher and solver.

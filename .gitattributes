@@ -1,0 +1,2 @@
+# Keep source patches byte-identical for recorded hashes and portable application.
+scripts/reference_patches/*.patch -text -whitespace

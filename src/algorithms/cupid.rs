@@ -482,6 +482,9 @@ impl SemanticCache {
 
 /// Cupid token similarity: maximum WordNet Wu-Palmer score across all senses;
 /// normalized Levenshtein is used only when WordNet lacks either lemma.
+/// Synset pairs are evaluated in ascending canonical WordNet name order. This
+/// fixes the orientation of NLTK's asymmetric root-tie cases independently of
+/// caller direction, worker scheduling and prior corpus lookups.
 pub fn word_similarity(a: &str, b: &str) -> f64 {
     if a == b {
         return 1.0;
@@ -582,8 +585,9 @@ impl WordNet {
         if a == b {
             return Some(1.0);
         }
-        // Fixed canonical synset order makes the NLTK first-operand LCS tie
-        // preference reproducible across runs, instead of Python object IDs.
+        // build_wordnet.py assigns these IDs in ascending canonical name order.
+        // This makes NLTK's first-operand LCS tie preference reproducible across
+        // runs, instead of depending on Python object IDs.
         let (a, b) = if a <= b { (a, b) } else { (b, a) };
         let sa = &self.synsets[a as usize];
         let sb = &self.synsets[b as usize];

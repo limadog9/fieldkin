@@ -1,0 +1,175 @@
+{
+  "name": "Customer import",
+  "source": {
+    "fields": [
+      {
+        "name": "customer_id",
+        "data_type": "integer",
+        "samples": [
+          "101",
+          "102",
+          "103"
+        ]
+      },
+      {
+        "name": "first_name",
+        "data_type": "text",
+        "samples": [
+          "Ada",
+          "Grace",
+          "Linus"
+        ]
+      },
+      {
+        "name": "last_name",
+        "data_type": "text",
+        "samples": [
+          "Lovelace",
+          "Hopper",
+          "Torvalds"
+        ]
+      },
+      {
+        "name": "signup_date",
+        "data_type": "date",
+        "samples": [
+          "2026-01-01",
+          "2026-02-05",
+          "2026-03-12"
+        ]
+      },
+      {
+        "name": "balance",
+        "data_type": "decimal",
+        "samples": [
+          "100.00",
+          "250.50",
+          "75.25"
+        ]
+      },
+      {
+        "name": "temporary_flag",
+        "data_type": "boolean",
+        "samples": [
+          "true",
+          "false"
+        ]
+      },
+      {
+        "name": "amount",
+        "data_type": "decimal",
+        "samples": [
+          "10.00",
+          "20.00",
+          "30.00"
+        ]
+      }
+    ]
+  },
+  "target": {
+    "fields": [
+      {
+        "name": "cust_id",
+        "data_type": "integer",
+        "samples": [
+          "101",
+          "102",
+          "103"
+        ]
+      },
+      {
+        "name": "given_name",
+        "data_type": "text",
+        "samples": [
+          "Ada",
+          "Grace",
+          "Linus"
+        ]
+      },
+      {
+        "name": "surname",
+        "data_type": "text",
+        "samples": [
+          "Lovelace",
+          "Hopper",
+          "Torvalds"
+        ]
+      },
+      {
+        "name": "registered_on",
+        "data_type": "date",
+        "samples": [
+          "2026-01-01",
+          "2026-02-05",
+          "2026-03-12"
+        ]
+      },
+      {
+        "name": "account_balance",
+        "data_type": "decimal",
+        "samples": [
+          "100.00",
+          "250.50",
+          "75.25"
+        ]
+      },
+      {
+        "name": "amount_gross",
+        "data_type": "decimal",
+        "samples": [
+          "10.00",
+          "20.00",
+          "30.00"
+        ]
+      },
+      {
+        "name": "amount_net",
+        "data_type": "decimal",
+        "samples": [
+          "10.00",
+          "20.00",
+          "30.00"
+        ]
+      }
+    ]
+  },
+  "answers": [
+    {
+      "kind": "match",
+      "source": "customer_id",
+      "target": "cust_id"
+    },
+    {
+      "kind": "match",
+      "source": "first_name",
+      "target": "given_name"
+    },
+    {
+      "kind": "match",
+      "source": "last_name",
+      "target": "surname"
+    },
+    {
+      "kind": "match",
+      "source": "signup_date",
+      "target": "registered_on"
+    },
+    {
+      "kind": "match",
+      "source": "balance",
+      "target": "account_balance"
+    },
+    {
+      "kind": "no_match",
+      "source": "temporary_flag"
+    },
+    {
+      "kind": "ambiguous",
+      "source": "amount",
+      "targets": [
+        "amount_gross",
+        "amount_net"
+      ]
+    }
+  ]
+}

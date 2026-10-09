@@ -1,0 +1,19 @@
+diff --git a/valentine/algorithms/cupid/linguistic_matching.py b/valentine/algorithms/cupid/linguistic_matching.py
+--- a/valentine/algorithms/cupid/linguistic_matching.py
++++ b/valentine/algorithms/cupid/linguistic_matching.py
+@@ -267,5 +267,5 @@
+     ``wup_similarity`` walks the WordNet hypernym graph, which is
+     the dominant cost of ``compute_similarity_wordnet``. We memoize
+-    on the (id-sorted) synset pair so repeated pair lookups across
++    on the (name-sorted) synset pair so repeated pair lookups across
+     schema elements only pay for it once.
+     """
+@@ -277,5 +277,6 @@
+ def _wup_sim(s1, s2) -> float:
+-    # Sort by id for a stable symmetric cache key.
+-    if id(s1) > id(s2):
++    # Canonical names give a reproducible orientation for asymmetric
++    # Wu-Palmer root ties, independent of Python object allocation.
++    if s1.name() > s2.name():
+         s1, s2 = s2, s1
+     return _wup_similarity_cached(s1, s2)

@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- Add live comparisons across all evaluation datasets, recording input and
+  reference source hashes and checking original column identifiers.
+- Add two explicit Python reference source fixes for reproducible Cupid WordNet
+  ordering and Distribution solver identity preservation, with regression tests.
+  Native Rust matching behavior remains unchanged.
+
 ## 0.2.0 - 2026-10-08
 
 - Port all five current Valentine matcher families to native Rust, including

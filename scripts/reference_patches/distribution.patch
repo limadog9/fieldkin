@@ -1,0 +1,57 @@
+--- a/valentine/algorithms/distribution_based/discovery.py
++++ b/valentine/algorithms/distribution_based/discovery.py
+@@ -1,4 +1,3 @@
+-from ast import literal_eval
+ from multiprocessing import Pool
+ 
+ import networkx as nx
+@@ -236,24 +235,15 @@
+ 
+     set_u = vertexes
+     set_v = vertexes
++    vertex_ids = {vertex: index for index, vertex in enumerate(vertexes)}
+ 
+     x_vars = {
+         (i, j): plp.LpVariable(
+             cat=plp.LpInteger,
+             lowBound=0,
+             upBound=1,
+-            name="({},{})".format(
+-                str(i)
+-                .replace(" ", "__WHITESPACE__")
+-                .replace("-", "__DASH__")
+-                .replace(">", "__GREATER__")
+-                .replace("/", "__BACKSLASH__"),
+-                str(j)
+-                .replace(" ", "__WHITESPACE__")
+-                .replace("-", "__DASH__")
+-                .replace(">", "__GREATER__")
+-                .replace("/", "__BACKSLASH__"),
+-            ),
++            # Solver identifiers must not encode user-supplied column names.
++            name=f"x_{vertex_ids[i]:08d}_{vertex_ids[j]:08d}",
+         )
+         for i in set_u
+         for j in set_v
+@@ -276,19 +266,8 @@
+ 
+     opt_model.solve(PULP_CBC_CMD(msg=False, options=["RandomS", "42"]))
+ 
+-    result = {}
+-
+-    for v in opt_model.variables():
+-        result[
+-            literal_eval(
+-                v.name.replace("__WHITESPACE__", " ")
+-                .replace("__DASH__", "-")
+-                .replace("__GREATER__", ">")
+-                .replace("__BACKSLASH__", "/")
+-            )
+-        ] = v.varValue
+-
+-    return result
++    # Retain schema identities from the original map, not sanitized solver names.
++    return {pair: variable.varValue for pair, variable in x_vars.items()}
+ 
+ 
+ def process_correlation_clustering_result(results: list, columns: list):

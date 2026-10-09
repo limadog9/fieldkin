@@ -1,0 +1,248 @@
+{
+  "fieldkin_version": "0.2.0",
+  "reference": {
+    "mode": "fixed",
+    "upstream_revision": "d8fa9ee6d312b49ce2c45b62824df1fd31b94a72",
+    "base_source_sha256": "8dfdeb859aa99982c0c005d790e7223c9ab7b5d962f8cc40e968e7b008f8a9ed",
+    "source_sha256": "9fd09ae3cb1abc1327db605bea6d06b5aec4855f4066d44fddb5c14d11693ae5",
+    "patches": [
+      {
+        "path": "scripts/reference_patches/cupid.patch",
+        "sha256": "52bdbad04550064a32407388f1a50d7c8febd4a7bde458938cab50b646b5578b"
+      },
+      {
+        "path": "scripts/reference_patches/distribution.patch",
+        "sha256": "cf989c00b34b752f32838bc038a4fa0a10521833dbc243768aa9ed649baf2d0a"
+      }
+    ]
+  },
+  "method": {
+    "pair_sets": "exact equality of all four table/column identifiers",
+    "score_exactness": "numeric equality of parsed IEEE-754 binary64 values, without tolerance",
+    "score_equivalence": "absolute error at most the algorithm's recorded tolerance",
+    "absolute_tolerances": {
+      "coma": 1e-06,
+      "coma_instances": 1e-06,
+      "cupid": 1e-10,
+      "distribution": 1e-10,
+      "flooding": 1e-10,
+      "jaccard": 1e-10
+    },
+    "identifier_integrity": "every returned identifier must exist in the original input schema; names are never normalized",
+    "error_handling": "algorithm errors, duplicate pairs, invalid identifiers and unverified inputs/provenance fail equivalence"
+  },
+  "aggregate": {
+    "case_count": 90,
+    "successful_case_count": 90,
+    "verified_input_case_count": 90,
+    "verified_context_case_count": 90,
+    "valid_identifiers_case_count": 90,
+    "equal_pair_set_case_count": 90,
+    "exact_case_count": 60,
+    "equivalent_case_count": 90,
+    "failure_count": 0,
+    "missing_from_rust_count": 0,
+    "extra_in_rust_count": 0,
+    "different_shared_score_count": 5135,
+    "shared_score_count": 9199,
+    "scores_outside_tolerance_count": 0,
+    "max_absolute_error": 8.940696716308594e-08,
+    "all_exact": false,
+    "all_equivalent": true
+  },
+  "algorithms": {
+    "coma": {
+      "case_count": 15,
+      "successful_case_count": 15,
+      "verified_input_case_count": 15,
+      "verified_context_case_count": 15,
+      "valid_identifiers_case_count": 15,
+      "equal_pair_set_case_count": 15,
+      "exact_case_count": 15,
+      "equivalent_case_count": 15,
+      "failure_count": 0,
+      "missing_from_rust_count": 0,
+      "extra_in_rust_count": 0,
+      "different_shared_score_count": 0,
+      "shared_score_count": 325,
+      "scores_outside_tolerance_count": 0,
+      "max_absolute_error": 0.0,
+      "all_exact": true,
+      "all_equivalent": true
+    },
+    "coma_instances": {
+      "case_count": 15,
+      "successful_case_count": 15,
+      "verified_input_case_count": 15,
+      "verified_context_case_count": 15,
+      "valid_identifiers_case_count": 15,
+      "equal_pair_set_case_count": 15,
+      "exact_case_count": 0,
+      "equivalent_case_count": 15,
+      "failure_count": 0,
+      "missing_from_rust_count": 0,
+      "extra_in_rust_count": 0,
+      "different_shared_score_count": 126,
+      "shared_score_count": 237,
+      "scores_outside_tolerance_count": 0,
+      "max_absolute_error": 8.940696716308594e-08,
+      "all_exact": false,
+      "all_equivalent": true
+    },
+    "cupid": {
+      "case_count": 15,
+      "successful_case_count": 15,
+      "verified_input_case_count": 15,
+      "verified_context_case_count": 15,
+      "valid_identifiers_case_count": 15,
+      "equal_pair_set_case_count": 15,
+      "exact_case_count": 15,
+      "equivalent_case_count": 15,
+      "failure_count": 0,
+      "missing_from_rust_count": 0,
+      "extra_in_rust_count": 0,
+      "different_shared_score_count": 0,
+      "shared_score_count": 308,
+      "scores_outside_tolerance_count": 0,
+      "max_absolute_error": 0.0,
+      "all_exact": true,
+      "all_equivalent": true
+    },
+    "distribution": {
+      "case_count": 15,
+      "successful_case_count": 15,
+      "verified_input_case_count": 15,
+      "verified_context_case_count": 15,
+      "valid_identifiers_case_count": 15,
+      "equal_pair_set_case_count": 15,
+      "exact_case_count": 15,
+      "equivalent_case_count": 15,
+      "failure_count": 0,
+      "missing_from_rust_count": 0,
+      "extra_in_rust_count": 0,
+      "different_shared_score_count": 0,
+      "shared_score_count": 279,
+      "scores_outside_tolerance_count": 0,
+      "max_absolute_error": 0.0,
+      "all_exact": true,
+      "all_equivalent": true
+    },
+    "flooding": {
+      "case_count": 15,
+      "successful_case_count": 15,
+      "verified_input_case_count": 15,
+      "verified_context_case_count": 15,
+      "valid_identifiers_case_count": 15,
+      "equal_pair_set_case_count": 15,
+      "exact_case_count": 0,
+      "equivalent_case_count": 15,
+      "failure_count": 0,
+      "missing_from_rust_count": 0,
+      "extra_in_rust_count": 0,
+      "different_shared_score_count": 5009,
+      "shared_score_count": 7175,
+      "scores_outside_tolerance_count": 0,
+      "max_absolute_error": 8.326672684688674e-17,
+      "all_exact": false,
+      "all_equivalent": true
+    },
+    "jaccard": {
+      "case_count": 15,
+      "successful_case_count": 15,
+      "verified_input_case_count": 15,
+      "verified_context_case_count": 15,
+      "valid_identifiers_case_count": 15,
+      "equal_pair_set_case_count": 15,
+      "exact_case_count": 15,
+      "equivalent_case_count": 15,
+      "failure_count": 0,
+      "missing_from_rust_count": 0,
+      "extra_in_rust_count": 0,
+      "different_shared_score_count": 0,
+      "shared_score_count": 875,
+      "scores_outside_tolerance_count": 0,
+      "max_absolute_error": 0.0,
+      "all_exact": true,
+      "all_equivalent": true
+    }
+  },
+  "datasets": [
+    {
+      "path": "eval/accounts_payable.json",
+      "input_sha256": "6eaa3f9a0a4afa4a2a6bf9842c99e4e331b6a686f4c71c5ac84bd0809b543926",
+      "verified": true
+    },
+    {
+      "path": "eval/customers.json",
+      "input_sha256": "8cd3337c8babfadde2db67d18aa4638275a07b093eb9753330bc3f4c574e09ab",
+      "verified": true
+    },
+    {
+      "path": "eval/inventory.json",
+      "input_sha256": "2eaccabbec87686747ce9e040686ef9d7c1029168ef584a0a81c6b68761c22e9",
+      "verified": true
+    },
+    {
+      "path": "eval/payments.json",
+      "input_sha256": "70b8ce6c79a54a7b5051262a2cd3f39eb388326bb0431d39795f893527357190",
+      "verified": true
+    },
+    {
+      "path": "eval/telemetry.json",
+      "input_sha256": "5b2e352eac0e1fff4e4bea93167a27afe5968f625e77ee3860b353a6804c6356",
+      "verified": true
+    },
+    {
+      "path": "eval_realworld/airports_publication_export.json",
+      "input_sha256": "2db1fe553a9a82b1241f2e5887434379bce652aef2855177c019920bba105329",
+      "verified": true
+    },
+    {
+      "path": "eval_realworld/dot_airfare_change_to_markets.json",
+      "input_sha256": "c4e33a2eff700b170f2785cf879298165872b86653c31df9994f874667a21ffb",
+      "verified": true
+    },
+    {
+      "path": "eval_realworld/epa_fuel_economy_exports.json",
+      "input_sha256": "90d30d1efe754afa68f14daff0a7ae46ebdd84feb05b071c723f19c6e25eefb8",
+      "verified": true
+    },
+    {
+      "path": "eval_realworld/fdic_bankfind.json",
+      "input_sha256": "ad85ef1037dd925f2205afc091a0c879c589240d53fac4ddf163adf63c4b9d0e",
+      "verified": true
+    },
+    {
+      "path": "eval_realworld/kepler_koi.json",
+      "input_sha256": "5d97d964988df282b90884d3f833b69ad56c4202dc7b20cb13c719cd152e9c3d",
+      "verified": true
+    },
+    {
+      "path": "eval_realworld/ndbc_buoy.json",
+      "input_sha256": "22951949675c6f2761ee9f780b43e6a54530e8977c923e4a629124b25002094a",
+      "verified": true
+    },
+    {
+      "path": "eval_realworld/nyc_municipal_energy_versions.json",
+      "input_sha256": "4706f86794bacbcd7cfc3012d79a11cdf8bc008b4af88845a5c8cbd528bce5bf",
+      "verified": true
+    },
+    {
+      "path": "eval_realworld/nyc_taxi_annual_versions.json",
+      "input_sha256": "d89bdf22b2ddcd10d500a56097c6b9bf7e0751d5626696d60675140c337dded1",
+      "verified": true
+    },
+    {
+      "path": "eval_realworld/sf_budget_to_actuals.json",
+      "input_sha256": "505274c702aa28b5a2b1162c6be7aa4a3c3871bccb75fd0f315e139a45d59d40",
+      "verified": true
+    },
+    {
+      "path": "eval_realworld/usgs_earthquakes.json",
+      "input_sha256": "8b14434af69d0d262cccd1cf6c4711fa3cd0e953b950a54750be750ea44fec97",
+      "verified": true
+    }
+  ],
+  "full_report": "target/parity/comparison_resolved.json",
+  "reproduce": "See PORTING.md: Compare the evaluation datasets live"
+}

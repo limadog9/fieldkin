@@ -236,3 +236,51 @@ fn flat_schema_parent_propagation_occurs_four_times() {
         Some(0.9)
     );
 }
+
+#[test]
+fn cupid_asymmetric_wordnet_root_ties_use_stable_canonical_order() {
+    // NLTK account.v.02 -> balance.v.02 is 2/3, but the reverse is 2/5.
+    // Evaluating the pair by canonical names keeps Cupid symmetric, even after
+    // unrelated corpus lookups or requests with the arguments reversed.
+    for (a, b) in [("account", "balance"), ("balance", "account")] {
+        assert_eq!(word_similarity(a, b), 2.0 / 3.0);
+        let _ = word_similarity("department", "division");
+        let _ = word_similarity("cats", "dogs");
+        assert_eq!(word_similarity(a, b), 2.0 / 3.0);
+    }
+}
+
+#[test]
+fn cupid_customers_scores_follow_canonical_reference_with_different_weights_and_workers() {
+    #[derive(Deserialize)]
+    struct Dataset {
+        source: fieldkin::Schema,
+        target: fieldkin::Schema,
+    }
+    let dataset: Dataset =
+        serde_json::from_str(include_str!("fixtures/cupid_customers.json")).unwrap();
+    let source = Table::from_schema("source", &dataset.source);
+    let target = Table::from_schema("target", &dataset.target);
+    let pair = ColumnPair::new("source", "balance", "target", "account_balance");
+    // Upstream with canonical synset ordering yields this independently
+    // generated value; the object-ID baseline sometimes yielded .7630458974.
+    for (config, expected) in [
+        (CupidConfig::default(), 0.7767211111111111),
+        (
+            CupidConfig {
+                leaf_w_struct: 0.4,
+                th_accept: 0.5,
+                process_num: 4,
+                ..Default::default()
+            },
+            0.6645533333333333,
+        ),
+    ] {
+        let matcher = Cupid::new(config).unwrap();
+        let results = matcher.get_matches(&source, &target).unwrap();
+        assert!((results.get(&pair).unwrap() - expected).abs() < 1e-12);
+        let reverse = matcher.get_matches(&target, &source).unwrap();
+        let reverse_pair = ColumnPair::new("target", "account_balance", "source", "balance");
+        assert_eq!(results.get(&pair), reverse.get(&reverse_pair));
+    }
+}

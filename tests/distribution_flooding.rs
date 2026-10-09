@@ -290,3 +290,67 @@ fn invalid_algorithm_configurations_return_errors() {
         assert!(matcher.get_matches(&source, &target).is_err());
     }
 }
+
+#[test]
+fn distribution_preserves_solver_sensitive_and_colliding_column_names() {
+    let source_names = [
+        "axis[0]",
+        "axis_0_",
+        "axis-0",
+        "axis+0",
+        "literal__WHITESPACE__tag",
+    ];
+    let target_names = [
+        "geometry.coordinates[0]",
+        "geometry.coordinates_0_",
+        "geometry.coordinates-0",
+        "geometry.coordinates+0",
+        "literal tag",
+    ];
+    let values = ["north", "east", "south", "west", "middle"];
+    let source = table(
+        "source[set]-a",
+        source_names
+            .iter()
+            .zip(values)
+            .map(|(name, value)| field(name, DataType::Text, &[value, value]))
+            .collect(),
+    );
+    let target = table(
+        "target+set",
+        target_names
+            .iter()
+            .zip(values)
+            .map(|(name, value)| field(name, DataType::Text, &[value]))
+            .collect(),
+    );
+    let results = DistributionBased::default()
+        .get_matches(&source, &target)
+        .unwrap();
+    assert_eq!(results.len(), source_names.len());
+    for (source_name, target_name) in source_names.iter().zip(target_names) {
+        assert_eq!(
+            results.get(&ColumnPair::new(
+                &source.name,
+                *source_name,
+                &target.name,
+                target_name
+            )),
+            Some(1.0)
+        );
+    }
+    for (pair, _) in &results {
+        assert!(
+            source
+                .columns
+                .iter()
+                .any(|field| field.name == pair.source_column)
+        );
+        assert!(
+            target
+                .columns
+                .iter()
+                .any(|field| field.name == pair.target_column)
+        );
+    }
+}
