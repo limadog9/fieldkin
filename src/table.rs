@@ -213,7 +213,10 @@ fn infer_type(values: &[String]) -> DataType {
     {
         return DataType::Boolean;
     }
-    if values.iter().all(|v| v.trim().parse::<i64>().is_ok()) {
+    if values.iter().all(|v| {
+        let value = v.trim();
+        value.parse::<i64>().is_ok() || value.parse::<u64>().is_ok()
+    }) {
         return DataType::Integer;
     }
     if values
