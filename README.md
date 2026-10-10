@@ -247,6 +247,28 @@ to pass CI. The labeled corpora remain limited coverage (including only six
 expected ambiguities); this gate measures the original suggestion API, separately
 from the unchanged Valentine reference-parity tests.
 
+For a separate comparison of all five Valentine algorithms against the same
+labels, run:
+
+```sh
+cargo run --locked --example benchmark_accuracy
+```
+
+The [accuracy protocol](validation/accuracy_protocol.md) fixes configurations,
+ranking, abstention, ambiguity handling, and metric definitions before measuring
+predictions. The [measured report](validation/accuracy_report.md) compares
+precision, recall, F1, top-1 accuracy, recall@5, coverage, and dataset/condition
+results. Append `-- --details` for field diagnostics or `-- --json` for complete metrics
+and frozen input hashes. This benchmark preserves declared types and uses all
+supplied nonempty samples; it does not perform one-to-one assignment or impose
+an accuracy floor on these algorithms.
+
+Both evaluation directories are development data. Their external provenance,
+data licensing, and annotation independence are not verified; the public-source
+names in `eval_realworld/` do not establish those properties. Independent
+evaluation remains outstanding. Valentine reference parity, the suggestion
+accuracy gate, and this comparative accuracy report measure separate things.
+
 Individual directories can still be evaluated in report-only mode:
 
 ```sh

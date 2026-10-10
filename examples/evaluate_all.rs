@@ -5,37 +5,15 @@ use std::{
     process::ExitCode,
 };
 
-use fieldkin::{Config, Decision, FieldResult, Schema, match_schemas};
+use fieldkin::{Config, Decision, FieldResult, match_schemas};
 use serde::{Deserialize, Serialize};
-use sha2::{Digest, Sha256};
+
+#[path = "support/labeled.rs"]
+mod labeled;
+use labeled::{Answer, fingerprint, parse_case};
 
 const CORPORA: &[&str] = &["eval", "eval_realworld"];
 const BASELINE: &str = "validation/quality_baseline.json";
-
-#[derive(Debug, Deserialize, Serialize)]
-#[serde(deny_unknown_fields)]
-struct EvalCase {
-    name: String,
-    source: Schema,
-    target: Schema,
-    answers: Vec<Answer>,
-}
-
-#[derive(Debug, Deserialize, Serialize, Clone)]
-#[serde(tag = "kind", rename_all = "snake_case", deny_unknown_fields)]
-enum Answer {
-    Match {
-        source: String,
-        target: String,
-    },
-    NoMatch {
-        source: String,
-    },
-    Ambiguous {
-        source: String,
-        targets: Vec<String>,
-    },
-}
 
 impl Answer {
     fn category(&self) -> Category {
@@ -43,14 +21,6 @@ impl Answer {
             Self::Match { .. } => Category::Match,
             Self::NoMatch { .. } => Category::NoMatch,
             Self::Ambiguous { .. } => Category::Ambiguous,
-        }
-    }
-
-    fn source(&self) -> &str {
-        match self {
-            Self::Match { source, .. }
-            | Self::NoMatch { source }
-            | Self::Ambiguous { source, .. } => source,
         }
     }
 
@@ -79,20 +49,6 @@ impl Answer {
             }
 
             _ => false,
-        }
-    }
-
-    fn display(&self) -> String {
-        match self {
-            Self::Match { target, .. } => {
-                format!("match -> {target}")
-            }
-
-            Self::NoMatch { .. } => "no_match".to_string(),
-
-            Self::Ambiguous { targets, .. } => {
-                format!("ambiguous -> [{}]", targets.join(", "))
-            }
         }
     }
 }
@@ -267,69 +223,6 @@ struct EvaluatedCase {
 
 type Evaluation = BTreeMap<String, EvaluatedCase>;
 
-fn parse_case(raw: &str) -> Result<EvalCase, String> {
-    let case: EvalCase = serde_json::from_str(raw).map_err(|error| error.to_string())?;
-    if case.name.trim().is_empty() || case.source.fields.is_empty() || case.answers.is_empty() {
-        return Err("dataset must have a name, source fields, and answers".into());
-    }
-    for (side, schema) in [("source", &case.source), ("target", &case.target)] {
-        let mut names = BTreeSet::new();
-        for field in &schema.fields {
-            if field.name.trim().is_empty() || !names.insert(&field.name) {
-                return Err(format!(
-                    "{side}: empty or duplicate field name {:?}",
-                    field.name
-                ));
-            }
-        }
-    }
-    let sources: BTreeSet<_> = case
-        .source
-        .fields
-        .iter()
-        .map(|field| field.name.as_str())
-        .collect();
-    let targets: BTreeSet<_> = case
-        .target
-        .fields
-        .iter()
-        .map(|field| field.name.as_str())
-        .collect();
-    let mut labeled = BTreeSet::new();
-    for answer in &case.answers {
-        let source = answer.source();
-        if !sources.contains(source) || !labeled.insert(source) {
-            return Err(format!("{source}: unknown or duplicate answer source"));
-        }
-        let valid_targets = match answer {
-            Answer::Match { target, .. } => targets.contains(target.as_str()),
-            Answer::NoMatch { .. } => true,
-            Answer::Ambiguous {
-                targets: expected, ..
-            } => {
-                expected.len() >= 2
-                    && expected.iter().collect::<BTreeSet<_>>().len() == expected.len()
-                    && expected
-                        .iter()
-                        .all(|target| targets.contains(target.as_str()))
-            }
-        };
-        if !valid_targets {
-            return Err(format!(
-                "{source}: invalid answer targets: {}",
-                answer.display()
-            ));
-        }
-    }
-    if labeled != sources {
-        return Err(format!(
-            "missing answers for source fields: {:?}",
-            sources.difference(&labeled).collect::<Vec<_>>()
-        ));
-    }
-    Ok(case)
-}
-
 fn evaluate(root: &Path, directories: &[&str]) -> Result<Evaluation, String> {
     let mut evaluation = Evaluation::new();
     for directory in directories {
@@ -356,11 +249,7 @@ fn evaluate(root: &Path, directories: &[&str]) -> Result<Evaluation, String> {
             );
             let raw = fs::read_to_string(&path).map_err(|error| format!("{id}: {error}"))?;
             let case = parse_case(&raw).map_err(|error| format!("{id}: {error}"))?;
-            // Hash parsed data so checkout line endings/JSON whitespace do not matter.
-            let sha256 = format!(
-                "{:x}",
-                Sha256::digest(serde_json::to_vec(&case).map_err(|error| error.to_string())?)
-            );
+            let sha256 = fingerprint(&case)?;
             let report = match_schemas(&case.source, &case.target, Config::default());
             let field_count = report.fields.len();
             let mut results: BTreeMap<_, _> = report
