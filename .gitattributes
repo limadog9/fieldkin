@@ -1,2 +1,5 @@
 # Keep source patches byte-identical for recorded hashes and portable application.
 scripts/reference_patches/*.patch -text -whitespace
+
+# Publisher snapshots must retain their downloaded bytes on every platform.
+eval_independent/sources/** -text -whitespace

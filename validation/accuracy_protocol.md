@@ -31,7 +31,10 @@ points to a [research dataset archive](https://surfdrive.surf.nl/files/index.php
 On 2026-10-10 the environment proxy denied that archive with HTTP 403. Its contents,
 annotations, and redistribution licenses could not be verified. No external
 data was downloaded or represented as independently labeled. **Independent
-evaluation remains outstanding.** A future corpus needs documented acquisition,
+evaluation was outstanding at that measurement.** The subsequently sourced
+[`independent_accuracy.md`](independent_accuracy.md) protocol documents the
+separate held-out corpus; it does not relabel these development cases. A corpus
+needs documented acquisition,
 versions, licensing, and independently supportable labels frozen before looking
 at predictions; it should also avoid reusing these development pairs.
 

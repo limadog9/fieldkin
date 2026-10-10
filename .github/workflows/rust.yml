@@ -19,6 +19,8 @@ jobs:
       - run: cargo fmt --all -- --check
       - name: Check suggestion quality against frozen ground truth
         run: cargo run --locked --example evaluate_all -- --check
+      - name: Measure independent Valentine accuracy (separate from parity)
+        run: cargo run --locked --example benchmark_accuracy -- --independent
       - run: cargo test --locked --all-targets --all-features
       - run: cargo test --locked --doc
       - run: cargo clippy --locked --all-targets --all-features -- -D warnings

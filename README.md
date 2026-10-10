@@ -254,6 +254,19 @@ labels, run:
 cargo run --locked --example benchmark_accuracy
 ```
 
+For separately sourced, held-out real-world inputs with archived provenance and
+per-field evidence, run:
+
+```sh
+cargo run --locked --example benchmark_accuracy -- --independent
+```
+
+The [independent protocol](validation/independent_accuracy.md) documents the
+15 frozen cases and limitations; the [measured comparison](validation/independent_accuracy_report.md)
+reports all five algorithms. Add `--json` for full per-dataset metrics or
+`--details` for incorrect/missed-match examples. This does not change the
+suggestion quality baseline or Valentine parity checks.
+
 The [accuracy protocol](validation/accuracy_protocol.md) fixes configurations,
 ranking, abstention, ambiguity handling, and metric definitions before measuring
 predictions. The [measured report](validation/accuracy_report.md) compares
@@ -263,11 +276,12 @@ and frozen input hashes. This benchmark preserves declared types and uses all
 supplied nonempty samples; it does not perform one-to-one assignment or impose
 an accuracy floor on these algorithms.
 
-Both evaluation directories are development data. Their external provenance,
+`eval/` and `eval_realworld/` remain development data. Their external provenance,
 data licensing, and annotation independence are not verified; the public-source
-names in `eval_realworld/` do not establish those properties. Independent
-evaluation remains outstanding. Valentine reference parity, the suggestion
-accuracy gate, and this comparative accuracy report measure separate things.
+names in `eval_realworld/` do not establish those properties. The separately
+frozen `eval_independent/` corpus supplies held-out measurements with the
+limitations documented above. Valentine reference parity, the suggestion
+accuracy gate, and comparative accuracy reports measure separate things.
 
 Individual directories can still be evaluated in report-only mode:
 

@@ -1,0 +1,4831 @@
+{
+  "algorithms": {
+    "COMA": {
+      "counts": {
+        "ambiguous": 0,
+        "ambiguous_all_at5": 0,
+        "ambiguous_any_at5": 0,
+        "ambiguous_automatic": 0,
+        "automatic": 38,
+        "matches": 40,
+        "no_match_automatic": 6,
+        "no_matches": 51,
+        "recall_at5_correct": 33,
+        "sources": 91,
+        "top1_correct": 33,
+        "true_positives": 32
+      },
+      "datasets": {
+        "eval_independent/01_penguins.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 7,
+            "matches": 7,
+            "no_match_automatic": 0,
+            "no_matches": 10,
+            "recall_at5_correct": 7,
+            "sources": 17,
+            "top1_correct": 7,
+            "true_positives": 7
+          },
+          "diagnostics": [],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 2,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 2,
+              "sources": 2,
+              "top1_correct": 2,
+              "true_positives": 2
+            },
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 7,
+              "matches": 7,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 7,
+              "sources": 7,
+              "top1_correct": 7,
+              "true_positives": 7
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 5,
+              "matches": 5,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 5,
+              "sources": 5,
+              "top1_correct": 5,
+              "true_positives": 5
+            }
+          },
+          "scores": {
+            "coverage": 0.4117647058823529,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/02_aircraft_flights.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 2,
+            "matches": 1,
+            "no_match_automatic": 1,
+            "no_matches": 8,
+            "recall_at5_correct": 1,
+            "sources": 9,
+            "top1_correct": 1,
+            "true_positives": 1
+          },
+          "diagnostics": [
+            "source \"year\"; expected no_match; automatic year (1.000000); top 5 [year (1.000000)]"
+          ],
+          "match_conditions": {
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            }
+          },
+          "scores": {
+            "coverage": 0.2222222222222222,
+            "f1": 0.6666666666666666,
+            "precision": 0.5,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/03_carriers_flights.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 1,
+            "matches": 1,
+            "no_match_automatic": 0,
+            "no_matches": 1,
+            "recall_at5_correct": 1,
+            "sources": 2,
+            "top1_correct": 1,
+            "true_positives": 1
+          },
+          "diagnostics": [],
+          "match_conditions": {
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            }
+          },
+          "scores": {
+            "coverage": 0.5,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/04_weather_flights.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 7,
+            "matches": 6,
+            "no_match_automatic": 1,
+            "no_matches": 9,
+            "recall_at5_correct": 6,
+            "sources": 15,
+            "top1_correct": 6,
+            "true_positives": 6
+          },
+          "diagnostics": [
+            "source \"dewp\"; expected no_match; automatic dep_delay (0.666667); top 5 [dep_delay (0.666667), dep_time (0.666667)]"
+          ],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 5,
+              "matches": 5,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 5,
+              "sources": 5,
+              "top1_correct": 5,
+              "true_positives": 5
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 6,
+              "matches": 6,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 6,
+              "sources": 6,
+              "top1_correct": 6,
+              "true_positives": 6
+            }
+          },
+          "scores": {
+            "coverage": 0.4666666666666667,
+            "f1": 0.9230769230769231,
+            "precision": 0.8571428571428571,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/05_aircraft_weather.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 2,
+            "matches": 0,
+            "no_match_automatic": 2,
+            "no_matches": 9,
+            "recall_at5_correct": 0,
+            "sources": 9,
+            "top1_correct": 0,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"year\"; expected no_match; automatic year (1.000000); top 5 [year (1.000000)]",
+            "source \"speed\"; expected no_match; automatic wind_speed (0.666667); top 5 [wind_speed (0.666667)]"
+          ],
+          "match_conditions": {},
+          "scores": {
+            "coverage": 0.2222222222222222,
+            "f1": 0.0,
+            "precision": 0.0,
+            "recall": null,
+            "recall_at5": null,
+            "top1_accuracy": null
+          }
+        },
+        "eval_independent/06_longley.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 5,
+            "matches": 7,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 6,
+            "sources": 7,
+            "top1_correct": 6,
+            "true_positives": 5
+          },
+          "diagnostics": [
+            "source \"GNP.deflator\"; expected match -> GNPDEFL; automatic abstain; top 5 []",
+            "source \"Employed\"; expected match -> TOTEMP; automatic abstain; top 5 [TOTEMP (0.200000)]"
+          ],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 4,
+              "matches": 6,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 5,
+              "sources": 6,
+              "top1_correct": 5,
+              "true_positives": 4
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 4,
+              "matches": 6,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 5,
+              "sources": 6,
+              "top1_correct": 5,
+              "true_positives": 4
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            }
+          },
+          "scores": {
+            "coverage": 0.7142857142857143,
+            "f1": 0.8333333333333334,
+            "precision": 1.0,
+            "recall": 0.7142857142857143,
+            "recall_at5": 0.8571428571428571,
+            "top1_accuracy": 0.8571428571428571
+          }
+        },
+        "eval_independent/07_nile.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 2,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 0,
+            "sources": 2,
+            "top1_correct": 0,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"time\"; expected match -> year; automatic abstain; top 5 []",
+            "source \"value\"; expected match -> volume; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 2,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 2,
+              "top1_correct": 0,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 0.0,
+            "top1_accuracy": 0.0
+          }
+        },
+        "eval_independent/08_sunspots.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 2,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 0,
+            "sources": 2,
+            "top1_correct": 0,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"time\"; expected match -> YEAR; automatic abstain; top 5 []",
+            "source \"value\"; expected match -> SUNACTIVITY; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 2,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 2,
+              "top1_correct": 0,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 0.0,
+            "top1_accuracy": 0.0
+          }
+        },
+        "eval_independent/09_engel.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 2,
+            "matches": 2,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 2,
+            "sources": 2,
+            "top1_correct": 2,
+            "true_positives": 2
+          },
+          "diagnostics": [],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 2,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 2,
+              "sources": 2,
+              "top1_correct": 2,
+              "true_positives": 2
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 2,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 2,
+              "sources": 2,
+              "top1_correct": 2,
+              "true_positives": 2
+            }
+          },
+          "scores": {
+            "coverage": 1.0,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/10_grunfeld.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 5,
+            "matches": 5,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 5,
+            "sources": 5,
+            "top1_correct": 5,
+            "true_positives": 5
+          },
+          "diagnostics": [],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 4,
+              "matches": 4,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 4,
+              "sources": 4,
+              "top1_correct": 4,
+              "true_positives": 4
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 5,
+              "matches": 5,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 5,
+              "sources": 5,
+              "top1_correct": 5,
+              "true_positives": 5
+            }
+          },
+          "scores": {
+            "coverage": 1.0,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/11_stackloss.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 4,
+            "matches": 4,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 4,
+            "sources": 4,
+            "top1_correct": 4,
+            "true_positives": 4
+          },
+          "diagnostics": [],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 4,
+              "matches": 4,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 4,
+              "sources": 4,
+              "top1_correct": 4,
+              "true_positives": 4
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 4,
+              "matches": 4,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 4,
+              "sources": 4,
+              "top1_correct": 4,
+              "true_positives": 4
+            }
+          },
+          "scores": {
+            "coverage": 1.0,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/12_road_casualties.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 1,
+            "no_match_automatic": 0,
+            "no_matches": 7,
+            "recall_at5_correct": 0,
+            "sources": 8,
+            "top1_correct": 0,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"drivers\"; expected match -> value; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 1,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 1,
+              "top1_correct": 0,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 0.0,
+            "top1_accuracy": 0.0
+          }
+        },
+        "eval_independent/13_arrests_states.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 3,
+            "matches": 1,
+            "no_match_automatic": 2,
+            "no_matches": 4,
+            "recall_at5_correct": 1,
+            "sources": 5,
+            "top1_correct": 1,
+            "true_positives": 1
+          },
+          "diagnostics": [
+            "source \"Murder\"; expected no_match; automatic Murder (1.000000); top 5 [Murder (1.000000)]",
+            "source \"UrbanPop\"; expected no_match; automatic Population (0.666667); top 5 [Population (0.666667)]"
+          ],
+          "match_conditions": {
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            }
+          },
+          "scores": {
+            "coverage": 0.6,
+            "f1": 0.5,
+            "precision": 0.3333333333333333,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/14_geyser_ocean.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 0,
+            "no_match_automatic": 0,
+            "no_matches": 2,
+            "recall_at5_correct": 0,
+            "sources": 2,
+            "top1_correct": 0,
+            "true_positives": 0
+          },
+          "diagnostics": [],
+          "match_conditions": {},
+          "scores": {
+            "coverage": 0.0,
+            "f1": null,
+            "precision": null,
+            "recall": null,
+            "recall_at5": null,
+            "top1_accuracy": null
+          }
+        },
+        "eval_independent/15_airmiles_economy.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 1,
+            "no_match_automatic": 0,
+            "no_matches": 1,
+            "recall_at5_correct": 0,
+            "sources": 2,
+            "top1_correct": 0,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"time\"; expected match -> YEAR; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 1,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 1,
+              "top1_correct": 0,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 0.0,
+            "top1_accuracy": 0.0
+          }
+        }
+      },
+      "match_conditions": {
+        "different_declared_type": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 10,
+          "matches": 10,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 10,
+          "sources": 10,
+          "top1_correct": 10,
+          "true_positives": 10
+        },
+        "renamed": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 15,
+          "matches": 23,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 16,
+          "sources": 23,
+          "top1_correct": 16,
+          "true_positives": 15
+        },
+        "same_declared_type": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 22,
+          "matches": 30,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 23,
+          "sources": 30,
+          "top1_correct": 23,
+          "true_positives": 22
+        },
+        "unchanged_name": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 17,
+          "matches": 17,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 17,
+          "sources": 17,
+          "top1_correct": 17,
+          "true_positives": 17
+        }
+      },
+      "scores": {
+        "coverage": 0.4175824175824176,
+        "f1": 0.8205128205128205,
+        "precision": 0.8421052631578947,
+        "recall": 0.8,
+        "recall_at5": 0.825,
+        "top1_accuracy": 0.825
+      }
+    },
+    "Cupid": {
+      "counts": {
+        "ambiguous": 0,
+        "ambiguous_all_at5": 0,
+        "ambiguous_any_at5": 0,
+        "ambiguous_automatic": 0,
+        "automatic": 35,
+        "matches": 40,
+        "no_match_automatic": 13,
+        "no_matches": 51,
+        "recall_at5_correct": 19,
+        "sources": 91,
+        "top1_correct": 19,
+        "true_positives": 19
+      },
+      "datasets": {
+        "eval_independent/01_penguins.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 7,
+            "matches": 7,
+            "no_match_automatic": 0,
+            "no_matches": 10,
+            "recall_at5_correct": 5,
+            "sources": 17,
+            "top1_correct": 5,
+            "true_positives": 5
+          },
+          "diagnostics": [
+            "source \"Flipper Length (mm)\"; expected match -> flipper_length_mm; automatic bill_length_mm (0.781481); top 5 [bill_length_mm (0.781481), bill_depth_mm (0.743386)]",
+            "source \"Body Mass (g)\"; expected match -> body_mass_g; automatic bill_length_mm (0.724786); top 5 [bill_length_mm (0.724786), bill_depth_mm (0.705128)]"
+          ],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 2,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 2,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 7,
+              "matches": 7,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 5,
+              "sources": 7,
+              "top1_correct": 5,
+              "true_positives": 5
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 5,
+              "matches": 5,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 5,
+              "sources": 5,
+              "top1_correct": 5,
+              "true_positives": 5
+            }
+          },
+          "scores": {
+            "coverage": 0.4117647058823529,
+            "f1": 0.7142857142857143,
+            "precision": 0.7142857142857143,
+            "recall": 0.7142857142857143,
+            "recall_at5": 0.7142857142857143,
+            "top1_accuracy": 0.7142857142857143
+          }
+        },
+        "eval_independent/02_aircraft_flights.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 7,
+            "matches": 1,
+            "no_match_automatic": 6,
+            "no_matches": 8,
+            "recall_at5_correct": 1,
+            "sources": 9,
+            "top1_correct": 1,
+            "true_positives": 1
+          },
+          "diagnostics": [
+            "source \"year\"; expected no_match; automatic year (0.900000); top 5 [year (0.900000), day (0.766667), month (0.766667)]",
+            "source \"type\"; expected no_match; automatic carrier (0.700000); top 5 [carrier (0.700000)]",
+            "source \"manufacturer\"; expected no_match; automatic carrier (0.800000); top 5 [carrier (0.800000)]",
+            "source \"model\"; expected no_match; automatic carrier (0.700000); top 5 [carrier (0.700000)]",
+            "source \"speed\"; expected no_match; automatic flight (0.740000); top 5 [flight (0.740000)]",
+            "source \"engine\"; expected no_match; automatic carrier (0.827273); top 5 [carrier (0.827273)]"
+          ],
+          "match_conditions": {
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            }
+          },
+          "scores": {
+            "coverage": 0.7777777777777778,
+            "f1": 0.25,
+            "precision": 0.14285714285714285,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/03_carriers_flights.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 2,
+            "matches": 1,
+            "no_match_automatic": 1,
+            "no_matches": 1,
+            "recall_at5_correct": 1,
+            "sources": 2,
+            "top1_correct": 1,
+            "true_positives": 1
+          },
+          "diagnostics": [
+            "source \"name\"; expected no_match; automatic origin (0.800000); top 5 [origin (0.800000)]"
+          ],
+          "match_conditions": {
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            }
+          },
+          "scores": {
+            "coverage": 1.0,
+            "f1": 0.6666666666666666,
+            "precision": 0.5,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/04_weather_flights.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 8,
+            "matches": 6,
+            "no_match_automatic": 2,
+            "no_matches": 9,
+            "recall_at5_correct": 5,
+            "sources": 15,
+            "top1_correct": 5,
+            "true_positives": 5
+          },
+          "diagnostics": [
+            "source \"hour\"; expected match -> hour; automatic day (0.732277); top 5 [day (0.732277), month (0.732277), year (0.732277)]",
+            "source \"wind_speed\"; expected no_match; automatic air_time (0.727264); top 5 [air_time (0.727264)]",
+            "source \"wind_gust\"; expected no_match; automatic air_time (0.718675); top 5 [air_time (0.718675)]"
+          ],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 1,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 5,
+              "matches": 5,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 5,
+              "sources": 5,
+              "top1_correct": 5,
+              "true_positives": 5
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 6,
+              "matches": 6,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 5,
+              "sources": 6,
+              "top1_correct": 5,
+              "true_positives": 5
+            }
+          },
+          "scores": {
+            "coverage": 0.5333333333333333,
+            "f1": 0.7142857142857143,
+            "precision": 0.625,
+            "recall": 0.8333333333333334,
+            "recall_at5": 0.8333333333333334,
+            "top1_accuracy": 0.8333333333333334
+          }
+        },
+        "eval_independent/05_aircraft_weather.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 1,
+            "matches": 0,
+            "no_match_automatic": 1,
+            "no_matches": 9,
+            "recall_at5_correct": 0,
+            "sources": 9,
+            "top1_correct": 0,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"year\"; expected no_match; automatic year (0.865610); top 5 [year (0.865610), day (0.732277), hour (0.732277), month (0.732277)]"
+          ],
+          "match_conditions": {},
+          "scores": {
+            "coverage": 0.1111111111111111,
+            "f1": 0.0,
+            "precision": 0.0,
+            "recall": null,
+            "recall_at5": null,
+            "top1_accuracy": null
+          }
+        },
+        "eval_independent/06_longley.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 1,
+            "matches": 7,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 1,
+            "sources": 7,
+            "top1_correct": 1,
+            "true_positives": 1
+          },
+          "diagnostics": [
+            "source \"GNP.deflator\"; expected match -> GNPDEFL; automatic abstain; top 5 []",
+            "source \"Unemployed\"; expected match -> UNEMP; automatic abstain; top 5 []",
+            "source \"Armed.Forces\"; expected match -> ARMED; automatic abstain; top 5 []",
+            "source \"Population\"; expected match -> POP; automatic abstain; top 5 []",
+            "source \"Year\"; expected match -> YEAR; automatic abstain; top 5 []",
+            "source \"Employed\"; expected match -> TOTEMP; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 1,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 6,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 6,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 6,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 6,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            }
+          },
+          "scores": {
+            "coverage": 0.14285714285714285,
+            "f1": 0.25,
+            "precision": 1.0,
+            "recall": 0.14285714285714285,
+            "recall_at5": 0.14285714285714285,
+            "top1_accuracy": 0.14285714285714285
+          }
+        },
+        "eval_independent/07_nile.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 1,
+            "matches": 2,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 1,
+            "sources": 2,
+            "top1_correct": 1,
+            "true_positives": 1
+          },
+          "diagnostics": [
+            "source \"value\"; expected match -> volume; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 2,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 2,
+              "top1_correct": 1,
+              "true_positives": 1
+            }
+          },
+          "scores": {
+            "coverage": 0.5,
+            "f1": 0.6666666666666666,
+            "precision": 1.0,
+            "recall": 0.5,
+            "recall_at5": 0.5,
+            "top1_accuracy": 0.5
+          }
+        },
+        "eval_independent/08_sunspots.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 1,
+            "matches": 2,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 1,
+            "sources": 2,
+            "top1_correct": 1,
+            "true_positives": 1
+          },
+          "diagnostics": [
+            "source \"value\"; expected match -> SUNACTIVITY; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 2,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 2,
+              "top1_correct": 1,
+              "true_positives": 1
+            }
+          },
+          "scores": {
+            "coverage": 0.5,
+            "f1": 0.6666666666666666,
+            "precision": 1.0,
+            "recall": 0.5,
+            "recall_at5": 0.5,
+            "top1_accuracy": 0.5
+          }
+        },
+        "eval_independent/09_engel.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 2,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 0,
+            "sources": 2,
+            "top1_correct": 0,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"income\"; expected match -> income; automatic abstain; top 5 []",
+            "source \"foodexp\"; expected match -> foodexp; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 2,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 2,
+              "top1_correct": 0,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 0.0,
+            "top1_accuracy": 0.0
+          }
+        },
+        "eval_independent/10_grunfeld.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 1,
+            "matches": 5,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 1,
+            "sources": 5,
+            "top1_correct": 1,
+            "true_positives": 1
+          },
+          "diagnostics": [
+            "source \"invest\"; expected match -> invest; automatic abstain; top 5 []",
+            "source \"value\"; expected match -> value; automatic abstain; top 5 []",
+            "source \"capital\"; expected match -> capital; automatic abstain; top 5 []",
+            "source \"year\"; expected match -> year; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 4,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 4,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 5,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 5,
+              "top1_correct": 1,
+              "true_positives": 1
+            }
+          },
+          "scores": {
+            "coverage": 0.2,
+            "f1": 0.3333333333333333,
+            "precision": 1.0,
+            "recall": 0.2,
+            "recall_at5": 0.2,
+            "top1_accuracy": 0.2
+          }
+        },
+        "eval_independent/11_stackloss.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 1,
+            "matches": 4,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 1,
+            "sources": 4,
+            "top1_correct": 1,
+            "true_positives": 1
+          },
+          "diagnostics": [
+            "source \"Air.Flow\"; expected match -> AIRFLOW; automatic abstain; top 5 []",
+            "source \"Water.Temp\"; expected match -> WATERTEMP; automatic abstain; top 5 []",
+            "source \"Acid.Conc.\"; expected match -> ACIDCONC; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 4,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 4,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 4,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 4,
+              "top1_correct": 1,
+              "true_positives": 1
+            }
+          },
+          "scores": {
+            "coverage": 0.25,
+            "f1": 0.4,
+            "precision": 1.0,
+            "recall": 0.25,
+            "recall_at5": 0.25,
+            "top1_accuracy": 0.25
+          }
+        },
+        "eval_independent/12_road_casualties.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 1,
+            "matches": 1,
+            "no_match_automatic": 1,
+            "no_matches": 7,
+            "recall_at5_correct": 0,
+            "sources": 8,
+            "top1_correct": 0,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"drivers\"; expected match -> value; automatic abstain; top 5 []",
+            "source \"law\"; expected no_match; automatic value (0.722222); top 5 [value (0.722222)]"
+          ],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 1,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 1,
+              "top1_correct": 0,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.125,
+            "f1": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "recall_at5": 0.0,
+            "top1_accuracy": 0.0
+          }
+        },
+        "eval_independent/13_arrests_states.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 2,
+            "matches": 1,
+            "no_match_automatic": 1,
+            "no_matches": 4,
+            "recall_at5_correct": 1,
+            "sources": 5,
+            "top1_correct": 1,
+            "true_positives": 1
+          },
+          "diagnostics": [
+            "source \"Murder\"; expected no_match; automatic Murder (0.865610); top 5 [Murder (0.865610)]"
+          ],
+          "match_conditions": {
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            }
+          },
+          "scores": {
+            "coverage": 0.4,
+            "f1": 0.6666666666666666,
+            "precision": 0.5,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/14_geyser_ocean.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 0,
+            "no_match_automatic": 0,
+            "no_matches": 2,
+            "recall_at5_correct": 0,
+            "sources": 2,
+            "top1_correct": 0,
+            "true_positives": 0
+          },
+          "diagnostics": [],
+          "match_conditions": {},
+          "scores": {
+            "coverage": 0.0,
+            "f1": null,
+            "precision": null,
+            "recall": null,
+            "recall_at5": null,
+            "top1_accuracy": null
+          }
+        },
+        "eval_independent/15_airmiles_economy.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 2,
+            "matches": 1,
+            "no_match_automatic": 1,
+            "no_matches": 1,
+            "recall_at5_correct": 1,
+            "sources": 2,
+            "top1_correct": 1,
+            "true_positives": 1
+          },
+          "diagnostics": [
+            "source \"value\"; expected no_match; automatic GNP (0.838462); top 5 [GNP (0.838462), YEAR (0.715385)]"
+          ],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            }
+          },
+          "scores": {
+            "coverage": 1.0,
+            "f1": 0.6666666666666666,
+            "precision": 0.5,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        }
+      },
+      "match_conditions": {
+        "different_declared_type": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 3,
+          "matches": 10,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 0,
+          "sources": 10,
+          "top1_correct": 0,
+          "true_positives": 0
+        },
+        "renamed": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 11,
+          "matches": 23,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 9,
+          "sources": 23,
+          "top1_correct": 9,
+          "true_positives": 9
+        },
+        "same_declared_type": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 19,
+          "matches": 30,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 19,
+          "sources": 30,
+          "top1_correct": 19,
+          "true_positives": 19
+        },
+        "unchanged_name": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 11,
+          "matches": 17,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 10,
+          "sources": 17,
+          "top1_correct": 10,
+          "true_positives": 10
+        }
+      },
+      "scores": {
+        "coverage": 0.38461538461538464,
+        "f1": 0.5066666666666667,
+        "precision": 0.5428571428571428,
+        "recall": 0.475,
+        "recall_at5": 0.475,
+        "top1_accuracy": 0.475
+      }
+    },
+    "DistributionBased": {
+      "counts": {
+        "ambiguous": 0,
+        "ambiguous_all_at5": 0,
+        "ambiguous_any_at5": 0,
+        "ambiguous_automatic": 0,
+        "automatic": 28,
+        "matches": 40,
+        "no_match_automatic": 1,
+        "no_matches": 51,
+        "recall_at5_correct": 27,
+        "sources": 91,
+        "top1_correct": 27,
+        "true_positives": 27
+      },
+      "datasets": {
+        "eval_independent/01_penguins.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 5,
+            "matches": 7,
+            "no_match_automatic": 0,
+            "no_matches": 10,
+            "recall_at5_correct": 5,
+            "sources": 17,
+            "top1_correct": 5,
+            "true_positives": 5
+          },
+          "diagnostics": [
+            "source \"Species\"; expected match -> species; automatic abstain; top 5 []",
+            "source \"Sex\"; expected match -> sex; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 2,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 2,
+              "sources": 2,
+              "top1_correct": 2,
+              "true_positives": 2
+            },
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 5,
+              "matches": 7,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 5,
+              "sources": 7,
+              "top1_correct": 5,
+              "true_positives": 5
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 3,
+              "matches": 5,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 3,
+              "sources": 5,
+              "top1_correct": 3,
+              "true_positives": 3
+            }
+          },
+          "scores": {
+            "coverage": 0.29411764705882354,
+            "f1": 0.8333333333333334,
+            "precision": 1.0,
+            "recall": 0.7142857142857143,
+            "recall_at5": 0.7142857142857143,
+            "top1_accuracy": 0.7142857142857143
+          }
+        },
+        "eval_independent/02_aircraft_flights.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 1,
+            "no_match_automatic": 0,
+            "no_matches": 8,
+            "recall_at5_correct": 0,
+            "sources": 9,
+            "top1_correct": 0,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"tailnum\"; expected match -> tailnum; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 1,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 1,
+              "top1_correct": 0,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 0.0,
+            "top1_accuracy": 0.0
+          }
+        },
+        "eval_independent/03_carriers_flights.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 1,
+            "matches": 1,
+            "no_match_automatic": 0,
+            "no_matches": 1,
+            "recall_at5_correct": 1,
+            "sources": 2,
+            "top1_correct": 1,
+            "true_positives": 1
+          },
+          "diagnostics": [],
+          "match_conditions": {
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            }
+          },
+          "scores": {
+            "coverage": 0.5,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/04_weather_flights.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 5,
+            "matches": 6,
+            "no_match_automatic": 1,
+            "no_matches": 9,
+            "recall_at5_correct": 4,
+            "sources": 15,
+            "top1_correct": 4,
+            "true_positives": 4
+          },
+          "diagnostics": [
+            "source \"hour\"; expected match -> hour; automatic abstain; top 5 []",
+            "source \"precip\"; expected no_match; automatic dep_delay (1.000000); top 5 [dep_delay (1.000000)]",
+            "source \"time_hour\"; expected match -> time_hour; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 1,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 4,
+              "matches": 5,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 4,
+              "sources": 5,
+              "top1_correct": 4,
+              "true_positives": 4
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 4,
+              "matches": 6,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 4,
+              "sources": 6,
+              "top1_correct": 4,
+              "true_positives": 4
+            }
+          },
+          "scores": {
+            "coverage": 0.3333333333333333,
+            "f1": 0.7272727272727273,
+            "precision": 0.8,
+            "recall": 0.6666666666666666,
+            "recall_at5": 0.6666666666666666,
+            "top1_accuracy": 0.6666666666666666
+          }
+        },
+        "eval_independent/05_aircraft_weather.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 0,
+            "no_match_automatic": 0,
+            "no_matches": 9,
+            "recall_at5_correct": 0,
+            "sources": 9,
+            "top1_correct": 0,
+            "true_positives": 0
+          },
+          "diagnostics": [],
+          "match_conditions": {},
+          "scores": {
+            "coverage": 0.0,
+            "f1": null,
+            "precision": null,
+            "recall": null,
+            "recall_at5": null,
+            "top1_accuracy": null
+          }
+        },
+        "eval_independent/06_longley.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 2,
+            "matches": 7,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 2,
+            "sources": 7,
+            "top1_correct": 2,
+            "true_positives": 2
+          },
+          "diagnostics": [
+            "source \"GNP\"; expected match -> GNP; automatic abstain; top 5 []",
+            "source \"Unemployed\"; expected match -> UNEMP; automatic abstain; top 5 []",
+            "source \"Armed.Forces\"; expected match -> ARMED; automatic abstain; top 5 []",
+            "source \"Population\"; expected match -> POP; automatic abstain; top 5 []",
+            "source \"Employed\"; expected match -> TOTEMP; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 2,
+              "matches": 6,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 2,
+              "sources": 6,
+              "top1_correct": 2,
+              "true_positives": 2
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 6,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 6,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 1,
+              "top1_correct": 0,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.2857142857142857,
+            "f1": 0.4444444444444444,
+            "precision": 1.0,
+            "recall": 0.2857142857142857,
+            "recall_at5": 0.2857142857142857,
+            "top1_accuracy": 0.2857142857142857
+          }
+        },
+        "eval_independent/07_nile.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 2,
+            "matches": 2,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 2,
+            "sources": 2,
+            "top1_correct": 2,
+            "true_positives": 2
+          },
+          "diagnostics": [],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 2,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 2,
+              "sources": 2,
+              "top1_correct": 2,
+              "true_positives": 2
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 2,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 2,
+              "sources": 2,
+              "top1_correct": 2,
+              "true_positives": 2
+            }
+          },
+          "scores": {
+            "coverage": 1.0,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/08_sunspots.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 2,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 0,
+            "sources": 2,
+            "top1_correct": 0,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"time\"; expected match -> YEAR; automatic abstain; top 5 []",
+            "source \"value\"; expected match -> SUNACTIVITY; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 2,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 2,
+              "top1_correct": 0,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 0.0,
+            "top1_accuracy": 0.0
+          }
+        },
+        "eval_independent/09_engel.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 2,
+            "matches": 2,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 2,
+            "sources": 2,
+            "top1_correct": 2,
+            "true_positives": 2
+          },
+          "diagnostics": [],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 2,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 2,
+              "sources": 2,
+              "top1_correct": 2,
+              "true_positives": 2
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 2,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 2,
+              "sources": 2,
+              "top1_correct": 2,
+              "true_positives": 2
+            }
+          },
+          "scores": {
+            "coverage": 1.0,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/10_grunfeld.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 5,
+            "matches": 5,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 5,
+            "sources": 5,
+            "top1_correct": 5,
+            "true_positives": 5
+          },
+          "diagnostics": [],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 4,
+              "matches": 4,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 4,
+              "sources": 4,
+              "top1_correct": 4,
+              "true_positives": 4
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 5,
+              "matches": 5,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 5,
+              "sources": 5,
+              "top1_correct": 5,
+              "true_positives": 5
+            }
+          },
+          "scores": {
+            "coverage": 1.0,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/11_stackloss.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 4,
+            "matches": 4,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 4,
+            "sources": 4,
+            "top1_correct": 4,
+            "true_positives": 4
+          },
+          "diagnostics": [],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 4,
+              "matches": 4,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 4,
+              "sources": 4,
+              "top1_correct": 4,
+              "true_positives": 4
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 4,
+              "matches": 4,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 4,
+              "sources": 4,
+              "top1_correct": 4,
+              "true_positives": 4
+            }
+          },
+          "scores": {
+            "coverage": 1.0,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/12_road_casualties.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 1,
+            "matches": 1,
+            "no_match_automatic": 0,
+            "no_matches": 7,
+            "recall_at5_correct": 1,
+            "sources": 8,
+            "top1_correct": 1,
+            "true_positives": 1
+          },
+          "diagnostics": [],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            }
+          },
+          "scores": {
+            "coverage": 0.125,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/13_arrests_states.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 1,
+            "matches": 1,
+            "no_match_automatic": 0,
+            "no_matches": 4,
+            "recall_at5_correct": 1,
+            "sources": 5,
+            "top1_correct": 1,
+            "true_positives": 1
+          },
+          "diagnostics": [],
+          "match_conditions": {
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            }
+          },
+          "scores": {
+            "coverage": 0.2,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/14_geyser_ocean.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 0,
+            "no_match_automatic": 0,
+            "no_matches": 2,
+            "recall_at5_correct": 0,
+            "sources": 2,
+            "top1_correct": 0,
+            "true_positives": 0
+          },
+          "diagnostics": [],
+          "match_conditions": {},
+          "scores": {
+            "coverage": 0.0,
+            "f1": null,
+            "precision": null,
+            "recall": null,
+            "recall_at5": null,
+            "top1_accuracy": null
+          }
+        },
+        "eval_independent/15_airmiles_economy.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 1,
+            "no_match_automatic": 0,
+            "no_matches": 1,
+            "recall_at5_correct": 0,
+            "sources": 2,
+            "top1_correct": 0,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"time\"; expected match -> YEAR; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 1,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 1,
+              "top1_correct": 0,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 0.0,
+            "top1_accuracy": 0.0
+          }
+        }
+      },
+      "match_conditions": {
+        "different_declared_type": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 9,
+          "matches": 10,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 9,
+          "sources": 10,
+          "top1_correct": 9,
+          "true_positives": 9
+        },
+        "renamed": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 14,
+          "matches": 23,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 14,
+          "sources": 23,
+          "top1_correct": 14,
+          "true_positives": 14
+        },
+        "same_declared_type": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 18,
+          "matches": 30,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 18,
+          "sources": 30,
+          "top1_correct": 18,
+          "true_positives": 18
+        },
+        "unchanged_name": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 13,
+          "matches": 17,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 13,
+          "sources": 17,
+          "top1_correct": 13,
+          "true_positives": 13
+        }
+      },
+      "scores": {
+        "coverage": 0.3076923076923077,
+        "f1": 0.7941176470588235,
+        "precision": 0.9642857142857143,
+        "recall": 0.675,
+        "recall_at5": 0.675,
+        "top1_accuracy": 0.675
+      }
+    },
+    "JaccardDistanceMatcher": {
+      "counts": {
+        "ambiguous": 0,
+        "ambiguous_all_at5": 0,
+        "ambiguous_any_at5": 0,
+        "ambiguous_automatic": 0,
+        "automatic": 30,
+        "matches": 40,
+        "no_match_automatic": 0,
+        "no_matches": 51,
+        "recall_at5_correct": 34,
+        "sources": 91,
+        "top1_correct": 34,
+        "true_positives": 30
+      },
+      "datasets": {
+        "eval_independent/01_penguins.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 5,
+            "matches": 7,
+            "no_match_automatic": 0,
+            "no_matches": 10,
+            "recall_at5_correct": 5,
+            "sources": 17,
+            "top1_correct": 5,
+            "true_positives": 5
+          },
+          "diagnostics": [
+            "source \"Species\"; expected match -> species; automatic abstain; top 5 []",
+            "source \"Sex\"; expected match -> sex; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 2,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 2,
+              "sources": 2,
+              "top1_correct": 2,
+              "true_positives": 2
+            },
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 5,
+              "matches": 7,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 5,
+              "sources": 7,
+              "top1_correct": 5,
+              "true_positives": 5
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 3,
+              "matches": 5,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 3,
+              "sources": 5,
+              "top1_correct": 3,
+              "true_positives": 3
+            }
+          },
+          "scores": {
+            "coverage": 0.29411764705882354,
+            "f1": 0.8333333333333334,
+            "precision": 1.0,
+            "recall": 0.7142857142857143,
+            "recall_at5": 0.7142857142857143,
+            "top1_accuracy": 0.7142857142857143
+          }
+        },
+        "eval_independent/02_aircraft_flights.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 1,
+            "no_match_automatic": 0,
+            "no_matches": 8,
+            "recall_at5_correct": 0,
+            "sources": 9,
+            "top1_correct": 0,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"tailnum\"; expected match -> tailnum; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 1,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 1,
+              "top1_correct": 0,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 0.0,
+            "top1_accuracy": 0.0
+          }
+        },
+        "eval_independent/03_carriers_flights.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 1,
+            "matches": 1,
+            "no_match_automatic": 0,
+            "no_matches": 1,
+            "recall_at5_correct": 1,
+            "sources": 2,
+            "top1_correct": 1,
+            "true_positives": 1
+          },
+          "diagnostics": [],
+          "match_conditions": {
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            }
+          },
+          "scores": {
+            "coverage": 0.5,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/04_weather_flights.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 4,
+            "matches": 6,
+            "no_match_automatic": 0,
+            "no_matches": 9,
+            "recall_at5_correct": 5,
+            "sources": 15,
+            "top1_correct": 5,
+            "true_positives": 4
+          },
+          "diagnostics": [
+            "source \"day\"; expected match -> day; automatic abstain; top 5 [day (0.250000), month (0.125000)]",
+            "source \"hour\"; expected match -> hour; automatic abstain; top 5 [month (0.277778), day (0.250000)]"
+          ],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 1,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 4,
+              "matches": 5,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 5,
+              "sources": 5,
+              "top1_correct": 5,
+              "true_positives": 4
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 4,
+              "matches": 6,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 5,
+              "sources": 6,
+              "top1_correct": 5,
+              "true_positives": 4
+            }
+          },
+          "scores": {
+            "coverage": 0.26666666666666666,
+            "f1": 0.8,
+            "precision": 1.0,
+            "recall": 0.6666666666666666,
+            "recall_at5": 0.8333333333333334,
+            "top1_accuracy": 0.8333333333333334
+          }
+        },
+        "eval_independent/05_aircraft_weather.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 0,
+            "no_match_automatic": 0,
+            "no_matches": 9,
+            "recall_at5_correct": 0,
+            "sources": 9,
+            "top1_correct": 0,
+            "true_positives": 0
+          },
+          "diagnostics": [],
+          "match_conditions": {},
+          "scores": {
+            "coverage": 0.0,
+            "f1": null,
+            "precision": null,
+            "recall": null,
+            "recall_at5": null,
+            "top1_accuracy": null
+          }
+        },
+        "eval_independent/06_longley.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 5,
+            "matches": 7,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 5,
+            "sources": 7,
+            "top1_correct": 5,
+            "true_positives": 5
+          },
+          "diagnostics": [
+            "source \"Unemployed\"; expected match -> UNEMP; automatic abstain; top 5 []",
+            "source \"Armed.Forces\"; expected match -> ARMED; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 4,
+              "matches": 6,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 4,
+              "sources": 6,
+              "top1_correct": 4,
+              "true_positives": 4
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 4,
+              "matches": 6,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 4,
+              "sources": 6,
+              "top1_correct": 4,
+              "true_positives": 4
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            }
+          },
+          "scores": {
+            "coverage": 0.7142857142857143,
+            "f1": 0.8333333333333334,
+            "precision": 1.0,
+            "recall": 0.7142857142857143,
+            "recall_at5": 0.7142857142857143,
+            "top1_accuracy": 0.7142857142857143
+          }
+        },
+        "eval_independent/07_nile.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 2,
+            "matches": 2,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 2,
+            "sources": 2,
+            "top1_correct": 2,
+            "true_positives": 2
+          },
+          "diagnostics": [],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 2,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 2,
+              "sources": 2,
+              "top1_correct": 2,
+              "true_positives": 2
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 2,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 2,
+              "sources": 2,
+              "top1_correct": 2,
+              "true_positives": 2
+            }
+          },
+          "scores": {
+            "coverage": 1.0,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/08_sunspots.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 2,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 2,
+            "sources": 2,
+            "top1_correct": 2,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"time\"; expected match -> YEAR; automatic abstain; top 5 [YEAR (0.032258)]",
+            "source \"value\"; expected match -> SUNACTIVITY; automatic abstain; top 5 [SUNACTIVITY (0.035714)]"
+          ],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 2,
+              "sources": 2,
+              "top1_correct": 2,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 2,
+              "sources": 2,
+              "top1_correct": 2,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/09_engel.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 2,
+            "matches": 2,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 2,
+            "sources": 2,
+            "top1_correct": 2,
+            "true_positives": 2
+          },
+          "diagnostics": [],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 2,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 2,
+              "sources": 2,
+              "top1_correct": 2,
+              "true_positives": 2
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 2,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 2,
+              "sources": 2,
+              "top1_correct": 2,
+              "true_positives": 2
+            }
+          },
+          "scores": {
+            "coverage": 1.0,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/10_grunfeld.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 5,
+            "matches": 5,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 5,
+            "sources": 5,
+            "top1_correct": 5,
+            "true_positives": 5
+          },
+          "diagnostics": [],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 4,
+              "matches": 4,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 4,
+              "sources": 4,
+              "top1_correct": 4,
+              "true_positives": 4
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 5,
+              "matches": 5,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 5,
+              "sources": 5,
+              "top1_correct": 5,
+              "true_positives": 5
+            }
+          },
+          "scores": {
+            "coverage": 1.0,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/11_stackloss.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 4,
+            "matches": 4,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 4,
+            "sources": 4,
+            "top1_correct": 4,
+            "true_positives": 4
+          },
+          "diagnostics": [],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 4,
+              "matches": 4,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 4,
+              "sources": 4,
+              "top1_correct": 4,
+              "true_positives": 4
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 4,
+              "matches": 4,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 4,
+              "sources": 4,
+              "top1_correct": 4,
+              "true_positives": 4
+            }
+          },
+          "scores": {
+            "coverage": 1.0,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/12_road_casualties.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 1,
+            "matches": 1,
+            "no_match_automatic": 0,
+            "no_matches": 7,
+            "recall_at5_correct": 1,
+            "sources": 8,
+            "top1_correct": 1,
+            "true_positives": 1
+          },
+          "diagnostics": [],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            }
+          },
+          "scores": {
+            "coverage": 0.125,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/13_arrests_states.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 1,
+            "matches": 1,
+            "no_match_automatic": 0,
+            "no_matches": 4,
+            "recall_at5_correct": 1,
+            "sources": 5,
+            "top1_correct": 1,
+            "true_positives": 1
+          },
+          "diagnostics": [],
+          "match_conditions": {
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            }
+          },
+          "scores": {
+            "coverage": 0.2,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/14_geyser_ocean.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 0,
+            "no_match_automatic": 0,
+            "no_matches": 2,
+            "recall_at5_correct": 0,
+            "sources": 2,
+            "top1_correct": 0,
+            "true_positives": 0
+          },
+          "diagnostics": [],
+          "match_conditions": {},
+          "scores": {
+            "coverage": 0.0,
+            "f1": null,
+            "precision": null,
+            "recall": null,
+            "recall_at5": null,
+            "top1_accuracy": null
+          }
+        },
+        "eval_independent/15_airmiles_economy.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 1,
+            "no_match_automatic": 0,
+            "no_matches": 1,
+            "recall_at5_correct": 1,
+            "sources": 2,
+            "top1_correct": 1,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"time\"; expected match -> YEAR; automatic abstain; top 5 [YEAR (0.391304)]"
+          ],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        }
+      },
+      "match_conditions": {
+        "different_declared_type": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 9,
+          "matches": 10,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 9,
+          "sources": 10,
+          "top1_correct": 9,
+          "true_positives": 9
+        },
+        "renamed": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 16,
+          "matches": 23,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 19,
+          "sources": 23,
+          "top1_correct": 19,
+          "true_positives": 16
+        },
+        "same_declared_type": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 21,
+          "matches": 30,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 25,
+          "sources": 30,
+          "top1_correct": 25,
+          "true_positives": 21
+        },
+        "unchanged_name": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 14,
+          "matches": 17,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 15,
+          "sources": 17,
+          "top1_correct": 15,
+          "true_positives": 14
+        }
+      },
+      "scores": {
+        "coverage": 0.32967032967032966,
+        "f1": 0.8571428571428571,
+        "precision": 1.0,
+        "recall": 0.75,
+        "recall_at5": 0.85,
+        "top1_accuracy": 0.85
+      }
+    },
+    "SimilarityFlooding": {
+      "counts": {
+        "ambiguous": 0,
+        "ambiguous_all_at5": 0,
+        "ambiguous_any_at5": 0,
+        "ambiguous_automatic": 0,
+        "automatic": 2,
+        "matches": 40,
+        "no_match_automatic": 0,
+        "no_matches": 51,
+        "recall_at5_correct": 39,
+        "sources": 91,
+        "top1_correct": 32,
+        "true_positives": 2
+      },
+      "datasets": {
+        "eval_independent/01_penguins.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 7,
+            "no_match_automatic": 0,
+            "no_matches": 10,
+            "recall_at5_correct": 7,
+            "sources": 17,
+            "top1_correct": 7,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"Species\"; expected match -> species; automatic abstain; top 5 [species (0.166211), body_mass_g (0.041020), island (0.039556), sex (0.039556), flipper_length_mm (0.034989)]",
+            "source \"Island\"; expected match -> island; automatic abstain; top 5 [island (0.162693), sex (0.039556), species (0.039556), body_mass_g (0.034989), flipper_length_mm (0.034989)]",
+            "source \"Culmen Length (mm)\"; expected match -> bill_length_mm; automatic abstain; top 5 [bill_length_mm (0.131124), flipper_length_mm (0.127445), bill_depth_mm (0.103761), body_mass_g (0.043301), year (0.037144)]",
+            "source \"Culmen Depth (mm)\"; expected match -> bill_depth_mm; automatic abstain; top 5 [bill_depth_mm (0.129483), bill_length_mm (0.103761), flipper_length_mm (0.100081), body_mass_g (0.043301), year (0.037144)]",
+            "source \"Flipper Length (mm)\"; expected match -> flipper_length_mm; automatic abstain; top 5 [flipper_length_mm (0.169663), bill_length_mm (0.131124), bill_depth_mm (0.103761), body_mass_g (0.043301), year (0.043176)]",
+            "source \"Body Mass (g)\"; expected match -> body_mass_g; automatic abstain; top 5 [body_mass_g (0.160281), species (0.041003), bill_depth_mm (0.040824), bill_length_mm (0.040824), flipper_length_mm (0.037144)]",
+            "source \"Sex\"; expected match -> sex; automatic abstain; top 5 [sex (0.138065), island (0.039556), species (0.039556), body_mass_g (0.034989), flipper_length_mm (0.034989)]"
+          ],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 2,
+              "sources": 2,
+              "top1_correct": 2,
+              "true_positives": 0
+            },
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 7,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 7,
+              "sources": 7,
+              "top1_correct": 7,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 5,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 5,
+              "sources": 5,
+              "top1_correct": 5,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/02_aircraft_flights.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 1,
+            "no_match_automatic": 0,
+            "no_matches": 8,
+            "recall_at5_correct": 1,
+            "sources": 9,
+            "top1_correct": 1,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"tailnum\"; expected match -> tailnum; automatic abstain; top 5 [tailnum (0.178192), arr_time (0.039502), dep_time (0.039502), air_time (0.039032), time_hour (0.038071)]"
+          ],
+          "match_conditions": {
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 0
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/03_carriers_flights.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 1,
+            "no_match_automatic": 0,
+            "no_matches": 1,
+            "recall_at5_correct": 1,
+            "sources": 2,
+            "top1_correct": 1,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"carrier\"; expected match -> carrier; automatic abstain; top 5 [carrier (0.327291), dest (0.090686), origin (0.090686), tailnum (0.090686), year (0.089985)]"
+          ],
+          "match_conditions": {
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 0
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/04_weather_flights.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 6,
+            "no_match_automatic": 0,
+            "no_matches": 9,
+            "recall_at5_correct": 6,
+            "sources": 15,
+            "top1_correct": 6,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"origin\"; expected match -> origin; automatic abstain; top 5 [origin (0.139292), carrier (0.025124), dest (0.025124), tailnum (0.025124), time_hour (0.021793)]",
+            "source \"year\"; expected match -> year; automatic abstain; top 5 [year (0.136935), hour (0.049291), time_hour (0.039257), arr_time (0.037038), air_time (0.035020)]",
+            "source \"month\"; expected match -> month; automatic abstain; top 5 [month (0.136935), minute (0.036606), arr_time (0.022767), day (0.022767), dep_time (0.022767)]",
+            "source \"day\"; expected match -> day; automatic abstain; top 5 [day (0.136935), dep_delay (0.060835), arr_delay (0.048149), dep_time (0.048138), sched_dep_time (0.041795)]",
+            "source \"hour\"; expected match -> hour; automatic abstain; top 5 [hour (0.134917), time_hour (0.096341), year (0.051309), arr_time (0.037038), air_time (0.035020)]",
+            "source \"time_hour\"; expected match -> time_hour; automatic abstain; top 5 [time_hour (0.149152), hour (0.096070), air_time (0.087745), arr_time (0.087602), dep_time (0.076898)]"
+          ],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 5,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 5,
+              "sources": 5,
+              "top1_correct": 5,
+              "true_positives": 0
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 6,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 6,
+              "sources": 6,
+              "top1_correct": 6,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/05_aircraft_weather.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 0,
+            "no_match_automatic": 0,
+            "no_matches": 9,
+            "recall_at5_correct": 0,
+            "sources": 9,
+            "top1_correct": 0,
+            "true_positives": 0
+          },
+          "diagnostics": [],
+          "match_conditions": {},
+          "scores": {
+            "coverage": 0.0,
+            "f1": null,
+            "precision": null,
+            "recall": null,
+            "recall_at5": null,
+            "top1_accuracy": null
+          }
+        },
+        "eval_independent/06_longley.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 7,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 7,
+            "sources": 7,
+            "top1_correct": 5,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"GNP.deflator\"; expected match -> GNPDEFL; automatic abstain; top 5 [GNP (0.210134), POP (0.129329), GNPDEFL (0.111189), UNEMP (0.103471), TOTEMP (0.099027)]",
+            "source \"GNP\"; expected match -> GNP; automatic abstain; top 5 [GNP (0.270738), POP (0.149530), GNPDEFL (0.122320), UNEMP (0.110743), TOTEMP (0.104077)]",
+            "source \"Unemployed\"; expected match -> UNEMP; automatic abstain; top 5 [UNEMP (0.098017), ARMED (0.088926), GNP (0.088926), GNPDEFL (0.088926), POP (0.088926)]",
+            "source \"Armed.Forces\"; expected match -> ARMED; automatic abstain; top 5 [ARMED (0.113168), GNP (0.088926), GNPDEFL (0.088926), POP (0.088926), TOTEMP (0.088926)]",
+            "source \"Population\"; expected match -> POP; automatic abstain; top 5 [POP (0.094380), ARMED (0.088926), GNP (0.088926), GNPDEFL (0.088926), TOTEMP (0.088926)]",
+            "source \"Year\"; expected match -> YEAR; automatic abstain; top 5 [YEAR (0.120094), ARMED (0.074641), GNP (0.074641), GNPDEFL (0.074641), POP (0.074641)]",
+            "source \"Employed\"; expected match -> TOTEMP; automatic abstain; top 5 [ARMED (0.088926), GNP (0.088926), GNPDEFL (0.088926), POP (0.088926), TOTEMP (0.088926)]"
+          ],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 0
+            },
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 6,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 6,
+              "sources": 6,
+              "top1_correct": 4,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 6,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 6,
+              "sources": 6,
+              "top1_correct": 4,
+              "true_positives": 0
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 0.7142857142857143
+          }
+        },
+        "eval_independent/07_nile.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 2,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 2,
+            "sources": 2,
+            "top1_correct": 1,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"time\"; expected match -> year; automatic abstain; top 5 [volume (0.443087), year (0.380365)]",
+            "source \"value\"; expected match -> volume; automatic abstain; top 5 [volume (0.458768), year (0.380365)]"
+          ],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 2,
+              "sources": 2,
+              "top1_correct": 1,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 2,
+              "sources": 2,
+              "top1_correct": 1,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 0.5
+          }
+        },
+        "eval_independent/08_sunspots.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 2,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 2,
+            "sources": 2,
+            "top1_correct": 1,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"time\"; expected match -> YEAR; automatic abstain; top 5 [SUNACTIVITY (0.386826), YEAR (0.386826)]",
+            "source \"value\"; expected match -> SUNACTIVITY; automatic abstain; top 5 [SUNACTIVITY (0.386826), YEAR (0.386826)]"
+          ],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 2,
+              "sources": 2,
+              "top1_correct": 1,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 2,
+              "sources": 2,
+              "top1_correct": 1,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 0.5
+          }
+        },
+        "eval_independent/09_engel.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 2,
+            "matches": 2,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 2,
+            "sources": 2,
+            "top1_correct": 2,
+            "true_positives": 2
+          },
+          "diagnostics": [],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 2,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 2,
+              "sources": 2,
+              "top1_correct": 2,
+              "true_positives": 2
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 2,
+              "matches": 2,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 2,
+              "sources": 2,
+              "top1_correct": 2,
+              "true_positives": 2
+            }
+          },
+          "scores": {
+            "coverage": 1.0,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/10_grunfeld.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 5,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 5,
+            "sources": 5,
+            "top1_correct": 5,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"invest\"; expected match -> invest; automatic abstain; top 5 [invest (0.337220), year (0.138129), capital (0.128582), firm (0.128582), value (0.128582)]",
+            "source \"value\"; expected match -> value; automatic abstain; top 5 [value (0.337220), year (0.138129), capital (0.128582), firm (0.128582), invest (0.128582)]",
+            "source \"capital\"; expected match -> capital; automatic abstain; top 5 [capital (0.337220), year (0.138129), firm (0.128582), invest (0.128582), value (0.128582)]",
+            "source \"firm\"; expected match -> firm; automatic abstain; top 5 [firm (0.344113), capital (0.135474), invest (0.135474), value (0.135474), year (0.126446)]",
+            "source \"year\"; expected match -> year; automatic abstain; top 5 [year (0.346506), capital (0.117050), firm (0.117050), invest (0.117050), value (0.117050)]"
+          ],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 4,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 4,
+              "sources": 4,
+              "top1_correct": 4,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 0
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 5,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 5,
+              "sources": 5,
+              "top1_correct": 5,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/11_stackloss.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 4,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 4,
+            "sources": 4,
+            "top1_correct": 2,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"Air.Flow\"; expected match -> AIRFLOW; automatic abstain; top 5 [AIRFLOW (0.173774), ACIDCONC (0.171608), STACKLOSS (0.164535), WATERTEMP (0.164535)]",
+            "source \"Water.Temp\"; expected match -> WATERTEMP; automatic abstain; top 5 [WATERTEMP (0.173850), ACIDCONC (0.164535), AIRFLOW (0.164535), STACKLOSS (0.164535)]",
+            "source \"Acid.Conc.\"; expected match -> ACIDCONC; automatic abstain; top 5 [AIRFLOW (0.176853), ACIDCONC (0.173966), STACKLOSS (0.164535), WATERTEMP (0.164535)]",
+            "source \"stack.loss\"; expected match -> STACKLOSS; automatic abstain; top 5 [ACIDCONC (0.164535), AIRFLOW (0.164535), STACKLOSS (0.164535), WATERTEMP (0.164535)]"
+          ],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 4,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 4,
+              "sources": 4,
+              "top1_correct": 2,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 4,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 4,
+              "sources": 4,
+              "top1_correct": 2,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 0.5
+          }
+        },
+        "eval_independent/12_road_casualties.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 1,
+            "no_match_automatic": 0,
+            "no_matches": 7,
+            "recall_at5_correct": 1,
+            "sources": 8,
+            "top1_correct": 0,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"drivers\"; expected match -> value; automatic abstain; top 5 [time (0.139111), value (0.139111)]"
+          ],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 0,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 0.0
+          }
+        },
+        "eval_independent/13_arrests_states.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 1,
+            "no_match_automatic": 0,
+            "no_matches": 4,
+            "recall_at5_correct": 1,
+            "sources": 5,
+            "top1_correct": 1,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"rownames\"; expected match -> rownames; automatic abstain; top 5 [rownames (0.327056), Area (0.078343), Frost (0.078343), HS Grad (0.078343), Illiteracy (0.078343)]"
+          ],
+          "match_conditions": {
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 0
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_independent/14_geyser_ocean.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 0,
+            "no_match_automatic": 0,
+            "no_matches": 2,
+            "recall_at5_correct": 0,
+            "sources": 2,
+            "top1_correct": 0,
+            "true_positives": 0
+          },
+          "diagnostics": [],
+          "match_conditions": {},
+          "scores": {
+            "coverage": 0.0,
+            "f1": null,
+            "precision": null,
+            "recall": null,
+            "recall_at5": null,
+            "top1_accuracy": null
+          }
+        },
+        "eval_independent/15_airmiles_economy.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 1,
+            "no_match_automatic": 0,
+            "no_matches": 1,
+            "recall_at5_correct": 0,
+            "sources": 2,
+            "top1_correct": 0,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"time\"; expected match -> YEAR; automatic abstain; top 5 [ARMED (0.156606), GNP (0.156606), GNPDEFL (0.156606), POP (0.156606), TOTEMP (0.156606)]"
+          ],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 1,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 1,
+              "top1_correct": 0,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 0.0,
+            "top1_accuracy": 0.0
+          }
+        }
+      },
+      "match_conditions": {
+        "different_declared_type": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 2,
+          "matches": 10,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 10,
+          "sources": 10,
+          "top1_correct": 10,
+          "true_positives": 2
+        },
+        "renamed": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 0,
+          "matches": 23,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 22,
+          "sources": 23,
+          "top1_correct": 15,
+          "true_positives": 0
+        },
+        "same_declared_type": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 0,
+          "matches": 30,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 29,
+          "sources": 30,
+          "top1_correct": 22,
+          "true_positives": 0
+        },
+        "unchanged_name": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 2,
+          "matches": 17,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 17,
+          "sources": 17,
+          "top1_correct": 17,
+          "true_positives": 2
+        }
+      },
+      "scores": {
+        "coverage": 0.02197802197802198,
+        "f1": 0.09523809523809523,
+        "precision": 1.0,
+        "recall": 0.05,
+        "recall_at5": 0.975,
+        "top1_accuracy": 0.8
+      }
+    }
+  },
+  "automatic_cutoff": 0.5,
+  "corpus_status": "independent; publisher evidence frozen before predictions",
+  "datasets": {
+    "eval_independent/01_penguins.json": {
+      "name": "Palmer LTER raw to publisher-cleaned penguins",
+      "sha256": "18606a2eb6dbdb6518b2c49b5d0f97dda40465f671d991348d62cc89a14d4a31"
+    },
+    "eval_independent/02_aircraft_flights.json": {
+      "name": "FAA aircraft metadata to BTS flight records",
+      "sha256": "760b31c293d1a1ec4b522852021ee19a12dc989c436af9b1cc56064af9f07594"
+    },
+    "eval_independent/03_carriers_flights.json": {
+      "name": "BTS carrier lookup to BTS flight records",
+      "sha256": "87ae8b015f3abdb0c074f670eed2f400986db495eb8510c5756d77fd4b3b0014"
+    },
+    "eval_independent/04_weather_flights.json": {
+      "name": "IEM airport-hour weather to BTS departure lookup keys",
+      "sha256": "c9e97e7d9bc1d784e65c11b3cbb46b9c645b1ddc1fb620d21fac65b5a489f2de"
+    },
+    "eval_independent/05_aircraft_weather.json": {
+      "name": "Negative control: airframe metadata versus airport-hour weather",
+      "sha256": "e66c3e11c797608aabda0ebdcd52fc32e2ab20b4cb05338dce750fb58ec3d42b"
+    },
+    "eval_independent/06_longley.json": {
+      "name": "Longley macroeconomic study: R to statsmodels",
+      "sha256": "05a3dbf770eecdecdc975738be1afe1cdb53104a984237109c4f65c763404c45"
+    },
+    "eval_independent/07_nile.json": {
+      "name": "Aswan annual Nile discharge: R to statsmodels",
+      "sha256": "c1093f18cca0cd950b5452441248ec609092f5059c02da4b04f25d40a0d6a065"
+    },
+    "eval_independent/08_sunspots.json": {
+      "name": "Annual sunspot series: R to statsmodels",
+      "sha256": "500610f6b08ed50f1355fbea56d34b561b19d3b9b33728c22a73d450c7d1952d"
+    },
+    "eval_independent/09_engel.json": {
+      "name": "Engel Belgian household expenditure: quantreg to statsmodels",
+      "sha256": "9352f81439779f9a930082e3166a9f0f8457a37a6c5187e3fba072bdb4c15020"
+    },
+    "eval_independent/10_grunfeld.json": {
+      "name": "Original 11-firm Grunfeld investment study: AER to statsmodels",
+      "sha256": "3e821d2b9ca2f6c6f5b51495012201472f91cae65b2a7866b538657029284885"
+    },
+    "eval_independent/11_stackloss.json": {
+      "name": "Nitric-acid plant stack-loss study: R to statsmodels",
+      "sha256": "a4601924096e733a37a32b936bb9229ac681619c3933e0d58053fd1702af95d4"
+    },
+    "eval_independent/12_road_casualties.json": {
+      "name": "Great Britain Seatbelts to UKDriverDeaths",
+      "sha256": "0c6d585b475f46e3009f79ff6bd61a0364ea315b0812d84235bb345ed806778b"
+    },
+    "eval_independent/13_arrests_states.json": {
+      "name": "US state identifiers with non-equivalent crime quantities",
+      "sha256": "d329a0a740451255fa8fb25d73357cd29ec4ace8c2e8318f8cc0064d98fc2f31"
+    },
+    "eval_independent/14_geyser_ocean.json": {
+      "name": "Negative control: Old Faithful versus NOAA sea temperatures",
+      "sha256": "5a5dc037a492d0c4fd7bd234f701dd77db92c1663c742ccf1e7403d9b0d8d5d4"
+    },
+    "eval_independent/15_airmiles_economy.json": {
+      "name": "FAA passenger-mile time axis versus Longley economic series",
+      "sha256": "24061be7a45c2237750914ef94ed1378a63589f828958c58daa6e9a32e3c5e46"
+    }
+  },
+  "protocol": "validation/independent_accuracy.md"
+}
