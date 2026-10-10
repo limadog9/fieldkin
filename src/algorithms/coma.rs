@@ -72,9 +72,7 @@ impl Coma {
 
     fn match_tables(&self, tables: &[&Table]) -> Result<MatcherResults, Error> {
         self.validate()?;
-        for table in tables {
-            table.validate()?;
-        }
+        super::validate_tables(tables.iter().copied())?;
         let corpus = self.config.use_instances.then(|| TfidfCorpus::new(tables));
         let mut output = Vec::new();
         let mut details = BTreeMap::new();

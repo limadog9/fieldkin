@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- Add `try_match_schemas` for recoverable suggestion configuration errors while
+  preserving `match_schemas` and its existing behavior.
+- Reject duplicate match identifiers and metric names instead of overwriting
+  results; validate table identities consistently in direct and batch matching.
+- Return errors for out-of-range Polars calendar values, invalid timezones and
+  worker creation failures. Valid matching scores, ordering, and defaults are unchanged.
+- Clarify validation and optional integration behavior and source-only tooling.
+
 - Add live comparisons across all evaluation datasets, recording input and
   reference source hashes and checking original column identifiers.
 - Add two explicit Python reference source fixes for reproducible Cupid WordNet

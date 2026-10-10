@@ -65,6 +65,68 @@ fn batch_input_errors_are_detected_before_the_matcher_runs() {
 }
 
 #[test]
+fn direct_matcher_apis_validate_table_identities_without_requiring_two_tables() {
+    let matchers: [(&str, Box<dyn Matcher>); 5] = [
+        ("COMA", Box::new(Coma::default())),
+        ("Cupid", Box::new(Cupid::default())),
+        ("Distribution", Box::new(DistributionBased::default())),
+        ("Jaccard", Box::new(JaccardDistanceMatcher::default())),
+        ("Flooding", Box::new(SimilarityFlooding::default())),
+    ];
+    let source = table("source", &["shared"]);
+    let mut duplicate = source.clone();
+    // Different columns must not make a duplicate table identifier acceptable.
+    duplicate.columns[0].name = "other".into();
+    let mut invalid = source.clone();
+    invalid.columns.push(invalid.columns[0].clone());
+    let empty = Table::new("empty", Vec::new()).unwrap();
+    for (name, matcher) in matchers {
+        for error in [
+            matcher.get_matches(&source, &duplicate),
+            matcher.get_matches_batch(&[source.clone(), duplicate.clone()]),
+            matcher.get_matches_batch(&[invalid.clone()]),
+        ] {
+            assert!(
+                matches!(error, Err(Error::InvalidInput(_))),
+                "{name}: {error:?}"
+            );
+        }
+        for tables in [vec![], vec![source.clone()], vec![empty.clone()]] {
+            assert!(
+                matcher.get_matches_batch(&tables).unwrap().is_empty(),
+                "{name}"
+            );
+        }
+        assert!(
+            matcher.get_matches(&source, &empty).unwrap().is_empty(),
+            "{name}"
+        );
+    }
+}
+
+#[test]
+fn default_batch_validates_all_tables_before_invoking_a_custom_matcher() {
+    let matcher = RecordingMatcher::default();
+    let source = table("source", &["shared"]);
+    let target = table("target", &["shared"]);
+    let mut invalid = table("third", &["shared"]);
+    invalid.columns[0].name.clear();
+    for tables in [
+        vec![source.clone(), target.clone(), source.clone()],
+        vec![source.clone(), target, invalid.clone()],
+        vec![invalid],
+    ] {
+        assert!(matches!(
+            matcher.get_matches_batch(&tables),
+            Err(Error::InvalidInput(_))
+        ));
+    }
+    assert!(matcher.get_matches_batch(&[]).unwrap().is_empty());
+    assert!(matcher.get_matches_batch(&[source]).unwrap().is_empty());
+    assert!(matcher.calls.borrow().is_empty());
+}
+
+#[test]
 fn three_tables_emit_each_unique_table_pair_with_forward_identity() {
     let tables = [
         table("third", &["shared"]),

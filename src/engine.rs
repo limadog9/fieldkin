@@ -1,5 +1,5 @@
 use crate::signals::{abbreviation_score, exact_name_match, name_score, sample_score, type_score};
-use crate::{Candidate, Decision, Field, FieldResult, MatchReport, Schema};
+use crate::{Candidate, Decision, Error, Field, FieldResult, MatchReport, Schema};
 
 const NAME_WEIGHT: f64 = 0.60;
 const TYPE_WEIGHT: f64 = 0.25;
@@ -41,12 +41,28 @@ impl Default for Config {
 /// # Panics
 ///
 /// Panics if either threshold is nonfinite or `ambiguity_margin` is negative.
+/// Use [`try_match_schemas`] to receive an error for invalid configuration.
 pub fn match_schemas(source: &Schema, target: &Schema, config: Config) -> MatchReport {
-    assert!(config.min_score.is_finite(), "min_score must be finite");
-    assert!(
-        config.ambiguity_margin.is_finite() && config.ambiguity_margin >= 0.0,
-        "ambiguity_margin must be finite and nonnegative"
-    );
+    try_match_schemas(source, target, config).unwrap_or_else(|error| panic!("{error}"))
+}
+
+/// Suggest correspondences with the same behavior as [`match_schemas`], returning
+/// [`Error::InvalidConfig`] for nonfinite thresholds or a negative ambiguity margin.
+/// Finite minimum scores outside `[0, 1]` are accepted, as in the original API.
+/// Empty schemas and duplicate/empty field names retain their original behavior.
+pub fn try_match_schemas(
+    source: &Schema,
+    target: &Schema,
+    config: Config,
+) -> Result<MatchReport, Error> {
+    if !config.min_score.is_finite() {
+        return Err(Error::InvalidConfig("min_score must be finite".into()));
+    }
+    if !config.ambiguity_margin.is_finite() || config.ambiguity_margin < 0.0 {
+        return Err(Error::InvalidConfig(
+            "ambiguity_margin must be finite and nonnegative".into(),
+        ));
+    }
     let mut fields = Vec::with_capacity(source.fields.len());
 
     for source_field in &source.fields {
@@ -76,7 +92,7 @@ pub fn match_schemas(source: &Schema, target: &Schema, config: Config) -> MatchR
         });
     }
 
-    MatchReport { fields }
+    Ok(MatchReport { fields })
 }
 
 fn build_candidates(

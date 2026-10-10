@@ -142,13 +142,13 @@ impl Cupid {
                 .step_by(chunk_size)
                 .map(|start| {
                     let compute_row = &compute_row;
-                    scope.spawn(move || {
+                    std::thread::Builder::new().spawn_scoped(scope, move || {
                         (start..(start + chunk_size).min(source.columns.len()))
                             .map(compute_row)
                             .collect::<Vec<_>>()
                     })
                 })
-                .collect();
+                .collect::<Result<_, _>>()?;
             let mut matrix = Vec::with_capacity(source.columns.len());
             for handle in handles {
                 matrix.extend(
@@ -165,8 +165,7 @@ impl Cupid {
 impl Matcher for Cupid {
     fn get_matches(&self, source: &Table, target: &Table) -> Result<MatcherResults, Error> {
         self.validate()?;
-        source.validate()?;
-        target.validate()?;
+        super::validate_tables([source, target])?;
         if source.columns.is_empty() || target.columns.is_empty() {
             return MatcherResults::new(Vec::new());
         }

@@ -272,3 +272,105 @@ fn timezone_aware_timestamps_preserve_instants_and_dst_offsets() {
         assert_eq!(table.columns[0].samples, expected);
     }
 }
+
+#[test]
+fn out_of_range_dates_return_an_error() {
+    for value in [i32::MIN, -96_465_293, 95_026_237, i32::MAX] {
+        let dates = Series::new("date".into(), [value])
+            .cast(&polars_core::prelude::DataType::Date)
+            .unwrap();
+        let frame = DataFrame::new(1, vec![dates.into()]).unwrap();
+        let error = Table::from_polars("dates", &frame).unwrap_err();
+        assert!(matches!(error, fieldkin::Error::InvalidInput(_)));
+        let message = error.to_string();
+        assert!(message.contains(&value.to_string()), "{message}");
+        assert!(message.contains("column date at row 0"), "{message}");
+    }
+}
+
+#[test]
+fn out_of_range_timestamps_return_an_error() {
+    for (unit, per_day) in [
+        (TimeUnit::Milliseconds, 86_400_000i64),
+        (TimeUnit::Microseconds, 86_400_000_000),
+    ] {
+        for value in [
+            i64::MIN,
+            -96_465_292 * per_day - 1,
+            95_026_237 * per_day,
+            i64::MAX,
+        ] {
+            let timestamps = Series::new("timestamp".into(), [value])
+                .cast(&polars_core::prelude::DataType::Datetime(unit, None))
+                .unwrap();
+            let frame = DataFrame::new(1, vec![timestamps.into()]).unwrap();
+            let error = Table::from_polars("timestamps", &frame).unwrap_err();
+            assert!(matches!(error, fieldkin::Error::InvalidInput(_)));
+            let message = error.to_string();
+            assert!(message.contains(&value.to_string()), "{message}");
+            assert!(message.contains("column timestamp at row 0"), "{message}");
+        }
+    }
+}
+
+#[test]
+fn calendar_boundaries_and_nanosecond_extremes_preserve_display_values() {
+    let dates = Series::new("date".into(), [-96_465_292i32, 95_026_236])
+        .cast(&polars_core::prelude::DataType::Date)
+        .unwrap();
+    let frame = DataFrame::new(2, vec![dates.into()]).unwrap();
+    assert_eq!(
+        Table::from_polars("dates", &frame).unwrap().columns[0].samples,
+        ["-262143-01-01", "+262142-12-31"]
+    );
+
+    for (unit, values) in [
+        (
+            TimeUnit::Milliseconds,
+            [-96_465_292 * 86_400_000i64, 95_026_237 * 86_400_000 - 1],
+        ),
+        (
+            TimeUnit::Microseconds,
+            [
+                -96_465_292 * 86_400_000_000i64,
+                95_026_237 * 86_400_000_000 - 1,
+            ],
+        ),
+        (TimeUnit::Nanoseconds, [i64::MIN, i64::MAX]),
+    ] {
+        for zone in [None, Some("UTC"), Some("Etc/GMT+12"), Some("Etc/GMT-14")] {
+            let timezone = TimeZone::opt_try_new(zone).unwrap();
+            let expected: Vec<_> = values
+                .iter()
+                .map(|value| AnyValue::Datetime(*value, unit, timezone.as_ref()).to_string())
+                .collect();
+            let timestamps = Series::new("timestamp".into(), values)
+                .i64()
+                .unwrap()
+                .clone()
+                .into_datetime(unit, timezone)
+                .into_series();
+            let frame = DataFrame::new(2, vec![timestamps.into()]).unwrap();
+            let table = Table::from_polars("timestamps", &frame).unwrap();
+            assert_eq!(table.columns[0].samples, expected);
+        }
+    }
+}
+
+#[test]
+fn invalid_timezone_returns_an_error_instead_of_a_placeholder_sample() {
+    // Polars accepts '*' for dtype selectors; it is not a timezone for data.
+    let timezone = TimeZone::opt_try_new(Some("*")).unwrap();
+    let timestamps = Series::new("timestamp".into(), [0i64])
+        .i64()
+        .unwrap()
+        .clone()
+        .into_datetime(TimeUnit::Milliseconds, timezone)
+        .into_series();
+    let frame = DataFrame::new(1, vec![timestamps.into()]).unwrap();
+    let error = Table::from_polars("timestamps", &frame).unwrap_err();
+    assert!(matches!(error, fieldkin::Error::InvalidInput(_)));
+    let message = error.to_string();
+    assert!(message.contains("timezone *"), "{message}");
+    assert!(message.contains("column timestamp"), "{message}");
+}

@@ -274,16 +274,7 @@ impl JaccardDistanceMatcher {
 
     fn match_tables(&self, tables: &[&Table]) -> Result<MatcherResults, Error> {
         self.config.validate()?;
-        let mut names = BTreeSet::new();
-        for table in tables {
-            table.validate()?;
-            if !names.insert(&table.name) {
-                return Err(Error::InvalidInput(format!(
-                    "duplicate table name: {}",
-                    table.name
-                )));
-            }
-        }
+        super::validate_tables(tables.iter().copied())?;
         let values: Vec<Vec<Vec<&str>>> = tables
             .iter()
             .map(|table| {
@@ -328,25 +319,28 @@ impl JaccardDistanceMatcher {
                 })
                 .collect::<Vec<_>>()
         };
-        let matches =
-            if self.config.process_num == 1 || pairs.len() < 2 {
-                score_chunk(&pairs)
-            } else {
-                std::thread::scope(|scope| {
-                    let workers = self.config.process_num.min(pairs.len());
-                    let chunks = pairs.chunks(pairs.len().div_ceil(workers));
-                    let handles: Vec<_> = chunks
-                        .map(|chunk| scope.spawn(move || score_chunk(chunk)))
-                        .collect();
-                    let mut matches = Vec::new();
-                    for handle in handles {
-                        matches.extend(handle.join().map_err(|_| {
+        let matches = if self.config.process_num == 1 || pairs.len() < 2 {
+            score_chunk(&pairs)
+        } else {
+            std::thread::scope(|scope| {
+                let workers = self.config.process_num.min(pairs.len());
+                let chunks = pairs.chunks(pairs.len().div_ceil(workers));
+                let handles: Vec<_> = chunks
+                    .map(|chunk| {
+                        std::thread::Builder::new().spawn_scoped(scope, move || score_chunk(chunk))
+                    })
+                    .collect::<Result<_, _>>()?;
+                let mut matches = Vec::new();
+                for handle in handles {
+                    matches.extend(
+                        handle.join().map_err(|_| {
                             Error::Algorithm("Jaccard scoring worker panicked".into())
-                        })?);
-                    }
-                    Ok::<_, Error>(matches)
-                })?
-            };
+                        })?,
+                    );
+                }
+                Ok::<_, Error>(matches)
+            })?
+        };
         MatcherResults::new(matches)
     }
 }

@@ -1,7 +1,7 @@
 use crate::Error;
 use serde::{Deserialize, Serialize};
 use std::{
-    collections::{BTreeMap, BTreeSet},
+    collections::{BTreeMap, BTreeSet, btree_map::Entry},
     ops::Index,
 };
 
@@ -69,9 +69,13 @@ impl Serialize for MatcherResults {
     }
 }
 impl MatcherResults {
+    /// Build results from unique column pairs with finite scores in [0, 1].
+    /// Duplicate pairs are rejected, including when their scores are equal.
     pub fn new(entries: Vec<(ColumnPair, f64)>) -> Result<Self, Error> {
         Self::with_details(entries, MatchDetails::new())
     }
+    /// Build validated results, retaining details only for the supplied pairs.
+    /// Duplicate pairs, invalid scores, and nonfinite retained details are rejected.
     pub fn with_details(
         entries: Vec<(ColumnPair, f64)>,
         mut details: MatchDetails,
@@ -83,7 +87,17 @@ impl MatcherResults {
                     "similarity must be finite and in [0, 1], got {score}"
                 )));
             }
-            map.insert(pair, score);
+            match map.entry(pair) {
+                Entry::Vacant(entry) => {
+                    entry.insert(score);
+                }
+                Entry::Occupied(entry) => {
+                    return Err(Error::InvalidInput(format!(
+                        "duplicate match identifier: {:?}",
+                        entry.key()
+                    )));
+                }
+            }
         }
         details.retain(|key, _| map.contains_key(key));
         if details.values().any(|v| v.values().any(|s| !s.is_finite())) {
@@ -287,16 +301,30 @@ impl MatcherResults {
     ) -> Result<BTreeMap<String, f64>, Error> {
         crate::metrics::get_metrics(self, truth)
     }
+    /// Compute metrics with unique names. Use [`crate::metrics::NamedMetric`]
+    /// when evaluating multiple configurations of the same metric.
+    /// Duplicate names return an error instead of overwriting a measurement.
     pub fn get_metrics_with(
         &self,
         truth: &crate::metrics::GroundTruth,
         metrics: &[&dyn crate::metrics::Metric],
         method: crate::metrics::OneToOneMethod,
     ) -> Result<BTreeMap<String, f64>, Error> {
-        metrics
-            .iter()
-            .map(|m| m.apply(self, truth, method).map(|value| (m.name(), value)))
-            .collect()
+        let mut values = BTreeMap::new();
+        for metric in metrics {
+            match values.entry(metric.name()) {
+                Entry::Vacant(entry) => {
+                    entry.insert(metric.apply(self, truth, method)?);
+                }
+                Entry::Occupied(entry) => {
+                    return Err(Error::InvalidConfig(format!(
+                        "duplicate metric name {:?}; use NamedMetric to give each metric a distinct name",
+                        entry.key()
+                    )));
+                }
+            }
+        }
+        Ok(values)
     }
 }
 impl Index<&ColumnPair> for MatcherResults {

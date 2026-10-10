@@ -63,17 +63,7 @@ impl DistributionBased {
 
     fn match_tables(&self, tables: &[&Table]) -> Result<MatcherResults, Error> {
         self.validate()?;
-        for table in tables {
-            table.validate()?;
-        }
-        let mut table_names = BTreeSet::new();
-        for table in tables {
-            if !table_names.insert(&table.name) {
-                return Err(Error::InvalidConfig(
-                    "distribution matching requires distinct table names".into(),
-                ));
-            }
-        }
+        super::validate_tables(tables.iter().copied())?;
         // Empty strings are missing samples and receive no value rank.
         let raw_corpus: BTreeSet<&str> = tables
             .iter()
@@ -235,7 +225,7 @@ impl DistributionBased {
                     .map(|worker| {
                         let pairs = &pairs;
                         let distance = &distance;
-                        scope.spawn(move || {
+                        std::thread::Builder::new().spawn_scoped(scope, move || {
                             pairs
                                 .iter()
                                 .skip(worker)
@@ -244,7 +234,7 @@ impl DistributionBased {
                                 .collect::<Vec<_>>()
                         })
                     })
-                    .collect();
+                    .collect::<Result<_, _>>()?;
                 handles
                     .into_iter()
                     .map(|handle| {

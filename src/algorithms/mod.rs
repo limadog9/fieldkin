@@ -20,10 +20,14 @@ use crate::{Error, MatchOptions, MatcherResults, Schema, Table};
 
 /// Implement this trait to plug a custom algorithm into batch matching.
 pub trait Matcher {
+    /// Match two tables. Built-in matchers require valid tables with distinct names.
     fn get_matches(&self, source: &Table, target: &Table) -> Result<MatcherResults, Error>;
 
     /// Match every unique table pair. Algorithms may override this for global statistics.
+    /// Built-in implementations and this default validate all table identities first.
+    /// Empty and single-table batches return empty results.
     fn get_matches_batch(&self, tables: &[Table]) -> Result<MatcherResults, Error> {
+        validate_tables(tables)?;
         let mut entries = Vec::new();
         let mut details = crate::MatchDetails::new();
         for i in 0..tables.len() {
@@ -35,6 +39,20 @@ pub trait Matcher {
         }
         MatcherResults::with_details(entries, details)
     }
+}
+
+fn validate_tables<'a>(tables: impl IntoIterator<Item = &'a Table>) -> Result<(), Error> {
+    let mut names = std::collections::BTreeSet::new();
+    for table in tables {
+        table.validate()?;
+        if !names.insert(&table.name) {
+            return Err(Error::InvalidInput(format!(
+                "duplicate table name: {}",
+                table.name
+            )));
+        }
+    }
+    Ok(())
 }
 
 /// Match at least two named tables, keeping all instance values.
@@ -59,16 +77,7 @@ pub fn match_tables(
             "at least two tables are required".into(),
         ));
     }
-    let mut names = std::collections::BTreeSet::new();
-    for table in tables {
-        table.validate()?;
-        if !names.insert(&table.name) {
-            return Err(Error::InvalidInput(format!(
-                "duplicate table name: {}",
-                table.name
-            )));
-        }
-    }
+    validate_tables(tables)?;
     let sampled: Vec<_> = tables
         .iter()
         .map(|t| t.sampled(options.instance_sample_size))

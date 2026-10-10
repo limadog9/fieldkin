@@ -1,4 +1,6 @@
-use fieldkin::{Config, DataType, Decision, Field, Schema, match_schemas};
+use fieldkin::{
+    Config, DataType, Decision, Error, Field, Schema, match_schemas, try_match_schemas,
+};
 
 fn field(name: &str, data_type: DataType, samples: &[&str]) -> Field {
     Field {
@@ -296,6 +298,89 @@ fn finite_thresholds_outside_unit_interval_remain_usable() {
                     best_score: Some(1.0),
                 }
             );
+        }
+    }
+}
+
+#[test]
+fn fallible_suggestions_reject_invalid_configuration_even_for_empty_schemas() {
+    for schema in [
+        Schema { fields: vec![] },
+        Schema {
+            fields: vec![field("id", DataType::Integer, &[])],
+        },
+    ] {
+        for (min_score, ambiguity_margin, message) in [
+            (f64::NAN, 0.05, "min_score must be finite"),
+            (f64::INFINITY, 0.05, "min_score must be finite"),
+            (f64::NEG_INFINITY, 0.05, "min_score must be finite"),
+            (
+                0.72,
+                f64::NAN,
+                "ambiguity_margin must be finite and nonnegative",
+            ),
+            (
+                0.72,
+                f64::INFINITY,
+                "ambiguity_margin must be finite and nonnegative",
+            ),
+            (
+                0.72,
+                f64::NEG_INFINITY,
+                "ambiguity_margin must be finite and nonnegative",
+            ),
+            (
+                0.72,
+                -0.01,
+                "ambiguity_margin must be finite and nonnegative",
+            ),
+        ] {
+            let result = try_match_schemas(
+                &schema,
+                &schema,
+                Config {
+                    min_score,
+                    ambiguity_margin,
+                    ..Config::default()
+                },
+            );
+            assert!(matches!(result, Err(Error::InvalidConfig(error)) if error == message));
+        }
+    }
+}
+
+#[test]
+fn fallible_suggestions_preserve_original_reports() {
+    let schemas = [
+        Schema { fields: vec![] },
+        Schema {
+            fields: vec![field("id", DataType::Integer, &["1", "2"])],
+        },
+        Schema {
+            fields: vec![
+                field("", DataType::Unknown, &[]),
+                field("id", DataType::Integer, &["1", "2"]),
+                field("id", DataType::Integer, &["1", "2"]),
+            ],
+        },
+    ];
+    for source in &schemas {
+        for target in &schemas {
+            for min_score in [-1.0, 0.72, 2.0] {
+                for ambiguity_margin in [0.0, 0.05, 2.0] {
+                    for max_candidates in [0, 1, usize::MAX] {
+                        let config = Config {
+                            min_score,
+                            ambiguity_margin,
+                            max_candidates,
+                        };
+                        assert_eq!(
+                            try_match_schemas(source, target, config).unwrap(),
+                            match_schemas(source, target, config)
+                        );
+                    }
+                }
+            }
         }
     }
 }

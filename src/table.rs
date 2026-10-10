@@ -81,6 +81,8 @@ impl Table {
         table.validate()?;
         Ok(table)
     }
+    /// Copy fields without validating names. Native matchers validate the table
+    /// before use; callers can also call [`Self::validate`] explicitly.
     pub fn from_schema(name: impl Into<String>, schema: &Schema) -> Self {
         Self {
             name: name.into(),

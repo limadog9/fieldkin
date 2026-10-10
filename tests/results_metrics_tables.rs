@@ -8,6 +8,84 @@ fn pair(s: &str, t: &str) -> ColumnPair {
 }
 
 #[test]
+fn duplicate_match_identifiers_are_rejected_instead_of_overwriting_scores() {
+    use fieldkin::{Error, MatchDetails};
+
+    let duplicate = pair("account_id", "customer_id");
+    for scores in [[0.9, 0.1], [0.1, 0.9], [0.9, 0.9]] {
+        let entries = vec![
+            (duplicate.clone(), scores[0]),
+            (duplicate.clone(), scores[1]),
+        ];
+        let details = MatchDetails::from([(
+            duplicate.clone(),
+            std::collections::BTreeMap::from([("NameCM".into(), 0.9)]),
+        )]);
+        for result in [
+            MatcherResults::new(entries.clone()),
+            MatcherResults::with_details(entries, details),
+        ] {
+            let error = result.expect_err("duplicate match identities must not lose scores");
+            assert!(matches!(error, Error::InvalidInput(_)));
+            let message = error.to_string();
+            for identity in ["source", "account_id", "target", "customer_id"] {
+                assert!(message.contains(identity), "{message}");
+            }
+            assert!(message.contains("duplicate"), "{message}");
+        }
+    }
+
+    // All four fields form the key; repeated column names in different tables are valid.
+    let results = MatcherResults::new(vec![
+        (duplicate.clone(), 0.9),
+        (
+            ColumnPair::new("other", "account_id", "target", "customer_id"),
+            0.8,
+        ),
+        (
+            ColumnPair::new("source", "account_id", "other", "customer_id"),
+            0.7,
+        ),
+    ])
+    .unwrap();
+    assert_eq!(results.len(), 3);
+    assert_eq!(results.get(&duplicate), Some(0.9));
+}
+
+#[test]
+fn duplicate_metric_names_are_rejected_and_can_be_disambiguated() {
+    use fieldkin::Error;
+    use fieldkin::metrics::NamedMetric;
+
+    let results = MatcherResults::new(vec![(pair("a", "x"), 0.9), (pair("a", "y"), 0.8)]).unwrap();
+    let original = results.clone();
+    let truth = GroundTruth::Names(vec![("a".into(), "x".into())]);
+    let selected = Precision { one_to_one: true };
+    let all = Precision { one_to_one: false };
+    for metrics in [[&selected, &all], [&all, &selected]] {
+        let metrics: [&dyn Metric; 2] = [metrics[0], metrics[1]];
+        let error = results
+            .get_metrics_with(&truth, &metrics, OneToOneMethod::Greedy)
+            .expect_err("duplicate metric names must not lose measurements");
+        assert!(matches!(error, Error::InvalidConfig(_)));
+        let message = error.to_string();
+        assert!(message.contains("Precision"), "{message}");
+        assert!(message.contains("NamedMetric"), "{message}");
+    }
+    let named = NamedMetric {
+        name: "PrecisionWithoutOneToOne",
+        metric: &all,
+    };
+    let metrics = results
+        .get_metrics_with(&truth, &[&selected, &named], OneToOneMethod::Greedy)
+        .unwrap();
+    assert_eq!(metrics.len(), 2);
+    assert_eq!(metrics["Precision"], 1.0);
+    assert_eq!(metrics["PrecisionWithoutOneToOne"], 0.5);
+    assert_eq!(results, original);
+}
+
+#[test]
 fn hungarian_finds_global_optimum_that_greedy_misses() {
     let results = MatcherResults::new(vec![
         (pair("a", "x"), 0.9),

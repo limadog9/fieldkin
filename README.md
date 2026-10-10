@@ -59,11 +59,14 @@ date/timestamp types explicitly when constructing fields.
 The table API requires nonempty names, distinct columns within a table and
 distinct table names in a batch. Empty columns and schemas are supported.
 The original suggestion API retains its duplicate/empty-name behavior.
+Direct native matcher calls validate table identities too. `from_schema` and
+Serde deserialization construct tables without validation; matching validates
+them, or callers can explicitly use `Table::validate()`.
 
 `valentine_match` uses all supplied values. `match_tables` with `MatchOptions`
 applies evenly spaced, deterministic per-column sampling to every matcher.
 The options default limits columns to 1,000 nonempty values; `None` keeps all
-values and zero clears samples. See [PORTING.md](PORTING.md) for Python differences.
+values and zero clears samples. See [PORTING.md](https://github.com/limadog9/fieldkin/blob/main/PORTING.md) for Python differences.
 
 ## Algorithms
 
@@ -78,12 +81,14 @@ values and zero clears samples. See [PORTING.md](PORTING.md) for Python differen
 All implement `Matcher`; applications can implement custom algorithms.
 Invalid input/configuration returns `Error`. Configure matchers using `Default`
 and struct updates or validated constructors. Native worker counts default to one.
+If the operating system cannot start a worker, matching returns `Error::Io`.
 
 ## Select and evaluate
 
 `MatcherResults` is immutable and ranked by descending score with deterministic
 ties. `ColumnPair` identifies both tables and columns. Transformations retain
-only the selected component details.
+only the selected component details. Constructors reject duplicate `ColumnPair`
+identifiers instead of choosing one score silently.
 
 ```rust
 # use fieldkin::{ColumnPair, MatcherResults};
@@ -114,6 +119,7 @@ size and reciprocal rank per source. `Metric`, `get_metrics_with`, and
 The predefined `METRICS_CORE`, `METRICS_ALL`, `METRICS_PRECISION_RECALL` and
 `METRICS_PRECISION_INCREASING_N` sets can be passed to `get_metrics_with`.
 `NamedMetric` assigns distinct keys to differently configured metrics.
+`get_metrics_with` rejects duplicate metric names rather than overwriting results.
 
 For Hungarian/greedy selectors, `None` uses Valentine's distinct-score cutoff
 (descending unique scores indexed at ceil(count/2), clamped to the last index).
@@ -139,7 +145,8 @@ component details.
 
 With `features = ["polars"]`, `Table::from_polars(name, &frame)` supports native
 Polars 0.55 scalar columns, preserves types and omits null/NaN values. Nested
-and binary columns are rejected.
+and binary columns are rejected. Dates/timestamps outside the calendar range
+supported by Polars and invalid timezones return an input error.
 
 With `features = ["embeddings"]`, construct `embeddings::FastEmbedProvider`,
 wrap it in `Arc` and call `JaccardDistanceMatcher::with_embedding_provider`.
@@ -174,7 +181,24 @@ contribute evidence; target reuse is allowed. Abbreviation fallback runs after
 the usual matching returns `NoMatch`. `match_schemas_with` instead returns
 `MatcherResults` from a chosen Valentine algorithm.
 
+`match_schemas` preserves its original panic behavior for invalid configuration.
+Use `try_match_schemas` to handle user-supplied thresholds without a panic:
+
+```rust
+use fieldkin::{Config, Error, Schema, try_match_schemas};
+let schema = Schema { fields: vec![] };
+let config = Config { min_score: f64::NAN, ..Config::default() };
+assert!(matches!(try_match_schemas(&schema, &schema, config), Err(Error::InvalidConfig(_))));
+```
+
+Both functions require finite thresholds and a nonnegative ambiguity margin.
+Finite minimum scores outside `[0, 1]` remain supported.
+
 ## CLI and development
+
+The evaluation commands, benchmarks, and reference-regeneration scripts below
+require a source checkout; their corpora and tooling are not part of the published
+crate. The crate includes the library, CLI, `valentine` example, tests, and licenses.
 
 ```sh
 cargo run --bin fieldkin -- coma source.csv target.csv
@@ -194,7 +218,7 @@ cargo test --locked --features embeddings --jobs 1 real_minilm_model -- --ignore
 
 Checked-in fixtures come directly from pinned Valentine source and cover matcher
 variants, distribution phases, semantic behavior, lexical distances, fuzzy sets
-and Tversky penalties. Regeneration instructions are in [PORTING.md](PORTING.md).
+and Tversky penalties. Regeneration instructions are in [PORTING.md](https://github.com/limadog9/fieldkin/blob/main/PORTING.md).
 
 The suggestion accuracy gate evaluates every labeled source field in `eval/` and
 `eval_realworld/` using `match_schemas` and `Config::default()`. Run it with:
@@ -205,7 +229,7 @@ cargo run --locked --example evaluate_all -- --check
 
 The same check runs on every push and pull request in the Rust workflow. With no
 arguments, `evaluate_all` also runs the gate. The frozen
-[baseline](validation/quality_baseline.json) records the existing implementation's
+[baseline](https://github.com/limadog9/fieldkin/blob/main/validation/quality_baseline.json) records the existing implementation's
 actual performance: **215/256 correct decisions (83.98%)**, across 15 datasets.
 Expected matches are correct in 170/204 cases, `no_match` in 40/46, and ambiguity
 in 5/6. These measurements use the existing defaults: minimum score 0.72,
@@ -261,8 +285,8 @@ per-field evidence, run:
 cargo run --locked --example benchmark_accuracy -- --independent
 ```
 
-The [independent protocol](validation/independent_accuracy.md) documents the
-15 frozen cases and limitations; the [measured comparison](validation/independent_accuracy_report.md)
+The [independent protocol](https://github.com/limadog9/fieldkin/blob/main/validation/independent_accuracy.md) documents the
+15 frozen cases and limitations; the [measured comparison](https://github.com/limadog9/fieldkin/blob/main/validation/independent_accuracy_report.md)
 reports all five algorithms. Add `--json` for full per-dataset metrics or
 `--details` for incorrect/missed-match examples. This does not change the
 suggestion quality baseline or Valentine parity checks.
@@ -270,13 +294,13 @@ suggestion quality baseline or Valentine parity checks.
 For release performance/scaling measurements, run
 `cargo build --locked --release --example benchmark_performance --jobs 1`, then
 `python3 validation/benchmark_performance.py --output target/performance.json`.
-The [performance report](validation/performance.md) documents fixed workloads,
+The [performance report](https://github.com/limadog9/fieldkin/blob/main/validation/performance.md) documents fixed workloads,
 before/after measurements, exact-output checks, and memory limitations. These
 expensive benchmarks run separately from regular tests.
 
-The [accuracy protocol](validation/accuracy_protocol.md) fixes configurations,
+The [accuracy protocol](https://github.com/limadog9/fieldkin/blob/main/validation/accuracy_protocol.md) fixes configurations,
 ranking, abstention, ambiguity handling, and metric definitions before measuring
-predictions. The [measured report](validation/accuracy_report.md) compares
+predictions. The [measured report](https://github.com/limadog9/fieldkin/blob/main/validation/accuracy_report.md) compares
 precision, recall, F1, top-1 accuracy, recall@5, coverage, and dataset/condition
 results. Append `-- --details` for field diagnostics or `-- --json` for complete metrics
 and frozen input hashes. This benchmark preserves declared types and uses all
@@ -300,6 +324,6 @@ cargo run --example evaluate_all -- eval_realworld
 ## License
 
 Existing Fieldkin code is MIT. Valentine-derived ports are Apache-2.0.
-Princeton WordNet data retains its redistribution license. See [LICENSE-MIT](LICENSE-MIT),
-[LICENSE-APACHE](LICENSE-APACHE), [NOTICE](NOTICE) and
-[assets/WORDNET-LICENSE](assets/WORDNET-LICENSE).
+Princeton WordNet data retains its redistribution license. See [LICENSE-MIT](https://github.com/limadog9/fieldkin/blob/main/LICENSE-MIT),
+[LICENSE-APACHE](https://github.com/limadog9/fieldkin/blob/main/LICENSE-APACHE), [NOTICE](https://github.com/limadog9/fieldkin/blob/main/NOTICE) and
+[assets/WORDNET-LICENSE](https://github.com/limadog9/fieldkin/blob/main/assets/WORDNET-LICENSE).

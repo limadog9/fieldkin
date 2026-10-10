@@ -167,8 +167,7 @@ impl SimilarityFlooding {
 impl Matcher for SimilarityFlooding {
     fn get_matches(&self, source: &Table, target: &Table) -> Result<MatcherResults, Error> {
         self.validate()?;
-        source.validate()?;
-        target.validate()?;
+        super::validate_tables([source, target])?;
         let g1 = Graph::new(source);
         let g2 = Graph::new(target);
         let idf = if self.string_matcher == StringMatcher::PrefixSuffixTfidf {
@@ -186,9 +185,7 @@ impl Matcher for SimilarityFlooding {
 
     fn get_matches_batch(&self, tables: &[Table]) -> Result<MatcherResults, Error> {
         self.validate()?;
-        for table in tables {
-            table.validate()?;
-        }
+        super::validate_tables(tables)?;
         let graphs: Vec<Graph> = tables.iter().map(Graph::new).collect();
         // Upstream batch computes IDF over the batch itself, ignoring the extra pairwise corpus.
         let idf = (self.string_matcher == StringMatcher::PrefixSuffixTfidf)
