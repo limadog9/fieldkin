@@ -1,4 +1,7 @@
-use std::sync::{Arc, Mutex};
+use std::{
+    collections::{BTreeMap, BTreeSet},
+    sync::{Arc, Mutex},
+};
 
 use fieldkin::algorithms::jaccard::{
     EmbeddingProvider, JaccardConfig, JaccardDistanceMatcher, PrecomputedEmbeddings,
@@ -190,6 +193,189 @@ fn tversky_supports_containment_and_zero_penalties() {
         close(matcher.set_similarity(&a, &b).unwrap(), 1.0);
         close(matcher.set_similarity(&b, &a).unwrap(), 1.0);
         close(matcher.set_similarity(&a, &values(&["q"])).unwrap(), 0.0);
+    }
+}
+
+// The original full Cartesian comparison is deliberately kept in this test
+// oracle: every pair contributes to both directional existence counts.
+fn cartesian_set_similarity(
+    source: &[String],
+    target: &[String],
+    config: &JaccardConfig,
+    threshold: f64,
+    score: impl Fn(&str, &str) -> f64,
+) -> f64 {
+    let source: Vec<_> = source.iter().collect::<BTreeSet<_>>().into_iter().collect();
+    let target: Vec<_> = target.iter().collect::<BTreeSet<_>>().into_iter().collect();
+    if source.is_empty() || target.is_empty() {
+        return 0.0;
+    }
+    let (a, b) = if source.len() <= target.len() {
+        (source, target)
+    } else {
+        (target, source)
+    };
+    let mut a_hits = vec![false; a.len()];
+    let mut b_hits = vec![false; b.len()];
+    for (i, value_a) in a.iter().enumerate() {
+        for (j, value_b) in b.iter().enumerate() {
+            if score(value_a, value_b) >= threshold {
+                a_hits[i] = true;
+                b_hits[j] = true;
+            }
+        }
+    }
+    let a_match = a_hits.into_iter().filter(|hit| *hit).count();
+    let b_match = b_hits.into_iter().filter(|hit| *hit).count();
+    let a_unmatched = (a.len() - a_match) as f64;
+    let b_unmatched = (b.len() - b_match) as f64;
+    let a_match = a_match as f64;
+    let b_match = b_match as f64;
+    let alpha = config.tversky_alpha;
+    let beta = config.tversky_beta;
+    let denom_ab = a_match + alpha * a_unmatched + beta * b_unmatched;
+    let denom_ba = b_match + alpha * b_unmatched + beta * a_unmatched;
+    let ab = if denom_ab > 0.0 {
+        a_match / denom_ab
+    } else {
+        0.0
+    };
+    let ba = if denom_ba > 0.0 {
+        b_match / denom_ba
+    } else {
+        0.0
+    };
+    ab.max(ba)
+}
+
+#[test]
+fn lexical_hit_skipping_is_bitwise_identical_to_full_cartesian_comparison() {
+    let sets = [
+        values(&[]),
+        values(&[""]),
+        values(&["cat", "cat", "cats", "catxx"]),
+        values(&["bat", "cat", "catx", "dog", "zebra"]),
+        values(&["", "café", "cafe", "東京", "東海", "🙂"]),
+        values(&["abcde", "abcdz"]),
+        values(&["a", "unrelatedlong", "123", "789"]),
+    ];
+    for distance_fun in [
+        Distance::Levenshtein,
+        Distance::DamerauLevenshtein,
+        Distance::Hamming,
+        Distance::Jaro,
+        Distance::JaroWinkler,
+        Distance::Exact,
+    ] {
+        for threshold_dist in [0.0, 0.59, 0.75, 0.8, 1.0] {
+            for (tversky_alpha, tversky_beta) in
+                [(1.0, 1.0), (0.0, 0.0), (2.0, 0.5), (0.0, 1.0), (1.0, 0.0)]
+            {
+                let config = JaccardConfig {
+                    distance_fun,
+                    threshold_dist,
+                    tversky_alpha,
+                    tversky_beta,
+                    ..Default::default()
+                };
+                let matcher = JaccardDistanceMatcher::new(config.clone()).unwrap();
+                let threshold = if distance_fun == Distance::Exact {
+                    1.0
+                } else {
+                    f64::from(threshold_dist as f32)
+                };
+                // Both orientations, unequal cardinalities, and identical sets.
+                for source in &sets {
+                    for target in &sets {
+                        let expected =
+                            cartesian_set_similarity(source, target, &config, threshold, |a, b| {
+                                similarity(a, b, distance_fun)
+                            });
+                        let actual = matcher.set_similarity(source, target).unwrap();
+                        assert_eq!(
+                            actual.to_bits(),
+                            expected.to_bits(),
+                            "{config:?}: {source:?} / {target:?}"
+                        );
+                    }
+                }
+            }
+        }
+    }
+}
+
+#[test]
+fn embedding_hit_skipping_is_bitwise_identical_to_full_cartesian_comparison() {
+    let vectors: BTreeMap<String, Vec<f64>> = [
+        ("x", vec![1.0, 0.0]),
+        ("y", vec![0.0, 1.0]),
+        ("diagonal", vec![1.0, 1.0]),
+        ("large", vec![1e300, 1e300]),
+        ("tiny", vec![1e-300, 1e-300]),
+        ("opposite", vec![-1.0, -1.0]),
+        ("", vec![0.0, -1.0]),
+    ]
+    .into_iter()
+    .map(|(name, vector)| (name.to_owned(), vector))
+    .collect();
+    let provider = Arc::new(PrecomputedEmbeddings::new(vectors.clone()).unwrap());
+    let normalized: BTreeMap<_, Vec<_>> = vectors
+        .into_iter()
+        .map(|(name, vector)| {
+            let scale = vector
+                .iter()
+                .fold(0.0_f64, |largest, x| largest.max(x.abs()));
+            let scaled: Vec<_> = vector.into_iter().map(|value| value / scale).collect();
+            let norm = scaled.iter().map(|value| value * value).sum::<f64>().sqrt();
+            (name, scaled.into_iter().map(|value| value / norm).collect())
+        })
+        .collect();
+    let sets = [
+        values(&[]),
+        values(&[""]),
+        values(&["diagonal"]),
+        values(&["x", "y", "x"]),
+        values(&["diagonal", "large", "tiny"]),
+        values(&["", "x", "diagonal", "opposite"]),
+    ];
+    for threshold_dist in [0.0, 0.5, 0.8, 1.0] {
+        for (tversky_alpha, tversky_beta) in [(1.0, 1.0), (0.0, 0.0), (2.0, 0.5)] {
+            let config = JaccardConfig {
+                // The embedding provider overrides even the Exact distance.
+                distance_fun: Distance::Exact,
+                threshold_dist,
+                tversky_alpha,
+                tversky_beta,
+                ..Default::default()
+            };
+            let matcher = JaccardDistanceMatcher::new(config.clone())
+                .unwrap()
+                .with_embedding_provider(provider.clone());
+            for source in &sets {
+                for target in &sets {
+                    let expected = cartesian_set_similarity(
+                        source,
+                        target,
+                        &config,
+                        threshold_dist,
+                        |a, b| {
+                            normalized[a]
+                                .iter()
+                                .zip(&normalized[b])
+                                .map(|(x, y)| x * y)
+                                .sum::<f64>()
+                                .clamp(-1.0, 1.0)
+                        },
+                    );
+                    let actual = matcher.set_similarity(source, target).unwrap();
+                    assert_eq!(
+                        actual.to_bits(),
+                        expected.to_bits(),
+                        "{config:?}: {source:?} / {target:?}"
+                    );
+                }
+            }
+        }
     }
 }
 

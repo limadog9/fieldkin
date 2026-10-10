@@ -133,3 +133,88 @@ fn csv_keeps_table_validation_and_parse_error_precedence() {
         ));
     }
 }
+
+// Keep the previous row-matrix conversion as an equivalence oracle.
+fn json_via_rows(name: &str, input: &str) -> Result<Table, Error> {
+    let records: Vec<serde_json::Map<String, serde_json::Value>> =
+        serde_json::from_reader(input.as_bytes())?;
+    let headers: Vec<_> = records
+        .iter()
+        .flat_map(|record| record.keys().cloned())
+        .collect::<std::collections::BTreeSet<_>>()
+        .into_iter()
+        .collect();
+    let mut rows = Vec::new();
+    for record in records {
+        let mut row = Vec::new();
+        for header in &headers {
+            row.push(match record.get(header) {
+                None | Some(serde_json::Value::Null) => None,
+                Some(serde_json::Value::String(value)) => Some(value.clone()),
+                Some(serde_json::Value::Bool(value)) => Some(value.to_string()),
+                Some(serde_json::Value::Number(value)) => Some(value.to_string()),
+                _ => {
+                    return Err(Error::InvalidInput(format!(
+                        "nested JSON value in column {header}"
+                    )));
+                }
+            });
+        }
+        rows.push(row);
+    }
+    Table::from_rows(name, headers, rows)
+}
+
+#[test]
+fn json_matches_previous_conversion_including_order_types_and_missing_values() {
+    for input in [
+        "[]",
+        "[{}, {}]",
+        r#"[{"z":null,"a":""},{"b":"  ","a":"東京🙂\n\"quoted\""},{"late":"new"}]"#,
+        r#"[{"id":18446744073709551615,"signed":-9223372036854775808,"float":1e3,"flag":true},{"id":"00042","signed":" -7 ","float":-0.0,"flag":false}]"#,
+        r#"[{"number":1,"number":2},{"number":1.25},{"number":"text"}]"#,
+        r#"[{"blank":null},{"blank":""},{"text":"null","boolean":" FALSE "}]"#,
+    ] {
+        assert_eq!(
+            Table::from_json("json", input.as_bytes()).unwrap(),
+            json_via_rows("json", input).unwrap(),
+            "{input}"
+        );
+    }
+    let mut rows = vec![serde_json::json!({"number": 1}); 1001];
+    rows.push(serde_json::json!({"number": 1.25, "late": "last"}));
+    let input = serde_json::to_string(&rows).unwrap();
+    let actual = Table::from_json("json", input.as_bytes()).unwrap();
+    assert_eq!(actual, json_via_rows("json", &input).unwrap());
+    assert_eq!(actual.columns[1].data_type, DataType::Float);
+    assert_eq!(actual.columns[1].samples.len(), 1002);
+}
+
+#[test]
+fn json_preserves_errors_and_validation_precedence() {
+    for name in ["json", " "] {
+        for input in [
+            "",
+            "{}",
+            "[null]",
+            "[1]",
+            "[{\"a\": 1}] trailing",
+            r#"[{"z":{},"a":[]}]"#,
+            r#"[{"z":[]},{"a":{}}]"#,
+            r#"[{" ":1}]"#,
+            r#"[{" ":1,"z":{}}]"#,
+        ] {
+            let actual = Table::from_json(name, input.as_bytes()).unwrap_err();
+            let expected = json_via_rows(name, input).unwrap_err();
+            match (actual, expected) {
+                (Error::Json(actual), Error::Json(expected)) => {
+                    assert_eq!(actual.to_string(), expected.to_string());
+                }
+                (Error::InvalidInput(actual), Error::InvalidInput(expected)) => {
+                    assert_eq!(actual, expected);
+                }
+                (actual, expected) => panic!("{input}: {actual:?} != {expected:?}"),
+            }
+        }
+    }
+}

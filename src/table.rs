@@ -169,32 +169,40 @@ impl Table {
     pub fn from_json(name: impl Into<String>, reader: impl Read) -> Result<Self, Error> {
         let records: Vec<serde_json::Map<String, serde_json::Value>> =
             serde_json::from_reader(reader)?;
-        let headers: Vec<_> = records
+        let mut columns: Vec<_> = records
             .iter()
-            .flat_map(|r| r.keys().cloned())
+            .flat_map(|r| r.keys())
             .collect::<BTreeSet<_>>()
             .into_iter()
+            .map(|name| Field {
+                name: name.clone(),
+                data_type: DataType::Unknown,
+                samples: Vec::new(),
+            })
             .collect();
-        let mut rows = Vec::new();
-        for record in records {
-            let mut row = Vec::new();
-            for header in &headers {
-                let value = match record.get(header) {
-                    None | Some(serde_json::Value::Null) => None,
-                    Some(serde_json::Value::String(s)) => Some(s.clone()),
-                    Some(serde_json::Value::Bool(b)) => Some(b.to_string()),
-                    Some(serde_json::Value::Number(n)) => Some(n.to_string()),
+        for mut record in records {
+            for column in &mut columns {
+                let value = match record.remove(&column.name) {
+                    None | Some(serde_json::Value::Null) => continue,
+                    Some(serde_json::Value::String(s)) => s,
+                    Some(serde_json::Value::Bool(b)) => b.to_string(),
+                    Some(serde_json::Value::Number(n)) => n.to_string(),
                     _ => {
                         return Err(Error::InvalidInput(format!(
-                            "nested JSON value in column {header}"
+                            "nested JSON value in column {}",
+                            column.name
                         )));
                     }
                 };
-                row.push(value);
+                if !value.is_empty() {
+                    column.samples.push(value);
+                }
             }
-            rows.push(row);
         }
-        Self::from_rows(name, headers, rows)
+        for column in &mut columns {
+            column.data_type = infer_type(&column.samples);
+        }
+        Self::new(name, columns)
     }
 
     pub(crate) fn sampled(&self, limit: Option<usize>) -> Self {

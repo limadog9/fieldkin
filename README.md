@@ -267,6 +267,13 @@ reports all five algorithms. Add `--json` for full per-dataset metrics or
 `--details` for incorrect/missed-match examples. This does not change the
 suggestion quality baseline or Valentine parity checks.
 
+For release performance/scaling measurements, run
+`cargo build --locked --release --example benchmark_performance --jobs 1`, then
+`python3 validation/benchmark_performance.py --output target/performance.json`.
+The [performance report](validation/performance.md) documents fixed workloads,
+before/after measurements, exact-output checks, and memory limitations. These
+expensive benchmarks run separately from regular tests.
+
 The [accuracy protocol](validation/accuracy_protocol.md) fixes configurations,
 ranking, abstention, ambiguity handling, and metric definitions before measuring
 predictions. The [measured report](validation/accuracy_report.md) compares

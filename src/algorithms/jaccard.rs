@@ -204,8 +204,9 @@ impl JaccardDistanceMatcher {
                 .count();
             return self.aggregate(intersection, intersection, a.len(), b.len());
         }
-        let mut a_hits = vec![false; a.len()];
+        let mut a_match = 0;
         let mut b_hits = vec![false; b.len()];
+        let mut b_match = 0;
         // RapidFuzz's Cython scorer converts score_cutoff through a C float
         // before comparing its f64 similarity. Its cdist result also uses f32.
         // Preserve this subtle boundary behavior rather than changing matches.
@@ -214,8 +215,14 @@ impl JaccardDistanceMatcher {
         } else {
             f64::from(self.config.threshold_dist as f32)
         };
-        for (i, value_a) in a.iter().enumerate() {
+        for value_a in a {
+            let mut a_hit = false;
             for (j, value_b) in b.iter().enumerate() {
+                // Only the existence of a qualifying partner matters. A pair
+                // whose endpoints both have partners cannot change the counts.
+                if a_hit && b_hits[j] {
+                    continue;
+                }
                 let score = if let Some(embeddings) = embeddings {
                     // prepare_embeddings supplies every string from these sets.
                     embeddings[*value_a]
@@ -228,17 +235,19 @@ impl JaccardDistanceMatcher {
                     similarity(value_a, value_b, self.config.distance_fun)
                 };
                 if score >= threshold {
-                    a_hits[i] = true;
-                    b_hits[j] = true;
+                    a_hit = true;
+                    if !b_hits[j] {
+                        b_hits[j] = true;
+                        b_match += 1;
+                    }
+                    if b_match == b.len() {
+                        break;
+                    }
                 }
             }
+            a_match += usize::from(a_hit);
         }
-        self.aggregate(
-            a_hits.into_iter().filter(|matched| *matched).count(),
-            b_hits.into_iter().filter(|matched| *matched).count(),
-            a.len(),
-            b.len(),
-        )
+        self.aggregate(a_match, b_match, a.len(), b.len())
     }
 
     fn aggregate(&self, a_match: usize, b_match: usize, a_size: usize, b_size: usize) -> f64 {

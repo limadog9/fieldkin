@@ -196,10 +196,6 @@ impl DistributionBased {
         intersection: bool,
     ) -> Result<Vec<Vec<f64>>, Error> {
         let n = indices.len();
-        let pairs: Vec<(usize, usize)> = (0..n)
-            .flat_map(|i| (i + 1..n).map(move |j| (i, j)))
-            .collect();
-        let workers = self.process_num.min(pairs.len().max(1));
         let distance = |i: usize, j: usize| {
             let a = &columns[indices[i]];
             let b = &columns[indices[j]];
@@ -209,6 +205,23 @@ impl DistributionBased {
                 quantile_emd(&a.histogram, &b.ranks)
             }
         };
+        if self.process_num == 1 {
+            let mut matrix = vec![vec![f64::INFINITY; n]; n];
+            for i in 0..n {
+                let (head, tail) = matrix.split_at_mut(i + 1);
+                for (offset, other) in tail.iter_mut().enumerate() {
+                    let j = i + 1 + offset;
+                    let value = distance(i, j);
+                    head[i][j] = value;
+                    other[i] = value;
+                }
+            }
+            return Ok(matrix);
+        }
+        let pairs: Vec<(usize, usize)> = (0..n)
+            .flat_map(|i| (i + 1..n).map(move |j| (i, j)))
+            .collect();
+        let workers = self.process_num.min(pairs.len().max(1));
         let outputs = if workers == 1 {
             vec![
                 pairs
@@ -670,5 +683,104 @@ mod tests {
             correlation_clusters(&[vec![false, true], vec![true, false]]).unwrap(),
             [vec![0, 1]]
         );
+    }
+
+    #[test]
+    fn sequential_and_parallel_distances_preserve_collected_pair_bits() {
+        for bloom in [false, true] {
+            let data = [
+                vec![("1", 2), ("1.0", 2), ("2", 3), ("2", 3), ("10", 4)],
+                vec![("1.0", 2), ("2", 3), ("10", 4), ("10", 4)],
+                vec![("other", 5), ("text", 6)],
+                vec![("same", 7), ("same", 7)],
+                vec![("same", 7)],
+            ];
+            let columns: Vec<_> = data
+                .into_iter()
+                .enumerate()
+                .map(|(i, data)| Column::new(i / 3, i, data, 4, bloom))
+                .collect();
+            for indices in [vec![], vec![0], vec![2, 0, 4, 3, 1]] {
+                for intersection in [false, true] {
+                    // Keep the former pair/output collection path as an exact
+                    // comparison, including asymmetric EMD and infinite entries.
+                    let pairs: Vec<_> = (0..indices.len())
+                        .flat_map(|i| (i + 1..indices.len()).map(move |j| (i, j)))
+                        .collect();
+                    let outputs: Vec<_> = pairs
+                        .iter()
+                        .map(|&(i, j)| {
+                            let a = &columns[indices[i]];
+                            let b = &columns[indices[j]];
+                            let value = if intersection {
+                                intersection_emd(a, b, bloom)
+                            } else {
+                                quantile_emd(&a.histogram, &b.ranks)
+                            };
+                            (i, j, value.to_bits())
+                        })
+                        .collect();
+                    let mut expected =
+                        vec![vec![f64::INFINITY.to_bits(); indices.len()]; indices.len()];
+                    for (i, j, value) in outputs {
+                        expected[i][j] = value;
+                        expected[j][i] = value;
+                    }
+                    for process_num in [1, 3] {
+                        let matcher = DistributionBased {
+                            process_num,
+                            use_bloom_filters: bloom,
+                            ..DistributionBased::default()
+                        };
+                        let actual = matcher
+                            .distance_matrix(&columns, &indices, intersection)
+                            .unwrap();
+                        let actual: Vec<Vec<_>> = actual
+                            .into_iter()
+                            .map(|row| row.into_iter().map(f64::to_bits).collect())
+                            .collect();
+                        assert_eq!(actual, expected);
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn sequential_and_parallel_matching_preserve_score_bits_and_details() {
+        let tables = [
+            Table::from_csv(
+                "source",
+                "number,constant,empty\n1,same,\n1.0,same,\n2,same,\n10,same,\nNaN,same,\n".as_bytes(),
+            )
+            .unwrap(),
+            Table::from_csv(
+                "target",
+                "number_alias,constant,disjoint\n1.0,same,other\n2,same,text\n10,same,other\n10,same,text\n".as_bytes(),
+            )
+            .unwrap(),
+        ];
+        for bloom in [false, true] {
+            let matcher = DistributionBased {
+                use_bloom_filters: bloom,
+                ..DistributionBased::default()
+            };
+            let sequential = matcher.get_matches_batch(&tables).unwrap();
+            let parallel = DistributionBased {
+                process_num: 3,
+                ..matcher
+            }
+            .get_matches_batch(&tables)
+            .unwrap();
+            let bits = |results: &MatcherResults| {
+                results
+                    .iter()
+                    .map(|(pair, score)| (pair.clone(), score.to_bits()))
+                    .collect::<Vec<_>>()
+            };
+            assert!(!sequential.is_empty());
+            assert_eq!(bits(&sequential), bits(&parallel));
+            assert_eq!(sequential.details(), parallel.details());
+        }
     }
 }

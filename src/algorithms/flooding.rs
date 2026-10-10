@@ -297,6 +297,7 @@ impl Graph {
         graph
     }
 
+    #[cfg(test)]
     fn degree(&self, node: usize, label: Label, incoming: bool) -> usize {
         self.edges
             .iter()
@@ -320,7 +321,14 @@ struct Propagation {
 impl Propagation {
     fn new(g1: &Graph, g2: &Graph, policy: Policy) -> Self {
         let width = g2.names.len();
-        let mut connectivity: Vec<Edge> = Vec::new();
+        let [source_edges, target_edges] = [g1, g2].map(|graph| {
+            let mut adjacent = vec![[Vec::new(), Vec::new()]; graph.names.len()];
+            for &edge in &graph.edges {
+                adjacent[edge.to][0].push(edge);
+                adjacent[edge.from][1].push(edge);
+            }
+            adjacent
+        });
         let mut nodes = BTreeSet::new();
         let mut insertion_order = Vec::new();
         for e1 in &g1.edges {
@@ -328,65 +336,49 @@ impl Propagation {
                 if e1.label != e2.label {
                     continue;
                 }
-                let from = e1.from * width + e2.from;
-                let to = e1.to * width + e2.to;
-                for node in [from, to] {
+                for node in [e1.from * width + e2.from, e1.to * width + e2.to] {
                     if nodes.insert(node) {
                         insertion_order.push(node);
                     }
-                }
-                if let Some(edge) = connectivity
-                    .iter_mut()
-                    .find(|e| e.from == from && e.to == to)
-                {
-                    edge.label = e1.label;
-                } else {
-                    connectivity.push(Edge {
-                        from,
-                        to,
-                        label: e1.label,
-                    });
                 }
             }
         }
         let mut weights = BTreeMap::new();
         for node in insertion_order {
-            for incoming in [true, false] {
-                for edge in connectivity.iter().filter(|e| {
-                    if incoming {
-                        e.to == node
-                    } else {
-                        e.from == node
+            for (direction, incoming) in [true, false].into_iter().enumerate() {
+                let source = &source_edges[node / width][direction];
+                let target = &target_edges[node % width][direction];
+                let [source_degree, target_degree] = [source, target].map(|edges| {
+                    let mut degrees = [0usize; 4];
+                    for edge in edges {
+                        degrees[edge.label as usize] += 1;
                     }
-                }) {
-                    let coefficient = match policy {
-                        Policy::InverseAverage => {
-                            2.0 / (g1.degree(node / width, edge.label, incoming)
-                                + g2.degree(node % width, edge.label, incoming))
-                                as f64
+                    degrees
+                });
+                // Original graphs have one edge per (from, to), so their
+                // product has no duplicates. These adjacency products retain
+                // the same order as filtering the complete product edge list.
+                for e1 in source {
+                    for e2 in target {
+                        if e1.label != e2.label {
+                            continue;
                         }
-                        Policy::InverseProduct => {
-                            1.0 / connectivity
-                                .iter()
-                                .filter(|e| {
-                                    e.label == edge.label
-                                        && if incoming {
-                                            e.to == node
-                                        } else {
-                                            e.from == node
-                                        }
-                                })
-                                .count() as f64
-                        }
-                    };
-                    weights.insert(
-                        if incoming {
-                            (edge.to, edge.from)
+                        let label = e1.label as usize;
+                        let coefficient = match policy {
+                            Policy::InverseAverage => {
+                                2.0 / (source_degree[label] + target_degree[label]) as f64
+                            }
+                            Policy::InverseProduct => {
+                                1.0 / (source_degree[label] * target_degree[label]) as f64
+                            }
+                        };
+                        let other = if incoming {
+                            e1.from * width + e2.from
                         } else {
-                            (edge.from, edge.to)
-                        },
-                        coefficient,
-                    );
+                            e1.to * width + e2.to
+                        };
+                        weights.insert((node, other), coefficient);
+                    }
                 }
             }
         }
@@ -622,5 +614,274 @@ mod tests {
                 1.0
             );
         }
+    }
+    #[test]
+    fn indexed_propagation_preserves_edges_and_scores_exactly() {
+        let table = |name: &str, fields: &[(&str, DataType)]| Table {
+            name: name.into(),
+            columns: fields
+                .iter()
+                .map(|(name, data_type)| crate::Field {
+                    name: (*name).into(),
+                    data_type: data_type.clone(),
+                    samples: Vec::new(),
+                })
+                .collect(),
+        };
+        let tables = [
+            table("empty", &[]),
+            table("one", &[("amount", DataType::Float)]),
+            table(
+                "orders",
+                &[
+                    ("order_id", DataType::Integer),
+                    ("orderDate", DataType::Date),
+                    ("name", DataType::Text),
+                ],
+            ),
+            table(
+                "ColumnType",
+                &[
+                    ("Table", DataType::Integer),
+                    ("Column", DataType::Integer),
+                    ("ColumnType", DataType::Text),
+                    ("varchar", DataType::Float),
+                    ("int", DataType::Date),
+                    ("float", DataType::Boolean),
+                    ("date", DataType::Unknown),
+                ],
+            ),
+            // Literal/structural identifier collisions can create self-loops
+            // and reversed edges; their coefficient overwrite order matters.
+            table(
+                "\0NID1",
+                &[
+                    ("\0NID2", DataType::Integer),
+                    ("\0NID3", DataType::Timestamp),
+                    ("varchar", DataType::Text),
+                    ("int", DataType::Decimal),
+                ],
+            ),
+        ];
+        for source in &tables {
+            for target in &tables {
+                let g1 = Graph::new(source);
+                let g2 = Graph::new(target);
+                let idf = compute_idf([&g1, &g2].into_iter());
+                for policy in [Policy::InverseAverage, Policy::InverseProduct] {
+                    let previous = previous_propagation(&g1, &g2, policy);
+                    let current = Propagation::new(&g1, &g2, policy);
+                    assert_eq!(current.nodes, previous.nodes);
+                    let edge_bits = |graph: &Propagation| {
+                        graph
+                            .edges
+                            .iter()
+                            .map(|&(from, to, weight)| (from, to, weight.to_bits()))
+                            .collect::<Vec<_>>()
+                    };
+                    assert_eq!(edge_bits(&current), edge_bits(&previous));
+                    for formula in [
+                        Formula::Basic,
+                        Formula::FormulaA,
+                        Formula::FormulaB,
+                        Formula::FormulaC,
+                    ] {
+                        for string_matcher in [
+                            StringMatcher::PrefixSuffix,
+                            StringMatcher::PrefixSuffixTfidf,
+                            StringMatcher::Levenshtein,
+                        ] {
+                            let matcher = SimilarityFlooding {
+                                coeff_policy: policy,
+                                formula,
+                                string_matcher,
+                                ..Default::default()
+                            };
+                            let previous =
+                                previous_matches(&matcher, source, target, &g1, &g2, Some(&idf));
+                            let current =
+                                matcher.match_graphs(source, target, &g1, &g2, Some(&idf));
+                            let score_bits = |scores: Vec<(ColumnPair, f64)>| {
+                                scores
+                                    .into_iter()
+                                    .map(|(pair, score)| (pair, score.to_bits()))
+                                    .collect::<Vec<_>>()
+                            };
+                            assert_eq!(
+                                score_bits(current),
+                                score_bits(previous),
+                                "{} / {}: {policy:?}, {formula:?}, {string_matcher:?}",
+                                source.name,
+                                target.name,
+                            );
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // The pre-optimization implementation is an oracle for graph construction,
+    // coefficient overwrite order, and bit-for-bit final score compatibility.
+    fn previous_propagation(g1: &Graph, g2: &Graph, policy: Policy) -> Propagation {
+        let width = g2.names.len();
+        let mut connectivity: Vec<Edge> = Vec::new();
+        let mut nodes = BTreeSet::new();
+        let mut insertion_order = Vec::new();
+        for e1 in &g1.edges {
+            for e2 in &g2.edges {
+                if e1.label != e2.label {
+                    continue;
+                }
+                let from = e1.from * width + e2.from;
+                let to = e1.to * width + e2.to;
+                for node in [from, to] {
+                    if nodes.insert(node) {
+                        insertion_order.push(node);
+                    }
+                }
+                if let Some(edge) = connectivity
+                    .iter_mut()
+                    .find(|e| e.from == from && e.to == to)
+                {
+                    edge.label = e1.label;
+                } else {
+                    connectivity.push(Edge {
+                        from,
+                        to,
+                        label: e1.label,
+                    });
+                }
+            }
+        }
+        let mut weights = BTreeMap::new();
+        for node in insertion_order {
+            for incoming in [true, false] {
+                for edge in connectivity.iter().filter(|e| {
+                    if incoming {
+                        e.to == node
+                    } else {
+                        e.from == node
+                    }
+                }) {
+                    let coefficient = match policy {
+                        Policy::InverseAverage => {
+                            2.0 / (g1.degree(node / width, edge.label, incoming)
+                                + g2.degree(node % width, edge.label, incoming))
+                                as f64
+                        }
+                        Policy::InverseProduct => {
+                            1.0 / connectivity
+                                .iter()
+                                .filter(|e| {
+                                    e.label == edge.label
+                                        && if incoming {
+                                            e.to == node
+                                        } else {
+                                            e.from == node
+                                        }
+                                })
+                                .count() as f64
+                        }
+                    };
+                    weights.insert(
+                        if incoming {
+                            (edge.to, edge.from)
+                        } else {
+                            (edge.from, edge.to)
+                        },
+                        coefficient,
+                    );
+                }
+            }
+        }
+        Propagation {
+            nodes,
+            edges: weights
+                .into_iter()
+                .map(|((from, to), weight)| (from, to, weight))
+                .collect(),
+        }
+    }
+
+    fn previous_matches(
+        matcher: &SimilarityFlooding,
+        source: &Table,
+        target: &Table,
+        g1: &Graph,
+        g2: &Graph,
+        idf: Option<&BTreeMap<String, f64>>,
+    ) -> Vec<(ColumnPair, f64)> {
+        let width = g2.names.len();
+        let initial: Vec<f64> = g1
+            .names
+            .iter()
+            .flat_map(|a| {
+                g2.names.iter().map(move |b| {
+                    if a.starts_with('\0') || b.starts_with('\0') {
+                        return 0.0;
+                    }
+                    match matcher.string_matcher {
+                        StringMatcher::PrefixSuffix => prefix_suffix(a, b, None),
+                        StringMatcher::PrefixSuffixTfidf => prefix_suffix(a, b, idf),
+                        StringMatcher::Levenshtein => levenshtein(a, b),
+                    }
+                })
+            })
+            .collect();
+        let propagation = previous_propagation(g1, g2, matcher.coeff_policy);
+        let mut previous = initial.clone();
+        for _ in 0..matcher.max_iterations {
+            let mut next = vec![0.0; initial.len()];
+            for &node in &propagation.nodes {
+                next[node] = match matcher.formula {
+                    Formula::Basic => previous[node],
+                    Formula::FormulaA => initial[node],
+                    Formula::FormulaB => 0.0,
+                    Formula::FormulaC => initial[node] + previous[node],
+                };
+            }
+            for &(from, to, weight) in &propagation.edges {
+                next[to] += weight
+                    * match matcher.formula {
+                        Formula::Basic | Formula::FormulaA => previous[from],
+                        Formula::FormulaB | Formula::FormulaC => initial[from] + previous[from],
+                    };
+            }
+            let maximum = next.iter().copied().fold(0.0, f64::max);
+            if maximum > 0.0 {
+                for value in &mut next {
+                    *value /= maximum;
+                }
+            }
+            let residual = previous
+                .iter()
+                .zip(&next)
+                .map(|(a, b)| (a - b).powi(2))
+                .sum::<f64>()
+                .sqrt();
+            previous = next;
+            if residual <= matcher.residual_threshold {
+                break;
+            }
+        }
+        let mut output = Vec::with_capacity(source.columns.len() * target.columns.len());
+        for &(s_node, s_column) in &g1.columns {
+            for &(t_node, t_column) in &g2.columns {
+                let index = s_node * width + t_node;
+                if propagation.nodes.contains(&index) {
+                    output.push((
+                        ColumnPair::new(
+                            &source.name,
+                            &source.columns[s_column].name,
+                            &target.name,
+                            &target.columns[t_column].name,
+                        ),
+                        previous[index],
+                    ));
+                }
+            }
+        }
+        output
     }
 }
