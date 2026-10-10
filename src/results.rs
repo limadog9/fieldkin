@@ -38,6 +38,8 @@ pub type MatchDetails = BTreeMap<ColumnPair, BTreeMap<String, f64>>;
 
 /// Immutable scores sorted descending, with deterministic column-key tie breaking.
 /// Transformations produce a new collection and retain only relevant details.
+/// One-to-one selectors operate globally across this collection, using separate
+/// source and target identities of (table, column), rather than per table pair.
 #[derive(Clone, Debug, PartialEq, Default)]
 pub struct MatcherResults {
     entries: Vec<(ColumnPair, f64)>,
@@ -171,8 +173,25 @@ impl MatcherResults {
     /// produce a true one-to-one assignment, fixing the upstream tie shortcut.
     pub fn one_to_one_hungarian(&self, threshold: Option<f64>) -> Result<Self, Error> {
         let threshold = self.selection_threshold(threshold)?;
+        Ok(self.hungarian_selection(threshold, false))
+    }
+
+    /// Select the most one-to-one matches at or above the threshold, then
+    /// maximize total similarity among assignments with that many matches.
+    /// `None` uses the same collection-wide distinct-score cutoff as
+    /// [`Self::one_to_one_hungarian`]. Finite thresholds outside [0, 1] are allowed.
+    /// Sorted table/column identities and the shared solver break ties deterministically.
+    pub fn one_to_one_hungarian_threshold_aware(
+        &self,
+        threshold: Option<f64>,
+    ) -> Result<Self, Error> {
+        let threshold = self.selection_threshold(threshold)?;
+        Ok(self.hungarian_selection(threshold, true))
+    }
+
+    fn hungarian_selection(&self, threshold: f64, cardinality_first: bool) -> Self {
         if self.is_empty() {
-            return Ok(self.clone());
+            return self.clone();
         }
         let sources: Vec<_> = self
             .entries
@@ -189,16 +208,21 @@ impl MatcherResults {
             .into_iter()
             .collect();
         let n = sources.len().max(targets.len());
-        let mut costs = vec![vec![0.0; n]; n];
+        // Compare cardinality before similarity without rounding away score
+        // differences by adding a large floating-point bonus. Filler costs are zero.
+        let mut costs = vec![vec![(0isize, 0.0); n]; n];
         let mut lookup = BTreeMap::new();
         for (pair, score) in &self.entries {
+            if cardinality_first && *score < threshold {
+                continue;
+            }
             let row = sources
                 .binary_search(&pair.source())
                 .expect("source indexed");
             let col = targets
                 .binary_search(&pair.target())
                 .expect("target indexed");
-            costs[row][col] = -*score;
+            costs[row][col] = (if cardinality_first { -1 } else { 0 }, -*score);
             lookup.insert((row, col), pair);
         }
         let assignment = hungarian(&costs);
@@ -207,7 +231,7 @@ impl MatcherResults {
             .enumerate()
             .filter_map(|(row, col)| lookup.get(&(row, col)).copied())
             .collect();
-        Ok(self.select(|(p, s)| chosen.contains(p) && *s >= threshold))
+        self.select(|(p, s)| chosen.contains(p) && *s >= threshold)
     }
     pub fn one_to_one_greedy(&self, threshold: Option<f64>) -> Result<Self, Error> {
         let threshold = self.selection_threshold(threshold)?;
@@ -305,25 +329,28 @@ fn finite_threshold(t: f64) -> Result<(), Error> {
 }
 
 /// Shortest augmenting path formulation of the Hungarian algorithm, O(n^3).
-fn hungarian(cost: &[Vec<f64>]) -> Vec<usize> {
+/// Costs compare lexicographically: negative cardinality, then negative similarity.
+/// The original selector uses zero cardinality costs throughout.
+fn hungarian(cost: &[Vec<(isize, f64)>]) -> Vec<usize> {
     let n = cost.len();
-    let mut u = vec![0.0; n + 1];
-    let mut v = vec![0.0; n + 1];
+    let mut u = vec![(0isize, 0.0); n + 1];
+    let mut v = vec![(0isize, 0.0); n + 1];
     let mut p = vec![0; n + 1];
     let mut way = vec![0; n + 1];
     for i in 1..=n {
         p[0] = i;
         let mut j0 = 0;
-        let mut minv = vec![f64::INFINITY; n + 1];
+        let mut minv = vec![(isize::MAX, f64::INFINITY); n + 1];
         let mut used = vec![false; n + 1];
         loop {
             used[j0] = true;
             let i0 = p[j0];
-            let mut delta = f64::INFINITY;
+            let mut delta = (isize::MAX, f64::INFINITY);
             let mut j1 = 0;
             for j in 1..=n {
                 if !used[j] {
-                    let cur = cost[i0 - 1][j - 1] - u[i0] - v[j];
+                    let (count, score) = cost[i0 - 1][j - 1];
+                    let cur = (count - u[i0].0 - v[j].0, score - u[i0].1 - v[j].1);
                     if cur < minv[j] {
                         minv[j] = cur;
                         way[j] = j0;
@@ -336,10 +363,13 @@ fn hungarian(cost: &[Vec<f64>]) -> Vec<usize> {
             }
             for j in 0..=n {
                 if used[j] {
-                    u[p[j]] += delta;
-                    v[j] -= delta;
+                    u[p[j]].0 += delta.0;
+                    u[p[j]].1 += delta.1;
+                    v[j].0 -= delta.0;
+                    v[j].1 -= delta.1;
                 } else {
-                    minv[j] -= delta;
+                    minv[j].0 -= delta.0;
+                    minv[j].1 -= delta.1;
                 }
             }
             j0 = j1;

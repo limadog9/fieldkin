@@ -95,6 +95,7 @@ let top_quarter = matches.take_top_percent(25.0)?;
 let confident = matches.filter(0.7)?;
 let per_source = matches.take_top_n_per_source(3);
 let optimal = matches.one_to_one_hungarian(Some(0.5))?;
+let eligible = matches.one_to_one_hungarian_threshold_aware(Some(0.5))?;
 let greedy = matches.one_to_one_greedy(Some(0.5))?;
 let mutual = matches.one_to_one_mutual_top(1)?;
 
@@ -114,11 +115,25 @@ The predefined `METRICS_CORE`, `METRICS_ALL`, `METRICS_PRECISION_RECALL` and
 `METRICS_PRECISION_INCREASING_N` sets can be passed to `get_metrics_with`.
 `NamedMetric` assigns distinct keys to differently configured metrics.
 
-For Hungarian/greedy, `None` uses Valentine's distinct-score cutoff (descending
-unique scores indexed at ceil(count/2), clamped to the last index).
+For Hungarian/greedy selectors, `None` uses Valentine's distinct-score cutoff
+(descending unique scores indexed at ceil(count/2), clamped to the last index).
 Equal-score collections still receive true one-to-one selection. Hungarian
-maximizes total similarity before threshold filtering. Serialization emits a
-`matches` array containing each pair, score and any component details.
+maximizes total similarity before threshold filtering.
+`one_to_one_hungarian_threshold_aware` is an opt-in alternative: it first maximizes
+the number of pairs at or above the threshold, then their total similarity. For
+scores A→X=0.90, A→Y=0.80, B→X=0.81 and B→Y=0.79, threshold 0.80 yields only
+A→X through the original selector, while the alternative selects A→Y and B→X.
+Metrics continue to use the original Valentine-compatible selectors.
+
+Hungarian and greedy selectors constrain each source and target (table, column)
+identity once across the entire collection. A column shared by multiple table pairs
+can therefore retain a correspondence for only one pair. Mutual-top selection
+applies its `n` limit globally per source/target identity. Disjoint pairs do not compete
+for assignment, but `None` computes its cutoff from all scores, so high scores in
+one pair can exclude lower scores in another. Select each table pair's results
+separately when constraints and default cutoffs should apply independently.
+Serialization emits a `matches` array containing each pair, score and any
+component details.
 
 ## Polars and sentence embeddings
 
