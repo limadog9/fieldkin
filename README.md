@@ -181,7 +181,58 @@ Checked-in fixtures come directly from pinned Valentine source and cover matcher
 variants, distribution phases, semantic behavior, lexical distances, fuzzy sets
 and Tversky penalties. Regeneration instructions are in [PORTING.md](PORTING.md).
 
-Existing suggestion evaluation corpora remain available:
+The suggestion accuracy gate evaluates every labeled source field in `eval/` and
+`eval_realworld/` using `match_schemas` and `Config::default()`. Run it with:
+
+```sh
+cargo run --locked --example evaluate_all -- --check
+```
+
+The same check runs on every push and pull request in the Rust workflow. With no
+arguments, `evaluate_all` also runs the gate. The frozen
+[baseline](validation/quality_baseline.json) records the existing implementation's
+actual performance: **215/256 correct decisions (83.98%)**, across 15 datasets.
+Expected matches are correct in 170/204 cases, `no_match` in 40/46, and ambiguity
+in 5/6. These measurements use the existing defaults: minimum score 0.72,
+ambiguity margin 0.05, and five reported candidates. They are a regression floor,
+not a claim that this accuracy is sufficient.
+
+Metric definitions and rules:
+
+- A correct decision must match the label's kind and target. Ambiguity requires
+  exactly the labeled target set, independent of order.
+- Accuracy is `correct / total`. Correct counts cannot decrease overall, in any
+  dataset, in any expected decision category, or within a dataset's categories.
+- Incorrect automatic matches are explicit `Match` decisions with a wrong target
+  or with a `no_match`/`ambiguous` label. Their counts cannot increase in any of
+  those scopes. Automatic-match precision is correct matches divided by all
+  explicit `Match` decisions: **170/179 (94.97%)**, with **9 incorrect matches**.
+  Correct `no_match` decisions never enter this fraction; no automatic predictions
+  means precision is undefined (`n/a`). The match-correctness floor and incorrect
+  match ceiling together protect precision.
+- Missed matches are expected `match` cases without the correct automatic match,
+  including wrong targets and abstentions: **34/204**. The per-category accuracy
+  floor prevents this count from increasing.
+- Incorrect ambiguities are `Ambiguous` predictions with the wrong kind or target
+  set: **4**. Their counts also cannot increase in any scope. Missed expected
+  ambiguities are protected by the `ambiguous` category's correctness floor.
+
+The gate compares integer counts without tolerances, so improvements pass without
+requiring identical predictions. Compensating changes within the same dataset and
+category can pass if all protected metrics hold. Failures show metric changes and
+current incorrect fields in affected datasets, with expected and actual decisions.
+Missing labels, invalid target references, duplicate names/labels, malformed JSON,
+and empty datasets/directories fail. Dataset membership and SHA-256 fingerprints
+of parsed inputs/labels are frozen; JSON formatting and checkout line endings do
+not affect fingerprints. The baseline is never updated by a check.
+
+For a deliberately reviewed baseline refresh, `--print-baseline` prints current
+measurements as JSON without changing the saved baseline. Do not lower it merely
+to pass CI. The labeled corpora remain limited coverage (including only six
+expected ambiguities); this gate measures the original suggestion API, separately
+from the unchanged Valentine reference-parity tests.
+
+Individual directories can still be evaluated in report-only mode:
 
 ```sh
 cargo run --example evaluate_all -- eval

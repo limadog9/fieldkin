@@ -1,0 +1,497 @@
+{
+  "overall": {
+    "overall": {
+      "total": 256,
+      "correct": 215,
+      "incorrect_automatic_matches": 9,
+      "incorrect_ambiguities": 4
+    },
+    "by_expected_decision": {
+      "match": {
+        "total": 204,
+        "correct": 170,
+        "incorrect_automatic_matches": 4,
+        "incorrect_ambiguities": 2
+      },
+      "no_match": {
+        "total": 46,
+        "correct": 40,
+        "incorrect_automatic_matches": 4,
+        "incorrect_ambiguities": 2
+      },
+      "ambiguous": {
+        "total": 6,
+        "correct": 5,
+        "incorrect_automatic_matches": 1,
+        "incorrect_ambiguities": 0
+      }
+    }
+  },
+  "datasets": {
+    "eval/accounts_payable.json": {
+      "sha256": "aa20d941f47b5110b66aef801f6186e48203e4d42983224321176c7e6290c46d",
+      "metrics": {
+        "overall": {
+          "total": 10,
+          "correct": 10,
+          "incorrect_automatic_matches": 0,
+          "incorrect_ambiguities": 0
+        },
+        "by_expected_decision": {
+          "match": {
+            "total": 8,
+            "correct": 8,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          },
+          "no_match": {
+            "total": 1,
+            "correct": 1,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          },
+          "ambiguous": {
+            "total": 1,
+            "correct": 1,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          }
+        }
+      }
+    },
+    "eval/customers.json": {
+      "sha256": "7e9224a31a9efc8bcffd94638149d3efb00455afa842476219f9f9531e4cee34",
+      "metrics": {
+        "overall": {
+          "total": 7,
+          "correct": 7,
+          "incorrect_automatic_matches": 0,
+          "incorrect_ambiguities": 0
+        },
+        "by_expected_decision": {
+          "match": {
+            "total": 5,
+            "correct": 5,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          },
+          "no_match": {
+            "total": 1,
+            "correct": 1,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          },
+          "ambiguous": {
+            "total": 1,
+            "correct": 1,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          }
+        }
+      }
+    },
+    "eval/inventory.json": {
+      "sha256": "11bbdc7a4f61042a4673c71cfe1c2a6c07368ecff7bf630a07469a7cfd1368fb",
+      "metrics": {
+        "overall": {
+          "total": 11,
+          "correct": 10,
+          "incorrect_automatic_matches": 0,
+          "incorrect_ambiguities": 0
+        },
+        "by_expected_decision": {
+          "match": {
+            "total": 8,
+            "correct": 7,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          },
+          "no_match": {
+            "total": 2,
+            "correct": 2,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          },
+          "ambiguous": {
+            "total": 1,
+            "correct": 1,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          }
+        }
+      }
+    },
+    "eval/payments.json": {
+      "sha256": "56c4ddc61f2215aa66a73c17e97d527dd6fe366c6b1356bfafd0770fc0e29d2a",
+      "metrics": {
+        "overall": {
+          "total": 10,
+          "correct": 9,
+          "incorrect_automatic_matches": 0,
+          "incorrect_ambiguities": 0
+        },
+        "by_expected_decision": {
+          "match": {
+            "total": 8,
+            "correct": 7,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          },
+          "no_match": {
+            "total": 1,
+            "correct": 1,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          },
+          "ambiguous": {
+            "total": 1,
+            "correct": 1,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          }
+        }
+      }
+    },
+    "eval/telemetry.json": {
+      "sha256": "eba999c358a4e73436030a6be6e99bb294164e621c48d9cfcbe3427beeb4223c",
+      "metrics": {
+        "overall": {
+          "total": 11,
+          "correct": 8,
+          "incorrect_automatic_matches": 0,
+          "incorrect_ambiguities": 0
+        },
+        "by_expected_decision": {
+          "match": {
+            "total": 9,
+            "correct": 6,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          },
+          "no_match": {
+            "total": 1,
+            "correct": 1,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          },
+          "ambiguous": {
+            "total": 1,
+            "correct": 1,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          }
+        }
+      }
+    },
+    "eval_realworld/airports_publication_export.json": {
+      "sha256": "0999e296d994967701d2950839dd2d1d36ce1baafb534233bba84f407e534331",
+      "metrics": {
+        "overall": {
+          "total": 18,
+          "correct": 18,
+          "incorrect_automatic_matches": 0,
+          "incorrect_ambiguities": 0
+        },
+        "by_expected_decision": {
+          "match": {
+            "total": 12,
+            "correct": 12,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          },
+          "no_match": {
+            "total": 6,
+            "correct": 6,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          },
+          "ambiguous": {
+            "total": 0,
+            "correct": 0,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          }
+        }
+      }
+    },
+    "eval_realworld/dot_airfare_change_to_markets.json": {
+      "sha256": "4590faedf7154942fe852a871c05b6c74a3ed317131a3172a48e8e4fe67a965c",
+      "metrics": {
+        "overall": {
+          "total": 14,
+          "correct": 11,
+          "incorrect_automatic_matches": 3,
+          "incorrect_ambiguities": 0
+        },
+        "by_expected_decision": {
+          "match": {
+            "total": 7,
+            "correct": 7,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          },
+          "no_match": {
+            "total": 7,
+            "correct": 4,
+            "incorrect_automatic_matches": 3,
+            "incorrect_ambiguities": 0
+          },
+          "ambiguous": {
+            "total": 0,
+            "correct": 0,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          }
+        }
+      }
+    },
+    "eval_realworld/epa_fuel_economy_exports.json": {
+      "sha256": "9eacf4113f30ce409d78101d15370f09c47310386fc914526e466b25c45740ef",
+      "metrics": {
+        "overall": {
+          "total": 34,
+          "correct": 14,
+          "incorrect_automatic_matches": 5,
+          "incorrect_ambiguities": 2
+        },
+        "by_expected_decision": {
+          "match": {
+            "total": 28,
+            "correct": 9,
+            "incorrect_automatic_matches": 4,
+            "incorrect_ambiguities": 2
+          },
+          "no_match": {
+            "total": 6,
+            "correct": 5,
+            "incorrect_automatic_matches": 1,
+            "incorrect_ambiguities": 0
+          },
+          "ambiguous": {
+            "total": 0,
+            "correct": 0,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          }
+        }
+      }
+    },
+    "eval_realworld/fdic_bankfind.json": {
+      "sha256": "cc5ed36ee6ad22d7a8d28acc3068ebea3276f11d60e8b2b1f2af944a3d2b9fc3",
+      "metrics": {
+        "overall": {
+          "total": 27,
+          "correct": 25,
+          "incorrect_automatic_matches": 1,
+          "incorrect_ambiguities": 0
+        },
+        "by_expected_decision": {
+          "match": {
+            "total": 23,
+            "correct": 22,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          },
+          "no_match": {
+            "total": 3,
+            "correct": 3,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          },
+          "ambiguous": {
+            "total": 1,
+            "correct": 0,
+            "incorrect_automatic_matches": 1,
+            "incorrect_ambiguities": 0
+          }
+        }
+      }
+    },
+    "eval_realworld/kepler_koi.json": {
+      "sha256": "d49ab4d297046eadd9ebfba5a41384845feb0099f555c125ac6f51a6b0af74f1",
+      "metrics": {
+        "overall": {
+          "total": 25,
+          "correct": 25,
+          "incorrect_automatic_matches": 0,
+          "incorrect_ambiguities": 0
+        },
+        "by_expected_decision": {
+          "match": {
+            "total": 25,
+            "correct": 25,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          },
+          "no_match": {
+            "total": 0,
+            "correct": 0,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          },
+          "ambiguous": {
+            "total": 0,
+            "correct": 0,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          }
+        }
+      }
+    },
+    "eval_realworld/ndbc_buoy.json": {
+      "sha256": "9f131c6b5f2f3eb429906480baffbad490b65c7fecd25a93823e596f1e18471a",
+      "metrics": {
+        "overall": {
+          "total": 15,
+          "correct": 12,
+          "incorrect_automatic_matches": 0,
+          "incorrect_ambiguities": 0
+        },
+        "by_expected_decision": {
+          "match": {
+            "total": 15,
+            "correct": 12,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          },
+          "no_match": {
+            "total": 0,
+            "correct": 0,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          },
+          "ambiguous": {
+            "total": 0,
+            "correct": 0,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          }
+        }
+      }
+    },
+    "eval_realworld/nyc_municipal_energy_versions.json": {
+      "sha256": "032e8f50e85609e040b10911f2e8bb9ac21fd6574af5bea91bf2e7582161f7fa",
+      "metrics": {
+        "overall": {
+          "total": 20,
+          "correct": 17,
+          "incorrect_automatic_matches": 0,
+          "incorrect_ambiguities": 2
+        },
+        "by_expected_decision": {
+          "match": {
+            "total": 9,
+            "correct": 8,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          },
+          "no_match": {
+            "total": 11,
+            "correct": 9,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 2
+          },
+          "ambiguous": {
+            "total": 0,
+            "correct": 0,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          }
+        }
+      }
+    },
+    "eval_realworld/nyc_taxi_annual_versions.json": {
+      "sha256": "d28118749d1a043d04759b1d72d622917883d0c7326fb1b4f2a13c2236ef54bf",
+      "metrics": {
+        "overall": {
+          "total": 11,
+          "correct": 11,
+          "incorrect_automatic_matches": 0,
+          "incorrect_ambiguities": 0
+        },
+        "by_expected_decision": {
+          "match": {
+            "total": 11,
+            "correct": 11,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          },
+          "no_match": {
+            "total": 0,
+            "correct": 0,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          },
+          "ambiguous": {
+            "total": 0,
+            "correct": 0,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          }
+        }
+      }
+    },
+    "eval_realworld/sf_budget_to_actuals.json": {
+      "sha256": "fefe4a1e1df3c2da1e2876dab933c51401fbe46c71d44c17307f1b25bef40c07",
+      "metrics": {
+        "overall": {
+          "total": 21,
+          "correct": 21,
+          "incorrect_automatic_matches": 0,
+          "incorrect_ambiguities": 0
+        },
+        "by_expected_decision": {
+          "match": {
+            "total": 20,
+            "correct": 20,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          },
+          "no_match": {
+            "total": 1,
+            "correct": 1,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          },
+          "ambiguous": {
+            "total": 0,
+            "correct": 0,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          }
+        }
+      }
+    },
+    "eval_realworld/usgs_earthquakes.json": {
+      "sha256": "32effb99fb37df2987b78ad33b5476c92d82ffa24340c7c11475713e711b70c0",
+      "metrics": {
+        "overall": {
+          "total": 22,
+          "correct": 17,
+          "incorrect_automatic_matches": 0,
+          "incorrect_ambiguities": 0
+        },
+        "by_expected_decision": {
+          "match": {
+            "total": 16,
+            "correct": 11,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          },
+          "no_match": {
+            "total": 6,
+            "correct": 6,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          },
+          "ambiguous": {
+            "total": 0,
+            "correct": 0,
+            "incorrect_automatic_matches": 0,
+            "incorrect_ambiguities": 0
+          }
+        }
+      }
+    }
+  }
+}
