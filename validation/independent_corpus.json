@@ -1,0 +1,2803 @@
+{
+  "format_version": 1,
+  "status": "independent of Fieldkin development corpora; labels frozen before first predictions",
+  "annotation_date_utc": "2026-10-10",
+  "annotation_policy": "validation/independent_accuracy.md",
+  "sampling": "At most 16 rows per view, zero-based floor(i*(n-1)/(k-1)), k=min(16,n). Entire retained schema; no column-specific resampling or imputation. Original input ordering. CSV missing NA or empty maps to empty sample; native NA/NaN maps to empty sample. No further sample cap in matcher.",
+  "resources": {
+    "r_data_longley": {
+      "path": "eval_independent/sources/r_data_longley.R",
+      "url": "https://raw.githubusercontent.com/r-devel/r-svn/cf22bdfad2161aa9b2f8e79b786b68588936d722/src/library/datasets/data/longley.R",
+      "publisher_revision": "cf22bdfad2161aa9b2f8e79b786b68588936d722",
+      "publisher_path": "src/library/datasets/data/longley.R",
+      "retrieved_utc": "2026-10-10",
+      "license": "GPL-2-or-later",
+      "sha256": "24614ed452fb7a825c0d3ba46c15d5e86f720bf95e85066e4ff8dca2189aa961"
+    },
+    "r_man_longley": {
+      "path": "eval_independent/sources/r_man_longley.Rd",
+      "url": "https://raw.githubusercontent.com/r-devel/r-svn/cf22bdfad2161aa9b2f8e79b786b68588936d722/src/library/datasets/man/longley.Rd",
+      "publisher_revision": "cf22bdfad2161aa9b2f8e79b786b68588936d722",
+      "publisher_path": "src/library/datasets/man/longley.Rd",
+      "retrieved_utc": "2026-10-10",
+      "license": "GPL-2-or-later",
+      "sha256": "a075e4072b89ac73b49b26420ed09e34ea7b72a4dc683cba0f3b4a3ad037d71a"
+    },
+    "r_data_Nile": {
+      "path": "eval_independent/sources/r_data_Nile.R",
+      "url": "https://raw.githubusercontent.com/r-devel/r-svn/cf22bdfad2161aa9b2f8e79b786b68588936d722/src/library/datasets/data/Nile.R",
+      "publisher_revision": "cf22bdfad2161aa9b2f8e79b786b68588936d722",
+      "publisher_path": "src/library/datasets/data/Nile.R",
+      "retrieved_utc": "2026-10-10",
+      "license": "GPL-2-or-later",
+      "sha256": "2dc87603b04ca38731b850078dbb75aa8ef41e113f7b58d3e8499132803c0c9c"
+    },
+    "r_man_Nile": {
+      "path": "eval_independent/sources/r_man_Nile.Rd",
+      "url": "https://raw.githubusercontent.com/r-devel/r-svn/cf22bdfad2161aa9b2f8e79b786b68588936d722/src/library/datasets/man/Nile.Rd",
+      "publisher_revision": "cf22bdfad2161aa9b2f8e79b786b68588936d722",
+      "publisher_path": "src/library/datasets/man/Nile.Rd",
+      "retrieved_utc": "2026-10-10",
+      "license": "GPL-2-or-later",
+      "sha256": "e426167a8ae129941d7aa529a7ef94dd47afb6fe8ad1e294cec81d7eed8aa866"
+    },
+    "r_data_sunspot.year": {
+      "path": "eval_independent/sources/r_data_sunspot.year.R",
+      "url": "https://raw.githubusercontent.com/r-devel/r-svn/cf22bdfad2161aa9b2f8e79b786b68588936d722/src/library/datasets/data/sunspot.year.R",
+      "publisher_revision": "cf22bdfad2161aa9b2f8e79b786b68588936d722",
+      "publisher_path": "src/library/datasets/data/sunspot.year.R",
+      "retrieved_utc": "2026-10-10",
+      "license": "GPL-2-or-later",
+      "sha256": "372a8c582a93bdf731be14de67603baed90b092637979b72d6febecac255ad46"
+    },
+    "r_man_sunspot.year": {
+      "path": "eval_independent/sources/r_man_sunspot.year.Rd",
+      "url": "https://raw.githubusercontent.com/r-devel/r-svn/cf22bdfad2161aa9b2f8e79b786b68588936d722/src/library/datasets/man/sunspot.year.Rd",
+      "publisher_revision": "cf22bdfad2161aa9b2f8e79b786b68588936d722",
+      "publisher_path": "src/library/datasets/man/sunspot.year.Rd",
+      "retrieved_utc": "2026-10-10",
+      "license": "GPL-2-or-later",
+      "sha256": "8e873872ff7f394a699fbcda783a3a961d01c0e9a4e38cc2e4cddb864f3b0f5f"
+    },
+    "r_data_stackloss": {
+      "path": "eval_independent/sources/r_data_stackloss.R",
+      "url": "https://raw.githubusercontent.com/r-devel/r-svn/cf22bdfad2161aa9b2f8e79b786b68588936d722/src/library/datasets/data/stackloss.R",
+      "publisher_revision": "cf22bdfad2161aa9b2f8e79b786b68588936d722",
+      "publisher_path": "src/library/datasets/data/stackloss.R",
+      "retrieved_utc": "2026-10-10",
+      "license": "GPL-2-or-later",
+      "sha256": "507f538c2e5eddc09c729d1ba483283bd259aa509b344a8c39189f3c7c31ce9e"
+    },
+    "r_man_stackloss": {
+      "path": "eval_independent/sources/r_man_stackloss.Rd",
+      "url": "https://raw.githubusercontent.com/r-devel/r-svn/cf22bdfad2161aa9b2f8e79b786b68588936d722/src/library/datasets/man/stackloss.Rd",
+      "publisher_revision": "cf22bdfad2161aa9b2f8e79b786b68588936d722",
+      "publisher_path": "src/library/datasets/man/stackloss.Rd",
+      "retrieved_utc": "2026-10-10",
+      "license": "GPL-2-or-later",
+      "sha256": "bb77c3246a3cb26e2332cf539b92c47dc3eb810b110d4cb7c48f2f7263db4052"
+    },
+    "r_data_Seatbelts": {
+      "path": "eval_independent/sources/r_data_Seatbelts.R",
+      "url": "https://raw.githubusercontent.com/r-devel/r-svn/cf22bdfad2161aa9b2f8e79b786b68588936d722/src/library/datasets/data/Seatbelts.R",
+      "publisher_revision": "cf22bdfad2161aa9b2f8e79b786b68588936d722",
+      "publisher_path": "src/library/datasets/data/Seatbelts.R",
+      "retrieved_utc": "2026-10-10",
+      "license": "GPL-2-or-later",
+      "sha256": "18db3dd72a88948bba1932e10ef7287c3ed9b659b303e0c816e9af8b5fd4f890"
+    },
+    "r_data_UKDriverDeaths": {
+      "path": "eval_independent/sources/r_data_UKDriverDeaths.R",
+      "url": "https://raw.githubusercontent.com/r-devel/r-svn/cf22bdfad2161aa9b2f8e79b786b68588936d722/src/library/datasets/data/UKDriverDeaths.R",
+      "publisher_revision": "cf22bdfad2161aa9b2f8e79b786b68588936d722",
+      "publisher_path": "src/library/datasets/data/UKDriverDeaths.R",
+      "retrieved_utc": "2026-10-10",
+      "license": "GPL-2-or-later",
+      "sha256": "7e4da7a4994e59eb5f1b04f52f439d66eef4e6f108c4f77ca0e2f87841e51402"
+    },
+    "r_man_UKDriverDeaths": {
+      "path": "eval_independent/sources/r_man_UKDriverDeaths.Rd",
+      "url": "https://raw.githubusercontent.com/r-devel/r-svn/cf22bdfad2161aa9b2f8e79b786b68588936d722/src/library/datasets/man/UKDriverDeaths.Rd",
+      "publisher_revision": "cf22bdfad2161aa9b2f8e79b786b68588936d722",
+      "publisher_path": "src/library/datasets/man/UKDriverDeaths.Rd",
+      "retrieved_utc": "2026-10-10",
+      "license": "GPL-2-or-later",
+      "sha256": "2963ef5f614cdaee539d02a871bc0c11f54bf2392397c329e82dc400277168dd"
+    },
+    "r_data_USArrests": {
+      "path": "eval_independent/sources/r_data_USArrests.tab",
+      "url": "https://raw.githubusercontent.com/r-devel/r-svn/cf22bdfad2161aa9b2f8e79b786b68588936d722/src/library/datasets/data/USArrests.tab",
+      "publisher_revision": "cf22bdfad2161aa9b2f8e79b786b68588936d722",
+      "publisher_path": "src/library/datasets/data/USArrests.tab",
+      "retrieved_utc": "2026-10-10",
+      "license": "GPL-2-or-later",
+      "sha256": "6fd9344fac999f56d37e5fde05c886874f2fc163fbbf01c82bdf782b02606471"
+    },
+    "r_man_USArrests": {
+      "path": "eval_independent/sources/r_man_USArrests.Rd",
+      "url": "https://raw.githubusercontent.com/r-devel/r-svn/cf22bdfad2161aa9b2f8e79b786b68588936d722/src/library/datasets/man/USArrests.Rd",
+      "publisher_revision": "cf22bdfad2161aa9b2f8e79b786b68588936d722",
+      "publisher_path": "src/library/datasets/man/USArrests.Rd",
+      "retrieved_utc": "2026-10-10",
+      "license": "GPL-2-or-later",
+      "sha256": "b698c147152d1cd83d3f3ecadfeb4af23dd5e7d396677b3896e4e21957570ca0"
+    },
+    "r_data_state": {
+      "path": "eval_independent/sources/r_data_state.R",
+      "url": "https://raw.githubusercontent.com/r-devel/r-svn/cf22bdfad2161aa9b2f8e79b786b68588936d722/src/library/datasets/data/state.R",
+      "publisher_revision": "cf22bdfad2161aa9b2f8e79b786b68588936d722",
+      "publisher_path": "src/library/datasets/data/state.R",
+      "retrieved_utc": "2026-10-10",
+      "license": "GPL-2-or-later",
+      "sha256": "8d8ccd3721056caf43c97efbe22e6dedb422acc07dd33e63b4a259d7eca8c29a"
+    },
+    "r_man_state": {
+      "path": "eval_independent/sources/r_man_state.Rd",
+      "url": "https://raw.githubusercontent.com/r-devel/r-svn/cf22bdfad2161aa9b2f8e79b786b68588936d722/src/library/datasets/man/state.Rd",
+      "publisher_revision": "cf22bdfad2161aa9b2f8e79b786b68588936d722",
+      "publisher_path": "src/library/datasets/man/state.Rd",
+      "retrieved_utc": "2026-10-10",
+      "license": "GPL-2-or-later",
+      "sha256": "bc90bec902e28e9d3d72f16647fa2e5813a3007c4e7b0caf33f49c6bffcf3d01"
+    },
+    "r_data_faithful": {
+      "path": "eval_independent/sources/r_data_faithful.R",
+      "url": "https://raw.githubusercontent.com/r-devel/r-svn/cf22bdfad2161aa9b2f8e79b786b68588936d722/src/library/datasets/data/faithful.R",
+      "publisher_revision": "cf22bdfad2161aa9b2f8e79b786b68588936d722",
+      "publisher_path": "src/library/datasets/data/faithful.R",
+      "retrieved_utc": "2026-10-10",
+      "license": "GPL-2-or-later",
+      "sha256": "3cdac44bca411deabae2904557fce2272e87c83128087d1927a5384fb8c99e4f"
+    },
+    "r_man_faithful": {
+      "path": "eval_independent/sources/r_man_faithful.Rd",
+      "url": "https://raw.githubusercontent.com/r-devel/r-svn/cf22bdfad2161aa9b2f8e79b786b68588936d722/src/library/datasets/man/faithful.Rd",
+      "publisher_revision": "cf22bdfad2161aa9b2f8e79b786b68588936d722",
+      "publisher_path": "src/library/datasets/man/faithful.Rd",
+      "retrieved_utc": "2026-10-10",
+      "license": "GPL-2-or-later",
+      "sha256": "621cf647834e70778de818b4ca9fe4c43e843aa5ba2a45379a3b4d79516df740"
+    },
+    "r_data_airmiles": {
+      "path": "eval_independent/sources/r_data_airmiles.R",
+      "url": "https://raw.githubusercontent.com/r-devel/r-svn/cf22bdfad2161aa9b2f8e79b786b68588936d722/src/library/datasets/data/airmiles.R",
+      "publisher_revision": "cf22bdfad2161aa9b2f8e79b786b68588936d722",
+      "publisher_path": "src/library/datasets/data/airmiles.R",
+      "retrieved_utc": "2026-10-10",
+      "license": "GPL-2-or-later",
+      "sha256": "d967c91eae4394f98248bb031e50499d5da3796669b76594683a040b0e30da3f"
+    },
+    "r_man_airmiles": {
+      "path": "eval_independent/sources/r_man_airmiles.Rd",
+      "url": "https://raw.githubusercontent.com/r-devel/r-svn/cf22bdfad2161aa9b2f8e79b786b68588936d722/src/library/datasets/man/airmiles.Rd",
+      "publisher_revision": "cf22bdfad2161aa9b2f8e79b786b68588936d722",
+      "publisher_path": "src/library/datasets/man/airmiles.Rd",
+      "retrieved_utc": "2026-10-10",
+      "license": "GPL-2-or-later",
+      "sha256": "31a257db7f1411fb2d2a690cbea9d369814c4393d006decd55e8fbd731de0aa9"
+    },
+    "r_license": {
+      "path": "eval_independent/sources/r_license.txt",
+      "url": "https://raw.githubusercontent.com/r-devel/r-svn/cf22bdfad2161aa9b2f8e79b786b68588936d722/COPYING",
+      "publisher_revision": "cf22bdfad2161aa9b2f8e79b786b68588936d722",
+      "publisher_path": "COPYING",
+      "retrieved_utc": "2026-10-10",
+      "license": "GPL-2-or-later",
+      "sha256": "e6d6a009505e345fe949e1310334fcb0747f28dae2856759de102ab66b722cb4"
+    },
+    "r_description": {
+      "path": "eval_independent/sources/r_description.in",
+      "url": "https://raw.githubusercontent.com/r-devel/r-svn/cf22bdfad2161aa9b2f8e79b786b68588936d722/src/library/datasets/DESCRIPTION.in",
+      "publisher_revision": "cf22bdfad2161aa9b2f8e79b786b68588936d722",
+      "publisher_path": "src/library/datasets/DESCRIPTION.in",
+      "retrieved_utc": "2026-10-10",
+      "license": "GPL-2-or-later",
+      "sha256": "e58b793cb90e167d9f4c9a23b7b63a2344bbdab6b7d36049fd9fd84190daf99d"
+    },
+    "sm_data_longley": {
+      "path": "eval_independent/sources/sm_data_longley.csv",
+      "url": "https://raw.githubusercontent.com/statsmodels/statsmodels/9bf43a292c6e906754744fef3b1a77c5e549410f/statsmodels/datasets/longley/longley.csv",
+      "publisher_revision": "9bf43a292c6e906754744fef3b1a77c5e549410f",
+      "publisher_path": "statsmodels/datasets/longley/longley.csv",
+      "retrieved_utc": "2026-10-10",
+      "license": "public domain (dataset data.py COPYRIGHT)",
+      "sha256": "0927ec7cc34edb5670920cb2ff1542e46de27a2010746e1662f4276cf3569a24"
+    },
+    "sm_data_nile": {
+      "path": "eval_independent/sources/sm_data_nile.csv",
+      "url": "https://raw.githubusercontent.com/statsmodels/statsmodels/9bf43a292c6e906754744fef3b1a77c5e549410f/statsmodels/datasets/nile/nile.csv",
+      "publisher_revision": "9bf43a292c6e906754744fef3b1a77c5e549410f",
+      "publisher_path": "statsmodels/datasets/nile/nile.csv",
+      "retrieved_utc": "2026-10-10",
+      "license": "public domain (dataset data.py COPYRIGHT)",
+      "sha256": "88e97bea7249e5832a85e41aec6ce4b8f7b1b14aae930c8363da7f193286b598"
+    },
+    "sm_data_sunspots": {
+      "path": "eval_independent/sources/sm_data_sunspots.csv",
+      "url": "https://raw.githubusercontent.com/statsmodels/statsmodels/9bf43a292c6e906754744fef3b1a77c5e549410f/statsmodels/datasets/sunspots/sunspots.csv",
+      "publisher_revision": "9bf43a292c6e906754744fef3b1a77c5e549410f",
+      "publisher_path": "statsmodels/datasets/sunspots/sunspots.csv",
+      "retrieved_utc": "2026-10-10",
+      "license": "public domain (dataset data.py COPYRIGHT)",
+      "sha256": "f67889b1d9002cd5227f0e0ef54e35b419cdd85a31279adef6f73fb41e5c0a9b"
+    },
+    "sm_data_engel": {
+      "path": "eval_independent/sources/sm_data_engel.csv",
+      "url": "https://raw.githubusercontent.com/statsmodels/statsmodels/9bf43a292c6e906754744fef3b1a77c5e549410f/statsmodels/datasets/engel/engel.csv",
+      "publisher_revision": "9bf43a292c6e906754744fef3b1a77c5e549410f",
+      "publisher_path": "statsmodels/datasets/engel/engel.csv",
+      "retrieved_utc": "2026-10-10",
+      "license": "public domain (dataset data.py COPYRIGHT)",
+      "sha256": "796c3da0406291dd324c51901b51386be12b5f52e330afaf69584f57c06ad45c"
+    },
+    "sm_data_grunfeld": {
+      "path": "eval_independent/sources/sm_data_grunfeld.csv",
+      "url": "https://raw.githubusercontent.com/statsmodels/statsmodels/9bf43a292c6e906754744fef3b1a77c5e549410f/statsmodels/datasets/grunfeld/grunfeld.csv",
+      "publisher_revision": "9bf43a292c6e906754744fef3b1a77c5e549410f",
+      "publisher_path": "statsmodels/datasets/grunfeld/grunfeld.csv",
+      "retrieved_utc": "2026-10-10",
+      "license": "public domain (dataset data.py COPYRIGHT)",
+      "sha256": "6f6ca138e645eeee6ff3e54fe5b9b498f7ddb5c484237d2a8489c524b3c94098"
+    },
+    "sm_data_stackloss": {
+      "path": "eval_independent/sources/sm_data_stackloss.csv",
+      "url": "https://raw.githubusercontent.com/statsmodels/statsmodels/9bf43a292c6e906754744fef3b1a77c5e549410f/statsmodels/datasets/stackloss/stackloss.csv",
+      "publisher_revision": "9bf43a292c6e906754744fef3b1a77c5e549410f",
+      "publisher_path": "statsmodels/datasets/stackloss/stackloss.csv",
+      "retrieved_utc": "2026-10-10",
+      "license": "public domain (dataset data.py COPYRIGHT)",
+      "sha256": "7395953d62eec7abab783ae9603ff82f091d04a4689780e455c239f0f5509f64"
+    },
+    "sm_data_elnino": {
+      "path": "eval_independent/sources/sm_data_elnino.csv",
+      "url": "https://raw.githubusercontent.com/statsmodels/statsmodels/9bf43a292c6e906754744fef3b1a77c5e549410f/statsmodels/datasets/elnino/elnino.csv",
+      "publisher_revision": "9bf43a292c6e906754744fef3b1a77c5e549410f",
+      "publisher_path": "statsmodels/datasets/elnino/elnino.csv",
+      "retrieved_utc": "2026-10-10",
+      "license": "public domain (dataset data.py COPYRIGHT)",
+      "sha256": "b647be00e0fd264be9764e317e6b963f35030014ecca2b21b204521716e463ad"
+    },
+    "sm_license": {
+      "path": "eval_independent/sources/sm_license.txt",
+      "url": "https://raw.githubusercontent.com/statsmodels/statsmodels/9bf43a292c6e906754744fef3b1a77c5e549410f/LICENSE.txt",
+      "publisher_revision": "9bf43a292c6e906754744fef3b1a77c5e549410f",
+      "publisher_path": "LICENSE.txt",
+      "retrieved_utc": "2026-10-10",
+      "license": "BSD-3-Clause (code/docs); data public domain",
+      "sha256": "1ca78e1dec9dcebc55f3b96a862317f23e76422c5fc943568d955aad1f6b5fad"
+    },
+    "sm_doc_longley": {
+      "path": "eval_independent/sources/sm_doc_longley.py",
+      "url": "https://raw.githubusercontent.com/statsmodels/statsmodels/9bf43a292c6e906754744fef3b1a77c5e549410f/statsmodels/datasets/longley/data.py",
+      "publisher_revision": "9bf43a292c6e906754744fef3b1a77c5e549410f",
+      "publisher_path": "statsmodels/datasets/longley/data.py",
+      "retrieved_utc": "2026-10-10",
+      "license": "BSD-3-Clause (code/docs); data public domain",
+      "sha256": "d58585b1a6a6709c9f195698fad505a018f1300a75a781edc7268bd5600e98bb"
+    },
+    "sm_doc_nile": {
+      "path": "eval_independent/sources/sm_doc_nile.py",
+      "url": "https://raw.githubusercontent.com/statsmodels/statsmodels/9bf43a292c6e906754744fef3b1a77c5e549410f/statsmodels/datasets/nile/data.py",
+      "publisher_revision": "9bf43a292c6e906754744fef3b1a77c5e549410f",
+      "publisher_path": "statsmodels/datasets/nile/data.py",
+      "retrieved_utc": "2026-10-10",
+      "license": "BSD-3-Clause (code/docs); data public domain",
+      "sha256": "b50898c95381a1f6c422de85e0273a954a9555f52cd81d1c708bdcd9f718baea"
+    },
+    "sm_doc_sunspots": {
+      "path": "eval_independent/sources/sm_doc_sunspots.py",
+      "url": "https://raw.githubusercontent.com/statsmodels/statsmodels/9bf43a292c6e906754744fef3b1a77c5e549410f/statsmodels/datasets/sunspots/data.py",
+      "publisher_revision": "9bf43a292c6e906754744fef3b1a77c5e549410f",
+      "publisher_path": "statsmodels/datasets/sunspots/data.py",
+      "retrieved_utc": "2026-10-10",
+      "license": "BSD-3-Clause (code/docs); data public domain",
+      "sha256": "e48430787a0a8719117601bba1d63ed136c39db9c99212f75bb5bab88dca8263"
+    },
+    "sm_doc_engel": {
+      "path": "eval_independent/sources/sm_doc_engel.py",
+      "url": "https://raw.githubusercontent.com/statsmodels/statsmodels/9bf43a292c6e906754744fef3b1a77c5e549410f/statsmodels/datasets/engel/data.py",
+      "publisher_revision": "9bf43a292c6e906754744fef3b1a77c5e549410f",
+      "publisher_path": "statsmodels/datasets/engel/data.py",
+      "retrieved_utc": "2026-10-10",
+      "license": "BSD-3-Clause (code/docs); data public domain",
+      "sha256": "1178dc64e008d18360ac6852934bd0349dc82ad263cc66c75a3541ad4d7eef98"
+    },
+    "sm_doc_grunfeld": {
+      "path": "eval_independent/sources/sm_doc_grunfeld.py",
+      "url": "https://raw.githubusercontent.com/statsmodels/statsmodels/9bf43a292c6e906754744fef3b1a77c5e549410f/statsmodels/datasets/grunfeld/data.py",
+      "publisher_revision": "9bf43a292c6e906754744fef3b1a77c5e549410f",
+      "publisher_path": "statsmodels/datasets/grunfeld/data.py",
+      "retrieved_utc": "2026-10-10",
+      "license": "BSD-3-Clause (code/docs); data public domain",
+      "sha256": "3c9d790056170e8b11d76e01e8cb534f2b6a382265192b4a35556a05b545d73b"
+    },
+    "sm_doc_stackloss": {
+      "path": "eval_independent/sources/sm_doc_stackloss.py",
+      "url": "https://raw.githubusercontent.com/statsmodels/statsmodels/9bf43a292c6e906754744fef3b1a77c5e549410f/statsmodels/datasets/stackloss/data.py",
+      "publisher_revision": "9bf43a292c6e906754744fef3b1a77c5e549410f",
+      "publisher_path": "statsmodels/datasets/stackloss/data.py",
+      "retrieved_utc": "2026-10-10",
+      "license": "BSD-3-Clause (code/docs); data public domain",
+      "sha256": "aa4d67c6b8a3f29bcc46b1f4d5294bbcfd98d109df6018db74badd150d7e4285"
+    },
+    "sm_doc_elnino": {
+      "path": "eval_independent/sources/sm_doc_elnino.py",
+      "url": "https://raw.githubusercontent.com/statsmodels/statsmodels/9bf43a292c6e906754744fef3b1a77c5e549410f/statsmodels/datasets/elnino/data.py",
+      "publisher_revision": "9bf43a292c6e906754744fef3b1a77c5e549410f",
+      "publisher_path": "statsmodels/datasets/elnino/data.py",
+      "retrieved_utc": "2026-10-10",
+      "license": "BSD-3-Clause (code/docs); data public domain",
+      "sha256": "568eb9c241a993e5474e047261d55be46eb53026d79850cdb6fd97059d5fb090"
+    },
+    "quantreg_doc": {
+      "path": "eval_independent/sources/quantreg_doc.Rd",
+      "url": "https://raw.githubusercontent.com/cran/quantreg/43abb16645d5e78d1377896ebd19d760efd2ace9/man/engel.Rd",
+      "publisher_revision": "43abb16645d5e78d1377896ebd19d760efd2ace9",
+      "publisher_path": "man/engel.Rd",
+      "retrieved_utc": "2026-10-10",
+      "license": "GPL-2.0-or-later (quantreg DESCRIPTION); underlying data declared public domain by statsmodels",
+      "sha256": "2ee8bc679b1c59c03ce7bf69efbe9aa42ea6064bb0f5ac0c1b93c53c451480e3"
+    },
+    "quantreg_description": {
+      "path": "eval_independent/sources/quantreg_description.txt",
+      "url": "https://raw.githubusercontent.com/cran/quantreg/43abb16645d5e78d1377896ebd19d760efd2ace9/DESCRIPTION",
+      "publisher_revision": "43abb16645d5e78d1377896ebd19d760efd2ace9",
+      "publisher_path": "DESCRIPTION",
+      "retrieved_utc": "2026-10-10",
+      "license": "GPL-2.0-or-later (quantreg DESCRIPTION); underlying data declared public domain by statsmodels",
+      "sha256": "4c7f49c8a9d32518463563184b65882bc28bfb929c83b470ddbe6107ea690cbf"
+    },
+    "quantreg_data": {
+      "path": "eval_independent/sources/quantreg_data.rda",
+      "url": "https://raw.githubusercontent.com/cran/quantreg/43abb16645d5e78d1377896ebd19d760efd2ace9/data/engel.rda",
+      "publisher_revision": "43abb16645d5e78d1377896ebd19d760efd2ace9",
+      "publisher_path": "data/engel.rda",
+      "retrieved_utc": "2026-10-10",
+      "license": "GPL-2.0-or-later (quantreg DESCRIPTION); underlying data declared public domain by statsmodels",
+      "sha256": "098c8d7cb3a0bca51a86215a03036a0c5df854e8661bea074b625777056ca550"
+    },
+    "AER_doc": {
+      "path": "eval_independent/sources/AER_doc.Rd",
+      "url": "https://raw.githubusercontent.com/cran/AER/342a1842306047a279e47026c3800718221a3b2c/man/Grunfeld.Rd",
+      "publisher_revision": "342a1842306047a279e47026c3800718221a3b2c",
+      "publisher_path": "man/Grunfeld.Rd",
+      "retrieved_utc": "2026-10-10",
+      "license": "GPL-2.0 OR GPL-3.0 (AER DESCRIPTION); underlying data declared public domain by statsmodels",
+      "sha256": "529abd475456b67e8637f8f8fba5c335d26ff217d7b76d606dc0d4e1aaa8fe05"
+    },
+    "AER_description": {
+      "path": "eval_independent/sources/AER_description.txt",
+      "url": "https://raw.githubusercontent.com/cran/AER/342a1842306047a279e47026c3800718221a3b2c/DESCRIPTION",
+      "publisher_revision": "342a1842306047a279e47026c3800718221a3b2c",
+      "publisher_path": "DESCRIPTION",
+      "retrieved_utc": "2026-10-10",
+      "license": "GPL-2.0 OR GPL-3.0 (AER DESCRIPTION); underlying data declared public domain by statsmodels",
+      "sha256": "a59abc95755e562352e4001ee6bed55efa5679abc79e66f3fec2fad90412dfc7"
+    },
+    "AER_data": {
+      "path": "eval_independent/sources/AER_data.rda",
+      "url": "https://raw.githubusercontent.com/cran/AER/342a1842306047a279e47026c3800718221a3b2c/data/Grunfeld.rda",
+      "publisher_revision": "342a1842306047a279e47026c3800718221a3b2c",
+      "publisher_path": "data/Grunfeld.rda",
+      "retrieved_utc": "2026-10-10",
+      "license": "GPL-2.0 OR GPL-3.0 (AER DESCRIPTION); underlying data declared public domain by statsmodels",
+      "sha256": "682a5613bcebc0ed887567a4dfd8d13ce5292451498f548443a0bf907325a8ec"
+    },
+    "palmer_raw": {
+      "path": "eval_independent/sources/palmer_raw.csv",
+      "url": "https://raw.githubusercontent.com/allisonhorst/palmerpenguins/8957207b78d6ccd1b4654a9dd9c9041b657478ab/inst/extdata/penguins_raw.csv",
+      "publisher_revision": "8957207b78d6ccd1b4654a9dd9c9041b657478ab",
+      "publisher_path": "inst/extdata/penguins_raw.csv",
+      "retrieved_utc": "2026-10-10",
+      "license": "CC0-1.0",
+      "sha256": "144f623143c9360fd77322a4f86acb06dc198814dbd2669724c63e6457b907bd"
+    },
+    "palmer_tidy": {
+      "path": "eval_independent/sources/palmer_tidy.csv",
+      "url": "https://raw.githubusercontent.com/allisonhorst/palmerpenguins/8957207b78d6ccd1b4654a9dd9c9041b657478ab/inst/extdata/penguins.csv",
+      "publisher_revision": "8957207b78d6ccd1b4654a9dd9c9041b657478ab",
+      "publisher_path": "inst/extdata/penguins.csv",
+      "retrieved_utc": "2026-10-10",
+      "license": "CC0-1.0",
+      "sha256": "f204db2c753b0937caac3cb35258562c14f073e4bbc76be24b4c51ce22767a93"
+    },
+    "palmer_transform": {
+      "path": "eval_independent/sources/palmer_transform.R",
+      "url": "https://raw.githubusercontent.com/allisonhorst/palmerpenguins/8957207b78d6ccd1b4654a9dd9c9041b657478ab/data-raw/penguins.R",
+      "publisher_revision": "8957207b78d6ccd1b4654a9dd9c9041b657478ab",
+      "publisher_path": "data-raw/penguins.R",
+      "retrieved_utc": "2026-10-10",
+      "license": "CC0-1.0",
+      "sha256": "38f1af859cbaaa2154599a9f4f2167456056b1cbc943b8ecde2bb8a756d785e7"
+    },
+    "palmer_license": {
+      "path": "eval_independent/sources/palmer_license.md",
+      "url": "https://raw.githubusercontent.com/allisonhorst/palmerpenguins/8957207b78d6ccd1b4654a9dd9c9041b657478ab/LICENSE.md",
+      "publisher_revision": "8957207b78d6ccd1b4654a9dd9c9041b657478ab",
+      "publisher_path": "LICENSE.md",
+      "retrieved_utc": "2026-10-10",
+      "license": "CC0-1.0",
+      "sha256": "8e2c443dd9aea6fcd6c293dbf66935bd5ef502fc0ca9b466c773cf9316d5e04c"
+    },
+    "palmer_description": {
+      "path": "eval_independent/sources/palmer_description.txt",
+      "url": "https://raw.githubusercontent.com/allisonhorst/palmerpenguins/8957207b78d6ccd1b4654a9dd9c9041b657478ab/DESCRIPTION",
+      "publisher_revision": "8957207b78d6ccd1b4654a9dd9c9041b657478ab",
+      "publisher_path": "DESCRIPTION",
+      "retrieved_utc": "2026-10-10",
+      "license": "CC0-1.0",
+      "sha256": "71ffb68cb47285e2ea534da56b2e9af4532148542a063868c38646bd8c990a31"
+    },
+    "palmer_doc": {
+      "path": "eval_independent/sources/palmer_doc.Rd",
+      "url": "https://raw.githubusercontent.com/allisonhorst/palmerpenguins/8957207b78d6ccd1b4654a9dd9c9041b657478ab/man/penguins.Rd",
+      "publisher_revision": "8957207b78d6ccd1b4654a9dd9c9041b657478ab",
+      "publisher_path": "man/penguins.Rd",
+      "retrieved_utc": "2026-10-10",
+      "license": "CC0-1.0",
+      "sha256": "6579f70a366414740a610dea08147b8a69602b523bb14477f03836f2cc1e24ab"
+    },
+    "palmer_raw_doc": {
+      "path": "eval_independent/sources/palmer_raw_doc.Rd",
+      "url": "https://raw.githubusercontent.com/allisonhorst/palmerpenguins/8957207b78d6ccd1b4654a9dd9c9041b657478ab/man/penguins_raw.Rd",
+      "publisher_revision": "8957207b78d6ccd1b4654a9dd9c9041b657478ab",
+      "publisher_path": "man/penguins_raw.Rd",
+      "retrieved_utc": "2026-10-10",
+      "license": "CC0-1.0",
+      "sha256": "cfb72846ea2026c73fdd790644775356315398140c42db4ebbe090c76a33fe19"
+    },
+    "palmer_object": {
+      "path": "eval_independent/sources/palmer_object.R",
+      "url": "https://raw.githubusercontent.com/allisonhorst/palmerpenguins/8957207b78d6ccd1b4654a9dd9c9041b657478ab/data/penguins.R",
+      "publisher_revision": "8957207b78d6ccd1b4654a9dd9c9041b657478ab",
+      "publisher_path": "data/penguins.R",
+      "retrieved_utc": "2026-10-10",
+      "license": "CC0-1.0",
+      "sha256": "d41d74a31733e20a6078bd8ca42297e1832488de33c6c9c4623415854fc47a4a"
+    },
+    "nyc_description": {
+      "path": "eval_independent/sources/nyc_description.txt",
+      "url": "https://raw.githubusercontent.com/tidyverse/nycflights13/df98ef215aa8216fe0838a0b8ac5bada646d814c/DESCRIPTION",
+      "publisher_revision": "df98ef215aa8216fe0838a0b8ac5bada646d814c",
+      "publisher_path": "DESCRIPTION",
+      "retrieved_utc": "2026-10-10",
+      "license": "CC0-1.0",
+      "sha256": "fc512f64e84f131bdfc27e4aec818361970dec904e17c91df2100e177f12840b"
+    },
+    "nyc_data_flights": {
+      "path": "eval_independent/sources/nyc_data_flights.rda",
+      "url": "https://raw.githubusercontent.com/tidyverse/nycflights13/df98ef215aa8216fe0838a0b8ac5bada646d814c/data/flights.rda",
+      "publisher_revision": "df98ef215aa8216fe0838a0b8ac5bada646d814c",
+      "publisher_path": "data/flights.rda",
+      "retrieved_utc": "2026-10-10",
+      "license": "CC0-1.0",
+      "sha256": "30252b3d787e832c1f7c9cb5adf270ea595f54e5dcb1d96778463a58ff79e714"
+    },
+    "nyc_doc_flights": {
+      "path": "eval_independent/sources/nyc_doc_flights.Rd",
+      "url": "https://raw.githubusercontent.com/tidyverse/nycflights13/df98ef215aa8216fe0838a0b8ac5bada646d814c/man/flights.Rd",
+      "publisher_revision": "df98ef215aa8216fe0838a0b8ac5bada646d814c",
+      "publisher_path": "man/flights.Rd",
+      "retrieved_utc": "2026-10-10",
+      "license": "CC0-1.0",
+      "sha256": "5bdc5b7ee76e25a26d7c7a333c6d5d0c1a9f06d759726914ac369d970ebecb4e"
+    },
+    "nyc_transform_flights": {
+      "path": "eval_independent/sources/nyc_transform_flights.R",
+      "url": "https://raw.githubusercontent.com/tidyverse/nycflights13/df98ef215aa8216fe0838a0b8ac5bada646d814c/data-raw/flights.R",
+      "publisher_revision": "df98ef215aa8216fe0838a0b8ac5bada646d814c",
+      "publisher_path": "data-raw/flights.R",
+      "retrieved_utc": "2026-10-10",
+      "license": "CC0-1.0",
+      "sha256": "0786c7bd47df35050067d2299f7cf6e5450695fd58c1a2c10b230ae409a5cad5"
+    },
+    "nyc_data_planes": {
+      "path": "eval_independent/sources/nyc_data_planes.rda",
+      "url": "https://raw.githubusercontent.com/tidyverse/nycflights13/df98ef215aa8216fe0838a0b8ac5bada646d814c/data/planes.rda",
+      "publisher_revision": "df98ef215aa8216fe0838a0b8ac5bada646d814c",
+      "publisher_path": "data/planes.rda",
+      "retrieved_utc": "2026-10-10",
+      "license": "CC0-1.0",
+      "sha256": "64851bb6f3b84d104841687ba55b0da3d4aa446d8839fd35584f8521b2001966"
+    },
+    "nyc_doc_planes": {
+      "path": "eval_independent/sources/nyc_doc_planes.Rd",
+      "url": "https://raw.githubusercontent.com/tidyverse/nycflights13/df98ef215aa8216fe0838a0b8ac5bada646d814c/man/planes.Rd",
+      "publisher_revision": "df98ef215aa8216fe0838a0b8ac5bada646d814c",
+      "publisher_path": "man/planes.Rd",
+      "retrieved_utc": "2026-10-10",
+      "license": "CC0-1.0",
+      "sha256": "59b10f651b541c7d171331631d41f3d4e07d0dbbd9540a6987790b3d9eb6cbfd"
+    },
+    "nyc_transform_planes": {
+      "path": "eval_independent/sources/nyc_transform_planes.R",
+      "url": "https://raw.githubusercontent.com/tidyverse/nycflights13/df98ef215aa8216fe0838a0b8ac5bada646d814c/data-raw/planes.R",
+      "publisher_revision": "df98ef215aa8216fe0838a0b8ac5bada646d814c",
+      "publisher_path": "data-raw/planes.R",
+      "retrieved_utc": "2026-10-10",
+      "license": "CC0-1.0",
+      "sha256": "847c6c0044719a57a71cea3b92d88e5a0309011507189b7e5c9a0ec93d7fdf26"
+    },
+    "nyc_data_weather": {
+      "path": "eval_independent/sources/nyc_data_weather.rda",
+      "url": "https://raw.githubusercontent.com/tidyverse/nycflights13/df98ef215aa8216fe0838a0b8ac5bada646d814c/data/weather.rda",
+      "publisher_revision": "df98ef215aa8216fe0838a0b8ac5bada646d814c",
+      "publisher_path": "data/weather.rda",
+      "retrieved_utc": "2026-10-10",
+      "license": "CC0-1.0",
+      "sha256": "898f2fe9d78cf22dfb16e8275d5fdb59468a4a5b5ec3917fc47e52054c29397b"
+    },
+    "nyc_doc_weather": {
+      "path": "eval_independent/sources/nyc_doc_weather.Rd",
+      "url": "https://raw.githubusercontent.com/tidyverse/nycflights13/df98ef215aa8216fe0838a0b8ac5bada646d814c/man/weather.Rd",
+      "publisher_revision": "df98ef215aa8216fe0838a0b8ac5bada646d814c",
+      "publisher_path": "man/weather.Rd",
+      "retrieved_utc": "2026-10-10",
+      "license": "CC0-1.0",
+      "sha256": "8c8efc1cf4461574bd317599b110526f329621c8e6ad88f797b9244bc412c3cb"
+    },
+    "nyc_transform_weather": {
+      "path": "eval_independent/sources/nyc_transform_weather.R",
+      "url": "https://raw.githubusercontent.com/tidyverse/nycflights13/df98ef215aa8216fe0838a0b8ac5bada646d814c/data-raw/weather.R",
+      "publisher_revision": "df98ef215aa8216fe0838a0b8ac5bada646d814c",
+      "publisher_path": "data-raw/weather.R",
+      "retrieved_utc": "2026-10-10",
+      "license": "CC0-1.0",
+      "sha256": "7f13dfeceeb00f323f1c7baa850c7ce7f8fa8b98a72739b4d462fac3d262897d"
+    },
+    "nyc_data_airlines": {
+      "path": "eval_independent/sources/nyc_data_airlines.rda",
+      "url": "https://raw.githubusercontent.com/tidyverse/nycflights13/df98ef215aa8216fe0838a0b8ac5bada646d814c/data/airlines.rda",
+      "publisher_revision": "df98ef215aa8216fe0838a0b8ac5bada646d814c",
+      "publisher_path": "data/airlines.rda",
+      "retrieved_utc": "2026-10-10",
+      "license": "CC0-1.0",
+      "sha256": "aa0eedd28acbbe85605c4a8a52d56f4b07968a513b25b4a71ace408b378e52aa"
+    },
+    "nyc_doc_airlines": {
+      "path": "eval_independent/sources/nyc_doc_airlines.Rd",
+      "url": "https://raw.githubusercontent.com/tidyverse/nycflights13/df98ef215aa8216fe0838a0b8ac5bada646d814c/man/airlines.Rd",
+      "publisher_revision": "df98ef215aa8216fe0838a0b8ac5bada646d814c",
+      "publisher_path": "man/airlines.Rd",
+      "retrieved_utc": "2026-10-10",
+      "license": "CC0-1.0",
+      "sha256": "569795db5fff0c6d1eb46927600aeae1df3138b9a2f7c64e328a85a048743ada"
+    },
+    "nyc_transform_airlines": {
+      "path": "eval_independent/sources/nyc_transform_airlines.R",
+      "url": "https://raw.githubusercontent.com/tidyverse/nycflights13/df98ef215aa8216fe0838a0b8ac5bada646d814c/data-raw/airlines.R",
+      "publisher_revision": "df98ef215aa8216fe0838a0b8ac5bada646d814c",
+      "publisher_path": "data-raw/airlines.R",
+      "retrieved_utc": "2026-10-10",
+      "license": "CC0-1.0",
+      "sha256": "f0673c54b575da777c044936d78259e2f2eab964fc9e289fb45cbc8db7cb9ec7"
+    },
+    "palmer_native": {
+      "path": "eval_independent/sources/palmer_native.rda",
+      "url": "https://raw.githubusercontent.com/allisonhorst/palmerpenguins/8957207b78d6ccd1b4654a9dd9c9041b657478ab/R/sysdata.rda",
+      "publisher_revision": "8957207b78d6ccd1b4654a9dd9c9041b657478ab",
+      "publisher_path": "R/sysdata.rda",
+      "retrieved_utc": "2026-10-10",
+      "license": "CC0-1.0",
+      "sha256": "8140c45febc01756a54aaaba585af8c28d248bd193b10bd82bb356e961e7e639"
+    },
+    "csv_AER_Grunfeld": {
+      "path": "eval_independent/sources/AER_Grunfeld.csv",
+      "url": "https://raw.githubusercontent.com/vincentarelbundock/Rdatasets/1dcc2bf5f955cc1224a3e1307256e1fe86b68dae/csv/AER/Grunfeld.csv",
+      "publisher_revision": "1dcc2bf5f955cc1224a3e1307256e1fe86b68dae",
+      "publisher_path": "csv/AER/Grunfeld.csv",
+      "retrieved_utc": "2026-10-10",
+      "license": "Upstream R package license, not Rdatasets repository code license; see notices and upstream evidence",
+      "sha256": "5193b2005783964507fe7c8b652c5370fdab2df2bd2e420a334d292fa92a29df"
+    },
+    "csv_datasets_Nile": {
+      "path": "eval_independent/sources/datasets_Nile.csv",
+      "url": "https://raw.githubusercontent.com/vincentarelbundock/Rdatasets/1dcc2bf5f955cc1224a3e1307256e1fe86b68dae/csv/datasets/Nile.csv",
+      "publisher_revision": "1dcc2bf5f955cc1224a3e1307256e1fe86b68dae",
+      "publisher_path": "csv/datasets/Nile.csv",
+      "retrieved_utc": "2026-10-10",
+      "license": "Upstream R package license, not Rdatasets repository code license; see notices and upstream evidence",
+      "sha256": "d0452bea38c61e796a4eeb950bf91d20fb5c7f13d5822eadf5990fe54f9c8d07"
+    },
+    "csv_datasets_Seatbelts": {
+      "path": "eval_independent/sources/datasets_Seatbelts.csv",
+      "url": "https://raw.githubusercontent.com/vincentarelbundock/Rdatasets/1dcc2bf5f955cc1224a3e1307256e1fe86b68dae/csv/datasets/Seatbelts.csv",
+      "publisher_revision": "1dcc2bf5f955cc1224a3e1307256e1fe86b68dae",
+      "publisher_path": "csv/datasets/Seatbelts.csv",
+      "retrieved_utc": "2026-10-10",
+      "license": "Upstream R package license, not Rdatasets repository code license; see notices and upstream evidence",
+      "sha256": "61f8faf2aba26fc848054e34e1abedbb292e01aa535cb2d3a9ecce8570b52567"
+    },
+    "csv_datasets_UKDriverDeaths": {
+      "path": "eval_independent/sources/datasets_UKDriverDeaths.csv",
+      "url": "https://raw.githubusercontent.com/vincentarelbundock/Rdatasets/1dcc2bf5f955cc1224a3e1307256e1fe86b68dae/csv/datasets/UKDriverDeaths.csv",
+      "publisher_revision": "1dcc2bf5f955cc1224a3e1307256e1fe86b68dae",
+      "publisher_path": "csv/datasets/UKDriverDeaths.csv",
+      "retrieved_utc": "2026-10-10",
+      "license": "Upstream R package license, not Rdatasets repository code license; see notices and upstream evidence",
+      "sha256": "5ea8754082b2a4649966f6f639dc8a06fef2a1e2f7e3a41a372501986369179f"
+    },
+    "csv_datasets_USArrests": {
+      "path": "eval_independent/sources/datasets_USArrests.csv",
+      "url": "https://raw.githubusercontent.com/vincentarelbundock/Rdatasets/1dcc2bf5f955cc1224a3e1307256e1fe86b68dae/csv/datasets/USArrests.csv",
+      "publisher_revision": "1dcc2bf5f955cc1224a3e1307256e1fe86b68dae",
+      "publisher_path": "csv/datasets/USArrests.csv",
+      "retrieved_utc": "2026-10-10",
+      "license": "Upstream R package license, not Rdatasets repository code license; see notices and upstream evidence",
+      "sha256": "30e78bf58b16929f71f84435580d0aa67910d56a08360dfb5c7b22e0c65d6eba"
+    },
+    "csv_datasets_airmiles": {
+      "path": "eval_independent/sources/datasets_airmiles.csv",
+      "url": "https://raw.githubusercontent.com/vincentarelbundock/Rdatasets/1dcc2bf5f955cc1224a3e1307256e1fe86b68dae/csv/datasets/airmiles.csv",
+      "publisher_revision": "1dcc2bf5f955cc1224a3e1307256e1fe86b68dae",
+      "publisher_path": "csv/datasets/airmiles.csv",
+      "retrieved_utc": "2026-10-10",
+      "license": "Upstream R package license, not Rdatasets repository code license; see notices and upstream evidence",
+      "sha256": "097cfc50332da524d4596d2d44075f3210bc3fd94db91549548aa4d5b9d9bc40"
+    },
+    "csv_datasets_faithful": {
+      "path": "eval_independent/sources/datasets_faithful.csv",
+      "url": "https://raw.githubusercontent.com/vincentarelbundock/Rdatasets/1dcc2bf5f955cc1224a3e1307256e1fe86b68dae/csv/datasets/faithful.csv",
+      "publisher_revision": "1dcc2bf5f955cc1224a3e1307256e1fe86b68dae",
+      "publisher_path": "csv/datasets/faithful.csv",
+      "retrieved_utc": "2026-10-10",
+      "license": "Upstream R package license, not Rdatasets repository code license; see notices and upstream evidence",
+      "sha256": "5043db1e2c51c8e8fd67e0868c768ae589770cc76ad0ac0c5b7afd1fca31fc57"
+    },
+    "csv_datasets_longley": {
+      "path": "eval_independent/sources/datasets_longley.csv",
+      "url": "https://raw.githubusercontent.com/vincentarelbundock/Rdatasets/1dcc2bf5f955cc1224a3e1307256e1fe86b68dae/csv/datasets/longley.csv",
+      "publisher_revision": "1dcc2bf5f955cc1224a3e1307256e1fe86b68dae",
+      "publisher_path": "csv/datasets/longley.csv",
+      "retrieved_utc": "2026-10-10",
+      "license": "Upstream R package license, not Rdatasets repository code license; see notices and upstream evidence",
+      "sha256": "1283706d84cb7697111b42a6aed3aca222df1cda2ed1c3d4913b713b94a5e516"
+    },
+    "csv_datasets_stackloss": {
+      "path": "eval_independent/sources/datasets_stackloss.csv",
+      "url": "https://raw.githubusercontent.com/vincentarelbundock/Rdatasets/1dcc2bf5f955cc1224a3e1307256e1fe86b68dae/csv/datasets/stackloss.csv",
+      "publisher_revision": "1dcc2bf5f955cc1224a3e1307256e1fe86b68dae",
+      "publisher_path": "csv/datasets/stackloss.csv",
+      "retrieved_utc": "2026-10-10",
+      "license": "Upstream R package license, not Rdatasets repository code license; see notices and upstream evidence",
+      "sha256": "5e038eca20714e6d2c88019d98007a11e1efeecaac83b8490793bd2868ca07ef"
+    },
+    "csv_datasets_state.x77": {
+      "path": "eval_independent/sources/datasets_state.x77.csv",
+      "url": "https://raw.githubusercontent.com/vincentarelbundock/Rdatasets/1dcc2bf5f955cc1224a3e1307256e1fe86b68dae/csv/datasets/state.x77.csv",
+      "publisher_revision": "1dcc2bf5f955cc1224a3e1307256e1fe86b68dae",
+      "publisher_path": "csv/datasets/state.x77.csv",
+      "retrieved_utc": "2026-10-10",
+      "license": "Upstream R package license, not Rdatasets repository code license; see notices and upstream evidence",
+      "sha256": "f2a0904b8c0287dfa4b255916d82623e79a8cdef5a3d7dd8bdebc913fdd58715"
+    },
+    "csv_datasets_sunspot.year": {
+      "path": "eval_independent/sources/datasets_sunspot.year.csv",
+      "url": "https://raw.githubusercontent.com/vincentarelbundock/Rdatasets/1dcc2bf5f955cc1224a3e1307256e1fe86b68dae/csv/datasets/sunspot.year.csv",
+      "publisher_revision": "1dcc2bf5f955cc1224a3e1307256e1fe86b68dae",
+      "publisher_path": "csv/datasets/sunspot.year.csv",
+      "retrieved_utc": "2026-10-10",
+      "license": "Upstream R package license, not Rdatasets repository code license; see notices and upstream evidence",
+      "sha256": "f6d6b62da79feac7408cd876efff2bf9c9853fd6b76b59ed3717a51d997764f9"
+    },
+    "csv_quantreg_engel": {
+      "path": "eval_independent/sources/quantreg_engel.csv",
+      "url": "https://raw.githubusercontent.com/vincentarelbundock/Rdatasets/1dcc2bf5f955cc1224a3e1307256e1fe86b68dae/csv/quantreg/engel.csv",
+      "publisher_revision": "1dcc2bf5f955cc1224a3e1307256e1fe86b68dae",
+      "publisher_path": "csv/quantreg/engel.csv",
+      "retrieved_utc": "2026-10-10",
+      "license": "Upstream R package license, not Rdatasets repository code license; see notices and upstream evidence",
+      "sha256": "9af578624f649277f7ff4f3b248c274714c435601a39f8be73cc208cfb4101ea"
+    }
+  },
+  "views": {
+    "penguins_raw": {
+      "resource": "palmer_raw",
+      "format": "csv",
+      "fields": [
+        {
+          "name": "studyName",
+          "data_type": "text"
+        },
+        {
+          "name": "Sample Number",
+          "data_type": "float"
+        },
+        {
+          "name": "Species",
+          "data_type": "text"
+        },
+        {
+          "name": "Region",
+          "data_type": "text"
+        },
+        {
+          "name": "Island",
+          "data_type": "text"
+        },
+        {
+          "name": "Stage",
+          "data_type": "text"
+        },
+        {
+          "name": "Individual ID",
+          "data_type": "text"
+        },
+        {
+          "name": "Clutch Completion",
+          "data_type": "text"
+        },
+        {
+          "name": "Date Egg",
+          "data_type": "date"
+        },
+        {
+          "name": "Culmen Length (mm)",
+          "data_type": "float"
+        },
+        {
+          "name": "Culmen Depth (mm)",
+          "data_type": "float"
+        },
+        {
+          "name": "Flipper Length (mm)",
+          "data_type": "float"
+        },
+        {
+          "name": "Body Mass (g)",
+          "data_type": "float"
+        },
+        {
+          "name": "Sex",
+          "data_type": "text"
+        },
+        {
+          "name": "Delta 15 N (o/oo)",
+          "data_type": "float"
+        },
+        {
+          "name": "Delta 13 C (o/oo)",
+          "data_type": "float"
+        },
+        {
+          "name": "Comments",
+          "data_type": "text"
+        }
+      ],
+      "rows": 344,
+      "type_evidence": [
+        "palmer_native",
+        "palmer_raw_doc",
+        "palmer_transform"
+      ],
+      "original_source_urls": [
+        "https://doi.org/10.1371/journal.pone.0090081",
+        "https://doi.org/10.6073/pasta/abc50eed9138b75f54eaada0841b9b86",
+        "https://doi.org/10.6073/pasta/2b1cff60f81640f182433d23e68541ce",
+        "https://doi.org/10.6073/pasta/409c808f8fc9899d02401bdb04580af7"
+      ],
+      "notes": "Raw CSV preserves published spellings. R storage: readr double/character/Date. Upstream documentation cites newer EDI versions than the transform; the archived bytes and commit identify the edition used.",
+      "excluded_fields": []
+    },
+    "penguins": {
+      "resource": "palmer_tidy",
+      "format": "csv",
+      "fields": [
+        {
+          "name": "species",
+          "data_type": "text"
+        },
+        {
+          "name": "island",
+          "data_type": "text"
+        },
+        {
+          "name": "bill_length_mm",
+          "data_type": "float"
+        },
+        {
+          "name": "bill_depth_mm",
+          "data_type": "float"
+        },
+        {
+          "name": "flipper_length_mm",
+          "data_type": "integer"
+        },
+        {
+          "name": "body_mass_g",
+          "data_type": "integer"
+        },
+        {
+          "name": "sex",
+          "data_type": "text"
+        },
+        {
+          "name": "year",
+          "data_type": "integer"
+        }
+      ],
+      "rows": 344,
+      "type_evidence": [
+        "palmer_native",
+        "palmer_doc",
+        "palmer_transform"
+      ],
+      "original_source_urls": [
+        "https://doi.org/10.1371/journal.pone.0090081",
+        "https://doi.org/10.6073/pasta/abc50eed9138b75f54eaada0841b9b86",
+        "https://doi.org/10.6073/pasta/2b1cff60f81640f182433d23e68541ce",
+        "https://doi.org/10.6073/pasta/409c808f8fc9899d02401bdb04580af7"
+      ],
+      "notes": "Publisher-cleaned eight-field view; factors map to text, int32 to integer, double to float.",
+      "excluded_fields": []
+    },
+    "planes": {
+      "resource": "nyc_data_planes",
+      "format": "rda",
+      "object": "planes",
+      "fields": [
+        {
+          "name": "tailnum",
+          "data_type": "text"
+        },
+        {
+          "name": "year",
+          "data_type": "integer"
+        },
+        {
+          "name": "type",
+          "data_type": "text"
+        },
+        {
+          "name": "manufacturer",
+          "data_type": "text"
+        },
+        {
+          "name": "model",
+          "data_type": "text"
+        },
+        {
+          "name": "engines",
+          "data_type": "integer"
+        },
+        {
+          "name": "seats",
+          "data_type": "integer"
+        },
+        {
+          "name": "speed",
+          "data_type": "integer"
+        },
+        {
+          "name": "engine",
+          "data_type": "text"
+        }
+      ],
+      "rows": 3322,
+      "type_evidence": [
+        "nyc_doc_planes",
+        "nyc_transform_planes",
+        "nyc_description"
+      ],
+      "original_source_urls": [
+        "http://registry.faa.gov/database/AR062014.zip"
+      ],
+      "notes": "June 2014 FAA aircraft registry, publisher-cleaned nycflights13 view. year is manufacture year.",
+      "excluded_fields": []
+    },
+    "airlines": {
+      "resource": "nyc_data_airlines",
+      "format": "rda",
+      "object": "airlines",
+      "fields": [
+        {
+          "name": "carrier",
+          "data_type": "text"
+        },
+        {
+          "name": "name",
+          "data_type": "text"
+        }
+      ],
+      "rows": 16,
+      "type_evidence": [
+        "nyc_doc_airlines",
+        "nyc_transform_airlines",
+        "nyc_description"
+      ],
+      "original_source_urls": [
+        "https://www.transtats.bts.gov/Download_Lookup.asp?Lookup=L_UNIQUE_CARRIERS"
+      ],
+      "notes": "BTS carrier code lookup, semi-joined to flights by publisher.",
+      "excluded_fields": []
+    },
+    "flights": {
+      "resource": "nyc_data_flights",
+      "format": "rda",
+      "object": "flights",
+      "fields": [
+        {
+          "name": "year",
+          "data_type": "integer"
+        },
+        {
+          "name": "month",
+          "data_type": "integer"
+        },
+        {
+          "name": "day",
+          "data_type": "integer"
+        },
+        {
+          "name": "dep_time",
+          "data_type": "integer"
+        },
+        {
+          "name": "sched_dep_time",
+          "data_type": "integer"
+        },
+        {
+          "name": "dep_delay",
+          "data_type": "float"
+        },
+        {
+          "name": "arr_time",
+          "data_type": "integer"
+        },
+        {
+          "name": "sched_arr_time",
+          "data_type": "integer"
+        },
+        {
+          "name": "arr_delay",
+          "data_type": "float"
+        },
+        {
+          "name": "carrier",
+          "data_type": "text"
+        },
+        {
+          "name": "flight",
+          "data_type": "integer"
+        },
+        {
+          "name": "tailnum",
+          "data_type": "text"
+        },
+        {
+          "name": "origin",
+          "data_type": "text"
+        },
+        {
+          "name": "dest",
+          "data_type": "text"
+        },
+        {
+          "name": "air_time",
+          "data_type": "float"
+        },
+        {
+          "name": "distance",
+          "data_type": "float"
+        },
+        {
+          "name": "hour",
+          "data_type": "float"
+        },
+        {
+          "name": "minute",
+          "data_type": "float"
+        },
+        {
+          "name": "time_hour",
+          "data_type": "timestamp"
+        }
+      ],
+      "rows": 336776,
+      "type_evidence": [
+        "nyc_doc_flights",
+        "nyc_transform_flights",
+        "nyc_description"
+      ],
+      "original_source_urls": [
+        "https://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=236"
+      ],
+      "notes": "2013 NYC departures, publisher-cleaned BTS view. POSIXct time_hour is rendered as UTC ISO 8601; it identifies the same instant as the publisher America/New_York value.",
+      "excluded_fields": []
+    },
+    "weather": {
+      "resource": "nyc_data_weather",
+      "format": "rda",
+      "object": "weather",
+      "fields": [
+        {
+          "name": "origin",
+          "data_type": "text"
+        },
+        {
+          "name": "year",
+          "data_type": "integer"
+        },
+        {
+          "name": "month",
+          "data_type": "integer"
+        },
+        {
+          "name": "day",
+          "data_type": "integer"
+        },
+        {
+          "name": "hour",
+          "data_type": "integer"
+        },
+        {
+          "name": "temp",
+          "data_type": "float"
+        },
+        {
+          "name": "dewp",
+          "data_type": "float"
+        },
+        {
+          "name": "humid",
+          "data_type": "float"
+        },
+        {
+          "name": "wind_dir",
+          "data_type": "float"
+        },
+        {
+          "name": "wind_speed",
+          "data_type": "float"
+        },
+        {
+          "name": "wind_gust",
+          "data_type": "float"
+        },
+        {
+          "name": "precip",
+          "data_type": "float"
+        },
+        {
+          "name": "pressure",
+          "data_type": "float"
+        },
+        {
+          "name": "visib",
+          "data_type": "float"
+        },
+        {
+          "name": "time_hour",
+          "data_type": "timestamp"
+        }
+      ],
+      "rows": 26115,
+      "type_evidence": [
+        "nyc_doc_weather",
+        "nyc_transform_weather",
+        "nyc_description"
+      ],
+      "original_source_urls": [
+        "https://mesonet.agron.iastate.edu/request/download.phtml?network=NY_ASOS"
+      ],
+      "notes": "Iowa Environmental Mesonet NY_ASOS observations; airport/calendar/hour keys normalized explicitly by publisher to match flights lookup structure. Native R int32/double/character/POSIXct types retained.",
+      "excluded_fields": []
+    },
+    "r_longley": {
+      "resource": "csv_datasets_longley",
+      "format": "csv",
+      "fields": [
+        {
+          "name": "GNP.deflator",
+          "data_type": "float"
+        },
+        {
+          "name": "GNP",
+          "data_type": "float"
+        },
+        {
+          "name": "Unemployed",
+          "data_type": "float"
+        },
+        {
+          "name": "Armed.Forces",
+          "data_type": "float"
+        },
+        {
+          "name": "Population",
+          "data_type": "float"
+        },
+        {
+          "name": "Year",
+          "data_type": "integer"
+        },
+        {
+          "name": "Employed",
+          "data_type": "float"
+        }
+      ],
+      "rows": 16,
+      "type_evidence": [
+        "r_data_longley",
+        "r_man_longley"
+      ],
+      "original_source_urls": [
+        "https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/longley.html"
+      ],
+      "notes": "Rdatasets is only the CSV transport mirror. Types come from the upstream R object constructors / documented numeric matrix, not CSV inference. Local numeric row indices are omitted, including the duplicate longley year row label. Meaningful state row labels are retained. Time-series time/value are published CSV column names, not invented aliases.",
+      "excluded_fields": [
+        "rownames"
+      ]
+    },
+    "r_nile": {
+      "resource": "csv_datasets_Nile",
+      "format": "csv",
+      "fields": [
+        {
+          "name": "time",
+          "data_type": "float"
+        },
+        {
+          "name": "value",
+          "data_type": "float"
+        }
+      ],
+      "rows": 100,
+      "type_evidence": [
+        "r_data_Nile",
+        "r_man_Nile"
+      ],
+      "original_source_urls": [
+        "https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/Nile.html"
+      ],
+      "notes": "Rdatasets is only the CSV transport mirror. Types come from the upstream R object constructors / documented numeric matrix, not CSV inference. Local numeric row indices are omitted, including the duplicate longley year row label. Meaningful state row labels are retained. Time-series time/value are published CSV column names, not invented aliases.",
+      "excluded_fields": [
+        "rownames"
+      ]
+    },
+    "r_sunspots": {
+      "resource": "csv_datasets_sunspot.year",
+      "format": "csv",
+      "fields": [
+        {
+          "name": "time",
+          "data_type": "float"
+        },
+        {
+          "name": "value",
+          "data_type": "float"
+        }
+      ],
+      "rows": 289,
+      "type_evidence": [
+        "r_data_sunspot.year",
+        "r_man_sunspot.year"
+      ],
+      "original_source_urls": [
+        "https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/sunspot.year.html"
+      ],
+      "notes": "Rdatasets is only the CSV transport mirror. Types come from the upstream R object constructors / documented numeric matrix, not CSV inference. Local numeric row indices are omitted, including the duplicate longley year row label. Meaningful state row labels are retained. Time-series time/value are published CSV column names, not invented aliases.",
+      "excluded_fields": [
+        "rownames"
+      ]
+    },
+    "r_stackloss": {
+      "resource": "csv_datasets_stackloss",
+      "format": "csv",
+      "fields": [
+        {
+          "name": "Air.Flow",
+          "data_type": "float"
+        },
+        {
+          "name": "Water.Temp",
+          "data_type": "float"
+        },
+        {
+          "name": "Acid.Conc.",
+          "data_type": "float"
+        },
+        {
+          "name": "stack.loss",
+          "data_type": "float"
+        }
+      ],
+      "rows": 21,
+      "type_evidence": [
+        "r_data_stackloss",
+        "r_man_stackloss"
+      ],
+      "original_source_urls": [
+        "https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/stackloss.html"
+      ],
+      "notes": "Rdatasets is only the CSV transport mirror. Types come from the upstream R object constructors / documented numeric matrix, not CSV inference. Local numeric row indices are omitted, including the duplicate longley year row label. Meaningful state row labels are retained. Time-series time/value are published CSV column names, not invented aliases.",
+      "excluded_fields": [
+        "rownames"
+      ]
+    },
+    "r_seatbelts": {
+      "resource": "csv_datasets_Seatbelts",
+      "format": "csv",
+      "fields": [
+        {
+          "name": "DriversKilled",
+          "data_type": "float"
+        },
+        {
+          "name": "drivers",
+          "data_type": "float"
+        },
+        {
+          "name": "front",
+          "data_type": "float"
+        },
+        {
+          "name": "rear",
+          "data_type": "float"
+        },
+        {
+          "name": "kms",
+          "data_type": "float"
+        },
+        {
+          "name": "PetrolPrice",
+          "data_type": "float"
+        },
+        {
+          "name": "VanKilled",
+          "data_type": "float"
+        },
+        {
+          "name": "law",
+          "data_type": "float"
+        }
+      ],
+      "rows": 192,
+      "type_evidence": [
+        "r_data_Seatbelts",
+        "r_man_UKDriverDeaths"
+      ],
+      "original_source_urls": [
+        "https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/UKDriverDeaths.html"
+      ],
+      "notes": "Rdatasets is only the CSV transport mirror. Types come from the upstream R object constructors / documented numeric matrix, not CSV inference. Local numeric row indices are omitted, including the duplicate longley year row label. Meaningful state row labels are retained. Time-series time/value are published CSV column names, not invented aliases.",
+      "excluded_fields": [
+        "rownames"
+      ]
+    },
+    "r_driver_casualties": {
+      "resource": "csv_datasets_UKDriverDeaths",
+      "format": "csv",
+      "fields": [
+        {
+          "name": "time",
+          "data_type": "float"
+        },
+        {
+          "name": "value",
+          "data_type": "float"
+        }
+      ],
+      "rows": 192,
+      "type_evidence": [
+        "r_data_UKDriverDeaths",
+        "r_man_UKDriverDeaths"
+      ],
+      "original_source_urls": [
+        "https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/UKDriverDeaths.html"
+      ],
+      "notes": "Rdatasets is only the CSV transport mirror. Types come from the upstream R object constructors / documented numeric matrix, not CSV inference. Local numeric row indices are omitted, including the duplicate longley year row label. Meaningful state row labels are retained. Time-series time/value are published CSV column names, not invented aliases.",
+      "excluded_fields": [
+        "rownames"
+      ]
+    },
+    "r_arrests": {
+      "resource": "csv_datasets_USArrests",
+      "format": "csv",
+      "fields": [
+        {
+          "name": "rownames",
+          "data_type": "text"
+        },
+        {
+          "name": "Murder",
+          "data_type": "float"
+        },
+        {
+          "name": "Assault",
+          "data_type": "float"
+        },
+        {
+          "name": "UrbanPop",
+          "data_type": "float"
+        },
+        {
+          "name": "Rape",
+          "data_type": "float"
+        }
+      ],
+      "rows": 50,
+      "type_evidence": [
+        "r_data_USArrests",
+        "r_man_USArrests"
+      ],
+      "original_source_urls": [
+        "https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/USArrests.html"
+      ],
+      "notes": "Rdatasets is only the CSV transport mirror. Types come from the upstream R object constructors / documented numeric matrix, not CSV inference. Local numeric row indices are omitted, including the duplicate longley year row label. Meaningful state row labels are retained. Time-series time/value are published CSV column names, not invented aliases.",
+      "excluded_fields": []
+    },
+    "r_states": {
+      "resource": "csv_datasets_state.x77",
+      "format": "csv",
+      "fields": [
+        {
+          "name": "rownames",
+          "data_type": "text"
+        },
+        {
+          "name": "Population",
+          "data_type": "float"
+        },
+        {
+          "name": "Income",
+          "data_type": "float"
+        },
+        {
+          "name": "Illiteracy",
+          "data_type": "float"
+        },
+        {
+          "name": "Life Exp",
+          "data_type": "float"
+        },
+        {
+          "name": "Murder",
+          "data_type": "float"
+        },
+        {
+          "name": "HS Grad",
+          "data_type": "float"
+        },
+        {
+          "name": "Frost",
+          "data_type": "float"
+        },
+        {
+          "name": "Area",
+          "data_type": "float"
+        }
+      ],
+      "rows": 50,
+      "type_evidence": [
+        "r_data_state",
+        "r_man_state"
+      ],
+      "original_source_urls": [
+        "https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/state.html"
+      ],
+      "notes": "Rdatasets is only the CSV transport mirror. Types come from the upstream R object constructors / documented numeric matrix, not CSV inference. Local numeric row indices are omitted, including the duplicate longley year row label. Meaningful state row labels are retained. Time-series time/value are published CSV column names, not invented aliases.",
+      "excluded_fields": []
+    },
+    "r_faithful": {
+      "resource": "csv_datasets_faithful",
+      "format": "csv",
+      "fields": [
+        {
+          "name": "eruptions",
+          "data_type": "float"
+        },
+        {
+          "name": "waiting",
+          "data_type": "float"
+        }
+      ],
+      "rows": 272,
+      "type_evidence": [
+        "r_data_faithful",
+        "r_man_faithful"
+      ],
+      "original_source_urls": [
+        "https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/faithful.html"
+      ],
+      "notes": "Rdatasets is only the CSV transport mirror. Types come from the upstream R object constructors / documented numeric matrix, not CSV inference. Local numeric row indices are omitted, including the duplicate longley year row label. Meaningful state row labels are retained. Time-series time/value are published CSV column names, not invented aliases.",
+      "excluded_fields": [
+        "rownames"
+      ]
+    },
+    "r_airmiles": {
+      "resource": "csv_datasets_airmiles",
+      "format": "csv",
+      "fields": [
+        {
+          "name": "time",
+          "data_type": "float"
+        },
+        {
+          "name": "value",
+          "data_type": "float"
+        }
+      ],
+      "rows": 24,
+      "type_evidence": [
+        "r_data_airmiles",
+        "r_man_airmiles"
+      ],
+      "original_source_urls": [
+        "https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/airmiles.html",
+        "https://www.faa.gov/data_research/aviation_data_statistics"
+      ],
+      "notes": "Rdatasets is only the CSV transport mirror. Types come from the upstream R object constructors / documented numeric matrix, not CSV inference. Local numeric row indices are omitted, including the duplicate longley year row label. Meaningful state row labels are retained. Time-series time/value are published CSV column names, not invented aliases.",
+      "excluded_fields": [
+        "rownames"
+      ]
+    },
+    "sm_longley": {
+      "resource": "sm_data_longley",
+      "format": "csv",
+      "fields": [
+        {
+          "name": "TOTEMP",
+          "data_type": "float"
+        },
+        {
+          "name": "GNPDEFL",
+          "data_type": "float"
+        },
+        {
+          "name": "GNP",
+          "data_type": "float"
+        },
+        {
+          "name": "UNEMP",
+          "data_type": "float"
+        },
+        {
+          "name": "ARMED",
+          "data_type": "float"
+        },
+        {
+          "name": "POP",
+          "data_type": "float"
+        },
+        {
+          "name": "YEAR",
+          "data_type": "float"
+        }
+      ],
+      "rows": 16,
+      "type_evidence": [
+        "sm_doc_longley"
+      ],
+      "original_source_urls": [
+        "http://www.itl.nist.gov/div898/strd/lls/data/Longley.shtml"
+      ],
+      "notes": "Types reflect publisher loader explicit float casts; untyped CSV columns remain unknown when the loader declares no type. firm is explicitly documented as string; year is explicitly cast to float in Grunfeld. Samples preserve original CSV text.",
+      "excluded_fields": [
+        "Obs"
+      ]
+    },
+    "sm_nile": {
+      "resource": "sm_data_nile",
+      "format": "csv",
+      "fields": [
+        {
+          "name": "year",
+          "data_type": "float"
+        },
+        {
+          "name": "volume",
+          "data_type": "float"
+        }
+      ],
+      "rows": 100,
+      "type_evidence": [
+        "sm_doc_nile"
+      ],
+      "original_source_urls": [
+        "https://doi.org/10.1093/biomet/65.2.243"
+      ],
+      "notes": "Types reflect publisher loader explicit float casts; untyped CSV columns remain unknown when the loader declares no type. firm is explicitly documented as string; year is explicitly cast to float in Grunfeld. Samples preserve original CSV text.",
+      "excluded_fields": []
+    },
+    "sm_sunspots": {
+      "resource": "sm_data_sunspots",
+      "format": "csv",
+      "fields": [
+        {
+          "name": "YEAR",
+          "data_type": "float"
+        },
+        {
+          "name": "SUNACTIVITY",
+          "data_type": "float"
+        }
+      ],
+      "rows": 309,
+      "type_evidence": [
+        "sm_doc_sunspots"
+      ],
+      "original_source_urls": [
+        "http://www.ngdc.noaa.gov/stp/solar/solarda3.html"
+      ],
+      "notes": "Types reflect publisher loader explicit float casts; untyped CSV columns remain unknown when the loader declares no type. firm is explicitly documented as string; year is explicitly cast to float in Grunfeld. Samples preserve original CSV text.",
+      "excluded_fields": []
+    },
+    "sm_engel": {
+      "resource": "sm_data_engel",
+      "format": "csv",
+      "fields": [
+        {
+          "name": "income",
+          "data_type": "unknown"
+        },
+        {
+          "name": "foodexp",
+          "data_type": "unknown"
+        }
+      ],
+      "rows": 235,
+      "type_evidence": [
+        "sm_doc_engel"
+      ],
+      "original_source_urls": [
+        "https://cran.r-project.org/package=quantreg"
+      ],
+      "notes": "Types reflect publisher loader explicit float casts; untyped CSV columns remain unknown when the loader declares no type. firm is explicitly documented as string; year is explicitly cast to float in Grunfeld. Samples preserve original CSV text.",
+      "excluded_fields": []
+    },
+    "sm_grunfeld": {
+      "resource": "sm_data_grunfeld",
+      "format": "csv",
+      "fields": [
+        {
+          "name": "invest",
+          "data_type": "unknown"
+        },
+        {
+          "name": "value",
+          "data_type": "unknown"
+        },
+        {
+          "name": "capital",
+          "data_type": "unknown"
+        },
+        {
+          "name": "firm",
+          "data_type": "text"
+        },
+        {
+          "name": "year",
+          "data_type": "float"
+        }
+      ],
+      "rows": 220,
+      "type_evidence": [
+        "sm_doc_grunfeld"
+      ],
+      "original_source_urls": [
+        "https://doi.org/10.1111/j.1468-0475.2010.00513.x",
+        "http://statmath.wu-wien.ac.at/~zeileis/grunfeld/"
+      ],
+      "notes": "Types reflect publisher loader explicit float casts; untyped CSV columns remain unknown when the loader declares no type. firm is explicitly documented as string; year is explicitly cast to float in Grunfeld. Samples preserve original CSV text.",
+      "excluded_fields": []
+    },
+    "sm_stackloss": {
+      "resource": "sm_data_stackloss",
+      "format": "csv",
+      "fields": [
+        {
+          "name": "STACKLOSS",
+          "data_type": "float"
+        },
+        {
+          "name": "AIRFLOW",
+          "data_type": "float"
+        },
+        {
+          "name": "WATERTEMP",
+          "data_type": "float"
+        },
+        {
+          "name": "ACIDCONC",
+          "data_type": "float"
+        }
+      ],
+      "rows": 21,
+      "type_evidence": [
+        "sm_doc_stackloss"
+      ],
+      "original_source_urls": [
+        "https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/stackloss.html"
+      ],
+      "notes": "Types reflect publisher loader explicit float casts; untyped CSV columns remain unknown when the loader declares no type. firm is explicitly documented as string; year is explicitly cast to float in Grunfeld. Samples preserve original CSV text.",
+      "excluded_fields": []
+    },
+    "sm_elnino": {
+      "resource": "sm_data_elnino",
+      "format": "csv",
+      "fields": [
+        {
+          "name": "YEAR",
+          "data_type": "float"
+        },
+        {
+          "name": "JAN",
+          "data_type": "float"
+        },
+        {
+          "name": "FEB",
+          "data_type": "float"
+        },
+        {
+          "name": "MAR",
+          "data_type": "float"
+        },
+        {
+          "name": "APR",
+          "data_type": "float"
+        },
+        {
+          "name": "MAY",
+          "data_type": "float"
+        },
+        {
+          "name": "JUN",
+          "data_type": "float"
+        },
+        {
+          "name": "JUL",
+          "data_type": "float"
+        },
+        {
+          "name": "AUG",
+          "data_type": "float"
+        },
+        {
+          "name": "SEP",
+          "data_type": "float"
+        },
+        {
+          "name": "OCT",
+          "data_type": "float"
+        },
+        {
+          "name": "NOV",
+          "data_type": "float"
+        },
+        {
+          "name": "DEC",
+          "data_type": "float"
+        }
+      ],
+      "rows": 61,
+      "type_evidence": [
+        "sm_doc_elnino"
+      ],
+      "original_source_urls": [
+        "http://www.cpc.ncep.noaa.gov/data/indices/"
+      ],
+      "notes": "Types reflect publisher loader explicit float casts; untyped CSV columns remain unknown when the loader declares no type. firm is explicitly documented as string; year is explicitly cast to float in Grunfeld. Samples preserve original CSV text.",
+      "excluded_fields": []
+    },
+    "r_engel": {
+      "resource": "csv_quantreg_engel",
+      "format": "csv",
+      "fields": [
+        {
+          "name": "income",
+          "data_type": "float"
+        },
+        {
+          "name": "foodexp",
+          "data_type": "float"
+        }
+      ],
+      "rows": 235,
+      "type_evidence": [
+        "quantreg_data",
+        "quantreg_doc",
+        "quantreg_description"
+      ],
+      "original_source_urls": [
+        "https://cran.r-project.org/package=quantreg"
+      ],
+      "notes": "Native R data.frame storage checked against the pinned .rda: double numerics, factor firm as text, Grunfeld int32 year. CSV samples preserve original textual formatting.",
+      "excluded_fields": [
+        "rownames"
+      ]
+    },
+    "r_grunfeld": {
+      "resource": "csv_AER_Grunfeld",
+      "format": "csv",
+      "fields": [
+        {
+          "name": "invest",
+          "data_type": "float"
+        },
+        {
+          "name": "value",
+          "data_type": "float"
+        },
+        {
+          "name": "capital",
+          "data_type": "float"
+        },
+        {
+          "name": "firm",
+          "data_type": "text"
+        },
+        {
+          "name": "year",
+          "data_type": "integer"
+        }
+      ],
+      "rows": 220,
+      "type_evidence": [
+        "AER_data",
+        "AER_doc",
+        "AER_description"
+      ],
+      "original_source_urls": [
+        "https://doi.org/10.1111/j.1468-0475.2010.00513.x",
+        "http://statmath.wu-wien.ac.at/~zeileis/grunfeld/"
+      ],
+      "notes": "Native R data.frame storage checked against the pinned .rda: double numerics, factor firm as text, Grunfeld int32 year. CSV samples preserve original textual formatting.",
+      "excluded_fields": [
+        "rownames"
+      ]
+    }
+  },
+  "datasets": {
+    "eval_independent/01_penguins.json": {
+      "name": "Palmer LTER raw to publisher-cleaned penguins",
+      "source_view": "penguins_raw",
+      "target_view": "penguins",
+      "evidence": {
+        "studyName": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "The publisher select() omits this attribute. The target has only species, island, bill/flipper dimensions, mass, sex and derived year. None denotes this source attribute.",
+          "references": [
+            "palmer_transform",
+            "palmer_raw_doc",
+            "palmer_doc"
+          ]
+        },
+        "Sample Number": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "The publisher select() omits this attribute. The target has only species, island, bill/flipper dimensions, mass, sex and derived year. None denotes this source attribute.",
+          "references": [
+            "palmer_transform",
+            "palmer_raw_doc",
+            "palmer_doc"
+          ]
+        },
+        "Species": {
+          "decision": "match",
+          "target": "species",
+          "explanation": "Publisher transform selects and renames this same measured/category variable; species is reduced to its species label and sex case changes, without changing the attribute.",
+          "references": [
+            "palmer_transform",
+            "palmer_raw_doc",
+            "palmer_doc"
+          ]
+        },
+        "Region": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "The publisher select() omits this attribute. The target has only species, island, bill/flipper dimensions, mass, sex and derived year. None denotes this source attribute.",
+          "references": [
+            "palmer_transform",
+            "palmer_raw_doc",
+            "palmer_doc"
+          ]
+        },
+        "Island": {
+          "decision": "match",
+          "target": "island",
+          "explanation": "Publisher transform selects and renames this same measured/category variable; species is reduced to its species label and sex case changes, without changing the attribute.",
+          "references": [
+            "palmer_transform",
+            "palmer_raw_doc",
+            "palmer_doc"
+          ]
+        },
+        "Stage": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "The publisher select() omits this attribute. The target has only species, island, bill/flipper dimensions, mass, sex and derived year. None denotes this source attribute.",
+          "references": [
+            "palmer_transform",
+            "palmer_raw_doc",
+            "palmer_doc"
+          ]
+        },
+        "Individual ID": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "The publisher select() omits this attribute. The target has only species, island, bill/flipper dimensions, mass, sex and derived year. None denotes this source attribute.",
+          "references": [
+            "palmer_transform",
+            "palmer_raw_doc",
+            "palmer_doc"
+          ]
+        },
+        "Clutch Completion": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "The publisher select() omits this attribute. The target has only species, island, bill/flipper dimensions, mass, sex and derived year. None denotes this source attribute.",
+          "references": [
+            "palmer_transform",
+            "palmer_raw_doc",
+            "palmer_doc"
+          ]
+        },
+        "Date Egg": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "The publisher select() omits this attribute. The target has only species, island, bill/flipper dimensions, mass, sex and derived year. A full egg-observation date is not equivalent to its derived year component.",
+          "references": [
+            "palmer_transform",
+            "palmer_raw_doc",
+            "palmer_doc"
+          ]
+        },
+        "Culmen Length (mm)": {
+          "decision": "match",
+          "target": "bill_length_mm",
+          "explanation": "Publisher transform selects and renames this same measured/category variable; species is reduced to its species label and sex case changes, without changing the attribute.",
+          "references": [
+            "palmer_transform",
+            "palmer_raw_doc",
+            "palmer_doc"
+          ]
+        },
+        "Culmen Depth (mm)": {
+          "decision": "match",
+          "target": "bill_depth_mm",
+          "explanation": "Publisher transform selects and renames this same measured/category variable; species is reduced to its species label and sex case changes, without changing the attribute.",
+          "references": [
+            "palmer_transform",
+            "palmer_raw_doc",
+            "palmer_doc"
+          ]
+        },
+        "Flipper Length (mm)": {
+          "decision": "match",
+          "target": "flipper_length_mm",
+          "explanation": "Publisher transform selects and renames this same measured/category variable; species is reduced to its species label and sex case changes, without changing the attribute.",
+          "references": [
+            "palmer_transform",
+            "palmer_raw_doc",
+            "palmer_doc"
+          ]
+        },
+        "Body Mass (g)": {
+          "decision": "match",
+          "target": "body_mass_g",
+          "explanation": "Publisher transform selects and renames this same measured/category variable; species is reduced to its species label and sex case changes, without changing the attribute.",
+          "references": [
+            "palmer_transform",
+            "palmer_raw_doc",
+            "palmer_doc"
+          ]
+        },
+        "Sex": {
+          "decision": "match",
+          "target": "sex",
+          "explanation": "Publisher transform selects and renames this same measured/category variable; species is reduced to its species label and sex case changes, without changing the attribute.",
+          "references": [
+            "palmer_transform",
+            "palmer_raw_doc",
+            "palmer_doc"
+          ]
+        },
+        "Delta 15 N (o/oo)": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "The publisher select() omits this attribute. The target has only species, island, bill/flipper dimensions, mass, sex and derived year. None denotes this source attribute.",
+          "references": [
+            "palmer_transform",
+            "palmer_raw_doc",
+            "palmer_doc"
+          ]
+        },
+        "Delta 13 C (o/oo)": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "The publisher select() omits this attribute. The target has only species, island, bill/flipper dimensions, mass, sex and derived year. None denotes this source attribute.",
+          "references": [
+            "palmer_transform",
+            "palmer_raw_doc",
+            "palmer_doc"
+          ]
+        },
+        "Comments": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "The publisher select() omits this attribute. The target has only species, island, bill/flipper dimensions, mass, sex and derived year. None denotes this source attribute.",
+          "references": [
+            "palmer_transform",
+            "palmer_raw_doc",
+            "palmer_doc"
+          ]
+        }
+      },
+      "notes": "",
+      "sha256": "18606a2eb6dbdb6518b2c49b5d0f97dda40465f671d991348d62cc89a14d4a31"
+    },
+    "eval_independent/02_aircraft_flights.json": {
+      "name": "FAA aircraft metadata to BTS flight records",
+      "source_view": "planes",
+      "target_view": "flights",
+      "evidence": {
+        "tailnum": {
+          "decision": "match",
+          "target": "tailnum",
+          "explanation": "flights documentation links tailnum directly to planes; both are aircraft registration keys.",
+          "references": [
+            "nyc_doc_planes",
+            "nyc_doc_flights",
+            "nyc_transform_planes"
+          ]
+        },
+        "year": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Manufacture year, not departure/calendar-observation year.",
+          "references": [
+            "nyc_doc_planes",
+            "nyc_doc_flights",
+            "nyc_transform_planes"
+          ]
+        },
+        "type": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Aircraft construction category, not a flight identifier or time.",
+          "references": [
+            "nyc_doc_planes",
+            "nyc_doc_flights",
+            "nyc_transform_planes"
+          ]
+        },
+        "manufacturer": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Aircraft maker, not operating airline/carrier.",
+          "references": [
+            "nyc_doc_planes",
+            "nyc_doc_flights",
+            "nyc_transform_planes"
+          ]
+        },
+        "model": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Aircraft model, not flight number or tail registration.",
+          "references": [
+            "nyc_doc_planes",
+            "nyc_doc_flights",
+            "nyc_transform_planes"
+          ]
+        },
+        "engines": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Number of engines, absent from target.",
+          "references": [
+            "nyc_doc_planes",
+            "nyc_doc_flights",
+            "nyc_transform_planes"
+          ]
+        },
+        "seats": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Aircraft seating capacity, absent from target; target has no passenger count.",
+          "references": [
+            "nyc_doc_planes",
+            "nyc_doc_flights",
+            "nyc_transform_planes"
+          ]
+        },
+        "speed": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Aircraft registry speed, absent from target; flight distance and duration are separate variables.",
+          "references": [
+            "nyc_doc_planes",
+            "nyc_doc_flights",
+            "nyc_transform_planes"
+          ]
+        },
+        "engine": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Engine technology category, absent from target.",
+          "references": [
+            "nyc_doc_planes",
+            "nyc_doc_flights",
+            "nyc_transform_planes"
+          ]
+        }
+      },
+      "notes": "",
+      "sha256": "760b31c293d1a1ec4b522852021ee19a12dc989c436af9b1cc56064af9f07594"
+    },
+    "eval_independent/03_carriers_flights.json": {
+      "name": "BTS carrier lookup to BTS flight records",
+      "source_view": "airlines",
+      "target_view": "flights",
+      "evidence": {
+        "carrier": {
+          "decision": "match",
+          "target": "carrier",
+          "explanation": "flights documentation explicitly links carrier to airlines; publisher rename Code -> carrier preserves the BTS carrier key.",
+          "references": [
+            "nyc_doc_airlines",
+            "nyc_doc_flights",
+            "nyc_transform_airlines"
+          ]
+        },
+        "name": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Full airline name is absent from flights. carrier is its code, a distinct lookup-key attribute, not a full name.",
+          "references": [
+            "nyc_doc_airlines",
+            "nyc_doc_flights",
+            "nyc_transform_airlines"
+          ]
+        }
+      },
+      "notes": "",
+      "sha256": "87ae8b015f3abdb0c074f670eed2f400986db495eb8510c5756d77fd4b3b0014"
+    },
+    "eval_independent/04_weather_flights.json": {
+      "name": "IEM airport-hour weather to BTS departure lookup keys",
+      "source_view": "weather",
+      "target_view": "flights",
+      "evidence": {
+        "origin": {
+          "decision": "match",
+          "target": "origin",
+          "explanation": "Publisher explicitly normalizes weather airport/calendar/hour structure for the flights lookup; origin and time_hour are documented join keys, and year/month/day/hour are their same calendar-hour components. This is lookup-period correspondence, not weather-event/flight-event identity.",
+          "references": [
+            "nyc_doc_weather",
+            "nyc_transform_weather",
+            "nyc_doc_flights"
+          ]
+        },
+        "year": {
+          "decision": "match",
+          "target": "year",
+          "explanation": "Publisher explicitly normalizes weather airport/calendar/hour structure for the flights lookup; origin and time_hour are documented join keys, and year/month/day/hour are their same calendar-hour components. This is lookup-period correspondence, not weather-event/flight-event identity.",
+          "references": [
+            "nyc_doc_weather",
+            "nyc_transform_weather",
+            "nyc_doc_flights"
+          ]
+        },
+        "month": {
+          "decision": "match",
+          "target": "month",
+          "explanation": "Publisher explicitly normalizes weather airport/calendar/hour structure for the flights lookup; origin and time_hour are documented join keys, and year/month/day/hour are their same calendar-hour components. This is lookup-period correspondence, not weather-event/flight-event identity.",
+          "references": [
+            "nyc_doc_weather",
+            "nyc_transform_weather",
+            "nyc_doc_flights"
+          ]
+        },
+        "day": {
+          "decision": "match",
+          "target": "day",
+          "explanation": "Publisher explicitly normalizes weather airport/calendar/hour structure for the flights lookup; origin and time_hour are documented join keys, and year/month/day/hour are their same calendar-hour components. This is lookup-period correspondence, not weather-event/flight-event identity.",
+          "references": [
+            "nyc_doc_weather",
+            "nyc_transform_weather",
+            "nyc_doc_flights"
+          ]
+        },
+        "hour": {
+          "decision": "match",
+          "target": "hour",
+          "explanation": "Publisher explicitly normalizes weather airport/calendar/hour structure for the flights lookup; origin and time_hour are documented join keys, and year/month/day/hour are their same calendar-hour components. This is lookup-period correspondence, not weather-event/flight-event identity.",
+          "references": [
+            "nyc_doc_weather",
+            "nyc_transform_weather",
+            "nyc_doc_flights"
+          ]
+        },
+        "temp": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "A meteorological measurement (temperature, dew point, humidity, wind, precipitation, pressure or visibility). The complete flight schema has no direct counterpart; delay/duration are different quantities.",
+          "references": [
+            "nyc_doc_weather",
+            "nyc_transform_weather",
+            "nyc_doc_flights"
+          ]
+        },
+        "dewp": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "A meteorological measurement (temperature, dew point, humidity, wind, precipitation, pressure or visibility). The complete flight schema has no direct counterpart; delay/duration are different quantities.",
+          "references": [
+            "nyc_doc_weather",
+            "nyc_transform_weather",
+            "nyc_doc_flights"
+          ]
+        },
+        "humid": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "A meteorological measurement (temperature, dew point, humidity, wind, precipitation, pressure or visibility). The complete flight schema has no direct counterpart; delay/duration are different quantities.",
+          "references": [
+            "nyc_doc_weather",
+            "nyc_transform_weather",
+            "nyc_doc_flights"
+          ]
+        },
+        "wind_dir": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "A meteorological measurement (temperature, dew point, humidity, wind, precipitation, pressure or visibility). The complete flight schema has no direct counterpart; delay/duration are different quantities.",
+          "references": [
+            "nyc_doc_weather",
+            "nyc_transform_weather",
+            "nyc_doc_flights"
+          ]
+        },
+        "wind_speed": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "A meteorological measurement (temperature, dew point, humidity, wind, precipitation, pressure or visibility). The complete flight schema has no direct counterpart; delay/duration are different quantities.",
+          "references": [
+            "nyc_doc_weather",
+            "nyc_transform_weather",
+            "nyc_doc_flights"
+          ]
+        },
+        "wind_gust": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "A meteorological measurement (temperature, dew point, humidity, wind, precipitation, pressure or visibility). The complete flight schema has no direct counterpart; delay/duration are different quantities.",
+          "references": [
+            "nyc_doc_weather",
+            "nyc_transform_weather",
+            "nyc_doc_flights"
+          ]
+        },
+        "precip": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "A meteorological measurement (temperature, dew point, humidity, wind, precipitation, pressure or visibility). The complete flight schema has no direct counterpart; delay/duration are different quantities.",
+          "references": [
+            "nyc_doc_weather",
+            "nyc_transform_weather",
+            "nyc_doc_flights"
+          ]
+        },
+        "pressure": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "A meteorological measurement (temperature, dew point, humidity, wind, precipitation, pressure or visibility). The complete flight schema has no direct counterpart; delay/duration are different quantities.",
+          "references": [
+            "nyc_doc_weather",
+            "nyc_transform_weather",
+            "nyc_doc_flights"
+          ]
+        },
+        "visib": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "A meteorological measurement (temperature, dew point, humidity, wind, precipitation, pressure or visibility). The complete flight schema has no direct counterpart; delay/duration are different quantities.",
+          "references": [
+            "nyc_doc_weather",
+            "nyc_transform_weather",
+            "nyc_doc_flights"
+          ]
+        },
+        "time_hour": {
+          "decision": "match",
+          "target": "time_hour",
+          "explanation": "Publisher explicitly normalizes weather airport/calendar/hour structure for the flights lookup; origin and time_hour are documented join keys, and year/month/day/hour are their same calendar-hour components. This is lookup-period correspondence, not weather-event/flight-event identity.",
+          "references": [
+            "nyc_doc_weather",
+            "nyc_transform_weather",
+            "nyc_doc_flights"
+          ]
+        }
+      },
+      "notes": "",
+      "sha256": "c9e97e7d9bc1d784e65c11b3cbb46b9c645b1ddc1fb620d21fac65b5a489f2de"
+    },
+    "eval_independent/05_aircraft_weather.json": {
+      "name": "Negative control: airframe metadata versus airport-hour weather",
+      "source_view": "planes",
+      "target_view": "weather",
+      "evidence": {
+        "tailnum": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Aircraft tail registration identifies an airframe; origin identifies an airport. No airframe identifier occurs in weather.",
+          "references": [
+            "nyc_doc_planes",
+            "nyc_doc_weather",
+            "nyc_transform_planes"
+          ]
+        },
+        "year": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Manufacture year, not departure/calendar-observation year. Airport meteorology contains only location/time and atmospheric measurements.",
+          "references": [
+            "nyc_doc_planes",
+            "nyc_doc_weather",
+            "nyc_transform_planes"
+          ]
+        },
+        "type": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Aircraft construction category, not a flight identifier or time. Airport meteorology contains only location/time and atmospheric measurements.",
+          "references": [
+            "nyc_doc_planes",
+            "nyc_doc_weather",
+            "nyc_transform_planes"
+          ]
+        },
+        "manufacturer": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Aircraft maker, not operating airline/carrier. Airport meteorology contains only location/time and atmospheric measurements.",
+          "references": [
+            "nyc_doc_planes",
+            "nyc_doc_weather",
+            "nyc_transform_planes"
+          ]
+        },
+        "model": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Aircraft model, not flight number or tail registration. Airport meteorology contains only location/time and atmospheric measurements.",
+          "references": [
+            "nyc_doc_planes",
+            "nyc_doc_weather",
+            "nyc_transform_planes"
+          ]
+        },
+        "engines": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Number of engines, absent from target. Airport meteorology contains only location/time and atmospheric measurements.",
+          "references": [
+            "nyc_doc_planes",
+            "nyc_doc_weather",
+            "nyc_transform_planes"
+          ]
+        },
+        "seats": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Aircraft seating capacity, absent from target; target has no passenger count. Airport meteorology contains only location/time and atmospheric measurements.",
+          "references": [
+            "nyc_doc_planes",
+            "nyc_doc_weather",
+            "nyc_transform_planes"
+          ]
+        },
+        "speed": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Aircraft registry speed, absent from target; flight distance and duration are separate variables. Airport meteorology contains only location/time and atmospheric measurements.",
+          "references": [
+            "nyc_doc_planes",
+            "nyc_doc_weather",
+            "nyc_transform_planes"
+          ]
+        },
+        "engine": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Engine technology category, absent from target. Airport meteorology contains only location/time and atmospheric measurements.",
+          "references": [
+            "nyc_doc_planes",
+            "nyc_doc_weather",
+            "nyc_transform_planes"
+          ]
+        }
+      },
+      "notes": "A deliberately unrelated schema pair of actual observations; all-negative control, not a natural migration.",
+      "sha256": "e66c3e11c797608aabda0ebdcd52fc32e2ab20b4cb05338dce750fb58ec3d42b"
+    },
+    "eval_independent/06_longley.json": {
+      "name": "Longley macroeconomic study: R to statsmodels",
+      "source_view": "r_longley",
+      "target_view": "sm_longley",
+      "evidence": {
+        "GNP.deflator": {
+          "decision": "match",
+          "target": "GNPDEFL",
+          "explanation": "Both publisher dictionaries identify GNP.deflator / GNPDEFL as the same variable in Longley 1967, 1947-1962. The R/SM numeric editions differ in scaling (GNP/Population/Employed by 1000; Unemployed/Armed.Forces by 10); these are unit representations, not different economic quantities.",
+          "references": [
+            "r_man_longley",
+            "r_data_longley",
+            "sm_doc_longley"
+          ]
+        },
+        "GNP": {
+          "decision": "match",
+          "target": "GNP",
+          "explanation": "Both publisher dictionaries identify GNP / GNP as the same variable in Longley 1967, 1947-1962. The R/SM numeric editions differ in scaling (GNP/Population/Employed by 1000; Unemployed/Armed.Forces by 10); these are unit representations, not different economic quantities.",
+          "references": [
+            "r_man_longley",
+            "r_data_longley",
+            "sm_doc_longley"
+          ]
+        },
+        "Unemployed": {
+          "decision": "match",
+          "target": "UNEMP",
+          "explanation": "Both publisher dictionaries identify Unemployed / UNEMP as the same variable in Longley 1967, 1947-1962. The R/SM numeric editions differ in scaling (GNP/Population/Employed by 1000; Unemployed/Armed.Forces by 10); these are unit representations, not different economic quantities.",
+          "references": [
+            "r_man_longley",
+            "r_data_longley",
+            "sm_doc_longley"
+          ]
+        },
+        "Armed.Forces": {
+          "decision": "match",
+          "target": "ARMED",
+          "explanation": "Both publisher dictionaries identify Armed.Forces / ARMED as the same variable in Longley 1967, 1947-1962. The R/SM numeric editions differ in scaling (GNP/Population/Employed by 1000; Unemployed/Armed.Forces by 10); these are unit representations, not different economic quantities.",
+          "references": [
+            "r_man_longley",
+            "r_data_longley",
+            "sm_doc_longley"
+          ]
+        },
+        "Population": {
+          "decision": "match",
+          "target": "POP",
+          "explanation": "Both publisher dictionaries identify Population / POP as the same variable in Longley 1967, 1947-1962. The R/SM numeric editions differ in scaling (GNP/Population/Employed by 1000; Unemployed/Armed.Forces by 10); these are unit representations, not different economic quantities.",
+          "references": [
+            "r_man_longley",
+            "r_data_longley",
+            "sm_doc_longley"
+          ]
+        },
+        "Year": {
+          "decision": "match",
+          "target": "YEAR",
+          "explanation": "Both publisher dictionaries identify Year / YEAR as the same variable in Longley 1967, 1947-1962. The R/SM numeric editions differ in scaling (GNP/Population/Employed by 1000; Unemployed/Armed.Forces by 10); these are unit representations, not different economic quantities.",
+          "references": [
+            "r_man_longley",
+            "r_data_longley",
+            "sm_doc_longley"
+          ]
+        },
+        "Employed": {
+          "decision": "match",
+          "target": "TOTEMP",
+          "explanation": "Both publisher dictionaries identify Employed / TOTEMP as the same variable in Longley 1967, 1947-1962. The R/SM numeric editions differ in scaling (GNP/Population/Employed by 1000; Unemployed/Armed.Forces by 10); these are unit representations, not different economic quantities.",
+          "references": [
+            "r_man_longley",
+            "r_data_longley",
+            "sm_doc_longley"
+          ]
+        }
+      },
+      "notes": "",
+      "sha256": "05a3dbf770eecdecdc975738be1afe1cdb53104a984237109c4f65c763404c45"
+    },
+    "eval_independent/07_nile.json": {
+      "name": "Aswan annual Nile discharge: R to statsmodels",
+      "source_view": "r_nile",
+      "target_view": "sm_nile",
+      "evidence": {
+        "time": {
+          "decision": "match",
+          "target": "year",
+          "explanation": "Both source documents identify annual observation years 1871-1970. Published time/year fields denote that calendar year.",
+          "references": [
+            "r_man_Nile",
+            "r_data_Nile",
+            "sm_doc_nile"
+          ]
+        },
+        "value": {
+          "decision": "match",
+          "target": "volume",
+          "explanation": "Both define annual Nile flow at Aswan, in 10^8 cubic metres, citing the same Cobb changepoint series. Not inferred from numeric equality.",
+          "references": [
+            "r_man_Nile",
+            "r_data_Nile",
+            "sm_doc_nile"
+          ]
+        }
+      },
+      "notes": "",
+      "sha256": "c1093f18cca0cd950b5452441248ec609092f5059c02da4b04f25d40a0d6a065"
+    },
+    "eval_independent/08_sunspots.json": {
+      "name": "Annual sunspot series: R to statsmodels",
+      "source_view": "r_sunspots",
+      "target_view": "sm_sunspots",
+      "evidence": {
+        "time": {
+          "decision": "match",
+          "target": "YEAR",
+          "explanation": "Calendar year of the annual solar observation in both dictionaries; R has 1700-1988, SM extends through 2008.",
+          "references": [
+            "r_man_sunspot.year",
+            "r_data_sunspot.year",
+            "sm_doc_sunspots"
+          ]
+        },
+        "value": {
+          "decision": "match",
+          "target": "SUNACTIVITY",
+          "explanation": "R annual mean relative sunspot number and SM annual sunspot activity series are the same annual sunspot-number quantity, not generic counts. Different edition/end dates are retained.",
+          "references": [
+            "r_man_sunspot.year",
+            "r_data_sunspot.year",
+            "sm_doc_sunspots"
+          ]
+        }
+      },
+      "notes": "",
+      "sha256": "500610f6b08ed50f1355fbea56d34b561b19d3b9b33728c22a73d450c7d1952d"
+    },
+    "eval_independent/09_engel.json": {
+      "name": "Engel Belgian household expenditure: quantreg to statsmodels",
+      "source_view": "r_engel",
+      "target_view": "sm_engel",
+      "evidence": {
+        "income": {
+          "decision": "match",
+          "target": "income",
+          "explanation": "Both publisher dictionaries identify annual Belgian working-class household income from the Engel/Koenker-Bassett data.",
+          "references": [
+            "quantreg_doc",
+            "sm_doc_engel",
+            "quantreg_data"
+          ]
+        },
+        "foodexp": {
+          "decision": "match",
+          "target": "foodexp",
+          "explanation": "Both identify annual household expenditure on food in the same Engel study, distinct from total income.",
+          "references": [
+            "quantreg_doc",
+            "sm_doc_engel",
+            "quantreg_data"
+          ]
+        }
+      },
+      "notes": "",
+      "sha256": "9352f81439779f9a930082e3166a9f0f8457a37a6c5187e3fba072bdb4c15020"
+    },
+    "eval_independent/10_grunfeld.json": {
+      "name": "Original 11-firm Grunfeld investment study: AER to statsmodels",
+      "source_view": "r_grunfeld",
+      "target_view": "sm_grunfeld",
+      "evidence": {
+        "invest": {
+          "decision": "match",
+          "target": "invest",
+          "explanation": "Both dictionaries identify gross investment in the original 11-firm study, base 1947 prices.",
+          "references": [
+            "AER_doc",
+            "AER_data",
+            "sm_doc_grunfeld"
+          ]
+        },
+        "value": {
+          "decision": "match",
+          "target": "value",
+          "explanation": "Both identify market value, not investment or plant stock. AER documents valuation timing conventions.",
+          "references": [
+            "AER_doc",
+            "AER_data",
+            "sm_doc_grunfeld"
+          ]
+        },
+        "capital": {
+          "decision": "match",
+          "target": "capital",
+          "explanation": "Both identify stock of plant/equipment in base 1947 prices, not market value.",
+          "references": [
+            "AER_doc",
+            "AER_data",
+            "sm_doc_grunfeld"
+          ]
+        },
+        "firm": {
+          "decision": "match",
+          "target": "firm",
+          "explanation": "Both enumerate the same 11 named firms as observational units.",
+          "references": [
+            "AER_doc",
+            "AER_data",
+            "sm_doc_grunfeld"
+          ]
+        },
+        "year": {
+          "decision": "match",
+          "target": "year",
+          "explanation": "Both identify calendar observation year 1935-1954.",
+          "references": [
+            "AER_doc",
+            "AER_data",
+            "sm_doc_grunfeld"
+          ]
+        }
+      },
+      "notes": "",
+      "sha256": "3e821d2b9ca2f6c6f5b51495012201472f91cae65b2a7866b538657029284885"
+    },
+    "eval_independent/11_stackloss.json": {
+      "name": "Nitric-acid plant stack-loss study: R to statsmodels",
+      "source_view": "r_stackloss",
+      "target_view": "sm_stackloss",
+      "evidence": {
+        "Air.Flow": {
+          "decision": "match",
+          "target": "AIRFLOW",
+          "explanation": "Both define rate of operation / airflow through the ammonia oxidation plant.",
+          "references": [
+            "r_man_stackloss",
+            "r_data_stackloss",
+            "sm_doc_stackloss"
+          ]
+        },
+        "Water.Temp": {
+          "decision": "match",
+          "target": "WATERTEMP",
+          "explanation": "Both define cooling-water temperature, not air temperature.",
+          "references": [
+            "r_man_stackloss",
+            "r_data_stackloss",
+            "sm_doc_stackloss"
+          ]
+        },
+        "Acid.Conc.": {
+          "decision": "match",
+          "target": "ACIDCONC",
+          "explanation": "Both define circulating acid concentration with the same subtract-50-times-10 coding.",
+          "references": [
+            "r_man_stackloss",
+            "r_data_stackloss",
+            "sm_doc_stackloss"
+          ]
+        },
+        "stack.loss": {
+          "decision": "match",
+          "target": "STACKLOSS",
+          "explanation": "Both define ammonia escaping as unabsorbed nitric oxides, with the same times-10 coding.",
+          "references": [
+            "r_man_stackloss",
+            "r_data_stackloss",
+            "sm_doc_stackloss"
+          ]
+        }
+      },
+      "notes": "",
+      "sha256": "a4601924096e733a37a32b936bb9229ac681619c3933e0d58053fd1702af95d4"
+    },
+    "eval_independent/12_road_casualties.json": {
+      "name": "Great Britain Seatbelts to UKDriverDeaths",
+      "source_view": "r_seatbelts",
+      "target_view": "r_driver_casualties",
+      "evidence": {
+        "DriversKilled": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "UKDriverDeaths target contains only observation time and driver KSI totals. Deaths alone exclude serious injuries and are not KSI.",
+          "references": [
+            "r_man_UKDriverDeaths",
+            "r_data_Seatbelts",
+            "r_data_UKDriverDeaths"
+          ]
+        },
+        "drivers": {
+          "decision": "match",
+          "target": "value",
+          "explanation": "Upstream R documentation explicitly states Seatbelts drivers is the same series as UKDriverDeaths: monthly drivers killed OR seriously injured (KSI).",
+          "references": [
+            "r_man_UKDriverDeaths",
+            "r_data_Seatbelts",
+            "r_data_UKDriverDeaths"
+          ]
+        },
+        "front": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "UKDriverDeaths target contains only observation time and driver KSI totals. Front-seat passenger KSI is a different road-user role.",
+          "references": [
+            "r_man_UKDriverDeaths",
+            "r_data_Seatbelts",
+            "r_data_UKDriverDeaths"
+          ]
+        },
+        "rear": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "UKDriverDeaths target contains only observation time and driver KSI totals. Rear-seat passenger KSI is a different road-user role.",
+          "references": [
+            "r_man_UKDriverDeaths",
+            "r_data_Seatbelts",
+            "r_data_UKDriverDeaths"
+          ]
+        },
+        "kms": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "UKDriverDeaths target contains only observation time and driver KSI totals. Distance driven is not casualties or time.",
+          "references": [
+            "r_man_UKDriverDeaths",
+            "r_data_Seatbelts",
+            "r_data_UKDriverDeaths"
+          ]
+        },
+        "PetrolPrice": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "UKDriverDeaths target contains only observation time and driver KSI totals. Fuel price is not casualties or time.",
+          "references": [
+            "r_man_UKDriverDeaths",
+            "r_data_Seatbelts",
+            "r_data_UKDriverDeaths"
+          ]
+        },
+        "VanKilled": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "UKDriverDeaths target contains only observation time and driver KSI totals. Van-driver deaths are a different vehicle/road-user group.",
+          "references": [
+            "r_man_UKDriverDeaths",
+            "r_data_Seatbelts",
+            "r_data_UKDriverDeaths"
+          ]
+        },
+        "law": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "UKDriverDeaths target contains only observation time and driver KSI totals. Seat-belt-law indicator is not casualties or observation time.",
+          "references": [
+            "r_man_UKDriverDeaths",
+            "r_data_Seatbelts",
+            "r_data_UKDriverDeaths"
+          ]
+        }
+      },
+      "notes": "",
+      "sha256": "0c6d585b475f46e3009f79ff6bd61a0364ea315b0812d84235bb345ed806778b"
+    },
+    "eval_independent/13_arrests_states.json": {
+      "name": "US state identifiers with non-equivalent crime quantities",
+      "source_view": "r_arrests",
+      "target_view": "r_states",
+      "evidence": {
+        "rownames": {
+          "decision": "match",
+          "target": "rownames",
+          "explanation": "Both publisher tables explicitly have the 50 US states as row identifiers; exported rownames preserve full state names.",
+          "references": [
+            "r_man_USArrests",
+            "r_data_USArrests",
+            "r_man_state",
+            "r_data_state"
+          ]
+        },
+        "Murder": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "USArrests is murder ARRESTS per 100,000 in 1973; state.x77 Murder is murder/non-negligent manslaughter rate in 1976. Different counted events and dates; identical name is insufficient.",
+          "references": [
+            "r_man_USArrests",
+            "r_data_USArrests",
+            "r_man_state",
+            "r_data_state"
+          ]
+        },
+        "Assault": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Assault arrests per 100,000 (1973) have no counterpart in the target socioeconomic/state-statistics dictionary.",
+          "references": [
+            "r_man_USArrests",
+            "r_data_USArrests",
+            "r_man_state",
+            "r_data_state"
+          ]
+        },
+        "UrbanPop": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Urban population percentage is absent from target; Population is total population and Illiteracy/HS Grad are different percentages.",
+          "references": [
+            "r_man_USArrests",
+            "r_data_USArrests",
+            "r_man_state",
+            "r_data_state"
+          ]
+        },
+        "Rape": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Rape arrests per 100,000 (1973) have no target counterpart.",
+          "references": [
+            "r_man_USArrests",
+            "r_data_USArrests",
+            "r_man_state",
+            "r_data_state"
+          ]
+        }
+      },
+      "notes": "",
+      "sha256": "d329a0a740451255fa8fb25d73357cd29ec4ace8c2e8318f8cc0064d98fc2f31"
+    },
+    "eval_independent/14_geyser_ocean.json": {
+      "name": "Negative control: Old Faithful versus NOAA sea temperatures",
+      "source_view": "r_faithful",
+      "target_view": "sm_elnino",
+      "evidence": {
+        "eruptions": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Old Faithful eruption length and inter-eruption waiting time are durations in minutes; NOAA target is calendar YEAR and twelve monthly Pacific sea-surface temperatures in Celsius. No direct equivalent variable exists.",
+          "references": [
+            "r_man_faithful",
+            "r_data_faithful",
+            "sm_doc_elnino"
+          ]
+        },
+        "waiting": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Old Faithful eruption length and inter-eruption waiting time are durations in minutes; NOAA target is calendar YEAR and twelve monthly Pacific sea-surface temperatures in Celsius. No direct equivalent variable exists.",
+          "references": [
+            "r_man_faithful",
+            "r_data_faithful",
+            "sm_doc_elnino"
+          ]
+        }
+      },
+      "notes": "Deliberately unrelated scientific schemas, retaining actual published observations and all-negative labels.",
+      "sha256": "5a5dc037a492d0c4fd7bd234f701dd77db92c1663c742ccf1e7403d9b0d8d5d4"
+    },
+    "eval_independent/15_airmiles_economy.json": {
+      "name": "FAA passenger-mile time axis versus Longley economic series",
+      "source_view": "r_airmiles",
+      "target_view": "sm_longley",
+      "evidence": {
+        "time": {
+          "decision": "match",
+          "target": "YEAR",
+          "explanation": "Both publisher documents define annual calendar observation year (FAA 1937-1960; Longley 1947-1962). Calendar-year coordinate correspondence, not identity of observation/event.",
+          "references": [
+            "r_man_airmiles",
+            "r_data_airmiles",
+            "sm_doc_longley"
+          ]
+        },
+        "value": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Revenue passenger miles are distance weighted by fare-paying passengers; no Longley column measures travel distance. GNP is monetary output, POP/TOTEMP/UNEMP/ARMED are people, GNPDEFL is a price index.",
+          "references": [
+            "r_man_airmiles",
+            "r_data_airmiles",
+            "sm_doc_longley"
+          ]
+        }
+      },
+      "notes": "Cross-domain calendar-coordinate match and semantic negative control; not a published migration.",
+      "sha256": "24061be7a45c2237750914ef94ed1378a63589f828958c58daa6e9a32e3c5e46"
+    }
+  }
+}

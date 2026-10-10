@@ -1,0 +1,666 @@
+{
+  "name": "FAA aircraft metadata to BTS flight records",
+  "source": {
+    "fields": [
+      {
+        "name": "tailnum",
+        "data_type": "text",
+        "samples": [
+          "N10156",
+          "N153UW",
+          "N207WN",
+          "N306AS",
+          "N363NB",
+          "N394DL",
+          "N472WN",
+          "N534AS",
+          "N588UA",
+          "N646UA",
+          "N708EV",
+          "N768JB",
+          "N8320J",
+          "N8938A",
+          "N933DN",
+          "N999DN"
+        ]
+      },
+      {
+        "name": "year",
+        "data_type": "integer",
+        "samples": [
+          "2004",
+          "2013",
+          "2005",
+          "2001",
+          "2003",
+          "1995",
+          "2004",
+          "2011",
+          "1993",
+          "1992",
+          "2002",
+          "2009",
+          "2012",
+          "2004",
+          "1997",
+          "1992"
+        ]
+      },
+      {
+        "name": "type",
+        "data_type": "text",
+        "samples": [
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine"
+        ]
+      },
+      {
+        "name": "manufacturer",
+        "data_type": "text",
+        "samples": [
+          "EMBRAER",
+          "AIRBUS",
+          "BOEING",
+          "BOEING",
+          "AIRBUS",
+          "BOEING",
+          "BOEING",
+          "BOEING",
+          "BOEING",
+          "BOEING",
+          "BOMBARDIER INC",
+          "AIRBUS",
+          "BOEING",
+          "BOMBARDIER INC",
+          "MCDONNELL DOUGLAS",
+          "MCDONNELL DOUGLAS CORPORATION"
+        ]
+      },
+      {
+        "name": "model",
+        "data_type": "text",
+        "samples": [
+          "EMB-145XR",
+          "A321-211",
+          "737-7H4",
+          "737-990",
+          "A319-114",
+          "767-324",
+          "737-7H4",
+          "737-890",
+          "757-222",
+          "767-322",
+          "CL-600-2C10",
+          "A320-232",
+          "737-8H4",
+          "CL-600-2B19",
+          "MD-90-30",
+          "MD-88"
+        ]
+      },
+      {
+        "name": "engines",
+        "data_type": "integer",
+        "samples": [
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2"
+        ]
+      },
+      {
+        "name": "seats",
+        "data_type": "integer",
+        "samples": [
+          "55",
+          "199",
+          "140",
+          "149",
+          "145",
+          "269",
+          "140",
+          "149",
+          "178",
+          "330",
+          "80",
+          "200",
+          "140",
+          "55",
+          "142",
+          "142"
+        ]
+      },
+      {
+        "name": "speed",
+        "data_type": "integer",
+        "samples": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "name": "engine",
+        "data_type": "text",
+        "samples": [
+          "Turbo-fan",
+          "Turbo-fan",
+          "Turbo-fan",
+          "Turbo-jet",
+          "Turbo-fan",
+          "Turbo-fan",
+          "Turbo-fan",
+          "Turbo-fan",
+          "Turbo-jet",
+          "Turbo-fan",
+          "Turbo-fan",
+          "Turbo-fan",
+          "Turbo-fan",
+          "Turbo-fan",
+          "Turbo-jet",
+          "Turbo-jet"
+        ]
+      }
+    ]
+  },
+  "target": {
+    "fields": [
+      {
+        "name": "year",
+        "data_type": "integer",
+        "samples": [
+          "2013",
+          "2013",
+          "2013",
+          "2013",
+          "2013",
+          "2013",
+          "2013",
+          "2013",
+          "2013",
+          "2013",
+          "2013",
+          "2013",
+          "2013",
+          "2013",
+          "2013",
+          "2013"
+        ]
+      },
+      {
+        "name": "month",
+        "data_type": "integer",
+        "samples": [
+          "1",
+          "1",
+          "10",
+          "11",
+          "12",
+          "2",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "6",
+          "7",
+          "8",
+          "9",
+          "9"
+        ]
+      },
+      {
+        "name": "day",
+        "data_type": "integer",
+        "samples": [
+          "1",
+          "26",
+          "20",
+          "13",
+          "8",
+          "2",
+          "27",
+          "23",
+          "16",
+          "10",
+          "3",
+          "27",
+          "21",
+          "13",
+          "6",
+          "30"
+        ]
+      },
+      {
+        "name": "dep_time",
+        "data_type": "integer",
+        "samples": [
+          "517",
+          "1851",
+          "1052",
+          "1249",
+          "753",
+          "622",
+          "1241",
+          "1156",
+          "1055",
+          "816",
+          "1655",
+          "845",
+          "925",
+          "1522",
+          "1533",
+          ""
+        ]
+      },
+      {
+        "name": "sched_dep_time",
+        "data_type": "integer",
+        "samples": [
+          "515",
+          "1759",
+          "1100",
+          "1259",
+          "759",
+          "630",
+          "910",
+          "1200",
+          "1100",
+          "820",
+          "1655",
+          "850",
+          "847",
+          "1443",
+          "1535",
+          "840"
+        ]
+      },
+      {
+        "name": "dep_delay",
+        "data_type": "float",
+        "samples": [
+          "2.0",
+          "52.0",
+          "-8.0",
+          "-10.0",
+          "-6.0",
+          "-8.0",
+          "211.0",
+          "-4.0",
+          "-5.0",
+          "-4.0",
+          "0.0",
+          "-5.0",
+          "38.0",
+          "39.0",
+          "-2.0",
+          ""
+        ]
+      },
+      {
+        "name": "arr_time",
+        "data_type": "integer",
+        "samples": [
+          "830",
+          "2129",
+          "1156",
+          "1347",
+          "1054",
+          "746",
+          "1449",
+          "1248",
+          "1155",
+          "1052",
+          "2014",
+          "1009",
+          "1215",
+          "1835",
+          "1735",
+          ""
+        ]
+      },
+      {
+        "name": "sched_arr_time",
+        "data_type": "integer",
+        "samples": [
+          "819",
+          "2057",
+          "1218",
+          "1428",
+          "1037",
+          "810",
+          "1053",
+          "1305",
+          "1212",
+          "1116",
+          "2005",
+          "1013",
+          "1145",
+          "1800",
+          "1750",
+          "1020"
+        ]
+      },
+      {
+        "name": "arr_delay",
+        "data_type": "float",
+        "samples": [
+          "11.0",
+          "32.0",
+          "-22.0",
+          "-41.0",
+          "17.0",
+          "-24.0",
+          "236.0",
+          "-17.0",
+          "-17.0",
+          "-24.0",
+          "9.0",
+          "-4.0",
+          "30.0",
+          "35.0",
+          "-15.0",
+          ""
+        ]
+      },
+      {
+        "name": "carrier",
+        "data_type": "text",
+        "samples": [
+          "UA",
+          "UA",
+          "US",
+          "EV",
+          "DL",
+          "AA",
+          "B6",
+          "US",
+          "US",
+          "DL",
+          "VX",
+          "EV",
+          "UA",
+          "UA",
+          "WN",
+          "MQ"
+        ]
+      },
+      {
+        "name": "flight",
+        "data_type": "integer",
+        "samples": [
+          "1545",
+          "1730",
+          "2177",
+          "4622",
+          "2047",
+          "303",
+          "885",
+          "2126",
+          "2124",
+          "1167",
+          "413",
+          "5824",
+          "217",
+          "1631",
+          "1873",
+          "3531"
+        ]
+      },
+      {
+        "name": "tailnum",
+        "data_type": "text",
+        "samples": [
+          "N14228",
+          "N47414",
+          "N954UW",
+          "N31131",
+          "N609DL",
+          "N3AXAA",
+          "N267JB",
+          "N951UW",
+          "N967UW",
+          "N303DQ",
+          "N631VA",
+          "N12921",
+          "N567UA",
+          "N18223",
+          "N719SW",
+          "N839MQ"
+        ]
+      },
+      {
+        "name": "origin",
+        "data_type": "text",
+        "samples": [
+          "EWR",
+          "EWR",
+          "LGA",
+          "EWR",
+          "LGA",
+          "LGA",
+          "JFK",
+          "LGA",
+          "LGA",
+          "JFK",
+          "JFK",
+          "EWR",
+          "EWR",
+          "EWR",
+          "EWR",
+          "LGA"
+        ]
+      },
+      {
+        "name": "dest",
+        "data_type": "text",
+        "samples": [
+          "IAH",
+          "PBI",
+          "DCA",
+          "BNA",
+          "ATL",
+          "ORD",
+          "RDU",
+          "BOS",
+          "BOS",
+          "TPA",
+          "LAX",
+          "RIC",
+          "SEA",
+          "SFO",
+          "DEN",
+          "RDU"
+        ]
+      },
+      {
+        "name": "air_time",
+        "data_type": "float",
+        "samples": [
+          "227.0",
+          "140.0",
+          "43.0",
+          "98.0",
+          "140.0",
+          "116.0",
+          "81.0",
+          "35.0",
+          "35.0",
+          "137.0",
+          "313.0",
+          "57.0",
+          "320.0",
+          "351.0",
+          "203.0",
+          ""
+        ]
+      },
+      {
+        "name": "distance",
+        "data_type": "float",
+        "samples": [
+          "1400.0",
+          "1023.0",
+          "214.0",
+          "748.0",
+          "762.0",
+          "733.0",
+          "427.0",
+          "184.0",
+          "184.0",
+          "1005.0",
+          "2475.0",
+          "277.0",
+          "2402.0",
+          "2565.0",
+          "1605.0",
+          "431.0"
+        ]
+      },
+      {
+        "name": "hour",
+        "data_type": "float",
+        "samples": [
+          "5.0",
+          "17.0",
+          "11.0",
+          "12.0",
+          "7.0",
+          "6.0",
+          "9.0",
+          "12.0",
+          "11.0",
+          "8.0",
+          "16.0",
+          "8.0",
+          "8.0",
+          "14.0",
+          "15.0",
+          "8.0"
+        ]
+      },
+      {
+        "name": "minute",
+        "data_type": "float",
+        "samples": [
+          "15.0",
+          "59.0",
+          "0.0",
+          "59.0",
+          "59.0",
+          "30.0",
+          "10.0",
+          "0.0",
+          "0.0",
+          "20.0",
+          "55.0",
+          "50.0",
+          "47.0",
+          "43.0",
+          "35.0",
+          "40.0"
+        ]
+      },
+      {
+        "name": "time_hour",
+        "data_type": "timestamp",
+        "samples": [
+          "2013-01-01T10:00:00+00:00",
+          "2013-01-26T22:00:00+00:00",
+          "2013-10-20T15:00:00+00:00",
+          "2013-11-13T17:00:00+00:00",
+          "2013-12-08T12:00:00+00:00",
+          "2013-02-02T11:00:00+00:00",
+          "2013-02-27T14:00:00+00:00",
+          "2013-03-23T16:00:00+00:00",
+          "2013-04-16T15:00:00+00:00",
+          "2013-05-10T12:00:00+00:00",
+          "2013-06-03T20:00:00+00:00",
+          "2013-06-27T12:00:00+00:00",
+          "2013-07-21T12:00:00+00:00",
+          "2013-08-13T18:00:00+00:00",
+          "2013-09-06T19:00:00+00:00",
+          "2013-09-30T12:00:00+00:00"
+        ]
+      }
+    ]
+  },
+  "answers": [
+    {
+      "kind": "match",
+      "source": "tailnum",
+      "target": "tailnum"
+    },
+    {
+      "kind": "no_match",
+      "source": "year"
+    },
+    {
+      "kind": "no_match",
+      "source": "type"
+    },
+    {
+      "kind": "no_match",
+      "source": "manufacturer"
+    },
+    {
+      "kind": "no_match",
+      "source": "model"
+    },
+    {
+      "kind": "no_match",
+      "source": "engines"
+    },
+    {
+      "kind": "no_match",
+      "source": "seats"
+    },
+    {
+      "kind": "no_match",
+      "source": "speed"
+    },
+    {
+      "kind": "no_match",
+      "source": "engine"
+    }
+  ]
+}

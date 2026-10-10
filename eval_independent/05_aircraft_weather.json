@@ -1,0 +1,577 @@
+{
+  "name": "Negative control: airframe metadata versus airport-hour weather",
+  "source": {
+    "fields": [
+      {
+        "name": "tailnum",
+        "data_type": "text",
+        "samples": [
+          "N10156",
+          "N153UW",
+          "N207WN",
+          "N306AS",
+          "N363NB",
+          "N394DL",
+          "N472WN",
+          "N534AS",
+          "N588UA",
+          "N646UA",
+          "N708EV",
+          "N768JB",
+          "N8320J",
+          "N8938A",
+          "N933DN",
+          "N999DN"
+        ]
+      },
+      {
+        "name": "year",
+        "data_type": "integer",
+        "samples": [
+          "2004",
+          "2013",
+          "2005",
+          "2001",
+          "2003",
+          "1995",
+          "2004",
+          "2011",
+          "1993",
+          "1992",
+          "2002",
+          "2009",
+          "2012",
+          "2004",
+          "1997",
+          "1992"
+        ]
+      },
+      {
+        "name": "type",
+        "data_type": "text",
+        "samples": [
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine",
+          "Fixed wing multi engine"
+        ]
+      },
+      {
+        "name": "manufacturer",
+        "data_type": "text",
+        "samples": [
+          "EMBRAER",
+          "AIRBUS",
+          "BOEING",
+          "BOEING",
+          "AIRBUS",
+          "BOEING",
+          "BOEING",
+          "BOEING",
+          "BOEING",
+          "BOEING",
+          "BOMBARDIER INC",
+          "AIRBUS",
+          "BOEING",
+          "BOMBARDIER INC",
+          "MCDONNELL DOUGLAS",
+          "MCDONNELL DOUGLAS CORPORATION"
+        ]
+      },
+      {
+        "name": "model",
+        "data_type": "text",
+        "samples": [
+          "EMB-145XR",
+          "A321-211",
+          "737-7H4",
+          "737-990",
+          "A319-114",
+          "767-324",
+          "737-7H4",
+          "737-890",
+          "757-222",
+          "767-322",
+          "CL-600-2C10",
+          "A320-232",
+          "737-8H4",
+          "CL-600-2B19",
+          "MD-90-30",
+          "MD-88"
+        ]
+      },
+      {
+        "name": "engines",
+        "data_type": "integer",
+        "samples": [
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2"
+        ]
+      },
+      {
+        "name": "seats",
+        "data_type": "integer",
+        "samples": [
+          "55",
+          "199",
+          "140",
+          "149",
+          "145",
+          "269",
+          "140",
+          "149",
+          "178",
+          "330",
+          "80",
+          "200",
+          "140",
+          "55",
+          "142",
+          "142"
+        ]
+      },
+      {
+        "name": "speed",
+        "data_type": "integer",
+        "samples": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "name": "engine",
+        "data_type": "text",
+        "samples": [
+          "Turbo-fan",
+          "Turbo-fan",
+          "Turbo-fan",
+          "Turbo-jet",
+          "Turbo-fan",
+          "Turbo-fan",
+          "Turbo-fan",
+          "Turbo-fan",
+          "Turbo-jet",
+          "Turbo-fan",
+          "Turbo-fan",
+          "Turbo-fan",
+          "Turbo-fan",
+          "Turbo-fan",
+          "Turbo-jet",
+          "Turbo-jet"
+        ]
+      }
+    ]
+  },
+  "target": {
+    "fields": [
+      {
+        "name": "origin",
+        "data_type": "text",
+        "samples": [
+          "EWR",
+          "EWR",
+          "EWR",
+          "EWR",
+          "EWR",
+          "JFK",
+          "JFK",
+          "JFK",
+          "JFK",
+          "JFK",
+          "LGA",
+          "LGA",
+          "LGA",
+          "LGA",
+          "LGA",
+          "LGA"
+        ]
+      },
+      {
+        "name": "year",
+        "data_type": "integer",
+        "samples": [
+          "2013",
+          "2013",
+          "2013",
+          "2013",
+          "2013",
+          "2013",
+          "2013",
+          "2013",
+          "2013",
+          "2013",
+          "2013",
+          "2013",
+          "2013",
+          "2013",
+          "2013",
+          "2013"
+        ]
+      },
+      {
+        "name": "month",
+        "data_type": "integer",
+        "samples": [
+          "1",
+          "3",
+          "5",
+          "8",
+          "10",
+          "1",
+          "3",
+          "5",
+          "8",
+          "10",
+          "1",
+          "3",
+          "5",
+          "8",
+          "10",
+          "12"
+        ]
+      },
+      {
+        "name": "day",
+        "data_type": "integer",
+        "samples": [
+          "1",
+          "14",
+          "26",
+          "6",
+          "18",
+          "1",
+          "14",
+          "26",
+          "6",
+          "18",
+          "1",
+          "14",
+          "26",
+          "6",
+          "18",
+          "30"
+        ]
+      },
+      {
+        "name": "hour",
+        "data_type": "integer",
+        "samples": [
+          "1",
+          "18",
+          "7",
+          "23",
+          "17",
+          "2",
+          "19",
+          "9",
+          "22",
+          "17",
+          "1",
+          "19",
+          "8",
+          "22",
+          "16",
+          "18"
+        ]
+      },
+      {
+        "name": "temp",
+        "data_type": "float",
+        "samples": [
+          "39.02",
+          "39.92",
+          "53.06",
+          "71.96",
+          "64.94",
+          "39.02",
+          "39.02",
+          "57.92",
+          "71.06",
+          "64.94",
+          "39.92",
+          "39.02",
+          "53.96",
+          "71.96",
+          "66.92",
+          "28.94"
+        ]
+      },
+      {
+        "name": "dewp",
+        "data_type": "float",
+        "samples": [
+          "26.06",
+          "3.92",
+          "37.94",
+          "62.06",
+          "39.92",
+          "26.06",
+          "1.94",
+          "35.96",
+          "57.92",
+          "41.0",
+          "26.06",
+          "3.92",
+          "35.96",
+          "57.02",
+          "39.02",
+          "10.94"
+        ]
+      },
+      {
+        "name": "humid",
+        "data_type": "float",
+        "samples": [
+          "59.37",
+          "21.8",
+          "56.34",
+          "71.01",
+          "39.79",
+          "59.37",
+          "20.6",
+          "43.67",
+          "63.18",
+          "41.49",
+          "57.33",
+          "22.58",
+          "50.42",
+          "59.32",
+          "35.87",
+          "46.41"
+        ]
+      },
+      {
+        "name": "wind_dir",
+        "data_type": "float",
+        "samples": [
+          "270.0",
+          "290.0",
+          "260.0",
+          "170.0",
+          "260.0",
+          "270.0",
+          "300.0",
+          "290.0",
+          "160.0",
+          "260.0",
+          "260.0",
+          "290.0",
+          "290.0",
+          "170.0",
+          "270.0",
+          "330.0"
+        ]
+      },
+      {
+        "name": "wind_speed",
+        "data_type": "float",
+        "samples": [
+          "10.357019999999999",
+          "25.317159999999998",
+          "18.41248",
+          "6.904679999999999",
+          "12.658579999999999",
+          "11.5078",
+          "25.317159999999998",
+          "19.56326",
+          "8.05546",
+          "12.658579999999999",
+          "13.809359999999998",
+          "24.166379999999997",
+          "19.56326",
+          "10.357019999999999",
+          "18.41248",
+          "18.41248"
+        ]
+      },
+      {
+        "name": "wind_gust",
+        "data_type": "float",
+        "samples": [
+          "",
+          "32.22184",
+          "25.317159999999998",
+          "",
+          "20.714039999999997",
+          "",
+          "37.975739999999995",
+          "32.22184",
+          "",
+          "",
+          "23.0156",
+          "32.22184",
+          "25.317159999999998",
+          "",
+          "23.0156",
+          ""
+        ]
+      },
+      {
+        "name": "precip",
+        "data_type": "float",
+        "samples": [
+          "0.0",
+          "0.0",
+          "0.0",
+          "0.0",
+          "0.0",
+          "0.0",
+          "0.0",
+          "0.0",
+          "0.0",
+          "0.0",
+          "0.0",
+          "0.0",
+          "0.0",
+          "0.0",
+          "0.0",
+          "0.0"
+        ]
+      },
+      {
+        "name": "pressure",
+        "data_type": "float",
+        "samples": [
+          "1012.0",
+          "1011.7",
+          "1016.8",
+          "1020.0",
+          "1012.2",
+          "1012.4",
+          "1012.2",
+          "1016.4",
+          "1020.5",
+          "1012.3",
+          "1011.9",
+          "1011.8",
+          "1016.3",
+          "1019.9",
+          "1011.0",
+          "1020.9"
+        ]
+      },
+      {
+        "name": "visib",
+        "data_type": "float",
+        "samples": [
+          "10.0",
+          "10.0",
+          "10.0",
+          "10.0",
+          "10.0",
+          "10.0",
+          "10.0",
+          "10.0",
+          "10.0",
+          "10.0",
+          "10.0",
+          "10.0",
+          "10.0",
+          "10.0",
+          "10.0",
+          "10.0"
+        ]
+      },
+      {
+        "name": "time_hour",
+        "data_type": "timestamp",
+        "samples": [
+          "2013-01-01T06:00:00+00:00",
+          "2013-03-14T22:00:00+00:00",
+          "2013-05-26T11:00:00+00:00",
+          "2013-08-07T03:00:00+00:00",
+          "2013-10-18T21:00:00+00:00",
+          "2013-01-01T07:00:00+00:00",
+          "2013-03-14T23:00:00+00:00",
+          "2013-05-26T13:00:00+00:00",
+          "2013-08-07T02:00:00+00:00",
+          "2013-10-18T21:00:00+00:00",
+          "2013-01-01T06:00:00+00:00",
+          "2013-03-14T23:00:00+00:00",
+          "2013-05-26T12:00:00+00:00",
+          "2013-08-07T02:00:00+00:00",
+          "2013-10-18T20:00:00+00:00",
+          "2013-12-30T23:00:00+00:00"
+        ]
+      }
+    ]
+  },
+  "answers": [
+    {
+      "kind": "no_match",
+      "source": "tailnum"
+    },
+    {
+      "kind": "no_match",
+      "source": "year"
+    },
+    {
+      "kind": "no_match",
+      "source": "type"
+    },
+    {
+      "kind": "no_match",
+      "source": "manufacturer"
+    },
+    {
+      "kind": "no_match",
+      "source": "model"
+    },
+    {
+      "kind": "no_match",
+      "source": "engines"
+    },
+    {
+      "kind": "no_match",
+      "source": "seats"
+    },
+    {
+      "kind": "no_match",
+      "source": "speed"
+    },
+    {
+      "kind": "no_match",
+      "source": "engine"
+    }
+  ]
+}

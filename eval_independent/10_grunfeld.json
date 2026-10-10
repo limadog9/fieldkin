@@ -1,0 +1,258 @@
+{
+  "name": "Original 11-firm Grunfeld investment study: AER to statsmodels",
+  "source": {
+    "fields": [
+      {
+        "name": "invest",
+        "data_type": "float",
+        "samples": [
+          "317.6",
+          "555.1",
+          "288.2",
+          "44.6",
+          "179.5",
+          "89.36",
+          "39.67",
+          "25.94",
+          "95.3",
+          "48.98",
+          "48.51",
+          "26.63",
+          "43.48",
+          "1.18",
+          "3.326",
+          "6.281"
+        ]
+      },
+      {
+        "name": "value",
+        "data_type": "float",
+        "samples": [
+          "3078.5",
+          "3700.2",
+          "1813.9",
+          "2039.7",
+          "2371.6",
+          "694.6",
+          "189.5",
+          "223.1",
+          "676.9",
+          "156.7",
+          "537.1",
+          "290.6",
+          "274.6",
+          "61.82",
+          "84.164",
+          "47.165"
+        ]
+      },
+      {
+        "name": "capital",
+        "data_type": "float",
+        "samples": [
+          "2.8",
+          "1020.1",
+          "279.1",
+          "156.2",
+          "800.3",
+          "110.2",
+          "407.2",
+          "27.7",
+          "177.2",
+          "351.2",
+          "36.2",
+          "162",
+          "376",
+          "3.41",
+          "61.659",
+          "83.788"
+        ]
+      },
+      {
+        "name": "firm",
+        "data_type": "text",
+        "samples": [
+          "General Motors",
+          "General Motors",
+          "US Steel",
+          "General Electric",
+          "General Electric",
+          "Chrysler",
+          "Atlantic Refining",
+          "IBM",
+          "IBM",
+          "Union Oil",
+          "Westinghouse",
+          "Goodyear",
+          "Goodyear",
+          "Diamond Match",
+          "American Steel",
+          "American Steel"
+        ]
+      },
+      {
+        "name": "year",
+        "data_type": "integer",
+        "samples": [
+          "1935",
+          "1949",
+          "1944",
+          "1938",
+          "1953",
+          "1948",
+          "1942",
+          "1937",
+          "1951",
+          "1946",
+          "1941",
+          "1935",
+          "1950",
+          "1944",
+          "1939",
+          "1954"
+        ]
+      }
+    ]
+  },
+  "target": {
+    "fields": [
+      {
+        "name": "invest",
+        "data_type": "unknown",
+        "samples": [
+          "317.6",
+          "555.1",
+          "288.2",
+          "44.6",
+          "179.5",
+          "89.36",
+          "39.67",
+          "25.94",
+          "95.3",
+          "48.98",
+          "48.51",
+          "26.63",
+          "43.48",
+          "1.18",
+          "3.326",
+          "6.281"
+        ]
+      },
+      {
+        "name": "value",
+        "data_type": "unknown",
+        "samples": [
+          "3078.5",
+          "3700.2",
+          "1813.9",
+          "2039.7",
+          "2371.6",
+          "694.6",
+          "189.5",
+          "223.1",
+          "676.9",
+          "156.7",
+          "537.1",
+          "290.6",
+          "274.6",
+          "61.82",
+          "84.164",
+          "47.165"
+        ]
+      },
+      {
+        "name": "capital",
+        "data_type": "unknown",
+        "samples": [
+          "2.8",
+          "1020.1",
+          "279.1",
+          "156.2",
+          "800.3",
+          "110.2",
+          "407.2",
+          "27.7",
+          "177.2",
+          "351.2",
+          "36.2",
+          "162",
+          "376",
+          "3.41",
+          "61.659",
+          "83.788"
+        ]
+      },
+      {
+        "name": "firm",
+        "data_type": "text",
+        "samples": [
+          "General Motors",
+          "General Motors",
+          "US Steel",
+          "General Electric",
+          "General Electric",
+          "Chrysler",
+          "Atlantic Refining",
+          "IBM",
+          "IBM",
+          "Union Oil",
+          "Westinghouse",
+          "Goodyear",
+          "Goodyear",
+          "Diamond Match",
+          "American Steel",
+          "American Steel"
+        ]
+      },
+      {
+        "name": "year",
+        "data_type": "float",
+        "samples": [
+          "1935",
+          "1949",
+          "1944",
+          "1938",
+          "1953",
+          "1948",
+          "1942",
+          "1937",
+          "1951",
+          "1946",
+          "1941",
+          "1935",
+          "1950",
+          "1944",
+          "1939",
+          "1954"
+        ]
+      }
+    ]
+  },
+  "answers": [
+    {
+      "kind": "match",
+      "source": "invest",
+      "target": "invest"
+    },
+    {
+      "kind": "match",
+      "source": "value",
+      "target": "value"
+    },
+    {
+      "kind": "match",
+      "source": "capital",
+      "target": "capital"
+    },
+    {
+      "kind": "match",
+      "source": "firm",
+      "target": "firm"
+    },
+    {
+      "kind": "match",
+      "source": "year",
+      "target": "year"
+    }
+  ]
+}

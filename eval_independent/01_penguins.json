@@ -1,0 +1,638 @@
+{
+  "name": "Palmer LTER raw to publisher-cleaned penguins",
+  "source": {
+    "fields": [
+      {
+        "name": "studyName",
+        "data_type": "text",
+        "samples": [
+          "PAL0708",
+          "PAL0708",
+          "PAL0708",
+          "PAL0809",
+          "PAL0809",
+          "PAL0910",
+          "PAL0910",
+          "PAL0708",
+          "PAL0708",
+          "PAL0809",
+          "PAL0809",
+          "PAL0910",
+          "PAL0910",
+          "PAL0708",
+          "PAL0910",
+          "PAL0910"
+        ]
+      },
+      {
+        "name": "Sample Number",
+        "data_type": "float",
+        "samples": [
+          "1",
+          "23",
+          "46",
+          "69",
+          "92",
+          "115",
+          "138",
+          "9",
+          "31",
+          "54",
+          "77",
+          "100",
+          "123",
+          "22",
+          "45",
+          "68"
+        ]
+      },
+      {
+        "name": "Species",
+        "data_type": "text",
+        "samples": [
+          "Adelie Penguin (Pygoscelis adeliae)",
+          "Adelie Penguin (Pygoscelis adeliae)",
+          "Adelie Penguin (Pygoscelis adeliae)",
+          "Adelie Penguin (Pygoscelis adeliae)",
+          "Adelie Penguin (Pygoscelis adeliae)",
+          "Adelie Penguin (Pygoscelis adeliae)",
+          "Adelie Penguin (Pygoscelis adeliae)",
+          "Gentoo penguin (Pygoscelis papua)",
+          "Gentoo penguin (Pygoscelis papua)",
+          "Gentoo penguin (Pygoscelis papua)",
+          "Gentoo penguin (Pygoscelis papua)",
+          "Gentoo penguin (Pygoscelis papua)",
+          "Gentoo penguin (Pygoscelis papua)",
+          "Chinstrap penguin (Pygoscelis antarctica)",
+          "Chinstrap penguin (Pygoscelis antarctica)",
+          "Chinstrap penguin (Pygoscelis antarctica)"
+        ]
+      },
+      {
+        "name": "Region",
+        "data_type": "text",
+        "samples": [
+          "Anvers",
+          "Anvers",
+          "Anvers",
+          "Anvers",
+          "Anvers",
+          "Anvers",
+          "Anvers",
+          "Anvers",
+          "Anvers",
+          "Anvers",
+          "Anvers",
+          "Anvers",
+          "Anvers",
+          "Anvers",
+          "Anvers",
+          "Anvers"
+        ]
+      },
+      {
+        "name": "Island",
+        "data_type": "text",
+        "samples": [
+          "Torgersen",
+          "Biscoe",
+          "Dream",
+          "Torgersen",
+          "Dream",
+          "Biscoe",
+          "Dream",
+          "Biscoe",
+          "Biscoe",
+          "Biscoe",
+          "Biscoe",
+          "Biscoe",
+          "Biscoe",
+          "Dream",
+          "Dream",
+          "Dream"
+        ]
+      },
+      {
+        "name": "Stage",
+        "data_type": "text",
+        "samples": [
+          "Adult, 1 Egg Stage",
+          "Adult, 1 Egg Stage",
+          "Adult, 1 Egg Stage",
+          "Adult, 1 Egg Stage",
+          "Adult, 1 Egg Stage",
+          "Adult, 1 Egg Stage",
+          "Adult, 1 Egg Stage",
+          "Adult, 1 Egg Stage",
+          "Adult, 1 Egg Stage",
+          "Adult, 1 Egg Stage",
+          "Adult, 1 Egg Stage",
+          "Adult, 1 Egg Stage",
+          "Adult, 1 Egg Stage",
+          "Adult, 1 Egg Stage",
+          "Adult, 1 Egg Stage",
+          "Adult, 1 Egg Stage"
+        ]
+      },
+      {
+        "name": "Individual ID",
+        "data_type": "text",
+        "samples": [
+          "N1A1",
+          "N12A1",
+          "N28A2",
+          "N32A1",
+          "N45A2",
+          "N61A1",
+          "N78A2",
+          "N35A1",
+          "N50A1",
+          "N14A2",
+          "N58A1",
+          "N21A2",
+          "N43A1",
+          "N73A2",
+          "N86A1",
+          "N100A2"
+        ]
+      },
+      {
+        "name": "Clutch Completion",
+        "data_type": "text",
+        "samples": [
+          "Yes",
+          "Yes",
+          "Yes",
+          "No",
+          "Yes",
+          "Yes",
+          "Yes",
+          "Yes",
+          "Yes",
+          "Yes",
+          "Yes",
+          "Yes",
+          "Yes",
+          "Yes",
+          "Yes",
+          "Yes"
+        ]
+      },
+      {
+        "name": "Date Egg",
+        "data_type": "date",
+        "samples": [
+          "2007-11-11",
+          "2007-11-12",
+          "2007-11-16",
+          "2008-11-11",
+          "2008-11-14",
+          "2009-11-17",
+          "2009-11-16",
+          "2007-11-27",
+          "2007-11-29",
+          "2008-11-04",
+          "2008-11-06",
+          "2009-11-18",
+          "2009-11-22",
+          "2007-12-03",
+          "2009-11-17",
+          "2009-11-21"
+        ]
+      },
+      {
+        "name": "Culmen Length (mm)",
+        "data_type": "float",
+        "samples": [
+          "39.1",
+          "35.9",
+          "39.6",
+          "35.9",
+          "41.1",
+          "39.6",
+          "40.2",
+          "43.3",
+          "47.3",
+          "50.1",
+          "47.5",
+          "51.1",
+          "45.2",
+          "48.5",
+          "50.9",
+          "50.2"
+        ]
+      },
+      {
+        "name": "Culmen Depth (mm)",
+        "data_type": "float",
+        "samples": [
+          "18.7",
+          "19.2",
+          "18.8",
+          "16.6",
+          "18.1",
+          "20.7",
+          "20.1",
+          "13.4",
+          "15.3",
+          "15",
+          "14.2",
+          "16.5",
+          "14.8",
+          "17.5",
+          "17.9",
+          "18.7"
+        ]
+      },
+      {
+        "name": "Flipper Length (mm)",
+        "data_type": "float",
+        "samples": [
+          "181",
+          "189",
+          "190",
+          "190",
+          "205",
+          "191",
+          "200",
+          "209",
+          "222",
+          "225",
+          "209",
+          "225",
+          "212",
+          "191",
+          "196",
+          "198"
+        ]
+      },
+      {
+        "name": "Body Mass (g)",
+        "data_type": "float",
+        "samples": [
+          "3750",
+          "3800",
+          "4600",
+          "3050",
+          "4300",
+          "3900",
+          "3975",
+          "4400",
+          "5250",
+          "5000",
+          "4600",
+          "5250",
+          "5200",
+          "3400",
+          "3675",
+          "3775"
+        ]
+      },
+      {
+        "name": "Sex",
+        "data_type": "text",
+        "samples": [
+          "MALE",
+          "FEMALE",
+          "MALE",
+          "FEMALE",
+          "MALE",
+          "FEMALE",
+          "MALE",
+          "FEMALE",
+          "MALE",
+          "MALE",
+          "FEMALE",
+          "MALE",
+          "FEMALE",
+          "MALE",
+          "FEMALE",
+          "FEMALE"
+        ]
+      },
+      {
+        "name": "Delta 15 N (o/oo)",
+        "data_type": "float",
+        "samples": [
+          "",
+          "9.22286",
+          "9.49106",
+          "8.47781",
+          "8.77018",
+          "8.80967",
+          "8.95998",
+          "8.13643",
+          "",
+          "8.50153",
+          "8.39299",
+          "8.2066",
+          "8.24246",
+          "9.42666",
+          "9.43684",
+          "9.39305"
+        ]
+      },
+      {
+        "name": "Delta 13 C (o/oo)",
+        "data_type": "float",
+        "samples": [
+          "",
+          "-25.03474",
+          "-24.10255",
+          "-26.07821",
+          "-25.83352",
+          "-26.78958",
+          "-26.32601",
+          "-25.32176",
+          "",
+          "-26.61414",
+          "-26.78733",
+          "-26.36863",
+          "-26.11969",
+          "-24.26375",
+          "-24.16566",
+          "-24.25255"
+        ]
+      },
+      {
+        "name": "Comments",
+        "data_type": "text",
+        "samples": [
+          "Not enough blood for isotopes.",
+          "",
+          "",
+          "Nest never observed with full clutch.",
+          "",
+          "",
+          "",
+          "",
+          "Not enough blood for isotopes.",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      }
+    ]
+  },
+  "target": {
+    "fields": [
+      {
+        "name": "species",
+        "data_type": "text",
+        "samples": [
+          "Adelie",
+          "Adelie",
+          "Adelie",
+          "Adelie",
+          "Adelie",
+          "Adelie",
+          "Adelie",
+          "Gentoo",
+          "Gentoo",
+          "Gentoo",
+          "Gentoo",
+          "Gentoo",
+          "Gentoo",
+          "Chinstrap",
+          "Chinstrap",
+          "Chinstrap"
+        ]
+      },
+      {
+        "name": "island",
+        "data_type": "text",
+        "samples": [
+          "Torgersen",
+          "Biscoe",
+          "Dream",
+          "Torgersen",
+          "Dream",
+          "Biscoe",
+          "Dream",
+          "Biscoe",
+          "Biscoe",
+          "Biscoe",
+          "Biscoe",
+          "Biscoe",
+          "Biscoe",
+          "Dream",
+          "Dream",
+          "Dream"
+        ]
+      },
+      {
+        "name": "bill_length_mm",
+        "data_type": "float",
+        "samples": [
+          "39.1",
+          "35.9",
+          "39.6",
+          "35.9",
+          "41.1",
+          "39.6",
+          "40.2",
+          "43.3",
+          "47.3",
+          "50.1",
+          "47.5",
+          "51.1",
+          "45.2",
+          "48.5",
+          "50.9",
+          "50.2"
+        ]
+      },
+      {
+        "name": "bill_depth_mm",
+        "data_type": "float",
+        "samples": [
+          "18.7",
+          "19.2",
+          "18.8",
+          "16.6",
+          "18.1",
+          "20.7",
+          "20.1",
+          "13.4",
+          "15.3",
+          "15",
+          "14.2",
+          "16.5",
+          "14.8",
+          "17.5",
+          "17.9",
+          "18.7"
+        ]
+      },
+      {
+        "name": "flipper_length_mm",
+        "data_type": "integer",
+        "samples": [
+          "181",
+          "189",
+          "190",
+          "190",
+          "205",
+          "191",
+          "200",
+          "209",
+          "222",
+          "225",
+          "209",
+          "225",
+          "212",
+          "191",
+          "196",
+          "198"
+        ]
+      },
+      {
+        "name": "body_mass_g",
+        "data_type": "integer",
+        "samples": [
+          "3750",
+          "3800",
+          "4600",
+          "3050",
+          "4300",
+          "3900",
+          "3975",
+          "4400",
+          "5250",
+          "5000",
+          "4600",
+          "5250",
+          "5200",
+          "3400",
+          "3675",
+          "3775"
+        ]
+      },
+      {
+        "name": "sex",
+        "data_type": "text",
+        "samples": [
+          "male",
+          "female",
+          "male",
+          "female",
+          "male",
+          "female",
+          "male",
+          "female",
+          "male",
+          "male",
+          "female",
+          "male",
+          "female",
+          "male",
+          "female",
+          "female"
+        ]
+      },
+      {
+        "name": "year",
+        "data_type": "integer",
+        "samples": [
+          "2007",
+          "2007",
+          "2007",
+          "2008",
+          "2008",
+          "2009",
+          "2009",
+          "2007",
+          "2007",
+          "2008",
+          "2008",
+          "2009",
+          "2009",
+          "2007",
+          "2009",
+          "2009"
+        ]
+      }
+    ]
+  },
+  "answers": [
+    {
+      "kind": "no_match",
+      "source": "studyName"
+    },
+    {
+      "kind": "no_match",
+      "source": "Sample Number"
+    },
+    {
+      "kind": "match",
+      "source": "Species",
+      "target": "species"
+    },
+    {
+      "kind": "no_match",
+      "source": "Region"
+    },
+    {
+      "kind": "match",
+      "source": "Island",
+      "target": "island"
+    },
+    {
+      "kind": "no_match",
+      "source": "Stage"
+    },
+    {
+      "kind": "no_match",
+      "source": "Individual ID"
+    },
+    {
+      "kind": "no_match",
+      "source": "Clutch Completion"
+    },
+    {
+      "kind": "no_match",
+      "source": "Date Egg"
+    },
+    {
+      "kind": "match",
+      "source": "Culmen Length (mm)",
+      "target": "bill_length_mm"
+    },
+    {
+      "kind": "match",
+      "source": "Culmen Depth (mm)",
+      "target": "bill_depth_mm"
+    },
+    {
+      "kind": "match",
+      "source": "Flipper Length (mm)",
+      "target": "flipper_length_mm"
+    },
+    {
+      "kind": "match",
+      "source": "Body Mass (g)",
+      "target": "body_mass_g"
+    },
+    {
+      "kind": "match",
+      "source": "Sex",
+      "target": "sex"
+    },
+    {
+      "kind": "no_match",
+      "source": "Delta 15 N (o/oo)"
+    },
+    {
+      "kind": "no_match",
+      "source": "Delta 13 C (o/oo)"
+    },
+    {
+      "kind": "no_match",
+      "source": "Comments"
+    }
+  ]
+}

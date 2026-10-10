@@ -1,0 +1,342 @@
+{
+  "name": "US state identifiers with non-equivalent crime quantities",
+  "source": {
+    "fields": [
+      {
+        "name": "rownames",
+        "data_type": "text",
+        "samples": [
+          "Alabama",
+          "Arkansas",
+          "Connecticut",
+          "Georgia",
+          "Indiana",
+          "Kentucky",
+          "Maryland",
+          "Minnesota",
+          "Nebraska",
+          "New Jersey",
+          "North Carolina",
+          "Oklahoma",
+          "South Carolina",
+          "Texas",
+          "Virginia",
+          "Wyoming"
+        ]
+      },
+      {
+        "name": "Murder",
+        "data_type": "float",
+        "samples": [
+          "13.2",
+          "8.8",
+          "3.3",
+          "17.4",
+          "7.2",
+          "9.7",
+          "11.3",
+          "2.7",
+          "4.3",
+          "7.4",
+          "13",
+          "6.6",
+          "14.4",
+          "12.7",
+          "8.5",
+          "6.8"
+        ]
+      },
+      {
+        "name": "Assault",
+        "data_type": "float",
+        "samples": [
+          "236",
+          "190",
+          "110",
+          "211",
+          "113",
+          "109",
+          "300",
+          "72",
+          "102",
+          "159",
+          "337",
+          "151",
+          "279",
+          "201",
+          "156",
+          "161"
+        ]
+      },
+      {
+        "name": "UrbanPop",
+        "data_type": "float",
+        "samples": [
+          "58",
+          "50",
+          "77",
+          "60",
+          "65",
+          "52",
+          "67",
+          "66",
+          "62",
+          "89",
+          "45",
+          "68",
+          "48",
+          "80",
+          "63",
+          "60"
+        ]
+      },
+      {
+        "name": "Rape",
+        "data_type": "float",
+        "samples": [
+          "21.2",
+          "19.5",
+          "11.1",
+          "25.8",
+          "21",
+          "16.3",
+          "27.8",
+          "14.9",
+          "16.5",
+          "18.8",
+          "16.1",
+          "20",
+          "22.5",
+          "25.5",
+          "20.7",
+          "15.6"
+        ]
+      }
+    ]
+  },
+  "target": {
+    "fields": [
+      {
+        "name": "rownames",
+        "data_type": "text",
+        "samples": [
+          "Alabama",
+          "Arkansas",
+          "Connecticut",
+          "Georgia",
+          "Indiana",
+          "Kentucky",
+          "Maryland",
+          "Minnesota",
+          "Nebraska",
+          "New Jersey",
+          "North Carolina",
+          "Oklahoma",
+          "South Carolina",
+          "Texas",
+          "Virginia",
+          "Wyoming"
+        ]
+      },
+      {
+        "name": "Population",
+        "data_type": "float",
+        "samples": [
+          "3615",
+          "2110",
+          "3100",
+          "4931",
+          "5313",
+          "3387",
+          "4122",
+          "3921",
+          "1544",
+          "7333",
+          "5441",
+          "2715",
+          "2816",
+          "12237",
+          "4981",
+          "376"
+        ]
+      },
+      {
+        "name": "Income",
+        "data_type": "float",
+        "samples": [
+          "3624",
+          "3378",
+          "5348",
+          "4091",
+          "4458",
+          "3712",
+          "5299",
+          "4675",
+          "4508",
+          "5237",
+          "3875",
+          "3983",
+          "3635",
+          "4188",
+          "4701",
+          "4566"
+        ]
+      },
+      {
+        "name": "Illiteracy",
+        "data_type": "float",
+        "samples": [
+          "2.1",
+          "1.9",
+          "1.1",
+          "2",
+          "0.7",
+          "1.6",
+          "0.9",
+          "0.6",
+          "0.6",
+          "1.1",
+          "1.8",
+          "1.1",
+          "2.3",
+          "2.2",
+          "1.4",
+          "0.6"
+        ]
+      },
+      {
+        "name": "Life Exp",
+        "data_type": "float",
+        "samples": [
+          "69.05",
+          "70.66",
+          "72.48",
+          "68.54",
+          "70.88",
+          "70.1",
+          "70.22",
+          "72.96",
+          "72.6",
+          "70.93",
+          "69.21",
+          "71.42",
+          "67.96",
+          "70.9",
+          "70.08",
+          "70.29"
+        ]
+      },
+      {
+        "name": "Murder",
+        "data_type": "float",
+        "samples": [
+          "15.1",
+          "10.1",
+          "3.1",
+          "13.9",
+          "7.1",
+          "10.6",
+          "8.5",
+          "2.3",
+          "2.9",
+          "5.2",
+          "11.1",
+          "6.4",
+          "11.6",
+          "12.2",
+          "9.5",
+          "6.9"
+        ]
+      },
+      {
+        "name": "HS Grad",
+        "data_type": "float",
+        "samples": [
+          "41.3",
+          "39.9",
+          "56",
+          "40.6",
+          "52.9",
+          "38.5",
+          "52.3",
+          "57.6",
+          "59.3",
+          "52.5",
+          "38.5",
+          "51.6",
+          "37.8",
+          "47.4",
+          "47.8",
+          "62.9"
+        ]
+      },
+      {
+        "name": "Frost",
+        "data_type": "float",
+        "samples": [
+          "20",
+          "65",
+          "139",
+          "60",
+          "122",
+          "95",
+          "101",
+          "160",
+          "139",
+          "115",
+          "80",
+          "82",
+          "65",
+          "35",
+          "85",
+          "173"
+        ]
+      },
+      {
+        "name": "Area",
+        "data_type": "float",
+        "samples": [
+          "50708",
+          "51945",
+          "4862",
+          "58073",
+          "36097",
+          "39650",
+          "9891",
+          "79289",
+          "76483",
+          "7521",
+          "48798",
+          "68782",
+          "30225",
+          "262134",
+          "39780",
+          "97203"
+        ]
+      }
+    ]
+  },
+  "answers": [
+    {
+      "kind": "match",
+      "source": "rownames",
+      "target": "rownames"
+    },
+    {
+      "kind": "no_match",
+      "source": "Murder"
+    },
+    {
+      "kind": "no_match",
+      "source": "Assault"
+    },
+    {
+      "kind": "no_match",
+      "source": "UrbanPop"
+    },
+    {
+      "kind": "no_match",
+      "source": "Rape"
+    }
+  ]
+}
