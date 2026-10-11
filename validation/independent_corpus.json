@@ -742,6 +742,42 @@
       "retrieved_utc": "2026-10-11",
       "license": "Unlicense (publisher software license)",
       "sha256": "88d9b4eb60579c191ec391ca04c16130572d7eedc4a86daa58bf28c6e14c9bcd"
+    },
+    "jpl_vectors": {
+      "path": "eval_independent/sources/jpl_ceres_vectors.txt",
+      "url": "https://raw.githubusercontent.com/astropy/astroquery/c77e9ffd8a6d5d14c0c6c214a42dd9c7416fac10/astroquery/jplhorizons/tests/data/ceres_vectors_range.txt",
+      "publisher_revision": "c77e9ffd8a6d5d14c0c6c214a42dd9c7416fac10",
+      "publisher_path": "astroquery/jplhorizons/tests/data/ceres_vectors_range.txt",
+      "retrieved_utc": "2026-10-11",
+      "license": "BSD-3-Clause distributing Astroquery archive; NASA/JPL Horizons producer attribution retained",
+      "sha256": "b2720ff0d98d1e8c16c3206e9b45f42f20e866c5d52a96e8a1f85ccfc5515583"
+    },
+    "jpl_elements": {
+      "path": "eval_independent/sources/jpl_ceres_elements.txt",
+      "url": "https://raw.githubusercontent.com/astropy/astroquery/c77e9ffd8a6d5d14c0c6c214a42dd9c7416fac10/astroquery/jplhorizons/tests/data/ceres_elements_range.txt",
+      "publisher_revision": "c77e9ffd8a6d5d14c0c6c214a42dd9c7416fac10",
+      "publisher_path": "astroquery/jplhorizons/tests/data/ceres_elements_range.txt",
+      "retrieved_utc": "2026-10-11",
+      "license": "BSD-3-Clause distributing Astroquery archive; NASA/JPL Horizons producer attribution retained",
+      "sha256": "3819eecfd18b9675072c93a7bb378eef655a369c49c550fcd8de2d8507eb9973"
+    },
+    "jpl_queries": {
+      "path": "eval_independent/sources/jpl_horizons_queries.txt",
+      "url": "https://raw.githubusercontent.com/astropy/astroquery/c77e9ffd8a6d5d14c0c6c214a42dd9c7416fac10/astroquery/jplhorizons/tests/data/README",
+      "publisher_revision": "c77e9ffd8a6d5d14c0c6c214a42dd9c7416fac10",
+      "publisher_path": "astroquery/jplhorizons/tests/data/README",
+      "retrieved_utc": "2026-10-11",
+      "license": "BSD-3-Clause distributing Astroquery archive; NASA/JPL Horizons producer attribution retained",
+      "sha256": "11f9c84ca9ba8df61ce237056387bde30734ce6d393aac5e423441d55f4ce096"
+    },
+    "astroquery_license": {
+      "path": "eval_independent/sources/astroquery_license.txt",
+      "url": "https://raw.githubusercontent.com/astropy/astroquery/c77e9ffd8a6d5d14c0c6c214a42dd9c7416fac10/LICENSE.rst",
+      "publisher_revision": "c77e9ffd8a6d5d14c0c6c214a42dd9c7416fac10",
+      "publisher_path": "LICENSE.rst",
+      "retrieved_utc": "2026-10-11",
+      "license": "BSD-3-Clause distributing Astroquery archive; NASA/JPL Horizons producer attribution retained",
+      "sha256": "5475cd76f646b1e43f16a596568f0897591fc712cad508bd59061a617c2c8733"
     }
   },
   "views": {
@@ -1856,6 +1892,144 @@
         "https://www.metoffice.gov.uk/hadobs/hadcrut5/"
       ],
       "type_mapping": "Publisher Table Schema string -> text, year (YYYY) -> integer, date (YYYY-MM) -> date, number -> float. No type inference from predictions."
+    },
+    "jpl_vectors": {
+      "resource": "jpl_vectors",
+      "format": "horizons_csv",
+      "fields": [
+        {
+          "name": "JDTDB",
+          "data_type": "unknown"
+        },
+        {
+          "name": "Calendar Date (TDB)",
+          "data_type": "unknown"
+        },
+        {
+          "name": "X",
+          "data_type": "unknown"
+        },
+        {
+          "name": "Y",
+          "data_type": "unknown"
+        },
+        {
+          "name": "Z",
+          "data_type": "unknown"
+        },
+        {
+          "name": "VX",
+          "data_type": "unknown"
+        },
+        {
+          "name": "VY",
+          "data_type": "unknown"
+        },
+        {
+          "name": "VZ",
+          "data_type": "unknown"
+        },
+        {
+          "name": "LT",
+          "data_type": "unknown"
+        },
+        {
+          "name": "RG",
+          "data_type": "unknown"
+        },
+        {
+          "name": "RR",
+          "data_type": "unknown"
+        }
+      ],
+      "rows": 4,
+      "excluded_fields": [
+        ""
+      ],
+      "type_evidence": [
+        "jpl_vectors"
+      ],
+      "original_source_urls": [
+        "https://ssd.jpl.nasa.gov/horizons/manual.html",
+        "https://ssd-api.jpl.nasa.gov/doc/horizons.html"
+      ],
+      "type_mapping": "The original ASCII response declares physical meanings and units, not scalar storage types; all fields remain unknown. No inference from samples. TDB is not treated as UTC.",
+      "extraction": "Complete CSV header immediately before $$SOE and all records until $$EOE. Trim header padding only; preserve every sample cell verbatim, including CSV padding. Omit the trailing unnamed empty formatting column."
+    },
+    "jpl_elements": {
+      "resource": "jpl_elements",
+      "format": "horizons_csv",
+      "fields": [
+        {
+          "name": "JDTDB",
+          "data_type": "unknown"
+        },
+        {
+          "name": "Calendar Date (TDB)",
+          "data_type": "unknown"
+        },
+        {
+          "name": "EC",
+          "data_type": "unknown"
+        },
+        {
+          "name": "QR",
+          "data_type": "unknown"
+        },
+        {
+          "name": "IN",
+          "data_type": "unknown"
+        },
+        {
+          "name": "OM",
+          "data_type": "unknown"
+        },
+        {
+          "name": "W",
+          "data_type": "unknown"
+        },
+        {
+          "name": "Tp",
+          "data_type": "unknown"
+        },
+        {
+          "name": "N",
+          "data_type": "unknown"
+        },
+        {
+          "name": "MA",
+          "data_type": "unknown"
+        },
+        {
+          "name": "TA",
+          "data_type": "unknown"
+        },
+        {
+          "name": "A",
+          "data_type": "unknown"
+        },
+        {
+          "name": "AD",
+          "data_type": "unknown"
+        },
+        {
+          "name": "PR",
+          "data_type": "unknown"
+        }
+      ],
+      "rows": 4,
+      "excluded_fields": [
+        ""
+      ],
+      "type_evidence": [
+        "jpl_elements"
+      ],
+      "original_source_urls": [
+        "https://ssd.jpl.nasa.gov/horizons/manual.html",
+        "https://ssd-api.jpl.nasa.gov/doc/horizons.html"
+      ],
+      "type_mapping": "The original ASCII response declares physical meanings and units, not scalar storage types; all fields remain unknown. No inference from samples. TDB is not treated as UTC.",
+      "extraction": "Complete CSV header immediately before $$SOE and all records until $$EOE. Trim header padding only; preserve every sample cell verbatim, including CSV padding. Omit the trailing unnamed empty formatting column."
     }
   },
   "datasets": {
@@ -2947,6 +3121,136 @@
       "annotation_date_utc": "2026-10-11",
       "role": "new held-out negative control; no predictions inspected before freeze",
       "provenance_limitation": "The publisher README retains stale NOAA/GCAG wording and its dictionary retains a 20th-century baseline description; the pinned processing script and source URLs identify the GCAG-labelled data as HadCRUT5.1.0.0. We archive these inconsistencies unchanged, do not claim direct agency retrieval, and use only documented identifiers and aggregation periods as label evidence."
+    },
+    "eval_independent/17_jpl_ceres_representations.json": {
+      "name": "NASA/JPL Ceres state vectors versus orbital elements (alternative epoch encodings)",
+      "source_view": "jpl_vectors",
+      "target_view": "jpl_elements",
+      "evidence": {
+        "JDTDB": {
+          "decision": "ambiguous",
+          "target": null,
+          "targets": [
+            "JDTDB",
+            "Calendar Date (TDB)"
+          ],
+          "explanation": "Both complete TDB epoch encodings in the target (Julian day and Calendar Date (TDB)) describe the row epoch, supported by its TIME section and header. Different representations count as the same attribute under the existing policy. Tp is time of periapsis, a different event. A same-format unique choice is semantically valid but does not report all alternatives; this ambiguity label tests strict abstention, not an incorrect fact.",
+          "references": [
+            "jpl_vectors",
+            "jpl_elements",
+            "jpl_queries"
+          ]
+        },
+        "Calendar Date (TDB)": {
+          "decision": "ambiguous",
+          "target": null,
+          "targets": [
+            "JDTDB",
+            "Calendar Date (TDB)"
+          ],
+          "explanation": "Both target epoch encodings describe the same full row epoch in Barycentric Dynamical Time; the TIME section and header establish this independently of samples. Tp is time of periapsis, not the row epoch. The label requires reporting both valid representations and does not claim that choosing the same-format representation selects an incorrect fact.",
+          "references": [
+            "jpl_vectors",
+            "jpl_elements",
+            "jpl_queries"
+          ]
+        },
+        "X": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "X-component of the position vector (au). The complete target dictionary contains orbital elements, no Cartesian position components. Joint orbital-to-state transformations are not direct attribute correspondences.",
+          "references": [
+            "jpl_vectors",
+            "jpl_elements",
+            "jpl_queries"
+          ]
+        },
+        "Y": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Y-component of the position vector (au). The complete target dictionary contains orbital elements, no Cartesian position components. Joint orbital-to-state transformations are not direct attribute correspondences.",
+          "references": [
+            "jpl_vectors",
+            "jpl_elements",
+            "jpl_queries"
+          ]
+        },
+        "Z": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Z-component of the position vector (au). The complete target dictionary contains orbital elements, no Cartesian position components. Joint orbital-to-state transformations are not direct attribute correspondences.",
+          "references": [
+            "jpl_vectors",
+            "jpl_elements",
+            "jpl_queries"
+          ]
+        },
+        "VX": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "X-component of velocity (au/day). The complete target dictionary has no Cartesian velocity components; N is angular mean motion (degrees/day), not linear velocity.",
+          "references": [
+            "jpl_vectors",
+            "jpl_elements",
+            "jpl_queries"
+          ]
+        },
+        "VY": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Y-component of velocity (au/day). The complete target dictionary has no Cartesian velocity components; N is angular mean motion (degrees/day), not linear velocity.",
+          "references": [
+            "jpl_vectors",
+            "jpl_elements",
+            "jpl_queries"
+          ]
+        },
+        "VZ": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Z-component of velocity (au/day). The complete target dictionary has no Cartesian velocity components; N is angular mean motion (degrees/day), not linear velocity.",
+          "references": [
+            "jpl_vectors",
+            "jpl_elements",
+            "jpl_queries"
+          ]
+        },
+        "LT": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "One-way down-leg Newtonian light-time (day). The target PR is sidereal orbit period, a different duration; no target field is light propagation time.",
+          "references": [
+            "jpl_vectors",
+            "jpl_elements",
+            "jpl_queries"
+          ]
+        },
+        "RG": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Instantaneous distance from the coordinate center (au). Target QR is periapsis distance, AD is apoapsis distance, and A is semi-major axis. None is the instantaneous range attribute; other target fields are times, angles, motion or eccentricity.",
+          "references": [
+            "jpl_vectors",
+            "jpl_elements",
+            "jpl_queries"
+          ]
+        },
+        "RR": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "Range-rate, radial velocity relative to the coordinate center (au/day). The complete target dictionary has no radial velocity; N is angular mean motion (degrees/day).",
+          "references": [
+            "jpl_vectors",
+            "jpl_elements",
+            "jpl_queries"
+          ]
+        }
+      },
+      "sha256": "7998140abf96c228372e306369eab5b9cb9fb1e3ade0bdad2edb892612845288",
+      "annotation_date_utc": "2026-10-11",
+      "role": "new held-out ambiguity and negative control; no predictions inspected before freeze",
+      "provenance_limitation": "NASA/JPL Horizons API 1.1 responses generated 2022-Jun-10, JPL#48 Ceres solution, retrieved from pinned Astroquery integration-fixture archive, not NASA endpoints. Computed ephemerides, not raw measured observations. Four rows, one object, no unique-match labels. No new NASA/Caltech licensing determination is asserted beyond the distributing archive license.",
+      "interpretation": "Two alternative full TDB epoch representations test strict ambiguity reporting. Choosing either labeled epoch target is semantically valid even when a unique Match fails the ambiguity decision label. Report these separately from semantically incorrect matches. Nine non-epoch state quantities have no direct orbital-element equivalent."
     }
   },
   "extensions": [
@@ -2956,6 +3260,13 @@
         "eval_independent/16_global_temperature_granularity.json"
       ],
       "policy": "Existing label and sampling rules; preserve all original 15 case entries unchanged. Separate new-case results from previously evaluated corpus results."
+    },
+    {
+      "annotation_date_utc": "2026-10-11",
+      "datasets": [
+        "eval_independent/17_jpl_ceres_representations.json"
+      ],
+      "policy": "Existing direct-equivalence and sampling rules; preserve all previous 16 case entries unchanged. Freeze before predictions. Report two valid-representation ambiguity decisions separately from semantically wrong automatic selections; no unique matches in this case."
     }
   ]
 }

@@ -2,8 +2,10 @@
 
 Fifteen initial pairs of actual published schemas were acquired and annotated
 on 2026-10-10 before predictions. A sixteenth, annual versus monthly temperature
-aggregation, was annotated on 2026-10-11 before its first predictions. The first
-15 are now previously evaluated cases; report the new negative control separately.
+aggregation, was annotated on 2026-10-11 before its first predictions. Case 17
+adds two alternative TDB epoch encodings and nine negative fields from
+NASA/JPL Ceres ephemerides, annotated before its first predictions. The first
+16 are now previously evaluated cases; report each new extension separately.
 None reuses Fieldkin's development corpora or Valentine parity fixtures.
 
 Run `cargo run --locked --example benchmark_accuracy -- --independent` from the

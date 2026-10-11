@@ -48,9 +48,9 @@ unrelated or partially related **real** schemas as negative controls; they are
 identified in the manifest and are not claimed to be published migrations.
 
 An `ambiguous` label requires multiple target alternatives supported by the
-observable publisher evidence. No such case was established confidently here;
-there are **zero ambiguity labels**, and ambiguity accuracy remains unmeasured.
-We excluded uncertain correspondences rather than manufacturing that category.
+observable publisher evidence. The initial 16 cases contain no ambiguity labels.
+Case 17 adds two documented equivalent epoch representations; this narrow case
+does not establish accuracy on ambiguous business roles or uncertain semantics.
 The existing development benchmark and its ambiguity metric tests remain intact.
 
 ## Input construction
@@ -71,6 +71,31 @@ predictions. The initial 15 cases have already been evaluated; the combined
 mirror provenance and inconsistent historical publisher descriptions are
 documented in the manifest and notices. This small addition tests aggregation
 traps; it does not resolve the absence of independently supported ambiguity.
+
+### Ceres epoch-representation extension
+
+Case 17 adds complete NASA/JPL Horizons state-vector and orbital-element schemas
+for Ceres, archived by Astroquery: four records, two ambiguity labels and nine
+negatives. The publisher's TIME sections and headers identify `JDTDB` and
+`Calendar Date (TDB)` as full encodings of the same TDB epoch. Both are valid
+targets under the unchanged encoding-equivalence policy. A unique selection of
+either representation fails the strict ambiguity decision label but does **not**
+select an incorrect fact; report these separately from semantically wrong
+automatic correspondences. `Tp` denotes periapsis time, a different event.
+
+The dictionaries distinguish instantaneous state components, range and light-time
+from orbital elements. Joint coordinate transformations are not direct matches.
+There are no unique-match labels, so positive recall and ranking recall for this
+case are undefined. It is one astronomical object, not broad ambiguity evidence.
+All previous 16 cases and their evidence remain unchanged; report this new case
+separately after committing its inputs and labels before any predictions.
+
+The original ASCII responses declare units, not scalar storage types: all fields
+remain `unknown`. Headers retain publisher names with padding removed; sample
+cells retain their original whitespace and numeric/date text. The trailing
+unnamed empty CSV column is formatting and omitted. TDB is not converted to UTC.
+The `$$SOE`/`$$EOE` delimiters identify the original CSV records; no duplicate
+converted files are committed. See the notices for archive and licensing limits.
 
 ### Extraction
 

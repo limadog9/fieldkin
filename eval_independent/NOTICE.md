@@ -58,6 +58,15 @@ publisher releases.
   use documented provider identity and annual/monthly granularity for labels;
   we do not use the anomalies to make climate claims.
 
+* **NASA/JPL Ceres ephemerides:** complete Horizons API 1.1 responses generated
+  2022-06-10, retained verbatim from Astroquery revision
+  `c77e9ffd8a6d5d14c0c6c214a42dd9c7416fac10`, acquired 2026-10-11. The distributing
+  archive is BSD-3-Clause, copyright Astroquery Developers; its full terms are
+  in `sources/astroquery_license.txt`. Producer attribution, field dictionaries
+  and original query URLs accompany the responses. These are computed
+  ephemerides archived as integration fixtures, not raw observations or current
+  NASA downloads. We do not assert a separate NASA/Caltech public-domain grant.
+
 Several original government/EDI endpoints were unavailable under the execution
 environment's network policy. Acquisition used the recorded publisher GitHub
 archives and, for R CSV exports, the pinned Rdatasets mirror. We do not claim

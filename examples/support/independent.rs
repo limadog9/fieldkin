@@ -59,6 +59,21 @@ fn is_url(url: &str) -> bool {
     url.starts_with("https://") || url.starts_with("http://")
 }
 
+fn horizons_csv(raw: &str) -> Result<String, String> {
+    let (preamble, records) = raw.split_once("$$SOE\n").ok_or("missing Horizons $$SOE")?;
+    let (records, _) = records
+        .split_once("$$EOE")
+        .ok_or("missing Horizons $$EOE")?;
+    let header = preamble
+        .lines()
+        .find(|line| line.trim_start().starts_with("JDTDB,"))
+        .ok_or("missing Horizons CSV header")?;
+    if records.trim().is_empty() {
+        return Err("missing Horizons records".into());
+    }
+    Ok(format!("{header}\n{records}"))
+}
+
 fn verify_resource(root: &Path, id: &str, resource: &Resource) -> Result<(), String> {
     let path = Path::new(&resource.path);
     if !path.starts_with("eval_independent/sources")
@@ -120,9 +135,20 @@ fn verify_view(
     }
     match view.format.as_str() {
         "rda" => Ok(()), // Archived native bytes + case fingerprints; optional importer verifies decoding.
-        "csv" => {
-            let mut reader =
-                csv::Reader::from_path(root.join(&resource.path)).map_err(|e| e.to_string())?;
+        "csv" | "horizons_csv" => {
+            let raw = fs::read_to_string(root.join(&resource.path)).map_err(|e| e.to_string())?;
+            let raw = if view.format == "horizons_csv" {
+                horizons_csv(&raw)?
+            } else {
+                raw
+            };
+            let mut reader = csv::ReaderBuilder::new()
+                .trim(if view.format == "horizons_csv" {
+                    csv::Trim::Headers
+                } else {
+                    csv::Trim::None
+                })
+                .from_reader(raw.as_bytes());
             let headers = reader.headers().map_err(|e| e.to_string())?.clone();
             let positions: Vec<_> = schema
                 .fields
@@ -238,6 +264,27 @@ pub fn verify(root: &Path, raw: &str, cases: &BTreeMap<String, EvalCase>) -> Res
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn horizons_extraction_preserves_cells_and_rejects_incomplete_responses() {
+        let raw = "preamble\n JDTDB, Calendar Date (TDB),\n***\n$$SOE\n2459740.5, A.D. 2022-Jun-10 00:00:00.0000,\n$$EOE\ndictionary\n";
+        assert_eq!(
+            horizons_csv(raw).unwrap(),
+            " JDTDB, Calendar Date (TDB),\n2459740.5, A.D. 2022-Jun-10 00:00:00.0000,\n"
+        );
+        for (from, to, message) in [
+            ("$$SOE", "", "$$SOE"),
+            ("$$EOE", "", "$$EOE"),
+            ("JDTDB,", "epoch,", "header"),
+            ("2459740.5, A.D. 2022-Jun-10 00:00:00.0000,", "", "records"),
+        ] {
+            assert!(
+                horizons_csv(&raw.replace(from, to))
+                    .unwrap_err()
+                    .contains(message)
+            );
+        }
+    }
 
     #[test]
     fn changed_missing_or_untracked_publisher_samples_are_rejected() {

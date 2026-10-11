@@ -10,6 +10,7 @@ import argparse
 import csv
 import datetime
 import hashlib
+import io
 import json
 from pathlib import Path
 
@@ -24,9 +25,18 @@ def digest(data):
 def extract_view(view, resources):
     path = ROOT / resources[view["resource"]]["path"]
     names = [field["name"] for field in view["fields"]]
-    if view["format"] == "csv":
-        with path.open(newline="", encoding="utf-8") as handle:
+    if view["format"] in ("csv", "horizons_csv"):
+        if view["format"] == "horizons_csv":
+            preamble, records = path.read_text().split("$$SOE\n", 1)
+            records, _ = records.split("$$EOE", 1)
+            header = next(line for line in preamble.splitlines() if line.lstrip().startswith("JDTDB,"))
+            handle = io.StringIO(header + "\n" + records)
+        else:
+            handle = path.open(newline="", encoding="utf-8")
+        with handle:
             reader = csv.DictReader(handle)
+            if view["format"] == "horizons_csv":
+                reader.fieldnames = [name.strip() for name in reader.fieldnames]
             assert [n for n in reader.fieldnames if n not in view["excluded_fields"]] == names
             rows = list(reader)
         get = lambda row, name: "" if row[name] in ("", "NA") else row[name]
