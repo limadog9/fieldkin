@@ -326,6 +326,37 @@ fn sampling_matches_previous_inputs_across_limits_and_preserves_metadata() {
 }
 
 #[test]
+fn sampling_large_columns_preserves_even_spacing() {
+    let source = Table::new(
+        "source",
+        vec![Field {
+            name: "value".into(),
+            data_type: DataType::Integer,
+            samples: (0..100_000).map(|index| index.to_string()).collect(),
+        }],
+    )
+    .unwrap();
+    let tables = [source, table("target", &[])];
+    let original = tables.clone();
+    let matcher = RecordingMatcher::default();
+    match_tables(
+        &tables,
+        &matcher,
+        MatchOptions {
+            instance_sample_size: Some(50_000),
+        },
+    )
+    .unwrap();
+    let calls = matcher.calls.borrow();
+    let expected: Vec<_> = (0..100_000)
+        .step_by(2)
+        .map(|index| index.to_string())
+        .collect();
+    assert_eq!(calls[0].0.columns[0].samples, expected);
+    assert_eq!(tables, original);
+}
+
+#[test]
 fn all_matchers_preserve_results_with_the_previous_sampling_rule() {
     let tables = sampling_tables();
     let original = tables.clone();

@@ -221,11 +221,12 @@ impl Table {
                         if limit >= length {
                             values.cloned().collect()
                         } else {
-                            let mut selected = 0;
+                            // Widen the product so large columns also sample correctly on 32-bit targets.
+                            let mut selected = 0_u128;
                             values
                                 .enumerate()
                                 .filter_map(|(index, value)| {
-                                    if index == selected * length / limit {
+                                    if index as u128 == selected * length as u128 / limit as u128 {
                                         selected += 1;
                                         Some(value.clone())
                                     } else {

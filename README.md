@@ -5,6 +5,12 @@ five current [Valentine](https://github.com/delftdata/valentine) algorithms:
 COMA, Cupid, DistributionBased, JaccardDistanceMatcher and SimilarityFlooding.
 The original Fieldkin suggestion API remains available.
 
+Use `try_match_schemas` when you want ranked suggestions with explicit `Match`,
+`Ambiguous`, or `NoMatch` decisions. Use `valentine_match` with a chosen algorithm
+when you want its candidate pairs and scores, then select matches using
+`MatcherResults`. These APIs have different decision rules; Valentine scores
+do not imply the suggestion API's decisions.
+
 The matchers execute in Rust. Python is used only for development fixtures and
 reference verification. Cupid bundles WordNet; optional sentence embeddings use
 native ONNX Runtime. Similarity scores are not probabilities.

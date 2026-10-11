@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Avoid sampling-index overflow on 32-bit targets for large columns.
+- Verify packaged crates in CI and update checkout to its Node.js 24 runtime.
+- Clarify when to use decision-oriented suggestions versus Valentine candidate scores.
+
 - Reject unknown schema/field keys in labeled evaluation inputs, keeping public
   schema deserialization compatible.
 - Reject impossible DistributionBased quantile allocations before matching.
