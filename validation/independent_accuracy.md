@@ -113,6 +113,7 @@ Normal benchmark rerun (Rust only, offline after dependency installation):
 cargo run --locked --example benchmark_accuracy -- --independent
 cargo run --locked --example benchmark_accuracy -- --independent --details
 cargo run --locked --example benchmark_accuracy -- --independent --json
+cargo run --locked --example evaluate_all -- --independent
 ```
 
 Optional reconstruction from archived inputs is separate from evaluation. Python
@@ -164,6 +165,14 @@ formatting. Publisher transcription/revision caveats (including USArrests) are
 retained. No confidence interval or statistically significant winner is claimed.
 Results measure this exact corpus/configuration, not universal generalization.
 
-Valentine reference parity and the original suggestion-API quality gate remain
-separate and unchanged. This measurement is not a frozen minimum-quality gate
-for the five algorithms; input integrity and metric tests protect reproducibility.
+The original suggestion API uses `Config::default()` and explicit decisions,
+without imposing the Valentine benchmark's 0.5 cutoff. Only a correct `Match`
+is an automatic true positive; `NoMatch` and `Ambiguous` both abstain from
+automatic selection. Decision accuracy additionally requires the correct kind
+and, for ambiguity, exactly the labeled target set. An erroneous ambiguity is
+reported separately from an incorrect automatic match. Precision excludes true
+negatives. Per-case metrics and incorrect fields are printed by `evaluate_all`.
+
+Valentine reference parity and the development suggestion-API quality gate
+remain separate and unchanged. Independent runs report measurements, not a
+new minimum-quality gate; input integrity and metric tests protect reproducibility.

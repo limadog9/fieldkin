@@ -292,13 +292,18 @@ per-field evidence, run:
 
 ```sh
 cargo run --locked --example benchmark_accuracy -- --independent
+cargo run --locked --example evaluate_all -- --independent
 ```
 
 The [independent protocol](https://github.com/limadog9/fieldkin/blob/main/validation/independent_accuracy.md) documents the
-15 frozen cases and limitations; the [measured comparison](https://github.com/limadog9/fieldkin/blob/main/validation/independent_accuracy_report.md)
-reports all five algorithms. Add `--json` for full per-dataset metrics or
-`--details` for incorrect/missed-match examples. This does not change the
-suggestion quality baseline or Valentine parity checks.
+16 frozen cases and limitations; the [measured comparison](https://github.com/limadog9/fieldkin/blob/main/validation/independent_accuracy_report.md)
+separates the initial 15 cases from the later climate aggregation control.
+`benchmark_accuracy` reports all five algorithms; add `--json` for full
+per-dataset metrics or `--details` for incorrect/missed-match examples.
+`evaluate_all` reports the original suggestion API's decisions, automatic-match
+precision/recall, abstentions and failures on the same verified inputs. Both
+checks run in CI, without changing the development quality baseline or parity
+checks. There are still no independently supported ambiguity labels.
 
 For release performance/scaling measurements, run
 `cargo build --locked --release --example benchmark_performance --jobs 1`, then

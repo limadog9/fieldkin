@@ -3,6 +3,7 @@
 use std::collections::{BTreeMap, BTreeSet};
 
 use super::Matcher;
+use super::strings::{StringDistanceFunction, similarity};
 use crate::{ColumnPair, DataType, Error, MatcherResults, Table};
 
 /// How equally labelled graph edges share propagation weight.
@@ -102,7 +103,9 @@ impl SimilarityFlooding {
                     match self.string_matcher {
                         StringMatcher::PrefixSuffix => prefix_suffix(a, b, None),
                         StringMatcher::PrefixSuffixTfidf => prefix_suffix(a, b, idf),
-                        StringMatcher::Levenshtein => levenshtein(a, b),
+                        StringMatcher::Levenshtein => {
+                            similarity(a, b, StringDistanceFunction::Levenshtein)
+                        }
                     }
                 })
             })
@@ -501,29 +504,6 @@ fn compute_idf<'a>(graphs: impl Iterator<Item = &'a Graph>) -> BTreeMap<String, 
         .collect()
 }
 
-fn levenshtein(a: &str, b: &str) -> f64 {
-    let a: Vec<char> = a.chars().collect();
-    let b: Vec<char> = b.chars().collect();
-    let length = a.len().max(b.len());
-    if length == 0 {
-        return 1.0;
-    }
-    let mut previous: Vec<usize> = (0..=b.len()).collect();
-    for (i, x) in a.iter().enumerate() {
-        let mut next = Vec::with_capacity(b.len() + 1);
-        next.push(i + 1);
-        for (j, y) in b.iter().enumerate() {
-            next.push(
-                (next[j] + 1)
-                    .min(previous[j + 1] + 1)
-                    .min(previous[j] + usize::from(x != y)),
-            );
-        }
-        previous = next;
-    }
-    1.0 - previous[b.len()] as f64 / length as f64
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -657,6 +637,16 @@ mod tests {
                     ("\0NID3", DataType::Timestamp),
                     ("varchar", DataType::Text),
                     ("int", DataType::Decimal),
+                ],
+            ),
+            table(
+                "注文🙂",
+                &[
+                    ("生年月日", DataType::Date),
+                    ("café", DataType::Text),
+                    ("cafe\u{301}", DataType::Text),
+                    ("x", DataType::Integer),
+                    ("unrelated_customer_identifier", DataType::Text),
                 ],
             ),
         ];
@@ -799,6 +789,31 @@ mod tests {
                 .map(|((from, to), weight)| (from, to, weight))
                 .collect(),
         }
+    }
+
+    // Keep the former Unicode edit-distance calculation as an independent
+    // oracle for the shared scorer and the complete propagation output.
+    fn levenshtein(a: &str, b: &str) -> f64 {
+        let a: Vec<char> = a.chars().collect();
+        let b: Vec<char> = b.chars().collect();
+        let length = a.len().max(b.len());
+        if length == 0 {
+            return 1.0;
+        }
+        let mut previous: Vec<usize> = (0..=b.len()).collect();
+        for (i, x) in a.iter().enumerate() {
+            let mut next = Vec::with_capacity(b.len() + 1);
+            next.push(i + 1);
+            for (j, y) in b.iter().enumerate() {
+                next.push(
+                    (next[j] + 1)
+                        .min(previous[j + 1] + 1)
+                        .min(previous[j] + usize::from(x != y)),
+                );
+            }
+            previous = next;
+        }
+        1.0 - previous[b.len()] as f64 / length as f64
     }
 
     fn previous_matches(

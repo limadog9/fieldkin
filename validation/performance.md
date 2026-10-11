@@ -307,3 +307,92 @@ gate remains 215/256; development and independent accuracy JSON are byte-identic
 to the baseline, including the committed independent report. Ordinary all-feature
 tests/Clippy remain blocked by the ONNX download's HTTP 403; live Python parity
 could not start without `.upstream/valentine`. Native reference fixtures passed.
+
+## Follow-up: reuse Flooding's shared Levenshtein scorer (2026-10-11)
+
+SimilarityFlooding's optional `StringMatcher::Levenshtein` now uses the existing
+shared scorer. This removes 20 production lines and replaces a newly allocated
+DP row per character with one working row. Unicode character handling, graph
+propagation, defaults, and output scores are unchanged. The former scorer remains
+only in the existing exact-output test oracle, extended with Unicode, combining
+marks, unrelated names, and unequal lengths (864 full configuration/schema checks).
+
+Compared Flooding's implementation from `770c096930fd29592b5b6f5124a25c89060431c0`
+with the shared-scorer change on the Linux/Rust hardware described above.
+The fixed [harness](flooding_levenshtein_bench.rs) uses
+8 source and 12 target columns, alternating integer/text types, no samples, and
+five synthetic name patterns. These are performance workloads, not labeled
+accuracy cases. Only the selected string scorer differs from Flooding's defaults.
+The direct `get_matches` call is timed; schema generation, output comparison, and
+printing are excluded. Five fresh processes per version/case each perform one
+warmup and 11 timed calls, alternating version order. All **100 processes / 1,100
+timed matches** completed; complete ordered score bits agreed across versions and
+rounds. Each process also checks repeated results for equality.
+
+Median of process medians, with all controls retained:
+
+| Scorer | Names | Before ms | After ms | Time change |
+| --- | --- | ---: | ---: | ---: |
+| Levenshtein | Short | 0.343 | 0.285 | −16.9% |
+| Levenshtein | Unicode / combining marks | 0.446 | 0.397 | −10.9% |
+| Levenshtein | Long similar | 10.428 | 7.632 | −26.8% |
+| Levenshtein | Long unrelated | 16.030 | 4.564 | −71.5% |
+| Levenshtein | Mixed lengths | 6.680 | 3.405 | −49.0% |
+| Default prefix/suffix | Short | 0.457 | 0.431 | −5.8% |
+| Default prefix/suffix | Unicode / combining marks | 0.362 | 0.368 | +1.7% |
+| Default prefix/suffix | Long similar | 10.761 | 9.143 | −15.0% |
+| Default prefix/suffix | Long unrelated | 0.706 | 0.709 | +0.3% |
+| Default prefix/suffix | Mixed lengths | 0.544 | 0.608 | +11.9% |
+
+No concurrent builds/tests ran, but the shared host was noisy: long-unrelated
+Levenshtein process medians ranged 11.65–34.20 ms before and 4.44–16.34 ms after.
+Short-name ranges were 0.327–0.396 and 0.272–0.296 ms; Unicode ranges were
+0.436–0.455 and 0.391–0.412 ms. No default-mode improvement is claimed. Median
+process-lifetime peak RSS was 1,624–1,920 KiB across these small cases, with no
+meaningful reduction established. Worst-case edit-distance complexity remains
+quadratic. The correctness fixtures passed without tolerance changes.
+
+To reproduce on Linux, build the same standalone harness against each library.
+It lives under `validation/`, outside the crate and regular CI benchmark runs:
+
+```sh
+mkdir -p /tmp/fieldkin-flooding-source
+git archive 770c096930fd29592b5b6f5124a25c89060431c0 | tar -x -C /tmp/fieldkin-flooding-source
+cargo build --locked --release --lib --jobs 1 \
+  --manifest-path /tmp/fieldkin-flooding-source/Cargo.toml \
+  --target-dir /tmp/fieldkin-flooding-source/target
+cargo build --locked --release --lib --jobs 1
+rustc --edition=2024 -C opt-level=3 validation/flooding_levenshtein_bench.rs \
+  --extern fieldkin=/tmp/fieldkin-flooding-source/target/release/libfieldkin.rlib \
+  -L dependency=/tmp/fieldkin-flooding-source/target/release/deps -o target/flooding-before
+rustc --edition=2024 -C opt-level=3 validation/flooding_levenshtein_bench.rs \
+  --extern fieldkin=target/release/libfieldkin.rlib \
+  -L dependency=target/release/deps -o target/flooding-after
+python3 - target/flooding-before target/flooding-after target/flooding-comparison.json <<'PY'
+import hashlib, json, pathlib, statistics, subprocess, sys
+binaries = dict(zip(("before", "after"), sys.argv[1:3]))
+report = {"binaries": {v: hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()
+                       for v, p in binaries.items()}, "runs": []}
+reference = {}
+for round_number in range(5):
+    for scorer in ("default", "levenshtein"):
+        for case in ("short", "unicode", "long_similar", "long_unrelated", "mixed"):
+            versions = list(binaries) if round_number % 2 == 0 else list(reversed(binaries))
+            for version in versions:
+                lines = subprocess.check_output(
+                    [binaries[version], scorer, case, "11"], text=True, timeout=180).splitlines()
+                assert len(lines) == 3, "incomplete benchmark output"
+                assert reference.setdefault((scorer, case), lines[2]) == lines[2], "changed output"
+                times = json.loads(lines[0])
+                assert len(times) == 11, "incomplete timing measurements"
+                report["runs"].append(dict(round=round_number, scorer=scorer, case=case,
+                    version=version, times_ms=times, median_ms=statistics.median(times),
+                    peak_rss_kib=int(lines[1].split()[0]),
+                    output_sha256=hashlib.sha256(lines[2].encode()).hexdigest()))
+                pathlib.Path(sys.argv[3]).write_text(json.dumps(report, indent=2) + "\n")
+for scorer, case in reference:
+    medians = {v: statistics.median(r["median_ms"] for r in report["runs"]
+               if (r["scorer"], r["case"], r["version"]) == (scorer, case, v)) for v in binaries}
+    print(scorer, case, medians)
+PY
+```

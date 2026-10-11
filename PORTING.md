@@ -90,7 +90,7 @@ Python 3.10+ and reference dependencies are needed only for regeneration:
 ```sh
 git clone https://github.com/delftdata/valentine .upstream/valentine
 git -C .upstream/valentine checkout d8fa9ee6d312b49ce2c45b62824df1fd31b94a72
-python -m pip install --target .upstream/python numpy pandas scipy networkx nltk rapidfuzz pulp POT anytree chardet python-dateutil defusedxml
+python -m pip install --target .upstream/python numpy pandas scipy networkx nltk rapidfuzz 'pulp>=2.5,<4.0' POT anytree chardet python-dateutil defusedxml
 python scripts/generate_jaccard_fixtures.py
 python scripts/generate_distribution_flooding_fixtures.py
 python scripts/generate_coma_cupid_fixtures.py

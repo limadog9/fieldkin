@@ -37,9 +37,9 @@ pub struct Field {
     pub data_type: DataType,
     /// Optional sample values; omitted samples deserialize as an empty vector.
     ///
-    /// The original `match_schemas` API trims/lowercases values and gives no
-    /// positive sample credit to a single distinct value. Interpretation in
-    /// the Valentine matchers depends on the chosen algorithm.
+    /// The original `match_schemas` API trims/lowercases values, ignores blanks,
+    /// and gives no positive sample credit to a single distinct value.
+    /// Interpretation in the Valentine matchers depends on the chosen algorithm.
     #[serde(default)]
     pub samples: Vec<String>,
 }
@@ -66,7 +66,7 @@ pub struct Candidate {
     pub type_score: f64,
     /// Sample overlap, reduced when the strongest overlap is shared by targets.
     ///
-    /// `None` means at least one field has no samples.
+    /// `None` means at least one field has no nonblank samples.
     pub sample_score: Option<f64>,
 }
 

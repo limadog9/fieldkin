@@ -193,6 +193,27 @@ fn tied_strong_sample_evidence_is_weakened() {
 }
 
 #[test]
+fn missing_sample_values_do_not_promote_suggestions_to_matches() {
+    let mut source = Schema {
+        fields: vec![field("country", DataType::Text, &["us"])],
+    };
+    let mut target = Schema {
+        fields: vec![field("category", DataType::Text, &["us"])],
+    };
+    let observed = match_schemas(&source, &target, Config::default());
+    assert!(matches!(
+        observed.fields[0].decision,
+        Decision::NoMatch { .. }
+    ));
+
+    source.fields[0]
+        .samples
+        .extend([String::new(), " \t ".into()]);
+    target.fields[0].samples.extend([" ".into(), String::new()]);
+    assert_eq!(match_schemas(&source, &target, Config::default()), observed);
+}
+
+#[test]
 fn abbreviation_fallback_runs_only_after_normal_no_match() {
     let source = Schema {
         fields: vec![field("cid", DataType::Integer, &[])],

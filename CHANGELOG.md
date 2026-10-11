@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Ignore blank samples in suggestions so missingness cannot create positive
+  sample evidence; absent evidence retains the existing weight redistribution.
+- Reuse the shared Levenshtein scorer in SimilarityFlooding, removing duplicate
+  edit-distance code while preserving exact matching outputs.
+- Evaluate suggestions on the verified independent corpus and add a separately
+  frozen annual/monthly climate aggregation control with publisher evidence.
+
 - Avoid sampling-index overflow on 32-bit targets for large columns.
 - Verify packaged crates in CI and update checkout to its Node.js 24 runtime.
 - Clarify when to use decision-oriented suggestions versus Valentine candidate scores.

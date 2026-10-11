@@ -11,30 +11,21 @@ use fieldkin::algorithms::{
     JaccardDistanceMatcher, Policy, SimilarityFlooding, StringDistanceFunction, StringMatcher,
 };
 use fieldkin::{ColumnPair, Matcher, Table, valentine_match};
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 
 #[path = "support/independent.rs"]
 mod independent;
 #[path = "support/labeled.rs"]
 mod labeled;
-use labeled::{Answer, EvalCase, fingerprint, parse_case};
+use labeled::{Answer, EvalCase, FrozenCorpus, fingerprint, verify_freeze};
+#[cfg(test)]
+use labeled::{FrozenDataset, parse_case};
 
 const CUTOFF: f64 = 0.5;
 const CORPORA: &[&str] = &["eval", "eval_realworld"];
 const FREEZE: &str = "validation/quality_baseline.json";
 
 type NamedMatcher = (&'static str, Box<dyn Matcher>);
-
-// Read only corpus identities, not the suggestion API's accuracy measurements.
-#[derive(Deserialize)]
-struct FrozenCorpus {
-    datasets: BTreeMap<String, FrozenDataset>,
-}
-
-#[derive(Deserialize)]
-struct FrozenDataset {
-    sha256: String,
-}
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Serialize)]
 struct Counts {
@@ -160,61 +151,12 @@ fn load_cases(root: &Path, independent: bool) -> Result<BTreeMap<String, EvalCas
         fs::read_to_string(root.join(freeze)).map_err(|error| format!("{freeze}: {error}"))?;
     let frozen: FrozenCorpus =
         serde_json::from_str(&raw).map_err(|error| format!("{freeze}: {error}"))?;
-    let mut cases = BTreeMap::new();
-    let mut names = BTreeSet::new();
-    for directory in corpora {
-        let mut paths = fs::read_dir(root.join(directory))
-            .and_then(|entries| {
-                entries
-                    .map(|entry| entry.map(|entry| entry.path()))
-                    .collect::<Result<Vec<_>, _>>()
-            })
-            .map_err(|error| format!("{directory}: {error}"))?;
-        paths.sort();
-        for path in paths {
-            if path.extension().is_none_or(|extension| extension != "json") {
-                continue;
-            }
-            let id = format!(
-                "{directory}/{}",
-                path.file_name().unwrap().to_string_lossy()
-            );
-            let raw = fs::read_to_string(&path).map_err(|error| format!("{id}: {error}"))?;
-            let case = parse_case(&raw).map_err(|error| format!("{id}: {error}"))?;
-            if !names.insert(case.name.clone()) {
-                return Err(format!("{id}: duplicate dataset name {:?}", case.name));
-            }
-            if cases.insert(id.clone(), case).is_some() {
-                return Err(format!("duplicate dataset identifier: {id}"));
-            }
-        }
-    }
+    let cases = labeled::load_cases(root, corpora)?;
     verify_freeze(&cases, &frozen)?;
     if independent {
         independent::verify(root, &raw, &cases).map_err(|error| format!("{freeze}: {error}"))?;
     }
     Ok(cases)
-}
-
-fn verify_freeze(cases: &BTreeMap<String, EvalCase>, frozen: &FrozenCorpus) -> Result<(), String> {
-    if cases.is_empty() || frozen.datasets.is_empty() {
-        return Err("empty evaluation corpus or frozen dataset list".into());
-    }
-    for id in frozen.datasets.keys() {
-        if !cases.contains_key(id) {
-            return Err(format!("{id}: missing frozen evaluation dataset"));
-        }
-    }
-    for (id, case) in cases {
-        let expected = frozen
-            .datasets
-            .get(id)
-            .ok_or_else(|| format!("{id}: dataset absent from frozen corpus"))?;
-        if fingerprint(case)? != expected.sha256 {
-            return Err(format!("{id}: evaluation inputs or labels changed"));
-        }
-    }
-    Ok(())
 }
 
 fn assess<'a>(

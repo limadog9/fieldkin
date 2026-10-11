@@ -77,9 +77,21 @@ pub fn sample_score(left: &[String], right: &[String]) -> Option<f64> {
         return None;
     }
 
-    let left: BTreeSet<String> = left.iter().map(|v| normalize_sample(v)).collect();
+    let left: BTreeSet<String> = left
+        .iter()
+        .map(|v| normalize_sample(v))
+        .filter(|value| !value.is_empty())
+        .collect();
 
-    let right: BTreeSet<String> = right.iter().map(|v| normalize_sample(v)).collect();
+    let right: BTreeSet<String> = right
+        .iter()
+        .map(|v| normalize_sample(v))
+        .filter(|value| !value.is_empty())
+        .collect();
+
+    if left.is_empty() || right.is_empty() {
+        return None;
+    }
 
     // One repeated value is not useful sample evidence.
     if left.len() < 2 || right.len() < 2 {
@@ -196,6 +208,24 @@ mod tests {
         let right = vec!["US".into(), " us ".into()];
 
         assert_eq!(sample_score(&left, &right), Some(0.0));
+    }
+
+    #[test]
+    fn missing_values_do_not_create_distinct_sample_evidence() {
+        let left = vec!["us".into(), "".into(), "us".into()];
+        let right = vec!["US".into(), " \t ".into()];
+
+        assert_eq!(sample_score(&left, &right), Some(0.0));
+
+        let blank = vec!["".into(), " \t ".into()];
+        assert_eq!(sample_score(&blank, &right), None);
+        assert_eq!(sample_score(&left, &blank), None);
+        assert_eq!(sample_score(&blank, &blank), None);
+
+        let observed = vec!["us".into(), "ca".into()];
+        let with_blanks = vec![" US ".into(), "".into(), "CA".into(), " ".into()];
+        assert_eq!(sample_score(&observed, &with_blanks), Some(1.0));
+        assert_eq!(sample_score(&with_blanks, &observed), Some(1.0));
     }
 
     #[test]

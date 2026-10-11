@@ -8,9 +8,13 @@ use std::{
 use fieldkin::{Config, Decision, FieldResult, match_schemas};
 use serde::{Deserialize, Serialize};
 
+#[path = "support/independent.rs"]
+mod independent;
 #[path = "support/labeled.rs"]
 mod labeled;
-use labeled::{Answer, fingerprint, parse_case};
+#[cfg(test)]
+use labeled::parse_case;
+use labeled::{Answer, EvalCase, FrozenCorpus, fingerprint, load_cases, verify_freeze};
 
 const CORPORA: &[&str] = &["eval", "eval_realworld"];
 const BASELINE: &str = "validation/quality_baseline.json";
@@ -191,11 +195,26 @@ impl Metrics {
         }
     }
 
+    fn prediction_count(&self, kind: Category) -> usize {
+        match kind {
+            Category::Match => self.by_expected_decision[&kind]
+                .correct
+                .saturating_add(self.overall.incorrect_automatic_matches),
+            Category::Ambiguous => self.by_expected_decision[&kind]
+                .correct
+                .saturating_add(self.overall.incorrect_ambiguities),
+            Category::NoMatch => self
+                .overall
+                .total
+                .saturating_sub(self.prediction_count(Category::Match))
+                .saturating_sub(self.prediction_count(Category::Ambiguous)),
+        }
+    }
+
     fn automatic_match_precision(&self) -> String {
-        let correct = self.by_expected_decision[&Category::Match].correct;
         ratio(
-            correct,
-            correct.saturating_add(self.overall.incorrect_automatic_matches),
+            self.by_expected_decision[&Category::Match].correct,
+            self.prediction_count(Category::Match),
         )
     }
 }
@@ -224,69 +243,41 @@ struct EvaluatedCase {
 type Evaluation = BTreeMap<String, EvaluatedCase>;
 
 fn evaluate(root: &Path, directories: &[&str]) -> Result<Evaluation, String> {
+    evaluate_cases(load_cases(root, directories)?)
+}
+
+fn evaluate_cases(cases: BTreeMap<String, EvalCase>) -> Result<Evaluation, String> {
     let mut evaluation = Evaluation::new();
-    for directory in directories {
-        let path = root.join(directory);
-        let mut files = fs::read_dir(&path)
-            .and_then(|entries| {
-                entries
-                    .map(|entry| entry.map(|entry| entry.path()))
-                    .collect::<Result<Vec<_>, _>>()
-            })
-            .map_err(|error| format!("{}: {error}", path.display()))?;
-        files.retain(|path| {
-            path.extension()
-                .is_some_and(|extension| extension == "json")
-        });
-        files.sort();
-        if files.is_empty() {
-            return Err(format!("{}: no JSON evaluation datasets", path.display()));
+    for (id, case) in cases {
+        let sha256 = fingerprint(&case)?;
+        let report = match_schemas(&case.source, &case.target, Config::default());
+        let field_count = report.fields.len();
+        let mut results: BTreeMap<_, _> = report
+            .fields
+            .into_iter()
+            .map(|field| (field.source.clone(), field))
+            .collect();
+        if results.len() != field_count {
+            return Err(format!("{id}: matcher returned duplicate source fields"));
         }
-        for path in files {
-            let id = format!(
-                "{directory}/{}",
-                path.file_name().unwrap().to_string_lossy()
-            );
-            let raw = fs::read_to_string(&path).map_err(|error| format!("{id}: {error}"))?;
-            let case = parse_case(&raw).map_err(|error| format!("{id}: {error}"))?;
-            let sha256 = fingerprint(&case)?;
-            let report = match_schemas(&case.source, &case.target, Config::default());
-            let field_count = report.fields.len();
-            let mut results: BTreeMap<_, _> = report
-                .fields
-                .into_iter()
-                .map(|field| (field.source.clone(), field))
-                .collect();
-            if results.len() != field_count {
-                return Err(format!("{id}: matcher returned duplicate source fields"));
-            }
-            let mut rows = Vec::with_capacity(case.answers.len());
-            for answer in case.answers {
-                let result = results.remove(answer.source()).ok_or_else(|| {
-                    format!("{id}: matcher omitted source field {}", answer.source())
-                })?;
-                rows.push((answer, result));
-            }
-            if !results.is_empty() {
-                return Err(format!("{id}: matcher returned unexpected source fields"));
-            }
-            if evaluation
-                .insert(
-                    id.clone(),
-                    EvaluatedCase {
-                        name: case.name,
-                        sha256,
-                        rows,
-                    },
-                )
-                .is_some()
-            {
-                return Err(format!("duplicate dataset: {id}"));
-            }
+        let mut rows = Vec::with_capacity(case.answers.len());
+        for answer in case.answers {
+            let result = results
+                .remove(answer.source())
+                .ok_or_else(|| format!("{id}: matcher omitted source field {}", answer.source()))?;
+            rows.push((answer, result));
         }
-    }
-    if evaluation.is_empty() {
-        return Err("no evaluation datasets".into());
+        if !results.is_empty() {
+            return Err(format!("{id}: matcher returned unexpected source fields"));
+        }
+        evaluation.insert(
+            id,
+            EvaluatedCase {
+                name: case.name,
+                sha256,
+                rows,
+            },
+        );
     }
     Ok(evaluation)
 }
@@ -443,12 +434,15 @@ fn ratio(correct: usize, total: usize) -> String {
 
 fn print_summary(snapshot: &Baseline) {
     for (id, dataset) in &snapshot.datasets {
+        let metrics = &dataset.metrics;
+        let matches = &metrics.by_expected_decision[&Category::Match];
         println!(
-            "{id}: {}",
-            ratio(
-                dataset.metrics.overall.correct,
-                dataset.metrics.overall.total
-            )
+            "{id}: accuracy {}; automatic precision {}; recall {}; incorrect automatic {}; abstentions {}",
+            ratio(metrics.overall.correct, metrics.overall.total),
+            metrics.automatic_match_precision(),
+            ratio(matches.correct, matches.total),
+            metrics.overall.incorrect_automatic_matches,
+            metrics.overall.total - metrics.prediction_count(Category::Match),
         );
     }
     let metrics = &snapshot.overall;
@@ -470,6 +464,23 @@ fn print_summary(snapshot: &Baseline) {
         metrics.automatic_match_precision()
     );
     println!(
+        "Automatic-match recall: {}",
+        ratio(matches.correct, matches.total)
+    );
+    println!(
+        "Automatic-match coverage: {}",
+        ratio(
+            metrics.prediction_count(Category::Match),
+            metrics.overall.total
+        )
+    );
+    println!(
+        "Abstentions: {} (NoMatch: {}, Ambiguous: {})",
+        metrics.overall.total - metrics.prediction_count(Category::Match),
+        metrics.prediction_count(Category::NoMatch),
+        metrics.prediction_count(Category::Ambiguous)
+    );
+    println!(
         "Incorrect automatic matches: {}",
         metrics.overall.incorrect_automatic_matches
     );
@@ -484,7 +495,9 @@ fn run() -> Result<(), String> {
     let mut args = env::args().skip(1);
     let command = args.next().unwrap_or_else(|| "--check".into());
     if args.next().is_some() {
-        return Err("usage: evaluate_all [--check | --print-baseline | DIRECTORY]".into());
+        return Err(
+            "usage: evaluate_all [--check | --print-baseline | --independent | DIRECTORY]".into(),
+        );
     }
     let root = Path::new(env!("CARGO_MANIFEST_DIR"));
     match command.as_str() {
@@ -509,8 +522,22 @@ fn run() -> Result<(), String> {
                 );
             }
         }
-        directory if !directory.starts_with('-') => {
-            let evaluation = evaluate(Path::new("."), &[directory])?;
+        directory if directory == "--independent" || !directory.starts_with('-') => {
+            let evaluation = if directory == "--independent" {
+                let freeze = "validation/independent_corpus.json";
+                let raw = fs::read_to_string(root.join(freeze))
+                    .map_err(|error| format!("{freeze}: {error}"))?;
+                let frozen: FrozenCorpus =
+                    serde_json::from_str(&raw).map_err(|error| format!("{freeze}: {error}"))?;
+                let cases = load_cases(root, &["eval_independent"])?;
+                // Freeze and provenance checks must precede every prediction.
+                verify_freeze(&cases, &frozen)?;
+                independent::verify(root, &raw, &cases)
+                    .map_err(|error| format!("{freeze}: {error}"))?;
+                evaluate_cases(cases)?
+            } else {
+                evaluate(Path::new("."), &[directory])?
+            };
             print_summary(&summarize(&evaluation));
             for case in evaluation.values() {
                 for (answer, result) in &case.rows {
@@ -519,9 +546,14 @@ fn run() -> Result<(), String> {
                     }
                 }
             }
-            println!("Report only; use --check to enforce the frozen quality baseline.");
+            println!("Report only; use --check for the unchanged development quality baseline.");
         }
-        _ => return Err("usage: evaluate_all [--check | --print-baseline | DIRECTORY]".into()),
+        _ => {
+            return Err(
+                "usage: evaluate_all [--check | --print-baseline | --independent | DIRECTORY]"
+                    .into(),
+            );
+        }
     }
     Ok(())
 }
@@ -752,12 +784,18 @@ mod tests {
         );
         assert_eq!(metrics.by_expected_decision[&Category::Match].correct, 1);
         assert_eq!(metrics.by_expected_decision[&Category::Match].total, 4);
+        assert_eq!(metrics.prediction_count(Category::Match), 4);
+        assert_eq!(metrics.prediction_count(Category::NoMatch), 3);
+        assert_eq!(metrics.prediction_count(Category::Ambiguous), 4);
         assert_eq!(metrics.automatic_match_precision(), "1/4 (25.00%)");
         // True negatives do not improve the precision of automatic matches.
         for _ in 0..100 {
             metrics.observe(&case.answers[1], &no_match());
         }
         assert_eq!(metrics.automatic_match_precision(), "1/4 (25.00%)");
+        assert_eq!(metrics.prediction_count(Category::Match), 4);
+        assert_eq!(metrics.prediction_count(Category::NoMatch), 103);
+        assert_eq!(metrics.prediction_count(Category::Ambiguous), 4);
         // Choosing one of the expected ambiguous targets is still incorrect.
         assert!(!case.answers[2].is_correct(&matched("target")));
     }
@@ -914,6 +952,15 @@ mod tests {
         let raw = case_json();
         fs::write(&path, raw.to_string()).unwrap();
         let original = evaluate(&root, &["."]).unwrap();
+        fs::create_dir(root.join("empty")).unwrap();
+        fs::write(root.join("empty/README.md"), "No JSON datasets here.").unwrap();
+        for directories in [[".", "empty"], ["empty", "."]] {
+            let error = evaluate(&root, &directories).err().unwrap();
+            assert!(
+                error.contains("empty: no JSON evaluation datasets"),
+                "{error}"
+            );
+        }
         fs::write(
             &path,
             serde_json::to_string_pretty(&raw)

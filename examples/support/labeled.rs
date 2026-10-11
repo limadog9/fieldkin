@@ -1,4 +1,8 @@
-use std::collections::BTreeSet;
+use std::{
+    collections::{BTreeMap, BTreeSet},
+    fs,
+    path::Path,
+};
 
 use fieldkin::{DataType, Field, Schema};
 use serde::{Deserialize, Serialize};
@@ -156,6 +160,83 @@ pub fn fingerprint(case: &EvalCase) -> Result<String, String> {
     // Hash parsed data so checkout line endings/JSON whitespace do not matter.
     let data = serde_json::to_vec(case).map_err(|error| error.to_string())?;
     Ok(format!("{:x}", Sha256::digest(data)))
+}
+
+// Read corpus identities without coupling the two evaluators' metrics.
+#[derive(Deserialize)]
+pub struct FrozenCorpus {
+    pub datasets: BTreeMap<String, FrozenDataset>,
+}
+
+#[derive(Deserialize)]
+pub struct FrozenDataset {
+    pub sha256: String,
+}
+
+pub fn load_cases(root: &Path, directories: &[&str]) -> Result<BTreeMap<String, EvalCase>, String> {
+    let mut cases = BTreeMap::new();
+    let mut names = BTreeSet::new();
+    for directory in directories {
+        let mut paths = fs::read_dir(root.join(directory))
+            .and_then(|entries| {
+                entries
+                    .map(|entry| entry.map(|entry| entry.path()))
+                    .collect::<Result<Vec<_>, _>>()
+            })
+            .map_err(|error| format!("{directory}: {error}"))?;
+        paths.retain(|path| {
+            path.extension()
+                .is_some_and(|extension| extension == "json")
+        });
+        if paths.is_empty() {
+            return Err(format!(
+                "{directory}: no JSON evaluation datasets (empty evaluation corpus)"
+            ));
+        }
+        paths.sort();
+        for path in paths {
+            let id = format!(
+                "{directory}/{}",
+                path.file_name().unwrap().to_string_lossy()
+            );
+            let raw = fs::read_to_string(&path).map_err(|error| format!("{id}: {error}"))?;
+            let case = parse_case(&raw).map_err(|error| format!("{id}: {error}"))?;
+            if !names.insert(case.name.clone()) {
+                return Err(format!("{id}: duplicate dataset name {:?}", case.name));
+            }
+            if cases.insert(id.clone(), case).is_some() {
+                return Err(format!("duplicate dataset identifier: {id}"));
+            }
+        }
+    }
+    if cases.is_empty() {
+        return Err("empty evaluation corpus: no JSON evaluation datasets".into());
+    }
+    Ok(cases)
+}
+
+pub fn verify_freeze(
+    cases: &BTreeMap<String, EvalCase>,
+    frozen: &FrozenCorpus,
+) -> Result<(), String> {
+    if cases.is_empty() || frozen.datasets.is_empty() {
+        return Err("empty evaluation corpus or frozen dataset list".into());
+    }
+    for id in frozen.datasets.keys() {
+        if !cases.contains_key(id) {
+            return Err(format!("{id}: missing frozen evaluation dataset"));
+        }
+    }
+    for (id, case) in cases {
+        let expected = frozen
+            .datasets
+            .get(id)
+            .ok_or_else(|| format!("{id}: dataset absent from frozen corpus"))?;
+        if fingerprint(case)? != expected.sha256 {
+            return Err(format!("{id}: evaluation inputs or labels changed"));
+        }
+    }
+    Ok(())
 }
 
 #[cfg(test)]

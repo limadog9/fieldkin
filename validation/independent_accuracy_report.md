@@ -10,7 +10,7 @@ every label. They are public, mostly historical studies and related lookup
 tables, not a representative sample of production schemas. Single-annotator
 labels and shared dataset families limit the strength of generalization claims.
 
-Reproduce:
+Reproduce (now includes the separately reported extension below):
 
 ```sh
 cargo run --locked --example benchmark_accuracy -- --independent
@@ -170,3 +170,91 @@ publisher archives and the R CSV mirror, not claimed primary downloads.
 Licenses are upstream declarations; the complete historical licensing chain
 has not been independently audited. See the protocol for all annotation, type,
 period/unit and provenance limitations.
+
+## 2026-10-11 follow-up: suggestions and an aggregation control
+
+The original 15 cases above remain unchanged. They are now previously evaluated
+inputs, not a new blind trial. Case 16 was independently annotated from the
+publisher's annual/monthly temperature dictionaries and processing script, then
+frozen in `0445a57898243aa01ebc67fbba21827fc7e87aa8` **before** its first
+prediction. It contributes one match and two hard negatives: provider `Source`
+matches, while annual `Year`/`Mean` are not monthly `Year`/`Mean`. See the
+[protocol extension](independent_accuracy.md#2026-10-11-extension) and notices for
+mirror provenance, licensing and stale publisher-description caveats.
+
+Run the existing commands for the current 16 cases:
+
+```sh
+cargo run --locked --example evaluate_all -- --independent
+cargo run --locked --example benchmark_accuracy -- --independent --details
+```
+
+The first command now evaluates the original suggestion API with unchanged
+`Config::default()`. It verifies the same inputs, labels and provenance before
+predicting, reports per-dataset decisions and errors, and treats both `NoMatch`
+and `Ambiguous` as abstentions from automatic selection. Correct ambiguity
+requires the exact labeled alternative set. The second command preserves the
+five fixed Valentine configurations and the common 0.5 automatic cutoff.
+
+Combined measurements: **94 fields, 41 matches, 53 no-matches, zero ambiguities**.
+Ranking metrics apply only to the 41 unique matches, before the selection cutoff.
+
+| Matcher | Precision | Recall | F1 | Rank top-1 | Recall@5 | Coverage |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Suggestions (explicit decisions) | 85.37% | 85.37% | 85.37% | — | — | 43.62% |
+| COMA | 80.49% | 80.49% | 80.49% | 82.93% | 82.93% | 43.62% |
+| Cupid | 54.05% | 48.78% | 51.28% | 48.78% | 48.78% | 39.36% |
+| DistributionBased | 96.43% | 65.85% | 78.26% | 65.85% | 65.85% | 29.79% |
+| JaccardDistanceMatcher | 100.00% | 75.61% | 86.11% | 85.37% | 85.37% | 32.98% |
+| SimilarityFlooding | 60.00% | 7.32% | 13.04% | 80.49% | 97.56% | 5.32% |
+
+| Matcher | Correct / automatic | Incorrect automatic | Missed matches | Abstentions / 94 |
+| --- | ---: | ---: | ---: | ---: |
+| Suggestions | 35/41 | 6 | 6 | 53 |
+| COMA | 33/41 | 8 | 8 | 53 |
+| Cupid | 20/37 | 17 | 21 | 57 |
+| DistributionBased | 27/28 | 1 | 14 | 66 |
+| JaccardDistanceMatcher | 31/31 | 0 | 10 | 63 |
+| SimilarityFlooding | 3/5 | 2 | 38 | 89 |
+
+On **case 16 alone**, Jaccard correctly selects `Source` and abstains for both
+negatives. Suggestions and Cupid correctly select `Source` and abstain for
+`Year`, but incorrectly select `Mean`. COMA and SimilarityFlooding incorrectly
+select both same-named negatives. DistributionBased abstains for all three,
+missing the positive. Matching labels and units do not establish equal temporal
+aggregation. These failures were recorded without changing weights or thresholds.
+
+Suggestion decision accuracy is **81/94 (86.17%)**: 35/41 expected matches,
+46/53 expected no-matches, and no supported ambiguity denominator. Its 53
+abstentions comprise 52 `NoMatch` decisions and one incorrect `Ambiguous` decision.
+Failures include manufacture year versus flight/weather year, airframe speed
+versus wind speed, annual versus monthly mean, and renamed `time` coordinates.
+The CLI prints each affected source, expected decision, actual decision and
+candidate components; full Valentine per-dataset results remain available with
+`--json`.
+
+The blank-sample correction was justified by a separate synthetic reproduction,
+not by these labels: `country=["us", ""]` versus `category=["us", ""]` previously
+received positive sample credit and an automatic 0.814286 match. Ignoring blanks
+restores the one-observation result, `NoMatch` at 0.664286. A measured tradeoff on
+the original 15 cases is **80/91 → 79/91 correct decisions**: all-missing aircraft
+`speed` now has unavailable sample evidence, so existing weight redistribution
+changes `NoMatch` to `Ambiguous` against flight times. Correct automatic matches
+remain 34/39, false positives remain five, and six positives remain missed.
+Another existing incorrect `speed` → `wind_speed` match rises from 0.7875 to
+0.926471. Missingness consistency is not a claim of aggregate accuracy gain.
+The development gate remains 215/256, with 9 incorrect automatic matches.
+
+All original 15 Valentine per-dataset metrics, diagnostics and rankings were
+identical before/after this pass; the complete development benchmark JSON was
+byte-identical. The historical machine-readable report above is left intact.
+Jaccard's observed precision rests on only 31 selections; DistributionBased
+trades coverage for precision, and Flooding's strong retrieval does not imply
+safe automatic matches at this shared cutoff. These are corpus-specific findings.
+
+An attempted ambiguity extension used published UTC/CET equivalence evidence,
+but its observation download was blocked; no synthetic observations or ambiguity
+labels were substituted. Independent ambiguity accuracy remains unmeasured.
+The small, correlated corpus, single annotation author, mirror provenance and
+shared uncalibrated cutoff still limit generalization. Both independent commands
+run in CI as reports with integrity checks, not newly calibrated accuracy gates.
