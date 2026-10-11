@@ -17,6 +17,10 @@ jobs:
           components: rustfmt, clippy
       - uses: Swatinem/rust-cache@v2
       - run: cargo fmt --all -- --check
+      - name: Test parity and benchmark validation helpers
+        run: |
+          python scripts/test_compare_valentine_parity.py
+          python validation/test_benchmark_valentine.py
       - name: Check suggestion quality against frozen ground truth
         run: cargo run --locked --example evaluate_all -- --check
       - name: Measure independent accuracy (separate from parity and quality gate)

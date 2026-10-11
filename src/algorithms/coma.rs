@@ -270,6 +270,19 @@ impl TfidfCorpus {
         if a.is_empty() || b.is_empty() {
             return 0.0;
         }
+        // A shared token already rules out the disjoint-vocabulary fast path.
+        if !a[0].keys().any(|token| b[0].contains_key(token)) {
+            let vocabulary: BTreeSet<_> = a.iter().flat_map(|vector| vector.keys()).collect();
+            // Preserve signed zero from the original loop for empty source vectors.
+            if !vocabulary.is_empty()
+                && !b
+                    .iter()
+                    .flat_map(|vector| vector.keys())
+                    .any(|token| vocabulary.contains(token))
+            {
+                return 0.0;
+            }
+        }
         let mut row_max: Vec<f64> = vec![0.0; a.len()];
         let mut col_max: Vec<f64> = vec![0.0; b.len()];
         for (i, av) in a.iter().enumerate() {
@@ -310,5 +323,60 @@ mod tests {
             select_both_multiple(&[vec![0.8, 0.8], vec![0.9, 0.1]], &c).len(),
             4
         );
+    }
+
+    #[test]
+    fn instance_scores_preserve_zero_and_overlapping_document_cosines() {
+        let a = BTreeMap::from([("a".into(), 1.0)]);
+        let b = BTreeMap::from([("b".into(), 1.0)]);
+        let cases = vec![
+            vec![],
+            vec![BTreeMap::new()],
+            vec![a.clone()],
+            vec![b.clone()],
+            vec![a.clone(), a.clone()],
+            vec![
+                BTreeMap::from([("a".into(), 0.6), ("b".into(), 0.8)]),
+                BTreeMap::from([("b".into(), 0.8), ("c".into(), 0.6)]),
+            ],
+            vec![BTreeMap::new(), a, b],
+        ];
+        let corpus = TfidfCorpus {
+            columns: vec![cases.clone(), cases.clone()],
+        };
+        for (i, a) in cases.iter().enumerate() {
+            for (j, b) in cases.iter().enumerate() {
+                let expected = if a.is_empty() || b.is_empty() {
+                    0.0
+                } else {
+                    let matrix: Vec<Vec<f64>> = a
+                        .iter()
+                        .map(|av| {
+                            b.iter()
+                                .map(|bv| {
+                                    av.iter()
+                                        .map(|(token, value)| value * bv.get(token).unwrap_or(&0.0))
+                                        .sum::<f64>()
+                                        .clamp(0.0, 1.0)
+                                })
+                                .collect()
+                        })
+                        .collect();
+                    let rows: f64 = matrix
+                        .iter()
+                        .map(|row| row.iter().copied().fold(0.0, f64::max))
+                        .sum();
+                    let columns: f64 = (0..b.len())
+                        .map(|j| matrix.iter().map(|row| row[j]).fold(0.0, f64::max))
+                        .sum();
+                    (rows + columns) / (a.len() + b.len()) as f64
+                };
+                assert_eq!(
+                    corpus.similarity(0, i, 1, j).to_bits(),
+                    expected.to_bits(),
+                    "case {i}, {j}"
+                );
+            }
+        }
     }
 }

@@ -124,7 +124,13 @@ The comparison checks input SHA256 hashes, complete column-pair sets and scores
 for all five default matchers plus COMA with instance matching enabled. It
 records exact equality separately from numerical tolerances (`1e-6` for COMA,
 `1e-10` for the other matchers), and exits unsuccessfully on differences or
-incomplete runs. Results are written to `target/parity`.
+incomplete runs. Per-source candidate rankings are compared by descending score,
+with lexical pair ordering for exact ties. Reversed candidates count as rounding
+ties only when both score gaps are at most twice the score tolerance; individual
+scores must still satisfy the original tolerance. These derived rankings do not
+claim identical dictionary insertion order or equal-score selection semantics.
+Results are written to `target/parity`. The ranking comparator's dependency-free
+regressions run with `python scripts/test_compare_valentine_parity.py`.
 
 The default Python run uses the unmodified upstream commit. To resolve the two
 upstream defects above, compare with an explicitly patched source copy:

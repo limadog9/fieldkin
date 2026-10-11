@@ -73,6 +73,61 @@ fn normalized_distances_count_characters_and_support_empty_strings() {
 }
 
 #[test]
+fn levenshtein_scores_preserve_unicode_and_bit_vector_boundaries() {
+    fn check(a: &str, b: &str) {
+        assert_eq!(
+            similarity(a, b, Distance::Levenshtein).to_bits(),
+            strsim::normalized_levenshtein(a, b).to_bits(),
+            "{a:?}, {b:?}"
+        );
+    }
+    let mut strings = vec![String::new()];
+    let mut generation = vec![String::new()];
+    for _ in 0..4 {
+        generation = generation
+            .iter()
+            .flat_map(|s| ['a', 'é', '界'].map(move |c| format!("{s}{c}")))
+            .collect();
+        strings.extend(generation.clone());
+    }
+    strings.extend(
+        [
+            "\0",
+            "a\0b",
+            "İ",
+            "i\u{307}",
+            "e\u{301}",
+            "é",
+            "ΣΟΣ",
+            "σος",
+            "🙂🙃🙂",
+        ]
+        .map(str::to_owned),
+    );
+    for a in &strings {
+        for b in &strings {
+            check(a, b);
+        }
+    }
+    for length in [31, 32, 33, 63, 64, 65, 127, 128, 129, 255, 256, 257] {
+        for alphabet in ["abcdefg", "é界🙂\0e\u{301}"] {
+            let a: String = alphabet.chars().cycle().take(length).collect();
+            for b in [
+                a.clone(),
+                a.chars().rev().collect(),
+                format!("{a}Z"),
+                format!("Z{a}"),
+                "xyz".chars().cycle().take(length).collect(),
+                a.chars().skip(3).collect(),
+            ] {
+                check(&a, &b);
+                check(&b, &a);
+            }
+        }
+    }
+}
+
+#[test]
 fn coma_name_helpers_preserve_tokens_abbreviations_and_multisets() {
     assert_eq!(
         tokens("XMLHTTPRequest42_id_ID"),
@@ -96,6 +151,71 @@ fn coma_name_helpers_preserve_tokens_abbreviations_and_multisets() {
     close(type_similarity(&DataType::Text, &DataType::Date), 0.3);
     close(type_similarity(&DataType::Float, &DataType::Decimal), 1.0);
     close(type_similarity(&DataType::Boolean, &DataType::Integer), 0.0);
+}
+
+#[test]
+fn trigram_scores_preserve_unicode_and_repeated_gram_multiplicities() {
+    fn owned_grams(value: &str) -> Vec<String> {
+        let value = value.to_lowercase();
+        let characters: Vec<_> = value.chars().collect();
+        if characters.len() < 3 {
+            vec![value]
+        } else {
+            characters
+                .windows(3)
+                .map(|gram| gram.iter().collect())
+                .collect()
+        }
+    }
+    let cases = [
+        "",
+        "a",
+        "A",
+        "ab",
+        "abc",
+        "aaaa",
+        "aaa",
+        "ababab",
+        "bababa",
+        "é界",
+        "É界",
+        "é界🙂é界",
+        "界🙂é界🙂",
+        "İ",
+        "i\u{307}",
+        "Aİx",
+        "ai\u{307}x",
+        "e\u{301}xy",
+        "éxy",
+        "a\0bc",
+        "\0bc\0",
+        "ΣΟΣ",
+        "σος",
+    ];
+    for a in cases {
+        for b in cases {
+            let expected = if a.is_empty() || b.is_empty() {
+                f64::from(a.is_empty() && b.is_empty())
+            } else {
+                let a = owned_grams(a);
+                let mut b = owned_grams(b);
+                let total = a.len() + b.len();
+                let mut shared = 0;
+                for gram in a {
+                    if let Some(index) = b.iter().position(|candidate| *candidate == gram) {
+                        b.remove(index);
+                        shared += 1;
+                    }
+                }
+                2.0 * shared as f64 / total as f64
+            };
+            assert_eq!(
+                trigram_similarity(a, b).to_bits(),
+                expected.to_bits(),
+                "{a:?}, {b:?}"
+            );
+        }
+    }
 }
 
 #[test]

@@ -3,6 +3,8 @@
 This script does not run a matcher or approximate a reference score. It verifies
 input hashes and column identities, compares complete correspondence sets, and
 reports exact floating-point equality separately from tolerance equivalence.
+Per-source rankings use lexical tie-breaking and distinguish rounding-scale
+reversals from materially different candidate orders.
 """
 
 from __future__ import annotations
@@ -210,6 +212,42 @@ def matches(result: dict[str, Any] | None, side: str) -> tuple[dict[tuple[str, .
     return entries, issues
 
 
+def ranking_differences(
+    rust: dict[tuple[str, ...], float], python: dict[tuple[str, ...], float], tolerance: float,
+) -> list[dict[str, Any]]:
+    differences = []
+    for source in sorted({key[:2] for key in rust.keys() | python.keys()}):
+        rust_order = sorted((key for key in rust if key[:2] == source), key=lambda key: (-rust[key], key))
+        python_order = sorted((key for key in python if key[:2] == source), key=lambda key: (-python[key], key))
+        if rust_order == python_order:
+            continue
+        python_ranks = {key: rank for rank, key in enumerate(python_order)}
+        inversions = []
+        for rank, first in enumerate(rust_order):
+            for second in rust_order[rank + 1:]:
+                if first not in python_ranks or second not in python_ranks:
+                    continue
+                if python_ranks[first] > python_ranks[second]:
+                    # Each score can move by the absolute tolerance, so the
+                    # difference of two scores can move by twice that amount.
+                    rust_gap = abs(rust[first] - rust[second])
+                    python_gap = abs(python[first] - python[second])
+                    inversions.append({
+                        "first": pair_dict(first), "second": pair_dict(second),
+                        "rust_gap": rust_gap, "python_gap": python_gap,
+                        "rounding_tie": max(rust_gap, python_gap) <= 2 * tolerance,
+                    })
+        differences.append({
+            "source_table": source[0], "source_column": source[1],
+            "rust_order": [pair_dict(key) for key in rust_order],
+            "python_order": [pair_dict(key) for key in python_order],
+            "inversions": inversions,
+            "equivalent": (set(rust_order) == set(python_order)
+                           and all(item["rounding_tie"] for item in inversions)),
+        })
+    return differences
+
+
 def compare_case(
     path: str, algorithm: str, rust: dict[str, Any] | None,
     python: dict[str, Any] | None, input_checks: dict[str, Any], context_verified: bool,
@@ -245,6 +283,8 @@ def compare_case(
     pair_sets_equal = not missing and not extra
     exact_scores = not score_differences
     within_tolerance_scores = all(difference["within_tolerance"] for difference in score_differences)
+    rankings = ranking_differences(rust_matches, python_matches, tolerance)
+    rankings_equivalent = all(difference["equivalent"] for difference in rankings)
     return {
         "path": path,
         "name": (rust or python or {}).get("name"),
@@ -267,8 +307,11 @@ def compare_case(
         "pair_sets_equal": pair_sets_equal,
         "exact_scores": exact_scores,
         "within_tolerance_scores": within_tolerance_scores,
+        "ranking_differences": rankings,
+        "exact_rankings": not rankings,
+        "equivalent_rankings": rankings_equivalent,
         "exact": bool(identifiers_valid and context_verified and input_checks["verified"] and both_succeeded and pair_sets_equal and exact_scores),
-        "equivalent": bool(identifiers_valid and context_verified and input_checks["verified"] and both_succeeded and pair_sets_equal and within_tolerance_scores),
+        "equivalent": bool(identifiers_valid and context_verified and input_checks["verified"] and both_succeeded and pair_sets_equal and within_tolerance_scores and rankings_equivalent),
         "elapsed_seconds": {
             "rust": rust_result.get("elapsed_seconds") if rust_result else None,
             "python": python_result.get("elapsed_seconds") if python_result else None,
@@ -333,6 +376,8 @@ def summarize(cases: list[dict[str, Any]]) -> dict[str, Any]:
         "verified_context_case_count": sum(case["context_verified"] for case in cases),
         "valid_identifiers_case_count": sum(case["identifiers_valid"] for case in cases),
         "equal_pair_set_case_count": sum(case["pair_sets_equal"] for case in cases),
+        "exact_ranking_case_count": sum(case["exact_rankings"] for case in cases),
+        "equivalent_ranking_case_count": sum(case["equivalent_rankings"] for case in cases),
         "exact_case_count": sum(case["exact"] for case in cases),
         "equivalent_case_count": sum(case["equivalent"] for case in cases),
         "failure_count": sum(not case["equivalent"] for case in cases),
@@ -411,6 +456,7 @@ def compare(rust: dict[str, Any], python: dict[str, Any]) -> dict[str, Any]:
             "pair_sets": "exact equality of all four table/column identifiers",
             "score_exactness": "numeric equality of parsed IEEE-754 binary64 values, without tolerance",
             "score_equivalence": "absolute error at most the algorithm's recorded tolerance",
+            "rankings": "per source, descending score with lexical pair ties; reversed pairs are rounding ties only when both score gaps are at most twice the score tolerance",
             "absolute_tolerances": TOLERANCES,
             "identifier_integrity": "every returned identifier must exist in the original input schema; names are never normalized",
             "error_handling": "algorithm errors, duplicate pairs, invalid identifiers and unverified inputs/provenance fail equivalence",
@@ -461,10 +507,13 @@ def print_summary(report: dict[str, Any], output: Path) -> None:
             print(f"FAIL {case['path']} / {case['algorithm']}: "
                   f"missing={len(case['missing_from_rust'])} extra={len(case['extra_in_rust'])} "
                   f"scores_outside_tolerance={outside} max_error={case['max_absolute_error']:.12g} "
+                  f"rankings_equivalent={case['equivalent_rankings']} "
                   f"inputs_verified={case['inputs_verified']} errors={case['errors']} "
                   f"schema_issues={case['schema_issues']} identifiers_valid={case['identifiers_valid']}")
     print(f"Declared-type canonicalization recorded; dtype mappings equal: "
           f"{report['metadata']['dtype_mapping_equal']}.")
+    print(f"Per-source rankings: {report['aggregate']['exact_ranking_case_count']} exact; "
+          f"{report['aggregate']['equivalent_ranking_case_count']} equivalent allowing rounding ties.")
     print(f"Result: {report['aggregate']['equivalent_case_count']}/"
           f"{report['aggregate']['case_count']} equivalent; "
           f"{report['aggregate']['exact_case_count']} exactly equal. Report: {output}")

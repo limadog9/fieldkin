@@ -9,16 +9,21 @@ Requires the pinned checkout at .upstream/valentine, its dependencies at
 are resampled, inferred, or regenerated. This is verification tooling only.
 """
 
+import time
+
+PROCESS_STARTED = time.perf_counter()
+
 import argparse
 import hashlib
 import importlib.metadata
+import inspect
 import json
 import math
+from enum import Enum
 from pathlib import Path
 import subprocess
 import sys
 import tempfile
-import time
 
 from valentine_reference import prepare_reference
 
@@ -75,7 +80,7 @@ class InputColumn(BaseColumn):
         self._name = field["name"]
         self._uid = f"{table_name}:{index}:{self._name}"
         self._dtype = DTYPE_MAPPING[field["data_type"]]
-        self._samples = list(field.get("samples", []))
+        self._samples = [value for value in field.get("samples", []) if value != ""]
         if not isinstance(self._name, str) or not all(isinstance(v, str) for v in self._samples):
             raise ValueError("Column names and samples must be strings")
 
@@ -154,7 +159,11 @@ def main():
     parser.add_argument("--output", type=Path)
     parser.add_argument("--dataset", action="append", default=[], help="Optional exact repository-relative dataset path")
     parser.add_argument("--algorithm", action="append", choices=tuple(MATCHERS), default=[])
+    parser.add_argument("--repetitions", type=int, default=1)
+    parser.add_argument("--warmups", type=int, default=0)
     args = parser.parse_args()
+    if args.repetitions < 1 or args.warmups < 0:
+        parser.error("repetitions must be positive; warmups must be nonnegative")
     output_name = "python_results_resolved.json" if args.reference_fixes else "python_results.json"
     destination = (args.output or ROOT / "target/parity" / output_name).resolve()
     if args.reference_fixes and destination == (ROOT / "target/parity/python_results.json").resolve():
@@ -168,11 +177,10 @@ def main():
     paths = sorted([*ROOT.glob("eval/*.json"), *ROOT.glob("eval_realworld/*.json")],
                    key=lambda path: path.relative_to(ROOT).as_posix())
     if args.dataset:
-        requested = set(args.dataset)
-        paths = [path for path in paths if path.relative_to(ROOT).as_posix() in requested]
-        missing = requested - {path.relative_to(ROOT).as_posix() for path in paths}
-        if missing:
-            parser.error(f"Unknown dataset paths: {sorted(missing)}")
+        paths = sorted((ROOT / path).resolve() for path in args.dataset)
+        for path in paths:
+            if not path.is_file() or not path.is_relative_to(ROOT):
+                parser.error(f"Dataset must be a file within the repository: {path}")
     algorithms = args.algorithm or list(MATCHERS)
     revision = subprocess.check_output(
         ["git", "-C", str(ROOT / ".upstream/valentine"), "rev-parse", "HEAD"], text=True).strip()
@@ -182,20 +190,39 @@ def main():
         "imported_package_file": IMPORTED_PACKAGE_FILE.relative_to(ROOT).as_posix(),
         "dtype_mapping": DTYPE_MAPPING,
         "table_names": {"source": "source", "target": "target"},
-        "sampling": "all original sample values, preserving order and duplicates",
+        "sampling": "all nonempty supplied values, no sample cap",
+        "matching_api": "get_matches",
         "python_version": sys.version.split()[0],
-        "dependency_versions": {name: importlib.metadata.version(name) for name in
-                                ("nltk", "numpy", "scipy", "rapidfuzz")},
         "datasets": [],
     }
+    names = {distribution.metadata["Name"].lower() for distribution in
+             importlib.metadata.distributions(path=[str(ROOT / ".upstream/python")])}
+    runtime = {}
+    for name in ("numpy", "scipy", "pandas", "nltk", "rapidfuzz", "pulp", "networkx", "ot", "joblib", "anytree"):
+        module = sys.modules.get(name)
+        if module is None:
+            continue
+        path = Path(module.__file__).resolve()
+        runtime[name] = {"module_version": module.__version__, "file": str(path),
+                         "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
+    # --target upgrades can leave conflicting dist-info directories. Report
+    # module-declared versions separately from wheel metadata (which can differ).
+    report["runtime_dependencies"] = runtime
+    report["dependency_versions"] = {name: runtime[name]["module_version"]
+                                     for name in ("nltk", "numpy", "scipy", "rapidfuzz")}
+    report["distribution_metadata"] = {name: sorted({dist.version for dist in
+                                        importlib.metadata.distributions(name=name)}) for name in sorted(names | {"pot" if name == "ot" else name for name in runtime})}
+    report["setup_seconds"] = time.perf_counter() - PROCESS_STARTED
     total_started = time.perf_counter()
     print(f"Reference: {REFERENCE_METADATA['mode']}; source SHA256 "
           f"{REFERENCE_METADATA['source_sha256']}; patches: "
           f"{[patch['path'] for patch in REFERENCE_METADATA['patches']]}", flush=True)
     for dataset_number, path in enumerate(paths, 1):
+        loading_started = time.perf_counter()
         raw = path.read_bytes()
         data = json.loads(raw)
         dataset = {
+            "input_loading_seconds": time.perf_counter() - loading_started,
             "path": path.relative_to(ROOT).as_posix(),
             "name": data.get("name", path.stem),
             "input_sha256": hashlib.sha256(raw).hexdigest(),
@@ -205,23 +232,46 @@ def main():
         }
         report["datasets"].append(dataset)
         for algorithm in algorithms:
-            started = time.perf_counter()
-            try:
-                # Fresh adapters and matcher for each run prevent any mutable
-                # upstream caches from affecting another configuration's input.
+            defaults = {name: str(parameter.default) if isinstance(parameter.default, Enum) else parameter.default
+                        for name, parameter in
+                        inspect.signature(type(MATCHERS[algorithm]())).parameters.items()
+                        if parameter.default is not inspect.Parameter.empty}
+            report.setdefault("configurations", {})[algorithm] = {
+                "defaults": defaults, "overrides": {"use_instances": True} if algorithm == "coma_instances" else {}}
+            measured, warmups, preparation = [], [], []
+            previous = None
+            for iteration in range(args.warmups + args.repetitions):
+                # Fresh adapters and matcher prevent mutable per-matcher caches
+                # from benefiting later runs. Constructors are outside matching.
+                started = time.perf_counter()
                 source = InputTable("source", data["source"]["fields"])
                 target = InputTable("target", data["target"]["fields"])
-                matches = MATCHERS[algorithm]().get_matches(source, target)
-                result = {"matches": format_matches(matches), "error": None}
-            except Exception as error:
-                result = {"matches": [], "error": {"type": type(error).__name__, "message": str(error)}}
-            result["elapsed_seconds"] = time.perf_counter() - started
+                matcher = MATCHERS[algorithm]()
+                preparation.append(time.perf_counter() - started)
+                started = time.perf_counter()
+                try:
+                    matches = matcher.get_matches(source, target)
+                    elapsed = time.perf_counter() - started
+                    result = {"matches": format_matches(matches), "error": None}
+                except Exception as error:
+                    elapsed = time.perf_counter() - started
+                    result = {"matches": [], "error": {"type": type(error).__name__, "message": str(error)}}
+                identity = hashlib.sha256(json.dumps(result, sort_keys=True, allow_nan=False).encode()).digest()
+                if previous is not None and identity != previous:
+                    raise ValueError(f"Nondeterministic output: {path} / {algorithm}")
+                previous = identity
+                (warmups if iteration < args.warmups else measured).append(elapsed)
+            result.update(elapsed_seconds=elapsed, matching_seconds=measured,
+                          warmup_seconds=warmups, preparation_seconds=preparation)
             dataset["algorithms"][algorithm] = result
             save(destination, report)
             status = f"{len(result['matches'])} pairs" if result["error"] is None else str(result["error"])
             print(f"[{dataset_number}/{len(paths)}] {dataset['path']} {algorithm}: "
                   f"{status} ({result['elapsed_seconds']:.3f}s)", flush=True)
     report["elapsed_seconds"] = time.perf_counter() - total_started
+    status = Path("/proc/self/status")
+    report["peak_rss_kib"] = next((int(line.split()[1]) for line in status.read_text().splitlines()
+                                   if line.startswith("VmHWM:")), None) if status.exists() else None
     save(destination, report)
     failures = sum(result["error"] is not None for dataset in report["datasets"]
                    for result in dataset["algorithms"].values())

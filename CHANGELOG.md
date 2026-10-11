@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- Avoid full-table copies for uncapped matching when samples are already nonempty.
+- Borrow COMA character trigrams instead of allocating each gram; preserve Unicode
+  and multiset scores exactly.
+- Reuse RapidFuzz for Unicode Levenshtein comparisons and skip provably disjoint
+  COMA instance vocabularies, preserving score and detail bits.
+- Compare live Valentine candidate rankings and add reproducible Python/Rust
+  timing and peak-memory measurements with correctness checks.
+
 - Treat two unknown types as missing compatibility evidence in suggestions,
   preventing absent metadata from promoting weak name matches.
 - Add a frozen NASA/JPL epoch-representation ambiguity case; distinguish

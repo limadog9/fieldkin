@@ -202,6 +202,37 @@ fn explicit_sampling_is_evenly_spaced_deterministic_and_preserves_inputs() {
 }
 
 #[test]
+fn full_sampling_preserves_custom_matcher_inputs_with_or_without_empty_values() {
+    let clean = [
+        table("source", &["one", "two"]),
+        table("target", &["one", "two"]),
+    ];
+    for empty_at_end in [false, true] {
+        let mut tables = clean.clone();
+        if empty_at_end {
+            tables[1].columns[0].samples.push(String::new());
+        }
+        let original = tables.clone();
+        for limit in [None, Some(usize::MAX)] {
+            let matcher = RecordingMatcher::default();
+            match_tables(
+                &tables,
+                &matcher,
+                MatchOptions {
+                    instance_sample_size: limit,
+                },
+            )
+            .unwrap();
+            assert_eq!(
+                matcher.calls.borrow().as_slice(),
+                &[(clean[0].clone(), clean[1].clone())]
+            );
+            assert_eq!(tables, original);
+        }
+    }
+}
+
+#[test]
 fn zero_sampling_clears_instances_and_keeps_schema_matching_available() {
     let tables = [
         table("source", &["one", "two"]),

@@ -78,6 +78,14 @@ pub fn match_tables(
         ));
     }
     validate_tables(tables)?;
+    if options.instance_sample_size.is_none()
+        && tables
+            .iter()
+            .flat_map(|table| &table.columns)
+            .all(|column| column.samples.iter().all(|value| !value.is_empty()))
+    {
+        return matcher.get_matches_batch(tables);
+    }
     let sampled: Vec<_> = tables
         .iter()
         .map(|t| t.sampled(options.instance_sample_size))

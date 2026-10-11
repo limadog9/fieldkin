@@ -1,0 +1,151 @@
+{
+  "baseline_sha256": "4cd7c2a0f43eea240618dff5565d12b11ea35eddf65c87f62f2f7b6b4028ad96",
+  "correction": "Baseline dependency_versions came from dist-info metadata and misidentified imported PuLP as 4.0.0. Imported code is 3.3.2; both dist-info directories were present. Raw baseline is unchanged; timing measurements are unaffected.",
+  "runtime_dependencies": {
+    "anytree": {
+      "file": "/workspace/fieldkin/.upstream/python/anytree/__init__.py",
+      "module_version": "2.12.1",
+      "sha256": "5f0b13cbfdddf5ff40cc432ffcbdd58f980987dbeaba3d720cb78957140403cf"
+    },
+    "networkx": {
+      "file": "/workspace/fieldkin/.upstream/python/networkx/__init__.py",
+      "module_version": "3.7",
+      "sha256": "1bc359b4d01d991c0e61956ea6aff993988b9bcba5063289fd20b09ff036f74a"
+    },
+    "nltk": {
+      "file": "/workspace/fieldkin/.upstream/python/nltk/__init__.py",
+      "module_version": "3.10.3",
+      "sha256": "5f53940d5b9fd8c14e6a2cbd5197323e8497c702860044e0928aac4e6231a4ca"
+    },
+    "numpy": {
+      "file": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/numpy/__init__.py",
+      "module_version": "2.3.5",
+      "sha256": "93924ac4b793328947dfd9eb9355e54eccdfd26a92c8dd52188aed2e52c7eb38"
+    },
+    "ot": {
+      "file": "/workspace/fieldkin/.upstream/python/ot/__init__.py",
+      "module_version": "0.9.7.post1",
+      "sha256": "66d9a89e40bfe52d1d05d4b6bdd68606cc2902029a4ccdce95d272d1f1a6e133"
+    },
+    "pandas": {
+      "file": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/pandas/__init__.py",
+      "module_version": "2.2.3",
+      "sha256": "108be8ca3ae1a2a5c765ee6f87e8867d87c2fb5a89107e6c2d3a6acc96612b7b"
+    },
+    "pulp": {
+      "file": "/workspace/fieldkin/.upstream/python/pulp/__init__.py",
+      "module_version": "3.3.2",
+      "sha256": "dd6fff287ed5316c2dd648ca66f5e36d56ba73fb5d504636faade1a0bef6d359"
+    },
+    "rapidfuzz": {
+      "file": "/workspace/fieldkin/.upstream/python/rapidfuzz/__init__.py",
+      "module_version": "3.14.6",
+      "sha256": "6a6db02fcfbbc439729fbcfb919d6be8650088b2ca787e2e66124351f5d41693"
+    },
+    "scipy": {
+      "file": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/scipy/__init__.py",
+      "module_version": "1.17.0",
+      "sha256": "335bc6e0a9909dc7534f9569a3685a92dc8001cb8c63a6da4c239849ff02d4d0"
+    }
+  },
+  "distribution_metadata": {
+    "anytree": [
+      "2.13.0"
+    ],
+    "chardet": [
+      "7.6.0"
+    ],
+    "click": [
+      "8.4.2",
+      "8.5.0"
+    ],
+    "defusedxml": [
+      "0.7.1"
+    ],
+    "joblib": [
+      "1.5.3",
+      "1.6.0"
+    ],
+    "networkx": [
+      "3.7"
+    ],
+    "nltk": [
+      "3.10.3"
+    ],
+    "numpy": [
+      "2.3.5"
+    ],
+    "pandas": [
+      "2.2.3"
+    ],
+    "pot": [
+      "0.9.7.post1"
+    ],
+    "pulp": [
+      "3.3.2",
+      "4.0.0"
+    ],
+    "python-dateutil": [
+      "2.9.0.post0"
+    ],
+    "rapidfuzz": [
+      "3.14.6"
+    ],
+    "regex": [
+      "2026.9.29"
+    ],
+    "scipy": [
+      "1.17.0"
+    ],
+    "six": [
+      "1.17.0"
+    ],
+    "tqdm": [
+      "4.70.1"
+    ]
+  },
+  "nltk_archives": {
+    ".upstream/nltk_data/corpora/wordnet.zip": "cbda5ea6eef7f36a97a43d4a75f85e07fccbb4f23657d27b4ccbc93e2646ab59",
+    ".upstream/nltk_data/corpora/stopwords.zip": "48c0e52d8b52546e827f53761fb30300c0ab94f70660d28bd65ba0a86270946b",
+    ".upstream/nltk_data/tokenizers/punkt_tab.zip": "e57f64187974277726a3417ca6f181ec5403676c717672eef6a748a7b20e0106"
+  },
+  "nltk_extracted_verification": [
+    {
+      "archive": ".upstream/nltk_data/corpora/stopwords.zip",
+      "matching_extracted_files": 34,
+      "differences": []
+    },
+    {
+      "archive": ".upstream/nltk_data/tokenizers/punkt_tab.zip",
+      "matching_extracted_files": 77,
+      "differences": []
+    }
+  ],
+  "version_notes": "module_version is the imported module attribute, not a verified wheel version. AnyTree declares 2.12.1, but all 33 installed package files match its 2.13.0 wheel RECORD. Joblib is not imported by these matchers; it is listed only in installed-distribution metadata, including a system copy.",
+  "wheel_record_verification": {
+    "anytree==2.13.0": {
+      "record_sha256": "fb57d3b77f1f735538fef1f9a3ea4215556fc557523649a00a9810b2f582f071",
+      "matching_files": 33,
+      "different_files": 0,
+      "missing_files": 0
+    },
+    "pulp==3.3.2": {
+      "record_sha256": "c075c544deb61d12bb2acf67e63048e3390335dafc1261e855ebe6efdc06fb49",
+      "matching_files": 49,
+      "different_files": 0,
+      "missing_files": 0
+    },
+    "pulp==4.0.0": {
+      "record_sha256": "a5307dfc8012744c4e3fd807303256e57ee19217d6838cd3b1b4f131ad47573e",
+      "matching_files": 1,
+      "different_files": 15,
+      "missing_files": 67
+    },
+    "joblib==1.6.0": {
+      "record_sha256": "0133c1469a51389e3e3c34c7bce149ca01429c6ce2bc320dac3ac2ea8cda19f7",
+      "matching_files": 136,
+      "different_files": 0,
+      "missing_files": 0
+    }
+  }
+}

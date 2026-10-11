@@ -29,7 +29,9 @@ pub enum StringDistanceFunction {
 /// Two empty strings have similarity one for every distance function.
 pub fn similarity(a: &str, b: &str, function: StringDistanceFunction) -> f64 {
     match function {
-        StringDistanceFunction::Levenshtein => strsim::normalized_levenshtein(a, b),
+        StringDistanceFunction::Levenshtein => {
+            rapidfuzz::distance::levenshtein::normalized_similarity(a.chars(), b.chars())
+        }
         StringDistanceFunction::DamerauLevenshtein => strsim::normalized_damerau_levenshtein(a, b),
         StringDistanceFunction::Hamming => {
             let a: Vec<_> = a.chars().collect();
@@ -181,25 +183,18 @@ pub fn trigram_similarity(a: &str, b: &str) -> f64 {
     if a == b {
         return 1.0;
     }
-    fn grams(value: &str) -> Vec<String> {
-        let characters: Vec<char> = value.chars().collect();
-        if characters.len() < 3 {
-            vec![value.to_string()]
-        } else {
-            characters
-                .windows(3)
-                .map(|window| window.iter().collect())
-                .collect()
-        }
-    }
-    let a = grams(&a);
-    let b = grams(&b);
+    let a: Vec<_> = a.chars().collect();
+    let b: Vec<_> = b.chars().collect();
+    // Borrow character windows instead of allocating a String for every gram.
+    let a = a.windows(3.min(a.len()));
+    let b = b.windows(3.min(b.len()));
+    let total = a.len() + b.len();
     let mut counts = HashMap::new();
-    for gram in &b {
+    for gram in b {
         *counts.entry(gram).or_insert(0usize) += 1;
     }
     let mut shared = 0;
-    for gram in &a {
+    for gram in a {
         if let Some(count) = counts.get_mut(gram)
             && *count > 0
         {
@@ -207,7 +202,7 @@ pub fn trigram_similarity(a: &str, b: &str) -> f64 {
             shared += 1;
         }
     }
-    2.0 * shared as f64 / (a.len() + b.len()) as f64
+    2.0 * shared as f64 / total as f64
 }
 
 /// Valentine's declared-type compatibility, extended to Rust's decimal and

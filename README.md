@@ -316,6 +316,9 @@ For release performance/scaling measurements, run
 The [performance report](https://github.com/limadog9/fieldkin/blob/main/validation/performance.md) documents fixed workloads,
 before/after measurements, exact-output checks, and memory limitations. These
 expensive benchmarks run separately from regular tests.
+For pinned Python-versus-Rust comparisons, including correctness checks, warmups,
+fresh processes and memory scopes, see the
+[head-to-head report](https://github.com/limadog9/fieldkin/blob/main/validation/python_performance.md).
 
 The [accuracy protocol](https://github.com/limadog9/fieldkin/blob/main/validation/accuracy_protocol.md) fixes configurations,
 ranking, abstention, ambiguity handling, and metric definitions before measuring
