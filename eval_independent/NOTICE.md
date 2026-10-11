@@ -4,7 +4,8 @@ These evaluation assets are separate from Fieldkin's Rust library and excluded
 from its published Cargo package. The root library license does not replace the
 publisher terms below. All downloaded files retain their original bytes and
 notices; the frozen manifest identifies the terms and source of each file.
-The schema JSON files are projections made on 2026-10-10, not publisher releases.
+The schema JSON files are projections made on the dates in the manifest, not
+publisher releases.
 
 * **Palmer penguins:** Kristen Gorman, Palmer Station LTER, Allison Horst,
   Alison Hill and Kristen Gorman's `palmerpenguins` 0.1.1. CC0 1.0;
@@ -39,6 +40,23 @@ The schema JSON files are projections made on 2026-10-10, not publisher releases
   declare each included dataset public domain (Longley, Nile, sunspots, Engel,
   Grunfeld, stackloss and NOAA El Nino). Its code and documentation are BSD-3;
   full copyright/license notices are in `sources/sm_license.txt`.
+
+* **Global temperature extension:** DataHub/Core `datasets/global-temp` at
+  `44571fe8c15e228c156bb19308e5ccc1e31cf9f7`, acquired 2026-10-11. The complete
+  annual/monthly CSVs and dictionary are CC BY 4.0, with attribution to the
+  publisher and NASA GISTEMP / UK Met Office HadCRUT5. Original notices and
+  links are in `sources/global_temp_readme.md`; processing code and its
+  Unlicense notice are archived separately. NASA GISTEMP is a US Government
+  public-domain work. Required HadCRUT acknowledgement:
+
+  > HadCRUT.5.1.0.0 data were obtained from http://www.metoffice.gov.uk/hadobs/hadcrut5 and are © British Crown Copyright, Met Office, provided under an Open Government Licence, http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+
+  Acquisition was from the pinned DataHub GitHub archive, not those agency
+  endpoints. Its README retains stale NOAA wording and the dictionary retains
+  a historical base-period description. The archived converter explicitly
+  sources the `GCAG` rows from HadCRUT5. We preserve these inconsistencies and
+  use documented provider identity and annual/monthly granularity for labels;
+  we do not use the anomalies to make climate claims.
 
 Several original government/EDI endpoints were unavailable under the execution
 environment's network policy. Acquisition used the recorded publisher GitHub

@@ -617,7 +617,7 @@ mod tests {
                 counts.add(&Counts::observe(answer, &[]));
             }
         }
-        assert_eq!(cases.len(), 15);
+        assert_eq!(cases.len(), 16);
         assert_eq!(
             (
                 counts.sources,
@@ -625,7 +625,7 @@ mod tests {
                 counts.no_matches,
                 counts.ambiguous
             ),
-            (91, 40, 51, 0)
+            (94, 41, 53, 0)
         );
         assert_eq!(counts.automatic, 0);
         assert_eq!(counts.scores().recall, Some(0.0));

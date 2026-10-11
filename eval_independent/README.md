@@ -1,8 +1,10 @@
 # Independent accuracy corpus
 
-Fifteen pairs of actual published schemas, acquired and annotated on 2026-10-10,
-without running Fieldkin predictions. These inputs have not appeared in
-Fieldkin's development evaluation corpora or Valentine parity fixtures.
+Fifteen initial pairs of actual published schemas were acquired and annotated
+on 2026-10-10 before predictions. A sixteenth, annual versus monthly temperature
+aggregation, was annotated on 2026-10-11 before its first predictions. The first
+15 are now previously evaluated cases; report the new negative control separately.
+None reuses Fieldkin's development corpora or Valentine parity fixtures.
 
 Run `cargo run --locked --example benchmark_accuracy -- --independent` from the
 repository root. Add `--details` for field diagnostics or `--json` for every

@@ -688,6 +688,60 @@
       "retrieved_utc": "2026-10-10",
       "license": "Upstream R package license, not Rdatasets repository code license; see notices and upstream evidence",
       "sha256": "9af578624f649277f7ff4f3b248c274714c435601a39f8be73cc208cfb4101ea"
+    },
+    "global_temp_annual": {
+      "path": "eval_independent/sources/global_temp_annual.csv",
+      "url": "https://raw.githubusercontent.com/datasets/global-temp/44571fe8c15e228c156bb19308e5ccc1e31cf9f7/data/annual.csv",
+      "publisher_revision": "44571fe8c15e228c156bb19308e5ccc1e31cf9f7",
+      "publisher_path": "data/annual.csv",
+      "retrieved_utc": "2026-10-11",
+      "license": "CC-BY-4.0; NASA public domain; HadCRUT OGL-3.0 (see NOTICE.md)",
+      "sha256": "c9f98d4dfb6a985d9dbbb7a99e9208378d8d693ce951cd69f7983a628c296e20"
+    },
+    "global_temp_monthly": {
+      "path": "eval_independent/sources/global_temp_monthly.csv",
+      "url": "https://raw.githubusercontent.com/datasets/global-temp/44571fe8c15e228c156bb19308e5ccc1e31cf9f7/data/monthly.csv",
+      "publisher_revision": "44571fe8c15e228c156bb19308e5ccc1e31cf9f7",
+      "publisher_path": "data/monthly.csv",
+      "retrieved_utc": "2026-10-11",
+      "license": "CC-BY-4.0; NASA public domain; HadCRUT OGL-3.0 (see NOTICE.md)",
+      "sha256": "d61b268c8f4d1934c0a20297d4036a68f93a06f15442164637d3994c18a15186"
+    },
+    "global_temp_dictionary": {
+      "path": "eval_independent/sources/global_temp_datapackage.json",
+      "url": "https://raw.githubusercontent.com/datasets/global-temp/44571fe8c15e228c156bb19308e5ccc1e31cf9f7/datapackage.json",
+      "publisher_revision": "44571fe8c15e228c156bb19308e5ccc1e31cf9f7",
+      "publisher_path": "datapackage.json",
+      "retrieved_utc": "2026-10-11",
+      "license": "CC-BY-4.0",
+      "sha256": "a05addb63c1556a31d8c5406c982e731ddae9b197d70cc88501db48daea18a24"
+    },
+    "global_temp_readme": {
+      "path": "eval_independent/sources/global_temp_readme.md",
+      "url": "https://raw.githubusercontent.com/datasets/global-temp/44571fe8c15e228c156bb19308e5ccc1e31cf9f7/README.md",
+      "publisher_revision": "44571fe8c15e228c156bb19308e5ccc1e31cf9f7",
+      "publisher_path": "README.md",
+      "retrieved_utc": "2026-10-11",
+      "license": "CC-BY-4.0",
+      "sha256": "eca036817e5a8aeccdaf4c30f3b017426b7721d6a5653e5c1c94b40731bcf452"
+    },
+    "global_temp_process": {
+      "path": "eval_independent/sources/global_temp_process.py",
+      "url": "https://raw.githubusercontent.com/datasets/global-temp/44571fe8c15e228c156bb19308e5ccc1e31cf9f7/scripts/process.py",
+      "publisher_revision": "44571fe8c15e228c156bb19308e5ccc1e31cf9f7",
+      "publisher_path": "scripts/process.py",
+      "retrieved_utc": "2026-10-11",
+      "license": "Unlicense (publisher software license)",
+      "sha256": "cc2897f7e6e41e3553517ba058b38b38d43b617b809d00f696a7503a439a0bf7"
+    },
+    "global_temp_license": {
+      "path": "eval_independent/sources/global_temp_license.txt",
+      "url": "https://raw.githubusercontent.com/datasets/global-temp/44571fe8c15e228c156bb19308e5ccc1e31cf9f7/LICENSE",
+      "publisher_revision": "44571fe8c15e228c156bb19308e5ccc1e31cf9f7",
+      "publisher_path": "LICENSE",
+      "retrieved_utc": "2026-10-11",
+      "license": "Unlicense (publisher software license)",
+      "sha256": "88d9b4eb60579c191ec391ca04c16130572d7eedc4a86daa58bf28c6e14c9bcd"
     }
   },
   "views": {
@@ -1746,6 +1800,62 @@
       "excluded_fields": [
         "rownames"
       ]
+    },
+    "global_temp_annual": {
+      "resource": "global_temp_annual",
+      "format": "csv",
+      "fields": [
+        {
+          "name": "Source",
+          "data_type": "text"
+        },
+        {
+          "name": "Year",
+          "data_type": "integer"
+        },
+        {
+          "name": "Mean",
+          "data_type": "float"
+        }
+      ],
+      "rows": 323,
+      "excluded_fields": [],
+      "type_evidence": [
+        "global_temp_dictionary"
+      ],
+      "original_source_urls": [
+        "https://data.giss.nasa.gov/gistemp/",
+        "https://www.metoffice.gov.uk/hadobs/hadcrut5/"
+      ],
+      "type_mapping": "Publisher Table Schema string -> text, year (YYYY) -> integer, date (YYYY-MM) -> date, number -> float. No type inference from predictions."
+    },
+    "global_temp_monthly": {
+      "resource": "global_temp_monthly",
+      "format": "csv",
+      "fields": [
+        {
+          "name": "Source",
+          "data_type": "text"
+        },
+        {
+          "name": "Year",
+          "data_type": "date"
+        },
+        {
+          "name": "Mean",
+          "data_type": "float"
+        }
+      ],
+      "rows": 3871,
+      "excluded_fields": [],
+      "type_evidence": [
+        "global_temp_dictionary"
+      ],
+      "original_source_urls": [
+        "https://data.giss.nasa.gov/gistemp/",
+        "https://www.metoffice.gov.uk/hadobs/hadcrut5/"
+      ],
+      "type_mapping": "Publisher Table Schema string -> text, year (YYYY) -> integer, date (YYYY-MM) -> date, number -> float. No type inference from predictions."
     }
   },
   "datasets": {
@@ -2798,6 +2908,54 @@
       },
       "notes": "Cross-domain calendar-coordinate match and semantic negative control; not a published migration.",
       "sha256": "24061be7a45c2237750914ef94ed1378a63589f828958c58daa6e9a32e3c5e46"
+    },
+    "eval_independent/16_global_temperature_granularity.json": {
+      "name": "Global temperature annual versus monthly aggregation (negative control)",
+      "source_view": "global_temp_annual",
+      "target_view": "global_temp_monthly",
+      "evidence": {
+        "Source": {
+          "decision": "match",
+          "target": "Source",
+          "explanation": "Both resource dictionaries define the same data-provider identifier. The archived converter assigns GISTEMP to NASA rows and GCAG to HadCRUT rows in both annual and monthly outputs. This identifies the provider, not the observation period.",
+          "references": [
+            "global_temp_dictionary",
+            "global_temp_process"
+          ]
+        },
+        "Year": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "The complete annual schema identifies YYYY calendar years; the complete monthly schema identifies YYYY-MM calendar months. Its Source and Mean fields are not years either. Under the existing protocol a full calendar coordinate is not equivalent to a component: extracting a year from a month or changing observation granularity requires a transformation.",
+          "references": [
+            "global_temp_dictionary",
+            "global_temp_process"
+          ]
+        },
+        "Mean": {
+          "decision": "no_match",
+          "target": null,
+          "explanation": "The annual Mean is an annual average temperature anomaly; the monthly Mean is the anomaly for a specific month. They share a name and unit but have different aggregation periods, expressly excluded as direct equivalents by the frozen annotation policy. Source and Year are identifiers, not annual means.",
+          "references": [
+            "global_temp_dictionary",
+            "global_temp_process",
+            "global_temp_readme"
+          ]
+        }
+      },
+      "sha256": "53d7823a8563e53c0ba3d58dd0a1ab89b8b73dbf1e48ffbc30eaac6167d799e8",
+      "annotation_date_utc": "2026-10-11",
+      "role": "new held-out negative control; no predictions inspected before freeze",
+      "provenance_limitation": "The publisher README retains stale NOAA/GCAG wording and its dictionary retains a 20th-century baseline description; the pinned processing script and source URLs identify the GCAG-labelled data as HadCRUT5.1.0.0. We archive these inconsistencies unchanged, do not claim direct agency retrieval, and use only documented identifiers and aggregation periods as label evidence."
     }
-  }
+  },
+  "extensions": [
+    {
+      "annotation_date_utc": "2026-10-11",
+      "datasets": [
+        "eval_independent/16_global_temperature_granularity.json"
+      ],
+      "policy": "Existing label and sampling rules; preserve all original 15 case entries unchanged. Separate new-case results from previously evaluated corpus results."
+    }
+  ]
 }

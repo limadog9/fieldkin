@@ -55,6 +55,25 @@ The existing development benchmark and its ambiguity metric tests remain intact.
 
 ## Input construction
 
+### 2026-10-11 extension
+
+Case 16 adds the complete published `datasets/global-temp` annual and monthly
+schemas: three source fields, one verified match and two hard negatives. The
+unchanged policy distinguishes annual averages from monthly averages and a
+calendar year from a year-month coordinate, despite identical column names.
+The publisher dictionary maps `string` to text, `number` to float, `year` (YYYY)
+to integer, and `date` (YYYY-MM) to date. Samples use the same fixed 16-row rule.
+All original 15 inputs, labels, resources and fingerprints remain unchanged.
+
+The manifest records this separate annotation edition, frozen before its first
+predictions. The initial 15 cases have already been evaluated; the combined
+16-case measurement is not a new blind trial. Report case 16 separately. Its
+mirror provenance and inconsistent historical publisher descriptions are
+documented in the manifest and notices. This small addition tests aggregation
+traps; it does not resolve the absence of independently supported ambiguity.
+
+### Extraction
+
 Publisher snapshots, revisions, retrieval dates, acquisition URLs and SHA-256
 are committed under `eval_independent/sources/`. Each view separately records
 original provider/documentation URLs, type evidence, row count and projection.

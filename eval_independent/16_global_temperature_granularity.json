@@ -1,0 +1,158 @@
+{
+  "name": "Global temperature annual versus monthly aggregation (negative control)",
+  "source": {
+    "fields": [
+      {
+        "name": "Source",
+        "data_type": "text",
+        "samples": [
+          "GCAG",
+          "GCAG",
+          "GISTEMP",
+          "GISTEMP",
+          "GCAG",
+          "GCAG",
+          "GISTEMP",
+          "GISTEMP",
+          "GCAG",
+          "GCAG",
+          "GISTEMP",
+          "GISTEMP",
+          "GCAG",
+          "GCAG",
+          "GISTEMP",
+          "GCAG"
+        ]
+      },
+      {
+        "name": "Year",
+        "data_type": "integer",
+        "samples": [
+          "1850",
+          "1871",
+          "1886",
+          "1897",
+          "1907",
+          "1918",
+          "1929",
+          "1940",
+          "1950",
+          "1961",
+          "1972",
+          "1983",
+          "1993",
+          "2004",
+          "2015",
+          "2026"
+        ]
+      },
+      {
+        "name": "Mean",
+        "data_type": "float",
+        "samples": [
+          "-0.4265",
+          "-0.3734",
+          "-0.32",
+          "-0.1158",
+          "-0.4995",
+          "-0.426",
+          "-0.3625",
+          "0.1217",
+          "-0.2397",
+          "-0.0144",
+          "0.0092",
+          "0.315",
+          "0.1611",
+          "0.4624",
+          "0.8983",
+          "1.0421"
+        ]
+      }
+    ]
+  },
+  "target": {
+    "fields": [
+      {
+        "name": "Source",
+        "data_type": "text",
+        "samples": [
+          "GCAG",
+          "GCAG",
+          "GISTEMP",
+          "GISTEMP",
+          "GISTEMP",
+          "GISTEMP",
+          "GISTEMP",
+          "GISTEMP",
+          "GISTEMP",
+          "GISTEMP",
+          "GISTEMP",
+          "GISTEMP",
+          "GISTEMP",
+          "GISTEMP",
+          "GISTEMP",
+          "GCAG"
+        ]
+      },
+      {
+        "name": "Year",
+        "data_type": "date",
+        "samples": [
+          "1850-01",
+          "1871-07",
+          "1886-07",
+          "1897-04",
+          "1908-01",
+          "1918-10",
+          "1929-07",
+          "1940-04",
+          "1951-01",
+          "1961-10",
+          "1972-07",
+          "1983-04",
+          "1994-01",
+          "2004-10",
+          "2015-07",
+          "2026-07"
+        ]
+      },
+      {
+        "name": "Mean",
+        "data_type": "float",
+        "samples": [
+          "-0.7337",
+          "-0.0727",
+          "-0.18",
+          "-0.03",
+          "-0.45",
+          "-0.06",
+          "-0.37",
+          "0.17",
+          "-0.34",
+          "0.0",
+          "0.01",
+          "0.28",
+          "0.26",
+          "0.61",
+          "0.73",
+          "1.0967"
+        ]
+      }
+    ]
+  },
+  "answers": [
+    {
+      "kind": "match",
+      "source": "Source",
+      "target": "Source"
+    },
+    {
+      "kind": "no_match",
+      "source": "Year"
+    },
+    {
+      "kind": "no_match",
+      "source": "Mean"
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+{
+  "description": "Annual and monthly global mean surface temperature anomalies in degrees Celsius, from NASA GISTEMP and UK Met Office HadCRUT5, covering 1850–present. Anomalies are relative to source-specific base periods.",
+  "licenses": [
+    {
+      "name": "CC-BY-4.0",
+      "path": "https://creativecommons.org/licenses/by/4.0/",
+      "title": "Creative Commons Attribution 4.0 International"
+    }
+  ],
+  "name": "global-temp",
+  "resources": [
+    {
+      "format": "csv",
+      "mediatype": "text/csv",
+      "name": "annual",
+      "path": "data/annual.csv",
+      "schema": {
+        "fields": [
+          {
+            "description": "Data provider identifier: GISTEMP (NASA Goddard Institute for Space Studies) or GCAG (UK Met Office HadCRUT5).",
+            "name": "Source",
+            "type": "string"
+          },
+          {
+            "description": "YYYY",
+            "name": "Year",
+            "type": "year"
+          },
+          {
+            "description": "Average global mean temperature anomalies in degrees Celsius relative to a base period. GISTEMP base period: 1951-1980. GCAG base period: 20th century average.",
+            "name": "Mean",
+            "type": "number"
+          }
+        ]
+      },
+      "description": "Annual global mean temperature anomalies in degrees Celsius from both GISTEMP (1880-present) and GCAG (1850-present) sources, relative to their respective base periods (1951-1980 for GISTEMP, 20th century average for GCAG)."
+    },
+    {
+      "format": "csv",
+      "mediatype": "text/csv",
+      "name": "monthly",
+      "path": "data/monthly.csv",
+      "schema": {
+        "fields": [
+          {
+            "description": "Data provider identifier: GISTEMP (NASA Goddard Institute for Space Studies) or GCAG (UK Met Office HadCRUT5).",
+            "name": "Source",
+            "type": "string"
+          },
+          {
+            "description": "YYYY-MM",
+            "format": "any",
+            "name": "Year",
+            "type": "date"
+          },
+          {
+            "description": "Monthly mean temperature anomalies in degrees Celsius relative to a base period. GISTEMP base period: 1951-1980. GCAG base period: 20th century average.",
+            "name": "Mean",
+            "type": "number"
+          }
+        ]
+      },
+      "description": "Monthly global mean temperature anomalies in degrees Celsius from both GISTEMP (1880-present) and GCAG (1850-present) sources, relative to their respective base periods (1951-1980 for GISTEMP, 20th century average for GCAG)."
+    }
+  ],
+  "sources": [
+    {
+      "name": "GISTEMP Global Land-Ocean Temperature Index",
+      "path": "http://data.giss.nasa.gov/gistemp",
+      "title": "GISTEMP Global Land-Ocean Temperature Index"
+    },
+    {
+      "name": "HadCRUT5 Global Temperature Dataset",
+      "path": "https://www.metoffice.gov.uk/hadobs/hadcrut5/",
+      "title": "HadCRUT5 Global Temperature Dataset (Met Office Hadley Centre)"
+    }
+  ],
+  "title": "Global Temperature Time Series",
+  "version": "0.1.0",
+  "views": [
+    {
+      "name": "graph",
+      "title": "Monthly mean temperature anomalies in degrees Celsius relative to a base period",
+      "specType": "simple",
+      "resourceName": "monthly",
+      "spec": {
+        "type": "line",
+        "group": "Year",
+        "series": [
+          "Mean"
+        ]
+      }
+    }
+  ],
+  "related": [
+    {
+      "title": "Trends in Atmospheric Carbon Dioxide",
+      "path": "/core/co2-ppm",
+      "publisher": "core",
+      "formats": [
+        "CSV",
+        "JSON"
+      ]
+    },
+    {
+      "title": "CO2 Emissions from Fossil Fuels",
+      "path": "/core/co2-fossil-by-nation",
+      "publisher": "core",
+      "formats": [
+        "CSV",
+        "JSON"
+      ]
+    },
+    {
+      "title": "Sea level rise",
+      "path": "/core/sea-level-rise",
+      "publisher": "core",
+      "formats": [
+        "CSV",
+        "JSON"
+      ]
+    },
+    {
+      "title": "Glacier mass balance",
+      "path": "/core/glacier-mass-balance",
+      "publisher": "core",
+      "formats": [
+        "CSV",
+        "JSON"
+      ]
+    }
+  ],
+  "collection": "climate-change"
+}
