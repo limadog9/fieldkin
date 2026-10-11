@@ -7,7 +7,8 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum DataType {
-    /// No declared type information.
+    /// No declared type information. The suggestion API treats this as neutral
+    /// compatibility, including when both fields have unknown types.
     Unknown,
     /// A true or false value.
     Boolean,

@@ -50,12 +50,12 @@ pub(crate) fn abbreviation_score(left: &str, right: &str) -> f64 {
 pub fn type_score(left: &DataType, right: &DataType) -> f64 {
     use DataType::*;
 
-    if left == right {
-        return 1.0;
-    }
-
     if matches!(left, Unknown) || matches!(right, Unknown) {
         return 0.5;
+    }
+
+    if left == right {
+        return 1.0;
     }
 
     let both_numeric =
@@ -192,6 +192,15 @@ mod tests {
     #[test]
     fn incompatible_types_score_zero() {
         assert_eq!(type_score(&DataType::Text, &DataType::Boolean), 0.0);
+    }
+
+    #[test]
+    fn unknown_types_do_not_supply_agreement_evidence() {
+        for known in [DataType::Unknown, DataType::Text, DataType::Integer] {
+            assert_eq!(type_score(&DataType::Unknown, &known), 0.5);
+            assert_eq!(type_score(&known, &DataType::Unknown), 0.5);
+        }
+        assert_eq!(type_score(&DataType::Integer, &DataType::Integer), 1.0);
     }
 
     #[test]

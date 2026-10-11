@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Treat two unknown types as missing compatibility evidence in suggestions,
+  preventing absent metadata from promoting weak name matches.
+- Add a frozen NASA/JPL epoch-representation ambiguity case; distinguish
+  automatic selections on ambiguous labels from those on no-match labels.
+
 - Ignore blank samples in suggestions so missingness cannot create positive
   sample evidence; absent evidence retains the existing weight redistribution.
 - Reuse the shared Levenshtein scorer in SimilarityFlooding, removing duplicate

@@ -138,6 +138,32 @@ fn incompatible_type_can_leave_an_exact_name_below_threshold() {
 }
 
 #[test]
+fn unknown_source_does_not_gain_evidence_when_target_type_is_removed() {
+    let source = Schema {
+        fields: vec![field("country", DataType::Unknown, &[])],
+    };
+    let mut target = Schema {
+        fields: vec![field("category", DataType::Text, &[])],
+    };
+    let observed = match_schemas(&source, &target, Config::default());
+    assert!(matches!(
+        observed.fields[0].decision,
+        Decision::NoMatch { .. }
+    ));
+
+    target.fields[0].data_type = DataType::Unknown;
+    assert_eq!(match_schemas(&source, &target, Config::default()), observed);
+
+    // A strong name can still establish a useful match without declared types.
+    target.fields[0].name = "country".into();
+    let exact = match_schemas(&source, &target, Config::default());
+    assert!(
+        matches!(&exact.fields[0].decision, Decision::Match { target, .. } if target == "country")
+    );
+    assert_eq!(exact.fields[0].candidates[0].type_score, 0.5);
+}
+
+#[test]
 fn candidate_limit_does_not_hide_ambiguity_from_the_decision() {
     let source = Schema {
         fields: vec![field("status", DataType::Text, &[])],

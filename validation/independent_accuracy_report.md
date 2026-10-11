@@ -10,7 +10,7 @@ every label. They are public, mostly historical studies and related lookup
 tables, not a representative sample of production schemas. Single-annotator
 labels and shared dataset families limit the strength of generalization claims.
 
-Reproduce (now includes the separately reported extension below):
+Reproduce (now includes the separately reported extensions below):
 
 ```sh
 cargo run --locked --example benchmark_accuracy -- --independent
@@ -50,8 +50,8 @@ does not express equal confidence across algorithms. No thresholds were tuned.
 Observed precision of 100% for Jaccard is based on **30** selections; for
 SimilarityFlooding it is based on just **2**. Neither is a general guarantee.
 Correct no-match abstentions do not inflate precision or ranking accuracy.
-There is no ambiguity performance estimate because no trustworthy ambiguity
-case was established; the category remains covered by existing metric tests.
+The initial 15 cases provide no ambiguity performance estimate; the category
+was covered only by existing metric tests at that stage.
 
 ## Per-case comparison
 
@@ -182,7 +182,8 @@ matches, while annual `Year`/`Mean` are not monthly `Year`/`Mean`. See the
 [protocol extension](independent_accuracy.md#2026-10-11-extension) and notices for
 mirror provenance, licensing and stale publisher-description caveats.
 
-Run the existing commands for the current 16 cases:
+The following measurements cover the first 16 cases; these commands also
+include later extensions:
 
 ```sh
 cargo run --locked --example evaluate_all -- --independent
@@ -254,7 +255,70 @@ safe automatic matches at this shared cutoff. These are corpus-specific findings
 
 An attempted ambiguity extension used published UTC/CET equivalence evidence,
 but its observation download was blocked; no synthetic observations or ambiguity
-labels were substituted. Independent ambiguity accuracy remains unmeasured.
+labels were substituted. Independent ambiguity accuracy remained unmeasured
+at that stage.
 The small, correlated corpus, single annotation author, mirror provenance and
 shared uncalibrated cutoff still limit generalization. Both independent commands
 run in CI as reports with integrity checks, not newly calibrated accuracy gates.
+
+
+## Unknown-type correction and Ceres extension (2026-10-11)
+
+`Unknown`/`Unknown` previously counted as full type agreement. When one type is
+already unknown, removing the other declaration must not add evidence. Moving
+the existing unknown check before equality fixes that inconsistency without new
+weights or thresholds. In a separate development regression, empty-sample
+`country` versus `category` changed from an automatic **0.781513** match to
+`NoMatch` at **0.634454**; exact-name positive controls still match.
+
+The frozen development gate remains **215/256**, precision **170/179 (94.97%)**,
+recall **170/204 (83.33%)**, 9 incorrect automatic matches and 77 abstentions.
+The previous 16 independent cases retain identical suggestion outputs. No
+accuracy improvement on those corpora is claimed for this boundary correction.
+
+Case 17 was frozen before predictions in
+`c11ca3cbc654dddcf066cf59a91d9849b07d95ad`. Its four NASA/JPL Ceres ephemeris rows
+contain **two ambiguous epoch fields and nine negatives**, with no unique
+positive labels. The full schemas, dictionaries, queries and archive license
+occupy about 29 KB. They are computed scientific data archived by Astroquery,
+not direct agency downloads or measured observations. Both Julian-day and
+calendar TDB fields represent the same epoch; selecting either is semantically
+valid. The strict label instead requires acknowledging both alternatives.
+
+Case 17 alone, with unchanged configurations and selection rules:
+
+| Matcher | Unique choices on 2 ambiguous fields | Automatic errors on 9 negatives | Abstentions / 11 | Both alternatives in top 5 / 2 |
+| --- | ---: | ---: | ---: | ---: |
+| Suggestions | 2 | 0 | 9 | 1 |
+| COMA | 2 | 0 | 9 | 0 |
+| Cupid | 2 | 4 | 5 | 0 |
+| DistributionBased | 2 | 0 | 9 | 0 |
+| JaccardDistanceMatcher | 2 | 0 | 9 | 0 |
+| SimilarityFlooding | 0 | 0 | 11 | 2 |
+
+Suggestions make no explicit `Ambiguous` decision here. Both alternatives appear
+in the Julian-day field's top five, but not the calendar field's. Flooding
+retrieves both alternatives and abstains at the shared 0.5 cutoff; it does not
+emit explicit ambiguity decisions. Cupid incorrectly maps Cartesian X/Z and instantaneous range RG to
+angular mean motion N, and Y to semi-major axis A. The other algorithms avoid
+these nine negative mappings. Unique-match recall and ranking accuracy are
+undefined for this case. These findings concern one object and redundant time
+representations, not ambiguity across business roles.
+
+Across all **105 fields (41 match, 62 no-match, 2 ambiguous)**, suggestions have
+**90 correct decisions**, strict automatic precision **35/43 (81.40%)**, recall
+**35/41 (85.37%)**, coverage **43/105 (40.95%)**, and **62 abstentions**. Of eight
+automatic decisions violating labels, six select fields labeled no-match
+(**6/62 = 9.68%**); two choose valid epoch representations without reporting
+ambiguity. The evaluator now prints these categories separately. Six unique
+matches remain missed. Comparing the old and corrected suggestion engines on
+all 105 frozen fields changes scores for the new unknown-type case but changes
+**no decision kind or selected target**. The lower aggregate precision relative
+to the 16-case report is a corpus-composition change, not a code regression.
+
+All five algorithms' original 16 per-dataset results are unchanged, as is the
+complete development benchmark JSON. Unique-match recall, top-1 and recall@5
+remain those of the 16-case report because this extension adds no unique matches.
+Full new aggregate and per-dataset metrics are available using the existing
+`benchmark_accuracy -- --independent --json` command. Original labels, baseline
+thresholds and historical results remain untouched.

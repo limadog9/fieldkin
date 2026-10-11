@@ -187,6 +187,10 @@ contribute evidence; target reuse is allowed. Abbreviation fallback runs after
 the usual matching returns `NoMatch`. `match_schemas_with` instead returns
 `MatcherResults` from a chosen Valentine algorithm.
 
+Unknown types provide neutral compatibility, even when both are unknown.
+Name-token containment can still score highly for semantically different fields;
+use domain context to review these suggestions.
+
 `match_schemas` preserves its original panic behavior for invalid configuration.
 Use `try_match_schemas` to handle user-supplied thresholds without a panic:
 
@@ -296,14 +300,15 @@ cargo run --locked --example evaluate_all -- --independent
 ```
 
 The [independent protocol](https://github.com/limadog9/fieldkin/blob/main/validation/independent_accuracy.md) documents the
-16 frozen cases and limitations; the [measured comparison](https://github.com/limadog9/fieldkin/blob/main/validation/independent_accuracy_report.md)
-separates the initial 15 cases from the later climate aggregation control.
+17 frozen cases and limitations; the [measured comparison](https://github.com/limadog9/fieldkin/blob/main/validation/independent_accuracy_report.md)
+separates the initial cases from later climate and epoch-representation controls.
 `benchmark_accuracy` reports all five algorithms; add `--json` for full
 per-dataset metrics or `--details` for incorrect/missed-match examples.
 `evaluate_all` reports the original suggestion API's decisions, automatic-match
 precision/recall, abstentions and failures on the same verified inputs. Both
 checks run in CI, without changing the development quality baseline or parity
-checks. There are still no independently supported ambiguity labels.
+checks. The two ambiguity labels cover equivalent epoch representations;
+they do not establish reliability on ambiguous business roles.
 
 For release performance/scaling measurements, run
 `cargo build --locked --release --example benchmark_performance --jobs 1`, then

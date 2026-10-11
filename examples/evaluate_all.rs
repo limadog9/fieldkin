@@ -484,6 +484,14 @@ fn print_summary(snapshot: &Baseline) {
         "Incorrect automatic matches: {}",
         metrics.overall.incorrect_automatic_matches
     );
+    for kind in [Category::NoMatch, Category::Ambiguous] {
+        let counts = &metrics.by_expected_decision[&kind];
+        println!(
+            "Automatic selections on expected {}: {}",
+            kind.label(),
+            ratio(counts.incorrect_automatic_matches, counts.total)
+        );
+    }
     println!("Missed matches: {}", matches.total - matches.correct);
     println!(
         "Incorrect ambiguities: {}",
@@ -787,6 +795,14 @@ mod tests {
         assert_eq!(metrics.prediction_count(Category::Match), 4);
         assert_eq!(metrics.prediction_count(Category::NoMatch), 3);
         assert_eq!(metrics.prediction_count(Category::Ambiguous), 4);
+        assert_eq!(
+            metrics.by_expected_decision[&Category::NoMatch].incorrect_automatic_matches,
+            1
+        );
+        assert_eq!(
+            metrics.by_expected_decision[&Category::Ambiguous].incorrect_automatic_matches,
+            1
+        );
         assert_eq!(metrics.automatic_match_precision(), "1/4 (25.00%)");
         // True negatives do not improve the precision of automatic matches.
         for _ in 0..100 {
