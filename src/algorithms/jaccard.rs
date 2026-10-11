@@ -6,6 +6,7 @@ use std::{
     sync::Arc,
 };
 
+use rapidfuzz::distance::levenshtein::{Args, BatchComparator};
 use serde::{Deserialize, Serialize};
 
 use crate::{ColumnPair, Error, Matcher, MatcherResults, Table};
@@ -223,7 +224,15 @@ impl JaccardDistanceMatcher {
                     .map(|value| value.chars().count())
                     .collect::<Vec<_>>()
             });
+        let levenshtein_args = Args::default().score_cutoff(threshold);
         for value_a in a {
+            // Reuse the pattern for one-to-many comparisons and stop scoring
+            // below the same rounded cutoff used to count qualifying partners.
+            let levenshtein = (embeddings.is_none()
+                && self.config.distance_fun == StringDistanceFunction::Levenshtein
+                && b.len() > 1
+                && b_match < b.len())
+            .then(|| BatchComparator::new(value_a.chars()));
             let mut a_hit = false;
             let a_length = b_lengths.as_ref().map_or(0, |_| value_a.chars().count());
             for (j, value_b) in b.iter().enumerate() {
@@ -253,6 +262,10 @@ impl JaccardDistanceMatcher {
                         .map(|(x, y)| x * y)
                         .sum::<f64>()
                         .clamp(-1.0, 1.0)
+                } else if let Some(levenshtein) = &levenshtein {
+                    levenshtein
+                        .normalized_similarity_with_args(value_b.chars(), &levenshtein_args)
+                        .unwrap_or(0.0)
                 } else {
                     similarity(value_a, value_b, self.config.distance_fun)
                 };

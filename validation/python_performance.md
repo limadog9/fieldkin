@@ -191,8 +191,11 @@ COMA without instances, Cupid, DistributionBased and Flooding are faster in Rust
 on these completed workloads. COMA instances is faster for the small, medium and
 two real cases, but **2.63× slower** on the large case. Jaccard is close on small,
 faster on these real cases, **4.27× slower** on medium, and fails the large budget.
-All three large Rust Jaccard workers timed out before finishing a warmup, while
-all three Python workers completed. This remains a substantial scalability limit.
+All three large Rust Jaccard workers timed out before completing the full
+warmup-plus-three-measurement sequence, while all three Python workers completed.
+The retained worker logs show completed warmups of 85.827, 59.771 and 57.057
+seconds, followed by one or two completed measurements before the 180-second
+process deadline. The incomplete sequences cannot support an accepted comparison.
 
 The initial batch had 28/30 complete comparisons, with three Rust timeouts each
 for large COMA instances and Jaccard. Large COMA instances now completes, at
@@ -451,3 +454,91 @@ python validation/test_benchmark_valentine.py
 
 `--allow-dirty` packages this uncommitted change for verification; it does not skip
 the isolated package build. Omit it for a clean checkout.
+
+## Follow-up: reuse Jaccard's Levenshtein patterns
+
+Compared with `e96ab8e`, Jaccard now prepares a RapidFuzz pattern once per source
+value when repeated comparisons remain useful, instead of rebuilding it for
+every candidate. Its existing rounded cutoff also lets the scorer stop below
+that cutoff. Setup is skipped for a single target or once all target values have
+partners, preserving the cheap dense-match path. No thresholds, aggregation,
+public APIs or other distance functions changed; the production change is 13
+lines, using the existing dependency.
+
+[Raw follow-up measurements](jaccard_pattern_reuse_results.json) retain all
+exploratory and final observations, input/binary hashes, output fingerprints and
+historical timeout logs. Final runs used the same release toolchain and machine
+as above, pinned to CPU 0. Three fresh processes per version alternated order;
+values below are medians of process medians, with the full process-median range.
+Small and real inputs used one warmup and eleven measurements; medium used one
+warmup and five measurements. Large used **one cold call per process**, avoiding
+an incomplete four-call sequence. These large measurements are not a rerun of
+the full head-to-head comparison or evidence that its 180-second deadline passes.
+
+| Jaccard input | Before ms [range] | After ms [range] | Observed change |
+|---|---:|---:|---:|
+| Synthetic small | 0.193 [0.192, 0.194] | 0.138 [0.138, 0.142] | −28.3% |
+| Synthetic medium | 560.475 [265.818, 580.002] | 159.452 [153.853, 200.562] | −71.6% |
+| Synthetic large | 74,737 [66,152, 95,723] | 59,312 [41,522, 64,590] | −20.6% |
+| Penguins | 0.244 [0.242, 0.253] | 0.246 [0.242, 0.253] | +0.9% |
+| Aircraft/flights | 0.379 [0.340, 0.380] | 0.355 [0.346, 0.385] | −6.3% |
+
+All three paired large rounds improved, but substantial within-batch variation
+limits the precision of speedup claims, especially for medium. No meaningful RSS
+improvement was measured: large process peaks were 65.19 versus 65.24 MiB.
+Small real-data differences have overlapping ranges and provide no strong claim
+of improvement. The algorithm still has quadratic distinct-value comparisons.
+
+The existing 13 Jaccard performance profiles also ran before/after with three
+fresh processes and five measurements each. Twelve improved in that batch.
+The 256-distinct-value profile regressed 89.978 → 114.948 ms amid wide variation;
+a focused five-process, nine-measurement follow-up measured 59.226 → 38.779 ms
+(ranges 59.099–61.515 and 38.039–39.205), with unchanged results. Both batches are
+retained. An earlier eager-pattern version regressed on dense codes32 samples
+(2.607 → 3.187 ms). The final version skips setup after all targets find partners;
+its dense-codes batch measured 0.863 → 0.761 ms. The interrupted exploratory
+large sweep and every completed exploratory measurement are retained as well.
+
+All measured output fingerprints agree with the baseline, including the existing
+native benchmark's scores, details and selection fingerprints. The final large
+output also matches the pinned Python output exactly: 32 pairs, identical scores
+and rankings. The existing Cartesian regression now also covers cached patterns
+at Unicode/bit-vector length boundaries and adjacent `f32` cutoffs; an additional
+local scoring probe checked 458,119 threshold decisions against full scoring.
+
+Follow-up validation passed 176 native/Polars tests, four doctests, formatting,
+strict Polars Clippy, static all-feature Clippy, rustdoc, verified packaging and
+the packaged README consumer. The frozen quality check and both accuracy reports
+are byte-identical to the baseline. All 9,199 live Rust correspondence scores and
+details retain their exact bits; the recorded pinned reference with source fixes
+passes 90/90 cases. Unmodified upstream retains its documented USGS identifier
+failure (89/90). All-feature execution and ordinary all-feature Clippy remain
+blocked by the ONNX Runtime download's proxy HTTP 403; static linting does not
+establish inference execution.
+
+To repeat the native controls, build `e96ab8e` in a separate directory and the
+current release examples, as in the build instructions above, then run:
+
+```sh
+cargo build --locked --release --lib --example valentine_parity --example benchmark_performance --jobs 1
+taskset -c 0 python validation/benchmark_performance.py \
+  --baseline-binary /tmp/fieldkin-before/target/release/examples/benchmark_performance \
+  --output target/jaccard-pattern-controls.json --rounds 3 --repetitions 5 \
+  --case jaccard-base --case jaccard-width --case jaccard-rows \
+  --case jaccard-distinct --case jaccard-tables --case jaccard-overlap0 \
+  --case jaccard-schema0 --case jaccard-schema50 --case jaccard-overlap100 \
+  --case jaccard-sampled --case jaccard-distinct512 \
+  --case jaccard-codes32 --case jaccard-codes512
+```
+
+For the focused follow-up use `--case jaccard-distinct --rounds 5 --repetitions 9`.
+For the five schema pairs, reuse the synthetic inputs generated by
+`benchmark_valentine.py` and the two frozen real inputs. Run each release parity
+binary in three alternating fresh processes with the warmup/repetition counts
+above; for example, the large invocation is:
+
+```sh
+taskset -c 0 target/release/examples/valentine_parity target/jaccard-large.json \
+  --direct --dataset target/valentine-performance-final/large.json \
+  --algorithm jaccard --warmups 0 --repetitions 1
+```

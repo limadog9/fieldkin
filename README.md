@@ -64,7 +64,9 @@ date/timestamp types explicitly when constructing fields.
 
 The table API requires nonempty names, distinct columns within a table and
 distinct table names in a batch. Empty columns and schemas are supported.
-The original suggestion API retains its duplicate/empty-name behavior.
+The original suggestion API accepts duplicate and empty names. Empty or
+punctuation-only names normalize to the same identifier and can match; validate
+field names before using that API.
 Direct native matcher calls validate table identities too. `from_schema` and
 Serde deserialization construct tables without validation; matching validates
 them, or callers can explicitly use `Table::validate()`.

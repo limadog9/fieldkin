@@ -425,12 +425,26 @@ fn lexical_hit_skipping_is_bitwise_identical_to_full_cartesian_comparison() {
 }
 
 #[test]
-fn levenshtein_length_pruning_preserves_unicode_and_cutoff_boundaries() {
+fn levenshtein_pruning_and_cached_patterns_preserve_unicode_and_cutoff_boundaries() {
     let mut source = values(&["", "a", "abcd", "abcdefghij", "é", "東京🙂"]);
     source.push("a".repeat(200));
     let mut target = values(&["", "ab", "abcde", "abcdefghi🙂", "éé", "東京"]);
     target.push("a".repeat(160));
-    for threshold_dist in [0.0, 0.5, 0.75, 0.8, 1.0] {
+    for length in [31, 32, 33, 63, 64, 65, 127, 128, 129, 255, 256, 257] {
+        let value: String = "é界🙂\0e\u{301}".chars().cycle().take(length).collect();
+        source.push(value.clone());
+        target.push(value.chars().rev().collect());
+        target.push(format!("{value}Z"));
+    }
+    for threshold_dist in [
+        0.0,
+        0.5,
+        0.75,
+        f64::from(0.8_f32.next_down()),
+        0.8,
+        f64::from(0.8_f32.next_up()),
+        1.0,
+    ] {
         for (source, target) in [(&source, &target), (&target, &source)] {
             let config = JaccardConfig {
                 threshold_dist,

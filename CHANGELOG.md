@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Accept non-UTF-8 file paths in the CLI and return ordinary errors for invalid
+  text arguments or failed output writes instead of panicking.
+- Reuse Jaccard's Levenshtein comparison setup and existing score cutoff while
+  preserving exact results, including Unicode and rounded cutoff boundaries.
+
 - Avoid full-table copies for uncapped matching when samples are already nonempty.
 - Borrow COMA character trigrams instead of allocating each gram; preserve Unicode
   and multiset scores exactly.

@@ -565,3 +565,73 @@ fn cli_rejects_malformed_inputs_and_unknown_algorithms_with_nonzero_exit() {
         assert!(String::from_utf8_lossy(&output.stderr).starts_with("fieldkin: "));
     }
 }
+
+#[cfg(unix)]
+#[test]
+fn cli_accepts_non_utf8_file_paths_and_rejects_non_utf8_text_arguments() {
+    use std::{ffi::OsStr, os::unix::ffi::OsStrExt};
+
+    let fixtures = Fixtures::new("non-utf8-paths");
+    let source = fixtures.0.join(OsStr::from_bytes(b"source-\xff.csv"));
+    let target = fixtures.0.join(OsStr::from_bytes(b"target-\xfe.JSON"));
+    fs::write(&source, "value\nshared\n").unwrap();
+    fs::write(&target, r#"[{"value":"shared"}]"#).unwrap();
+    let arguments = [
+        OsStr::new("jaccard"),
+        source.as_os_str(),
+        target.as_os_str(),
+    ];
+    let output = Command::new(env!("CARGO_BIN_EXE_fieldkin"))
+        .args(arguments)
+        .output()
+        .unwrap();
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let json: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+    assert_eq!(json["matches"].as_array().unwrap().len(), 1);
+    assert_eq!(json["matches"][0]["score"], 1.0);
+
+    for index in [0, 3, 4] {
+        let mut arguments = arguments.to_vec();
+        arguments.extend([OsStr::new("source"), OsStr::new("target")]);
+        arguments[index] = OsStr::from_bytes(b"invalid-\xff");
+        let output = Command::new(env!("CARGO_BIN_EXE_fieldkin"))
+            .args(arguments)
+            .output()
+            .unwrap();
+        assert_eq!(output.status.code(), Some(1));
+        assert!(output.stdout.is_empty());
+        let error = String::from_utf8_lossy(&output.stderr);
+        assert!(error.starts_with("fieldkin: "), "{error}");
+        assert!(error.contains("UTF-8"), "{error}");
+    }
+}
+
+#[cfg(unix)]
+#[test]
+fn cli_output_errors_exit_without_panicking() {
+    use std::{os::fd::OwnedFd, os::unix::net::UnixStream, process::Stdio};
+
+    for close_stdout in [true, false] {
+        let (writer, reader) = UnixStream::pair().unwrap();
+        drop(reader);
+        let closed_pipe = Stdio::from(OwnedFd::from(writer));
+        let mut command = Command::new(env!("CARGO_BIN_EXE_fieldkin"));
+        if close_stdout {
+            command.arg("--help").stdout(closed_pipe);
+        } else {
+            command
+                .args(["unknown", "source.csv", "target.csv"])
+                .stderr(closed_pipe);
+        }
+        let output = command.output().unwrap();
+        assert_eq!(output.status.code(), Some(1));
+        assert!(output.stdout.is_empty());
+        if close_stdout {
+            assert!(String::from_utf8_lossy(&output.stderr).starts_with("fieldkin: "));
+        }
+    }
+}
