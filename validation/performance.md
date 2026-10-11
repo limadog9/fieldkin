@@ -232,3 +232,78 @@ testing of that backend**. Precomputed-embedding equivalence tests did execute.
 The live Python parity script was attempted but could not start without its
 pinned `.upstream/valentine` checkout. Existing native reference-fixture tests
 passed; no new live Python parity result is claimed.
+
+## Follow-up: Jaccard length bound (2026-10-11)
+
+Levenshtein similarity cannot exceed
+`1 - abs(character_count(a) - character_count(b)) / max(character_count(a), character_count(b))`.
+Jaccard now skips comparisons whose bound falls below its existing rounded
+cutoff. Counts use Unicode scalar values, matching the scorer. Equal lengths
+skip the bound calculation; zero cutoffs, other distances, and embeddings retain
+their previous path. The existing hit-count accumulation and arithmetic are
+unchanged. Storage adds one `usize` per value in the larger distinct-value set
+of the current column pair. Disjoint values of similar lengths still require
+quadratic work.
+
+Compared against `9a431ca0fe27e9046246f2eb5d16cb1dbba35a0b`, using the same
+unmodified harness, release profile, and hardware described above (Rust 1.99.0,
+Linux x86-64, Xeon Platinum 8573C, four-CPU quota, 32 GiB). This follow-up uses
+**five fresh processes and 15 timed repetitions per version/case**, with one
+warmup per process and alternating version order. There were no concurrent
+builds or test runs, but host scheduling and CPU frequency were not controlled.
+All **12 cases / 120 processes / 1,800 timed invocations** completed with no
+errors and identical final-result fingerprints across versions and rounds.
+
+Median of process medians; negative percentages mean reduced elapsed time.
+RSS is median process-lifetime peak memory, not incremental matcher storage.
+
+| Case | Before ms | After ms | Time change | Before → after RSS MiB |
+| --- | ---: | ---: | ---: | ---: |
+| COMA base | 0.242 | 0.241 | −0.31% | 3.02 → 3.08 |
+| Cupid base | 0.217 | 0.218 | +0.55% | 42.50 → 42.47 |
+| DistributionBased base | 2.236 | 2.240 | +0.16% | 3.71 → 3.72 |
+| SimilarityFlooding base | 0.405 | 0.383 | −5.41% | 3.21 → 3.21 |
+| Jaccard base | 24.562 | 30.031 | +22.27% | 2.96 → 2.96 |
+| Jaccard, 32 columns | 351.058 | 268.702 | −23.46% | 4.09 → 4.05 |
+| Jaccard, 4 columns, 256 distinct values | 418.159 | 322.920 | −22.78% | 2.93 → 2.92 |
+| Jaccard, four tables | 158.098 | 104.847 | −33.68% | 3.32 → 3.31 |
+| Jaccard, zero overlap | 21.567 | 17.090 | −20.76% | 2.97 → 2.96 |
+| Jaccard, complete overlap | 22.827 | 20.057 | −12.14% | 2.93 → 2.96 |
+| Jaccard, 32 distinct dense codes | 3.219 | 3.274 | +1.69% | 2.99 → 2.99 |
+| Jaccard, 512 distinct dense codes | 50.360 | 50.118 | −0.48% | 3.96 → 3.95 |
+
+The base-case slowdown is retained in this report. Its five process medians
+ranged from 21.431–38.850 ms before and 17.069–31.861 ms after: this shared-host
+measurement does not establish a universal speedup. The 32-column case ranged
+from 346.966–361.967 ms before and 267.913–328.860 ms after; four tables ranged
+from 129.366–187.338 ms before and 101.491–126.042 ms after. The change is retained
+for those larger-workload gains. Dense-code cases have little opportunity to
+prune and pay length-counting overhead. No meaningful memory reduction, speed
+gain for the other algorithms, or change in accuracy is claimed.
+
+To reproduce, build the baseline revision in a separate worktree and target
+directory, then use the existing runner (all cases use its unchanged inputs):
+
+```sh
+git worktree add --detach /tmp/fieldkin-length-before 9a431ca0fe27e9046246f2eb5d16cb1dbba35a0b
+(cd /tmp/fieldkin-length-before && cargo build --locked --release --example benchmark_performance --jobs 1 --target-dir target)
+cargo build --locked --release --example benchmark_performance --jobs 1
+python3 validation/benchmark_performance.py \
+  --baseline-binary /tmp/fieldkin-length-before/target/release/examples/benchmark_performance \
+  --output target/length-bound-performance.json --rounds 5 --repetitions 15 \
+  --case coma-base --case cupid-base --case distribution-base --case flooding-base \
+  --case jaccard-base --case jaccard-width --case jaccard-distinct --case jaccard-tables \
+  --case jaccard-overlap0 --case jaccard-overlap100 --case jaccard-codes32 --case jaccard-codes512
+```
+
+The new regression compares exact score bits with a full Cartesian calculation
+for Unicode, unequal lengths, empty values, rounded cutoff boundaries, both
+directions, and asymmetric penalties. Existing lexical/embedding oracles and
+reference fixtures remain unchanged.
+
+Follow-up validation passed 162 tests with Polars, four doctests, formatting,
+strict rustdoc, and all-feature Clippy with `ORT_SKIP_DOWNLOAD=1`. The suggestion
+gate remains 215/256; development and independent accuracy JSON are byte-identical
+to the baseline, including the committed independent report. Ordinary all-feature
+tests/Clippy remain blocked by the ONNX download's HTTP 403; live Python parity
+could not start without `.upstream/valentine`. Native reference fixtures passed.

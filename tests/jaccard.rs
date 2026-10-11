@@ -305,6 +305,44 @@ fn lexical_hit_skipping_is_bitwise_identical_to_full_cartesian_comparison() {
 }
 
 #[test]
+fn levenshtein_length_pruning_preserves_unicode_and_cutoff_boundaries() {
+    let mut source = values(&["", "a", "abcd", "abcdefghij", "é", "東京🙂"]);
+    source.push("a".repeat(200));
+    let mut target = values(&["", "ab", "abcde", "abcdefghi🙂", "éé", "東京"]);
+    target.push("a".repeat(160));
+    for threshold_dist in [0.0, 0.5, 0.75, 0.8, 1.0] {
+        for (source, target) in [(&source, &target), (&target, &source)] {
+            let config = JaccardConfig {
+                threshold_dist,
+                tversky_alpha: 2.0,
+                tversky_beta: 0.5,
+                ..Default::default()
+            };
+            let expected = cartesian_set_similarity(
+                source,
+                target,
+                &config,
+                f64::from(threshold_dist as f32),
+                |a, b| similarity(a, b, Distance::Levenshtein),
+            );
+            let actual = JaccardDistanceMatcher::new(config)
+                .unwrap()
+                .set_similarity(source, target)
+                .unwrap();
+            assert_eq!(actual.to_bits(), expected.to_bits());
+        }
+    }
+    // Character counts admit this match; a bound using UTF-8 byte lengths
+    // would incorrectly reject it because the emoji occupies four bytes.
+    assert_eq!(
+        JaccardDistanceMatcher::default()
+            .set_similarity(&values(&["abcdefghij"]), &values(&["abcdefghi🙂"]))
+            .unwrap(),
+        1.0,
+    );
+}
+
+#[test]
 fn embedding_hit_skipping_is_bitwise_identical_to_full_cartesian_comparison() {
     let vectors: BTreeMap<String, Vec<f64>> = [
         ("x", vec![1.0, 0.0]),

@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Reject unknown schema/field keys in labeled evaluation inputs, keeping public
+  schema deserialization compatible.
+- Reject impossible DistributionBased quantile allocations before matching.
+- Skip Levenshtein comparisons that cannot reach the existing Jaccard cutoff
+  based on Unicode character lengths, preserving exact matching outputs.
+
 - Add `try_match_schemas` for recoverable suggestion configuration errors while
   preserving `match_schemas` and its existing behavior.
 - Reject duplicate match identifiers and metric names instead of overwriting

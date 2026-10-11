@@ -18,6 +18,8 @@ use crate::{ColumnPair, Error, MatcherResults, Table};
 pub struct DistributionBased {
     pub threshold1: f64,
     pub threshold2: f64,
+    /// Quantile boundaries before deduplication; each column allocates up to
+    /// this many `f64` values. Must be positive and fit within a `Vec<f64>`.
     pub quantiles: usize,
     /// Parallel workers. Rust uses scoped threads rather than Python processes.
     pub process_num: usize,
@@ -54,6 +56,11 @@ impl DistributionBased {
         }
         if self.quantiles == 0 {
             return Err(Error::InvalidConfig("quantiles must be >= 1".into()));
+        }
+        if self.quantiles > isize::MAX as usize / std::mem::size_of::<f64>() {
+            return Err(Error::InvalidConfig(
+                "quantiles is too large to allocate f64 histogram boundaries".into(),
+            ));
         }
         if self.process_num == 0 {
             return Err(Error::InvalidConfig("process_num must be >= 1".into()));

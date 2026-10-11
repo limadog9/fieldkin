@@ -10,9 +10,10 @@ against the parsed-data SHA-256 fingerprints in `quality_baseline.json`.
 **These are development-corpus measurements, not independent real-world accuracy
 claims.** External provenance, data licensing, and annotation independence are
 unverified. The accessible upstream documentation pointed to an archive blocked
-by the environment proxy. Independent evaluation remains outstanding. See the
-[protocol](accuracy_protocol.md) for provenance, pinned configurations, full
-metric definitions, and limitations.
+by the environment proxy. Independent evaluation was outstanding at this
+measurement; the later [independent report](independent_accuracy_report.md)
+evaluates a separately sourced corpus. See the [protocol](accuracy_protocol.md)
+for provenance, pinned configurations, full metric definitions, and limitations.
 
 Reproduce the tables with:
 

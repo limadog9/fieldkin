@@ -292,6 +292,36 @@ fn invalid_algorithm_configurations_return_errors() {
 }
 
 #[test]
+fn impossible_quantile_allocations_return_configuration_errors() {
+    let source = table("source", vec![field("a", DataType::Integer, &["1", "2"])]);
+    let target = table("target", vec![field("b", DataType::Integer, &["1", "2"])]);
+    let maximum = isize::MAX as usize / std::mem::size_of::<f64>();
+    for quantiles in [maximum + 1, usize::MAX] {
+        let matcher = DistributionBased {
+            quantiles,
+            ..DistributionBased::default()
+        };
+        let error = matcher.get_matches(&source, &target).unwrap_err();
+        assert!(matches!(error, fieldkin::Error::InvalidConfig(_)));
+        assert!(error.to_string().contains("quantiles"));
+        assert!(matches!(
+            matcher.validate(),
+            Err(fieldkin::Error::InvalidConfig(_))
+        ));
+    }
+    // This is an allocation representability check, not a workload-size cap.
+    // Validate the inclusive limit without attempting to allocate that much memory.
+    assert!(
+        DistributionBased {
+            quantiles: maximum,
+            ..DistributionBased::default()
+        }
+        .validate()
+        .is_ok()
+    );
+}
+
+#[test]
 fn distribution_preserves_solver_sensitive_and_colliding_column_names() {
     let source_names = [
         "axis[0]",

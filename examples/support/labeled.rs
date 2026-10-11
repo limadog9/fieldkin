@@ -1,6 +1,6 @@
 use std::collections::BTreeSet;
 
-use fieldkin::Schema;
+use fieldkin::{DataType, Field, Schema};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
@@ -8,9 +8,45 @@ use sha2::{Digest, Sha256};
 #[serde(deny_unknown_fields)]
 pub struct EvalCase {
     pub name: String,
+    #[serde(deserialize_with = "deserialize_schema")]
     pub source: Schema,
+    #[serde(deserialize_with = "deserialize_schema")]
     pub target: Schema,
     pub answers: Vec<Answer>,
+}
+
+// Evaluation inputs must not silently discard misspelled evidence fields.
+// Keep the public Schema/Field deserializers and fingerprint serialization intact.
+fn deserialize_schema<'de, D: serde::Deserializer<'de>>(
+    deserializer: D,
+) -> Result<Schema, D::Error> {
+    #[derive(Deserialize)]
+    #[serde(deny_unknown_fields)]
+    struct InputSchema {
+        fields: Vec<InputField>,
+    }
+
+    #[derive(Deserialize)]
+    #[serde(deny_unknown_fields)]
+    struct InputField {
+        name: String,
+        data_type: DataType,
+        #[serde(default)]
+        samples: Vec<String>,
+    }
+
+    let input = InputSchema::deserialize(deserializer)?;
+    Ok(Schema {
+        fields: input
+            .fields
+            .into_iter()
+            .map(|field| Field {
+                name: field.name,
+                data_type: field.data_type,
+                samples: field.samples,
+            })
+            .collect(),
+    })
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
@@ -120,4 +156,50 @@ pub fn fingerprint(case: &EvalCase) -> Result<String, String> {
     // Hash parsed data so checkout line endings/JSON whitespace do not matter.
     let data = serde_json::to_vec(case).map_err(|error| error.to_string())?;
     Ok(format!("{:x}", Sha256::digest(data)))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use serde_json::json;
+
+    fn case_json() -> serde_json::Value {
+        json!({
+            "name": "strict evaluation input",
+            "source": {"fields": [{"name": "a", "data_type": "text"}]},
+            "target": {"fields": [{"name": "b", "data_type": "text"}]},
+            "answers": [{"kind": "match", "source": "a", "target": "b"}]
+        })
+    }
+
+    #[test]
+    fn evaluation_schemas_reject_unknown_keys_instead_of_dropping_samples() {
+        for (pointer, key, value) in [
+            ("/source", "fieldz", json!([])),
+            ("/target", "fieldz", json!([])),
+            ("/source/fields/0", "sample", json!(["lost source value"])),
+            ("/target/fields/0", "sample", json!(["lost target value"])),
+        ] {
+            let mut raw = case_json();
+            raw.pointer_mut(pointer).unwrap()[key] = value;
+            let error = parse_case(&raw.to_string()).unwrap_err();
+            assert!(error.contains(&format!("unknown field `{key}`")), "{error}");
+        }
+    }
+
+    #[test]
+    fn omitted_samples_keep_the_same_normalization_and_fingerprint() {
+        let mut raw = case_json();
+        let omitted = parse_case(&raw.to_string()).unwrap();
+        assert!(omitted.source.fields[0].samples.is_empty());
+        assert!(omitted.target.fields[0].samples.is_empty());
+        raw["source"]["fields"][0]["samples"] = json!([]);
+        raw["target"]["fields"][0]["samples"] = json!([]);
+        let explicit = parse_case(&raw.to_string()).unwrap();
+        assert_eq!(
+            fingerprint(&omitted).unwrap(),
+            fingerprint(&explicit).unwrap()
+        );
+        assert_eq!(serde_json::to_value(&omitted).unwrap(), raw);
+    }
 }

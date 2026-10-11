@@ -227,6 +227,9 @@ The suggestion accuracy gate evaluates every labeled source field in `eval/` and
 cargo run --locked --example evaluate_all -- --check
 ```
 
+The quality gate and comparative benchmark reject unknown schema/field keys,
+including misspelled `samples` properties, instead of silently ignoring evidence.
+
 The same check runs on every push and pull request in the Rust workflow. With no
 arguments, `evaluate_all` also runs the gate. The frozen
 [baseline](https://github.com/limadog9/fieldkin/blob/main/validation/quality_baseline.json) records the existing implementation's

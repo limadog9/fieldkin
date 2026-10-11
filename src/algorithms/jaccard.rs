@@ -215,13 +215,35 @@ impl JaccardDistanceMatcher {
         } else {
             f64::from(self.config.threshold_dist as f32)
         };
+        let b_lengths = (embeddings.is_none()
+            && self.config.distance_fun == StringDistanceFunction::Levenshtein
+            && threshold > 0.0)
+            .then(|| {
+                b.iter()
+                    .map(|value| value.chars().count())
+                    .collect::<Vec<_>>()
+            });
         for value_a in a {
             let mut a_hit = false;
+            let a_length = b_lengths.as_ref().map_or(0, |_| value_a.chars().count());
             for (j, value_b) in b.iter().enumerate() {
                 // Only the existence of a qualifying partner matters. A pair
                 // whose endpoints both have partners cannot change the counts.
                 if a_hit && b_hits[j] {
                     continue;
+                }
+                if let Some(lengths) = &b_lengths {
+                    let b_length = lengths[j];
+                    // Levenshtein distance is at least the length difference.
+                    // Use character counts and the scorer's normalization so
+                    // this bound also preserves rounded cutoff boundaries.
+                    if a_length != b_length
+                        && 1.0
+                            - a_length.abs_diff(b_length) as f64 / (a_length.max(b_length) as f64)
+                            < threshold
+                    {
+                        continue;
+                    }
                 }
                 let score = if let Some(embeddings) = embeddings {
                     // prepare_embeddings supplies every string from these sets.
