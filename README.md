@@ -202,7 +202,12 @@ minimum (0.72), but supply only 0.85 absolute evidence.
 
 Unknown types provide neutral compatibility, even when both are unknown.
 Name-token containment can still score highly for semantically different fields;
-use domain context to review these suggestions.
+scores are ranking heuristics, not probabilities of correctness. Exact normalized
+names with compatible types receive a score floor of 0.98, even with disjoint
+samples. For example, annual and monthly columns both named `Mean` need not
+represent the same measurement. Units, aggregation periods and business meaning
+are not supplied by `Field`; review these using domain context before accepting
+automatic suggestions.
 
 `match_schemas` preserves its original panic behavior for invalid configuration.
 Use `try_match_schemas` to handle user-supplied thresholds without a panic:

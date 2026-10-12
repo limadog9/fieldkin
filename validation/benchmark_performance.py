@@ -40,6 +40,15 @@ def cases():
     suite["jaccard-distinct512"] = dict(base, algorithm="jaccard", rows=512, distinct=512, overlap=100)
     suite["jaccard-codes32"] = dict(base, algorithm="jaccard", values="codes", overlap=100)
     suite["jaccard-codes512"] = dict(base, algorithm="jaccard", values="codes", rows=512, distinct=512, overlap=100)
+    for width in (8, 16, 32, 64):
+        suite[f"distribution-interleaved{width}"] = dict(base, algorithm="distribution", values="interleaved",
+                                                        columns=width, rows=128, distinct=128, overlap=100)
+    for width in (8, 12, 16):
+        suite[f"distribution-ring{width}"] = dict(base, algorithm="distribution", values="ring",
+                                                 columns=width, rows=128, distinct=128, overlap=100)
+    for overlap in (0, 50, 100):
+        suite[f"jaccard-single2048-overlap{overlap}"] = dict(base, algorithm="jaccard", values="hashes", columns=1,
+                                                            rows=2048, distinct=2048, overlap=overlap)
     for algorithm in ("csv", "json"):
         for rows in (10000, 100000):
             suite[f"{algorithm}-rows{rows}"] = dict(base, algorithm=algorithm, rows=rows, distinct=256)
@@ -69,6 +78,7 @@ def main():
     parser.add_argument("--repetitions", type=int, default=5)
     parser.add_argument("--rounds", type=int, default=3)
     parser.add_argument("--timeout", type=float, default=180, help="seconds per process")
+    parser.add_argument("--memory-limit-mib", type=int, help="Unix child virtual-address-space limit, not peak RSS")
     parser.add_argument("--case", action="append", choices=list(cases()), help="repeat to select cases")
     parser.add_argument("--list", action="store_true")
     args = parser.parse_args()
@@ -78,6 +88,17 @@ def main():
     if (args.output is None or min(args.repetitions, args.rounds, args.timeout) <= 0
             or not math.isfinite(args.timeout)):
         parser.error("--output is required; repetitions, rounds, and timeout must be positive")
+    child_limits = None
+    if args.memory_limit_mib is not None:
+        if os.name != "posix" or args.memory_limit_mib <= 0:
+            parser.error("--memory-limit-mib requires Unix and a positive limit")
+        import resource
+        if not hasattr(resource, "RLIMIT_AS"):
+            parser.error("--memory-limit-mib requires RLIMIT_AS support")
+
+        def child_limits():
+            limit = args.memory_limit_mib * 1024 * 1024
+            resource.setrlimit(resource.RLIMIT_AS, (limit, limit))
     binaries = {"after": args.binary.resolve()}
     if args.baseline_binary:
         binaries = {"before": args.baseline_binary.resolve(), **binaries}
@@ -115,7 +136,7 @@ def main():
                 run = dict(case=name, round=round_number + 1, version=version)
                 try:
                     process = subprocess.run([str(binaries[version]), *flags], capture_output=True,
-                                             text=True, timeout=args.timeout, check=False)
+                                             text=True, timeout=args.timeout, check=False, preexec_fn=child_limits)
                     run.update(stdout=process.stdout, stderr=process.stderr, returncode=process.returncode)
                     if process.returncode:
                         raise ValueError(f"process exited {process.returncode}: {process.stderr.strip()}")
@@ -129,7 +150,7 @@ def main():
                     identity = (report["output_sha256"], report["result_count"], report["parameters"])
                     if reference.setdefault(name, identity) != identity:
                         raise ValueError("output fingerprint or result count differs across versions/rounds")
-                except (OSError, ValueError, KeyError, TypeError, subprocess.TimeoutExpired) as error:
+                except (OSError, ValueError, KeyError, TypeError, subprocess.SubprocessError) as error:
                     run["error"] = str(error)
                     if isinstance(error, subprocess.TimeoutExpired):
                         run.update(stdout=(error.stdout or b"").decode(errors="replace"),

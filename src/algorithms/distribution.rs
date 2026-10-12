@@ -14,6 +14,10 @@ use crate::{ColumnPair, Error, MatcherResults, Table};
 /// Global type-aware value ranks feed equi-depth histograms. A first graph
 /// clusters distributions; intersection EMD and integer correlation clustering
 /// then identify attributes. Output scores are `1 / (1 + EMD)`.
+/// Distance matrices require quadratic space in populated columns. A conflicting
+/// attribute component of size `n` creates `n * (n - 1)` binary variables and
+/// `n * (n - 1) * (n - 2)` triangle constraints; solving can be substantially more
+/// expensive. Sampling rows does not bound component size or solver time.
 #[derive(Clone, Debug)]
 pub struct DistributionBased {
     pub threshold1: f64,
@@ -542,11 +546,17 @@ fn connected_components(edges: &[Vec<bool>]) -> Vec<Vec<usize>> {
 
 fn correlation_clusters(positive: &[Vec<bool>]) -> Result<Vec<Vec<usize>>, Error> {
     let n = positive.len();
-    if (0..n).all(|i| (0..n).all(|j| i == j || positive[i][j])) {
-        return Ok(vec![(0..n).collect()]);
-    }
-    if (0..n).all(|i| (0..n).all(|j| i == j || !positive[i][j])) {
-        return Ok((0..n).map(|i| vec![i]).collect());
+    // Disjoint complete cliques have a unique zero-cost separation matrix.
+    // Recognize that partition before allocating the cubic triangle constraints.
+    // Both directions must be positive: asymmetric/conflicting graphs still use
+    // the unchanged directed integer formulation below.
+    let components = connected_components(positive);
+    if components.iter().all(|cluster| {
+        cluster
+            .iter()
+            .all(|&i| cluster.iter().all(|&j| i == j || positive[i][j]))
+    }) {
+        return Ok(components);
     }
     let mut variables = ProblemVariables::new();
     let mut x = vec![vec![None; n]; n];
@@ -679,6 +689,24 @@ mod tests {
         assert_eq!(
             correlation_clusters(&[vec![false, true], vec![true, false]]).unwrap(),
             [vec![0, 1]]
+        );
+        // Noncontiguous groups and isolated nodes retain the solver's unique
+        // zero-cost partition and connected-component ordering.
+        let groups = [0, 1, 0, 2, 1, 2, 3, 4];
+        let graph: Vec<Vec<bool>> = groups
+            .iter()
+            .enumerate()
+            .map(|(i, a)| {
+                groups
+                    .iter()
+                    .enumerate()
+                    .map(|(j, b)| i != j && a == b)
+                    .collect()
+            })
+            .collect();
+        assert_eq!(
+            correlation_clusters(&graph).unwrap(),
+            [vec![0, 2], vec![1, 4], vec![3, 5], vec![6], vec![7]]
         );
     }
 

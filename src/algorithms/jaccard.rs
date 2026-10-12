@@ -120,6 +120,9 @@ impl EmbeddingProvider for PrecomputedEmbeddings {
 /// Each value counts as matched when it has *any* partner above the threshold.
 /// Several values may therefore match the same partner, faithfully preserving
 /// Valentine's fuzzy-set behavior. The larger directional score is returned.
+/// Fuzzy comparisons can still require the Cartesian product of distinct values
+/// for each column pair. Use explicit table sampling to limit value counts;
+/// this matcher does not enforce a time or memory budget.
 #[derive(Clone, Default)]
 pub struct JaccardDistanceMatcher {
     config: JaccardConfig,
@@ -204,6 +207,11 @@ impl JaccardDistanceMatcher {
                 .filter(|value| b.binary_search(value).is_ok())
                 .count();
             return self.aggregate(intersection, intersection, a.len(), b.len());
+        }
+        // Sorted identical lexical sets already give every value a partner.
+        // Cosine must retain its actual rounded dot products, even for equality.
+        if embeddings.is_none() && a == b {
+            return 1.0;
         }
         let mut a_match = 0;
         let mut b_hits = vec![false; b.len()];

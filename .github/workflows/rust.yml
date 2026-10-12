@@ -5,7 +5,33 @@ on:
   push:
   pull_request:
 jobs:
-  test:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+      - run: cargo fmt --all -- --check
+  clippy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo clippy --locked --all-targets --all-features -- -D warnings
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo doc --locked --no-deps
+        env:
+          RUSTDOCFLAGS: -D warnings
+  tests:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
@@ -13,10 +39,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: dtolnay/rust-toolchain@stable
-        with:
-          components: rustfmt, clippy
       - uses: Swatinem/rust-cache@v2
-      - run: cargo fmt --all -- --check
       - name: Test parity and benchmark validation helpers
         run: |
           python scripts/test_compare_valentine_parity.py
@@ -36,5 +59,14 @@ jobs:
         run: cargo run --locked --example evaluate_all -- --check-reliability
       - run: cargo test --locked --all-targets --all-features
       - run: cargo test --locked --doc
-      - run: cargo clippy --locked --all-targets --all-features -- -D warnings
       - run: cargo package --locked
+  # Keep the required status independent of matrix labels and require both OSes.
+  test:
+    needs: tests
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require every platform test to pass
+        env:
+          TEST_RESULT: ${{ needs.tests.result }}
+        run: test "$TEST_RESULT" = success

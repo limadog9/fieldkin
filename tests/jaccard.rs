@@ -378,6 +378,9 @@ fn lexical_hit_skipping_is_bitwise_identical_to_full_cartesian_comparison() {
         values(&["", "café", "cafe", "東京", "東海", "🙂"]),
         values(&["abcde", "abcdz"]),
         values(&["a", "unrelatedlong", "123", "789"]),
+        // Equal sets have score one; partially shared sets still need fuzzy
+        // partners to be discovered in both directions.
+        values(&["cat", "cats", "catxx", "dog", "dogs"]),
     ];
     for distance_fun in [
         Distance::Levenshtein,

@@ -1,0 +1,3861 @@
+{
+  "distribution": {
+    "metadata": {
+      "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+      "python": "3.12.14",
+      "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
+      "revision": "37375cec20555d429bee29f3b8f42cd5ddfb10d4",
+      "working_tree": "M .github/workflows/rust.yml\n M examples/benchmark_performance.rs\n M src/algorithms/distribution.rs\n M src/algorithms/jaccard.rs\n M tests/jaccard.rs\n M validation/benchmark_performance.py\n?? validation/adversarial_performance_results.json",
+      "cpu_count": 5,
+      "cpu_model": "INTEL(R) XEON(R) PLATINUM 8573C",
+      "cpu_max": "400000 100000",
+      "memory_max": "34359738368",
+      "started_utc": "2026-10-12T20:54:35Z",
+      "binaries": {
+        "before": {
+          "path": "/tmp/fieldkin-scaling-baseline",
+          "sha256": "4b1f99e1164705f4a5cb397885bfaa4c2f98b361f765a84c3147c32d58aee646"
+        },
+        "after": {
+          "path": "/tmp/fieldkin-scaling-merged",
+          "sha256": "17ca5ede5cbcd965a7a87cd0c6b31b41c1969cf402ef885ff9b1e75a95ab9fff"
+        }
+      }
+    },
+    "settings": {
+      "binary": "/tmp/fieldkin-scaling-merged",
+      "baseline_binary": "/tmp/fieldkin-scaling-baseline",
+      "output": "validation/adversarial_performance_results.json",
+      "repetitions": 3,
+      "rounds": 3,
+      "timeout": 15.0,
+      "memory_limit_mib": 512,
+      "case": [
+        "distribution-base",
+        "distribution-interleaved8",
+        "distribution-interleaved16",
+        "distribution-interleaved32",
+        "distribution-interleaved64",
+        "distribution-ring8",
+        "distribution-ring12",
+        "distribution-ring16",
+        "jaccard-base",
+        "jaccard-overlap0",
+        "jaccard-codes512",
+        "jaccard-distinct512",
+        "jaccard-single2048-overlap0",
+        "jaccard-single2048-overlap50",
+        "jaccard-single2048-overlap100"
+      ],
+      "list": false
+    },
+    "runs": [
+      {
+        "case": "distribution-base",
+        "round": 1,
+        "version": "before",
+        "stdout": "{\"median_ms\":6.820381,\"milliseconds\":[6.064635,6.820381,9.129038000000001],\"output_sha256\":\"c13985b6d3ce2dab340488bb7a8c957da86420f1ab79605eb34badfc62065ae1\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":8,\"distinct\":32,\"overlap\":50,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":3672,\"result_count\":4}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 6.820381,
+          "milliseconds": [
+            6.064635,
+            6.820381,
+            9.129038000000001
+          ],
+          "output_sha256": "c13985b6d3ce2dab340488bb7a8c957da86420f1ab79605eb34badfc62065ae1",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 50,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 3672,
+          "result_count": 4
+        }
+      },
+      {
+        "case": "distribution-base",
+        "round": 1,
+        "version": "after",
+        "stdout": "{\"median_ms\":1.859891,\"milliseconds\":[1.966664,1.848406,1.859891],\"output_sha256\":\"c13985b6d3ce2dab340488bb7a8c957da86420f1ab79605eb34badfc62065ae1\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":8,\"distinct\":32,\"overlap\":50,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":3120,\"result_count\":4}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 1.859891,
+          "milliseconds": [
+            1.966664,
+            1.848406,
+            1.859891
+          ],
+          "output_sha256": "c13985b6d3ce2dab340488bb7a8c957da86420f1ab79605eb34badfc62065ae1",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 50,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 3120,
+          "result_count": 4
+        }
+      },
+      {
+        "case": "distribution-base",
+        "round": 2,
+        "version": "after",
+        "stdout": "{\"median_ms\":7.10363,\"milliseconds\":[8.561308,2.069183,7.10363],\"output_sha256\":\"c13985b6d3ce2dab340488bb7a8c957da86420f1ab79605eb34badfc62065ae1\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":8,\"distinct\":32,\"overlap\":50,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":3156,\"result_count\":4}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 7.10363,
+          "milliseconds": [
+            8.561308,
+            2.069183,
+            7.10363
+          ],
+          "output_sha256": "c13985b6d3ce2dab340488bb7a8c957da86420f1ab79605eb34badfc62065ae1",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 50,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 3156,
+          "result_count": 4
+        }
+      },
+      {
+        "case": "distribution-base",
+        "round": 2,
+        "version": "before",
+        "stdout": "{\"median_ms\":5.363175,\"milliseconds\":[5.363175,4.3827989999999994,7.822775000000001],\"output_sha256\":\"c13985b6d3ce2dab340488bb7a8c957da86420f1ab79605eb34badfc62065ae1\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":8,\"distinct\":32,\"overlap\":50,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":3648,\"result_count\":4}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 5.363175,
+          "milliseconds": [
+            5.363175,
+            4.3827989999999994,
+            7.822775000000001
+          ],
+          "output_sha256": "c13985b6d3ce2dab340488bb7a8c957da86420f1ab79605eb34badfc62065ae1",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 50,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 3648,
+          "result_count": 4
+        }
+      },
+      {
+        "case": "distribution-base",
+        "round": 3,
+        "version": "before",
+        "stdout": "{\"median_ms\":2.2541330000000004,\"milliseconds\":[2.329478,2.2541330000000004,2.190394],\"output_sha256\":\"c13985b6d3ce2dab340488bb7a8c957da86420f1ab79605eb34badfc62065ae1\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":8,\"distinct\":32,\"overlap\":50,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":3684,\"result_count\":4}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 2.2541330000000004,
+          "milliseconds": [
+            2.329478,
+            2.2541330000000004,
+            2.190394
+          ],
+          "output_sha256": "c13985b6d3ce2dab340488bb7a8c957da86420f1ab79605eb34badfc62065ae1",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 50,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 3684,
+          "result_count": 4
+        }
+      },
+      {
+        "case": "distribution-base",
+        "round": 3,
+        "version": "after",
+        "stdout": "{\"median_ms\":2.032302,\"milliseconds\":[1.865502,2.032302,8.825051],\"output_sha256\":\"c13985b6d3ce2dab340488bb7a8c957da86420f1ab79605eb34badfc62065ae1\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":8,\"distinct\":32,\"overlap\":50,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":3232,\"result_count\":4}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 2.032302,
+          "milliseconds": [
+            1.865502,
+            2.032302,
+            8.825051
+          ],
+          "output_sha256": "c13985b6d3ce2dab340488bb7a8c957da86420f1ab79605eb34badfc62065ae1",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 50,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 3232,
+          "result_count": 4
+        }
+      },
+      {
+        "case": "distribution-interleaved8",
+        "round": 1,
+        "version": "before",
+        "stdout": "{\"median_ms\":9.805188,\"milliseconds\":[18.336675,9.805188,5.443624],\"output_sha256\":\"b998f4f720d35ae2aac82004ab3fdbb760bbcc792f279e63468da33db3b1ebd7\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":8,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"interleaved\"},\"peak_rss_kib\":5764,\"result_count\":8}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 9.805188,
+          "milliseconds": [
+            18.336675,
+            9.805188,
+            5.443624
+          ],
+          "output_sha256": "b998f4f720d35ae2aac82004ab3fdbb760bbcc792f279e63468da33db3b1ebd7",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 8,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "interleaved"
+          },
+          "peak_rss_kib": 5764,
+          "result_count": 8
+        }
+      },
+      {
+        "case": "distribution-interleaved8",
+        "round": 1,
+        "version": "after",
+        "stdout": "{\"median_ms\":3.696228,\"milliseconds\":[3.772548,3.696228,3.6371070000000003],\"output_sha256\":\"b998f4f720d35ae2aac82004ab3fdbb760bbcc792f279e63468da33db3b1ebd7\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":8,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"interleaved\"},\"peak_rss_kib\":3256,\"result_count\":8}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 3.696228,
+          "milliseconds": [
+            3.772548,
+            3.696228,
+            3.6371070000000003
+          ],
+          "output_sha256": "b998f4f720d35ae2aac82004ab3fdbb760bbcc792f279e63468da33db3b1ebd7",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 8,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "interleaved"
+          },
+          "peak_rss_kib": 3256,
+          "result_count": 8
+        }
+      },
+      {
+        "case": "distribution-interleaved8",
+        "round": 2,
+        "version": "after",
+        "stdout": "{\"median_ms\":3.670621,\"milliseconds\":[3.663046,3.670621,3.713002],\"output_sha256\":\"b998f4f720d35ae2aac82004ab3fdbb760bbcc792f279e63468da33db3b1ebd7\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":8,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"interleaved\"},\"peak_rss_kib\":3112,\"result_count\":8}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 3.670621,
+          "milliseconds": [
+            3.663046,
+            3.670621,
+            3.713002
+          ],
+          "output_sha256": "b998f4f720d35ae2aac82004ab3fdbb760bbcc792f279e63468da33db3b1ebd7",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 8,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "interleaved"
+          },
+          "peak_rss_kib": 3112,
+          "result_count": 8
+        }
+      },
+      {
+        "case": "distribution-interleaved8",
+        "round": 2,
+        "version": "before",
+        "stdout": "{\"median_ms\":5.443623,\"milliseconds\":[5.4402870000000005,5.612070999999999,5.443623],\"output_sha256\":\"b998f4f720d35ae2aac82004ab3fdbb760bbcc792f279e63468da33db3b1ebd7\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":8,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"interleaved\"},\"peak_rss_kib\":5736,\"result_count\":8}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 5.443623,
+          "milliseconds": [
+            5.4402870000000005,
+            5.612070999999999,
+            5.443623
+          ],
+          "output_sha256": "b998f4f720d35ae2aac82004ab3fdbb760bbcc792f279e63468da33db3b1ebd7",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 8,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "interleaved"
+          },
+          "peak_rss_kib": 5736,
+          "result_count": 8
+        }
+      },
+      {
+        "case": "distribution-interleaved8",
+        "round": 3,
+        "version": "before",
+        "stdout": "{\"median_ms\":9.702847,\"milliseconds\":[6.53284,9.702847,13.87215],\"output_sha256\":\"b998f4f720d35ae2aac82004ab3fdbb760bbcc792f279e63468da33db3b1ebd7\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":8,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"interleaved\"},\"peak_rss_kib\":5756,\"result_count\":8}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 9.702847,
+          "milliseconds": [
+            6.53284,
+            9.702847,
+            13.87215
+          ],
+          "output_sha256": "b998f4f720d35ae2aac82004ab3fdbb760bbcc792f279e63468da33db3b1ebd7",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 8,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "interleaved"
+          },
+          "peak_rss_kib": 5756,
+          "result_count": 8
+        }
+      },
+      {
+        "case": "distribution-interleaved8",
+        "round": 3,
+        "version": "after",
+        "stdout": "{\"median_ms\":22.923318000000002,\"milliseconds\":[22.923318000000002,23.171414000000002,13.807882000000001],\"output_sha256\":\"b998f4f720d35ae2aac82004ab3fdbb760bbcc792f279e63468da33db3b1ebd7\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":8,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"interleaved\"},\"peak_rss_kib\":3160,\"result_count\":8}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 22.923318000000002,
+          "milliseconds": [
+            22.923318000000002,
+            23.171414000000002,
+            13.807882000000001
+          ],
+          "output_sha256": "b998f4f720d35ae2aac82004ab3fdbb760bbcc792f279e63468da33db3b1ebd7",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 8,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "interleaved"
+          },
+          "peak_rss_kib": 3160,
+          "result_count": 8
+        }
+      },
+      {
+        "case": "distribution-interleaved16",
+        "round": 1,
+        "version": "before",
+        "stdout": "{\"median_ms\":47.475578999999996,\"milliseconds\":[52.896814,41.684236,47.475578999999996],\"output_sha256\":\"162265bd09f0979a753c57fc46a1764b89ec14d404471250848e9aaeb092e84f\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":16,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"interleaved\"},\"peak_rss_kib\":24636,\"result_count\":16}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 47.475578999999996,
+          "milliseconds": [
+            52.896814,
+            41.684236,
+            47.475578999999996
+          ],
+          "output_sha256": "162265bd09f0979a753c57fc46a1764b89ec14d404471250848e9aaeb092e84f",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 16,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "interleaved"
+          },
+          "peak_rss_kib": 24636,
+          "result_count": 16
+        }
+      },
+      {
+        "case": "distribution-interleaved16",
+        "round": 1,
+        "version": "after",
+        "stdout": "{\"median_ms\":37.875682,\"milliseconds\":[35.024749,41.907585999999995,37.875682],\"output_sha256\":\"162265bd09f0979a753c57fc46a1764b89ec14d404471250848e9aaeb092e84f\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":16,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"interleaved\"},\"peak_rss_kib\":3664,\"result_count\":16}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 37.875682,
+          "milliseconds": [
+            35.024749,
+            41.907585999999995,
+            37.875682
+          ],
+          "output_sha256": "162265bd09f0979a753c57fc46a1764b89ec14d404471250848e9aaeb092e84f",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 16,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "interleaved"
+          },
+          "peak_rss_kib": 3664,
+          "result_count": 16
+        }
+      },
+      {
+        "case": "distribution-interleaved16",
+        "round": 2,
+        "version": "after",
+        "stdout": "{\"median_ms\":13.910385000000002,\"milliseconds\":[13.176143,14.608219,13.910385000000002],\"output_sha256\":\"162265bd09f0979a753c57fc46a1764b89ec14d404471250848e9aaeb092e84f\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":16,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"interleaved\"},\"peak_rss_kib\":3492,\"result_count\":16}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 13.910385000000002,
+          "milliseconds": [
+            13.176143,
+            14.608219,
+            13.910385000000002
+          ],
+          "output_sha256": "162265bd09f0979a753c57fc46a1764b89ec14d404471250848e9aaeb092e84f",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 16,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "interleaved"
+          },
+          "peak_rss_kib": 3492,
+          "result_count": 16
+        }
+      },
+      {
+        "case": "distribution-interleaved16",
+        "round": 2,
+        "version": "before",
+        "stdout": "{\"median_ms\":36.248709,\"milliseconds\":[36.248709,47.815523,34.525725],\"output_sha256\":\"162265bd09f0979a753c57fc46a1764b89ec14d404471250848e9aaeb092e84f\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":16,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"interleaved\"},\"peak_rss_kib\":24548,\"result_count\":16}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 36.248709,
+          "milliseconds": [
+            36.248709,
+            47.815523,
+            34.525725
+          ],
+          "output_sha256": "162265bd09f0979a753c57fc46a1764b89ec14d404471250848e9aaeb092e84f",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 16,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "interleaved"
+          },
+          "peak_rss_kib": 24548,
+          "result_count": 16
+        }
+      },
+      {
+        "case": "distribution-interleaved16",
+        "round": 3,
+        "version": "before",
+        "stdout": "{\"median_ms\":31.839844999999997,\"milliseconds\":[37.039891,30.31196,31.839844999999997],\"output_sha256\":\"162265bd09f0979a753c57fc46a1764b89ec14d404471250848e9aaeb092e84f\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":16,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"interleaved\"},\"peak_rss_kib\":24636,\"result_count\":16}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 31.839844999999997,
+          "milliseconds": [
+            37.039891,
+            30.31196,
+            31.839844999999997
+          ],
+          "output_sha256": "162265bd09f0979a753c57fc46a1764b89ec14d404471250848e9aaeb092e84f",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 16,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "interleaved"
+          },
+          "peak_rss_kib": 24636,
+          "result_count": 16
+        }
+      },
+      {
+        "case": "distribution-interleaved16",
+        "round": 3,
+        "version": "after",
+        "stdout": "{\"median_ms\":59.486175,\"milliseconds\":[76.791649,49.272926,59.486175],\"output_sha256\":\"162265bd09f0979a753c57fc46a1764b89ec14d404471250848e9aaeb092e84f\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":16,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"interleaved\"},\"peak_rss_kib\":3584,\"result_count\":16}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 59.486175,
+          "milliseconds": [
+            76.791649,
+            49.272926,
+            59.486175
+          ],
+          "output_sha256": "162265bd09f0979a753c57fc46a1764b89ec14d404471250848e9aaeb092e84f",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 16,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "interleaved"
+          },
+          "peak_rss_kib": 3584,
+          "result_count": 16
+        }
+      },
+      {
+        "case": "distribution-interleaved32",
+        "round": 1,
+        "version": "before",
+        "stdout": "{\"median_ms\":399.68121499999995,\"milliseconds\":[349.868684,399.68121499999995,433.84131199999996],\"output_sha256\":\"33ace3d27afdfa02d5dc1b1d456c6fbfedcb3422aa9fde0735ec74f2903b1423\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":32,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"interleaved\"},\"peak_rss_kib\":176332,\"result_count\":32}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 399.68121499999995,
+          "milliseconds": [
+            349.868684,
+            399.68121499999995,
+            433.84131199999996
+          ],
+          "output_sha256": "33ace3d27afdfa02d5dc1b1d456c6fbfedcb3422aa9fde0735ec74f2903b1423",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 32,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "interleaved"
+          },
+          "peak_rss_kib": 176332,
+          "result_count": 32
+        }
+      },
+      {
+        "case": "distribution-interleaved32",
+        "round": 1,
+        "version": "after",
+        "stdout": "{\"median_ms\":137.068287,\"milliseconds\":[104.11411,137.068287,143.12256100000002],\"output_sha256\":\"33ace3d27afdfa02d5dc1b1d456c6fbfedcb3422aa9fde0735ec74f2903b1423\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":32,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"interleaved\"},\"peak_rss_kib\":4184,\"result_count\":32}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 137.068287,
+          "milliseconds": [
+            104.11411,
+            137.068287,
+            143.12256100000002
+          ],
+          "output_sha256": "33ace3d27afdfa02d5dc1b1d456c6fbfedcb3422aa9fde0735ec74f2903b1423",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 32,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "interleaved"
+          },
+          "peak_rss_kib": 4184,
+          "result_count": 32
+        }
+      },
+      {
+        "case": "distribution-interleaved32",
+        "round": 2,
+        "version": "after",
+        "stdout": "{\"median_ms\":53.191179,\"milliseconds\":[94.631309,53.191179,47.390744],\"output_sha256\":\"33ace3d27afdfa02d5dc1b1d456c6fbfedcb3422aa9fde0735ec74f2903b1423\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":32,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"interleaved\"},\"peak_rss_kib\":4352,\"result_count\":32}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 53.191179,
+          "milliseconds": [
+            94.631309,
+            53.191179,
+            47.390744
+          ],
+          "output_sha256": "33ace3d27afdfa02d5dc1b1d456c6fbfedcb3422aa9fde0735ec74f2903b1423",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 32,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "interleaved"
+          },
+          "peak_rss_kib": 4352,
+          "result_count": 32
+        }
+      },
+      {
+        "case": "distribution-interleaved32",
+        "round": 2,
+        "version": "before",
+        "stdout": "{\"median_ms\":469.44334399999997,\"milliseconds\":[469.44334399999997,615.129445,278.924973],\"output_sha256\":\"33ace3d27afdfa02d5dc1b1d456c6fbfedcb3422aa9fde0735ec74f2903b1423\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":32,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"interleaved\"},\"peak_rss_kib\":176332,\"result_count\":32}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 469.44334399999997,
+          "milliseconds": [
+            469.44334399999997,
+            615.129445,
+            278.924973
+          ],
+          "output_sha256": "33ace3d27afdfa02d5dc1b1d456c6fbfedcb3422aa9fde0735ec74f2903b1423",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 32,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "interleaved"
+          },
+          "peak_rss_kib": 176332,
+          "result_count": 32
+        }
+      },
+      {
+        "case": "distribution-interleaved32",
+        "round": 3,
+        "version": "before",
+        "stdout": "{\"median_ms\":354.95743699999997,\"milliseconds\":[365.378158,276.278209,354.95743699999997],\"output_sha256\":\"33ace3d27afdfa02d5dc1b1d456c6fbfedcb3422aa9fde0735ec74f2903b1423\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":32,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"interleaved\"},\"peak_rss_kib\":176296,\"result_count\":32}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 354.95743699999997,
+          "milliseconds": [
+            365.378158,
+            276.278209,
+            354.95743699999997
+          ],
+          "output_sha256": "33ace3d27afdfa02d5dc1b1d456c6fbfedcb3422aa9fde0735ec74f2903b1423",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 32,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "interleaved"
+          },
+          "peak_rss_kib": 176296,
+          "result_count": 32
+        }
+      },
+      {
+        "case": "distribution-interleaved32",
+        "round": 3,
+        "version": "after",
+        "stdout": "{\"median_ms\":60.9062,\"milliseconds\":[61.167252,60.9062,47.556219],\"output_sha256\":\"33ace3d27afdfa02d5dc1b1d456c6fbfedcb3422aa9fde0735ec74f2903b1423\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":32,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"interleaved\"},\"peak_rss_kib\":4260,\"result_count\":32}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 60.9062,
+          "milliseconds": [
+            61.167252,
+            60.9062,
+            47.556219
+          ],
+          "output_sha256": "33ace3d27afdfa02d5dc1b1d456c6fbfedcb3422aa9fde0735ec74f2903b1423",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 32,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "interleaved"
+          },
+          "peak_rss_kib": 4260,
+          "result_count": 32
+        }
+      },
+      {
+        "case": "distribution-interleaved64",
+        "round": 1,
+        "version": "before",
+        "stdout": "",
+        "stderr": "memory allocation of 8388608 bytes failed\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n",
+        "returncode": -6,
+        "error": "process exited -6: memory allocation of 8388608 bytes failed\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace"
+      },
+      {
+        "case": "distribution-interleaved64",
+        "round": 1,
+        "version": "after",
+        "stdout": "{\"median_ms\":193.043624,\"milliseconds\":[177.318826,198.618303,193.043624],\"output_sha256\":\"6cacc4c050012cac783c22227ba7ad864792e727622a700739d87f6da16c2722\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":64,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"interleaved\"},\"peak_rss_kib\":6036,\"result_count\":64}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 193.043624,
+          "milliseconds": [
+            177.318826,
+            198.618303,
+            193.043624
+          ],
+          "output_sha256": "6cacc4c050012cac783c22227ba7ad864792e727622a700739d87f6da16c2722",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 64,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "interleaved"
+          },
+          "peak_rss_kib": 6036,
+          "result_count": 64
+        }
+      },
+      {
+        "case": "distribution-interleaved64",
+        "round": 2,
+        "version": "after",
+        "stdout": "{\"median_ms\":340.876124,\"milliseconds\":[340.876124,233.52489,347.64862],\"output_sha256\":\"6cacc4c050012cac783c22227ba7ad864792e727622a700739d87f6da16c2722\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":64,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"interleaved\"},\"peak_rss_kib\":5808,\"result_count\":64}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 340.876124,
+          "milliseconds": [
+            340.876124,
+            233.52489,
+            347.64862
+          ],
+          "output_sha256": "6cacc4c050012cac783c22227ba7ad864792e727622a700739d87f6da16c2722",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 64,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "interleaved"
+          },
+          "peak_rss_kib": 5808,
+          "result_count": 64
+        }
+      },
+      {
+        "case": "distribution-interleaved64",
+        "round": 2,
+        "version": "before",
+        "stdout": "",
+        "stderr": "memory allocation of 8388608 bytes failed\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n",
+        "returncode": -6,
+        "error": "process exited -6: memory allocation of 8388608 bytes failed\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace"
+      },
+      {
+        "case": "distribution-interleaved64",
+        "round": 3,
+        "version": "before",
+        "stdout": "",
+        "stderr": "memory allocation of 8388608 bytes failed\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n",
+        "returncode": -6,
+        "error": "process exited -6: memory allocation of 8388608 bytes failed\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace"
+      },
+      {
+        "case": "distribution-interleaved64",
+        "round": 3,
+        "version": "after",
+        "stdout": "{\"median_ms\":442.378923,\"milliseconds\":[482.459003,442.378923,262.89441000000005],\"output_sha256\":\"6cacc4c050012cac783c22227ba7ad864792e727622a700739d87f6da16c2722\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":64,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"interleaved\"},\"peak_rss_kib\":5952,\"result_count\":64}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 442.378923,
+          "milliseconds": [
+            482.459003,
+            442.378923,
+            262.89441000000005
+          ],
+          "output_sha256": "6cacc4c050012cac783c22227ba7ad864792e727622a700739d87f6da16c2722",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 64,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "interleaved"
+          },
+          "peak_rss_kib": 5952,
+          "result_count": 64
+        }
+      },
+      {
+        "case": "distribution-ring8",
+        "round": 1,
+        "version": "before",
+        "stdout": "{\"median_ms\":294.824635,\"milliseconds\":[195.267288,294.824635,509.58081300000003],\"output_sha256\":\"af064cd77ea8f14c2bb62ce7d62dd3f6f90281d826fbeacd0b08a1fdeed71c8f\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":8,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"ring\"},\"peak_rss_kib\":7496,\"result_count\":64}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 294.824635,
+          "milliseconds": [
+            195.267288,
+            294.824635,
+            509.58081300000003
+          ],
+          "output_sha256": "af064cd77ea8f14c2bb62ce7d62dd3f6f90281d826fbeacd0b08a1fdeed71c8f",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 8,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "ring"
+          },
+          "peak_rss_kib": 7496,
+          "result_count": 64
+        }
+      },
+      {
+        "case": "distribution-ring8",
+        "round": 1,
+        "version": "after",
+        "stdout": "{\"median_ms\":458.575149,\"milliseconds\":[544.0492919999999,458.575149,279.415979],\"output_sha256\":\"af064cd77ea8f14c2bb62ce7d62dd3f6f90281d826fbeacd0b08a1fdeed71c8f\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":8,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"ring\"},\"peak_rss_kib\":7596,\"result_count\":64}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 458.575149,
+          "milliseconds": [
+            544.0492919999999,
+            458.575149,
+            279.415979
+          ],
+          "output_sha256": "af064cd77ea8f14c2bb62ce7d62dd3f6f90281d826fbeacd0b08a1fdeed71c8f",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 8,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "ring"
+          },
+          "peak_rss_kib": 7596,
+          "result_count": 64
+        }
+      },
+      {
+        "case": "distribution-ring8",
+        "round": 2,
+        "version": "after",
+        "stdout": "{\"median_ms\":361.85857999999996,\"milliseconds\":[361.85857999999996,285.752312,436.77266599999996],\"output_sha256\":\"af064cd77ea8f14c2bb62ce7d62dd3f6f90281d826fbeacd0b08a1fdeed71c8f\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":8,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"ring\"},\"peak_rss_kib\":7596,\"result_count\":64}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 361.85857999999996,
+          "milliseconds": [
+            361.85857999999996,
+            285.752312,
+            436.77266599999996
+          ],
+          "output_sha256": "af064cd77ea8f14c2bb62ce7d62dd3f6f90281d826fbeacd0b08a1fdeed71c8f",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 8,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "ring"
+          },
+          "peak_rss_kib": 7596,
+          "result_count": 64
+        }
+      },
+      {
+        "case": "distribution-ring8",
+        "round": 2,
+        "version": "before",
+        "stdout": "{\"median_ms\":411.249621,\"milliseconds\":[411.249621,457.640961,378.229196],\"output_sha256\":\"af064cd77ea8f14c2bb62ce7d62dd3f6f90281d826fbeacd0b08a1fdeed71c8f\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":8,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"ring\"},\"peak_rss_kib\":7544,\"result_count\":64}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 411.249621,
+          "milliseconds": [
+            411.249621,
+            457.640961,
+            378.229196
+          ],
+          "output_sha256": "af064cd77ea8f14c2bb62ce7d62dd3f6f90281d826fbeacd0b08a1fdeed71c8f",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 8,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "ring"
+          },
+          "peak_rss_kib": 7544,
+          "result_count": 64
+        }
+      },
+      {
+        "case": "distribution-ring8",
+        "round": 3,
+        "version": "before",
+        "stdout": "{\"median_ms\":309.11805,\"milliseconds\":[273.1159,393.1298,309.11805],\"output_sha256\":\"af064cd77ea8f14c2bb62ce7d62dd3f6f90281d826fbeacd0b08a1fdeed71c8f\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":8,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"ring\"},\"peak_rss_kib\":7548,\"result_count\":64}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 309.11805,
+          "milliseconds": [
+            273.1159,
+            393.1298,
+            309.11805
+          ],
+          "output_sha256": "af064cd77ea8f14c2bb62ce7d62dd3f6f90281d826fbeacd0b08a1fdeed71c8f",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 8,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "ring"
+          },
+          "peak_rss_kib": 7548,
+          "result_count": 64
+        }
+      },
+      {
+        "case": "distribution-ring8",
+        "round": 3,
+        "version": "after",
+        "stdout": "{\"median_ms\":253.53627299999997,\"milliseconds\":[253.53627299999997,316.753322,241.775188],\"output_sha256\":\"af064cd77ea8f14c2bb62ce7d62dd3f6f90281d826fbeacd0b08a1fdeed71c8f\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":8,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"ring\"},\"peak_rss_kib\":7480,\"result_count\":64}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 253.53627299999997,
+          "milliseconds": [
+            253.53627299999997,
+            316.753322,
+            241.775188
+          ],
+          "output_sha256": "af064cd77ea8f14c2bb62ce7d62dd3f6f90281d826fbeacd0b08a1fdeed71c8f",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 8,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "ring"
+          },
+          "peak_rss_kib": 7480,
+          "result_count": 64
+        }
+      },
+      {
+        "case": "distribution-ring12",
+        "round": 1,
+        "version": "before",
+        "stdout": "{\"median_ms\":391.009388,\"milliseconds\":[373.74821000000003,391.009388,447.15345],\"output_sha256\":\"4024e35f3cb1d8384320037c596461ec06ff38b2301002b5a7b61676642e8902\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":12,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"ring\"},\"peak_rss_kib\":17500,\"result_count\":144}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 391.009388,
+          "milliseconds": [
+            373.74821000000003,
+            391.009388,
+            447.15345
+          ],
+          "output_sha256": "4024e35f3cb1d8384320037c596461ec06ff38b2301002b5a7b61676642e8902",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 12,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "ring"
+          },
+          "peak_rss_kib": 17500,
+          "result_count": 144
+        }
+      },
+      {
+        "case": "distribution-ring12",
+        "round": 1,
+        "version": "after",
+        "stdout": "{\"median_ms\":357.009478,\"milliseconds\":[359.367598,327.11404500000003,357.009478],\"output_sha256\":\"4024e35f3cb1d8384320037c596461ec06ff38b2301002b5a7b61676642e8902\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":12,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"ring\"},\"peak_rss_kib\":18072,\"result_count\":144}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 357.009478,
+          "milliseconds": [
+            359.367598,
+            327.11404500000003,
+            357.009478
+          ],
+          "output_sha256": "4024e35f3cb1d8384320037c596461ec06ff38b2301002b5a7b61676642e8902",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 12,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "ring"
+          },
+          "peak_rss_kib": 18072,
+          "result_count": 144
+        }
+      },
+      {
+        "case": "distribution-ring12",
+        "round": 2,
+        "version": "after",
+        "stdout": "{\"median_ms\":608.9906269999999,\"milliseconds\":[547.3795660000001,608.9906269999999,681.313539],\"output_sha256\":\"4024e35f3cb1d8384320037c596461ec06ff38b2301002b5a7b61676642e8902\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":12,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"ring\"},\"peak_rss_kib\":18068,\"result_count\":144}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 608.9906269999999,
+          "milliseconds": [
+            547.3795660000001,
+            608.9906269999999,
+            681.313539
+          ],
+          "output_sha256": "4024e35f3cb1d8384320037c596461ec06ff38b2301002b5a7b61676642e8902",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 12,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "ring"
+          },
+          "peak_rss_kib": 18068,
+          "result_count": 144
+        }
+      },
+      {
+        "case": "distribution-ring12",
+        "round": 2,
+        "version": "before",
+        "stdout": "{\"median_ms\":611.177876,\"milliseconds\":[592.910028,683.968224,611.177876],\"output_sha256\":\"4024e35f3cb1d8384320037c596461ec06ff38b2301002b5a7b61676642e8902\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":12,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"ring\"},\"peak_rss_kib\":17548,\"result_count\":144}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 611.177876,
+          "milliseconds": [
+            592.910028,
+            683.968224,
+            611.177876
+          ],
+          "output_sha256": "4024e35f3cb1d8384320037c596461ec06ff38b2301002b5a7b61676642e8902",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 12,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "ring"
+          },
+          "peak_rss_kib": 17548,
+          "result_count": 144
+        }
+      },
+      {
+        "case": "distribution-ring12",
+        "round": 3,
+        "version": "before",
+        "stdout": "{\"median_ms\":624.469283,\"milliseconds\":[659.273538,562.303803,624.469283],\"output_sha256\":\"4024e35f3cb1d8384320037c596461ec06ff38b2301002b5a7b61676642e8902\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":12,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"ring\"},\"peak_rss_kib\":17520,\"result_count\":144}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 624.469283,
+          "milliseconds": [
+            659.273538,
+            562.303803,
+            624.469283
+          ],
+          "output_sha256": "4024e35f3cb1d8384320037c596461ec06ff38b2301002b5a7b61676642e8902",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 12,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "ring"
+          },
+          "peak_rss_kib": 17520,
+          "result_count": 144
+        }
+      },
+      {
+        "case": "distribution-ring12",
+        "round": 3,
+        "version": "after",
+        "stdout": "{\"median_ms\":671.422595,\"milliseconds\":[505.34599000000003,671.422595,729.5328989999999],\"output_sha256\":\"4024e35f3cb1d8384320037c596461ec06ff38b2301002b5a7b61676642e8902\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":12,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"ring\"},\"peak_rss_kib\":18000,\"result_count\":144}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 671.422595,
+          "milliseconds": [
+            505.34599000000003,
+            671.422595,
+            729.5328989999999
+          ],
+          "output_sha256": "4024e35f3cb1d8384320037c596461ec06ff38b2301002b5a7b61676642e8902",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 12,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "ring"
+          },
+          "peak_rss_kib": 18000,
+          "result_count": 144
+        }
+      },
+      {
+        "case": "distribution-ring16",
+        "round": 1,
+        "version": "before",
+        "stdout": "{\"median_ms\":3945.624739,\"milliseconds\":[4373.841263,3027.017168,3945.624739],\"output_sha256\":\"d6166bdbf57a826f5f2007453788329545cb0c6706a0113b3e801583f23d07f8\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":16,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"ring\"},\"peak_rss_kib\":35476,\"result_count\":256}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 3945.624739,
+          "milliseconds": [
+            4373.841263,
+            3027.017168,
+            3945.624739
+          ],
+          "output_sha256": "d6166bdbf57a826f5f2007453788329545cb0c6706a0113b3e801583f23d07f8",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 16,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "ring"
+          },
+          "peak_rss_kib": 35476,
+          "result_count": 256
+        }
+      },
+      {
+        "case": "distribution-ring16",
+        "round": 1,
+        "version": "after",
+        "stdout": "{\"median_ms\":2708.152873,\"milliseconds\":[2802.178979,2550.048961,2708.152873],\"output_sha256\":\"d6166bdbf57a826f5f2007453788329545cb0c6706a0113b3e801583f23d07f8\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":16,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"ring\"},\"peak_rss_kib\":36000,\"result_count\":256}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 2708.152873,
+          "milliseconds": [
+            2802.178979,
+            2550.048961,
+            2708.152873
+          ],
+          "output_sha256": "d6166bdbf57a826f5f2007453788329545cb0c6706a0113b3e801583f23d07f8",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 16,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "ring"
+          },
+          "peak_rss_kib": 36000,
+          "result_count": 256
+        }
+      },
+      {
+        "case": "distribution-ring16",
+        "round": 2,
+        "version": "after",
+        "stdout": "{\"median_ms\":2533.845599,\"milliseconds\":[2533.845599,2137.946263,2799.1042249999996],\"output_sha256\":\"d6166bdbf57a826f5f2007453788329545cb0c6706a0113b3e801583f23d07f8\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":16,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"ring\"},\"peak_rss_kib\":35992,\"result_count\":256}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 2533.845599,
+          "milliseconds": [
+            2533.845599,
+            2137.946263,
+            2799.1042249999996
+          ],
+          "output_sha256": "d6166bdbf57a826f5f2007453788329545cb0c6706a0113b3e801583f23d07f8",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 16,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "ring"
+          },
+          "peak_rss_kib": 35992,
+          "result_count": 256
+        }
+      },
+      {
+        "case": "distribution-ring16",
+        "round": 2,
+        "version": "before",
+        "stdout": "{\"median_ms\":2726.379272,\"milliseconds\":[1997.103869,3035.3735309999997,2726.379272],\"output_sha256\":\"d6166bdbf57a826f5f2007453788329545cb0c6706a0113b3e801583f23d07f8\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":16,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"ring\"},\"peak_rss_kib\":35444,\"result_count\":256}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 2726.379272,
+          "milliseconds": [
+            1997.103869,
+            3035.3735309999997,
+            2726.379272
+          ],
+          "output_sha256": "d6166bdbf57a826f5f2007453788329545cb0c6706a0113b3e801583f23d07f8",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 16,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "ring"
+          },
+          "peak_rss_kib": 35444,
+          "result_count": 256
+        }
+      },
+      {
+        "case": "distribution-ring16",
+        "round": 3,
+        "version": "before",
+        "stdout": "{\"median_ms\":1846.586329,\"milliseconds\":[2038.0711549999999,1784.887168,1846.586329],\"output_sha256\":\"d6166bdbf57a826f5f2007453788329545cb0c6706a0113b3e801583f23d07f8\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":16,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"ring\"},\"peak_rss_kib\":35564,\"result_count\":256}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 1846.586329,
+          "milliseconds": [
+            2038.0711549999999,
+            1784.887168,
+            1846.586329
+          ],
+          "output_sha256": "d6166bdbf57a826f5f2007453788329545cb0c6706a0113b3e801583f23d07f8",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 16,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "ring"
+          },
+          "peak_rss_kib": 35564,
+          "result_count": 256
+        }
+      },
+      {
+        "case": "distribution-ring16",
+        "round": 3,
+        "version": "after",
+        "stdout": "{\"median_ms\":2572.838601,\"milliseconds\":[2363.652955,2821.73906,2572.838601],\"output_sha256\":\"d6166bdbf57a826f5f2007453788329545cb0c6706a0113b3e801583f23d07f8\",\"parameters\":{\"algorithm\":\"distribution\",\"columns\":16,\"distinct\":128,\"overlap\":100,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"ring\"},\"peak_rss_kib\":35832,\"result_count\":256}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 2572.838601,
+          "milliseconds": [
+            2363.652955,
+            2821.73906,
+            2572.838601
+          ],
+          "output_sha256": "d6166bdbf57a826f5f2007453788329545cb0c6706a0113b3e801583f23d07f8",
+          "parameters": {
+            "algorithm": "distribution",
+            "columns": 16,
+            "distinct": 128,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "ring"
+          },
+          "peak_rss_kib": 35832,
+          "result_count": 256
+        }
+      }
+    ],
+    "failures": [
+      "distribution-interleaved64 before round 1: process exited -6: memory allocation of 8388608 bytes failed\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace",
+      "distribution-interleaved64 before round 2: process exited -6: memory allocation of 8388608 bytes failed\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace",
+      "distribution-interleaved64 before round 3: process exited -6: memory allocation of 8388608 bytes failed\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace"
+    ],
+    "retained_cases": [
+      "distribution-base",
+      "distribution-interleaved8",
+      "distribution-interleaved16",
+      "distribution-interleaved32",
+      "distribution-interleaved64",
+      "distribution-ring8",
+      "distribution-ring12",
+      "distribution-ring16"
+    ]
+  },
+  "jaccard": {
+    "metadata": {
+      "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+      "python": "3.12.14",
+      "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
+      "revision": "37375cec20555d429bee29f3b8f42cd5ddfb10d4",
+      "working_tree": "M .github/workflows/rust.yml\n M README.md\n M examples/benchmark_performance.rs\n M src/algorithms/distribution.rs\n M src/algorithms/jaccard.rs\n M tests/jaccard.rs\n M validation/benchmark_performance.py\n M validation/performance.md\n M validation/reliability_followup_report.md\n?? validation/adversarial_performance_report.md\n?? validation/adversarial_performance_results.json",
+      "cpu_count": 5,
+      "cpu_model": "INTEL(R) XEON(R) PLATINUM 8573C",
+      "cpu_max": "400000 100000",
+      "memory_max": "34359738368",
+      "started_utc": "2026-10-12T21:01:02Z",
+      "binaries": {
+        "before": {
+          "path": "/tmp/fieldkin-scaling-baseline",
+          "sha256": "4b1f99e1164705f4a5cb397885bfaa4c2f98b361f765a84c3147c32d58aee646"
+        },
+        "after": {
+          "path": "/tmp/fieldkin-scaling-identical",
+          "sha256": "a8745d04e8b2ad054574aa53c7d2954a67383ef29281fde783efc663a38e8d74"
+        }
+      }
+    },
+    "settings": {
+      "binary": "/tmp/fieldkin-scaling-identical",
+      "baseline_binary": "/tmp/fieldkin-scaling-baseline",
+      "output": "/tmp/fieldkin-adversarial-identity.json",
+      "repetitions": 3,
+      "rounds": 3,
+      "timeout": 15.0,
+      "memory_limit_mib": 512,
+      "case": [
+        "jaccard-base",
+        "jaccard-overlap0",
+        "jaccard-codes512",
+        "jaccard-distinct512",
+        "jaccard-single2048-overlap0",
+        "jaccard-single2048-overlap50",
+        "jaccard-single2048-overlap100"
+      ],
+      "list": false
+    },
+    "runs": [
+      {
+        "case": "jaccard-base",
+        "round": 1,
+        "version": "before",
+        "stdout": "{\"median_ms\":2.8233989999999998,\"milliseconds\":[2.8897340000000002,2.8233989999999998,2.743932],\"output_sha256\":\"f2fea5d25025e48e47354e44416ed4923054261158ec547be39686bdb288d226\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":32,\"overlap\":50,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":2908,\"result_count\":8}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 2.8233989999999998,
+          "milliseconds": [
+            2.8897340000000002,
+            2.8233989999999998,
+            2.743932
+          ],
+          "output_sha256": "f2fea5d25025e48e47354e44416ed4923054261158ec547be39686bdb288d226",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 50,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 2908,
+          "result_count": 8
+        }
+      },
+      {
+        "case": "jaccard-base",
+        "round": 1,
+        "version": "after",
+        "stdout": "{\"median_ms\":3.062792,\"milliseconds\":[3.286336,2.7954220000000003,3.062792],\"output_sha256\":\"f2fea5d25025e48e47354e44416ed4923054261158ec547be39686bdb288d226\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":32,\"overlap\":50,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":2896,\"result_count\":8}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 3.062792,
+          "milliseconds": [
+            3.286336,
+            2.7954220000000003,
+            3.062792
+          ],
+          "output_sha256": "f2fea5d25025e48e47354e44416ed4923054261158ec547be39686bdb288d226",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 50,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 2896,
+          "result_count": 8
+        }
+      },
+      {
+        "case": "jaccard-base",
+        "round": 2,
+        "version": "after",
+        "stdout": "{\"median_ms\":2.799586,\"milliseconds\":[2.973935,2.759626,2.799586],\"output_sha256\":\"f2fea5d25025e48e47354e44416ed4923054261158ec547be39686bdb288d226\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":32,\"overlap\":50,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":2884,\"result_count\":8}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 2.799586,
+          "milliseconds": [
+            2.973935,
+            2.759626,
+            2.799586
+          ],
+          "output_sha256": "f2fea5d25025e48e47354e44416ed4923054261158ec547be39686bdb288d226",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 50,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 2884,
+          "result_count": 8
+        }
+      },
+      {
+        "case": "jaccard-base",
+        "round": 2,
+        "version": "before",
+        "stdout": "{\"median_ms\":2.848811,\"milliseconds\":[2.8545089999999997,2.827951,2.848811],\"output_sha256\":\"f2fea5d25025e48e47354e44416ed4923054261158ec547be39686bdb288d226\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":32,\"overlap\":50,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":2880,\"result_count\":8}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 2.848811,
+          "milliseconds": [
+            2.8545089999999997,
+            2.827951,
+            2.848811
+          ],
+          "output_sha256": "f2fea5d25025e48e47354e44416ed4923054261158ec547be39686bdb288d226",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 50,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 2880,
+          "result_count": 8
+        }
+      },
+      {
+        "case": "jaccard-base",
+        "round": 3,
+        "version": "before",
+        "stdout": "{\"median_ms\":2.800553,\"milliseconds\":[2.841212,2.800553,2.732819],\"output_sha256\":\"f2fea5d25025e48e47354e44416ed4923054261158ec547be39686bdb288d226\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":32,\"overlap\":50,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":2956,\"result_count\":8}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 2.800553,
+          "milliseconds": [
+            2.841212,
+            2.800553,
+            2.732819
+          ],
+          "output_sha256": "f2fea5d25025e48e47354e44416ed4923054261158ec547be39686bdb288d226",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 50,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 2956,
+          "result_count": 8
+        }
+      },
+      {
+        "case": "jaccard-base",
+        "round": 3,
+        "version": "after",
+        "stdout": "{\"median_ms\":2.901862,\"milliseconds\":[2.773774,2.901862,2.9553629999999997],\"output_sha256\":\"f2fea5d25025e48e47354e44416ed4923054261158ec547be39686bdb288d226\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":32,\"overlap\":50,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":2872,\"result_count\":8}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 2.901862,
+          "milliseconds": [
+            2.773774,
+            2.901862,
+            2.9553629999999997
+          ],
+          "output_sha256": "f2fea5d25025e48e47354e44416ed4923054261158ec547be39686bdb288d226",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 50,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 2872,
+          "result_count": 8
+        }
+      },
+      {
+        "case": "jaccard-overlap0",
+        "round": 1,
+        "version": "before",
+        "stdout": "{\"median_ms\":2.773005,\"milliseconds\":[2.773366,2.773005,2.722407],\"output_sha256\":\"95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":32,\"overlap\":0,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":2904,\"result_count\":0}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 2.773005,
+          "milliseconds": [
+            2.773366,
+            2.773005,
+            2.722407
+          ],
+          "output_sha256": "95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 0,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 2904,
+          "result_count": 0
+        }
+      },
+      {
+        "case": "jaccard-overlap0",
+        "round": 1,
+        "version": "after",
+        "stdout": "{\"median_ms\":2.992546,\"milliseconds\":[3.0659530000000004,2.992546,2.759312],\"output_sha256\":\"95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":32,\"overlap\":0,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":2872,\"result_count\":0}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 2.992546,
+          "milliseconds": [
+            3.0659530000000004,
+            2.992546,
+            2.759312
+          ],
+          "output_sha256": "95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 0,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 2872,
+          "result_count": 0
+        }
+      },
+      {
+        "case": "jaccard-overlap0",
+        "round": 2,
+        "version": "after",
+        "stdout": "{\"median_ms\":2.7293719999999997,\"milliseconds\":[2.986905,2.722609,2.7293719999999997],\"output_sha256\":\"95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":32,\"overlap\":0,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":2848,\"result_count\":0}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 2.7293719999999997,
+          "milliseconds": [
+            2.986905,
+            2.722609,
+            2.7293719999999997
+          ],
+          "output_sha256": "95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 0,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 2848,
+          "result_count": 0
+        }
+      },
+      {
+        "case": "jaccard-overlap0",
+        "round": 2,
+        "version": "before",
+        "stdout": "{\"median_ms\":2.779007,\"milliseconds\":[2.744145,2.779007,3.274589],\"output_sha256\":\"95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":32,\"overlap\":0,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":2872,\"result_count\":0}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 2.779007,
+          "milliseconds": [
+            2.744145,
+            2.779007,
+            3.274589
+          ],
+          "output_sha256": "95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 0,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 2872,
+          "result_count": 0
+        }
+      },
+      {
+        "case": "jaccard-overlap0",
+        "round": 3,
+        "version": "before",
+        "stdout": "{\"median_ms\":3.76003,\"milliseconds\":[2.772859,5.829037,3.76003],\"output_sha256\":\"95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":32,\"overlap\":0,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":2904,\"result_count\":0}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 3.76003,
+          "milliseconds": [
+            2.772859,
+            5.829037,
+            3.76003
+          ],
+          "output_sha256": "95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 0,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 2904,
+          "result_count": 0
+        }
+      },
+      {
+        "case": "jaccard-overlap0",
+        "round": 3,
+        "version": "after",
+        "stdout": "{\"median_ms\":7.926124,\"milliseconds\":[8.642078,4.822674,7.926124],\"output_sha256\":\"95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":32,\"overlap\":0,\"repetitions\":3,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":2888,\"result_count\":0}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 7.926124,
+          "milliseconds": [
+            8.642078,
+            4.822674,
+            7.926124
+          ],
+          "output_sha256": "95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 0,
+            "repetitions": 3,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 2888,
+          "result_count": 0
+        }
+      },
+      {
+        "case": "jaccard-distinct512",
+        "round": 1,
+        "version": "before",
+        "stdout": "{\"median_ms\":873.250201,\"milliseconds\":[786.269172,891.57993,873.250201],\"output_sha256\":\"b998f4f720d35ae2aac82004ab3fdbb760bbcc792f279e63468da33db3b1ebd7\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":512,\"overlap\":100,\"repetitions\":3,\"rows\":512,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":3320,\"result_count\":8}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 873.250201,
+          "milliseconds": [
+            786.269172,
+            891.57993,
+            873.250201
+          ],
+          "output_sha256": "b998f4f720d35ae2aac82004ab3fdbb760bbcc792f279e63468da33db3b1ebd7",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 512,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 512,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 3320,
+          "result_count": 8
+        }
+      },
+      {
+        "case": "jaccard-distinct512",
+        "round": 1,
+        "version": "after",
+        "stdout": "{\"median_ms\":482.526325,\"milliseconds\":[482.526325,485.430991,468.704439],\"output_sha256\":\"b998f4f720d35ae2aac82004ab3fdbb760bbcc792f279e63468da33db3b1ebd7\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":512,\"overlap\":100,\"repetitions\":3,\"rows\":512,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":3392,\"result_count\":8}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 482.526325,
+          "milliseconds": [
+            482.526325,
+            485.430991,
+            468.704439
+          ],
+          "output_sha256": "b998f4f720d35ae2aac82004ab3fdbb760bbcc792f279e63468da33db3b1ebd7",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 512,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 512,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 3392,
+          "result_count": 8
+        }
+      },
+      {
+        "case": "jaccard-distinct512",
+        "round": 2,
+        "version": "after",
+        "stdout": "{\"median_ms\":475.505247,\"milliseconds\":[472.99775500000004,477.37156699999997,475.505247],\"output_sha256\":\"b998f4f720d35ae2aac82004ab3fdbb760bbcc792f279e63468da33db3b1ebd7\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":512,\"overlap\":100,\"repetitions\":3,\"rows\":512,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":3380,\"result_count\":8}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 475.505247,
+          "milliseconds": [
+            472.99775500000004,
+            477.37156699999997,
+            475.505247
+          ],
+          "output_sha256": "b998f4f720d35ae2aac82004ab3fdbb760bbcc792f279e63468da33db3b1ebd7",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 512,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 512,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 3380,
+          "result_count": 8
+        }
+      },
+      {
+        "case": "jaccard-distinct512",
+        "round": 2,
+        "version": "before",
+        "stdout": "{\"median_ms\":781.538055,\"milliseconds\":[803.776098,748.7730409999999,781.538055],\"output_sha256\":\"b998f4f720d35ae2aac82004ab3fdbb760bbcc792f279e63468da33db3b1ebd7\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":512,\"overlap\":100,\"repetitions\":3,\"rows\":512,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":3416,\"result_count\":8}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 781.538055,
+          "milliseconds": [
+            803.776098,
+            748.7730409999999,
+            781.538055
+          ],
+          "output_sha256": "b998f4f720d35ae2aac82004ab3fdbb760bbcc792f279e63468da33db3b1ebd7",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 512,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 512,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 3416,
+          "result_count": 8
+        }
+      },
+      {
+        "case": "jaccard-distinct512",
+        "round": 3,
+        "version": "before",
+        "stdout": "{\"median_ms\":870.407705,\"milliseconds\":[980.333307,754.8249000000001,870.407705],\"output_sha256\":\"b998f4f720d35ae2aac82004ab3fdbb760bbcc792f279e63468da33db3b1ebd7\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":512,\"overlap\":100,\"repetitions\":3,\"rows\":512,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":3436,\"result_count\":8}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 870.407705,
+          "milliseconds": [
+            980.333307,
+            754.8249000000001,
+            870.407705
+          ],
+          "output_sha256": "b998f4f720d35ae2aac82004ab3fdbb760bbcc792f279e63468da33db3b1ebd7",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 512,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 512,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 3436,
+          "result_count": 8
+        }
+      },
+      {
+        "case": "jaccard-distinct512",
+        "round": 3,
+        "version": "after",
+        "stdout": "{\"median_ms\":586.724613,\"milliseconds\":[585.9193499999999,586.724613,609.6999119999999],\"output_sha256\":\"b998f4f720d35ae2aac82004ab3fdbb760bbcc792f279e63468da33db3b1ebd7\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":512,\"overlap\":100,\"repetitions\":3,\"rows\":512,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":3312,\"result_count\":8}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 586.724613,
+          "milliseconds": [
+            585.9193499999999,
+            586.724613,
+            609.6999119999999
+          ],
+          "output_sha256": "b998f4f720d35ae2aac82004ab3fdbb760bbcc792f279e63468da33db3b1ebd7",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 512,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 512,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 3312,
+          "result_count": 8
+        }
+      },
+      {
+        "case": "jaccard-codes512",
+        "round": 1,
+        "version": "before",
+        "stdout": "{\"median_ms\":10.940325000000001,\"milliseconds\":[10.940325000000001,10.413016,19.717837],\"output_sha256\":\"ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":512,\"overlap\":100,\"repetitions\":3,\"rows\":512,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"codes\"},\"peak_rss_kib\":3648,\"result_count\":64}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 10.940325000000001,
+          "milliseconds": [
+            10.940325000000001,
+            10.413016,
+            19.717837
+          ],
+          "output_sha256": "ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 512,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 512,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "codes"
+          },
+          "peak_rss_kib": 3648,
+          "result_count": 64
+        }
+      },
+      {
+        "case": "jaccard-codes512",
+        "round": 1,
+        "version": "after",
+        "stdout": "{\"median_ms\":9.140722,\"milliseconds\":[9.140722,9.212298,9.075161999999999],\"output_sha256\":\"ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":512,\"overlap\":100,\"repetitions\":3,\"rows\":512,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"codes\"},\"peak_rss_kib\":3596,\"result_count\":64}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 9.140722,
+          "milliseconds": [
+            9.140722,
+            9.212298,
+            9.075161999999999
+          ],
+          "output_sha256": "ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 512,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 512,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "codes"
+          },
+          "peak_rss_kib": 3596,
+          "result_count": 64
+        }
+      },
+      {
+        "case": "jaccard-codes512",
+        "round": 2,
+        "version": "after",
+        "stdout": "{\"median_ms\":10.067960000000001,\"milliseconds\":[9.571655,11.79354,10.067960000000001],\"output_sha256\":\"ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":512,\"overlap\":100,\"repetitions\":3,\"rows\":512,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"codes\"},\"peak_rss_kib\":3536,\"result_count\":64}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 10.067960000000001,
+          "milliseconds": [
+            9.571655,
+            11.79354,
+            10.067960000000001
+          ],
+          "output_sha256": "ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 512,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 512,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "codes"
+          },
+          "peak_rss_kib": 3536,
+          "result_count": 64
+        }
+      },
+      {
+        "case": "jaccard-codes512",
+        "round": 2,
+        "version": "before",
+        "stdout": "{\"median_ms\":10.47574,\"milliseconds\":[10.47574,10.533257,10.24792],\"output_sha256\":\"ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":512,\"overlap\":100,\"repetitions\":3,\"rows\":512,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"codes\"},\"peak_rss_kib\":3596,\"result_count\":64}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 10.47574,
+          "milliseconds": [
+            10.47574,
+            10.533257,
+            10.24792
+          ],
+          "output_sha256": "ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 512,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 512,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "codes"
+          },
+          "peak_rss_kib": 3596,
+          "result_count": 64
+        }
+      },
+      {
+        "case": "jaccard-codes512",
+        "round": 3,
+        "version": "before",
+        "stdout": "{\"median_ms\":10.189666,\"milliseconds\":[10.153992,10.258327,10.189666],\"output_sha256\":\"ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":512,\"overlap\":100,\"repetitions\":3,\"rows\":512,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"codes\"},\"peak_rss_kib\":3552,\"result_count\":64}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 10.189666,
+          "milliseconds": [
+            10.153992,
+            10.258327,
+            10.189666
+          ],
+          "output_sha256": "ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 512,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 512,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "codes"
+          },
+          "peak_rss_kib": 3552,
+          "result_count": 64
+        }
+      },
+      {
+        "case": "jaccard-codes512",
+        "round": 3,
+        "version": "after",
+        "stdout": "{\"median_ms\":9.037506,\"milliseconds\":[8.978682,9.155478,9.037506],\"output_sha256\":\"ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":512,\"overlap\":100,\"repetitions\":3,\"rows\":512,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"codes\"},\"peak_rss_kib\":3536,\"result_count\":64}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 9.037506,
+          "milliseconds": [
+            8.978682,
+            9.155478,
+            9.037506
+          ],
+          "output_sha256": "ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 512,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 512,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "codes"
+          },
+          "peak_rss_kib": 3536,
+          "result_count": 64
+        }
+      },
+      {
+        "case": "jaccard-single2048-overlap0",
+        "round": 1,
+        "version": "before",
+        "stdout": "{\"median_ms\":561.482486,\"milliseconds\":[558.080043,561.482486,562.657724],\"output_sha256\":\"95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":1,\"distinct\":2048,\"overlap\":0,\"repetitions\":3,\"rows\":2048,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"hashes\"},\"peak_rss_kib\":3076,\"result_count\":0}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 561.482486,
+          "milliseconds": [
+            558.080043,
+            561.482486,
+            562.657724
+          ],
+          "output_sha256": "95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 1,
+            "distinct": 2048,
+            "overlap": 0,
+            "repetitions": 3,
+            "rows": 2048,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "hashes"
+          },
+          "peak_rss_kib": 3076,
+          "result_count": 0
+        }
+      },
+      {
+        "case": "jaccard-single2048-overlap0",
+        "round": 1,
+        "version": "after",
+        "stdout": "{\"median_ms\":688.530737,\"milliseconds\":[671.2058499999999,688.530737,799.599181],\"output_sha256\":\"95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":1,\"distinct\":2048,\"overlap\":0,\"repetitions\":3,\"rows\":2048,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"hashes\"},\"peak_rss_kib\":3072,\"result_count\":0}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 688.530737,
+          "milliseconds": [
+            671.2058499999999,
+            688.530737,
+            799.599181
+          ],
+          "output_sha256": "95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 1,
+            "distinct": 2048,
+            "overlap": 0,
+            "repetitions": 3,
+            "rows": 2048,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "hashes"
+          },
+          "peak_rss_kib": 3072,
+          "result_count": 0
+        }
+      },
+      {
+        "case": "jaccard-single2048-overlap0",
+        "round": 2,
+        "version": "after",
+        "stdout": "{\"median_ms\":684.801903,\"milliseconds\":[590.300702,684.801903,790.3535109999999],\"output_sha256\":\"95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":1,\"distinct\":2048,\"overlap\":0,\"repetitions\":3,\"rows\":2048,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"hashes\"},\"peak_rss_kib\":3172,\"result_count\":0}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 684.801903,
+          "milliseconds": [
+            590.300702,
+            684.801903,
+            790.3535109999999
+          ],
+          "output_sha256": "95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 1,
+            "distinct": 2048,
+            "overlap": 0,
+            "repetitions": 3,
+            "rows": 2048,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "hashes"
+          },
+          "peak_rss_kib": 3172,
+          "result_count": 0
+        }
+      },
+      {
+        "case": "jaccard-single2048-overlap0",
+        "round": 2,
+        "version": "before",
+        "stdout": "{\"median_ms\":577.622963,\"milliseconds\":[577.622963,571.771731,606.099386],\"output_sha256\":\"95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":1,\"distinct\":2048,\"overlap\":0,\"repetitions\":3,\"rows\":2048,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"hashes\"},\"peak_rss_kib\":3076,\"result_count\":0}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 577.622963,
+          "milliseconds": [
+            577.622963,
+            571.771731,
+            606.099386
+          ],
+          "output_sha256": "95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 1,
+            "distinct": 2048,
+            "overlap": 0,
+            "repetitions": 3,
+            "rows": 2048,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "hashes"
+          },
+          "peak_rss_kib": 3076,
+          "result_count": 0
+        }
+      },
+      {
+        "case": "jaccard-single2048-overlap0",
+        "round": 3,
+        "version": "before",
+        "stdout": "{\"median_ms\":685.639334,\"milliseconds\":[685.639334,698.99603,556.5576140000001],\"output_sha256\":\"95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":1,\"distinct\":2048,\"overlap\":0,\"repetitions\":3,\"rows\":2048,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"hashes\"},\"peak_rss_kib\":3196,\"result_count\":0}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 685.639334,
+          "milliseconds": [
+            685.639334,
+            698.99603,
+            556.5576140000001
+          ],
+          "output_sha256": "95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 1,
+            "distinct": 2048,
+            "overlap": 0,
+            "repetitions": 3,
+            "rows": 2048,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "hashes"
+          },
+          "peak_rss_kib": 3196,
+          "result_count": 0
+        }
+      },
+      {
+        "case": "jaccard-single2048-overlap0",
+        "round": 3,
+        "version": "after",
+        "stdout": "{\"median_ms\":568.761203,\"milliseconds\":[568.761203,560.842536,598.335099],\"output_sha256\":\"95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":1,\"distinct\":2048,\"overlap\":0,\"repetitions\":3,\"rows\":2048,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"hashes\"},\"peak_rss_kib\":3144,\"result_count\":0}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 568.761203,
+          "milliseconds": [
+            568.761203,
+            560.842536,
+            598.335099
+          ],
+          "output_sha256": "95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 1,
+            "distinct": 2048,
+            "overlap": 0,
+            "repetitions": 3,
+            "rows": 2048,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "hashes"
+          },
+          "peak_rss_kib": 3144,
+          "result_count": 0
+        }
+      },
+      {
+        "case": "jaccard-single2048-overlap50",
+        "round": 1,
+        "version": "before",
+        "stdout": "{\"median_ms\":687.810622,\"milliseconds\":[687.810622,675.487709,735.980759],\"output_sha256\":\"0675c4de7dfd9eb46bd1f7736f19da897626c5555fcb603c2c7242b74399ee1b\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":1,\"distinct\":2048,\"overlap\":50,\"repetitions\":3,\"rows\":2048,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"hashes\"},\"peak_rss_kib\":3224,\"result_count\":1}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 687.810622,
+          "milliseconds": [
+            687.810622,
+            675.487709,
+            735.980759
+          ],
+          "output_sha256": "0675c4de7dfd9eb46bd1f7736f19da897626c5555fcb603c2c7242b74399ee1b",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 1,
+            "distinct": 2048,
+            "overlap": 50,
+            "repetitions": 3,
+            "rows": 2048,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "hashes"
+          },
+          "peak_rss_kib": 3224,
+          "result_count": 1
+        }
+      },
+      {
+        "case": "jaccard-single2048-overlap50",
+        "round": 1,
+        "version": "after",
+        "stdout": "{\"median_ms\":758.223313,\"milliseconds\":[760.315921,673.626434,758.223313],\"output_sha256\":\"0675c4de7dfd9eb46bd1f7736f19da897626c5555fcb603c2c7242b74399ee1b\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":1,\"distinct\":2048,\"overlap\":50,\"repetitions\":3,\"rows\":2048,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"hashes\"},\"peak_rss_kib\":3148,\"result_count\":1}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 758.223313,
+          "milliseconds": [
+            760.315921,
+            673.626434,
+            758.223313
+          ],
+          "output_sha256": "0675c4de7dfd9eb46bd1f7736f19da897626c5555fcb603c2c7242b74399ee1b",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 1,
+            "distinct": 2048,
+            "overlap": 50,
+            "repetitions": 3,
+            "rows": 2048,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "hashes"
+          },
+          "peak_rss_kib": 3148,
+          "result_count": 1
+        }
+      },
+      {
+        "case": "jaccard-single2048-overlap50",
+        "round": 2,
+        "version": "after",
+        "stdout": "{\"median_ms\":676.95781,\"milliseconds\":[571.566279,676.95781,780.323703],\"output_sha256\":\"0675c4de7dfd9eb46bd1f7736f19da897626c5555fcb603c2c7242b74399ee1b\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":1,\"distinct\":2048,\"overlap\":50,\"repetitions\":3,\"rows\":2048,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"hashes\"},\"peak_rss_kib\":3156,\"result_count\":1}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 676.95781,
+          "milliseconds": [
+            571.566279,
+            676.95781,
+            780.323703
+          ],
+          "output_sha256": "0675c4de7dfd9eb46bd1f7736f19da897626c5555fcb603c2c7242b74399ee1b",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 1,
+            "distinct": 2048,
+            "overlap": 50,
+            "repetitions": 3,
+            "rows": 2048,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "hashes"
+          },
+          "peak_rss_kib": 3156,
+          "result_count": 1
+        }
+      },
+      {
+        "case": "jaccard-single2048-overlap50",
+        "round": 2,
+        "version": "before",
+        "stdout": "{\"median_ms\":558.931454,\"milliseconds\":[561.809256,558.931454,555.9130610000001],\"output_sha256\":\"0675c4de7dfd9eb46bd1f7736f19da897626c5555fcb603c2c7242b74399ee1b\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":1,\"distinct\":2048,\"overlap\":50,\"repetitions\":3,\"rows\":2048,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"hashes\"},\"peak_rss_kib\":3152,\"result_count\":1}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 558.931454,
+          "milliseconds": [
+            561.809256,
+            558.931454,
+            555.9130610000001
+          ],
+          "output_sha256": "0675c4de7dfd9eb46bd1f7736f19da897626c5555fcb603c2c7242b74399ee1b",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 1,
+            "distinct": 2048,
+            "overlap": 50,
+            "repetitions": 3,
+            "rows": 2048,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "hashes"
+          },
+          "peak_rss_kib": 3152,
+          "result_count": 1
+        }
+      },
+      {
+        "case": "jaccard-single2048-overlap50",
+        "round": 3,
+        "version": "before",
+        "stdout": "{\"median_ms\":796.896533,\"milliseconds\":[839.9206740000001,796.896533,639.3755629999999],\"output_sha256\":\"0675c4de7dfd9eb46bd1f7736f19da897626c5555fcb603c2c7242b74399ee1b\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":1,\"distinct\":2048,\"overlap\":50,\"repetitions\":3,\"rows\":2048,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"hashes\"},\"peak_rss_kib\":3236,\"result_count\":1}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 796.896533,
+          "milliseconds": [
+            839.9206740000001,
+            796.896533,
+            639.3755629999999
+          ],
+          "output_sha256": "0675c4de7dfd9eb46bd1f7736f19da897626c5555fcb603c2c7242b74399ee1b",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 1,
+            "distinct": 2048,
+            "overlap": 50,
+            "repetitions": 3,
+            "rows": 2048,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "hashes"
+          },
+          "peak_rss_kib": 3236,
+          "result_count": 1
+        }
+      },
+      {
+        "case": "jaccard-single2048-overlap50",
+        "round": 3,
+        "version": "after",
+        "stdout": "{\"median_ms\":574.463621,\"milliseconds\":[913.9280269999999,574.463621,569.4351760000001],\"output_sha256\":\"0675c4de7dfd9eb46bd1f7736f19da897626c5555fcb603c2c7242b74399ee1b\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":1,\"distinct\":2048,\"overlap\":50,\"repetitions\":3,\"rows\":2048,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"hashes\"},\"peak_rss_kib\":3080,\"result_count\":1}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 574.463621,
+          "milliseconds": [
+            913.9280269999999,
+            574.463621,
+            569.4351760000001
+          ],
+          "output_sha256": "0675c4de7dfd9eb46bd1f7736f19da897626c5555fcb603c2c7242b74399ee1b",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 1,
+            "distinct": 2048,
+            "overlap": 50,
+            "repetitions": 3,
+            "rows": 2048,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "hashes"
+          },
+          "peak_rss_kib": 3080,
+          "result_count": 1
+        }
+      },
+      {
+        "case": "jaccard-single2048-overlap100",
+        "round": 1,
+        "version": "before",
+        "stdout": "{\"median_ms\":757.5842739999999,\"milliseconds\":[757.5842739999999,770.3194540000001,664.99478],\"output_sha256\":\"f46a0e99786dfd93a62c4c8a21dcdaced4ba64bffdcea2fa4c5e0bcf15dfeb7b\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":1,\"distinct\":2048,\"overlap\":100,\"repetitions\":3,\"rows\":2048,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"hashes\"},\"peak_rss_kib\":3156,\"result_count\":1}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 757.5842739999999,
+          "milliseconds": [
+            757.5842739999999,
+            770.3194540000001,
+            664.99478
+          ],
+          "output_sha256": "f46a0e99786dfd93a62c4c8a21dcdaced4ba64bffdcea2fa4c5e0bcf15dfeb7b",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 1,
+            "distinct": 2048,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 2048,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "hashes"
+          },
+          "peak_rss_kib": 3156,
+          "result_count": 1
+        }
+      },
+      {
+        "case": "jaccard-single2048-overlap100",
+        "round": 1,
+        "version": "after",
+        "stdout": "{\"median_ms\":0.230784,\"milliseconds\":[0.250213,0.219861,0.230784],\"output_sha256\":\"f46a0e99786dfd93a62c4c8a21dcdaced4ba64bffdcea2fa4c5e0bcf15dfeb7b\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":1,\"distinct\":2048,\"overlap\":100,\"repetitions\":3,\"rows\":2048,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"hashes\"},\"peak_rss_kib\":3052,\"result_count\":1}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 0.230784,
+          "milliseconds": [
+            0.250213,
+            0.219861,
+            0.230784
+          ],
+          "output_sha256": "f46a0e99786dfd93a62c4c8a21dcdaced4ba64bffdcea2fa4c5e0bcf15dfeb7b",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 1,
+            "distinct": 2048,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 2048,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "hashes"
+          },
+          "peak_rss_kib": 3052,
+          "result_count": 1
+        }
+      },
+      {
+        "case": "jaccard-single2048-overlap100",
+        "round": 2,
+        "version": "after",
+        "stdout": "{\"median_ms\":0.233825,\"milliseconds\":[0.233825,0.243644,0.218056],\"output_sha256\":\"f46a0e99786dfd93a62c4c8a21dcdaced4ba64bffdcea2fa4c5e0bcf15dfeb7b\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":1,\"distinct\":2048,\"overlap\":100,\"repetitions\":3,\"rows\":2048,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"hashes\"},\"peak_rss_kib\":3044,\"result_count\":1}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 0.233825,
+          "milliseconds": [
+            0.233825,
+            0.243644,
+            0.218056
+          ],
+          "output_sha256": "f46a0e99786dfd93a62c4c8a21dcdaced4ba64bffdcea2fa4c5e0bcf15dfeb7b",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 1,
+            "distinct": 2048,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 2048,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "hashes"
+          },
+          "peak_rss_kib": 3044,
+          "result_count": 1
+        }
+      },
+      {
+        "case": "jaccard-single2048-overlap100",
+        "round": 2,
+        "version": "before",
+        "stdout": "{\"median_ms\":560.979187,\"milliseconds\":[677.263955,559.921601,560.979187],\"output_sha256\":\"f46a0e99786dfd93a62c4c8a21dcdaced4ba64bffdcea2fa4c5e0bcf15dfeb7b\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":1,\"distinct\":2048,\"overlap\":100,\"repetitions\":3,\"rows\":2048,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"hashes\"},\"peak_rss_kib\":3180,\"result_count\":1}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 560.979187,
+          "milliseconds": [
+            677.263955,
+            559.921601,
+            560.979187
+          ],
+          "output_sha256": "f46a0e99786dfd93a62c4c8a21dcdaced4ba64bffdcea2fa4c5e0bcf15dfeb7b",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 1,
+            "distinct": 2048,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 2048,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "hashes"
+          },
+          "peak_rss_kib": 3180,
+          "result_count": 1
+        }
+      },
+      {
+        "case": "jaccard-single2048-overlap100",
+        "round": 3,
+        "version": "before",
+        "stdout": "{\"median_ms\":558.2469410000001,\"milliseconds\":[557.7717749999999,558.2469410000001,562.798861],\"output_sha256\":\"f46a0e99786dfd93a62c4c8a21dcdaced4ba64bffdcea2fa4c5e0bcf15dfeb7b\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":1,\"distinct\":2048,\"overlap\":100,\"repetitions\":3,\"rows\":2048,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"hashes\"},\"peak_rss_kib\":3180,\"result_count\":1}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 558.2469410000001,
+          "milliseconds": [
+            557.7717749999999,
+            558.2469410000001,
+            562.798861
+          ],
+          "output_sha256": "f46a0e99786dfd93a62c4c8a21dcdaced4ba64bffdcea2fa4c5e0bcf15dfeb7b",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 1,
+            "distinct": 2048,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 2048,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "hashes"
+          },
+          "peak_rss_kib": 3180,
+          "result_count": 1
+        }
+      },
+      {
+        "case": "jaccard-single2048-overlap100",
+        "round": 3,
+        "version": "after",
+        "stdout": "{\"median_ms\":0.22826000000000002,\"milliseconds\":[0.22826000000000002,0.240419,0.213389],\"output_sha256\":\"f46a0e99786dfd93a62c4c8a21dcdaced4ba64bffdcea2fa4c5e0bcf15dfeb7b\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":1,\"distinct\":2048,\"overlap\":100,\"repetitions\":3,\"rows\":2048,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"hashes\"},\"peak_rss_kib\":3052,\"result_count\":1}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 0.22826000000000002,
+          "milliseconds": [
+            0.22826000000000002,
+            0.240419,
+            0.213389
+          ],
+          "output_sha256": "f46a0e99786dfd93a62c4c8a21dcdaced4ba64bffdcea2fa4c5e0bcf15dfeb7b",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 1,
+            "distinct": 2048,
+            "overlap": 100,
+            "repetitions": 3,
+            "rows": 2048,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "hashes"
+          },
+          "peak_rss_kib": 3052,
+          "result_count": 1
+        }
+      }
+    ],
+    "failures": []
+  },
+  "control_followup": {
+    "metadata": {
+      "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+      "python": "3.12.14",
+      "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
+      "revision": "37375cec20555d429bee29f3b8f42cd5ddfb10d4",
+      "working_tree": "M .github/workflows/rust.yml\n M README.md\n M examples/benchmark_performance.rs\n M src/algorithms/distribution.rs\n M src/algorithms/jaccard.rs\n M tests/jaccard.rs\n M validation/benchmark_performance.py\n M validation/performance.md\n M validation/reliability_followup_report.md\n?? validation/adversarial_performance_report.md\n?? validation/adversarial_performance_results.json",
+      "cpu_count": 5,
+      "cpu_model": "INTEL(R) XEON(R) PLATINUM 8573C",
+      "cpu_max": "400000 100000",
+      "memory_max": "34359738368",
+      "started_utc": "2026-10-12T21:02:04Z",
+      "binaries": {
+        "before": {
+          "path": "/tmp/fieldkin-scaling-baseline",
+          "sha256": "4b1f99e1164705f4a5cb397885bfaa4c2f98b361f765a84c3147c32d58aee646"
+        },
+        "after": {
+          "path": "/tmp/fieldkin-scaling-identical",
+          "sha256": "a8745d04e8b2ad054574aa53c7d2954a67383ef29281fde783efc663a38e8d74"
+        }
+      }
+    },
+    "settings": {
+      "binary": "/tmp/fieldkin-scaling-identical",
+      "baseline_binary": "/tmp/fieldkin-scaling-baseline",
+      "output": "/tmp/fieldkin-adversarial-identity-controls.json",
+      "repetitions": 21,
+      "rounds": 5,
+      "timeout": 15.0,
+      "memory_limit_mib": 512,
+      "case": [
+        "jaccard-overlap0",
+        "jaccard-codes512"
+      ],
+      "list": false
+    },
+    "runs": [
+      {
+        "case": "jaccard-overlap0",
+        "round": 1,
+        "version": "before",
+        "stdout": "{\"median_ms\":4.892419,\"milliseconds\":[9.850858,7.3984749999999995,6.07024,6.947471,4.832140000000001,7.904764999999999,5.842906,7.055340999999999,3.461124,2.994492,8.465727,8.696623,4.892419,6.360747,4.631301,3.772862,2.78254,2.8738520000000003,2.83723,2.8776990000000002,2.751252],\"output_sha256\":\"95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":32,\"overlap\":0,\"repetitions\":21,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":2956,\"result_count\":0}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 4.892419,
+          "milliseconds": [
+            9.850858,
+            7.3984749999999995,
+            6.07024,
+            6.947471,
+            4.832140000000001,
+            7.904764999999999,
+            5.842906,
+            7.055340999999999,
+            3.461124,
+            2.994492,
+            8.465727,
+            8.696623,
+            4.892419,
+            6.360747,
+            4.631301,
+            3.772862,
+            2.78254,
+            2.8738520000000003,
+            2.83723,
+            2.8776990000000002,
+            2.751252
+          ],
+          "output_sha256": "95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 0,
+            "repetitions": 21,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 2956,
+          "result_count": 0
+        }
+      },
+      {
+        "case": "jaccard-overlap0",
+        "round": 1,
+        "version": "after",
+        "stdout": "{\"median_ms\":2.7603340000000003,\"milliseconds\":[2.827411,2.9119580000000003,2.721442,2.738678,2.724061,2.757626,2.704388,2.761205,2.713054,2.702894,2.763051,2.765402,2.8147580000000003,2.852836,2.8254289999999997,2.750463,2.757481,2.818989,2.7603340000000003,2.741378,2.76413],\"output_sha256\":\"95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":32,\"overlap\":0,\"repetitions\":21,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":2904,\"result_count\":0}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 2.7603340000000003,
+          "milliseconds": [
+            2.827411,
+            2.9119580000000003,
+            2.721442,
+            2.738678,
+            2.724061,
+            2.757626,
+            2.704388,
+            2.761205,
+            2.713054,
+            2.702894,
+            2.763051,
+            2.765402,
+            2.8147580000000003,
+            2.852836,
+            2.8254289999999997,
+            2.750463,
+            2.757481,
+            2.818989,
+            2.7603340000000003,
+            2.741378,
+            2.76413
+          ],
+          "output_sha256": "95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 0,
+            "repetitions": 21,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 2904,
+          "result_count": 0
+        }
+      },
+      {
+        "case": "jaccard-overlap0",
+        "round": 2,
+        "version": "after",
+        "stdout": "{\"median_ms\":2.7436079999999996,\"milliseconds\":[2.8009049999999998,2.753583,2.751727,2.726912,2.751154,2.735131,2.7194409999999998,2.7376,2.742966,2.699151,2.764679,2.7653679999999996,2.7436079999999996,2.733657,2.762841,2.734781,2.753196,2.74352,2.759378,2.742468,2.756671],\"output_sha256\":\"95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":32,\"overlap\":0,\"repetitions\":21,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":2860,\"result_count\":0}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 2.7436079999999996,
+          "milliseconds": [
+            2.8009049999999998,
+            2.753583,
+            2.751727,
+            2.726912,
+            2.751154,
+            2.735131,
+            2.7194409999999998,
+            2.7376,
+            2.742966,
+            2.699151,
+            2.764679,
+            2.7653679999999996,
+            2.7436079999999996,
+            2.733657,
+            2.762841,
+            2.734781,
+            2.753196,
+            2.74352,
+            2.759378,
+            2.742468,
+            2.756671
+          ],
+          "output_sha256": "95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 0,
+            "repetitions": 21,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 2860,
+          "result_count": 0
+        }
+      },
+      {
+        "case": "jaccard-overlap0",
+        "round": 2,
+        "version": "before",
+        "stdout": "{\"median_ms\":2.796167,\"milliseconds\":[2.8274009999999996,2.796167,2.738826,2.7275099999999997,2.845033,2.741082,2.780804,2.741337,2.812596,2.7374880000000004,3.02484,2.800191,2.7563370000000003,2.714163,2.752366,3.414735,3.485954,2.766205,2.827016,2.826784,3.112394],\"output_sha256\":\"95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":32,\"overlap\":0,\"repetitions\":21,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":2956,\"result_count\":0}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 2.796167,
+          "milliseconds": [
+            2.8274009999999996,
+            2.796167,
+            2.738826,
+            2.7275099999999997,
+            2.845033,
+            2.741082,
+            2.780804,
+            2.741337,
+            2.812596,
+            2.7374880000000004,
+            3.02484,
+            2.800191,
+            2.7563370000000003,
+            2.714163,
+            2.752366,
+            3.414735,
+            3.485954,
+            2.766205,
+            2.827016,
+            2.826784,
+            3.112394
+          ],
+          "output_sha256": "95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 0,
+            "repetitions": 21,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 2956,
+          "result_count": 0
+        }
+      },
+      {
+        "case": "jaccard-overlap0",
+        "round": 3,
+        "version": "before",
+        "stdout": "{\"median_ms\":2.764277,\"milliseconds\":[2.773429,2.836038,2.710643,2.7431389999999998,3.0368600000000003,2.696596,2.762384,2.8059640000000003,2.7202960000000003,3.181405,2.754489,2.816516,2.747102,2.73719,2.767771,2.721839,2.764277,2.758886,2.8853809999999998,2.920574,3.010397],\"output_sha256\":\"95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":32,\"overlap\":0,\"repetitions\":21,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":2960,\"result_count\":0}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 2.764277,
+          "milliseconds": [
+            2.773429,
+            2.836038,
+            2.710643,
+            2.7431389999999998,
+            3.0368600000000003,
+            2.696596,
+            2.762384,
+            2.8059640000000003,
+            2.7202960000000003,
+            3.181405,
+            2.754489,
+            2.816516,
+            2.747102,
+            2.73719,
+            2.767771,
+            2.721839,
+            2.764277,
+            2.758886,
+            2.8853809999999998,
+            2.920574,
+            3.010397
+          ],
+          "output_sha256": "95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 0,
+            "repetitions": 21,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 2960,
+          "result_count": 0
+        }
+      },
+      {
+        "case": "jaccard-overlap0",
+        "round": 3,
+        "version": "after",
+        "stdout": "{\"median_ms\":5.303915,\"milliseconds\":[2.826134,7.572642,3.573232,7.499275,6.294906,4.494452000000001,5.41029,5.815767999999999,7.9116800000000005,8.850635,4.669001,6.679799,5.303915,5.152194,7.218174,4.9756979999999995,6.015384,4.371142,3.1725999999999996,3.186431,2.816097],\"output_sha256\":\"95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":32,\"overlap\":0,\"repetitions\":21,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":2804,\"result_count\":0}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 5.303915,
+          "milliseconds": [
+            2.826134,
+            7.572642,
+            3.573232,
+            7.499275,
+            6.294906,
+            4.494452000000001,
+            5.41029,
+            5.815767999999999,
+            7.9116800000000005,
+            8.850635,
+            4.669001,
+            6.679799,
+            5.303915,
+            5.152194,
+            7.218174,
+            4.9756979999999995,
+            6.015384,
+            4.371142,
+            3.1725999999999996,
+            3.186431,
+            2.816097
+          ],
+          "output_sha256": "95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 0,
+            "repetitions": 21,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 2804,
+          "result_count": 0
+        }
+      },
+      {
+        "case": "jaccard-overlap0",
+        "round": 4,
+        "version": "after",
+        "stdout": "{\"median_ms\":2.753041,\"milliseconds\":[2.8233379999999997,2.852392,2.695449,2.764209,2.756681,2.7077109999999998,2.731653,2.7459659999999997,2.700167,2.722598,2.810743,2.851298,2.7465829999999998,2.753041,2.7471,2.737385,3.034911,3.031339,2.7890639999999998,2.769047,2.740907],\"output_sha256\":\"95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":32,\"overlap\":0,\"repetitions\":21,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":2860,\"result_count\":0}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 2.753041,
+          "milliseconds": [
+            2.8233379999999997,
+            2.852392,
+            2.695449,
+            2.764209,
+            2.756681,
+            2.7077109999999998,
+            2.731653,
+            2.7459659999999997,
+            2.700167,
+            2.722598,
+            2.810743,
+            2.851298,
+            2.7465829999999998,
+            2.753041,
+            2.7471,
+            2.737385,
+            3.034911,
+            3.031339,
+            2.7890639999999998,
+            2.769047,
+            2.740907
+          ],
+          "output_sha256": "95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 0,
+            "repetitions": 21,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 2860,
+          "result_count": 0
+        }
+      },
+      {
+        "case": "jaccard-overlap0",
+        "round": 4,
+        "version": "before",
+        "stdout": "{\"median_ms\":5.915004,\"milliseconds\":[2.82441,2.931121,3.186241,2.732245,2.72864,2.8330450000000003,2.761436,6.110445,12.899752000000001,9.885173,8.865766,8.181113999999999,3.9192460000000002,5.975885,6.343828,5.934119,5.915004,5.716546,3.884628,9.993037,10.911083],\"output_sha256\":\"95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":32,\"overlap\":0,\"repetitions\":21,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":2928,\"result_count\":0}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 5.915004,
+          "milliseconds": [
+            2.82441,
+            2.931121,
+            3.186241,
+            2.732245,
+            2.72864,
+            2.8330450000000003,
+            2.761436,
+            6.110445,
+            12.899752000000001,
+            9.885173,
+            8.865766,
+            8.181113999999999,
+            3.9192460000000002,
+            5.975885,
+            6.343828,
+            5.934119,
+            5.915004,
+            5.716546,
+            3.884628,
+            9.993037,
+            10.911083
+          ],
+          "output_sha256": "95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 0,
+            "repetitions": 21,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 2928,
+          "result_count": 0
+        }
+      },
+      {
+        "case": "jaccard-overlap0",
+        "round": 5,
+        "version": "before",
+        "stdout": "{\"median_ms\":2.826606,\"milliseconds\":[2.79992,2.768987,2.714899,2.75693,2.929785,2.816899,2.726534,2.9361029999999997,3.027376,2.758971,2.817286,2.977039,2.826606,2.7089890000000003,2.853694,2.8489079999999998,2.7369719999999997,3.226375,5.372209,2.887324,6.921562],\"output_sha256\":\"95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":32,\"overlap\":0,\"repetitions\":21,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":2916,\"result_count\":0}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 2.826606,
+          "milliseconds": [
+            2.79992,
+            2.768987,
+            2.714899,
+            2.75693,
+            2.929785,
+            2.816899,
+            2.726534,
+            2.9361029999999997,
+            3.027376,
+            2.758971,
+            2.817286,
+            2.977039,
+            2.826606,
+            2.7089890000000003,
+            2.853694,
+            2.8489079999999998,
+            2.7369719999999997,
+            3.226375,
+            5.372209,
+            2.887324,
+            6.921562
+          ],
+          "output_sha256": "95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 0,
+            "repetitions": 21,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 2916,
+          "result_count": 0
+        }
+      },
+      {
+        "case": "jaccard-overlap0",
+        "round": 5,
+        "version": "after",
+        "stdout": "{\"median_ms\":2.8510020000000003,\"milliseconds\":[2.726884,2.79408,2.7777879999999997,2.765578,3.016196,2.8148359999999997,2.7736240000000003,2.813993,2.762432,2.9102799999999998,2.8510020000000003,3.136734,2.898158,2.8343819999999997,2.949845,3.127515,2.89978,2.876992,2.7947990000000003,3.185058,2.893876],\"output_sha256\":\"95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":32,\"overlap\":0,\"repetitions\":21,\"rows\":128,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"mixed\"},\"peak_rss_kib\":2788,\"result_count\":0}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 2.8510020000000003,
+          "milliseconds": [
+            2.726884,
+            2.79408,
+            2.7777879999999997,
+            2.765578,
+            3.016196,
+            2.8148359999999997,
+            2.7736240000000003,
+            2.813993,
+            2.762432,
+            2.9102799999999998,
+            2.8510020000000003,
+            3.136734,
+            2.898158,
+            2.8343819999999997,
+            2.949845,
+            3.127515,
+            2.89978,
+            2.876992,
+            2.7947990000000003,
+            3.185058,
+            2.893876
+          ],
+          "output_sha256": "95663e1bc3a69ef3bfb5f3af3db2d6db1934ae871d6b63d74653bcde05526a8d",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 32,
+            "overlap": 0,
+            "repetitions": 21,
+            "rows": 128,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "mixed"
+          },
+          "peak_rss_kib": 2788,
+          "result_count": 0
+        }
+      },
+      {
+        "case": "jaccard-codes512",
+        "round": 1,
+        "version": "before",
+        "stdout": "{\"median_ms\":13.680579,\"milliseconds\":[10.356554000000001,12.338547,13.680579,11.724731,12.815419,10.914801,10.720159,10.55011,10.341204999999999,11.101888,10.536278,64.36436900000001,24.380929,41.541738,16.754275,16.241063999999998,24.538032,21.944571,14.192974000000001,21.188997,17.634556],\"output_sha256\":\"ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":512,\"overlap\":100,\"repetitions\":21,\"rows\":512,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"codes\"},\"peak_rss_kib\":3648,\"result_count\":64}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 13.680579,
+          "milliseconds": [
+            10.356554000000001,
+            12.338547,
+            13.680579,
+            11.724731,
+            12.815419,
+            10.914801,
+            10.720159,
+            10.55011,
+            10.341204999999999,
+            11.101888,
+            10.536278,
+            64.36436900000001,
+            24.380929,
+            41.541738,
+            16.754275,
+            16.241063999999998,
+            24.538032,
+            21.944571,
+            14.192974000000001,
+            21.188997,
+            17.634556
+          ],
+          "output_sha256": "ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 512,
+            "overlap": 100,
+            "repetitions": 21,
+            "rows": 512,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "codes"
+          },
+          "peak_rss_kib": 3648,
+          "result_count": 64
+        }
+      },
+      {
+        "case": "jaccard-codes512",
+        "round": 1,
+        "version": "after",
+        "stdout": "{\"median_ms\":9.36923,\"milliseconds\":[9.435606,9.238112,9.255777,8.979429000000001,9.254189,9.55083,9.775739,9.747453,10.825776000000001,9.12026,11.421251,9.813227000000001,9.119337999999999,10.7011,9.210579,11.738441,9.558192,9.368507999999999,9.36923,9.156877000000001,9.025656999999999],\"output_sha256\":\"ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":512,\"overlap\":100,\"repetitions\":21,\"rows\":512,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"codes\"},\"peak_rss_kib\":3648,\"result_count\":64}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 9.36923,
+          "milliseconds": [
+            9.435606,
+            9.238112,
+            9.255777,
+            8.979429000000001,
+            9.254189,
+            9.55083,
+            9.775739,
+            9.747453,
+            10.825776000000001,
+            9.12026,
+            11.421251,
+            9.813227000000001,
+            9.119337999999999,
+            10.7011,
+            9.210579,
+            11.738441,
+            9.558192,
+            9.368507999999999,
+            9.36923,
+            9.156877000000001,
+            9.025656999999999
+          ],
+          "output_sha256": "ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 512,
+            "overlap": 100,
+            "repetitions": 21,
+            "rows": 512,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "codes"
+          },
+          "peak_rss_kib": 3648,
+          "result_count": 64
+        }
+      },
+      {
+        "case": "jaccard-codes512",
+        "round": 2,
+        "version": "after",
+        "stdout": "{\"median_ms\":15.414966,\"milliseconds\":[24.541051,25.750708,23.696384000000002,21.89106,19.568425,20.23637,19.171311,19.336751999999997,19.470322000000003,17.374807,15.414966,9.575335,8.984059,8.921655000000001,8.938079,8.932938,8.931322999999999,9.053777,8.932526,11.704085,9.528578],\"output_sha256\":\"ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":512,\"overlap\":100,\"repetitions\":21,\"rows\":512,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"codes\"},\"peak_rss_kib\":3652,\"result_count\":64}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 15.414966,
+          "milliseconds": [
+            24.541051,
+            25.750708,
+            23.696384000000002,
+            21.89106,
+            19.568425,
+            20.23637,
+            19.171311,
+            19.336751999999997,
+            19.470322000000003,
+            17.374807,
+            15.414966,
+            9.575335,
+            8.984059,
+            8.921655000000001,
+            8.938079,
+            8.932938,
+            8.931322999999999,
+            9.053777,
+            8.932526,
+            11.704085,
+            9.528578
+          ],
+          "output_sha256": "ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 512,
+            "overlap": 100,
+            "repetitions": 21,
+            "rows": 512,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "codes"
+          },
+          "peak_rss_kib": 3652,
+          "result_count": 64
+        }
+      },
+      {
+        "case": "jaccard-codes512",
+        "round": 2,
+        "version": "before",
+        "stdout": "{\"median_ms\":16.373922,\"milliseconds\":[10.536595,10.248936,10.133642,10.545997999999999,10.161249000000002,12.718921,10.895647,24.203678999999998,17.145374,21.396041,16.373922,24.684307999999998,16.582637000000002,13.486158,25.364259,24.111767,16.627864,19.454340000000002,19.431286999999998,10.488888,10.430204999999999],\"output_sha256\":\"ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":512,\"overlap\":100,\"repetitions\":21,\"rows\":512,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"codes\"},\"peak_rss_kib\":3696,\"result_count\":64}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 16.373922,
+          "milliseconds": [
+            10.536595,
+            10.248936,
+            10.133642,
+            10.545997999999999,
+            10.161249000000002,
+            12.718921,
+            10.895647,
+            24.203678999999998,
+            17.145374,
+            21.396041,
+            16.373922,
+            24.684307999999998,
+            16.582637000000002,
+            13.486158,
+            25.364259,
+            24.111767,
+            16.627864,
+            19.454340000000002,
+            19.431286999999998,
+            10.488888,
+            10.430204999999999
+          ],
+          "output_sha256": "ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 512,
+            "overlap": 100,
+            "repetitions": 21,
+            "rows": 512,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "codes"
+          },
+          "peak_rss_kib": 3696,
+          "result_count": 64
+        }
+      },
+      {
+        "case": "jaccard-codes512",
+        "round": 3,
+        "version": "before",
+        "stdout": "{\"median_ms\":10.371772,\"milliseconds\":[10.316438000000002,10.188463,10.154537999999999,10.310675999999999,10.314746,10.247103000000001,11.604118,10.407804,12.311112000000001,10.866979,10.427198,10.371772,11.104246,10.808646999999999,10.634824,10.248683,10.342106,10.723821999999998,10.354930999999999,10.130676999999999,12.281699],\"output_sha256\":\"ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":512,\"overlap\":100,\"repetitions\":21,\"rows\":512,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"codes\"},\"peak_rss_kib\":3696,\"result_count\":64}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 10.371772,
+          "milliseconds": [
+            10.316438000000002,
+            10.188463,
+            10.154537999999999,
+            10.310675999999999,
+            10.314746,
+            10.247103000000001,
+            11.604118,
+            10.407804,
+            12.311112000000001,
+            10.866979,
+            10.427198,
+            10.371772,
+            11.104246,
+            10.808646999999999,
+            10.634824,
+            10.248683,
+            10.342106,
+            10.723821999999998,
+            10.354930999999999,
+            10.130676999999999,
+            12.281699
+          ],
+          "output_sha256": "ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 512,
+            "overlap": 100,
+            "repetitions": 21,
+            "rows": 512,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "codes"
+          },
+          "peak_rss_kib": 3696,
+          "result_count": 64
+        }
+      },
+      {
+        "case": "jaccard-codes512",
+        "round": 3,
+        "version": "after",
+        "stdout": "{\"median_ms\":14.557942,\"milliseconds\":[12.199598,9.186205,9.177481,9.538134,9.596649000000001,9.798343,9.04274,11.227792,11.136472,14.312068,15.543144999999999,15.292447000000001,17.318771,14.557942,17.380724,19.161494,17.392757,17.34196,19.517941,17.567339,19.670133999999997],\"output_sha256\":\"ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":512,\"overlap\":100,\"repetitions\":21,\"rows\":512,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"codes\"},\"peak_rss_kib\":3688,\"result_count\":64}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 14.557942,
+          "milliseconds": [
+            12.199598,
+            9.186205,
+            9.177481,
+            9.538134,
+            9.596649000000001,
+            9.798343,
+            9.04274,
+            11.227792,
+            11.136472,
+            14.312068,
+            15.543144999999999,
+            15.292447000000001,
+            17.318771,
+            14.557942,
+            17.380724,
+            19.161494,
+            17.392757,
+            17.34196,
+            19.517941,
+            17.567339,
+            19.670133999999997
+          ],
+          "output_sha256": "ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 512,
+            "overlap": 100,
+            "repetitions": 21,
+            "rows": 512,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "codes"
+          },
+          "peak_rss_kib": 3688,
+          "result_count": 64
+        }
+      },
+      {
+        "case": "jaccard-codes512",
+        "round": 4,
+        "version": "after",
+        "stdout": "{\"median_ms\":11.931464,\"milliseconds\":[9.153724,9.110337,9.27005,9.071819,9.000033,8.999632,9.013289,8.979805,9.330239,9.115147,11.931464,15.180943000000001,16.28142,18.246102,12.533978,20.572687,15.715059,17.490017,23.421613,15.445904,15.234835],\"output_sha256\":\"ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":512,\"overlap\":100,\"repetitions\":21,\"rows\":512,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"codes\"},\"peak_rss_kib\":3592,\"result_count\":64}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 11.931464,
+          "milliseconds": [
+            9.153724,
+            9.110337,
+            9.27005,
+            9.071819,
+            9.000033,
+            8.999632,
+            9.013289,
+            8.979805,
+            9.330239,
+            9.115147,
+            11.931464,
+            15.180943000000001,
+            16.28142,
+            18.246102,
+            12.533978,
+            20.572687,
+            15.715059,
+            17.490017,
+            23.421613,
+            15.445904,
+            15.234835
+          ],
+          "output_sha256": "ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 512,
+            "overlap": 100,
+            "repetitions": 21,
+            "rows": 512,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "codes"
+          },
+          "peak_rss_kib": 3592,
+          "result_count": 64
+        }
+      },
+      {
+        "case": "jaccard-codes512",
+        "round": 4,
+        "version": "before",
+        "stdout": "{\"median_ms\":10.534478,\"milliseconds\":[10.348721999999999,10.623296000000002,10.713598,10.970545,10.548931,10.524511,10.201961,10.534478,10.425238,10.322417,10.637875,10.301886,11.171588,11.050133,11.400022,10.344858,10.479223,10.784234999999999,10.574791,10.34825,10.369002],\"output_sha256\":\"ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":512,\"overlap\":100,\"repetitions\":21,\"rows\":512,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"codes\"},\"peak_rss_kib\":3532,\"result_count\":64}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 10.534478,
+          "milliseconds": [
+            10.348721999999999,
+            10.623296000000002,
+            10.713598,
+            10.970545,
+            10.548931,
+            10.524511,
+            10.201961,
+            10.534478,
+            10.425238,
+            10.322417,
+            10.637875,
+            10.301886,
+            11.171588,
+            11.050133,
+            11.400022,
+            10.344858,
+            10.479223,
+            10.784234999999999,
+            10.574791,
+            10.34825,
+            10.369002
+          ],
+          "output_sha256": "ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 512,
+            "overlap": 100,
+            "repetitions": 21,
+            "rows": 512,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "codes"
+          },
+          "peak_rss_kib": 3532,
+          "result_count": 64
+        }
+      },
+      {
+        "case": "jaccard-codes512",
+        "round": 5,
+        "version": "before",
+        "stdout": "{\"median_ms\":10.474558,\"milliseconds\":[10.440612,10.327766,10.474558,11.307602,10.793301999999999,10.427506,10.172016000000001,10.345621,10.540199999999999,10.175085000000001,12.541511999999999,10.61485,12.005593,12.659021,10.629781,10.651801,10.308194,10.391927,10.515874,10.171321,10.165692],\"output_sha256\":\"ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":512,\"overlap\":100,\"repetitions\":21,\"rows\":512,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"codes\"},\"peak_rss_kib\":3708,\"result_count\":64}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 10.474558,
+          "milliseconds": [
+            10.440612,
+            10.327766,
+            10.474558,
+            11.307602,
+            10.793301999999999,
+            10.427506,
+            10.172016000000001,
+            10.345621,
+            10.540199999999999,
+            10.175085000000001,
+            12.541511999999999,
+            10.61485,
+            12.005593,
+            12.659021,
+            10.629781,
+            10.651801,
+            10.308194,
+            10.391927,
+            10.515874,
+            10.171321,
+            10.165692
+          ],
+          "output_sha256": "ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 512,
+            "overlap": 100,
+            "repetitions": 21,
+            "rows": 512,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "codes"
+          },
+          "peak_rss_kib": 3708,
+          "result_count": 64
+        }
+      },
+      {
+        "case": "jaccard-codes512",
+        "round": 5,
+        "version": "after",
+        "stdout": "{\"median_ms\":9.007138,\"milliseconds\":[9.012773,9.286284,8.991454,8.956684,9.007138,9.001939,9.296468,8.968764,8.996674,9.002879,9.308676,9.061926999999999,9.146609,9.095157,8.990876,8.9874,8.981026,8.992734,9.040649,9.408536,9.092687],\"output_sha256\":\"ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42\",\"parameters\":{\"algorithm\":\"jaccard\",\"columns\":8,\"distinct\":512,\"overlap\":100,\"repetitions\":21,\"rows\":512,\"sample_size\":null,\"schema_overlap\":100,\"tables\":2,\"values\":\"codes\"},\"peak_rss_kib\":3676,\"result_count\":64}\n",
+        "stderr": "",
+        "returncode": 0,
+        "report": {
+          "median_ms": 9.007138,
+          "milliseconds": [
+            9.012773,
+            9.286284,
+            8.991454,
+            8.956684,
+            9.007138,
+            9.001939,
+            9.296468,
+            8.968764,
+            8.996674,
+            9.002879,
+            9.308676,
+            9.061926999999999,
+            9.146609,
+            9.095157,
+            8.990876,
+            8.9874,
+            8.981026,
+            8.992734,
+            9.040649,
+            9.408536,
+            9.092687
+          ],
+          "output_sha256": "ec2c5ccaca65ea5c336d1c6b53fb508452f8c06be18250c2a0730410e93d3b42",
+          "parameters": {
+            "algorithm": "jaccard",
+            "columns": 8,
+            "distinct": 512,
+            "overlap": 100,
+            "repetitions": 21,
+            "rows": 512,
+            "sample_size": null,
+            "schema_overlap": 100,
+            "tables": 2,
+            "values": "codes"
+          },
+          "peak_rss_kib": 3676,
+          "result_count": 64
+        }
+      }
+    ],
+    "failures": []
+  }
+}

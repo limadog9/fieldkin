@@ -79,8 +79,8 @@ fn parse(args: impl IntoIterator<Item = String>) -> BenchResult<Args> {
     {
         return Err("unknown algorithm (see --help)".into());
     }
-    if !["mixed", "codes"].contains(&parsed.values.as_str()) {
-        return Err("values must be mixed or codes".into());
+    if !["mixed", "codes", "hashes", "interleaved", "ring"].contains(&parsed.values.as_str()) {
+        return Err("values must be mixed, codes, hashes, interleaved, or ring".into());
     }
     if parsed.columns == 0
         || parsed.distinct == 0
@@ -136,7 +136,16 @@ fn value(args: &Args, table: usize, column: usize, row: usize) -> String {
     let key = (group * args.columns + column) * distinct + index;
     if args.values == "codes" {
         format!("customer-account-{key:010}")
-    } else if column.is_multiple_of(2) {
+    } else if args.values == "interleaved" {
+        // Similar distributions with disjoint, interleaved column value sets.
+        (index * args.columns * args.tables + group * args.columns + column).to_string()
+    } else if args.values == "ring" {
+        // Adjacent columns share half a window on a circular vocabulary. Hashing
+        // scatters those intersections across value ranks instead of intervals.
+        let stride = distinct.div_ceil(2);
+        let position = (column * stride + index) % (args.columns * stride);
+        mix((group * args.columns * stride + position) as u64).to_string()
+    } else if args.values == "mixed" && column.is_multiple_of(2) {
         key.to_string()
     } else {
         format!(
@@ -155,7 +164,9 @@ fn tables(args: &Args) -> BenchResult<Vec<Table>> {
                 (0..args.columns)
                     .map(|column| Field {
                         name: column_name(args, table, column),
-                        data_type: if args.values == "mixed" && column.is_multiple_of(2) {
+                        data_type: if (args.values == "mixed" && column.is_multiple_of(2))
+                            || ["interleaved", "ring"].contains(&args.values.as_str())
+                        {
                             DataType::Integer
                         } else {
                             DataType::Text
@@ -293,7 +304,8 @@ fn main() -> BenchResult<()> {
         println!(
             "Run in release mode. One workload per process; JSON output.\n\
             --algorithm coma|cupid|distribution|jaccard|flooding|csv|json (jaccard)\n\
-            --values mixed|codes (mixed); codes intentionally creates dense fuzzy hits\n\
+            --values mixed|codes|hashes|interleaved|ring (mixed); codes creates dense fuzzy hits;\n\
+            hashes uses all high-entropy text; interleaved/ring stress distribution clustering\n\
             --columns N (8) --rows N (128) --distinct N (32) --tables N (2)\n\
             --overlap PERCENT (50) --schema-overlap PERCENT (100) --repetitions N (5) --sample-size N (default: all)\n\
             CSV/JSON ingest one table; --tables and overlap settings do not affect ingestion.\n\
@@ -411,6 +423,43 @@ mod tests {
             assert_eq!(
                 renamed[1].columns[column].name.starts_with("other_"),
                 column >= 2
+            );
+        }
+    }
+
+    #[test]
+    fn clustering_stress_inputs_have_the_documented_intersections() {
+        use std::collections::BTreeSet;
+
+        let mut args = Args {
+            values: "interleaved".into(),
+            columns: 8,
+            rows: 128,
+            distinct: 128,
+            overlap: 100,
+            ..Args::default()
+        };
+        for mode in ["interleaved", "ring", "hashes"] {
+            args.values = mode.into();
+            let generated = tables(&args).unwrap();
+            assert_eq!(generated, tables(&args).unwrap());
+            for column in 0..args.columns {
+                assert_eq!(
+                    generated[0].columns[column].samples,
+                    generated[1].columns[column].samples
+                );
+            }
+            let samples = |column: usize| {
+                generated[0].columns[column]
+                    .samples
+                    .iter()
+                    .collect::<BTreeSet<_>>()
+            };
+            assert_eq!(samples(0).len(), 128);
+            assert_eq!(samples(0).intersection(&samples(2)).count(), 0);
+            assert_eq!(
+                samples(0).intersection(&samples(1)).count(),
+                if mode == "ring" { 64 } else { 0 }
             );
         }
     }

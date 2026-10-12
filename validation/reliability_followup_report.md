@@ -135,3 +135,36 @@ are byte-identical to the original commit. All-feature test execution and normal
 all-feature Clippy remain externally blocked by an HTTP CONNECT 403 from the
 ONNX download host `cdn.pyke.io`; the static check does not establish execution
 of those features.
+
+## Subsequent scoring review (2026-10-12)
+
+Two further parameter-free changes were tested against commit
+`37375cec20555d429bee29f3b8f42cd5ddfb10d4` across all 597 existing labeled source
+fields (`eval`, `eval_realworld`, `eval_independent`, and both reliability
+tranches). These datasets are now exposed: these are regression experiments,
+**not new independent validation**. Neither change was retained.
+
+| Suggestion policy | Correct automatic matches | Incorrect automatic matches | Correct decisions |
+|---|---:|---:|---:|
+| Existing implementation | 323 | 36 | 451 |
+| Replace token overlap coefficient with Dice | 313 | 35 | 441 |
+| Remove the exact-name 0.98 score floor | 298 | 36 | 426 |
+
+The first experiment replaced `shared / min(left_count, right_count)` with
+`2 * shared / (left_count + right_count)` in `name_score`, retaining the maximum
+with Jaro-Winkler and every other rule. The second independently removed only
+the exact-name floor in `build_candidates`. The existing `evaluate_all` runner
+can evaluate each corpus after applying either change in a temporary checkout.
+Dice also broke valid ambiguities such as `description` against
+`short_description` and `long_description`, exposing arbitrary lexical gaps.
+
+The annual/monthly failure in
+`eval_independent/16_global_temperature_granularity.json` remains: both columns
+are named `Mean`, declared `Float`, and have zero sample overlap. The score is
+0.98 with the floor and 0.85 without it; both produce the wrong automatic match.
+The supplied fields do not describe their aggregation periods. Disjoint samples
+alone also occur in legitimate correspondences between different populations.
+Rejecting incompatible declared types unconditionally is not a safe substitute:
+it would reject representation changes such as `Timestamp` to `Text` with the
+same ISO values. No scoring change, label, threshold, or quality floor was
+modified. This review does **not** establish an improvement in semantic accuracy.

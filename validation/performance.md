@@ -4,6 +4,10 @@ These are performance measurements of unchanged matching behavior, not accuracy
 measurements. The development/independent accuracy corpora, frozen labels,
 suggestion quality gate, and Valentine reference fixtures are unchanged.
 
+The [difficult-input follow-up](adversarial_performance_report.md) measures exact
+Jaccard overlap and conflicting distribution clusters under explicit child
+process resource limits, including failed baseline allocations and noisy controls.
+
 ## Reproduce
 
 ```sh
