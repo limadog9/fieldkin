@@ -54,7 +54,9 @@ pub struct Schema {
 
 /// A target field's heuristic score and the evidence contributing to it.
 ///
-/// Scores are not probabilities or verified mapping confidence.
+/// Scores are not probabilities or verified mapping confidence. With missing
+/// samples, decisions also require enough unnormalized name/type evidence; use
+/// [`FieldResult::decision`] rather than thresholding these ranking scores.
 #[derive(Clone, Debug, PartialEq)]
 pub struct Candidate {
     /// The target field's name.
@@ -74,23 +76,24 @@ pub struct Candidate {
 /// A suggested correspondence for one source field, requiring caller review.
 #[derive(Clone, Debug, PartialEq)]
 pub enum Decision {
-    /// One candidate meets the threshold and is outside the ambiguity margin
-    /// of every other qualifying candidate.
+    /// The best candidate has sufficient evidence, meets the threshold and is
+    /// outside the ambiguity margin of every other qualifying candidate.
     Match {
         /// The selected target name.
         target: String,
         /// Its heuristic score.
         score: f64,
     },
-    /// Multiple candidates meet the threshold and are within the ambiguity
-    /// margin of the best score.
+    /// The best candidate has sufficient evidence and multiple candidates meet
+    /// the threshold and are within the ambiguity margin of the best score.
     Ambiguous {
         /// Qualifying target names in ranked order.
         targets: Vec<String>,
         /// The highest candidate score.
         best_score: f64,
     },
-    /// No target meets the threshold, after any abbreviation fallback.
+    /// The best candidate falls below the threshold or lacks sufficient evidence,
+    /// after any abbreviation fallback; also returned for an empty target schema.
     NoMatch {
         /// The highest score, or `None` when the target schema is empty.
         best_score: Option<f64>,

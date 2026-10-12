@@ -198,6 +198,69 @@ and, for ambiguity, exactly the labeled target set. An erroneous ambiguity is
 reported separately from an incorrect automatic match. Precision excludes true
 negatives. Per-case metrics and incorrect fields are printed by `evaluate_all`.
 
-Valentine reference parity and the development suggestion-API quality gate
-remain separate and unchanged. Independent runs report measurements, not a
-new minimum-quality gate; input integrity and metric tests protect reproducibility.
+## Independent regression gate
+
+CI runs both checks on every push and pull request:
+
+```sh
+cargo run --locked --example evaluate_all -- --check-independent
+cargo run --locked --example benchmark_accuracy -- --independent --check
+```
+
+`validation/independent_quality_baseline.json` freezes quality counts measured at
+`df5f8cc0ea295ebac756200f7839a1040a7f1123`, before the accompanying suggestion
+decision changes. It records actual performance, including errors, not a claim
+that current quality is sufficient. Suggestions had 90/105 correct decisions,
+35/41 correct automatic matches and 8/43 incorrect automatic selections.
+The five algorithm baselines retain their fixed configurations and selection
+rules above. Original labels, corpus fingerprints and development baseline are
+unchanged.
+
+The suggestion gate reuses the development gate: correct decisions cannot fall,
+and incorrect automatic or ambiguity decisions cannot increase, overall and
+within every dataset and expected decision category. The Valentine gate protects
+correct automatic matches, top-1 and recall@5 counts in each dataset, plus
+ambiguity alternative retrieval. Incorrect automatic selections cannot increase
+within any dataset's match, no-match or ambiguity labels. These per-dataset
+floors and ceilings also protect aggregate precision and recall. Coverage can
+decrease when false automatic selections disappear; an abstain-everywhere result
+fails the correct-match floors. No exact prediction or score equality is required.
+
+Both checks reject missing/changed corpus membership, inputs or labels and print
+affected dataset/field diagnostics and metric changes on failure. The existing
+`--independent` reports remain available without gating. Reference parity and
+the development suggestion quality gate remain separate checks.
+
+These cases have now been inspected during development. Their labels remain
+independently sourced, but future improvements measured here are regression
+evidence, not another blind generalization trial. New held-out evaluation still
+requires separately sourced labels frozen before predictions.
+
+### Missing-sample decision check (2026-10-12)
+
+The accompanying suggestion change keeps the ranking formula, but
+requires the best candidate's unnormalized name/type contribution to meet the
+existing minimum when sample evidence is unavailable. Before the change,
+`net_amount` versus `gross_amount` (both Decimal) abstained with disjoint samples
+(score 0.659), but selected a match after removing those samples (score 0.775).
+It now abstains in both cases. An additional abstention can trigger the existing
+abbreviation fallback and change the returned ranking. These are constructed
+regression examples, not independent annotations.
+
+| Suggestion metric | Before | After |
+| --- | ---: | ---: |
+| Development correct decisions | 215/256 | 215/256 |
+| Development automatic precision | 170/179 (94.97%) | 170/178 (95.51%) |
+| Development automatic recall | 170/204 (83.33%) | 170/204 (83.33%) |
+| Development incorrect ambiguities | 4 | 4 |
+| Independent correct decisions | 90/105 | 91/105 |
+| Independent automatic precision | 35/43 (81.40%) | 35/43 (81.40%) |
+| Independent automatic recall | 35/41 (85.37%) | 35/41 (85.37%) |
+| Independent incorrect ambiguities | 1 | 0 |
+
+The baseline above remains the pre-change measurement. Broader containment and
+score-normalization changes were rejected because they failed the unchanged
+development gate. Name containment, exact-name preference and coincidental
+value overlap can still produce incorrect matches; this change does not infer
+semantic equivalence. Both independent ambiguity labels still fail. This is a
+small decision-safety improvement, not evidence that unattended mapping is safe.

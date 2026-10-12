@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Require sufficient name/type evidence when suggestions lack samples, preventing
+  missing observations from promoting weak matches without changing the ranking formula.
+- Enforce frozen independent accuracy baselines for suggestions and all five
+  Valentine algorithms in CI, with dataset/category regression diagnostics.
+
 - Accept non-UTF-8 file paths in the CLI and return ordinary errors for invalid
   text arguments or failed output writes instead of panicking.
 - Reuse Jaccard's Levenshtein comparison setup and existing score cutoff while

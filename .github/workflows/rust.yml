@@ -23,10 +23,10 @@ jobs:
           python validation/test_benchmark_valentine.py
       - name: Check suggestion quality against frozen ground truth
         run: cargo run --locked --example evaluate_all -- --check
-      - name: Measure independent accuracy (separate from parity and quality gate)
+      - name: Check independent accuracy against frozen quality baselines
         run: |
-          cargo run --locked --example benchmark_accuracy -- --independent
-          cargo run --locked --example evaluate_all -- --independent
+          cargo run --locked --example benchmark_accuracy -- --independent --check
+          cargo run --locked --example evaluate_all -- --check-independent
       - run: cargo test --locked --all-targets --all-features
       - run: cargo test --locked --doc
       - run: cargo clippy --locked --all-targets --all-features -- -D warnings

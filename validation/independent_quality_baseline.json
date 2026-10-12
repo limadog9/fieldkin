@@ -1,0 +1,321 @@
+{
+  "reference_commit": "df5f8cc0ea295ebac756200f7839a1040a7f1123",
+  "suggestions": {
+    "overall": {
+      "overall": {"total": 105, "correct": 90, "incorrect_automatic_matches": 8, "incorrect_ambiguities": 1},
+      "by_expected_decision": {
+        "match": {"total": 41, "correct": 35, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+        "no_match": {"total": 62, "correct": 55, "incorrect_automatic_matches": 6, "incorrect_ambiguities": 1},
+        "ambiguous": {"total": 2, "correct": 0, "incorrect_automatic_matches": 2, "incorrect_ambiguities": 0}
+      }
+    },
+    "datasets": {
+      "eval_independent/01_penguins.json": {
+        "sha256": "18606a2eb6dbdb6518b2c49b5d0f97dda40465f671d991348d62cc89a14d4a31",
+        "metrics": {
+          "overall": {"total": 17, "correct": 17, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+          "by_expected_decision": {
+            "match": {"total": 7, "correct": 7, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "no_match": {"total": 10, "correct": 10, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "ambiguous": {"total": 0, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0}
+          }
+        }
+      },
+      "eval_independent/02_aircraft_flights.json": {
+        "sha256": "760b31c293d1a1ec4b522852021ee19a12dc989c436af9b1cc56064af9f07594",
+        "metrics": {
+          "overall": {"total": 9, "correct": 7, "incorrect_automatic_matches": 1, "incorrect_ambiguities": 1},
+          "by_expected_decision": {
+            "match": {"total": 1, "correct": 1, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "no_match": {"total": 8, "correct": 6, "incorrect_automatic_matches": 1, "incorrect_ambiguities": 1},
+            "ambiguous": {"total": 0, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0}
+          }
+        }
+      },
+      "eval_independent/03_carriers_flights.json": {
+        "sha256": "87ae8b015f3abdb0c074f670eed2f400986db495eb8510c5756d77fd4b3b0014",
+        "metrics": {
+          "overall": {"total": 2, "correct": 2, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+          "by_expected_decision": {
+            "match": {"total": 1, "correct": 1, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "no_match": {"total": 1, "correct": 1, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "ambiguous": {"total": 0, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0}
+          }
+        }
+      },
+      "eval_independent/04_weather_flights.json": {
+        "sha256": "c9e97e7d9bc1d784e65c11b3cbb46b9c645b1ddc1fb620d21fac65b5a489f2de",
+        "metrics": {
+          "overall": {"total": 15, "correct": 15, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+          "by_expected_decision": {
+            "match": {"total": 6, "correct": 6, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "no_match": {"total": 9, "correct": 9, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "ambiguous": {"total": 0, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0}
+          }
+        }
+      },
+      "eval_independent/05_aircraft_weather.json": {
+        "sha256": "e66c3e11c797608aabda0ebdcd52fc32e2ab20b4cb05338dce750fb58ec3d42b",
+        "metrics": {
+          "overall": {"total": 9, "correct": 7, "incorrect_automatic_matches": 2, "incorrect_ambiguities": 0},
+          "by_expected_decision": {
+            "match": {"total": 0, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "no_match": {"total": 9, "correct": 7, "incorrect_automatic_matches": 2, "incorrect_ambiguities": 0},
+            "ambiguous": {"total": 0, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0}
+          }
+        }
+      },
+      "eval_independent/06_longley.json": {
+        "sha256": "05a3dbf770eecdecdc975738be1afe1cdb53104a984237109c4f65c763404c45",
+        "metrics": {
+          "overall": {"total": 7, "correct": 6, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+          "by_expected_decision": {
+            "match": {"total": 7, "correct": 6, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "no_match": {"total": 0, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "ambiguous": {"total": 0, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0}
+          }
+        }
+      },
+      "eval_independent/07_nile.json": {
+        "sha256": "c1093f18cca0cd950b5452441248ec609092f5059c02da4b04f25d40a0d6a065",
+        "metrics": {
+          "overall": {"total": 2, "correct": 1, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+          "by_expected_decision": {
+            "match": {"total": 2, "correct": 1, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "no_match": {"total": 0, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "ambiguous": {"total": 0, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0}
+          }
+        }
+      },
+      "eval_independent/08_sunspots.json": {
+        "sha256": "500610f6b08ed50f1355fbea56d34b561b19d3b9b33728c22a73d450c7d1952d",
+        "metrics": {
+          "overall": {"total": 2, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+          "by_expected_decision": {
+            "match": {"total": 2, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "no_match": {"total": 0, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "ambiguous": {"total": 0, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0}
+          }
+        }
+      },
+      "eval_independent/09_engel.json": {
+        "sha256": "9352f81439779f9a930082e3166a9f0f8457a37a6c5187e3fba072bdb4c15020",
+        "metrics": {
+          "overall": {"total": 2, "correct": 2, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+          "by_expected_decision": {
+            "match": {"total": 2, "correct": 2, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "no_match": {"total": 0, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "ambiguous": {"total": 0, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0}
+          }
+        }
+      },
+      "eval_independent/10_grunfeld.json": {
+        "sha256": "3e821d2b9ca2f6c6f5b51495012201472f91cae65b2a7866b538657029284885",
+        "metrics": {
+          "overall": {"total": 5, "correct": 5, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+          "by_expected_decision": {
+            "match": {"total": 5, "correct": 5, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "no_match": {"total": 0, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "ambiguous": {"total": 0, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0}
+          }
+        }
+      },
+      "eval_independent/11_stackloss.json": {
+        "sha256": "a4601924096e733a37a32b936bb9229ac681619c3933e0d58053fd1702af95d4",
+        "metrics": {
+          "overall": {"total": 4, "correct": 4, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+          "by_expected_decision": {
+            "match": {"total": 4, "correct": 4, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "no_match": {"total": 0, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "ambiguous": {"total": 0, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0}
+          }
+        }
+      },
+      "eval_independent/12_road_casualties.json": {
+        "sha256": "0c6d585b475f46e3009f79ff6bd61a0364ea315b0812d84235bb345ed806778b",
+        "metrics": {
+          "overall": {"total": 8, "correct": 6, "incorrect_automatic_matches": 1, "incorrect_ambiguities": 0},
+          "by_expected_decision": {
+            "match": {"total": 1, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "no_match": {"total": 7, "correct": 6, "incorrect_automatic_matches": 1, "incorrect_ambiguities": 0},
+            "ambiguous": {"total": 0, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0}
+          }
+        }
+      },
+      "eval_independent/13_arrests_states.json": {
+        "sha256": "d329a0a740451255fa8fb25d73357cd29ec4ace8c2e8318f8cc0064d98fc2f31",
+        "metrics": {
+          "overall": {"total": 5, "correct": 4, "incorrect_automatic_matches": 1, "incorrect_ambiguities": 0},
+          "by_expected_decision": {
+            "match": {"total": 1, "correct": 1, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "no_match": {"total": 4, "correct": 3, "incorrect_automatic_matches": 1, "incorrect_ambiguities": 0},
+            "ambiguous": {"total": 0, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0}
+          }
+        }
+      },
+      "eval_independent/14_geyser_ocean.json": {
+        "sha256": "5a5dc037a492d0c4fd7bd234f701dd77db92c1663c742ccf1e7403d9b0d8d5d4",
+        "metrics": {
+          "overall": {"total": 2, "correct": 2, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+          "by_expected_decision": {
+            "match": {"total": 0, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "no_match": {"total": 2, "correct": 2, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "ambiguous": {"total": 0, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0}
+          }
+        }
+      },
+      "eval_independent/15_airmiles_economy.json": {
+        "sha256": "24061be7a45c2237750914ef94ed1378a63589f828958c58daa6e9a32e3c5e46",
+        "metrics": {
+          "overall": {"total": 2, "correct": 1, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+          "by_expected_decision": {
+            "match": {"total": 1, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "no_match": {"total": 1, "correct": 1, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "ambiguous": {"total": 0, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0}
+          }
+        }
+      },
+      "eval_independent/16_global_temperature_granularity.json": {
+        "sha256": "53d7823a8563e53c0ba3d58dd0a1ab89b8b73dbf1e48ffbc30eaac6167d799e8",
+        "metrics": {
+          "overall": {"total": 3, "correct": 2, "incorrect_automatic_matches": 1, "incorrect_ambiguities": 0},
+          "by_expected_decision": {
+            "match": {"total": 1, "correct": 1, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "no_match": {"total": 2, "correct": 1, "incorrect_automatic_matches": 1, "incorrect_ambiguities": 0},
+            "ambiguous": {"total": 0, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0}
+          }
+        }
+      },
+      "eval_independent/17_jpl_ceres_representations.json": {
+        "sha256": "7998140abf96c228372e306369eab5b9cb9fb1e3ade0bdad2edb892612845288",
+        "metrics": {
+          "overall": {"total": 11, "correct": 9, "incorrect_automatic_matches": 2, "incorrect_ambiguities": 0},
+          "by_expected_decision": {
+            "match": {"total": 0, "correct": 0, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "no_match": {"total": 9, "correct": 9, "incorrect_automatic_matches": 0, "incorrect_ambiguities": 0},
+            "ambiguous": {"total": 2, "correct": 0, "incorrect_automatic_matches": 2, "incorrect_ambiguities": 0}
+          }
+        }
+      }
+    }
+  },
+  "valentine": {
+    "automatic_cutoff": 0.5,
+    "datasets": {
+      "eval_independent/01_penguins.json": {"sha256": "18606a2eb6dbdb6518b2c49b5d0f97dda40465f671d991348d62cc89a14d4a31"},
+      "eval_independent/02_aircraft_flights.json": {"sha256": "760b31c293d1a1ec4b522852021ee19a12dc989c436af9b1cc56064af9f07594"},
+      "eval_independent/03_carriers_flights.json": {"sha256": "87ae8b015f3abdb0c074f670eed2f400986db495eb8510c5756d77fd4b3b0014"},
+      "eval_independent/04_weather_flights.json": {"sha256": "c9e97e7d9bc1d784e65c11b3cbb46b9c645b1ddc1fb620d21fac65b5a489f2de"},
+      "eval_independent/05_aircraft_weather.json": {"sha256": "e66c3e11c797608aabda0ebdcd52fc32e2ab20b4cb05338dce750fb58ec3d42b"},
+      "eval_independent/06_longley.json": {"sha256": "05a3dbf770eecdecdc975738be1afe1cdb53104a984237109c4f65c763404c45"},
+      "eval_independent/07_nile.json": {"sha256": "c1093f18cca0cd950b5452441248ec609092f5059c02da4b04f25d40a0d6a065"},
+      "eval_independent/08_sunspots.json": {"sha256": "500610f6b08ed50f1355fbea56d34b561b19d3b9b33728c22a73d450c7d1952d"},
+      "eval_independent/09_engel.json": {"sha256": "9352f81439779f9a930082e3166a9f0f8457a37a6c5187e3fba072bdb4c15020"},
+      "eval_independent/10_grunfeld.json": {"sha256": "3e821d2b9ca2f6c6f5b51495012201472f91cae65b2a7866b538657029284885"},
+      "eval_independent/11_stackloss.json": {"sha256": "a4601924096e733a37a32b936bb9229ac681619c3933e0d58053fd1702af95d4"},
+      "eval_independent/12_road_casualties.json": {"sha256": "0c6d585b475f46e3009f79ff6bd61a0364ea315b0812d84235bb345ed806778b"},
+      "eval_independent/13_arrests_states.json": {"sha256": "d329a0a740451255fa8fb25d73357cd29ec4ace8c2e8318f8cc0064d98fc2f31"},
+      "eval_independent/14_geyser_ocean.json": {"sha256": "5a5dc037a492d0c4fd7bd234f701dd77db92c1663c742ccf1e7403d9b0d8d5d4"},
+      "eval_independent/15_airmiles_economy.json": {"sha256": "24061be7a45c2237750914ef94ed1378a63589f828958c58daa6e9a32e3c5e46"},
+      "eval_independent/16_global_temperature_granularity.json": {"sha256": "53d7823a8563e53c0ba3d58dd0a1ab89b8b73dbf1e48ffbc30eaac6167d799e8"},
+      "eval_independent/17_jpl_ceres_representations.json": {"sha256": "7998140abf96c228372e306369eab5b9cb9fb1e3ade0bdad2edb892612845288"}
+    },
+    "algorithms": {
+      "COMA": {
+        "eval_independent/01_penguins.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 7, "matches": 7, "no_match_automatic": 0, "no_matches": 10, "recall_at5_correct": 7, "sources": 17, "top1_correct": 7, "true_positives": 7},
+        "eval_independent/02_aircraft_flights.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 2, "matches": 1, "no_match_automatic": 1, "no_matches": 8, "recall_at5_correct": 1, "sources": 9, "top1_correct": 1, "true_positives": 1},
+        "eval_independent/03_carriers_flights.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 1, "matches": 1, "no_match_automatic": 0, "no_matches": 1, "recall_at5_correct": 1, "sources": 2, "top1_correct": 1, "true_positives": 1},
+        "eval_independent/04_weather_flights.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 7, "matches": 6, "no_match_automatic": 1, "no_matches": 9, "recall_at5_correct": 6, "sources": 15, "top1_correct": 6, "true_positives": 6},
+        "eval_independent/05_aircraft_weather.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 2, "matches": 0, "no_match_automatic": 2, "no_matches": 9, "recall_at5_correct": 0, "sources": 9, "top1_correct": 0, "true_positives": 0},
+        "eval_independent/06_longley.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 5, "matches": 7, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 6, "sources": 7, "top1_correct": 6, "true_positives": 5},
+        "eval_independent/07_nile.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 2, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 0, "sources": 2, "top1_correct": 0, "true_positives": 0},
+        "eval_independent/08_sunspots.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 2, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 0, "sources": 2, "top1_correct": 0, "true_positives": 0},
+        "eval_independent/09_engel.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 2, "matches": 2, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 2, "sources": 2, "top1_correct": 2, "true_positives": 2},
+        "eval_independent/10_grunfeld.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 5, "matches": 5, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 5, "sources": 5, "top1_correct": 5, "true_positives": 5},
+        "eval_independent/11_stackloss.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 4, "matches": 4, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 4, "sources": 4, "top1_correct": 4, "true_positives": 4},
+        "eval_independent/12_road_casualties.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 1, "no_match_automatic": 0, "no_matches": 7, "recall_at5_correct": 0, "sources": 8, "top1_correct": 0, "true_positives": 0},
+        "eval_independent/13_arrests_states.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 3, "matches": 1, "no_match_automatic": 2, "no_matches": 4, "recall_at5_correct": 1, "sources": 5, "top1_correct": 1, "true_positives": 1},
+        "eval_independent/14_geyser_ocean.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 0, "no_match_automatic": 0, "no_matches": 2, "recall_at5_correct": 0, "sources": 2, "top1_correct": 0, "true_positives": 0},
+        "eval_independent/15_airmiles_economy.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 1, "no_match_automatic": 0, "no_matches": 1, "recall_at5_correct": 0, "sources": 2, "top1_correct": 0, "true_positives": 0},
+        "eval_independent/16_global_temperature_granularity.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 3, "matches": 1, "no_match_automatic": 2, "no_matches": 2, "recall_at5_correct": 1, "sources": 3, "top1_correct": 1, "true_positives": 1},
+        "eval_independent/17_jpl_ceres_representations.json": {"ambiguous": 2, "ambiguous_all_at5": 0, "ambiguous_any_at5": 2, "ambiguous_automatic": 2, "automatic": 2, "matches": 0, "no_match_automatic": 0, "no_matches": 9, "recall_at5_correct": 0, "sources": 11, "top1_correct": 0, "true_positives": 0}
+      },
+      "Cupid": {
+        "eval_independent/01_penguins.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 7, "matches": 7, "no_match_automatic": 0, "no_matches": 10, "recall_at5_correct": 5, "sources": 17, "top1_correct": 5, "true_positives": 5},
+        "eval_independent/02_aircraft_flights.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 7, "matches": 1, "no_match_automatic": 6, "no_matches": 8, "recall_at5_correct": 1, "sources": 9, "top1_correct": 1, "true_positives": 1},
+        "eval_independent/03_carriers_flights.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 2, "matches": 1, "no_match_automatic": 1, "no_matches": 1, "recall_at5_correct": 1, "sources": 2, "top1_correct": 1, "true_positives": 1},
+        "eval_independent/04_weather_flights.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 8, "matches": 6, "no_match_automatic": 2, "no_matches": 9, "recall_at5_correct": 5, "sources": 15, "top1_correct": 5, "true_positives": 5},
+        "eval_independent/05_aircraft_weather.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 1, "matches": 0, "no_match_automatic": 1, "no_matches": 9, "recall_at5_correct": 0, "sources": 9, "top1_correct": 0, "true_positives": 0},
+        "eval_independent/06_longley.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 1, "matches": 7, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 1, "sources": 7, "top1_correct": 1, "true_positives": 1},
+        "eval_independent/07_nile.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 1, "matches": 2, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 1, "sources": 2, "top1_correct": 1, "true_positives": 1},
+        "eval_independent/08_sunspots.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 1, "matches": 2, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 1, "sources": 2, "top1_correct": 1, "true_positives": 1},
+        "eval_independent/09_engel.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 2, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 0, "sources": 2, "top1_correct": 0, "true_positives": 0},
+        "eval_independent/10_grunfeld.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 1, "matches": 5, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 1, "sources": 5, "top1_correct": 1, "true_positives": 1},
+        "eval_independent/11_stackloss.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 1, "matches": 4, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 1, "sources": 4, "top1_correct": 1, "true_positives": 1},
+        "eval_independent/12_road_casualties.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 1, "matches": 1, "no_match_automatic": 1, "no_matches": 7, "recall_at5_correct": 0, "sources": 8, "top1_correct": 0, "true_positives": 0},
+        "eval_independent/13_arrests_states.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 2, "matches": 1, "no_match_automatic": 1, "no_matches": 4, "recall_at5_correct": 1, "sources": 5, "top1_correct": 1, "true_positives": 1},
+        "eval_independent/14_geyser_ocean.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 0, "no_match_automatic": 0, "no_matches": 2, "recall_at5_correct": 0, "sources": 2, "top1_correct": 0, "true_positives": 0},
+        "eval_independent/15_airmiles_economy.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 2, "matches": 1, "no_match_automatic": 1, "no_matches": 1, "recall_at5_correct": 1, "sources": 2, "top1_correct": 1, "true_positives": 1},
+        "eval_independent/16_global_temperature_granularity.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 2, "matches": 1, "no_match_automatic": 1, "no_matches": 2, "recall_at5_correct": 1, "sources": 3, "top1_correct": 1, "true_positives": 1},
+        "eval_independent/17_jpl_ceres_representations.json": {"ambiguous": 2, "ambiguous_all_at5": 0, "ambiguous_any_at5": 2, "ambiguous_automatic": 2, "automatic": 6, "matches": 0, "no_match_automatic": 4, "no_matches": 9, "recall_at5_correct": 0, "sources": 11, "top1_correct": 0, "true_positives": 0}
+      },
+      "DistributionBased": {
+        "eval_independent/01_penguins.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 5, "matches": 7, "no_match_automatic": 0, "no_matches": 10, "recall_at5_correct": 5, "sources": 17, "top1_correct": 5, "true_positives": 5},
+        "eval_independent/02_aircraft_flights.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 1, "no_match_automatic": 0, "no_matches": 8, "recall_at5_correct": 0, "sources": 9, "top1_correct": 0, "true_positives": 0},
+        "eval_independent/03_carriers_flights.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 1, "matches": 1, "no_match_automatic": 0, "no_matches": 1, "recall_at5_correct": 1, "sources": 2, "top1_correct": 1, "true_positives": 1},
+        "eval_independent/04_weather_flights.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 5, "matches": 6, "no_match_automatic": 1, "no_matches": 9, "recall_at5_correct": 4, "sources": 15, "top1_correct": 4, "true_positives": 4},
+        "eval_independent/05_aircraft_weather.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 0, "no_match_automatic": 0, "no_matches": 9, "recall_at5_correct": 0, "sources": 9, "top1_correct": 0, "true_positives": 0},
+        "eval_independent/06_longley.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 2, "matches": 7, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 2, "sources": 7, "top1_correct": 2, "true_positives": 2},
+        "eval_independent/07_nile.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 2, "matches": 2, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 2, "sources": 2, "top1_correct": 2, "true_positives": 2},
+        "eval_independent/08_sunspots.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 2, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 0, "sources": 2, "top1_correct": 0, "true_positives": 0},
+        "eval_independent/09_engel.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 2, "matches": 2, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 2, "sources": 2, "top1_correct": 2, "true_positives": 2},
+        "eval_independent/10_grunfeld.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 5, "matches": 5, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 5, "sources": 5, "top1_correct": 5, "true_positives": 5},
+        "eval_independent/11_stackloss.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 4, "matches": 4, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 4, "sources": 4, "top1_correct": 4, "true_positives": 4},
+        "eval_independent/12_road_casualties.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 1, "matches": 1, "no_match_automatic": 0, "no_matches": 7, "recall_at5_correct": 1, "sources": 8, "top1_correct": 1, "true_positives": 1},
+        "eval_independent/13_arrests_states.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 1, "matches": 1, "no_match_automatic": 0, "no_matches": 4, "recall_at5_correct": 1, "sources": 5, "top1_correct": 1, "true_positives": 1},
+        "eval_independent/14_geyser_ocean.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 0, "no_match_automatic": 0, "no_matches": 2, "recall_at5_correct": 0, "sources": 2, "top1_correct": 0, "true_positives": 0},
+        "eval_independent/15_airmiles_economy.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 1, "no_match_automatic": 0, "no_matches": 1, "recall_at5_correct": 0, "sources": 2, "top1_correct": 0, "true_positives": 0},
+        "eval_independent/16_global_temperature_granularity.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 1, "no_match_automatic": 0, "no_matches": 2, "recall_at5_correct": 0, "sources": 3, "top1_correct": 0, "true_positives": 0},
+        "eval_independent/17_jpl_ceres_representations.json": {"ambiguous": 2, "ambiguous_all_at5": 0, "ambiguous_any_at5": 2, "ambiguous_automatic": 2, "automatic": 2, "matches": 0, "no_match_automatic": 0, "no_matches": 9, "recall_at5_correct": 0, "sources": 11, "top1_correct": 0, "true_positives": 0}
+      },
+      "JaccardDistanceMatcher": {
+        "eval_independent/01_penguins.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 5, "matches": 7, "no_match_automatic": 0, "no_matches": 10, "recall_at5_correct": 5, "sources": 17, "top1_correct": 5, "true_positives": 5},
+        "eval_independent/02_aircraft_flights.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 1, "no_match_automatic": 0, "no_matches": 8, "recall_at5_correct": 0, "sources": 9, "top1_correct": 0, "true_positives": 0},
+        "eval_independent/03_carriers_flights.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 1, "matches": 1, "no_match_automatic": 0, "no_matches": 1, "recall_at5_correct": 1, "sources": 2, "top1_correct": 1, "true_positives": 1},
+        "eval_independent/04_weather_flights.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 4, "matches": 6, "no_match_automatic": 0, "no_matches": 9, "recall_at5_correct": 5, "sources": 15, "top1_correct": 5, "true_positives": 4},
+        "eval_independent/05_aircraft_weather.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 0, "no_match_automatic": 0, "no_matches": 9, "recall_at5_correct": 0, "sources": 9, "top1_correct": 0, "true_positives": 0},
+        "eval_independent/06_longley.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 5, "matches": 7, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 5, "sources": 7, "top1_correct": 5, "true_positives": 5},
+        "eval_independent/07_nile.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 2, "matches": 2, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 2, "sources": 2, "top1_correct": 2, "true_positives": 2},
+        "eval_independent/08_sunspots.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 2, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 2, "sources": 2, "top1_correct": 2, "true_positives": 0},
+        "eval_independent/09_engel.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 2, "matches": 2, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 2, "sources": 2, "top1_correct": 2, "true_positives": 2},
+        "eval_independent/10_grunfeld.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 5, "matches": 5, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 5, "sources": 5, "top1_correct": 5, "true_positives": 5},
+        "eval_independent/11_stackloss.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 4, "matches": 4, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 4, "sources": 4, "top1_correct": 4, "true_positives": 4},
+        "eval_independent/12_road_casualties.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 1, "matches": 1, "no_match_automatic": 0, "no_matches": 7, "recall_at5_correct": 1, "sources": 8, "top1_correct": 1, "true_positives": 1},
+        "eval_independent/13_arrests_states.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 1, "matches": 1, "no_match_automatic": 0, "no_matches": 4, "recall_at5_correct": 1, "sources": 5, "top1_correct": 1, "true_positives": 1},
+        "eval_independent/14_geyser_ocean.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 0, "no_match_automatic": 0, "no_matches": 2, "recall_at5_correct": 0, "sources": 2, "top1_correct": 0, "true_positives": 0},
+        "eval_independent/15_airmiles_economy.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 1, "no_match_automatic": 0, "no_matches": 1, "recall_at5_correct": 1, "sources": 2, "top1_correct": 1, "true_positives": 0},
+        "eval_independent/16_global_temperature_granularity.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 1, "matches": 1, "no_match_automatic": 0, "no_matches": 2, "recall_at5_correct": 1, "sources": 3, "top1_correct": 1, "true_positives": 1},
+        "eval_independent/17_jpl_ceres_representations.json": {"ambiguous": 2, "ambiguous_all_at5": 0, "ambiguous_any_at5": 2, "ambiguous_automatic": 2, "automatic": 2, "matches": 0, "no_match_automatic": 0, "no_matches": 9, "recall_at5_correct": 0, "sources": 11, "top1_correct": 0, "true_positives": 0}
+      },
+      "SimilarityFlooding": {
+        "eval_independent/01_penguins.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 7, "no_match_automatic": 0, "no_matches": 10, "recall_at5_correct": 7, "sources": 17, "top1_correct": 7, "true_positives": 0},
+        "eval_independent/02_aircraft_flights.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 1, "no_match_automatic": 0, "no_matches": 8, "recall_at5_correct": 1, "sources": 9, "top1_correct": 1, "true_positives": 0},
+        "eval_independent/03_carriers_flights.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 1, "no_match_automatic": 0, "no_matches": 1, "recall_at5_correct": 1, "sources": 2, "top1_correct": 1, "true_positives": 0},
+        "eval_independent/04_weather_flights.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 6, "no_match_automatic": 0, "no_matches": 9, "recall_at5_correct": 6, "sources": 15, "top1_correct": 6, "true_positives": 0},
+        "eval_independent/05_aircraft_weather.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 0, "no_match_automatic": 0, "no_matches": 9, "recall_at5_correct": 0, "sources": 9, "top1_correct": 0, "true_positives": 0},
+        "eval_independent/06_longley.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 7, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 7, "sources": 7, "top1_correct": 5, "true_positives": 0},
+        "eval_independent/07_nile.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 2, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 2, "sources": 2, "top1_correct": 1, "true_positives": 0},
+        "eval_independent/08_sunspots.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 2, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 2, "sources": 2, "top1_correct": 1, "true_positives": 0},
+        "eval_independent/09_engel.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 2, "matches": 2, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 2, "sources": 2, "top1_correct": 2, "true_positives": 2},
+        "eval_independent/10_grunfeld.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 5, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 5, "sources": 5, "top1_correct": 5, "true_positives": 0},
+        "eval_independent/11_stackloss.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 4, "no_match_automatic": 0, "no_matches": 0, "recall_at5_correct": 4, "sources": 4, "top1_correct": 2, "true_positives": 0},
+        "eval_independent/12_road_casualties.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 1, "no_match_automatic": 0, "no_matches": 7, "recall_at5_correct": 1, "sources": 8, "top1_correct": 0, "true_positives": 0},
+        "eval_independent/13_arrests_states.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 1, "no_match_automatic": 0, "no_matches": 4, "recall_at5_correct": 1, "sources": 5, "top1_correct": 1, "true_positives": 0},
+        "eval_independent/14_geyser_ocean.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 0, "no_match_automatic": 0, "no_matches": 2, "recall_at5_correct": 0, "sources": 2, "top1_correct": 0, "true_positives": 0},
+        "eval_independent/15_airmiles_economy.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 0, "matches": 1, "no_match_automatic": 0, "no_matches": 1, "recall_at5_correct": 0, "sources": 2, "top1_correct": 0, "true_positives": 0},
+        "eval_independent/16_global_temperature_granularity.json": {"ambiguous": 0, "ambiguous_all_at5": 0, "ambiguous_any_at5": 0, "ambiguous_automatic": 0, "automatic": 3, "matches": 1, "no_match_automatic": 2, "no_matches": 2, "recall_at5_correct": 1, "sources": 3, "top1_correct": 1, "true_positives": 1},
+        "eval_independent/17_jpl_ceres_representations.json": {"ambiguous": 2, "ambiguous_all_at5": 2, "ambiguous_any_at5": 2, "ambiguous_automatic": 0, "automatic": 0, "matches": 0, "no_match_automatic": 0, "no_matches": 9, "recall_at5_correct": 0, "sources": 11, "top1_correct": 0, "true_positives": 0}
+      }
+    }
+  }
+}

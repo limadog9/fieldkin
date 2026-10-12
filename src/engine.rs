@@ -12,6 +12,9 @@ const EXACT_NAME_SCORE_FLOOR: f64 = 0.98;
 pub struct Config {
     /// Minimum score for a match or ambiguous candidate; defaults to `0.72`.
     /// Must be finite. Scores are heuristic values in `0.0..=1.0`.
+    /// If the best candidate has unavailable samples, its unnormalized name/type
+    /// contribution must also meet this minimum; a high ranking score alone
+    /// does not qualify. Exact names with identical known types contribute `0.85`.
     pub min_score: f64,
     /// Maximum score gap from the best candidate to consider ambiguous.
     /// Must be finite and nonnegative; defaults to `0.05`.
@@ -196,7 +199,12 @@ fn decide(candidates: &[Candidate], config: Config) -> Decision {
         return Decision::NoMatch { best_score: None };
     };
 
-    if best.score < config.min_score {
+    // Ranking normalizes over available signals. Automatic selection also needs
+    // enough absolute evidence: absent samples must not boost a weak name/type
+    // combination past the minimum. Do not rerank candidates here.
+    let insufficient_evidence = best.sample_score.is_none()
+        && best.name_score * NAME_WEIGHT + best.type_score * TYPE_WEIGHT < config.min_score;
+    if best.score < config.min_score || insufficient_evidence {
         return Decision::NoMatch {
             best_score: Some(best.score),
         };

@@ -18,6 +18,7 @@ use labeled::{Answer, EvalCase, FrozenCorpus, fingerprint, load_cases, verify_fr
 
 const CORPORA: &[&str] = &["eval", "eval_realworld"];
 const BASELINE: &str = "validation/quality_baseline.json";
+const INDEPENDENT_BASELINE: &str = "validation/independent_quality_baseline.json";
 
 impl Answer {
     fn category(&self) -> Category {
@@ -246,6 +247,31 @@ fn evaluate(root: &Path, directories: &[&str]) -> Result<Evaluation, String> {
     evaluate_cases(load_cases(root, directories)?)
 }
 
+fn evaluate_independent(root: &Path) -> Result<Evaluation, String> {
+    let freeze = "validation/independent_corpus.json";
+    let raw =
+        fs::read_to_string(root.join(freeze)).map_err(|error| format!("{freeze}: {error}"))?;
+    let frozen: FrozenCorpus =
+        serde_json::from_str(&raw).map_err(|error| format!("{freeze}: {error}"))?;
+    let cases = load_cases(root, &["eval_independent"])?;
+    // Freeze and provenance checks must precede every prediction.
+    verify_freeze(&cases, &frozen)?;
+    independent::verify(root, &raw, &cases).map_err(|error| format!("{freeze}: {error}"))?;
+    evaluate_cases(cases)
+}
+
+fn independent_baseline(root: &Path) -> Result<Baseline, String> {
+    #[derive(Deserialize)]
+    struct IndependentBaseline {
+        suggestions: Baseline,
+    }
+    let path = root.join(INDEPENDENT_BASELINE);
+    let raw = fs::read_to_string(&path).map_err(|error| format!("{}: {error}", path.display()))?;
+    serde_json::from_str::<IndependentBaseline>(&raw)
+        .map(|baseline| baseline.suggestions)
+        .map_err(|error| format!("{}: {error}", path.display()))
+}
+
 fn evaluate_cases(cases: BTreeMap<String, EvalCase>) -> Result<Evaluation, String> {
     let mut evaluation = Evaluation::new();
     for (id, case) in cases {
@@ -304,19 +330,24 @@ fn summarize(evaluation: &Evaluation) -> Baseline {
     Baseline { overall, datasets }
 }
 
-fn compare_counts(scope: &str, current: &Counts, baseline: &Counts, errors: &mut Vec<String>) {
+fn compare_counts(
+    scope: &str,
+    current: &Counts,
+    baseline: &Counts,
+    errors: &mut Vec<String>,
+) -> bool {
     if current.total != baseline.total {
         errors.push(format!(
             "{scope}: case count changed: {} -> {}",
             baseline.total, current.total
         ));
     }
-    if baseline
+    let valid = baseline
         .correct
-        .saturating_add(baseline.incorrect_automatic_matches)
-        .saturating_add(baseline.incorrect_ambiguities)
-        > baseline.total
-    {
+        .checked_add(baseline.incorrect_automatic_matches)
+        .and_then(|count| count.checked_add(baseline.incorrect_ambiguities))
+        .is_some_and(|count| count <= baseline.total);
+    if !valid {
         errors.push(format!("{scope}: invalid baseline counts"));
     }
     if current.correct < baseline.correct {
@@ -342,22 +373,40 @@ fn compare_counts(scope: &str, current: &Counts, baseline: &Counts, errors: &mut
             errors.push(format!("{scope}: {metric} increased: {before} -> {after}"));
         }
     }
+    valid && current.total == baseline.total
 }
 
 fn compare_metrics(scope: &str, current: &Metrics, baseline: &Metrics, errors: &mut Vec<String>) {
     let previous_errors = errors.len();
     compare_counts(scope, &current.overall, &baseline.overall, errors);
+    let mut category_sum = Counts::default();
+    let mut valid_categories = true;
     for kind in Category::ALL {
         let category_scope = format!("{scope} / expected {}", kind.label());
         match baseline.by_expected_decision.get(&kind) {
-            Some(counts) => compare_counts(
-                &category_scope,
-                &current.by_expected_decision[&kind],
-                counts,
-                errors,
-            ),
-            None => errors.push(format!("{category_scope}: missing baseline category")),
+            Some(counts) => {
+                if compare_counts(
+                    &category_scope,
+                    &current.by_expected_decision[&kind],
+                    counts,
+                    errors,
+                ) {
+                    // Valid counts are bounded by the current corpus's label totals.
+                    category_sum.add(counts);
+                } else {
+                    valid_categories = false;
+                }
+            }
+            None => {
+                valid_categories = false;
+                errors.push(format!("{category_scope}: missing baseline category"));
+            }
         }
+    }
+    if valid_categories && category_sum != baseline.overall {
+        errors.push(format!(
+            "{scope}: baseline overall counts differ from category totals"
+        ));
     }
     // The correct-match floor and incorrect-match ceiling protect precision;
     // this is diagnostic only, with no comparison of rounded percentages.
@@ -398,6 +447,15 @@ fn check(evaluation: &Evaluation, baseline: &Baseline) -> Result<(), String> {
     for id in current.datasets.keys() {
         if !baseline.datasets.contains_key(id) {
             errors.push(format!("{id}: dataset missing from frozen baseline"));
+        }
+    }
+    if errors.is_empty() {
+        let mut dataset_sum = Metrics::default();
+        for dataset in baseline.datasets.values() {
+            dataset_sum.add(&dataset.metrics);
+        }
+        if dataset_sum != baseline.overall {
+            errors.push("baseline overall counts differ from dataset totals".into());
         }
     }
     if errors.is_empty() {
@@ -504,7 +562,7 @@ fn run() -> Result<(), String> {
     let command = args.next().unwrap_or_else(|| "--check".into());
     if args.next().is_some() {
         return Err(
-            "usage: evaluate_all [--check | --print-baseline | --independent | DIRECTORY]".into(),
+            "usage: evaluate_all [--check | --print-baseline | --independent | --check-independent | --print-independent-baseline | DIRECTORY]".into(),
         );
     }
     let root = Path::new(env!("CARGO_MANIFEST_DIR"));
@@ -530,22 +588,25 @@ fn run() -> Result<(), String> {
                 );
             }
         }
-        directory if directory == "--independent" || !directory.starts_with('-') => {
-            let evaluation = if directory == "--independent" {
-                let freeze = "validation/independent_corpus.json";
-                let raw = fs::read_to_string(root.join(freeze))
-                    .map_err(|error| format!("{freeze}: {error}"))?;
-                let frozen: FrozenCorpus =
-                    serde_json::from_str(&raw).map_err(|error| format!("{freeze}: {error}"))?;
-                let cases = load_cases(root, &["eval_independent"])?;
-                // Freeze and provenance checks must precede every prediction.
-                verify_freeze(&cases, &frozen)?;
-                independent::verify(root, &raw, &cases)
-                    .map_err(|error| format!("{freeze}: {error}"))?;
-                evaluate_cases(cases)?
+        directory
+            if matches!(
+                directory,
+                "--independent" | "--check-independent" | "--print-independent-baseline"
+            ) || !directory.starts_with('-') =>
+        {
+            let evaluation = if directory.starts_with("--") {
+                evaluate_independent(root)?
             } else {
                 evaluate(Path::new("."), &[directory])?
             };
+            if directory == "--print-independent-baseline" {
+                println!(
+                    "{}",
+                    serde_json::to_string_pretty(&summarize(&evaluation))
+                        .map_err(|error| error.to_string())?
+                );
+                return Ok(());
+            }
             print_summary(&summarize(&evaluation));
             for case in evaluation.values() {
                 for (answer, result) in &case.rows {
@@ -554,11 +615,18 @@ fn run() -> Result<(), String> {
                     }
                 }
             }
-            println!("Report only; use --check for the unchanged development quality baseline.");
+            if directory == "--check-independent" {
+                check(&evaluation, &independent_baseline(root)?)?;
+                println!("Independent suggestion quality regression check passed.");
+            } else {
+                println!(
+                    "Report only; use --check or --check-independent for the frozen quality baselines."
+                );
+            }
         }
         _ => {
             return Err(
-                "usage: evaluate_all [--check | --print-baseline | --independent | DIRECTORY]"
+                "usage: evaluate_all [--check | --print-baseline | --independent | --check-independent | --print-independent-baseline | DIRECTORY]"
                     .into(),
             );
         }
@@ -659,6 +727,28 @@ mod tests {
         let baseline =
             serde_json::from_str(&fs::read_to_string(root.join(BASELINE)).unwrap()).unwrap();
         check(&evaluate(root, CORPORA).unwrap(), &baseline).unwrap();
+    }
+
+    #[test]
+    fn independent_predictions_pass_frozen_baseline_and_empty_predictions_fail() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR"));
+        let baseline = independent_baseline(root).unwrap();
+        let mut evaluation = evaluate_independent(root).unwrap();
+        check(&evaluation, &baseline).unwrap();
+        for case in evaluation.values_mut() {
+            for (_, result) in &mut case.rows {
+                result.decision = no_match();
+            }
+        }
+        let error = check(&evaluation, &baseline).unwrap_err();
+        assert!(
+            error.contains("expected match: accuracy regressed"),
+            "{error}"
+        );
+        assert!(
+            error.contains("source \"Species\"; expected match -> species; actual no_match"),
+            "{error}"
+        );
     }
 
     #[test]
@@ -925,6 +1015,26 @@ mod tests {
                 .contains("missing baseline category")
         );
         assert!(serde_json::from_str::<Baseline>("{}").is_err());
+        let mut inconsistent = baseline.clone();
+        inconsistent.overall.overall.correct -= 1;
+        assert!(
+            check(&original, &inconsistent)
+                .unwrap_err()
+                .contains("baseline overall counts differ from category totals")
+        );
+        let mut inconsistent = baseline.clone();
+        inconsistent.overall.overall.correct -= 1;
+        inconsistent
+            .overall
+            .by_expected_decision
+            .get_mut(&Category::Match)
+            .unwrap()
+            .correct -= 1;
+        assert!(
+            check(&original, &inconsistent)
+                .unwrap_err()
+                .contains("baseline overall counts differ from dataset totals")
+        );
         let mut invalid = baseline;
         invalid.overall.overall.correct = usize::MAX;
         assert!(

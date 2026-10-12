@@ -189,6 +189,17 @@ contribute evidence; target reuse is allowed. Abbreviation fallback runs after
 the usual matching returns `NoMatch`. `match_schemas_with` instead returns
 `MatcherResults` from a chosen Valentine algorithm.
 
+When the best candidate has unavailable samples, its unnormalized name/type
+contribution (`0.60 * name_score + 0.25 * type_score`) must also meet `min_score`.
+This prevents missing samples from promoting weak evidence into a decision.
+The ranking formula is unchanged, so `NoMatch.best_score` can exceed `min_score`;
+consume `decision` rather than thresholding candidate scores. An additional
+`NoMatch` can trigger the existing abbreviation fallback and change the returned
+ranking.
+This conservative check can abstain instead of choosing a lower-ranked candidate.
+Exact names with identical known types and no samples qualify at the default
+minimum (0.72), but supply only 0.85 absolute evidence.
+
 Unknown types provide neutral compatibility, even when both are unknown.
 Name-token containment can still score highly for semantically different fields;
 use domain context to review these suggestions.
@@ -297,8 +308,8 @@ For separately sourced, held-out real-world inputs with archived provenance and
 per-field evidence, run:
 
 ```sh
-cargo run --locked --example benchmark_accuracy -- --independent
-cargo run --locked --example evaluate_all -- --independent
+cargo run --locked --example benchmark_accuracy -- --independent --check
+cargo run --locked --example evaluate_all -- --check-independent
 ```
 
 The [independent protocol](https://github.com/limadog9/fieldkin/blob/main/validation/independent_accuracy.md) documents the
@@ -308,8 +319,10 @@ separates the initial cases from later climate and epoch-representation controls
 per-dataset metrics or `--details` for incorrect/missed-match examples.
 `evaluate_all` reports the original suggestion API's decisions, automatic-match
 precision/recall, abstentions and failures on the same verified inputs. Both
-checks run in CI, without changing the development quality baseline or parity
-checks. The two ambiguity labels cover equivalent epoch representations;
+checks enforce the pre-change frozen independent baseline in CI, per dataset and
+decision category, while preserving the development quality baseline and parity
+checks. Omit the check flag (use `evaluate_all -- --independent`) for report-only
+runs. The two ambiguity labels cover equivalent epoch representations;
 they do not establish reliability on ambiguous business roles.
 
 For release performance/scaling measurements, run

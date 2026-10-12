@@ -240,6 +240,76 @@ fn missing_sample_values_do_not_promote_suggestions_to_matches() {
 }
 
 #[test]
+fn removing_samples_does_not_promote_a_weak_name_to_a_match() {
+    // Net and gross amounts describe different facts, even with the same type.
+    // Test observations, either missing side, and blank-only observations.
+    for (left, right) in [
+        (&["100", "200"][..], &["110", "220"][..]),
+        (&[][..], &["110", "220"][..]),
+        (&["100", "200"][..], &[][..]),
+        (&[][..], &[][..]),
+        (&[" ", "\t"][..], &[""][..]),
+    ] {
+        let source = Schema {
+            fields: vec![field("net_amount", DataType::Decimal, left)],
+        };
+        let target = Schema {
+            fields: vec![field("gross_amount", DataType::Decimal, right)],
+        };
+        for max_candidates in [0, 1, 5] {
+            let report = match_schemas(
+                &source,
+                &target,
+                Config {
+                    max_candidates,
+                    ..Config::default()
+                },
+            );
+            assert!(matches!(
+                report.fields[0].decision,
+                Decision::NoMatch { .. }
+            ));
+        }
+    }
+}
+
+#[test]
+fn missing_sample_guard_respects_threshold_and_preserves_rankings() {
+    let source = Schema {
+        fields: vec![field("net_amount", DataType::Decimal, &[])],
+    };
+    let target = Schema {
+        fields: vec![field("gross_amount", DataType::Decimal, &[])],
+    };
+    let report = match_schemas(&source, &target, Config::default());
+    let candidate = &report.fields[0].candidates[0];
+    let evidence = 0.60 * candidate.name_score + 0.25 * candidate.type_score;
+    assert_eq!(candidate.sample_score, None);
+    assert_eq!(candidate.score, evidence / (0.60 + 0.25));
+    assert!(candidate.score > Config::default().min_score);
+    assert_eq!(
+        report.fields[0].decision,
+        Decision::NoMatch {
+            best_score: Some(candidate.score),
+        }
+    );
+    // Callers can intentionally accept weaker evidence. Equality is inclusive.
+    let accepted = match_schemas(
+        &source,
+        &target,
+        Config {
+            min_score: evidence,
+            ..Config::default()
+        },
+    );
+    assert!(matches!(
+        accepted.fields[0].decision,
+        Decision::Match { .. }
+    ));
+    assert_eq!(accepted.fields[0].candidates, report.fields[0].candidates);
+}
+
+#[test]
 fn abbreviation_fallback_runs_only_after_normal_no_match() {
     let source = Schema {
         fields: vec![field("cid", DataType::Integer, &[])],

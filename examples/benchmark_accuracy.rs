@@ -11,7 +11,7 @@ use fieldkin::algorithms::{
     JaccardDistanceMatcher, Policy, SimilarityFlooding, StringDistanceFunction, StringMatcher,
 };
 use fieldkin::{ColumnPair, Matcher, Table, valentine_match};
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
 #[path = "support/independent.rs"]
 mod independent;
@@ -24,10 +24,12 @@ use labeled::{FrozenDataset, parse_case};
 const CUTOFF: f64 = 0.5;
 const CORPORA: &[&str] = &["eval", "eval_realworld"];
 const FREEZE: &str = "validation/quality_baseline.json";
+const INDEPENDENT_BASELINE: &str = "validation/independent_quality_baseline.json";
 
 type NamedMatcher = (&'static str, Box<dyn Matcher>);
 
-#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize)]
+#[derive(Clone, Debug, Default, Deserialize, PartialEq, Eq, Serialize)]
+#[serde(deny_unknown_fields)]
 struct Counts {
     sources: usize,
     matches: usize,
@@ -136,6 +138,163 @@ struct AlgorithmResult {
     overall: Counts,
     datasets: BTreeMap<String, DatasetResult>,
     match_conditions: BTreeMap<String, Counts>,
+}
+
+#[derive(Deserialize)]
+struct QualityBaseline {
+    automatic_cutoff: f64,
+    #[serde(flatten)]
+    corpus: FrozenCorpus,
+    algorithms: BTreeMap<String, BTreeMap<String, Counts>>,
+}
+
+fn read_baseline(root: &Path) -> Result<QualityBaseline, String> {
+    #[derive(Deserialize)]
+    struct IndependentBaseline {
+        valentine: QualityBaseline,
+    }
+    let raw = fs::read_to_string(root.join(INDEPENDENT_BASELINE))
+        .map_err(|error| format!("{INDEPENDENT_BASELINE}: {error}"))?;
+    serde_json::from_str::<IndependentBaseline>(&raw)
+        .map(|baseline| baseline.valentine)
+        .map_err(|error| format!("{INDEPENDENT_BASELINE}: {error}"))
+}
+
+fn check(
+    cases: &BTreeMap<String, EvalCase>,
+    results: &BTreeMap<String, AlgorithmResult>,
+    baseline: &QualityBaseline,
+) -> Result<(), String> {
+    verify_freeze(cases, &baseline.corpus)?;
+    if baseline.automatic_cutoff != CUTOFF {
+        return Err("independent quality baseline has a different automatic cutoff".into());
+    }
+    if results.is_empty() || !results.keys().eq(baseline.algorithms.keys()) {
+        return Err("independent quality baseline algorithm membership differs".into());
+    }
+    let mut errors = Vec::new();
+    for (name, algorithm) in results {
+        let datasets = &baseline.algorithms[name];
+        if !datasets.keys().eq(cases.keys()) || !algorithm.datasets.keys().eq(cases.keys()) {
+            errors.push(format!(
+                "{name}: independent quality dataset membership differs"
+            ));
+            continue;
+        }
+        for (id, result) in &algorithm.datasets {
+            let before = &datasets[id];
+            let after = &result.counts;
+            // All counts are bounded by the frozen label totals. Check consistency
+            // before subtracting to avoid accepting a malformed, artificially weak baseline.
+            let match_automatic = before
+                .automatic
+                .checked_sub(before.no_match_automatic)
+                .and_then(|count| count.checked_sub(before.ambiguous_automatic));
+            if (
+                before.sources,
+                before.matches,
+                before.no_matches,
+                before.ambiguous,
+            ) != (
+                after.sources,
+                after.matches,
+                after.no_matches,
+                after.ambiguous,
+            ) || !match_automatic
+                .is_some_and(|count| count >= before.true_positives && count <= before.matches)
+                || before.automatic > before.sources
+                || before.true_positives > before.top1_correct
+                || before.top1_correct > before.recall_at5_correct
+                || before.recall_at5_correct > before.matches
+                || before.no_match_automatic > before.no_matches
+                || before.ambiguous_automatic > before.ambiguous
+                || before.ambiguous_all_at5 > before.ambiguous_any_at5
+                || before.ambiguous_any_at5 > before.ambiguous
+            {
+                errors.push(format!("{name} / {id}: invalid baseline counts"));
+                continue;
+            }
+            let previous_errors = errors.len();
+            // Per-dataset floors/ceilings also protect the aggregate. Correct-match
+            // floors preserve recall; false-match ceilings preserve precision without
+            // preventing a desirable reduction in automatic coverage.
+            for (metric, old, new, higher_is_better) in [
+                (
+                    "match / correct automatic",
+                    before.true_positives,
+                    after.true_positives,
+                    true,
+                ),
+                (
+                    "match / top-1 correct",
+                    before.top1_correct,
+                    after.top1_correct,
+                    true,
+                ),
+                (
+                    "match / recall@5 correct",
+                    before.recall_at5_correct,
+                    after.recall_at5_correct,
+                    true,
+                ),
+                (
+                    "match / incorrect automatic",
+                    match_automatic.unwrap() - before.true_positives,
+                    after.automatic
+                        - after.no_match_automatic
+                        - after.ambiguous_automatic
+                        - after.true_positives,
+                    false,
+                ),
+                (
+                    "no_match / incorrect automatic",
+                    before.no_match_automatic,
+                    after.no_match_automatic,
+                    false,
+                ),
+                (
+                    "ambiguous / incorrect automatic",
+                    before.ambiguous_automatic,
+                    after.ambiguous_automatic,
+                    false,
+                ),
+                (
+                    "ambiguous / any alternative@5",
+                    before.ambiguous_any_at5,
+                    after.ambiguous_any_at5,
+                    true,
+                ),
+                (
+                    "ambiguous / all alternatives@5",
+                    before.ambiguous_all_at5,
+                    after.ambiguous_all_at5,
+                    true,
+                ),
+            ] {
+                if (higher_is_better && new < old) || (!higher_is_better && new > old) {
+                    errors.push(format!(
+                        "{name} / {id} / {metric} regressed: {old} -> {new}"
+                    ));
+                }
+            }
+            if errors.len() > previous_errors {
+                errors.extend(
+                    result
+                        .diagnostics
+                        .iter()
+                        .map(|diagnostic| format!("{name} / {id}: {diagnostic}")),
+                );
+            }
+        }
+    }
+    if errors.is_empty() {
+        Ok(())
+    } else {
+        Err(format!(
+            "Independent quality regression check failed:\n{}",
+            errors.join("\n")
+        ))
+    }
 }
 
 fn load_cases(root: &Path, independent: bool) -> Result<BTreeMap<String, EvalCase>, String> {
@@ -466,12 +625,16 @@ fn options(args: &[String]) -> Result<(bool, &'static str), String> {
             "--independent" if !independent => independent = true,
             "--details" if mode == "summary" => mode = "details",
             "--json" if mode == "summary" => mode = "json",
+            "--check" if mode == "summary" => mode = "check",
             _ => {
                 return Err(
-                    "usage: benchmark_accuracy [--independent] [--details | --json]".into(),
+                    "usage: benchmark_accuracy [--independent] [--details | --json | --check] (--check requires --independent)".into(),
                 );
             }
         }
+    }
+    if mode == "check" && !independent {
+        return Err("--check requires --independent; the development suggestion gate is evaluate_all --check".into());
     }
     Ok((independent, mode))
 }
@@ -508,6 +671,10 @@ fn run() -> Result<(), String> {
     } else {
         print_summary(&results, mode == "details", independent);
     }
+    if mode == "check" {
+        check(&cases, &results, &read_baseline(root)?)?;
+        println!("Independent Valentine quality regression check passed.");
+    }
     Ok(())
 }
 
@@ -543,10 +710,189 @@ mod tests {
         for args in [
             vec!["--independent", "--independent"],
             vec!["--details", "--json"],
+            vec!["--check"],
+            vec!["--independent", "--json", "--check"],
             vec!["--unknown"],
         ] {
             assert!(options(&args.into_iter().map(String::from).collect::<Vec<_>>()).is_err());
         }
+        assert_eq!(
+            options(&["--independent".into(), "--check".into()]).unwrap(),
+            (true, "check")
+        );
+    }
+
+    #[test]
+    fn independent_quality_gate_rejects_empty_predictions_and_malformed_baselines() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR"));
+        let cases = load_cases(root, true).unwrap();
+        let mut results = evaluate(&cases).unwrap();
+        let baseline = read_baseline(root).unwrap();
+        check(&cases, &results, &baseline).unwrap();
+        for mutation in 0..6 {
+            let mut malformed = read_baseline(root).unwrap();
+            match mutation {
+                0 => {
+                    malformed.algorithms.remove("COMA");
+                }
+                1 => {
+                    malformed.algorithms.get_mut("COMA").unwrap().pop_first();
+                }
+                2 => {
+                    malformed
+                        .algorithms
+                        .get_mut("COMA")
+                        .unwrap()
+                        .values_mut()
+                        .next()
+                        .unwrap()
+                        .automatic = usize::MAX;
+                }
+                3 => {
+                    malformed.automatic_cutoff = 0.6;
+                }
+                4 => {
+                    malformed.corpus.datasets.pop_first();
+                }
+                _ => {
+                    malformed
+                        .corpus
+                        .datasets
+                        .values_mut()
+                        .next()
+                        .unwrap()
+                        .sha256
+                        .clear();
+                }
+            }
+            assert!(
+                check(&cases, &results, &malformed).is_err(),
+                "mutation {mutation}"
+            );
+        }
+        assert!(serde_json::from_str::<Counts>("{}").is_err());
+        assert!(check(&cases, &BTreeMap::new(), &baseline).is_err());
+        let id = "eval_independent/01_penguins.json";
+        results
+            .get_mut("COMA")
+            .unwrap()
+            .datasets
+            .insert(id.into(), assess(&cases[id], []).unwrap());
+        let error = check(&cases, &results, &baseline).unwrap_err();
+        assert!(
+            error.contains(
+                "COMA / eval_independent/01_penguins.json / match / correct automatic regressed"
+            ),
+            "{error}"
+        );
+        assert!(
+            error.contains("source \"Species\"; expected match -> species; automatic abstain"),
+            "{error}"
+        );
+    }
+
+    fn fixture_baseline(
+        cases: &BTreeMap<String, EvalCase>,
+        results: &BTreeMap<String, AlgorithmResult>,
+    ) -> QualityBaseline {
+        QualityBaseline {
+            automatic_cutoff: CUTOFF,
+            corpus: FrozenCorpus {
+                datasets: cases
+                    .iter()
+                    .map(|(id, case)| {
+                        (
+                            id.clone(),
+                            FrozenDataset {
+                                sha256: fingerprint(case).unwrap(),
+                            },
+                        )
+                    })
+                    .collect(),
+            },
+            algorithms: results
+                .iter()
+                .map(|(name, algorithm)| {
+                    (
+                        name.clone(),
+                        algorithm
+                            .datasets
+                            .iter()
+                            .map(|(id, result)| (id.clone(), result.counts.clone()))
+                            .collect(),
+                    )
+                })
+                .collect(),
+        }
+    }
+
+    #[test]
+    fn independent_gate_detects_dataset_and_category_regressions_hidden_by_totals() {
+        let cases = BTreeMap::from([("alpha".into(), case()), ("beta".into(), case())]);
+        let correct = predictions(&[("correct", "x", 0.9)]);
+        let mut results = BTreeMap::from([(
+            "COMA".into(),
+            AlgorithmResult {
+                datasets: BTreeMap::from([
+                    ("alpha".into(), assessed(&correct)),
+                    ("beta".into(), assessed(&[])),
+                ]),
+                ..Default::default()
+            },
+        )]);
+        let baseline = fixture_baseline(&cases, &results);
+        check(&cases, &results, &baseline).unwrap();
+        results
+            .get_mut("COMA")
+            .unwrap()
+            .datasets
+            .insert("alpha".into(), assessed(&[]));
+        results
+            .get_mut("COMA")
+            .unwrap()
+            .datasets
+            .insert("beta".into(), assessed(&correct));
+        let mut before = Counts::default();
+        let mut after = Counts::default();
+        for counts in baseline.algorithms["COMA"].values() {
+            before.add(counts);
+        }
+        for result in results["COMA"].datasets.values() {
+            after.add(&result.counts);
+        }
+        assert_eq!(before, after);
+        assert!(
+            check(&cases, &results, &baseline)
+                .unwrap_err()
+                .contains("COMA / alpha / match / correct automatic regressed")
+        );
+
+        results.get_mut("COMA").unwrap().datasets.insert(
+            "alpha".into(),
+            assessed(&predictions(&[("no_match", "x", 0.9)])),
+        );
+        let baseline = fixture_baseline(&cases, &results);
+        results.get_mut("COMA").unwrap().datasets.insert(
+            "alpha".into(),
+            assessed(&predictions(&[("ambiguous", "x", 0.9)])),
+        );
+        let after = &results["COMA"].datasets["alpha"].counts;
+        let before = &baseline.algorithms["COMA"]["alpha"];
+        assert_eq!(before.scores().precision, after.scores().precision);
+        assert_eq!(before.scores().recall, after.scores().recall);
+        assert_eq!(before.scores().coverage, after.scores().coverage);
+        assert!(
+            check(&cases, &results, &baseline)
+                .unwrap_err()
+                .contains("ambiguous / incorrect automatic regressed: 0 -> 1")
+        );
+        // Removing a false positive is an improvement even though coverage falls.
+        results
+            .get_mut("COMA")
+            .unwrap()
+            .datasets
+            .insert("alpha".into(), assessed(&[]));
+        check(&cases, &results, &baseline).unwrap();
     }
 
     #[test]
