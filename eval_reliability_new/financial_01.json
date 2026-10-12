@@ -1,0 +1,412 @@
+{
+  "name": "treasury_contract_subaward_download_to_broker_schema_only",
+  "source": {
+    "fields": [
+      {
+        "name": "prime_award_amount",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "prime_award_project_title",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "prime_awardee_business_types",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "subaward_action_date",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "subaward_amount",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "subaward_description",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "subaward_number",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "subaward_primary_place_of_performance_city_name",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "subaward_primary_place_of_performance_country_code",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "subaward_primary_place_of_performance_state_code",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "subaward_primary_place_of_performance_address_zip_code",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "subaward_fsrs_report_id",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "subaward_fsrs_report_last_modified_date",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "subaward_fsrs_report_month",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "subaward_fsrs_report_year",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "subaward_type",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "subawardee_business_types",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "subawardee_dba_name",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "subawardee_highly_compensated_officer_1_amount",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "subawardee_highly_compensated_officer_1_name",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "subawardee_address_line_1",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "subawardee_city_name",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "subawardee_congressional_district",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "subawardee_country_code",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "subawardee_state_code",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "subawardee_zip_code",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "subawardee_name",
+        "data_type": "unknown",
+        "samples": []
+      }
+    ]
+  },
+  "target": {
+    "fields": [
+      {
+        "name": "awardee_or_recipient_legal",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "legal_entity_address_line1",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "legal_entity_city_name",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "legal_entity_state_code",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "legal_entity_zip",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "program_title",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "sub_action_date",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "subaward_amount",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "subaward_description",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "place_of_perform_street",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "sub_place_of_perform_city_name",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "sub_place_of_perform_country_co",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "sub_place_of_perform_state_code",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "sub_place_of_performance_zip",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "internal_id",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "date_submitted",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "subaward_report_month",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "subaward_report_year",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "subaward_type",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "sub_business_types",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "sub_dba_name",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "sub_high_comp_officer1_full_na",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "sub_legal_entity_city_name",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "sub_legal_entity_congressional",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "sub_legal_entity_country_code",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "sub_legal_entity_state_code",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "sub_awardee_or_recipient_legal",
+        "data_type": "text",
+        "samples": []
+      }
+    ]
+  },
+  "answers": [
+    {
+      "kind": "no_match",
+      "source": "prime_award_amount"
+    },
+    {
+      "kind": "match",
+      "source": "prime_award_project_title",
+      "target": "program_title"
+    },
+    {
+      "kind": "no_match",
+      "source": "prime_awardee_business_types"
+    },
+    {
+      "kind": "match",
+      "source": "subaward_action_date",
+      "target": "sub_action_date"
+    },
+    {
+      "kind": "match",
+      "source": "subaward_amount",
+      "target": "subaward_amount"
+    },
+    {
+      "kind": "match",
+      "source": "subaward_description",
+      "target": "subaward_description"
+    },
+    {
+      "kind": "no_match",
+      "source": "subaward_number"
+    },
+    {
+      "kind": "match",
+      "source": "subaward_primary_place_of_performance_city_name",
+      "target": "sub_place_of_perform_city_name"
+    },
+    {
+      "kind": "match",
+      "source": "subaward_primary_place_of_performance_country_code",
+      "target": "sub_place_of_perform_country_co"
+    },
+    {
+      "kind": "match",
+      "source": "subaward_primary_place_of_performance_state_code",
+      "target": "sub_place_of_perform_state_code"
+    },
+    {
+      "kind": "match",
+      "source": "subaward_primary_place_of_performance_address_zip_code",
+      "target": "sub_place_of_performance_zip"
+    },
+    {
+      "kind": "match",
+      "source": "subaward_fsrs_report_id",
+      "target": "internal_id"
+    },
+    {
+      "kind": "match",
+      "source": "subaward_fsrs_report_last_modified_date",
+      "target": "date_submitted"
+    },
+    {
+      "kind": "match",
+      "source": "subaward_fsrs_report_month",
+      "target": "subaward_report_month"
+    },
+    {
+      "kind": "match",
+      "source": "subaward_fsrs_report_year",
+      "target": "subaward_report_year"
+    },
+    {
+      "kind": "match",
+      "source": "subaward_type",
+      "target": "subaward_type"
+    },
+    {
+      "kind": "match",
+      "source": "subawardee_business_types",
+      "target": "sub_business_types"
+    },
+    {
+      "kind": "match",
+      "source": "subawardee_dba_name",
+      "target": "sub_dba_name"
+    },
+    {
+      "kind": "no_match",
+      "source": "subawardee_highly_compensated_officer_1_amount"
+    },
+    {
+      "kind": "match",
+      "source": "subawardee_highly_compensated_officer_1_name",
+      "target": "sub_high_comp_officer1_full_na"
+    },
+    {
+      "kind": "no_match",
+      "source": "subawardee_address_line_1"
+    },
+    {
+      "kind": "match",
+      "source": "subawardee_city_name",
+      "target": "sub_legal_entity_city_name"
+    },
+    {
+      "kind": "match",
+      "source": "subawardee_congressional_district",
+      "target": "sub_legal_entity_congressional"
+    },
+    {
+      "kind": "match",
+      "source": "subawardee_country_code",
+      "target": "sub_legal_entity_country_code"
+    },
+    {
+      "kind": "match",
+      "source": "subawardee_state_code",
+      "target": "sub_legal_entity_state_code"
+    },
+    {
+      "kind": "no_match",
+      "source": "subawardee_zip_code"
+    },
+    {
+      "kind": "match",
+      "source": "subawardee_name",
+      "target": "sub_awardee_or_recipient_legal"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+# Second-tranche operational selection policy
+
+Recorded at 2026-10-12T19:31:48.182020+00:00 before second-tranche source selection and any new candidate/prediction access.
+
+Select at most one operational schema migration, distinct from all first-tranche cases. Prefer a different record schema in already pinned official publisher archives to keep provenance auditable. Source field set must contain all scalar leaves of the chosen record/endpoint (about 15–35 fields), not a cherry-picked positive subset. Preserve exact publisher keys and mechanical JSON paths, normalized declared types, and only publisher examples. Freeze explicit partial target projections before predictions; no-match labels require documented role/state/entity distinctions, not just naming. A renamed positive must have equivalent publisher definitions. Do not manufacture ambiguity or values. Archive the specification, schema, examples, licenses and per-field evidence with immutable revision URLs and checksums. Use a minimal offline stdlib extractor. Do not inspect matcher/candidate runtime code or any second-tranche predictions. Keep names and labels undisclosed to implementation/root until authorization.
+
+The source author previously saw the first-tranche results while auditing reports; this is disclosed and cannot be undone. No second-tranche candidate policy or predictions have been accessed. Selection must rely on publisher definitions and complete source-record coverage, not prior failure fields.

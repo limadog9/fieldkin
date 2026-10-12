@@ -1,0 +1,63 @@
+{
+  "events": [
+    {
+      "eventRouting": {
+        "originatingParties": [
+          {
+            "partyCode": "EXCO",
+            "codeListProvider": "SMDG",
+            "codeListName": "LCL",
+            "partyFunction": "CA"
+          }
+        ]
+      },
+      "eventID": "evt-trans-001-2026-01-20T12:30:00Z",
+      "eventDateTime": "2026-01-20T12:30:00Z",
+      "eventUpdatedDateTime": "2026-01-20T12:35:00Z",
+      "eventLocation": {
+        "locationName": "Sample Port Terminal",
+        "UNLocationCode": "DEHAM",
+        "facilityType": "PORT_TERMINAL"
+      },
+      "eventClassification": {
+        "eventType": "TRANSPORT",
+        "eventClassifier": "ACTUAL",
+        "transportEventType": "ARRIVED"
+      },
+      "shipmentDetails": {
+        "documentReference": {
+          "type": "BOOKING",
+          "reference": "CARRIER_BOOKING_REFERENCE_PLACEHOLDER"
+        },
+        "additionalDocumentReferences": [
+          {
+            "type": "TRANSPORT_DOCUMENT",
+            "reference": "TRANSPORT_DOCUMENT_REFERENCE_PLACEHOLDER"
+          }
+        ]
+      },
+      "transportDetails": {
+        "transportCall": {
+          "transportCallReference": "tc-12345-abc",
+          "transportCallSequenceNumber": 3,
+          "modeOfTransport": "VESSEL",
+          "serviceCodeOrReference": {
+            "carrierServiceCode": "SVC001"
+          },
+          "exportVoyageNumberOrReference": {
+            "carrierVoyageNumber": "V001E"
+          },
+          "importVoyageNumberOrReference": {
+            "carrierVoyageNumber": "V001N"
+          },
+          "vesselTransport": {
+            "vesselIMONumber": "1234567",
+            "vesselName": "Example Vessel Alpha",
+            "vesselFlag": "DE",
+            "vesselCallSign": "ABCD"
+          }
+        }
+      }
+    }
+  ]
+}

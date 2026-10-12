@@ -1,0 +1,933 @@
+{
+  "measured_utc": "2026-10-12T19:21:19.453446+00:00",
+  "baseline_git_revision": "073127592d7e9099c5aa8c3f7f9f2ffc3131a431",
+  "corpus_manifest_sha256": "ebc103f5e97b840517ada20f55aebf5aa5eddbfd8118e94923b99281ef3049ee",
+  "implementation_freeze_sha256": "68ad297f1fbec6bb5abd23abb985b87170fb8ad155108efc3c190a22338eea09",
+  "raw_report_sha256": {
+    "before": "75886303136f074c57b28355598f3eb9b3e85be1740ab066e07a277aef309cc1",
+    "after": "99c93ad44edb09d0468f9a34edcb3f955e77b9dd4bbcae467097769224c4e614"
+  },
+  "strata_rule": "Exact-name means source name equals gold target name byte-for-byte among unique-match labels; renamed includes all remaining unique-match labels.",
+  "before": {
+    "overall": {
+      "total": 169,
+      "correct": 101,
+      "true_automatic_matches": 85,
+      "automatic_matches": 104,
+      "incorrect_automatic_matches": 19,
+      "match_labels": 136,
+      "missed_matches": 51,
+      "no_match_labels": 33,
+      "correct_no_matches": 16,
+      "no_match_automatic_selections": 9,
+      "ambiguous_labels": 0,
+      "abstentions": 65,
+      "no_match_predictions": 34,
+      "ambiguous_predictions": 31,
+      "incorrect_ambiguities": 31,
+      "exact_name_recall": {
+        "correct": 41,
+        "total": 46
+      },
+      "renamed_recall": {
+        "correct": 44,
+        "total": 90
+      }
+    },
+    "domains": {
+      "financial": {
+        "total": 73,
+        "correct": 41,
+        "true_automatic_matches": 34,
+        "automatic_matches": 44,
+        "incorrect_automatic_matches": 10,
+        "match_labels": 58,
+        "missed_matches": 24,
+        "no_match_labels": 15,
+        "correct_no_matches": 7,
+        "no_match_automatic_selections": 7,
+        "ambiguous_labels": 0,
+        "abstentions": 29,
+        "no_match_predictions": 19,
+        "ambiguous_predictions": 10,
+        "incorrect_ambiguities": 10,
+        "exact_name_recall": {
+          "correct": 17,
+          "total": 19
+        },
+        "renamed_recall": {
+          "correct": 17,
+          "total": 39
+        }
+      },
+      "healthcare": {
+        "total": 30,
+        "correct": 24,
+        "true_automatic_matches": 18,
+        "automatic_matches": 21,
+        "incorrect_automatic_matches": 3,
+        "match_labels": 21,
+        "missed_matches": 3,
+        "no_match_labels": 9,
+        "correct_no_matches": 6,
+        "no_match_automatic_selections": 2,
+        "ambiguous_labels": 0,
+        "abstentions": 9,
+        "no_match_predictions": 6,
+        "ambiguous_predictions": 3,
+        "incorrect_ambiguities": 3,
+        "exact_name_recall": {
+          "correct": 9,
+          "total": 9
+        },
+        "renamed_recall": {
+          "correct": 9,
+          "total": 12
+        }
+      },
+      "operations": {
+        "total": 66,
+        "correct": 36,
+        "true_automatic_matches": 33,
+        "automatic_matches": 39,
+        "incorrect_automatic_matches": 6,
+        "match_labels": 57,
+        "missed_matches": 24,
+        "no_match_labels": 9,
+        "correct_no_matches": 3,
+        "no_match_automatic_selections": 0,
+        "ambiguous_labels": 0,
+        "abstentions": 27,
+        "no_match_predictions": 9,
+        "ambiguous_predictions": 18,
+        "incorrect_ambiguities": 18,
+        "exact_name_recall": {
+          "correct": 15,
+          "total": 18
+        },
+        "renamed_recall": {
+          "correct": 18,
+          "total": 39
+        }
+      }
+    },
+    "datasets": {
+      "eval_reliability/financial_01.json": {
+        "total": 21,
+        "correct": 15,
+        "true_automatic_matches": 13,
+        "automatic_matches": 15,
+        "incorrect_automatic_matches": 2,
+        "match_labels": 16,
+        "missed_matches": 3,
+        "no_match_labels": 5,
+        "correct_no_matches": 2,
+        "no_match_automatic_selections": 2,
+        "ambiguous_labels": 0,
+        "abstentions": 6,
+        "no_match_predictions": 2,
+        "ambiguous_predictions": 4,
+        "incorrect_ambiguities": 4,
+        "exact_name_recall": {
+          "correct": 8,
+          "total": 9
+        },
+        "renamed_recall": {
+          "correct": 5,
+          "total": 7
+        }
+      },
+      "eval_reliability/financial_02.json": {
+        "total": 27,
+        "correct": 15,
+        "true_automatic_matches": 12,
+        "automatic_matches": 15,
+        "incorrect_automatic_matches": 3,
+        "match_labels": 22,
+        "missed_matches": 10,
+        "no_match_labels": 5,
+        "correct_no_matches": 3,
+        "no_match_automatic_selections": 2,
+        "ambiguous_labels": 0,
+        "abstentions": 12,
+        "no_match_predictions": 10,
+        "ambiguous_predictions": 2,
+        "incorrect_ambiguities": 2,
+        "exact_name_recall": {
+          "correct": 6,
+          "total": 6
+        },
+        "renamed_recall": {
+          "correct": 6,
+          "total": 16
+        }
+      },
+      "eval_reliability/financial_03.json": {
+        "total": 25,
+        "correct": 11,
+        "true_automatic_matches": 9,
+        "automatic_matches": 14,
+        "incorrect_automatic_matches": 5,
+        "match_labels": 20,
+        "missed_matches": 11,
+        "no_match_labels": 5,
+        "correct_no_matches": 2,
+        "no_match_automatic_selections": 3,
+        "ambiguous_labels": 0,
+        "abstentions": 11,
+        "no_match_predictions": 7,
+        "ambiguous_predictions": 4,
+        "incorrect_ambiguities": 4,
+        "exact_name_recall": {
+          "correct": 3,
+          "total": 4
+        },
+        "renamed_recall": {
+          "correct": 6,
+          "total": 16
+        }
+      },
+      "eval_reliability/healthcare_01.json": {
+        "total": 15,
+        "correct": 13,
+        "true_automatic_matches": 9,
+        "automatic_matches": 11,
+        "incorrect_automatic_matches": 2,
+        "match_labels": 10,
+        "missed_matches": 1,
+        "no_match_labels": 5,
+        "correct_no_matches": 4,
+        "no_match_automatic_selections": 1,
+        "ambiguous_labels": 0,
+        "abstentions": 4,
+        "no_match_predictions": 4,
+        "ambiguous_predictions": 0,
+        "incorrect_ambiguities": 0,
+        "exact_name_recall": {
+          "correct": 5,
+          "total": 5
+        },
+        "renamed_recall": {
+          "correct": 4,
+          "total": 5
+        }
+      },
+      "eval_reliability/healthcare_02.json": {
+        "total": 15,
+        "correct": 11,
+        "true_automatic_matches": 9,
+        "automatic_matches": 10,
+        "incorrect_automatic_matches": 1,
+        "match_labels": 11,
+        "missed_matches": 2,
+        "no_match_labels": 4,
+        "correct_no_matches": 2,
+        "no_match_automatic_selections": 1,
+        "ambiguous_labels": 0,
+        "abstentions": 5,
+        "no_match_predictions": 2,
+        "ambiguous_predictions": 3,
+        "incorrect_ambiguities": 3,
+        "exact_name_recall": {
+          "correct": 4,
+          "total": 4
+        },
+        "renamed_recall": {
+          "correct": 5,
+          "total": 7
+        }
+      },
+      "eval_reliability/operations_01.json": {
+        "total": 15,
+        "correct": 8,
+        "true_automatic_matches": 8,
+        "automatic_matches": 10,
+        "incorrect_automatic_matches": 2,
+        "match_labels": 12,
+        "missed_matches": 4,
+        "no_match_labels": 3,
+        "correct_no_matches": 0,
+        "no_match_automatic_selections": 0,
+        "ambiguous_labels": 0,
+        "abstentions": 5,
+        "no_match_predictions": 1,
+        "ambiguous_predictions": 4,
+        "incorrect_ambiguities": 4,
+        "exact_name_recall": {
+          "correct": 7,
+          "total": 10
+        },
+        "renamed_recall": {
+          "correct": 1,
+          "total": 2
+        }
+      },
+      "eval_reliability/operations_02.json": {
+        "total": 17,
+        "correct": 10,
+        "true_automatic_matches": 8,
+        "automatic_matches": 10,
+        "incorrect_automatic_matches": 2,
+        "match_labels": 14,
+        "missed_matches": 6,
+        "no_match_labels": 3,
+        "correct_no_matches": 2,
+        "no_match_automatic_selections": 0,
+        "ambiguous_labels": 0,
+        "abstentions": 7,
+        "no_match_predictions": 2,
+        "ambiguous_predictions": 5,
+        "incorrect_ambiguities": 5,
+        "exact_name_recall": {
+          "correct": 0,
+          "total": 0
+        },
+        "renamed_recall": {
+          "correct": 8,
+          "total": 14
+        }
+      },
+      "eval_reliability/operations_03.json": {
+        "total": 34,
+        "correct": 18,
+        "true_automatic_matches": 17,
+        "automatic_matches": 19,
+        "incorrect_automatic_matches": 2,
+        "match_labels": 31,
+        "missed_matches": 14,
+        "no_match_labels": 3,
+        "correct_no_matches": 1,
+        "no_match_automatic_selections": 0,
+        "ambiguous_labels": 0,
+        "abstentions": 15,
+        "no_match_predictions": 6,
+        "ambiguous_predictions": 9,
+        "incorrect_ambiguities": 9,
+        "exact_name_recall": {
+          "correct": 8,
+          "total": 8
+        },
+        "renamed_recall": {
+          "correct": 9,
+          "total": 23
+        }
+      }
+    }
+  },
+  "after": {
+    "overall": {
+      "total": 169,
+      "correct": 92,
+      "true_automatic_matches": 72,
+      "automatic_matches": 80,
+      "incorrect_automatic_matches": 8,
+      "match_labels": 136,
+      "missed_matches": 64,
+      "no_match_labels": 33,
+      "correct_no_matches": 20,
+      "no_match_automatic_selections": 5,
+      "ambiguous_labels": 0,
+      "abstentions": 89,
+      "no_match_predictions": 58,
+      "ambiguous_predictions": 31,
+      "incorrect_ambiguities": 31,
+      "exact_name_recall": {
+        "correct": 41,
+        "total": 46
+      },
+      "renamed_recall": {
+        "correct": 31,
+        "total": 90
+      }
+    },
+    "domains": {
+      "financial": {
+        "total": 73,
+        "correct": 34,
+        "true_automatic_matches": 25,
+        "automatic_matches": 32,
+        "incorrect_automatic_matches": 7,
+        "match_labels": 58,
+        "missed_matches": 33,
+        "no_match_labels": 15,
+        "correct_no_matches": 9,
+        "no_match_automatic_selections": 5,
+        "ambiguous_labels": 0,
+        "abstentions": 41,
+        "no_match_predictions": 31,
+        "ambiguous_predictions": 10,
+        "incorrect_ambiguities": 10,
+        "exact_name_recall": {
+          "correct": 17,
+          "total": 19
+        },
+        "renamed_recall": {
+          "correct": 8,
+          "total": 39
+        }
+      },
+      "healthcare": {
+        "total": 30,
+        "correct": 26,
+        "true_automatic_matches": 18,
+        "automatic_matches": 19,
+        "incorrect_automatic_matches": 1,
+        "match_labels": 21,
+        "missed_matches": 3,
+        "no_match_labels": 9,
+        "correct_no_matches": 8,
+        "no_match_automatic_selections": 0,
+        "ambiguous_labels": 0,
+        "abstentions": 11,
+        "no_match_predictions": 8,
+        "ambiguous_predictions": 3,
+        "incorrect_ambiguities": 3,
+        "exact_name_recall": {
+          "correct": 9,
+          "total": 9
+        },
+        "renamed_recall": {
+          "correct": 9,
+          "total": 12
+        }
+      },
+      "operations": {
+        "total": 66,
+        "correct": 32,
+        "true_automatic_matches": 29,
+        "automatic_matches": 29,
+        "incorrect_automatic_matches": 0,
+        "match_labels": 57,
+        "missed_matches": 28,
+        "no_match_labels": 9,
+        "correct_no_matches": 3,
+        "no_match_automatic_selections": 0,
+        "ambiguous_labels": 0,
+        "abstentions": 37,
+        "no_match_predictions": 19,
+        "ambiguous_predictions": 18,
+        "incorrect_ambiguities": 18,
+        "exact_name_recall": {
+          "correct": 15,
+          "total": 18
+        },
+        "renamed_recall": {
+          "correct": 14,
+          "total": 39
+        }
+      }
+    },
+    "datasets": {
+      "eval_reliability/financial_01.json": {
+        "total": 21,
+        "correct": 12,
+        "true_automatic_matches": 8,
+        "automatic_matches": 8,
+        "incorrect_automatic_matches": 0,
+        "match_labels": 16,
+        "missed_matches": 8,
+        "no_match_labels": 5,
+        "correct_no_matches": 4,
+        "no_match_automatic_selections": 0,
+        "ambiguous_labels": 0,
+        "abstentions": 13,
+        "no_match_predictions": 9,
+        "ambiguous_predictions": 4,
+        "incorrect_ambiguities": 4,
+        "exact_name_recall": {
+          "correct": 8,
+          "total": 9
+        },
+        "renamed_recall": {
+          "correct": 0,
+          "total": 7
+        }
+      },
+      "eval_reliability/financial_02.json": {
+        "total": 27,
+        "correct": 13,
+        "true_automatic_matches": 10,
+        "automatic_matches": 13,
+        "incorrect_automatic_matches": 3,
+        "match_labels": 22,
+        "missed_matches": 12,
+        "no_match_labels": 5,
+        "correct_no_matches": 3,
+        "no_match_automatic_selections": 2,
+        "ambiguous_labels": 0,
+        "abstentions": 14,
+        "no_match_predictions": 12,
+        "ambiguous_predictions": 2,
+        "incorrect_ambiguities": 2,
+        "exact_name_recall": {
+          "correct": 6,
+          "total": 6
+        },
+        "renamed_recall": {
+          "correct": 4,
+          "total": 16
+        }
+      },
+      "eval_reliability/financial_03.json": {
+        "total": 25,
+        "correct": 9,
+        "true_automatic_matches": 7,
+        "automatic_matches": 11,
+        "incorrect_automatic_matches": 4,
+        "match_labels": 20,
+        "missed_matches": 13,
+        "no_match_labels": 5,
+        "correct_no_matches": 2,
+        "no_match_automatic_selections": 3,
+        "ambiguous_labels": 0,
+        "abstentions": 14,
+        "no_match_predictions": 10,
+        "ambiguous_predictions": 4,
+        "incorrect_ambiguities": 4,
+        "exact_name_recall": {
+          "correct": 3,
+          "total": 4
+        },
+        "renamed_recall": {
+          "correct": 4,
+          "total": 16
+        }
+      },
+      "eval_reliability/healthcare_01.json": {
+        "total": 15,
+        "correct": 14,
+        "true_automatic_matches": 9,
+        "automatic_matches": 10,
+        "incorrect_automatic_matches": 1,
+        "match_labels": 10,
+        "missed_matches": 1,
+        "no_match_labels": 5,
+        "correct_no_matches": 5,
+        "no_match_automatic_selections": 0,
+        "ambiguous_labels": 0,
+        "abstentions": 5,
+        "no_match_predictions": 5,
+        "ambiguous_predictions": 0,
+        "incorrect_ambiguities": 0,
+        "exact_name_recall": {
+          "correct": 5,
+          "total": 5
+        },
+        "renamed_recall": {
+          "correct": 4,
+          "total": 5
+        }
+      },
+      "eval_reliability/healthcare_02.json": {
+        "total": 15,
+        "correct": 12,
+        "true_automatic_matches": 9,
+        "automatic_matches": 9,
+        "incorrect_automatic_matches": 0,
+        "match_labels": 11,
+        "missed_matches": 2,
+        "no_match_labels": 4,
+        "correct_no_matches": 3,
+        "no_match_automatic_selections": 0,
+        "ambiguous_labels": 0,
+        "abstentions": 6,
+        "no_match_predictions": 3,
+        "ambiguous_predictions": 3,
+        "incorrect_ambiguities": 3,
+        "exact_name_recall": {
+          "correct": 4,
+          "total": 4
+        },
+        "renamed_recall": {
+          "correct": 5,
+          "total": 7
+        }
+      },
+      "eval_reliability/operations_01.json": {
+        "total": 15,
+        "correct": 8,
+        "true_automatic_matches": 8,
+        "automatic_matches": 8,
+        "incorrect_automatic_matches": 0,
+        "match_labels": 12,
+        "missed_matches": 4,
+        "no_match_labels": 3,
+        "correct_no_matches": 0,
+        "no_match_automatic_selections": 0,
+        "ambiguous_labels": 0,
+        "abstentions": 7,
+        "no_match_predictions": 3,
+        "ambiguous_predictions": 4,
+        "incorrect_ambiguities": 4,
+        "exact_name_recall": {
+          "correct": 7,
+          "total": 10
+        },
+        "renamed_recall": {
+          "correct": 1,
+          "total": 2
+        }
+      },
+      "eval_reliability/operations_02.json": {
+        "total": 17,
+        "correct": 10,
+        "true_automatic_matches": 8,
+        "automatic_matches": 8,
+        "incorrect_automatic_matches": 0,
+        "match_labels": 14,
+        "missed_matches": 6,
+        "no_match_labels": 3,
+        "correct_no_matches": 2,
+        "no_match_automatic_selections": 0,
+        "ambiguous_labels": 0,
+        "abstentions": 9,
+        "no_match_predictions": 4,
+        "ambiguous_predictions": 5,
+        "incorrect_ambiguities": 5,
+        "exact_name_recall": {
+          "correct": 0,
+          "total": 0
+        },
+        "renamed_recall": {
+          "correct": 8,
+          "total": 14
+        }
+      },
+      "eval_reliability/operations_03.json": {
+        "total": 34,
+        "correct": 14,
+        "true_automatic_matches": 13,
+        "automatic_matches": 13,
+        "incorrect_automatic_matches": 0,
+        "match_labels": 31,
+        "missed_matches": 18,
+        "no_match_labels": 3,
+        "correct_no_matches": 1,
+        "no_match_automatic_selections": 0,
+        "ambiguous_labels": 0,
+        "abstentions": 21,
+        "no_match_predictions": 12,
+        "ambiguous_predictions": 9,
+        "incorrect_ambiguities": 9,
+        "exact_name_recall": {
+          "correct": 8,
+          "total": 8
+        },
+        "renamed_recall": {
+          "correct": 5,
+          "total": 23
+        }
+      }
+    }
+  },
+  "changed_decisions": [
+    {
+      "dataset": "eval_reliability/financial_01.json",
+      "source": "id",
+      "expected": {
+        "kind": "no_match",
+        "source": "id"
+      },
+      "before": "match -> lookup_key (1.000)",
+      "after": "no_match",
+      "before_correct": false,
+      "after_correct": true
+    },
+    {
+      "dataset": "eval_reliability/financial_01.json",
+      "source": "interval",
+      "expected": {
+        "kind": "match",
+        "source": "interval",
+        "target": "recurring.interval"
+      },
+      "before": "match -> recurring.interval",
+      "after": "no_match (1.000)",
+      "before_correct": true,
+      "after_correct": false
+    },
+    {
+      "dataset": "eval_reliability/financial_01.json",
+      "source": "interval_count",
+      "expected": {
+        "kind": "match",
+        "source": "interval_count",
+        "target": "recurring.interval_count"
+      },
+      "before": "match -> recurring.interval_count",
+      "after": "no_match (1.000)",
+      "before_correct": true,
+      "after_correct": false
+    },
+    {
+      "dataset": "eval_reliability/financial_01.json",
+      "source": "meter",
+      "expected": {
+        "kind": "match",
+        "source": "meter",
+        "target": "recurring.meter"
+      },
+      "before": "match -> recurring.meter",
+      "after": "no_match (1.000)",
+      "before_correct": true,
+      "after_correct": false
+    },
+    {
+      "dataset": "eval_reliability/financial_01.json",
+      "source": "tiers[].flat_amount_decimal",
+      "expected": {
+        "kind": "no_match",
+        "source": "tiers[].flat_amount_decimal"
+      },
+      "before": "match -> tiers_mode (0.917)",
+      "after": "no_match",
+      "before_correct": false,
+      "after_correct": true
+    },
+    {
+      "dataset": "eval_reliability/financial_01.json",
+      "source": "transform_usage.divide_by",
+      "expected": {
+        "kind": "match",
+        "source": "transform_usage.divide_by",
+        "target": "transform_quantity.divide_by"
+      },
+      "before": "match -> transform_quantity.divide_by",
+      "after": "no_match (0.925)",
+      "before_correct": true,
+      "after_correct": false
+    },
+    {
+      "dataset": "eval_reliability/financial_01.json",
+      "source": "transform_usage.round",
+      "expected": {
+        "kind": "match",
+        "source": "transform_usage.round",
+        "target": "transform_quantity.round"
+      },
+      "before": "match -> transform_quantity.round",
+      "after": "no_match (0.922)",
+      "before_correct": true,
+      "after_correct": false
+    },
+    {
+      "dataset": "eval_reliability/financial_02.json",
+      "source": "primary_place_of_performance_code",
+      "expected": {
+        "kind": "match",
+        "source": "primary_place_of_performance_code",
+        "target": "place_of_performance_code"
+      },
+      "before": "match -> place_of_performance_code",
+      "after": "no_match (0.853)",
+      "before_correct": true,
+      "after_correct": false
+    },
+    {
+      "dataset": "eval_reliability/financial_02.json",
+      "source": "primary_place_of_performance_scope",
+      "expected": {
+        "kind": "match",
+        "source": "primary_place_of_performance_scope",
+        "target": "place_of_performance_scope"
+      },
+      "before": "match -> place_of_performance_scope",
+      "after": "no_match (0.853)",
+      "before_correct": true,
+      "after_correct": false
+    },
+    {
+      "dataset": "eval_reliability/financial_03.json",
+      "source": "current_total_value_of_award",
+      "expected": {
+        "kind": "match",
+        "source": "current_total_value_of_award",
+        "target": "current_total_value_award"
+      },
+      "before": "match -> current_total_value_award",
+      "after": "no_match (0.853)",
+      "before_correct": true,
+      "after_correct": false
+    },
+    {
+      "dataset": "eval_reliability/financial_03.json",
+      "source": "type_of_set_aside_code",
+      "expected": {
+        "kind": "match",
+        "source": "type_of_set_aside_code",
+        "target": "type_set_aside"
+      },
+      "before": "match -> type_set_aside",
+      "after": "no_match (0.853)",
+      "before_correct": true,
+      "after_correct": false
+    },
+    {
+      "dataset": "eval_reliability/financial_03.json",
+      "source": "type_of_set_aside",
+      "expected": {
+        "kind": "match",
+        "source": "type_of_set_aside",
+        "target": "type_set_aside_description"
+      },
+      "before": "match -> type_set_aside (0.853)",
+      "after": "no_match (0.853)",
+      "before_correct": false,
+      "after_correct": false
+    },
+    {
+      "dataset": "eval_reliability/healthcare_01.json",
+      "source": "status",
+      "expected": {
+        "kind": "no_match",
+        "source": "status"
+      },
+      "before": "match -> location.status (0.850)",
+      "after": "no_match",
+      "before_correct": false,
+      "after_correct": true
+    },
+    {
+      "dataset": "eval_reliability/healthcare_02.json",
+      "source": "performer.onBehalfOf.reference",
+      "expected": {
+        "kind": "no_match",
+        "source": "performer.onBehalfOf.reference"
+      },
+      "before": "match -> performer.actor.reference (0.776)",
+      "after": "no_match",
+      "before_correct": false,
+      "after_correct": true
+    },
+    {
+      "dataset": "eval_reliability/operations_01.json",
+      "source": "data.geofencing_zones.features[].properties.start",
+      "expected": {
+        "kind": "match",
+        "source": "data.geofencing_zones.features[].properties.start",
+        "target": "data.geofencing_zones.features[].properties.start"
+      },
+      "before": "match -> data.geofencing_zones.features[].properties.rules[].maximum_speed_kph (0.805)",
+      "after": "no_match (0.805)",
+      "before_correct": false,
+      "after_correct": false
+    },
+    {
+      "dataset": "eval_reliability/operations_01.json",
+      "source": "data.geofencing_zones.features[].properties.end",
+      "expected": {
+        "kind": "match",
+        "source": "data.geofencing_zones.features[].properties.end",
+        "target": "data.geofencing_zones.features[].properties.end"
+      },
+      "before": "match -> data.geofencing_zones.features[].properties.rules[].maximum_speed_kph (0.809)",
+      "after": "no_match (0.809)",
+      "before_correct": false,
+      "after_correct": false
+    },
+    {
+      "dataset": "eval_reliability/operations_02.json",
+      "source": "data.bikes[].rental_uris.ios",
+      "expected": {
+        "kind": "match",
+        "source": "data.bikes[].rental_uris.ios",
+        "target": "data.vehicles[].rental_uris.ios"
+      },
+      "before": "match -> data.vehicles[].rental_uris.web (0.890)",
+      "after": "no_match (0.890)",
+      "before_correct": false,
+      "after_correct": false
+    },
+    {
+      "dataset": "eval_reliability/operations_02.json",
+      "source": "data.bikes[].available_until",
+      "expected": {
+        "kind": "match",
+        "source": "data.bikes[].available_until",
+        "target": "data.vehicles[].available_until"
+      },
+      "before": "match -> data.vehicles[].rental_uris.web (0.876)",
+      "after": "no_match (0.876)",
+      "before_correct": false,
+      "after_correct": false
+    },
+    {
+      "dataset": "eval_reliability/operations_03.json",
+      "source": "eventLocation.facilityCode",
+      "expected": {
+        "kind": "match",
+        "source": "eventLocation.facilityCode",
+        "target": "eventLocation.facility.facilityCode"
+      },
+      "before": "match -> eventLocation.facility.facilityCode",
+      "after": "no_match (0.850)",
+      "before_correct": true,
+      "after_correct": false
+    },
+    {
+      "dataset": "eval_reliability/operations_03.json",
+      "source": "transportCall.transportCallID",
+      "expected": {
+        "kind": "match",
+        "source": "transportCall.transportCallID",
+        "target": "transportDetails.transportCall.transportCallReference"
+      },
+      "before": "match -> transportDetails.transportCall.transportCallReference",
+      "after": "no_match (0.901)",
+      "before_correct": true,
+      "after_correct": false
+    },
+    {
+      "dataset": "eval_reliability/operations_03.json",
+      "source": "transportCall.importVoyageNumber",
+      "expected": {
+        "kind": "match",
+        "source": "transportCall.importVoyageNumber",
+        "target": "transportDetails.transportCall.importVoyageNumberOrReference.carrierVoyageNumber"
+      },
+      "before": "match -> transportDetails.transportCall.importVoyageNumberOrReference.carrierVoyageNumber",
+      "after": "no_match (0.835)",
+      "before_correct": true,
+      "after_correct": false
+    },
+    {
+      "dataset": "eval_reliability/operations_03.json",
+      "source": "transportCall.transportCallSequenceNumber",
+      "expected": {
+        "kind": "match",
+        "source": "transportCall.transportCallSequenceNumber",
+        "target": "transportDetails.transportCall.transportCallSequenceNumber"
+      },
+      "before": "match -> transportDetails.transportCall.transportCallSequenceNumber",
+      "after": "no_match (1.000)",
+      "before_correct": true,
+      "after_correct": false
+    },
+    {
+      "dataset": "eval_reliability/operations_03.json",
+      "source": "transportCall.vessel.vesselOperatorCarrierCode",
+      "expected": {
+        "kind": "match",
+        "source": "transportCall.vessel.vesselOperatorCarrierCode",
+        "target": "transportDetails.transportCall.vesselTransport.operatorCarrierCode"
+      },
+      "before": "match -> transportDetails.transportCall.transportCallReference (0.897)",
+      "after": "no_match (0.897)",
+      "before_correct": false,
+      "after_correct": false
+    },
+    {
+      "dataset": "eval_reliability/operations_03.json",
+      "source": "transportCall.vessel.vesselOperatorCarrierCodeListProvider",
+      "expected": {
+        "kind": "match",
+        "source": "transportCall.vessel.vesselOperatorCarrierCodeListProvider",
+        "target": "transportDetails.transportCall.vesselTransport.operatorCarrierCodeListProvider"
+      },
+      "before": "match -> transportDetails.transportCall.transportCallReference (0.883)",
+      "after": "no_match (0.883)",
+      "before_correct": false,
+      "after_correct": false
+    }
+  ]
+}

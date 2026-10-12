@@ -1,0 +1,1365 @@
+[
+  {
+    "name": "gbfs_geofencing_2_3_to_3_0_scopes",
+    "source": {
+      "fields": [
+        {
+          "name": "last_updated",
+          "data_type": "integer",
+          "samples": [
+            "1640887163"
+          ]
+        },
+        {
+          "name": "ttl",
+          "data_type": "integer",
+          "samples": [
+            "60"
+          ]
+        },
+        {
+          "name": "version",
+          "data_type": "text",
+          "samples": [
+            "2.3"
+          ]
+        },
+        {
+          "name": "data.geofencing_zones.type",
+          "data_type": "text",
+          "samples": [
+            "FeatureCollection"
+          ]
+        },
+        {
+          "name": "data.geofencing_zones.features[].type",
+          "data_type": "text",
+          "samples": [
+            "Feature"
+          ]
+        },
+        {
+          "name": "data.geofencing_zones.features[].properties.name",
+          "data_type": "text",
+          "samples": [
+            "NE 24th/NE Knott"
+          ]
+        },
+        {
+          "name": "data.geofencing_zones.features[].properties.start",
+          "data_type": "integer",
+          "samples": [
+            "1593878400"
+          ]
+        },
+        {
+          "name": "data.geofencing_zones.features[].properties.end",
+          "data_type": "integer",
+          "samples": [
+            "1593907260"
+          ]
+        },
+        {
+          "name": "data.geofencing_zones.features[].properties.rules[].vehicle_type_id[]",
+          "data_type": "text",
+          "samples": [
+            "moped1",
+            "car1"
+          ]
+        },
+        {
+          "name": "data.geofencing_zones.features[].properties.rules[].ride_allowed",
+          "data_type": "boolean",
+          "samples": [
+            "false"
+          ]
+        },
+        {
+          "name": "data.geofencing_zones.features[].properties.rules[].ride_through_allowed",
+          "data_type": "boolean",
+          "samples": [
+            "true"
+          ]
+        },
+        {
+          "name": "data.geofencing_zones.features[].properties.rules[].maximum_speed_kph",
+          "data_type": "integer",
+          "samples": [
+            "10"
+          ]
+        },
+        {
+          "name": "data.geofencing_zones.features[].properties.rules[].station_parking",
+          "data_type": "boolean",
+          "samples": [
+            "true"
+          ]
+        },
+        {
+          "name": "data.geofencing_zones.features[].geometry.type",
+          "data_type": "text",
+          "samples": [
+            "MultiPolygon"
+          ]
+        },
+        {
+          "name": "data.geofencing_zones.features[].geometry.coordinates[][][][]",
+          "data_type": "float",
+          "samples": [
+            "-122.578067",
+            "45.562982",
+            "-122.661838",
+            "45.562741",
+            "-122.661151",
+            "45.504542",
+            "-122.578926",
+            "45.5046625"
+          ]
+        }
+      ]
+    },
+    "target": {
+      "fields": [
+        {
+          "name": "last_updated",
+          "data_type": "timestamp",
+          "samples": [
+            "2023-07-17T13:34:13+02:00"
+          ]
+        },
+        {
+          "name": "ttl",
+          "data_type": "integer",
+          "samples": [
+            "60"
+          ]
+        },
+        {
+          "name": "version",
+          "data_type": "text",
+          "samples": [
+            "3.0"
+          ]
+        },
+        {
+          "name": "data.geofencing_zones.type",
+          "data_type": "text",
+          "samples": [
+            "FeatureCollection"
+          ]
+        },
+        {
+          "name": "data.geofencing_zones.features[].type",
+          "data_type": "text",
+          "samples": [
+            "Feature"
+          ]
+        },
+        {
+          "name": "data.geofencing_zones.features[].properties.name[].text",
+          "data_type": "text",
+          "samples": [
+            "NE 24th/NE Knott"
+          ]
+        },
+        {
+          "name": "data.geofencing_zones.features[].properties.name[].language",
+          "data_type": "text",
+          "samples": [
+            "en"
+          ]
+        },
+        {
+          "name": "data.geofencing_zones.features[].properties.start",
+          "data_type": "timestamp",
+          "samples": [
+            "2023-07-17T13:34:13+02:00"
+          ]
+        },
+        {
+          "name": "data.geofencing_zones.features[].properties.end",
+          "data_type": "timestamp",
+          "samples": [
+            "2024-07-18T13:34:13+02:00"
+          ]
+        },
+        {
+          "name": "data.geofencing_zones.features[].properties.rules[].vehicle_type_ids[]",
+          "data_type": "text",
+          "samples": [
+            "moped1",
+            "car1"
+          ]
+        },
+        {
+          "name": "data.geofencing_zones.features[].properties.rules[].ride_start_allowed",
+          "data_type": "boolean",
+          "samples": [
+            "true"
+          ]
+        },
+        {
+          "name": "data.geofencing_zones.features[].properties.rules[].ride_end_allowed",
+          "data_type": "boolean",
+          "samples": [
+            "true"
+          ]
+        },
+        {
+          "name": "data.geofencing_zones.features[].properties.rules[].maximum_speed_kph",
+          "data_type": "integer",
+          "samples": [
+            "10"
+          ]
+        },
+        {
+          "name": "data.geofencing_zones.features[].geometry.type",
+          "data_type": "text",
+          "samples": [
+            "MultiPolygon"
+          ]
+        },
+        {
+          "name": "data.geofencing_zones.features[].geometry.coordinates[][][][]",
+          "data_type": "float",
+          "samples": [
+            "-122.578067",
+            "45.562982",
+            "-122.661838",
+            "45.562741",
+            "-122.661151",
+            "45.504542",
+            "-122.578926",
+            "45.5046625"
+          ]
+        },
+        {
+          "name": "data.global_rules[].vehicle_type_ids[]",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "data.global_rules[].ride_start_allowed",
+          "data_type": "boolean",
+          "samples": [
+            "false"
+          ]
+        },
+        {
+          "name": "data.global_rules[].ride_end_allowed",
+          "data_type": "boolean",
+          "samples": [
+            "false"
+          ]
+        },
+        {
+          "name": "data.global_rules[].ride_through_allowed",
+          "data_type": "boolean",
+          "samples": [
+            "true"
+          ]
+        },
+        {
+          "name": "data.global_rules[].maximum_speed_kph",
+          "data_type": "integer",
+          "samples": []
+        },
+        {
+          "name": "data.global_rules[].station_parking",
+          "data_type": "boolean",
+          "samples": []
+        }
+      ]
+    },
+    "answers": [
+      {
+        "kind": "match",
+        "source": "last_updated",
+        "target": "last_updated"
+      },
+      {
+        "kind": "match",
+        "source": "ttl",
+        "target": "ttl"
+      },
+      {
+        "kind": "match",
+        "source": "version",
+        "target": "version"
+      },
+      {
+        "kind": "match",
+        "source": "data.geofencing_zones.type",
+        "target": "data.geofencing_zones.type"
+      },
+      {
+        "kind": "match",
+        "source": "data.geofencing_zones.features[].type",
+        "target": "data.geofencing_zones.features[].type"
+      },
+      {
+        "kind": "match",
+        "source": "data.geofencing_zones.features[].properties.name",
+        "target": "data.geofencing_zones.features[].properties.name[].text"
+      },
+      {
+        "kind": "match",
+        "source": "data.geofencing_zones.features[].properties.start",
+        "target": "data.geofencing_zones.features[].properties.start"
+      },
+      {
+        "kind": "match",
+        "source": "data.geofencing_zones.features[].properties.end",
+        "target": "data.geofencing_zones.features[].properties.end"
+      },
+      {
+        "kind": "match",
+        "source": "data.geofencing_zones.features[].properties.rules[].vehicle_type_id[]",
+        "target": "data.geofencing_zones.features[].properties.rules[].vehicle_type_ids[]"
+      },
+      {
+        "kind": "no_match",
+        "source": "data.geofencing_zones.features[].properties.rules[].ride_allowed"
+      },
+      {
+        "kind": "no_match",
+        "source": "data.geofencing_zones.features[].properties.rules[].ride_through_allowed"
+      },
+      {
+        "kind": "match",
+        "source": "data.geofencing_zones.features[].properties.rules[].maximum_speed_kph",
+        "target": "data.geofencing_zones.features[].properties.rules[].maximum_speed_kph"
+      },
+      {
+        "kind": "no_match",
+        "source": "data.geofencing_zones.features[].properties.rules[].station_parking"
+      },
+      {
+        "kind": "match",
+        "source": "data.geofencing_zones.features[].geometry.type",
+        "target": "data.geofencing_zones.features[].geometry.type"
+      },
+      {
+        "kind": "match",
+        "source": "data.geofencing_zones.features[].geometry.coordinates[][][][]",
+        "target": "data.geofencing_zones.features[].geometry.coordinates[][][][]"
+      }
+    ]
+  },
+  {
+    "name": "gbfs_vehicle_2_3_to_3_0_projected",
+    "source": {
+      "fields": [
+        {
+          "name": "data.bikes[].bike_id",
+          "data_type": "text",
+          "samples": [
+            "973a5c94-c288-4a2b-afa6-de8aeb6ae2e5",
+            "987fd100-b822-4347-86a4-b3eef8ca8b53",
+            "45bd3fb7-a2d5-4def-9de1-c645844ba962",
+            "d4521def-7922-4e46-8e1d-8ac397239bd0"
+          ]
+        },
+        {
+          "name": "data.bikes[].lat",
+          "data_type": "float",
+          "samples": [
+            "12.34",
+            "12.345678"
+          ]
+        },
+        {
+          "name": "data.bikes[].lon",
+          "data_type": "float",
+          "samples": [
+            "56.78",
+            "56.789012"
+          ]
+        },
+        {
+          "name": "data.bikes[].is_reserved",
+          "data_type": "boolean",
+          "samples": [
+            "false"
+          ]
+        },
+        {
+          "name": "data.bikes[].is_disabled",
+          "data_type": "boolean",
+          "samples": [
+            "false"
+          ]
+        },
+        {
+          "name": "data.bikes[].rental_uris.android",
+          "data_type": "text",
+          "samples": [
+            "https://www.example.com/app?bike_id=973a5c94-c288-4a2b-afa6-de8aeb6ae2e5&platform=android&"
+          ]
+        },
+        {
+          "name": "data.bikes[].rental_uris.ios",
+          "data_type": "text",
+          "samples": [
+            "https://www.example.com/app?bike_id=973a5c94-c288-4a2b-afa6-de8aeb6ae2e5&platform=ios"
+          ]
+        },
+        {
+          "name": "data.bikes[].rental_uris.web",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "data.bikes[].vehicle_type_id",
+          "data_type": "text",
+          "samples": [
+            "abc123",
+            "def456"
+          ]
+        },
+        {
+          "name": "data.bikes[].last_reported",
+          "data_type": "integer",
+          "samples": [
+            "1609866109",
+            "1609866204"
+          ]
+        },
+        {
+          "name": "data.bikes[].current_range_meters",
+          "data_type": "float",
+          "samples": [
+            "6543.0",
+            "400000.0"
+          ]
+        },
+        {
+          "name": "data.bikes[].current_fuel_percent",
+          "data_type": "float",
+          "samples": [
+            "0.7"
+          ]
+        },
+        {
+          "name": "data.bikes[].station_id",
+          "data_type": "text",
+          "samples": [
+            "86"
+          ]
+        },
+        {
+          "name": "data.bikes[].home_station_id",
+          "data_type": "text",
+          "samples": [
+            "146"
+          ]
+        },
+        {
+          "name": "data.bikes[].pricing_plan_id",
+          "data_type": "text",
+          "samples": [
+            "plan3"
+          ]
+        },
+        {
+          "name": "data.bikes[].vehicle_equipment[]",
+          "data_type": "unknown",
+          "samples": [
+            "child_seat_a",
+            "winter_tires"
+          ]
+        },
+        {
+          "name": "data.bikes[].available_until",
+          "data_type": "text",
+          "samples": [
+            "2021-05-17T15:00:00Z"
+          ]
+        }
+      ]
+    },
+    "target": {
+      "fields": [
+        {
+          "name": "last_updated",
+          "data_type": "timestamp",
+          "samples": [
+            "2023-07-17T13:34:13+02:00"
+          ]
+        },
+        {
+          "name": "data.vehicles[].vehicle_id",
+          "data_type": "text",
+          "samples": [
+            "973a5c94-c288-4a2b-afa6-de8aeb6ae2e5",
+            "987fd100-b822-4347-86a4-b3eef8ca8b53",
+            "45bd3fb7-a2d5-4def-9de1-c645844ba962",
+            "d4521def-7922-4e46-8e1d-8ac397239bd0"
+          ]
+        },
+        {
+          "name": "data.vehicles[].lat",
+          "data_type": "float",
+          "samples": [
+            "12.345678"
+          ]
+        },
+        {
+          "name": "data.vehicles[].lon",
+          "data_type": "float",
+          "samples": [
+            "56.789012"
+          ]
+        },
+        {
+          "name": "data.vehicles[].is_reserved",
+          "data_type": "boolean",
+          "samples": [
+            "false"
+          ]
+        },
+        {
+          "name": "data.vehicles[].rental_uris.android",
+          "data_type": "text",
+          "samples": [
+            "https://www.example.com/app?vehicle_id=973a5c94-c288-4a2b-afa6-de8aeb6ae2e5&platform=android&"
+          ]
+        },
+        {
+          "name": "data.vehicles[].rental_uris.ios",
+          "data_type": "text",
+          "samples": [
+            "https://www.example.com/app?vehicle_id=973a5c94-c288-4a2b-afa6-de8aeb6ae2e5&platform=ios"
+          ]
+        },
+        {
+          "name": "data.vehicles[].rental_uris.web",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "data.vehicles[].vehicle_type_id",
+          "data_type": "text",
+          "samples": [
+            "abc123",
+            "def456"
+          ]
+        },
+        {
+          "name": "data.vehicles[].current_range_meters",
+          "data_type": "float",
+          "samples": [
+            "6543.0",
+            "400000.0"
+          ]
+        },
+        {
+          "name": "data.vehicles[].current_fuel_percent",
+          "data_type": "float",
+          "samples": [
+            "0.7"
+          ]
+        },
+        {
+          "name": "data.vehicles[].home_station_id",
+          "data_type": "text",
+          "samples": [
+            "station1",
+            "146"
+          ]
+        },
+        {
+          "name": "data.vehicles[].pricing_plan_id",
+          "data_type": "text",
+          "samples": [
+            "plan3"
+          ]
+        },
+        {
+          "name": "data.vehicles[].vehicle_equipment[]",
+          "data_type": "unknown",
+          "samples": [
+            "child_seat_a",
+            "winter_tires"
+          ]
+        },
+        {
+          "name": "data.vehicles[].available_until",
+          "data_type": "text",
+          "samples": [
+            "2021-05-17T15:00:00Z"
+          ]
+        }
+      ]
+    },
+    "answers": [
+      {
+        "kind": "match",
+        "source": "data.bikes[].bike_id",
+        "target": "data.vehicles[].vehicle_id"
+      },
+      {
+        "kind": "match",
+        "source": "data.bikes[].lat",
+        "target": "data.vehicles[].lat"
+      },
+      {
+        "kind": "match",
+        "source": "data.bikes[].lon",
+        "target": "data.vehicles[].lon"
+      },
+      {
+        "kind": "match",
+        "source": "data.bikes[].is_reserved",
+        "target": "data.vehicles[].is_reserved"
+      },
+      {
+        "kind": "no_match",
+        "source": "data.bikes[].is_disabled"
+      },
+      {
+        "kind": "match",
+        "source": "data.bikes[].rental_uris.android",
+        "target": "data.vehicles[].rental_uris.android"
+      },
+      {
+        "kind": "match",
+        "source": "data.bikes[].rental_uris.ios",
+        "target": "data.vehicles[].rental_uris.ios"
+      },
+      {
+        "kind": "match",
+        "source": "data.bikes[].rental_uris.web",
+        "target": "data.vehicles[].rental_uris.web"
+      },
+      {
+        "kind": "match",
+        "source": "data.bikes[].vehicle_type_id",
+        "target": "data.vehicles[].vehicle_type_id"
+      },
+      {
+        "kind": "no_match",
+        "source": "data.bikes[].last_reported"
+      },
+      {
+        "kind": "match",
+        "source": "data.bikes[].current_range_meters",
+        "target": "data.vehicles[].current_range_meters"
+      },
+      {
+        "kind": "match",
+        "source": "data.bikes[].current_fuel_percent",
+        "target": "data.vehicles[].current_fuel_percent"
+      },
+      {
+        "kind": "no_match",
+        "source": "data.bikes[].station_id"
+      },
+      {
+        "kind": "match",
+        "source": "data.bikes[].home_station_id",
+        "target": "data.vehicles[].home_station_id"
+      },
+      {
+        "kind": "match",
+        "source": "data.bikes[].pricing_plan_id",
+        "target": "data.vehicles[].pricing_plan_id"
+      },
+      {
+        "kind": "match",
+        "source": "data.bikes[].vehicle_equipment[]",
+        "target": "data.vehicles[].vehicle_equipment[]"
+      },
+      {
+        "kind": "match",
+        "source": "data.bikes[].available_until",
+        "target": "data.vehicles[].available_until"
+      }
+    ]
+  },
+  {
+    "name": "dcsa_tnt_equipment_events_2_2_to_3_0",
+    "source": {
+      "fields": [
+        {
+          "name": "eventID",
+          "data_type": "text",
+          "samples": [
+            "3cecb101-7a1a-43a4-9d62-e88a131651e4",
+            "3cecb101-7a1a-43a4-9d62-e88a131651e7"
+          ]
+        },
+        {
+          "name": "eventCreatedDateTime",
+          "data_type": "timestamp",
+          "samples": [
+            "2021-01-23T12:34:56Z",
+            "2021-01-09T14:12:56Z"
+          ]
+        },
+        {
+          "name": "eventDateTime",
+          "data_type": "timestamp",
+          "samples": [
+            "2019-11-12T07:41:00+08:30"
+          ]
+        },
+        {
+          "name": "eventType",
+          "data_type": "text",
+          "samples": [
+            "EQUIPMENT"
+          ]
+        },
+        {
+          "name": "eventClassifierCode",
+          "data_type": "text",
+          "samples": [
+            "EST"
+          ]
+        },
+        {
+          "name": "equipmentEventTypeCode",
+          "data_type": "text",
+          "samples": [
+            "LOAD"
+          ]
+        },
+        {
+          "name": "equipmentReference",
+          "data_type": "text",
+          "samples": [
+            "APZU4812090"
+          ]
+        },
+        {
+          "name": "ISOEquipmentCode",
+          "data_type": "text",
+          "samples": [
+            "22GP"
+          ]
+        },
+        {
+          "name": "emptyIndicatorCode",
+          "data_type": "text",
+          "samples": [
+            "EMPTY"
+          ]
+        },
+        {
+          "name": "eventLocation.locationName",
+          "data_type": "text",
+          "samples": [
+            "Eiffel Tower"
+          ]
+        },
+        {
+          "name": "eventLocation.latitude",
+          "data_type": "text",
+          "samples": [
+            "48.8585500"
+          ]
+        },
+        {
+          "name": "eventLocation.longitude",
+          "data_type": "text",
+          "samples": [
+            "2.294492036"
+          ]
+        },
+        {
+          "name": "eventLocation.UNLocationCode",
+          "data_type": "text",
+          "samples": [
+            "FRPAR"
+          ]
+        },
+        {
+          "name": "eventLocation.facilityCode",
+          "data_type": "text",
+          "samples": [
+            "ADT"
+          ]
+        },
+        {
+          "name": "eventLocation.facilityCodeListProvider",
+          "data_type": "text",
+          "samples": [
+            "SMDG"
+          ]
+        },
+        {
+          "name": "eventLocation.address.name",
+          "data_type": "text",
+          "samples": [
+            "Henrik"
+          ]
+        },
+        {
+          "name": "eventLocation.address.street",
+          "data_type": "text",
+          "samples": [
+            "Kronprincessegade"
+          ]
+        },
+        {
+          "name": "eventLocation.address.streetNumber",
+          "data_type": "text",
+          "samples": [
+            "54"
+          ]
+        },
+        {
+          "name": "eventLocation.address.postCode",
+          "data_type": "text",
+          "samples": [
+            "1306"
+          ]
+        },
+        {
+          "name": "eventLocation.address.city",
+          "data_type": "text",
+          "samples": [
+            "København"
+          ]
+        },
+        {
+          "name": "transportCall.transportCallID",
+          "data_type": "text",
+          "samples": [
+            "123e4567-e89b-12d3-a456-426614174000"
+          ]
+        },
+        {
+          "name": "transportCall.carrierServiceCode",
+          "data_type": "text",
+          "samples": [
+            "FE1"
+          ]
+        },
+        {
+          "name": "transportCall.exportVoyageNumber",
+          "data_type": "text",
+          "samples": [
+            "2103S"
+          ]
+        },
+        {
+          "name": "transportCall.importVoyageNumber",
+          "data_type": "text",
+          "samples": [
+            "2103N"
+          ]
+        },
+        {
+          "name": "transportCall.transportCallSequenceNumber",
+          "data_type": "integer",
+          "samples": [
+            "2"
+          ]
+        },
+        {
+          "name": "transportCall.modeOfTransport",
+          "data_type": "text",
+          "samples": [
+            "VESSEL"
+          ]
+        },
+        {
+          "name": "transportCall.vessel.vesselIMONumber",
+          "data_type": "text",
+          "samples": [
+            "9321483"
+          ]
+        },
+        {
+          "name": "transportCall.vessel.vesselCallSignNumber",
+          "data_type": "text",
+          "samples": [
+            "NCVV"
+          ]
+        },
+        {
+          "name": "transportCall.vessel.vesselOperatorCarrierCode",
+          "data_type": "text",
+          "samples": [
+            "MAEU"
+          ]
+        },
+        {
+          "name": "transportCall.vessel.vesselOperatorCarrierCodeListProvider",
+          "data_type": "text",
+          "samples": [
+            "NMFTA"
+          ]
+        },
+        {
+          "name": "seals[].sealNumber",
+          "data_type": "text",
+          "samples": [
+            "string"
+          ]
+        },
+        {
+          "name": "seals[].sealSource",
+          "data_type": "text",
+          "samples": [
+            "CUS"
+          ]
+        },
+        {
+          "name": "seals[].sealType",
+          "data_type": "text",
+          "samples": [
+            "WIR"
+          ]
+        },
+        {
+          "name": "transportCall.otherFacility",
+          "data_type": "text",
+          "samples": [
+            "Depot location or address"
+          ]
+        }
+      ]
+    },
+    "target": {
+      "fields": [
+        {
+          "name": "eventID",
+          "data_type": "text",
+          "samples": [
+            "evt-resp-equip-001",
+            "evt-resp-equip-002",
+            "evt-equip-001-2026-01-20T14:15:00Z"
+          ]
+        },
+        {
+          "name": "eventDateTime",
+          "data_type": "timestamp",
+          "samples": [
+            "2025-01-27T00:30:00Z",
+            "2025-02-15T00:45:00Z",
+            "2026-01-20T14:15:00Z"
+          ]
+        },
+        {
+          "name": "eventClassification.eventType",
+          "data_type": "text",
+          "samples": [
+            "EQUIPMENT"
+          ]
+        },
+        {
+          "name": "eventClassification.eventClassifier",
+          "data_type": "text",
+          "samples": [
+            "ACTUAL"
+          ]
+        },
+        {
+          "name": "eventClassification.equipmentEventType",
+          "data_type": "text",
+          "samples": [
+            "GATED_IN",
+            "DISCHARGED",
+            "LOADED"
+          ]
+        },
+        {
+          "name": "equipmentDetails.equipmentReference",
+          "data_type": "text",
+          "samples": [
+            "EQUIPMENT_REFERENCE_PLACEHOLDER",
+            "APZU4812090"
+          ]
+        },
+        {
+          "name": "equipmentDetails.ISOEquipmentCode",
+          "data_type": "text",
+          "samples": [
+            "45G1",
+            "22GP"
+          ]
+        },
+        {
+          "name": "equipmentDetails.emptyIndicator",
+          "data_type": "text",
+          "samples": [
+            "EMPTY",
+            "LADEN"
+          ]
+        },
+        {
+          "name": "eventLocation.locationName",
+          "data_type": "text",
+          "samples": [
+            "Example Warehouse Facility",
+            "Example Yard Beta",
+            "Example Container Yard"
+          ]
+        },
+        {
+          "name": "eventLocation.geoCoordinate.latitude",
+          "data_type": "text",
+          "samples": [
+            "33.629152"
+          ]
+        },
+        {
+          "name": "eventLocation.geoCoordinate.longitude",
+          "data_type": "text",
+          "samples": [
+            "-118.587187"
+          ]
+        },
+        {
+          "name": "eventLocation.UNLocationCode",
+          "data_type": "text",
+          "samples": [
+            "FRPAR",
+            "ITGOA",
+            "NLRTM"
+          ]
+        },
+        {
+          "name": "eventLocation.facility.facilityCode",
+          "data_type": "text",
+          "samples": [
+            "AUMELNWQL"
+          ]
+        },
+        {
+          "name": "eventLocation.facility.facilityCodeListProvider",
+          "data_type": "text",
+          "samples": [
+            "SMDG"
+          ]
+        },
+        {
+          "name": "eventLocation.address.street",
+          "data_type": "text",
+          "samples": [
+            "Sample Avenue",
+            "Example Boulevard"
+          ]
+        },
+        {
+          "name": "eventLocation.address.streetNumber",
+          "data_type": "text",
+          "samples": [
+            "456",
+            "123"
+          ]
+        },
+        {
+          "name": "eventLocation.address.postCode",
+          "data_type": "text",
+          "samples": [
+            "75001",
+            "1000AB"
+          ]
+        },
+        {
+          "name": "eventLocation.address.city",
+          "data_type": "text",
+          "samples": [
+            "Example Town",
+            "Example City"
+          ]
+        },
+        {
+          "name": "transportDetails.transportCall.transportCallReference",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "transportDetails.transportCall.serviceCodeOrReference.carrierServiceCode",
+          "data_type": "text",
+          "samples": [
+            "FE1"
+          ]
+        },
+        {
+          "name": "transportDetails.transportCall.exportVoyageNumberOrReference.carrierVoyageNumber",
+          "data_type": "text",
+          "samples": [
+            "2103S"
+          ]
+        },
+        {
+          "name": "transportDetails.transportCall.importVoyageNumberOrReference.carrierVoyageNumber",
+          "data_type": "text",
+          "samples": [
+            "2103S"
+          ]
+        },
+        {
+          "name": "transportDetails.transportCall.transportCallSequenceNumber",
+          "data_type": "integer",
+          "samples": []
+        },
+        {
+          "name": "transportDetails.transportCall.modeOfTransport",
+          "data_type": "text",
+          "samples": [
+            "VESSEL"
+          ]
+        },
+        {
+          "name": "transportDetails.transportCall.vesselTransport.vesselIMONumber",
+          "data_type": "text",
+          "samples": [
+            "9321483"
+          ]
+        },
+        {
+          "name": "transportDetails.transportCall.vesselTransport.vesselCallSign",
+          "data_type": "text",
+          "samples": [
+            "NCVV"
+          ]
+        },
+        {
+          "name": "transportDetails.transportCall.vesselTransport.operatorCarrierCode",
+          "data_type": "text",
+          "samples": [
+            "MAEU"
+          ]
+        },
+        {
+          "name": "transportDetails.transportCall.vesselTransport.operatorCarrierCodeListProvider",
+          "data_type": "text",
+          "samples": [
+            "SMDG"
+          ]
+        },
+        {
+          "name": "equipmentDetails.seals[].number",
+          "data_type": "text",
+          "samples": [
+            "VET123"
+          ]
+        },
+        {
+          "name": "equipmentDetails.seals[].source",
+          "data_type": "text",
+          "samples": [
+            "CUSTOMER"
+          ]
+        },
+        {
+          "name": "equipmentDetails.seals[].type",
+          "data_type": "text",
+          "samples": [
+            "BOLT"
+          ]
+        },
+        {
+          "name": "eventUpdatedDateTime",
+          "data_type": "timestamp",
+          "samples": [
+            "2025-01-27T01:23:45Z",
+            "2025-02-15T01:23:45Z",
+            "2026-01-20T14:20:00Z"
+          ]
+        },
+        {
+          "name": "isRetracted",
+          "data_type": "boolean",
+          "samples": []
+        },
+        {
+          "name": "transportDetails.transportCall.serviceCodeOrReference.universalServiceReference",
+          "data_type": "text",
+          "samples": [
+            "SR12345A"
+          ]
+        },
+        {
+          "name": "transportDetails.transportCall.exportVoyageNumberOrReference.universalVoyageReference",
+          "data_type": "text",
+          "samples": [
+            "2301W"
+          ]
+        },
+        {
+          "name": "transportDetails.transportCall.vesselTransport.vesselMMSINumber",
+          "data_type": "text",
+          "samples": [
+            "278111222"
+          ]
+        }
+      ]
+    },
+    "answers": [
+      {
+        "kind": "match",
+        "source": "eventID",
+        "target": "eventID"
+      },
+      {
+        "kind": "no_match",
+        "source": "eventCreatedDateTime"
+      },
+      {
+        "kind": "match",
+        "source": "eventDateTime",
+        "target": "eventDateTime"
+      },
+      {
+        "kind": "match",
+        "source": "eventType",
+        "target": "eventClassification.eventType"
+      },
+      {
+        "kind": "match",
+        "source": "eventClassifierCode",
+        "target": "eventClassification.eventClassifier"
+      },
+      {
+        "kind": "match",
+        "source": "equipmentEventTypeCode",
+        "target": "eventClassification.equipmentEventType"
+      },
+      {
+        "kind": "match",
+        "source": "equipmentReference",
+        "target": "equipmentDetails.equipmentReference"
+      },
+      {
+        "kind": "match",
+        "source": "ISOEquipmentCode",
+        "target": "equipmentDetails.ISOEquipmentCode"
+      },
+      {
+        "kind": "match",
+        "source": "emptyIndicatorCode",
+        "target": "equipmentDetails.emptyIndicator"
+      },
+      {
+        "kind": "match",
+        "source": "eventLocation.locationName",
+        "target": "eventLocation.locationName"
+      },
+      {
+        "kind": "match",
+        "source": "eventLocation.latitude",
+        "target": "eventLocation.geoCoordinate.latitude"
+      },
+      {
+        "kind": "match",
+        "source": "eventLocation.longitude",
+        "target": "eventLocation.geoCoordinate.longitude"
+      },
+      {
+        "kind": "match",
+        "source": "eventLocation.UNLocationCode",
+        "target": "eventLocation.UNLocationCode"
+      },
+      {
+        "kind": "match",
+        "source": "eventLocation.facilityCode",
+        "target": "eventLocation.facility.facilityCode"
+      },
+      {
+        "kind": "match",
+        "source": "eventLocation.facilityCodeListProvider",
+        "target": "eventLocation.facility.facilityCodeListProvider"
+      },
+      {
+        "kind": "no_match",
+        "source": "eventLocation.address.name"
+      },
+      {
+        "kind": "match",
+        "source": "eventLocation.address.street",
+        "target": "eventLocation.address.street"
+      },
+      {
+        "kind": "match",
+        "source": "eventLocation.address.streetNumber",
+        "target": "eventLocation.address.streetNumber"
+      },
+      {
+        "kind": "match",
+        "source": "eventLocation.address.postCode",
+        "target": "eventLocation.address.postCode"
+      },
+      {
+        "kind": "match",
+        "source": "eventLocation.address.city",
+        "target": "eventLocation.address.city"
+      },
+      {
+        "kind": "match",
+        "source": "transportCall.transportCallID",
+        "target": "transportDetails.transportCall.transportCallReference"
+      },
+      {
+        "kind": "match",
+        "source": "transportCall.carrierServiceCode",
+        "target": "transportDetails.transportCall.serviceCodeOrReference.carrierServiceCode"
+      },
+      {
+        "kind": "match",
+        "source": "transportCall.exportVoyageNumber",
+        "target": "transportDetails.transportCall.exportVoyageNumberOrReference.carrierVoyageNumber"
+      },
+      {
+        "kind": "match",
+        "source": "transportCall.importVoyageNumber",
+        "target": "transportDetails.transportCall.importVoyageNumberOrReference.carrierVoyageNumber"
+      },
+      {
+        "kind": "match",
+        "source": "transportCall.transportCallSequenceNumber",
+        "target": "transportDetails.transportCall.transportCallSequenceNumber"
+      },
+      {
+        "kind": "match",
+        "source": "transportCall.modeOfTransport",
+        "target": "transportDetails.transportCall.modeOfTransport"
+      },
+      {
+        "kind": "match",
+        "source": "transportCall.vessel.vesselIMONumber",
+        "target": "transportDetails.transportCall.vesselTransport.vesselIMONumber"
+      },
+      {
+        "kind": "match",
+        "source": "transportCall.vessel.vesselCallSignNumber",
+        "target": "transportDetails.transportCall.vesselTransport.vesselCallSign"
+      },
+      {
+        "kind": "match",
+        "source": "transportCall.vessel.vesselOperatorCarrierCode",
+        "target": "transportDetails.transportCall.vesselTransport.operatorCarrierCode"
+      },
+      {
+        "kind": "match",
+        "source": "transportCall.vessel.vesselOperatorCarrierCodeListProvider",
+        "target": "transportDetails.transportCall.vesselTransport.operatorCarrierCodeListProvider"
+      },
+      {
+        "kind": "match",
+        "source": "seals[].sealNumber",
+        "target": "equipmentDetails.seals[].number"
+      },
+      {
+        "kind": "match",
+        "source": "seals[].sealSource",
+        "target": "equipmentDetails.seals[].source"
+      },
+      {
+        "kind": "match",
+        "source": "seals[].sealType",
+        "target": "equipmentDetails.seals[].type"
+      },
+      {
+        "kind": "no_match",
+        "source": "transportCall.otherFacility"
+      }
+    ]
+  }
+]

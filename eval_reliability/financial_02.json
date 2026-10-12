@@ -1,0 +1,413 @@
+{
+  "name": "treasury_assistance_download_to_database_schema_only",
+  "source": {
+    "fields": [
+      {
+        "name": "assistance_transaction_unique_key",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "assistance_type_code",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "assistance_type_description",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "business_funds_indicator_code",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "business_funds_indicator_description",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "business_types_code",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "business_types_description",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "cfda_number",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "cfda_title",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "correction_delete_indicator_code",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "correction_delete_indicator_description",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "face_value_of_loan",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "funding_opportunity_goals_text",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "funding_opportunity_number",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "indirect_cost_federal_share_amount",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "recipient_city_code",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "recipient_foreign_city_name",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "recipient_foreign_province_name",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "non_federal_funding_amount",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "original_loan_subsidy_cost",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "primary_place_of_performance_code",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "primary_place_of_performance_foreign_location",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "primary_place_of_performance_scope",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "record_type_code",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "record_type_description",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "sai_number",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "federal_action_obligation",
+        "data_type": "unknown",
+        "samples": []
+      }
+    ]
+  },
+  "target": {
+    "fields": [
+      {
+        "name": "afa_generated_unique",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "assistance_type",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "awarding_agency_code",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "awarding_agency_name",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "business_funds_indicator",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "business_funds_ind_desc",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "business_types",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "business_types_desc",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "cfda_number",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "cfda_title",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "correction_delete_indicatr",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "correction_delete_ind_desc",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "funding_agency_code",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "funding_agency_name",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "funding_opportunity_goals",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "funding_opportunity_number",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "indirect_federal_sharing",
+        "data_type": "decimal",
+        "samples": []
+      },
+      {
+        "name": "legal_entity_city_code",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "legal_entity_county_code",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "legal_entity_foreign_provi",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "non_federal_funding_amount",
+        "data_type": "decimal",
+        "samples": []
+      },
+      {
+        "name": "original_loan_subsidy_cost",
+        "data_type": "decimal",
+        "samples": []
+      },
+      {
+        "name": "place_of_performance_code",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "place_of_performance_forei",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "place_of_performance_scope",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "record_type",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "sai_number",
+        "data_type": "text",
+        "samples": []
+      }
+    ]
+  },
+  "answers": [
+    {
+      "kind": "match",
+      "source": "assistance_transaction_unique_key",
+      "target": "afa_generated_unique"
+    },
+    {
+      "kind": "match",
+      "source": "assistance_type_code",
+      "target": "assistance_type"
+    },
+    {
+      "kind": "no_match",
+      "source": "assistance_type_description"
+    },
+    {
+      "kind": "match",
+      "source": "business_funds_indicator_code",
+      "target": "business_funds_indicator"
+    },
+    {
+      "kind": "match",
+      "source": "business_funds_indicator_description",
+      "target": "business_funds_ind_desc"
+    },
+    {
+      "kind": "match",
+      "source": "business_types_code",
+      "target": "business_types"
+    },
+    {
+      "kind": "match",
+      "source": "business_types_description",
+      "target": "business_types_desc"
+    },
+    {
+      "kind": "match",
+      "source": "cfda_number",
+      "target": "cfda_number"
+    },
+    {
+      "kind": "match",
+      "source": "cfda_title",
+      "target": "cfda_title"
+    },
+    {
+      "kind": "match",
+      "source": "correction_delete_indicator_code",
+      "target": "correction_delete_indicatr"
+    },
+    {
+      "kind": "match",
+      "source": "correction_delete_indicator_description",
+      "target": "correction_delete_ind_desc"
+    },
+    {
+      "kind": "no_match",
+      "source": "face_value_of_loan"
+    },
+    {
+      "kind": "match",
+      "source": "funding_opportunity_goals_text",
+      "target": "funding_opportunity_goals"
+    },
+    {
+      "kind": "match",
+      "source": "funding_opportunity_number",
+      "target": "funding_opportunity_number"
+    },
+    {
+      "kind": "match",
+      "source": "indirect_cost_federal_share_amount",
+      "target": "indirect_federal_sharing"
+    },
+    {
+      "kind": "match",
+      "source": "recipient_city_code",
+      "target": "legal_entity_city_code"
+    },
+    {
+      "kind": "no_match",
+      "source": "recipient_foreign_city_name"
+    },
+    {
+      "kind": "match",
+      "source": "recipient_foreign_province_name",
+      "target": "legal_entity_foreign_provi"
+    },
+    {
+      "kind": "match",
+      "source": "non_federal_funding_amount",
+      "target": "non_federal_funding_amount"
+    },
+    {
+      "kind": "match",
+      "source": "original_loan_subsidy_cost",
+      "target": "original_loan_subsidy_cost"
+    },
+    {
+      "kind": "match",
+      "source": "primary_place_of_performance_code",
+      "target": "place_of_performance_code"
+    },
+    {
+      "kind": "match",
+      "source": "primary_place_of_performance_foreign_location",
+      "target": "place_of_performance_forei"
+    },
+    {
+      "kind": "match",
+      "source": "primary_place_of_performance_scope",
+      "target": "place_of_performance_scope"
+    },
+    {
+      "kind": "match",
+      "source": "record_type_code",
+      "target": "record_type"
+    },
+    {
+      "kind": "no_match",
+      "source": "record_type_description"
+    },
+    {
+      "kind": "match",
+      "source": "sai_number",
+      "target": "sai_number"
+    },
+    {
+      "kind": "no_match",
+      "source": "federal_action_obligation"
+    }
+  ]
+}

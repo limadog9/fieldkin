@@ -1,0 +1,468 @@
+{
+  "name": "heldout2_hl7_medicationrequest_r4_r5_projection",
+  "source": {
+    "fields": [
+      {
+        "name": "medicationReference.reference",
+        "data_type": "text",
+        "samples": [
+          "#med0310",
+          "#med0320",
+          "#med0311"
+        ]
+      },
+      {
+        "name": "medicationReference.display",
+        "data_type": "text",
+        "samples": [
+          "Nystatin 100,000 u/ml oral suspension",
+          "Myleran 2mg tablet",
+          "Piperacillin/Tazobactam 4.5gm"
+        ]
+      },
+      {
+        "name": "medicationCodeableConcept.coding.code",
+        "data_type": "text",
+        "samples": [
+          "856907",
+          "1313112",
+          "324252006"
+        ]
+      },
+      {
+        "name": "dosageInstruction.asNeededBoolean",
+        "data_type": "boolean",
+        "samples": [
+          "true"
+        ]
+      },
+      {
+        "name": "dispenseRequest.validityPeriod.start",
+        "data_type": "timestamp",
+        "samples": [
+          "2015-01-15"
+        ]
+      },
+      {
+        "name": "dispenseRequest.validityPeriod.end",
+        "data_type": "timestamp",
+        "samples": [
+          "2016-01-15"
+        ]
+      },
+      {
+        "name": "dispenseRequest.numberOfRepeatsAllowed",
+        "data_type": "integer",
+        "samples": [
+          "0",
+          "1",
+          "3"
+        ]
+      },
+      {
+        "name": "dosageInstruction.patientInstruction",
+        "data_type": "text",
+        "samples": [
+          "Take one to two tablets every four to six hours as needed for rib pain"
+        ]
+      },
+      {
+        "name": "dosageInstruction.text",
+        "data_type": "text",
+        "samples": [
+          "one to two tablets every 4-6 hours as needed for rib pain",
+          "Two tablets at once",
+          "One tablet daily for 4 days"
+        ]
+      },
+      {
+        "name": "dosageInstruction.sequence",
+        "data_type": "integer",
+        "samples": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "name": "dosageInstruction.timing.repeat.frequency",
+        "data_type": "integer",
+        "samples": [
+          "1",
+          "4",
+          "3"
+        ]
+      },
+      {
+        "name": "dosageInstruction.timing.repeat.period",
+        "data_type": "decimal",
+        "samples": [
+          "4",
+          "1",
+          "6"
+        ]
+      },
+      {
+        "name": "dosageInstruction.timing.repeat.periodUnit",
+        "data_type": "text",
+        "samples": [
+          "h",
+          "d",
+          "min"
+        ]
+      },
+      {
+        "name": "substitution.allowedBoolean",
+        "data_type": "boolean",
+        "samples": [
+          "true",
+          "false"
+        ]
+      },
+      {
+        "name": "performer.reference",
+        "data_type": "text",
+        "samples": [
+          "Practitioner/f204"
+        ]
+      },
+      {
+        "name": "recorder.reference",
+        "data_type": "text",
+        "samples": [
+          "Practitioner/f204"
+        ]
+      },
+      {
+        "name": "requester.reference",
+        "data_type": "text",
+        "samples": [
+          "Practitioner/f007"
+        ]
+      },
+      {
+        "name": "dispenseRequest.quantity.value",
+        "data_type": "decimal",
+        "samples": [
+          "30",
+          "6",
+          "51"
+        ]
+      },
+      {
+        "name": "dispenseRequest.quantity.unit",
+        "data_type": "text",
+        "samples": [
+          "TAB",
+          "ml",
+          "mL"
+        ]
+      },
+      {
+        "name": "dosageInstruction.maxDosePerLifetime.value",
+        "data_type": "decimal",
+        "samples": [
+          "400"
+        ]
+      },
+      {
+        "name": "dosageInstruction.maxDosePerAdministration.value",
+        "data_type": "decimal",
+        "samples": [
+          "4"
+        ]
+      },
+      {
+        "name": "authoredOn",
+        "data_type": "timestamp",
+        "samples": [
+          "2015-01-15"
+        ]
+      },
+      {
+        "name": "dosageInstruction.timing.event",
+        "data_type": "timestamp",
+        "samples": [
+          "2015-01-15T22:00:00+11:00"
+        ]
+      },
+      {
+        "name": "dosageInstruction.doseAndRate.doseQuantity.value",
+        "data_type": "decimal",
+        "samples": [
+          "2",
+          "1",
+          "4"
+        ]
+      }
+    ]
+  },
+  "target": {
+    "fields": [
+      {
+        "name": "medication.reference.reference",
+        "data_type": "text",
+        "samples": [
+          "#med0310",
+          "#med0320",
+          "#med0311"
+        ]
+      },
+      {
+        "name": "medication.reference.display",
+        "data_type": "text",
+        "samples": [
+          "Nystatin 100,000 u/ml oral suspension",
+          "Myleran 2mg tablet",
+          "Piperacillin/Tazobactam 4.5gm"
+        ]
+      },
+      {
+        "name": "medication.concept.coding.code",
+        "data_type": "text",
+        "samples": [
+          "856907",
+          "1313112",
+          "324252006"
+        ]
+      },
+      {
+        "name": "dosageInstruction.asNeeded",
+        "data_type": "boolean",
+        "samples": [
+          "true"
+        ]
+      },
+      {
+        "name": "dispenseRequest.validityPeriod.start",
+        "data_type": "timestamp",
+        "samples": [
+          "2015-01-15"
+        ]
+      },
+      {
+        "name": "dispenseRequest.validityPeriod.end",
+        "data_type": "timestamp",
+        "samples": [
+          "2016-01-15"
+        ]
+      },
+      {
+        "name": "dispenseRequest.numberOfRepeatsAllowed",
+        "data_type": "integer",
+        "samples": [
+          "0",
+          "1",
+          "3"
+        ]
+      },
+      {
+        "name": "dosageInstruction.patientInstruction",
+        "data_type": "text",
+        "samples": [
+          "Take one to two tablets every four to six hours as needed for rib pain"
+        ]
+      },
+      {
+        "name": "dosageInstruction.text",
+        "data_type": "text",
+        "samples": [
+          "one to two tablets every 4-6 hours as needed for rib pain",
+          "Two tablets at once",
+          "One tablet daily for 4 days"
+        ]
+      },
+      {
+        "name": "dosageInstruction.sequence",
+        "data_type": "integer",
+        "samples": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "name": "dosageInstruction.timing.repeat.frequency",
+        "data_type": "integer",
+        "samples": [
+          "1",
+          "4",
+          "3"
+        ]
+      },
+      {
+        "name": "dosageInstruction.timing.repeat.period",
+        "data_type": "decimal",
+        "samples": [
+          "4",
+          "1",
+          "6"
+        ]
+      },
+      {
+        "name": "dosageInstruction.timing.repeat.periodUnit",
+        "data_type": "text",
+        "samples": [
+          "h",
+          "d",
+          "min"
+        ]
+      },
+      {
+        "name": "substitution.allowedBoolean",
+        "data_type": "boolean",
+        "samples": [
+          "true",
+          "false"
+        ]
+      },
+      {
+        "name": "performer.reference",
+        "data_type": "text",
+        "samples": [
+          "Practitioner/f204"
+        ]
+      },
+      {
+        "name": "dosageInstruction.maxDosePerAdministration.value",
+        "data_type": "decimal",
+        "samples": [
+          "4"
+        ]
+      },
+      {
+        "name": "dosageInstruction.doseAndRate.doseQuantity.value",
+        "data_type": "decimal",
+        "samples": [
+          "2",
+          "1",
+          "4"
+        ]
+      },
+      {
+        "name": "dosageInstruction.doseAndRate.doseQuantity.unit",
+        "data_type": "text",
+        "samples": [
+          "TAB",
+          "drop",
+          "mg"
+        ]
+      }
+    ]
+  },
+  "answers": [
+    {
+      "kind": "match",
+      "source": "medicationReference.reference",
+      "target": "medication.reference.reference"
+    },
+    {
+      "kind": "match",
+      "source": "medicationReference.display",
+      "target": "medication.reference.display"
+    },
+    {
+      "kind": "match",
+      "source": "medicationCodeableConcept.coding.code",
+      "target": "medication.concept.coding.code"
+    },
+    {
+      "kind": "match",
+      "source": "dosageInstruction.asNeededBoolean",
+      "target": "dosageInstruction.asNeeded"
+    },
+    {
+      "kind": "match",
+      "source": "dispenseRequest.validityPeriod.start",
+      "target": "dispenseRequest.validityPeriod.start"
+    },
+    {
+      "kind": "match",
+      "source": "dispenseRequest.validityPeriod.end",
+      "target": "dispenseRequest.validityPeriod.end"
+    },
+    {
+      "kind": "match",
+      "source": "dispenseRequest.numberOfRepeatsAllowed",
+      "target": "dispenseRequest.numberOfRepeatsAllowed"
+    },
+    {
+      "kind": "match",
+      "source": "dosageInstruction.patientInstruction",
+      "target": "dosageInstruction.patientInstruction"
+    },
+    {
+      "kind": "match",
+      "source": "dosageInstruction.text",
+      "target": "dosageInstruction.text"
+    },
+    {
+      "kind": "match",
+      "source": "dosageInstruction.sequence",
+      "target": "dosageInstruction.sequence"
+    },
+    {
+      "kind": "match",
+      "source": "dosageInstruction.timing.repeat.frequency",
+      "target": "dosageInstruction.timing.repeat.frequency"
+    },
+    {
+      "kind": "match",
+      "source": "dosageInstruction.timing.repeat.period",
+      "target": "dosageInstruction.timing.repeat.period"
+    },
+    {
+      "kind": "match",
+      "source": "dosageInstruction.timing.repeat.periodUnit",
+      "target": "dosageInstruction.timing.repeat.periodUnit"
+    },
+    {
+      "kind": "match",
+      "source": "substitution.allowedBoolean",
+      "target": "substitution.allowedBoolean"
+    },
+    {
+      "kind": "match",
+      "source": "performer.reference",
+      "target": "performer.reference"
+    },
+    {
+      "kind": "no_match",
+      "source": "recorder.reference"
+    },
+    {
+      "kind": "no_match",
+      "source": "requester.reference"
+    },
+    {
+      "kind": "no_match",
+      "source": "dispenseRequest.quantity.value"
+    },
+    {
+      "kind": "no_match",
+      "source": "dispenseRequest.quantity.unit"
+    },
+    {
+      "kind": "no_match",
+      "source": "dosageInstruction.maxDosePerLifetime.value"
+    },
+    {
+      "kind": "match",
+      "source": "dosageInstruction.maxDosePerAdministration.value",
+      "target": "dosageInstruction.maxDosePerAdministration.value"
+    },
+    {
+      "kind": "no_match",
+      "source": "authoredOn"
+    },
+    {
+      "kind": "no_match",
+      "source": "dosageInstruction.timing.event"
+    },
+    {
+      "kind": "match",
+      "source": "dosageInstruction.doseAndRate.doseQuantity.value",
+      "target": "dosageInstruction.doseAndRate.doseQuantity.value"
+    }
+  ]
+}

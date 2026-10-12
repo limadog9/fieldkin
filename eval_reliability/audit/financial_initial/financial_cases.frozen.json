@@ -1,0 +1,1156 @@
+[
+  {
+    "name": "financial_stripe_plan_price_schema_projection",
+    "source": {
+      "fields": [
+        {
+          "name": "active",
+          "data_type": "boolean",
+          "samples": []
+        },
+        {
+          "name": "amount",
+          "data_type": "integer",
+          "samples": []
+        },
+        {
+          "name": "amount_decimal",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "billing_scheme",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "created",
+          "data_type": "integer",
+          "samples": []
+        },
+        {
+          "name": "currency",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "id",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "interval",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "interval_count",
+          "data_type": "integer",
+          "samples": []
+        },
+        {
+          "name": "livemode",
+          "data_type": "boolean",
+          "samples": []
+        },
+        {
+          "name": "meter",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "nickname",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "product",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "tiers[].flat_amount",
+          "data_type": "integer",
+          "samples": []
+        },
+        {
+          "name": "tiers[].flat_amount_decimal",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "tiers[].unit_amount",
+          "data_type": "integer",
+          "samples": []
+        },
+        {
+          "name": "tiers[].unit_amount_decimal",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "tiers[].up_to",
+          "data_type": "integer",
+          "samples": []
+        },
+        {
+          "name": "tiers_mode",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "transform_usage.divide_by",
+          "data_type": "integer",
+          "samples": []
+        },
+        {
+          "name": "transform_usage.round",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "trial_period_days",
+          "data_type": "integer",
+          "samples": []
+        },
+        {
+          "name": "usage_type",
+          "data_type": "text",
+          "samples": []
+        }
+      ]
+    },
+    "target": {
+      "fields": [
+        {
+          "name": "active",
+          "data_type": "boolean",
+          "samples": []
+        },
+        {
+          "name": "billing_scheme",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "currency",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "custom_unit_amount.maximum",
+          "data_type": "integer",
+          "samples": []
+        },
+        {
+          "name": "custom_unit_amount.minimum",
+          "data_type": "integer",
+          "samples": []
+        },
+        {
+          "name": "custom_unit_amount.preset",
+          "data_type": "integer",
+          "samples": []
+        },
+        {
+          "name": "livemode",
+          "data_type": "boolean",
+          "samples": []
+        },
+        {
+          "name": "lookup_key",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "nickname",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "product",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "recurring.interval",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "recurring.interval_count",
+          "data_type": "integer",
+          "samples": []
+        },
+        {
+          "name": "recurring.meter",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "recurring.usage_type",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "tax_behavior",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "tiers[].unit_amount",
+          "data_type": "integer",
+          "samples": []
+        },
+        {
+          "name": "tiers[].unit_amount_decimal",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "tiers[].up_to",
+          "data_type": "integer",
+          "samples": []
+        },
+        {
+          "name": "tiers_mode",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "transform_quantity.divide_by",
+          "data_type": "integer",
+          "samples": []
+        },
+        {
+          "name": "transform_quantity.round",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "type",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "unit_amount",
+          "data_type": "integer",
+          "samples": []
+        },
+        {
+          "name": "unit_amount_decimal",
+          "data_type": "text",
+          "samples": []
+        }
+      ]
+    },
+    "answers": [
+      {
+        "kind": "match",
+        "source": "active",
+        "target": "active"
+      },
+      {
+        "kind": "match",
+        "source": "amount",
+        "target": "unit_amount"
+      },
+      {
+        "kind": "match",
+        "source": "amount_decimal",
+        "target": "unit_amount_decimal"
+      },
+      {
+        "kind": "match",
+        "source": "billing_scheme",
+        "target": "billing_scheme"
+      },
+      {
+        "kind": "no_match",
+        "source": "created"
+      },
+      {
+        "kind": "match",
+        "source": "currency",
+        "target": "currency"
+      },
+      {
+        "kind": "no_match",
+        "source": "id"
+      },
+      {
+        "kind": "match",
+        "source": "interval",
+        "target": "recurring.interval"
+      },
+      {
+        "kind": "match",
+        "source": "interval_count",
+        "target": "recurring.interval_count"
+      },
+      {
+        "kind": "match",
+        "source": "livemode",
+        "target": "livemode"
+      },
+      {
+        "kind": "match",
+        "source": "meter",
+        "target": "recurring.meter"
+      },
+      {
+        "kind": "match",
+        "source": "nickname",
+        "target": "nickname"
+      },
+      {
+        "kind": "match",
+        "source": "product",
+        "target": "product"
+      },
+      {
+        "kind": "no_match",
+        "source": "tiers[].flat_amount"
+      },
+      {
+        "kind": "no_match",
+        "source": "tiers[].flat_amount_decimal"
+      },
+      {
+        "kind": "match",
+        "source": "tiers[].unit_amount",
+        "target": "tiers[].unit_amount"
+      },
+      {
+        "kind": "match",
+        "source": "tiers[].unit_amount_decimal",
+        "target": "tiers[].unit_amount_decimal"
+      },
+      {
+        "kind": "match",
+        "source": "tiers[].up_to",
+        "target": "tiers[].up_to"
+      },
+      {
+        "kind": "match",
+        "source": "tiers_mode",
+        "target": "tiers_mode"
+      },
+      {
+        "kind": "match",
+        "source": "transform_usage.divide_by",
+        "target": "transform_quantity.divide_by"
+      },
+      {
+        "kind": "match",
+        "source": "transform_usage.round",
+        "target": "transform_quantity.round"
+      },
+      {
+        "kind": "no_match",
+        "source": "trial_period_days"
+      },
+      {
+        "kind": "match",
+        "source": "usage_type",
+        "target": "recurring.usage_type"
+      }
+    ]
+  },
+  {
+    "name": "treasury_assistance_download_to_database_schema_only",
+    "source": {
+      "fields": [
+        {
+          "name": "assistance_transaction_unique_key",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "assistance_type_code",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "assistance_type_description",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "business_funds_indicator_code",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "business_funds_indicator_description",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "business_types_code",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "business_types_description",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "cfda_number",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "cfda_title",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "correction_delete_indicator_code",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "correction_delete_indicator_description",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "face_value_of_loan",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "funding_opportunity_goals_text",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "funding_opportunity_number",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "indirect_cost_federal_share_amount",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "recipient_city_code",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "recipient_foreign_city_name",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "recipient_foreign_province_name",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "non_federal_funding_amount",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "original_loan_subsidy_cost",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "primary_place_of_performance_code",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "primary_place_of_performance_foreign_location",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "primary_place_of_performance_scope",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "record_type_code",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "record_type_description",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "sai_number",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "federal_action_obligation",
+          "data_type": "unknown",
+          "samples": []
+        }
+      ]
+    },
+    "target": {
+      "fields": [
+        {
+          "name": "afa_generated_unique",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "assistance_type",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "awarding_agency_code",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "awarding_agency_name",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "business_funds_indicator",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "business_funds_ind_desc",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "business_types",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "business_types_desc",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "cfda_number",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "cfda_title",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "correction_delete_indicatr",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "correction_delete_ind_desc",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "funding_agency_code",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "funding_agency_name",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "funding_opportunity_goals",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "funding_opportunity_number",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "indirect_federal_sharing",
+          "data_type": "decimal",
+          "samples": []
+        },
+        {
+          "name": "legal_entity_city_code",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "legal_entity_county_code",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "legal_entity_foreign_provi",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "non_federal_funding_amount",
+          "data_type": "decimal",
+          "samples": []
+        },
+        {
+          "name": "original_loan_subsidy_cost",
+          "data_type": "decimal",
+          "samples": []
+        },
+        {
+          "name": "place_of_performance_code",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "place_of_performance_forei",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "place_of_performance_scope",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "record_type",
+          "data_type": "integer",
+          "samples": []
+        },
+        {
+          "name": "sai_number",
+          "data_type": "text",
+          "samples": []
+        }
+      ]
+    },
+    "answers": [
+      {
+        "kind": "match",
+        "source": "assistance_transaction_unique_key",
+        "target": "afa_generated_unique"
+      },
+      {
+        "kind": "match",
+        "source": "assistance_type_code",
+        "target": "assistance_type"
+      },
+      {
+        "kind": "no_match",
+        "source": "assistance_type_description"
+      },
+      {
+        "kind": "match",
+        "source": "business_funds_indicator_code",
+        "target": "business_funds_indicator"
+      },
+      {
+        "kind": "match",
+        "source": "business_funds_indicator_description",
+        "target": "business_funds_ind_desc"
+      },
+      {
+        "kind": "match",
+        "source": "business_types_code",
+        "target": "business_types"
+      },
+      {
+        "kind": "match",
+        "source": "business_types_description",
+        "target": "business_types_desc"
+      },
+      {
+        "kind": "match",
+        "source": "cfda_number",
+        "target": "cfda_number"
+      },
+      {
+        "kind": "match",
+        "source": "cfda_title",
+        "target": "cfda_title"
+      },
+      {
+        "kind": "match",
+        "source": "correction_delete_indicator_code",
+        "target": "correction_delete_indicatr"
+      },
+      {
+        "kind": "match",
+        "source": "correction_delete_indicator_description",
+        "target": "correction_delete_ind_desc"
+      },
+      {
+        "kind": "no_match",
+        "source": "face_value_of_loan"
+      },
+      {
+        "kind": "match",
+        "source": "funding_opportunity_goals_text",
+        "target": "funding_opportunity_goals"
+      },
+      {
+        "kind": "match",
+        "source": "funding_opportunity_number",
+        "target": "funding_opportunity_number"
+      },
+      {
+        "kind": "match",
+        "source": "indirect_cost_federal_share_amount",
+        "target": "indirect_federal_sharing"
+      },
+      {
+        "kind": "match",
+        "source": "recipient_city_code",
+        "target": "legal_entity_city_code"
+      },
+      {
+        "kind": "no_match",
+        "source": "recipient_foreign_city_name"
+      },
+      {
+        "kind": "match",
+        "source": "recipient_foreign_province_name",
+        "target": "legal_entity_foreign_provi"
+      },
+      {
+        "kind": "match",
+        "source": "non_federal_funding_amount",
+        "target": "non_federal_funding_amount"
+      },
+      {
+        "kind": "match",
+        "source": "original_loan_subsidy_cost",
+        "target": "original_loan_subsidy_cost"
+      },
+      {
+        "kind": "match",
+        "source": "primary_place_of_performance_code",
+        "target": "place_of_performance_code"
+      },
+      {
+        "kind": "match",
+        "source": "primary_place_of_performance_foreign_location",
+        "target": "place_of_performance_forei"
+      },
+      {
+        "kind": "match",
+        "source": "primary_place_of_performance_scope",
+        "target": "place_of_performance_scope"
+      },
+      {
+        "kind": "match",
+        "source": "record_type_code",
+        "target": "record_type"
+      },
+      {
+        "kind": "no_match",
+        "source": "record_type_description"
+      },
+      {
+        "kind": "match",
+        "source": "sai_number",
+        "target": "sai_number"
+      },
+      {
+        "kind": "no_match",
+        "source": "federal_action_obligation"
+      }
+    ]
+  },
+  {
+    "name": "treasury_contract_download_to_database_schema_only",
+    "source": {
+      "fields": [
+        {
+          "name": "base_and_all_options_value",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "base_and_exercised_options_value",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "current_total_value_of_award",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "potential_total_value_of_award",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "ordering_period_end_date",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "period_of_performance_potential_end_date",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "solicitation_date",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "cost_or_pricing_data_code",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "cost_or_pricing_data",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "evaluated_preference_code",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "evaluated_preference",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "extent_competed_code",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "extent_competed",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "number_of_offers_received",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "product_or_service_code",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "product_or_service_code_description",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "solicitation_identifier",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "solicitation_procedures_code",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "solicitation_procedures",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "type_of_set_aside_code",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "type_of_set_aside",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "type_of_contract_pricing_code",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "type_of_contract_pricing",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "dod_acquisition_program_code",
+          "data_type": "unknown",
+          "samples": []
+        },
+        {
+          "name": "dod_acquisition_program_description",
+          "data_type": "unknown",
+          "samples": []
+        }
+      ]
+    },
+    "target": {
+      "fields": [
+        {
+          "name": "base_exercised_options_val",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "cost_accounting_standards",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "cost_accounting_stand_desc",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "cost_or_pricing_data",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "country_of_product_or_serv",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "country_of_product_or_desc",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "current_total_value_award",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "program_system_or_equipmen",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "program_system_or_equ_desc",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "evaluated_preference",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "extent_competed",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "extent_compete_description",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "number_of_offers_received",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "period_of_perf_potential_e",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "potential_total_value_awar",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "price_evaluation_adjustmen",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "product_or_service_code",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "product_or_service_co_desc",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "solicitation_identifier",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "solicitation_procedures",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "solicitation_date",
+          "data_type": "date",
+          "samples": []
+        },
+        {
+          "name": "type_set_aside",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "type_set_aside_description",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "type_of_contract_pricing",
+          "data_type": "text",
+          "samples": []
+        },
+        {
+          "name": "type_of_contract_pric_desc",
+          "data_type": "text",
+          "samples": []
+        }
+      ]
+    },
+    "answers": [
+      {
+        "kind": "no_match",
+        "source": "base_and_all_options_value"
+      },
+      {
+        "kind": "match",
+        "source": "base_and_exercised_options_value",
+        "target": "base_exercised_options_val"
+      },
+      {
+        "kind": "match",
+        "source": "current_total_value_of_award",
+        "target": "current_total_value_award"
+      },
+      {
+        "kind": "match",
+        "source": "potential_total_value_of_award",
+        "target": "potential_total_value_awar"
+      },
+      {
+        "kind": "no_match",
+        "source": "ordering_period_end_date"
+      },
+      {
+        "kind": "match",
+        "source": "period_of_performance_potential_end_date",
+        "target": "period_of_perf_potential_e"
+      },
+      {
+        "kind": "match",
+        "source": "solicitation_date",
+        "target": "solicitation_date"
+      },
+      {
+        "kind": "match",
+        "source": "cost_or_pricing_data_code",
+        "target": "cost_or_pricing_data"
+      },
+      {
+        "kind": "no_match",
+        "source": "cost_or_pricing_data"
+      },
+      {
+        "kind": "match",
+        "source": "evaluated_preference_code",
+        "target": "evaluated_preference"
+      },
+      {
+        "kind": "no_match",
+        "source": "evaluated_preference"
+      },
+      {
+        "kind": "match",
+        "source": "extent_competed_code",
+        "target": "extent_competed"
+      },
+      {
+        "kind": "match",
+        "source": "extent_competed",
+        "target": "extent_compete_description"
+      },
+      {
+        "kind": "match",
+        "source": "number_of_offers_received",
+        "target": "number_of_offers_received"
+      },
+      {
+        "kind": "match",
+        "source": "product_or_service_code",
+        "target": "product_or_service_code"
+      },
+      {
+        "kind": "match",
+        "source": "product_or_service_code_description",
+        "target": "product_or_service_co_desc"
+      },
+      {
+        "kind": "match",
+        "source": "solicitation_identifier",
+        "target": "solicitation_identifier"
+      },
+      {
+        "kind": "match",
+        "source": "solicitation_procedures_code",
+        "target": "solicitation_procedures"
+      },
+      {
+        "kind": "no_match",
+        "source": "solicitation_procedures"
+      },
+      {
+        "kind": "match",
+        "source": "type_of_set_aside_code",
+        "target": "type_set_aside"
+      },
+      {
+        "kind": "match",
+        "source": "type_of_set_aside",
+        "target": "type_set_aside_description"
+      },
+      {
+        "kind": "match",
+        "source": "type_of_contract_pricing_code",
+        "target": "type_of_contract_pricing"
+      },
+      {
+        "kind": "match",
+        "source": "type_of_contract_pricing",
+        "target": "type_of_contract_pric_desc"
+      },
+      {
+        "kind": "match",
+        "source": "dod_acquisition_program_code",
+        "target": "program_system_or_equipmen"
+      },
+      {
+        "kind": "match",
+        "source": "dod_acquisition_program_description",
+        "target": "program_system_or_equ_desc"
+      }
+    ]
+  }
+]

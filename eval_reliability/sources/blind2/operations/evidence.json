@@ -1,0 +1,1215 @@
+{
+  "source_fields": [
+    {
+      "name": "last_updated",
+      "normalized_type": "integer",
+      "schema": "resources/station-status-2.3.json",
+      "schema_pointer": "/properties/last_updated",
+      "declared_schema": {
+        "description": "Last time the data in the feed was updated in POSIX time.",
+        "type": "integer",
+        "minimum": 1450155600
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "last_updated",
+          "description": "Last time the data in the feed was updated in POSIX time."
+        }
+      ],
+      "documentation": "resources/gbfs-2.3.md",
+      "definition_lines": [],
+      "sample_path": "last_updated",
+      "samples": [
+        "1640887163"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    },
+    {
+      "name": "ttl",
+      "normalized_type": "integer",
+      "schema": "resources/station-status-2.3.json",
+      "schema_pointer": "/properties/ttl",
+      "declared_schema": {
+        "description": "Number of seconds before the data in the feed will be updated again (0 if the data should always be refreshed).",
+        "type": "integer",
+        "minimum": 0
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "ttl",
+          "description": "Number of seconds before the data in the feed will be updated again (0 if the data should always be refreshed)."
+        }
+      ],
+      "documentation": "resources/gbfs-2.3.md",
+      "definition_lines": [],
+      "sample_path": "ttl",
+      "samples": [
+        "0"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    },
+    {
+      "name": "version",
+      "normalized_type": "text",
+      "schema": "resources/station-status-2.3.json",
+      "schema_pointer": "/properties/version",
+      "declared_schema": {
+        "description": "GBFS version number to which the feed conforms, according to the versioning framework (added in v1.1).",
+        "type": "string",
+        "const": "2.3"
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "version",
+          "description": "GBFS version number to which the feed conforms, according to the versioning framework (added in v1.1)."
+        }
+      ],
+      "documentation": "resources/gbfs-2.3.md",
+      "definition_lines": [],
+      "sample_path": "version",
+      "samples": [
+        "2.3"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    },
+    {
+      "name": "data.stations[].station_id",
+      "normalized_type": "text",
+      "schema": "resources/station-status-2.3.json",
+      "schema_pointer": "/properties/data/properties/stations/items/properties/station_id",
+      "declared_schema": {
+        "description": "Identifier of a station.",
+        "type": "string"
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "data",
+          "description": "Array that contains one object per station as defined below."
+        },
+        {
+          "path": "data.stations",
+          "description": null
+        },
+        {
+          "path": "data.stations[].station_id",
+          "description": "Identifier of a station."
+        }
+      ],
+      "documentation": "resources/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 686,
+          "quote": "\\-&nbsp;`station_id` | Yes | ID | Identifier of a station. See [station_information.json](#station_informationjson)."
+        }
+      ],
+      "sample_path": "data.stations[].station_id",
+      "samples": [
+        "station1",
+        "station2"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    },
+    {
+      "name": "data.stations[].num_bikes_available",
+      "normalized_type": "integer",
+      "schema": "resources/station-status-2.3.json",
+      "schema_pointer": "/properties/data/properties/stations/items/properties/num_bikes_available",
+      "declared_schema": {
+        "description": "Number of vehicles of any type physically available for rental at the station.",
+        "type": "integer",
+        "minimum": 0
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "data",
+          "description": "Array that contains one object per station as defined below."
+        },
+        {
+          "path": "data.stations",
+          "description": null
+        },
+        {
+          "path": "data.stations[].num_bikes_available",
+          "description": "Number of vehicles of any type physically available for rental at the station."
+        }
+      ],
+      "documentation": "resources/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 687,
+          "quote": "\\-&nbsp;`num_bikes_available` | Yes | Non-negative integer | Number of functional vehicles physically at the station that may be offered for rental. To know if the vehicles are available for rental, see `is_renting`. <br/><br/>If `is_renting` = `true`, this is the number of vehicles that are currently available for rent. If `is_renting` =`false`, this is the number of vehicles that would be available for rent if the station were set to allow rentals."
+        },
+        {
+          "line": 688,
+          "quote": "\\- `vehicle_types_available` <br/>*(added in v2.1)* | Conditionally REQUIRED | Array | REQUIRED if the [vehicle_types.json](#vehicle_typesjson) file has been defined. This field's value is an array of objects. Each of these objects is used to model the total number of each defined vehicle type available at a station. The total number of vehicles from each of these objects SHOULD add up to match the value specified in the `num_bikes_available`  field."
+        }
+      ],
+      "sample_path": "data.stations[].num_bikes_available",
+      "samples": [
+        "1",
+        "6"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    },
+    {
+      "name": "data.stations[].vehicle_types_available[].vehicle_type_id",
+      "normalized_type": "text",
+      "schema": "resources/station-status-2.3.json",
+      "schema_pointer": "/properties/data/properties/stations/items/properties/vehicle_types_available/items/properties/vehicle_type_id",
+      "declared_schema": {
+        "description": "The vehicle_type_id of vehicle at the station (added in v2.1-RC).",
+        "type": "string"
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "data",
+          "description": "Array that contains one object per station as defined below."
+        },
+        {
+          "path": "data.stations",
+          "description": null
+        },
+        {
+          "path": "data.stations[].vehicle_types_available",
+          "description": "Array of objects displaying the total number of each vehicle type at the station (added in v2.1-RC)."
+        },
+        {
+          "path": "data.stations[].vehicle_types_available[].vehicle_type_id",
+          "description": "The vehicle_type_id of vehicle at the station (added in v2.1-RC)."
+        }
+      ],
+      "documentation": "resources/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 689,
+          "quote": "&emsp;\\- `vehicle_type_id` <br/>*(added in v2.1)* | Conditionally REQUIRED | ID | REQUIRED if the `vehicle_types_available` is defined. The `vehicle_type_id` of each vehicle type at the station as described in [vehicle_types.json](#vehicle_typesjson). "
+        },
+        {
+          "line": 690,
+          "quote": "&emsp;\\- `count` <br/>*(added in v2.1)* | Conditionally REQUIRED | Non-negative integer | The total number of available vehicles of the corresponding `vehicle_type_id`, as defined in [vehicle_types.json](#vehicle_typesjson), at the station."
+        },
+        {
+          "line": 694,
+          "quote": "&emsp;\\- `vehicle_type_ids` <br/>*(added in v2.1)* | Conditionally REQUIRED | Array | REQUIRED if `vehicle_docks_available` is defined. An array of strings where each string represents a `vehicle_type_id` that is able to use a particular type of dock at the station"
+        },
+        {
+          "line": 695,
+          "quote": "&emsp;\\- `count` <br/>*(added in v2.1)* | Conditionally REQUIRED | Non-negative integer | REQUIRED if `vehicle_docks_available` is defined. The total number of available docks at the station, that can accept vehicles of the corresponding `vehicle_type_id`, in the `vehicle_type_ids` array."
+        }
+      ],
+      "sample_path": "data.stations[].vehicle_types_available[].vehicle_type_id",
+      "samples": [
+        "abc123",
+        "def456"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    },
+    {
+      "name": "data.stations[].vehicle_types_available[].count",
+      "normalized_type": "integer",
+      "schema": "resources/station-status-2.3.json",
+      "schema_pointer": "/properties/data/properties/stations/items/properties/vehicle_types_available/items/properties/count",
+      "declared_schema": {
+        "description": "A number representing the total amount of this vehicle type at the station (added in v2.1-RC).",
+        "type": "integer",
+        "minimum": 0
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "data",
+          "description": "Array that contains one object per station as defined below."
+        },
+        {
+          "path": "data.stations",
+          "description": null
+        },
+        {
+          "path": "data.stations[].vehicle_types_available",
+          "description": "Array of objects displaying the total number of each vehicle type at the station (added in v2.1-RC)."
+        },
+        {
+          "path": "data.stations[].vehicle_types_available[].count",
+          "description": "A number representing the total amount of this vehicle type at the station (added in v2.1-RC)."
+        }
+      ],
+      "documentation": "resources/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 690,
+          "quote": "&emsp;\\- `count` <br/>*(added in v2.1)* | Conditionally REQUIRED | Non-negative integer | The total number of available vehicles of the corresponding `vehicle_type_id`, as defined in [vehicle_types.json](#vehicle_typesjson), at the station."
+        },
+        {
+          "line": 695,
+          "quote": "&emsp;\\- `count` <br/>*(added in v2.1)* | Conditionally REQUIRED | Non-negative integer | REQUIRED if `vehicle_docks_available` is defined. The total number of available docks at the station, that can accept vehicles of the corresponding `vehicle_type_id`, in the `vehicle_type_ids` array."
+        }
+      ],
+      "sample_path": "data.stations[].vehicle_types_available[].count",
+      "samples": [
+        "1",
+        "0",
+        "2",
+        "4"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    },
+    {
+      "name": "data.stations[].num_bikes_disabled",
+      "normalized_type": "integer",
+      "schema": "resources/station-status-2.3.json",
+      "schema_pointer": "/properties/data/properties/stations/items/properties/num_bikes_disabled",
+      "declared_schema": {
+        "description": "Number of disabled vehicles of any type at the station.",
+        "type": "integer",
+        "minimum": 0
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "data",
+          "description": "Array that contains one object per station as defined below."
+        },
+        {
+          "path": "data.stations",
+          "description": null
+        },
+        {
+          "path": "data.stations[].num_bikes_disabled",
+          "description": "Number of disabled vehicles of any type at the station."
+        }
+      ],
+      "documentation": "resources/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 691,
+          "quote": "\\-&nbsp;`num_bikes_disabled` | OPTIONAL | Non-negative integer | Number of disabled vehicles of any type at the station. Vendors who do not want to publicize the number of disabled vehicles or docks in their system can opt to omit station `capacity` (in [station_information.json](#station_informationjson), `num_bikes_disabled`, and `num_docks_disabled` *(as of v2.0)*. If station `capacity` is published, then broken docks/vehicles can be inferred (though not specifically whether the decreased capacity is a broken vehicle or dock)."
+        }
+      ],
+      "sample_path": "data.stations[].num_bikes_disabled",
+      "samples": [
+        "2",
+        "1"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    },
+    {
+      "name": "data.stations[].num_docks_available",
+      "normalized_type": "integer",
+      "schema": "resources/station-status-2.3.json",
+      "schema_pointer": "/properties/data/properties/stations/items/properties/num_docks_available",
+      "declared_schema": {
+        "description": "Number of functional docks physically at the station.",
+        "type": "integer",
+        "minimum": 0
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "data",
+          "description": "Array that contains one object per station as defined below."
+        },
+        {
+          "path": "data.stations",
+          "description": null
+        },
+        {
+          "path": "data.stations[].num_docks_available",
+          "description": "Number of functional docks physically at the station."
+        }
+      ],
+      "documentation": "resources/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 692,
+          "quote": "\\-&nbsp;`num_docks_available` | Conditionally REQUIRED <br/>*(as of v2.0)* | Non-negative integer | REQUIRED except for stations that have unlimited docking capacity (for example, valet stations) *(as of v2.0)*. Number of functional docks physically at the station that are able to accept vehicles for return. To know if the docks are accepting vehicle returns, see `is_returning`. <br /><br/> If `is_returning` = `true`, this is the number of docks that are currently available to accept vehicle returns. If `is_returning` = `false`, this is the number of docks that would be available if the station were set to allow returns."
+        },
+        {
+          "line": 693,
+          "quote": "\\- `vehicle_docks_available` <br/>*(added in v2.1)* | Conditionally REQUIRED | Array | REQUIRED in feeds where the [vehicle_types.json](#vehicle_typesjson) is defined and where certain docks are only able to accept certain vehicle types. If every dock at the station is able to accept any vehicle type, then this field is not REQUIRED. This field's value is an array of objects. Each of these objects is used to model the number of docks available for certain vehicle types. The total number of docks from each of these objects SHOULD add up to match the value specified in the `num_docks_available` field."
+        }
+      ],
+      "sample_path": "data.stations[].num_docks_available",
+      "samples": [
+        "3",
+        "8"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    },
+    {
+      "name": "data.stations[].num_docks_disabled",
+      "normalized_type": "integer",
+      "schema": "resources/station-status-2.3.json",
+      "schema_pointer": "/properties/data/properties/stations/items/properties/num_docks_disabled",
+      "declared_schema": {
+        "description": "Number of empty but disabled docks at the station.",
+        "type": "integer",
+        "minimum": 0
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "data",
+          "description": "Array that contains one object per station as defined below."
+        },
+        {
+          "path": "data.stations",
+          "description": null
+        },
+        {
+          "path": "data.stations[].num_docks_disabled",
+          "description": "Number of empty but disabled docks at the station."
+        }
+      ],
+      "documentation": "resources/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 691,
+          "quote": "\\-&nbsp;`num_bikes_disabled` | OPTIONAL | Non-negative integer | Number of disabled vehicles of any type at the station. Vendors who do not want to publicize the number of disabled vehicles or docks in their system can opt to omit station `capacity` (in [station_information.json](#station_informationjson), `num_bikes_disabled`, and `num_docks_disabled` *(as of v2.0)*. If station `capacity` is published, then broken docks/vehicles can be inferred (though not specifically whether the decreased capacity is a broken vehicle or dock)."
+        },
+        {
+          "line": 696,
+          "quote": "\\-&nbsp;`num_docks_disabled` | OPTIONAL | Non-negative integer | Number of disabled dock points at the station."
+        }
+      ],
+      "sample_path": "data.stations[].num_docks_disabled",
+      "samples": [
+        "1"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    },
+    {
+      "name": "data.stations[].is_installed",
+      "normalized_type": "boolean",
+      "schema": "resources/station-status-2.3.json",
+      "schema_pointer": "/properties/data/properties/stations/items/properties/is_installed",
+      "declared_schema": {
+        "description": "Is the station currently on the street?",
+        "type": "boolean"
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "data",
+          "description": "Array that contains one object per station as defined below."
+        },
+        {
+          "path": "data.stations",
+          "description": null
+        },
+        {
+          "path": "data.stations[].is_installed",
+          "description": "Is the station currently on the street?"
+        }
+      ],
+      "documentation": "resources/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 697,
+          "quote": "\\-&nbsp;`is_installed` | Yes | Boolean | Is the station currently on the street?<br/><br/>`true` - Station is installed on the street.<br/>`false` - Station is not installed on the street.<br/><br/>Boolean SHOULD be set to `true` when equipment is present on the street. In seasonal systems where equipment is removed during winter, boolean SHOULD be set to `false` during the off season. May also be set to false to indicate planned (future) stations which have not yet been installed."
+        }
+      ],
+      "sample_path": "data.stations[].is_installed",
+      "samples": [
+        "true"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    },
+    {
+      "name": "data.stations[].is_renting",
+      "normalized_type": "boolean",
+      "schema": "resources/station-status-2.3.json",
+      "schema_pointer": "/properties/data/properties/stations/items/properties/is_renting",
+      "declared_schema": {
+        "description": "Is the station currently renting vehicles?",
+        "type": "boolean"
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "data",
+          "description": "Array that contains one object per station as defined below."
+        },
+        {
+          "path": "data.stations",
+          "description": null
+        },
+        {
+          "path": "data.stations[].is_renting",
+          "description": "Is the station currently renting vehicles?"
+        }
+      ],
+      "documentation": "resources/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 687,
+          "quote": "\\-&nbsp;`num_bikes_available` | Yes | Non-negative integer | Number of functional vehicles physically at the station that may be offered for rental. To know if the vehicles are available for rental, see `is_renting`. <br/><br/>If `is_renting` = `true`, this is the number of vehicles that are currently available for rent. If `is_renting` =`false`, this is the number of vehicles that would be available for rent if the station were set to allow rentals."
+        },
+        {
+          "line": 698,
+          "quote": "\\-&nbsp;`is_renting` | Yes | Boolean | Is the station currently renting vehicles? <br /><br />`true` - Station is renting vehicles. Even if the station is empty, if it would otherwise allow rentals, this value MUST be `true`.<br/>`false` - Station is not renting vehicles.<br/><br/>If the station is temporarily taken out of service and not allowing rentals, this field MUST be set to `false`.<br/><br/>If a station becomes inaccessible to users due to road construction or other factors this field SHOULD be set to `false`. Field SHOULD be set to `false` during hours or days when the system is not offering vehicles for rent."
+        }
+      ],
+      "sample_path": "data.stations[].is_renting",
+      "samples": [
+        "true"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    },
+    {
+      "name": "data.stations[].is_returning",
+      "normalized_type": "boolean",
+      "schema": "resources/station-status-2.3.json",
+      "schema_pointer": "/properties/data/properties/stations/items/properties/is_returning",
+      "declared_schema": {
+        "description": "Is the station accepting vehicle returns?",
+        "type": "boolean"
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "data",
+          "description": "Array that contains one object per station as defined below."
+        },
+        {
+          "path": "data.stations",
+          "description": null
+        },
+        {
+          "path": "data.stations[].is_returning",
+          "description": "Is the station accepting vehicle returns?"
+        }
+      ],
+      "documentation": "resources/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 692,
+          "quote": "\\-&nbsp;`num_docks_available` | Conditionally REQUIRED <br/>*(as of v2.0)* | Non-negative integer | REQUIRED except for stations that have unlimited docking capacity (for example, valet stations) *(as of v2.0)*. Number of functional docks physically at the station that are able to accept vehicles for return. To know if the docks are accepting vehicle returns, see `is_returning`. <br /><br/> If `is_returning` = `true`, this is the number of docks that are currently available to accept vehicle returns. If `is_returning` = `false`, this is the number of docks that would be available if the station were set to allow returns."
+        },
+        {
+          "line": 699,
+          "quote": "\\-&nbsp;`is_returning` | Yes | Boolean | Is the station accepting vehicle returns? <br /><br />`true` - Station is accepting vehicle returns. Even if the station is full, if it would otherwise allow vehicle returns, this value MUST be `true`.<br /> `false` - Station is not accepting vehicle returns.<br/><br/>If the station is temporarily taken out of service and not allowing vehicle returns, this field MUST be set to `false`.<br/><br/>If a station becomes inaccessible to users due to road construction or other factors, this field SHOULD be set to `false`."
+        }
+      ],
+      "sample_path": "data.stations[].is_returning",
+      "samples": [
+        "true"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    },
+    {
+      "name": "data.stations[].last_reported",
+      "normalized_type": "integer",
+      "schema": "resources/station-status-2.3.json",
+      "schema_pointer": "/properties/data/properties/stations/items/properties/last_reported",
+      "declared_schema": {
+        "description": "The last time this station reported its status to the operator's backend in POSIX time.",
+        "type": "integer",
+        "minimum": 1450155600
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "data",
+          "description": "Array that contains one object per station as defined below."
+        },
+        {
+          "path": "data.stations",
+          "description": null
+        },
+        {
+          "path": "data.stations[].last_reported",
+          "description": "The last time this station reported its status to the operator's backend in POSIX time."
+        }
+      ],
+      "documentation": "resources/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 700,
+          "quote": "\\-&nbsp;`last_reported` | Yes | Timestamp | The last time this station reported its status to the operator's backend."
+        }
+      ],
+      "sample_path": "data.stations[].last_reported",
+      "samples": [
+        "1609866125",
+        "1609866106"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    },
+    {
+      "name": "data.stations[].vehicle_docks_available[].vehicle_type_ids[]",
+      "normalized_type": "text",
+      "schema": "resources/station-status-2.3.json",
+      "schema_pointer": "/properties/data/properties/stations/items/properties/vehicle_docks_available/items/properties/vehicle_type_ids/items",
+      "declared_schema": {
+        "type": "string"
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "data",
+          "description": "Array that contains one object per station as defined below."
+        },
+        {
+          "path": "data.stations",
+          "description": null
+        },
+        {
+          "path": "data.stations[].vehicle_docks_available",
+          "description": "Object displaying available docks by vehicle type (added in v2.1-RC)."
+        },
+        {
+          "path": "data.stations[].vehicle_docks_available[].vehicle_type_ids",
+          "description": "An array of strings where each string represents a vehicle_type_id that is able to use a particular type of dock at the station (added in v2.1-RC)."
+        }
+      ],
+      "documentation": "resources/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 694,
+          "quote": "&emsp;\\- `vehicle_type_ids` <br/>*(added in v2.1)* | Conditionally REQUIRED | Array | REQUIRED if `vehicle_docks_available` is defined. An array of strings where each string represents a `vehicle_type_id` that is able to use a particular type of dock at the station"
+        },
+        {
+          "line": 695,
+          "quote": "&emsp;\\- `count` <br/>*(added in v2.1)* | Conditionally REQUIRED | Non-negative integer | REQUIRED if `vehicle_docks_available` is defined. The total number of available docks at the station, that can accept vehicles of the corresponding `vehicle_type_id`, in the `vehicle_type_ids` array."
+        }
+      ],
+      "sample_path": "data.stations[].vehicle_docks_available[].vehicle_type_ids[]",
+      "samples": [
+        "abc123",
+        "def456"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    },
+    {
+      "name": "data.stations[].vehicle_docks_available[].count",
+      "normalized_type": "integer",
+      "schema": "resources/station-status-2.3.json",
+      "schema_pointer": "/properties/data/properties/stations/items/properties/vehicle_docks_available/items/properties/count",
+      "declared_schema": {
+        "description": "A number representing the total number of available docks for the defined vehicle type (added in v2.1-RC).",
+        "type": "integer",
+        "minimum": 0
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "data",
+          "description": "Array that contains one object per station as defined below."
+        },
+        {
+          "path": "data.stations",
+          "description": null
+        },
+        {
+          "path": "data.stations[].vehicle_docks_available",
+          "description": "Object displaying available docks by vehicle type (added in v2.1-RC)."
+        },
+        {
+          "path": "data.stations[].vehicle_docks_available[].count",
+          "description": "A number representing the total number of available docks for the defined vehicle type (added in v2.1-RC)."
+        }
+      ],
+      "documentation": "resources/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 690,
+          "quote": "&emsp;\\- `count` <br/>*(added in v2.1)* | Conditionally REQUIRED | Non-negative integer | The total number of available vehicles of the corresponding `vehicle_type_id`, as defined in [vehicle_types.json](#vehicle_typesjson), at the station."
+        },
+        {
+          "line": 695,
+          "quote": "&emsp;\\- `count` <br/>*(added in v2.1)* | Conditionally REQUIRED | Non-negative integer | REQUIRED if `vehicle_docks_available` is defined. The total number of available docks at the station, that can accept vehicles of the corresponding `vehicle_type_id`, in the `vehicle_type_ids` array."
+        }
+      ],
+      "sample_path": "data.stations[].vehicle_docks_available[].count",
+      "samples": [
+        "2",
+        "1",
+        "6"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    }
+  ],
+  "target_fields": [
+    {
+      "name": "last_updated",
+      "normalized_type": "timestamp",
+      "schema": "resources/station-status-3.0.json",
+      "schema_pointer": "/properties/last_updated",
+      "declared_schema": {
+        "description": "Last time the data in the feed was updated in RFC3339 format.",
+        "type": "string",
+        "format": "date-time"
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "last_updated",
+          "description": "Last time the data in the feed was updated in RFC3339 format."
+        }
+      ],
+      "documentation": "resources/gbfs-3.0.md",
+      "definition_lines": [],
+      "sample_path": "last_updated",
+      "samples": [
+        "2023-07-17T13:34:13+02:00"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    },
+    {
+      "name": "ttl",
+      "normalized_type": "integer",
+      "schema": "resources/station-status-3.0.json",
+      "schema_pointer": "/properties/ttl",
+      "declared_schema": {
+        "description": "Number of seconds before the data in the feed will be updated again (0 if the data should always be refreshed).",
+        "type": "integer",
+        "minimum": 0
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "ttl",
+          "description": "Number of seconds before the data in the feed will be updated again (0 if the data should always be refreshed)."
+        }
+      ],
+      "documentation": "resources/gbfs-3.0.md",
+      "definition_lines": [],
+      "sample_path": "ttl",
+      "samples": [
+        "0"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    },
+    {
+      "name": "version",
+      "normalized_type": "text",
+      "schema": "resources/station-status-3.0.json",
+      "schema_pointer": "/properties/version",
+      "declared_schema": {
+        "description": "GBFS version number to which the feed conforms, according to the versioning framework (added in v1.1).",
+        "type": "string",
+        "const": "3.0"
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "version",
+          "description": "GBFS version number to which the feed conforms, according to the versioning framework (added in v1.1)."
+        }
+      ],
+      "documentation": "resources/gbfs-3.0.md",
+      "definition_lines": [],
+      "sample_path": "version",
+      "samples": [
+        "3.0"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    },
+    {
+      "name": "data.stations[].station_id",
+      "normalized_type": "text",
+      "schema": "resources/station-status-3.0.json",
+      "schema_pointer": "/properties/data/properties/stations/items/properties/station_id",
+      "declared_schema": {
+        "description": "Identifier of a station.",
+        "type": "string"
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "data",
+          "description": "Array that contains one object per station as defined below."
+        },
+        {
+          "path": "data.stations",
+          "description": null
+        },
+        {
+          "path": "data.stations[].station_id",
+          "description": "Identifier of a station."
+        }
+      ],
+      "documentation": "resources/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 852,
+          "quote": "`stations[].station_id` | Yes | ID | Identifier of a station. See [station_information.json](#station_informationjson)."
+        }
+      ],
+      "sample_path": "data.stations[].station_id",
+      "samples": [
+        "station1",
+        "station2"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    },
+    {
+      "name": "data.stations[].num_vehicles_available",
+      "normalized_type": "integer",
+      "schema": "resources/station-status-3.0.json",
+      "schema_pointer": "/properties/data/properties/stations/items/properties/num_vehicles_available",
+      "declared_schema": {
+        "description": "Number of vehicles of any type physically available for rental at the station.",
+        "type": "integer",
+        "minimum": 0
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "data",
+          "description": "Array that contains one object per station as defined below."
+        },
+        {
+          "path": "data.stations",
+          "description": null
+        },
+        {
+          "path": "data.stations[].num_vehicles_available",
+          "description": "Number of vehicles of any type physically available for rental at the station."
+        }
+      ],
+      "documentation": "resources/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 853,
+          "quote": "`stations[].num_vehicles_available` | Yes | Non-negative integer | Number of functional vehicles physically at the station that may be offered for rental. To know if the vehicles are available for rental, see `is_renting`. <br/><br/>If `is_renting` = `true` this is the number of vehicles that are currently available for rent. If `is_renting` =`false` this is the number of vehicles that would be available for rent if the station were set to allow rentals."
+        },
+        {
+          "line": 854,
+          "quote": "`stations[].vehicle_types_available` <br/>*(added in v2.1)* | Conditionally REQUIRED | Array&lt;Object&gt; | REQUIRED if the [vehicle_types.json](#vehicle_typesjson) file has been defined. This field's value is an array of objects. Each of these objects is used to model the total number of each defined vehicle type available at a station. The total number of vehicles from each of these objects SHOULD add up to match the value specified in the `num_vehicles_available`  field."
+        }
+      ],
+      "sample_path": "data.stations[].num_vehicles_available",
+      "samples": [
+        "1",
+        "6"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    },
+    {
+      "name": "data.stations[].vehicle_types_available[].vehicle_type_id",
+      "normalized_type": "text",
+      "schema": "resources/station-status-3.0.json",
+      "schema_pointer": "/properties/data/properties/stations/items/properties/vehicle_types_available/items/properties/vehicle_type_id",
+      "declared_schema": {
+        "description": "The vehicle_type_id of vehicle at the station (added in v2.1-RC).",
+        "type": "string"
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "data",
+          "description": "Array that contains one object per station as defined below."
+        },
+        {
+          "path": "data.stations",
+          "description": null
+        },
+        {
+          "path": "data.stations[].vehicle_types_available",
+          "description": "Array of objects displaying the total number of each vehicle type at the station (added in v2.1-RC)."
+        },
+        {
+          "path": "data.stations[].vehicle_types_available[].vehicle_type_id",
+          "description": "The vehicle_type_id of vehicle at the station (added in v2.1-RC)."
+        }
+      ],
+      "documentation": "resources/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 855,
+          "quote": "`stations[].vehicle_types_available[].vehicle_type_id` <br/>*(added in v2.1)* | Yes | ID | The `vehicle_type_id` of each vehicle type at the station as described in [vehicle_types.json](#vehicle_typesjson). A vehicle type not available at the station can be omitted from the list or specified with `count` = `0`."
+        },
+        {
+          "line": 856,
+          "quote": "`stations[].vehicle_types_available[].count` <br/>*(added in v2.1)* | Yes | Non-negative integer | A number representing the total number of available vehicles of the corresponding `vehicle_type_id` as defined in [vehicle_types.json](#vehicle_typesjson) at the station."
+        }
+      ],
+      "sample_path": "data.stations[].vehicle_types_available[].vehicle_type_id",
+      "samples": [
+        "abc123",
+        "def456"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    },
+    {
+      "name": "data.stations[].vehicle_types_available[].count",
+      "normalized_type": "integer",
+      "schema": "resources/station-status-3.0.json",
+      "schema_pointer": "/properties/data/properties/stations/items/properties/vehicle_types_available/items/properties/count",
+      "declared_schema": {
+        "description": "A number representing the total amount of this vehicle type at the station (added in v2.1-RC).",
+        "type": "integer",
+        "minimum": 0
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "data",
+          "description": "Array that contains one object per station as defined below."
+        },
+        {
+          "path": "data.stations",
+          "description": null
+        },
+        {
+          "path": "data.stations[].vehicle_types_available",
+          "description": "Array of objects displaying the total number of each vehicle type at the station (added in v2.1-RC)."
+        },
+        {
+          "path": "data.stations[].vehicle_types_available[].count",
+          "description": "A number representing the total amount of this vehicle type at the station (added in v2.1-RC)."
+        }
+      ],
+      "documentation": "resources/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 855,
+          "quote": "`stations[].vehicle_types_available[].vehicle_type_id` <br/>*(added in v2.1)* | Yes | ID | The `vehicle_type_id` of each vehicle type at the station as described in [vehicle_types.json](#vehicle_typesjson). A vehicle type not available at the station can be omitted from the list or specified with `count` = `0`."
+        },
+        {
+          "line": 856,
+          "quote": "`stations[].vehicle_types_available[].count` <br/>*(added in v2.1)* | Yes | Non-negative integer | A number representing the total number of available vehicles of the corresponding `vehicle_type_id` as defined in [vehicle_types.json](#vehicle_typesjson) at the station."
+        },
+        {
+          "line": 861,
+          "quote": "`stations[].vehicle_docks_available[].count` <br/>*(added in v2.1)* | REQUIRED | Non-negative integer | A number representing the total number of available vehicles of the corresponding vehicle type as defined in the `vehicle_types` array at the station that can accept vehicles of the specified types in the `vehicle_types` array."
+        }
+      ],
+      "sample_path": "data.stations[].vehicle_types_available[].count",
+      "samples": [
+        "1",
+        "0",
+        "2",
+        "4"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    },
+    {
+      "name": "data.stations[].num_vehicles_disabled",
+      "normalized_type": "integer",
+      "schema": "resources/station-status-3.0.json",
+      "schema_pointer": "/properties/data/properties/stations/items/properties/num_vehicles_disabled",
+      "declared_schema": {
+        "description": "Number of disabled vehicles of any type at the station.",
+        "type": "integer",
+        "minimum": 0
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "data",
+          "description": "Array that contains one object per station as defined below."
+        },
+        {
+          "path": "data.stations",
+          "description": null
+        },
+        {
+          "path": "data.stations[].num_vehicles_disabled",
+          "description": "Number of disabled vehicles of any type at the station."
+        }
+      ],
+      "documentation": "resources/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 857,
+          "quote": "`stations[].num_vehicles_disabled` | OPTIONAL | Non-negative integer | Number of disabled vehicles of any type at the station. Vendors who do not want to publicize the number of disabled vehicles or docks in their system can opt to omit station `capacity` (in [station_information.json](#station_informationjson), `num_vehicles_disabled`, and `num_docks_disabled` *(as of v2.0)*. If station `capacity` is published, then broken docks/vehicles can be inferred (though not specifically whether the decreased capacity is a broken vehicle or dock)."
+        }
+      ],
+      "sample_path": "data.stations[].num_vehicles_disabled",
+      "samples": [
+        "2",
+        "1"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    },
+    {
+      "name": "data.stations[].num_docks_available",
+      "normalized_type": "integer",
+      "schema": "resources/station-status-3.0.json",
+      "schema_pointer": "/properties/data/properties/stations/items/properties/num_docks_available",
+      "declared_schema": {
+        "description": "Number of functional docks physically at the station.",
+        "type": "integer",
+        "minimum": 0
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "data",
+          "description": "Array that contains one object per station as defined below."
+        },
+        {
+          "path": "data.stations",
+          "description": null
+        },
+        {
+          "path": "data.stations[].num_docks_available",
+          "description": "Number of functional docks physically at the station."
+        }
+      ],
+      "documentation": "resources/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 858,
+          "quote": "`stations[].num_docks_available` | Conditionally REQUIRED <br/>*(as of v2.0)* | Non-negative integer | REQUIRED except for stations that have unlimited docking capacity (e.g. virtual stations) *(as of v2.0)*. Number of functional docks physically at the station that are able to accept vehicles for return. To know if the docks are accepting vehicle returns, see `is_returning`. <br /><br/> If `is_returning` = `true` this is the number of docks that are currently available to accept vehicle returns. If `is_returning` = `false` this is the number of docks that would be available if the station were set to allow returns."
+        },
+        {
+          "line": 859,
+          "quote": "`stations[].vehicle_docks_available` <br/>*(added in v2.1)* | Conditionally REQUIRED | Array&lt;Object&gt; | This field is REQUIRED in feeds where the [vehicle_types.json](#vehicle_typesjson) is defined and where certain docks are only able to accept certain vehicle types. If every dock at the station is able to accept any vehicle type, then this field is not REQUIRED. This field's value is an array of objects. Each of these objects is used to model the number of docks available for certain vehicle types. The total number of docks from each of these objects SHOULD add up to match the value specified in the `num_docks_available` field."
+        }
+      ],
+      "sample_path": "data.stations[].num_docks_available",
+      "samples": [
+        "3",
+        "8"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    },
+    {
+      "name": "data.stations[].is_installed",
+      "normalized_type": "boolean",
+      "schema": "resources/station-status-3.0.json",
+      "schema_pointer": "/properties/data/properties/stations/items/properties/is_installed",
+      "declared_schema": {
+        "description": "Is the station currently on the street?",
+        "type": "boolean"
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "data",
+          "description": "Array that contains one object per station as defined below."
+        },
+        {
+          "path": "data.stations",
+          "description": null
+        },
+        {
+          "path": "data.stations[].is_installed",
+          "description": "Is the station currently on the street?"
+        }
+      ],
+      "documentation": "resources/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 863,
+          "quote": "`stations[].is_installed` | Yes | Boolean | Is the station currently on the street?<br/><br/>`true` - Station is installed on the street.<br/>`false` - Station is not installed on the street.<br/><br/>Boolean SHOULD be set to `true` when equipment is present on the street. In seasonal systems where equipment is removed during winter, boolean SHOULD be set to `false` during the off season. May also be set to false to indicate planned (future) stations which have not yet been installed."
+        }
+      ],
+      "sample_path": "data.stations[].is_installed",
+      "samples": [
+        "true"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    },
+    {
+      "name": "data.stations[].is_returning",
+      "normalized_type": "boolean",
+      "schema": "resources/station-status-3.0.json",
+      "schema_pointer": "/properties/data/properties/stations/items/properties/is_returning",
+      "declared_schema": {
+        "description": "Is the station accepting vehicle returns?",
+        "type": "boolean"
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "data",
+          "description": "Array that contains one object per station as defined below."
+        },
+        {
+          "path": "data.stations",
+          "description": null
+        },
+        {
+          "path": "data.stations[].is_returning",
+          "description": "Is the station accepting vehicle returns?"
+        }
+      ],
+      "documentation": "resources/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 858,
+          "quote": "`stations[].num_docks_available` | Conditionally REQUIRED <br/>*(as of v2.0)* | Non-negative integer | REQUIRED except for stations that have unlimited docking capacity (e.g. virtual stations) *(as of v2.0)*. Number of functional docks physically at the station that are able to accept vehicles for return. To know if the docks are accepting vehicle returns, see `is_returning`. <br /><br/> If `is_returning` = `true` this is the number of docks that are currently available to accept vehicle returns. If `is_returning` = `false` this is the number of docks that would be available if the station were set to allow returns."
+        },
+        {
+          "line": 865,
+          "quote": "`stations[].is_returning` | Yes | Boolean | Is the station accepting vehicle returns? <br /><br />`true` - Station is accepting vehicle returns. Even if the station is full, if it would otherwise allow vehicle returns, this value MUST be `true`.<br /> `false` - Station is not accepting vehicle returns.<br/><br/>If the station is temporarily taken out of service and not allowing vehicle returns, this field MUST be set to `false`.<br/><br/>If a station becomes inaccessible to users due to road construction or other factors, this field SHOULD be set to `false`."
+        }
+      ],
+      "sample_path": "data.stations[].is_returning",
+      "samples": [
+        "true"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    },
+    {
+      "name": "data.stations[].last_reported",
+      "normalized_type": "timestamp",
+      "schema": "resources/station-status-3.0.json",
+      "schema_pointer": "/properties/data/properties/stations/items/properties/last_reported",
+      "declared_schema": {
+        "description": "The last time this station reported its status to the operator's backend in RFC3339 format.",
+        "type": "string",
+        "format": "date-time"
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "data",
+          "description": "Array that contains one object per station as defined below."
+        },
+        {
+          "path": "data.stations",
+          "description": null
+        },
+        {
+          "path": "data.stations[].last_reported",
+          "description": "The last time this station reported its status to the operator's backend in RFC3339 format."
+        }
+      ],
+      "documentation": "resources/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 866,
+          "quote": "`stations[].last_reported` | Yes | Timestamp | The last time this station reported its status to the operator's backend."
+        }
+      ],
+      "sample_path": "data.stations[].last_reported",
+      "samples": [
+        "2023-07-17T13:34:13+02:00"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    },
+    {
+      "name": "data.stations[].vehicle_docks_available[].vehicle_type_ids[]",
+      "normalized_type": "text",
+      "schema": "resources/station-status-3.0.json",
+      "schema_pointer": "/properties/data/properties/stations/items/properties/vehicle_docks_available/items/properties/vehicle_type_ids/items",
+      "declared_schema": {
+        "type": "string"
+      },
+      "ancestor_descriptions": [
+        {
+          "path": "data",
+          "description": "Array that contains one object per station as defined below."
+        },
+        {
+          "path": "data.stations",
+          "description": null
+        },
+        {
+          "path": "data.stations[].vehicle_docks_available",
+          "description": "Object displaying available docks by vehicle type (added in v2.1-RC)."
+        },
+        {
+          "path": "data.stations[].vehicle_docks_available[].vehicle_type_ids",
+          "description": "An array of strings where each string represents a vehicle_type_id that is able to use a particular type of dock at the station (added in v2.1-RC)."
+        }
+      ],
+      "documentation": "resources/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 860,
+          "quote": "`stations[].vehicle_docks_available[].vehicle_type_ids` <br/>*(added in v2.1)* | REQUIRED | Array&lt;ID&gt; | An array of `vehicle_type_ids` that are able to use a particular type of dock at the station"
+        }
+      ],
+      "sample_path": "data.stations[].vehicle_docks_available[].vehicle_type_ids[]",
+      "samples": [
+        "abc123",
+        "def456"
+      ],
+      "sample_origin": "Literal values of the sole publisher-authored JSON example in station_status.json section."
+    }
+  ],
+  "answers": [
+    {
+      "kind": "match",
+      "source": "last_updated",
+      "target": "last_updated",
+      "reason": "The same publisher-defined field retains its station-state or envelope concept in both versions; JSON key path is unchanged. Its time encoding changes from POSIX integer seconds to RFC3339 string; conversion is required, but the represented event is unchanged."
+    },
+    {
+      "kind": "match",
+      "source": "ttl",
+      "target": "ttl",
+      "reason": "The same publisher-defined field retains its station-state or envelope concept in both versions; JSON key path is unchanged."
+    },
+    {
+      "kind": "match",
+      "source": "version",
+      "target": "version",
+      "reason": "The same publisher-defined field retains its station-state or envelope concept in both versions; JSON key path is unchanged."
+    },
+    {
+      "kind": "match",
+      "source": "data.stations[].station_id",
+      "target": "data.stations[].station_id",
+      "reason": "The same publisher-defined field retains its station-state or envelope concept in both versions; JSON key path is unchanged."
+    },
+    {
+      "kind": "match",
+      "source": "data.stations[].num_bikes_available",
+      "target": "data.stations[].num_vehicles_available",
+      "reason": "The v2.3 and v3.0 definitions both specify functional vehicles physically at the station that may be offered for rental. Only the bikes-to-vehicles term changes in the field name."
+    },
+    {
+      "kind": "match",
+      "source": "data.stations[].vehicle_types_available[].vehicle_type_id",
+      "target": "data.stations[].vehicle_types_available[].vehicle_type_id",
+      "reason": "The same publisher-defined field retains its station-state or envelope concept in both versions; JSON key path is unchanged."
+    },
+    {
+      "kind": "match",
+      "source": "data.stations[].vehicle_types_available[].count",
+      "target": "data.stations[].vehicle_types_available[].count",
+      "reason": "The same publisher-defined field retains its station-state or envelope concept in both versions; JSON key path is unchanged."
+    },
+    {
+      "kind": "match",
+      "source": "data.stations[].num_bikes_disabled",
+      "target": "data.stations[].num_vehicles_disabled",
+      "reason": "Both definitions specify the number of disabled vehicles of any type at the station; the field changes bikes to vehicles without changing its entity or state."
+    },
+    {
+      "kind": "match",
+      "source": "data.stations[].num_docks_available",
+      "target": "data.stations[].num_docks_available",
+      "reason": "The same publisher-defined field retains its station-state or envelope concept in both versions; JSON key path is unchanged."
+    },
+    {
+      "kind": "no_match",
+      "source": "data.stations[].num_docks_disabled",
+      "reason": "The source counts disabled dock points. The target omits this field; num_docks_available counts functional return points and num_vehicles_disabled counts vehicles, not dock points."
+    },
+    {
+      "kind": "match",
+      "source": "data.stations[].is_installed",
+      "target": "data.stations[].is_installed",
+      "reason": "The same publisher-defined field retains its station-state or envelope concept in both versions; JSON key path is unchanged."
+    },
+    {
+      "kind": "no_match",
+      "source": "data.stations[].is_renting",
+      "reason": "The source indicates whether the station allows rentals. The target omits this flag; is_returning indicates permission to return vehicles and is_installed indicates street installation. All three being true in the publisher examples does not make them equivalent."
+    },
+    {
+      "kind": "match",
+      "source": "data.stations[].is_returning",
+      "target": "data.stations[].is_returning",
+      "reason": "The same publisher-defined field retains its station-state or envelope concept in both versions; JSON key path is unchanged."
+    },
+    {
+      "kind": "match",
+      "source": "data.stations[].last_reported",
+      "target": "data.stations[].last_reported",
+      "reason": "The same publisher-defined field retains its station-state or envelope concept in both versions; JSON key path is unchanged. Its time encoding changes from POSIX integer seconds to RFC3339 string; conversion is required, but the represented event is unchanged."
+    },
+    {
+      "kind": "match",
+      "source": "data.stations[].vehicle_docks_available[].vehicle_type_ids[]",
+      "target": "data.stations[].vehicle_docks_available[].vehicle_type_ids[]",
+      "reason": "The same publisher-defined field retains its station-state or envelope concept in both versions; JSON key path is unchanged."
+    },
+    {
+      "kind": "no_match",
+      "source": "data.stations[].vehicle_docks_available[].count",
+      "reason": "The source counts available dock points compatible with specified vehicle types. The target projection omits this field. vehicle_types_available[].count counts available vehicles, and num_docks_available counts all compatible dock classes together. Neither preserves the per-dock-class quantity."
+    }
+  ],
+  "source_projection": "All 16 scalar leaves of the complete v2.3 station_status endpoint, including envelope and mechanically traversed array item leaves.",
+  "target_projection": "All scalar leaves of the v3.0 endpoint except the three explicitly named omitted fields.",
+  "omitted_target_fields": [
+    "data.stations[].is_renting",
+    "data.stations[].num_docks_disabled",
+    "data.stations[].vehicle_docks_available[].count"
+  ],
+  "source_only_annotation_review": "The v3.0 prose for vehicle_docks_available[].count says available vehicles, despite its parent defining dock counts and the JSON schema defining available docks. The target leaf is omitted, so no positive relies on the inconsistent sentence. Source v2.3 docks count is unambiguous; retained vehicle_types_available count is unambiguously vehicles in both versions.",
+  "label_standard": "Same operational concept, allowing ordinary representation conversion. Different entities, quantity groups, or permission states are no-match when the equivalent target is omitted.",
+  "limitations": [
+    "Publisher-authored examples, not live observations.",
+    "Target is an explicit partial consumer projection; it is not claimed to be a schema-valid full GBFS feed.",
+    "No supported genuine ambiguity labels.",
+    "Author audited first-tranche results earlier; no new candidate policy or predictions accessed."
+  ]
+}

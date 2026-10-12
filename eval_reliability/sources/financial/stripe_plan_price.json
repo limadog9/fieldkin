@@ -1,0 +1,328 @@
+{
+  "name": "financial_stripe_plan_price_schema_projection",
+  "source": {
+    "fields": [
+      {
+        "name": "active",
+        "data_type": "boolean",
+        "samples": []
+      },
+      {
+        "name": "amount",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "billing_scheme",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "created",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "currency",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "id",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "interval",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "interval_count",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "livemode",
+        "data_type": "boolean",
+        "samples": []
+      },
+      {
+        "name": "meter",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "nickname",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "product",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "tiers[].flat_amount",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "tiers[].flat_amount_decimal",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "tiers[].unit_amount",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "tiers[].up_to",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "tiers_mode",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "transform_usage.divide_by",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "transform_usage.round",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "trial_period_days",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "usage_type",
+        "data_type": "text",
+        "samples": []
+      }
+    ]
+  },
+  "target": {
+    "fields": [
+      {
+        "name": "active",
+        "data_type": "boolean",
+        "samples": []
+      },
+      {
+        "name": "billing_scheme",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "currency",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "custom_unit_amount.maximum",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "custom_unit_amount.minimum",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "custom_unit_amount.preset",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "livemode",
+        "data_type": "boolean",
+        "samples": []
+      },
+      {
+        "name": "lookup_key",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "nickname",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "product",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "recurring.interval",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "recurring.interval_count",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "recurring.meter",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "recurring.usage_type",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "tax_behavior",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "tiers[].unit_amount",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "tiers[].up_to",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "tiers_mode",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "transform_quantity.divide_by",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "transform_quantity.round",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "type",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "unit_amount",
+        "data_type": "integer",
+        "samples": []
+      }
+    ]
+  },
+  "answers": [
+    {
+      "kind": "match",
+      "source": "active",
+      "target": "active"
+    },
+    {
+      "kind": "match",
+      "source": "amount",
+      "target": "unit_amount"
+    },
+    {
+      "kind": "match",
+      "source": "billing_scheme",
+      "target": "billing_scheme"
+    },
+    {
+      "kind": "no_match",
+      "source": "created"
+    },
+    {
+      "kind": "match",
+      "source": "currency",
+      "target": "currency"
+    },
+    {
+      "kind": "no_match",
+      "source": "id"
+    },
+    {
+      "kind": "match",
+      "source": "interval",
+      "target": "recurring.interval"
+    },
+    {
+      "kind": "match",
+      "source": "interval_count",
+      "target": "recurring.interval_count"
+    },
+    {
+      "kind": "match",
+      "source": "livemode",
+      "target": "livemode"
+    },
+    {
+      "kind": "match",
+      "source": "meter",
+      "target": "recurring.meter"
+    },
+    {
+      "kind": "match",
+      "source": "nickname",
+      "target": "nickname"
+    },
+    {
+      "kind": "match",
+      "source": "product",
+      "target": "product"
+    },
+    {
+      "kind": "no_match",
+      "source": "tiers[].flat_amount"
+    },
+    {
+      "kind": "no_match",
+      "source": "tiers[].flat_amount_decimal"
+    },
+    {
+      "kind": "match",
+      "source": "tiers[].unit_amount",
+      "target": "tiers[].unit_amount"
+    },
+    {
+      "kind": "match",
+      "source": "tiers[].up_to",
+      "target": "tiers[].up_to"
+    },
+    {
+      "kind": "match",
+      "source": "tiers_mode",
+      "target": "tiers_mode"
+    },
+    {
+      "kind": "match",
+      "source": "transform_usage.divide_by",
+      "target": "transform_quantity.divide_by"
+    },
+    {
+      "kind": "match",
+      "source": "transform_usage.round",
+      "target": "transform_quantity.round"
+    },
+    {
+      "kind": "no_match",
+      "source": "trial_period_days"
+    },
+    {
+      "kind": "match",
+      "source": "usage_type",
+      "target": "recurring.usage_type"
+    }
+  ]
+}

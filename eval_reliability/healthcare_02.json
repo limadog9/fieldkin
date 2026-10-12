@@ -1,0 +1,327 @@
+{
+  "name": "heldout_hl7_procedure_r4_r5_projection",
+  "source": {
+    "fields": [
+      {
+        "name": "performedDateTime",
+        "data_type": "timestamp",
+        "samples": [
+          "2018-04-05",
+          "2014-02-03",
+          "2014-08-16"
+        ]
+      },
+      {
+        "name": "performedPeriod.start",
+        "data_type": "timestamp",
+        "samples": [
+          "2011-06-26",
+          "2013-03-08T09:00:10+01:00",
+          "2013-03-24T09:30:10+01:00"
+        ]
+      },
+      {
+        "name": "performedPeriod.end",
+        "data_type": "timestamp",
+        "samples": [
+          "2011-06-27",
+          "2013-03-08T09:30:10+01:00",
+          "2013-03-24T10:30:10+01:00"
+        ]
+      },
+      {
+        "name": "reasonCode.text",
+        "data_type": "text",
+        "samples": [
+          "Heart valve disorder",
+          "Malignant tumor of lung",
+          "abcess in retropharyngeal area"
+        ]
+      },
+      {
+        "name": "reasonReference.reference",
+        "data_type": "text",
+        "samples": [
+          "Observation/blood-pressure"
+        ]
+      },
+      {
+        "name": "usedCode.text",
+        "data_type": "text",
+        "samples": [
+          "30-guage needle"
+        ]
+      },
+      {
+        "name": "usedReference.display",
+        "data_type": "text",
+        "samples": [
+          "Colonoscope device"
+        ]
+      },
+      {
+        "name": "recorder.reference",
+        "data_type": "text",
+        "samples": [
+          "Practitioner/example"
+        ]
+      },
+      {
+        "name": "performer.actor.reference",
+        "data_type": "text",
+        "samples": [
+          "Practitioner/F002",
+          "Practitioner/F003",
+          "Practitioner/F001"
+        ]
+      },
+      {
+        "name": "performer.onBehalfOf.reference",
+        "data_type": "text",
+        "samples": [
+          "Organization/f001"
+        ]
+      },
+      {
+        "name": "subject.reference",
+        "data_type": "text",
+        "samples": [
+          "Patient/F001",
+          "Patient/example",
+          "Patient/f001"
+        ]
+      },
+      {
+        "name": "encounter.reference",
+        "data_type": "text",
+        "samples": [
+          "Encounter/F001",
+          "Encounter/F002",
+          "Encounter/F003"
+        ]
+      },
+      {
+        "name": "statusReason.text",
+        "data_type": "text",
+        "samples": [
+          "Pre-eclampsia"
+        ]
+      },
+      {
+        "name": "bodySite.text",
+        "data_type": "text",
+        "samples": [
+          "Left forearm",
+          "Both knees"
+        ]
+      },
+      {
+        "name": "location.display",
+        "data_type": "text",
+        "samples": [
+          "Peter's Home",
+          "Burgers University Medical Center, South Wing, second floor",
+          "Southside Community Health Center"
+        ]
+      }
+    ]
+  },
+  "target": {
+    "fields": [
+      {
+        "name": "occurrenceDateTime",
+        "data_type": "timestamp",
+        "samples": [
+          "2018-04-05",
+          "2014-02-03",
+          "2014-08-16"
+        ]
+      },
+      {
+        "name": "occurrencePeriod.start",
+        "data_type": "timestamp",
+        "samples": [
+          "2011-06-26",
+          "2013-03-08T09:00:10+01:00",
+          "2013-03-24T09:30:10+01:00"
+        ]
+      },
+      {
+        "name": "occurrencePeriod.end",
+        "data_type": "timestamp",
+        "samples": [
+          "2011-06-27",
+          "2013-03-08T09:30:10+01:00",
+          "2013-03-24T10:30:10+01:00"
+        ]
+      },
+      {
+        "name": "reason.concept.text",
+        "data_type": "text",
+        "samples": [
+          "Heart valve disorder",
+          "Malignant tumor of lung",
+          "abcess in retropharyngeal area"
+        ]
+      },
+      {
+        "name": "reason.reference.reference",
+        "data_type": "text",
+        "samples": [
+          "Observation/blood-pressure"
+        ]
+      },
+      {
+        "name": "used.concept.text",
+        "data_type": "text",
+        "samples": [
+          "30-guage needle"
+        ]
+      },
+      {
+        "name": "used.reference.display",
+        "data_type": "text",
+        "samples": [
+          "Colonoscope device"
+        ]
+      },
+      {
+        "name": "reportedReference.reference",
+        "data_type": "text",
+        "samples": [
+          "Practitioner/example"
+        ]
+      },
+      {
+        "name": "performer.actor.reference",
+        "data_type": "text",
+        "samples": [
+          "Practitioner/F002",
+          "Practitioner/F003",
+          "Practitioner/F001"
+        ]
+      },
+      {
+        "name": "subject.reference",
+        "data_type": "text",
+        "samples": [
+          "Patient/F001",
+          "Patient/example",
+          "Patient/f001"
+        ]
+      },
+      {
+        "name": "encounter.reference",
+        "data_type": "text",
+        "samples": [
+          "Encounter/F001",
+          "Encounter/F002",
+          "Encounter/F003"
+        ]
+      },
+      {
+        "name": "location.display",
+        "data_type": "text",
+        "samples": [
+          "Peter's Home",
+          "Burgers University Medical Center, South Wing, second floor",
+          "Southside Community Health Center"
+        ]
+      },
+      {
+        "name": "recorded",
+        "data_type": "timestamp",
+        "samples": [
+          "2014-02-03"
+        ]
+      },
+      {
+        "name": "performer.period.start",
+        "data_type": "timestamp",
+        "samples": [
+          "2013-03-08T09:00:10+01:00"
+        ]
+      },
+      {
+        "name": "performer.period.end",
+        "data_type": "timestamp",
+        "samples": [
+          "2013-03-08T09:30:10+01:00"
+        ]
+      }
+    ]
+  },
+  "answers": [
+    {
+      "kind": "match",
+      "source": "performedDateTime",
+      "target": "occurrenceDateTime"
+    },
+    {
+      "kind": "match",
+      "source": "performedPeriod.start",
+      "target": "occurrencePeriod.start"
+    },
+    {
+      "kind": "match",
+      "source": "performedPeriod.end",
+      "target": "occurrencePeriod.end"
+    },
+    {
+      "kind": "match",
+      "source": "reasonCode.text",
+      "target": "reason.concept.text"
+    },
+    {
+      "kind": "match",
+      "source": "reasonReference.reference",
+      "target": "reason.reference.reference"
+    },
+    {
+      "kind": "match",
+      "source": "usedCode.text",
+      "target": "used.concept.text"
+    },
+    {
+      "kind": "match",
+      "source": "usedReference.display",
+      "target": "used.reference.display"
+    },
+    {
+      "kind": "no_match",
+      "source": "recorder.reference"
+    },
+    {
+      "kind": "match",
+      "source": "performer.actor.reference",
+      "target": "performer.actor.reference"
+    },
+    {
+      "kind": "no_match",
+      "source": "performer.onBehalfOf.reference"
+    },
+    {
+      "kind": "match",
+      "source": "subject.reference",
+      "target": "subject.reference"
+    },
+    {
+      "kind": "match",
+      "source": "encounter.reference",
+      "target": "encounter.reference"
+    },
+    {
+      "kind": "no_match",
+      "source": "statusReason.text"
+    },
+    {
+      "kind": "no_match",
+      "source": "bodySite.text"
+    },
+    {
+      "kind": "match",
+      "source": "location.display",
+      "target": "location.display"
+    }
+  ]
+}

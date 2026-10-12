@@ -1,0 +1,27 @@
+{
+  "changed_at_utc": "2026-10-12T19:19:19.664111+00:00",
+  "before_any_predictions": true,
+  "trigger": "Independent source-only integration annotation audit; no implementation or matcher outputs accessed.",
+  "initial_combined_case_sha256": "252363f7379cb1fdaa16946d938f75b534df96106de3c3d77d83fb8078ae77b7",
+  "initial_freeze_sha256": "1e91b413211e0759dde750786208560edc8355a8afdc47fe7e151e8b5cacaef9",
+  "audit_archive_location": "/tmp/fieldkin-financial-initial-freeze-audit (outside active corpus)",
+  "case": "financial_stripe_plan_price_schema_projection",
+  "reason": "The initial unique representation-preserving labels were not established under semantic equivalence: integer and decimal strings can encode the same financial quantity, but decimal-to-integer conversion may lose fractional precision. Empty samples cannot resolve conditional equivalence. Exclude competing alternate encodings instead of forcing unique or ambiguity labels.",
+  "source_fields_removed": [
+    "amount_decimal",
+    "tiers[].unit_amount_decimal"
+  ],
+  "target_fields_removed": [
+    "unit_amount_decimal",
+    "tiers[].unit_amount_decimal"
+  ],
+  "unchanged": "Remaining source fields, target fields, answer relationships, and publisher resource snapshots unchanged. Documentation of the revised projection updated. Treasury artifacts unchanged.",
+  "evidence": [
+    "raw/stripe_schema_excerpt.json#/components/schemas/plan/properties/amount",
+    "raw/stripe_schema_excerpt.json#/components/schemas/plan/properties/amount_decimal",
+    "raw/stripe_schema_excerpt.json#/components/schemas/price/properties/unit_amount",
+    "raw/stripe_schema_excerpt.json#/components/schemas/price/properties/unit_amount_decimal",
+    "raw/stripe_schema_excerpt.json#/components/schemas/plan_tier/properties/unit_amount_decimal",
+    "raw/stripe_schema_excerpt.json#/components/schemas/price_tier/properties/unit_amount_decimal"
+  ]
+}

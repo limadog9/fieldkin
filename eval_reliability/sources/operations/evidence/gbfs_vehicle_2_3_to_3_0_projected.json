@@ -1,0 +1,1013 @@
+{
+  "name": "gbfs_vehicle_2_3_to_3_0_projected",
+  "source": [
+    {
+      "name": "data.bikes[].bike_id",
+      "declared_schema_type": "string",
+      "declared_schema_format": null,
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/2.3-free_bike_status.json",
+      "schema_pointer": "/properties/data/properties/bikes/items/properties/bike_id",
+      "schema_definition": {
+        "description": "Rotating (as of v2.0) identifier of a vehicle.",
+        "type": "string"
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 785,
+          "text": "\\-&nbsp;`bike_id` | Yes | ID | Identifier of a vehicle. The `bike_id` identifier MUST be rotated to a random string after each trip to protect user privacy *(as of v2.0)*. Use of persistent vehicle IDs poses a threat to user privacy. The `bike_id` identifier SHOULD only be rotated once per trip."
+        },
+        {
+          "line": 791,
+          "text": "&emsp;\\-&nbsp;`android` <br/>*(added in v1.1)* | OPTIONAL | URI | URI that can be passed to an Android app with an android.intent.action.VIEW Android intent to support Android Deep Links (https://developer.android.com/training/app-links/deep-linking). Please use Android App Links (https://developer.android.com/training/app-links) if possible, so viewing apps do not need to manually manage the redirect of the user to the app store if the user does not have the application installed. <br><br>This URI SHOULD be a deep link specific to this vehicle, and SHOULD NOT be a general rental page that includes information for more than one vehicle. The deep link SHOULD take users directly to this vehicle, without any prompts, interstitial pages, or logins. Make sure that users can see this vehicle even if they never previously opened the application. Note that as a best practice providers SHOULD rotate identifiers within deep links after each rental to avoid unintentionally exposing private vehicle trip origins and destinations.<br><br>If this field is empty, it means deep linking is not supported in the native Android rental app.<br><br>Note that the URI does not necessarily include the `bike_id` for this vehicle - other identifiers can be used by the rental app within the URI to uniquely identify this vehicle. <br><br>See the [Analytics](#analytics) section for how viewing apps can report the origin of the deep link to rental apps. <br><br>Android App Links example value: `https://www.example.com/app?sid=1234567890&platform=android` <br><br>Deep Link (without App Links) example value: `com.example.android://open.example.app/app?sid=1234567890`"
+        },
+        {
+          "line": 792,
+          "text": "&emsp;\\-&nbsp;`ios` <br/>*(added in v1.1)* | OPTIONAL | URI | URI that can be used on iOS to launch the rental app for this vehicle. More information on this iOS feature can be found [here](https://developer.apple.com/documentation/uikit/core_app/allowing_apps_and_websites_to_link_to_your_content/communicating_with_other_apps_using_custom_urls?language=objc). Please use iOS Universal Links (https://developer.apple.com/ios/universal-links/) if possible, so viewing apps do not need to manually manage the redirect of the user to the app store if the user does not have the application installed. <br><br>This URI SHOULD be a deep link specific to this vehicle, and SHOULD NOT be a general rental page that includes information for more than one vehicle.  The deep link SHOULD take users directly to this vehicle, without any prompts, interstitial pages, or logins. Make sure that users can see this vehicle even if they never previously opened the application. Note that as a best practice providers SHOULD rotate identifiers within deep links after each rental to avoid unintentionally exposing private vehicle trip origins and destinations. <br><br>If this field is empty, it means deep linking is not supported in the native iOS rental app.<br><br>Note that the URI does not necessarily include the `bike_id` - other identifiers can be used by the rental app within the URL to uniquely identify this vehicle. <br><br>See the [Analytics](#analytics) section for how viewing apps can report the origin of the deep link to rental apps. <br><br>iOS Universal Links example value: `https://www.example.com/app?sid=1234567890&platform=ios` <br><br>Deep Link (without Universal Links) example value: `com.example.ios://open.example.app/app?sid=1234567890`"
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in free_bike_status.json section",
+      "sample_path": "data.bikes[].bike_id",
+      "samples": [
+        "973a5c94-c288-4a2b-afa6-de8aeb6ae2e5",
+        "987fd100-b822-4347-86a4-b3eef8ca8b53",
+        "45bd3fb7-a2d5-4def-9de1-c645844ba962",
+        "d4521def-7922-4e46-8e1d-8ac397239bd0"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.bikes[].lat",
+      "declared_schema_type": "number",
+      "declared_schema_format": null,
+      "normalized_type": "float",
+      "schema_file": "resources/gbfs/2.3-free_bike_status.json",
+      "schema_pointer": "/properties/data/properties/bikes/items/properties/lat",
+      "schema_definition": {
+        "description": "The latitude of the vehicle.",
+        "type": "number",
+        "minimum": -90,
+        "maximum": 90
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 786,
+          "text": "\\-&nbsp;`lat` | Conditionally REQUIRED <br/>*(as of v2.1)* | Latitude | Latitude of the vehicle in decimal degrees. *(as of v2.1)* REQUIRED if `station_id` is not provided for this vehicle (free floating). This field SHOULD have a precision of 6 decimal places (0.000001). See [Coordinate Precision](#coordinate-precision)."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in free_bike_status.json section",
+      "sample_path": "data.bikes[].lat",
+      "samples": [
+        "12.34",
+        "12.345678"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.bikes[].lon",
+      "declared_schema_type": "number",
+      "declared_schema_format": null,
+      "normalized_type": "float",
+      "schema_file": "resources/gbfs/2.3-free_bike_status.json",
+      "schema_pointer": "/properties/data/properties/bikes/items/properties/lon",
+      "schema_definition": {
+        "description": "The longitude of the vehicle.",
+        "type": "number",
+        "minimum": -180,
+        "maximum": 180
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 787,
+          "text": "\\-&nbsp;`lon` | Conditionally REQUIRED <br/>*(as of v2.1)* | Longitude | Longitude of the vehicle in decimal degrees. *(as of v2.1)* REQUIRED if `station_id` is not provided for this vehicle (free floating). This field SHOULD have a precision of 6 decimal places (0.000001). See [Coordinate Precision](#coordinate-precision)."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in free_bike_status.json section",
+      "sample_path": "data.bikes[].lon",
+      "samples": [
+        "56.78",
+        "56.789012"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.bikes[].is_reserved",
+      "declared_schema_type": "boolean",
+      "declared_schema_format": null,
+      "normalized_type": "boolean",
+      "schema_file": "resources/gbfs/2.3-free_bike_status.json",
+      "schema_pointer": "/properties/data/properties/bikes/items/properties/is_reserved",
+      "schema_definition": {
+        "description": "Is the vehicle currently reserved?",
+        "type": "boolean"
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 788,
+          "text": "\\-&nbsp;`is_reserved` | Yes | Boolean | Is the vehicle currently reserved? <br /><br /> `true` - Vehicle is currently reserved. <br /> `false` - Vehicle is not currently reserved."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in free_bike_status.json section",
+      "sample_path": "data.bikes[].is_reserved",
+      "samples": [
+        "false"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.bikes[].is_disabled",
+      "declared_schema_type": "boolean",
+      "declared_schema_format": null,
+      "normalized_type": "boolean",
+      "schema_file": "resources/gbfs/2.3-free_bike_status.json",
+      "schema_pointer": "/properties/data/properties/bikes/items/properties/is_disabled",
+      "schema_definition": {
+        "description": "Is the vehicle currently disabled (broken)?",
+        "type": "boolean"
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 789,
+          "text": "\\-&nbsp;`is_disabled` | Yes | Boolean | Is the vehicle currently disabled? <br /><br /> `true` - Vehicle is currently disabled. <br /> `false` - Vehicle is not currently disabled.<br><br>This field is used to indicate vehicles that are in the field but not available for rental.  This may be due to a mechanical issue, low battery, etc. Publishing this data may prevent users from attempting to rent vehicles that are disabled and not available for rental."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in free_bike_status.json section",
+      "sample_path": "data.bikes[].is_disabled",
+      "samples": [
+        "false"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.bikes[].rental_uris.android",
+      "declared_schema_type": "string",
+      "declared_schema_format": "uri",
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/2.3-free_bike_status.json",
+      "schema_pointer": "/properties/data/properties/bikes/items/properties/rental_uris/properties/android",
+      "schema_definition": {
+        "description": "URI that can be passed to an Android app with an intent (added in v1.1).",
+        "type": "string",
+        "format": "uri"
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 790,
+          "text": "\\-&nbsp;`rental_uris` <br/>*(added in v1.1)* | OPTIONAL | Object | JSON object that contains rental URIs for Android, iOS, and web in the `android`, `ios`, and `web` fields. See [examples](#examples) of how to use these fields and [supported analytics](#analytics)."
+        },
+        {
+          "line": 791,
+          "text": "&emsp;\\-&nbsp;`android` <br/>*(added in v1.1)* | OPTIONAL | URI | URI that can be passed to an Android app with an android.intent.action.VIEW Android intent to support Android Deep Links (https://developer.android.com/training/app-links/deep-linking). Please use Android App Links (https://developer.android.com/training/app-links) if possible, so viewing apps do not need to manually manage the redirect of the user to the app store if the user does not have the application installed. <br><br>This URI SHOULD be a deep link specific to this vehicle, and SHOULD NOT be a general rental page that includes information for more than one vehicle. The deep link SHOULD take users directly to this vehicle, without any prompts, interstitial pages, or logins. Make sure that users can see this vehicle even if they never previously opened the application. Note that as a best practice providers SHOULD rotate identifiers within deep links after each rental to avoid unintentionally exposing private vehicle trip origins and destinations.<br><br>If this field is empty, it means deep linking is not supported in the native Android rental app.<br><br>Note that the URI does not necessarily include the `bike_id` for this vehicle - other identifiers can be used by the rental app within the URI to uniquely identify this vehicle. <br><br>See the [Analytics](#analytics) section for how viewing apps can report the origin of the deep link to rental apps. <br><br>Android App Links example value: `https://www.example.com/app?sid=1234567890&platform=android` <br><br>Deep Link (without App Links) example value: `com.example.android://open.example.app/app?sid=1234567890`"
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in free_bike_status.json section",
+      "sample_path": "data.bikes[].rental_uris.android",
+      "samples": [
+        "https://www.example.com/app?bike_id=973a5c94-c288-4a2b-afa6-de8aeb6ae2e5&platform=android&"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.bikes[].rental_uris.ios",
+      "declared_schema_type": "string",
+      "declared_schema_format": "uri",
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/2.3-free_bike_status.json",
+      "schema_pointer": "/properties/data/properties/bikes/items/properties/rental_uris/properties/ios",
+      "schema_definition": {
+        "description": "URI that can be used on iOS to launch the rental app for this vehicle (added in v1.1).",
+        "type": "string",
+        "format": "uri"
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 790,
+          "text": "\\-&nbsp;`rental_uris` <br/>*(added in v1.1)* | OPTIONAL | Object | JSON object that contains rental URIs for Android, iOS, and web in the `android`, `ios`, and `web` fields. See [examples](#examples) of how to use these fields and [supported analytics](#analytics)."
+        },
+        {
+          "line": 792,
+          "text": "&emsp;\\-&nbsp;`ios` <br/>*(added in v1.1)* | OPTIONAL | URI | URI that can be used on iOS to launch the rental app for this vehicle. More information on this iOS feature can be found [here](https://developer.apple.com/documentation/uikit/core_app/allowing_apps_and_websites_to_link_to_your_content/communicating_with_other_apps_using_custom_urls?language=objc). Please use iOS Universal Links (https://developer.apple.com/ios/universal-links/) if possible, so viewing apps do not need to manually manage the redirect of the user to the app store if the user does not have the application installed. <br><br>This URI SHOULD be a deep link specific to this vehicle, and SHOULD NOT be a general rental page that includes information for more than one vehicle.  The deep link SHOULD take users directly to this vehicle, without any prompts, interstitial pages, or logins. Make sure that users can see this vehicle even if they never previously opened the application. Note that as a best practice providers SHOULD rotate identifiers within deep links after each rental to avoid unintentionally exposing private vehicle trip origins and destinations. <br><br>If this field is empty, it means deep linking is not supported in the native iOS rental app.<br><br>Note that the URI does not necessarily include the `bike_id` - other identifiers can be used by the rental app within the URL to uniquely identify this vehicle. <br><br>See the [Analytics](#analytics) section for how viewing apps can report the origin of the deep link to rental apps. <br><br>iOS Universal Links example value: `https://www.example.com/app?sid=1234567890&platform=ios` <br><br>Deep Link (without Universal Links) example value: `com.example.ios://open.example.app/app?sid=1234567890`"
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in free_bike_status.json section",
+      "sample_path": "data.bikes[].rental_uris.ios",
+      "samples": [
+        "https://www.example.com/app?bike_id=973a5c94-c288-4a2b-afa6-de8aeb6ae2e5&platform=ios"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.bikes[].rental_uris.web",
+      "declared_schema_type": "string",
+      "declared_schema_format": "uri",
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/2.3-free_bike_status.json",
+      "schema_pointer": "/properties/data/properties/bikes/items/properties/rental_uris/properties/web",
+      "schema_definition": {
+        "description": "URL that can be used by a web browser to show more information about renting this vehicle (added in v1.1).",
+        "type": "string",
+        "format": "uri"
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 790,
+          "text": "\\-&nbsp;`rental_uris` <br/>*(added in v1.1)* | OPTIONAL | Object | JSON object that contains rental URIs for Android, iOS, and web in the `android`, `ios`, and `web` fields. See [examples](#examples) of how to use these fields and [supported analytics](#analytics)."
+        },
+        {
+          "line": 793,
+          "text": "&emsp;\\-&nbsp;`web` <br/>*(added in v1.1)* | OPTIONAL | URL | URL that can be used by a web browser to show more information about renting a vehicle at this vehicle. <br><br>This URL SHOULD be a deep link specific to this vehicle, and SHOULD NOT be a general rental page that includes information for more than one vehicle.  The deep link SHOULD take users directly to this vehicle, without any prompts, interstitial pages, or logins. Make sure that users can see this vehicle even if they never previously opened the application. Note that as a best practice providers SHOULD rotate identifiers within deep links after each rental to avoid unintentionally exposing private vehicle trip origins and destinations.<br><br>If this field is empty, it means deep linking is not supported for web browsers. <br><br>Example value: `https://www.example.com/app?sid=1234567890`"
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in free_bike_status.json section",
+      "sample_path": "data.bikes[].rental_uris.web",
+      "samples": [],
+      "missing_sample_evidence": true
+    },
+    {
+      "name": "data.bikes[].vehicle_type_id",
+      "declared_schema_type": "string",
+      "declared_schema_format": null,
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/2.3-free_bike_status.json",
+      "schema_pointer": "/properties/data/properties/bikes/items/properties/vehicle_type_id",
+      "schema_definition": {
+        "description": "The vehicle_type_id of this vehicle (added in v2.1-RC).",
+        "type": "string"
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 794,
+          "text": "\\- `vehicle_type_id` <br/>*(added in v2.1)* | Conditionally REQUIRED | ID | REQUIRED if the [vehicle_types.json](#vehicle_typesjson) file is defined. The `vehicle_type_id` of this vehicle, as described in [vehicle_types.json](#vehicle_typesjson). "
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in free_bike_status.json section",
+      "sample_path": "data.bikes[].vehicle_type_id",
+      "samples": [
+        "abc123",
+        "def456"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.bikes[].last_reported",
+      "declared_schema_type": "integer",
+      "declared_schema_format": null,
+      "normalized_type": "integer",
+      "schema_file": "resources/gbfs/2.3-free_bike_status.json",
+      "schema_pointer": "/properties/data/properties/bikes/items/properties/last_reported",
+      "schema_definition": {
+        "description": "The last time this vehicle reported its status to the operator's backend in POSIX time (added in v2.1-RC).",
+        "type": "integer",
+        "minimum": 1450155600
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 795,
+          "text": "\\- `last_reported` <br/>*(added in v2.1)* | OPTIONAL | Timestamp | The last time this vehicle reported its status to the operator's backend."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in free_bike_status.json section",
+      "sample_path": "data.bikes[].last_reported",
+      "samples": [
+        "1609866109",
+        "1609866204"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.bikes[].current_range_meters",
+      "declared_schema_type": "number",
+      "declared_schema_format": null,
+      "normalized_type": "float",
+      "schema_file": "resources/gbfs/2.3-free_bike_status.json",
+      "schema_pointer": "/properties/data/properties/bikes/items/properties/current_range_meters",
+      "schema_definition": {
+        "description": "The furthest distance in meters that the vehicle can travel without recharging or refueling with the vehicle's current charge or fuel (added in v2.1-RC).",
+        "type": "number",
+        "minimum": 0
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 796,
+          "text": "\\- `current_range_meters` <br/>*(added in v2.1)* | Conditionally REQUIRED | Non-negative float | REQUIRED if the corresponding `vehicle_type` definition for this vehicle has a motor. This value represents the furthest distance in meters that the vehicle can travel with the vehicle's current charge or fuel (without recharging or refueling). Note that in the case of carsharing, the given range is indicative and can be different from the one displayed on the vehicle's dashboard."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in free_bike_status.json section",
+      "sample_path": "data.bikes[].current_range_meters",
+      "samples": [
+        "6543.0",
+        "400000.0"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.bikes[].current_fuel_percent",
+      "declared_schema_type": "number",
+      "declared_schema_format": null,
+      "normalized_type": "float",
+      "schema_file": "resources/gbfs/2.3-free_bike_status.json",
+      "schema_pointer": "/properties/data/properties/bikes/items/properties/current_fuel_percent",
+      "schema_definition": {
+        "description": "This value represents the current percentage, expressed from 0 to 1, of fuel or battery power remaining in the vehicle. Added in v2.3-RC.",
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 797,
+          "text": "\\- `current_fuel_percent` <br/>*(added in v2.3)*| OPTIONAL | Non-negative float | This value represents the current percentage, expressed from 0 to 1, of fuel or battery power remaining in the vehicle."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in free_bike_status.json section",
+      "sample_path": "data.bikes[].current_fuel_percent",
+      "samples": [
+        "0.7"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.bikes[].station_id",
+      "declared_schema_type": "string",
+      "declared_schema_format": null,
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/2.3-free_bike_status.json",
+      "schema_pointer": "/properties/data/properties/bikes/items/properties/station_id",
+      "schema_definition": {
+        "description": "Identifier referencing the station_id if the vehicle is currently at a station (added in v2.1-RC2).",
+        "type": "string"
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 786,
+          "text": "\\-&nbsp;`lat` | Conditionally REQUIRED <br/>*(as of v2.1)* | Latitude | Latitude of the vehicle in decimal degrees. *(as of v2.1)* REQUIRED if `station_id` is not provided for this vehicle (free floating). This field SHOULD have a precision of 6 decimal places (0.000001). See [Coordinate Precision](#coordinate-precision)."
+        },
+        {
+          "line": 787,
+          "text": "\\-&nbsp;`lon` | Conditionally REQUIRED <br/>*(as of v2.1)* | Longitude | Longitude of the vehicle in decimal degrees. *(as of v2.1)* REQUIRED if `station_id` is not provided for this vehicle (free floating). This field SHOULD have a precision of 6 decimal places (0.000001). See [Coordinate Precision](#coordinate-precision)."
+        },
+        {
+          "line": 798,
+          "text": "\\- `station_id` <br/>*(added in v2.1)* | Conditionally REQUIRED | ID | REQUIRED if the vehicle is currently at a station and the [vehicle_types.json](#vehicle_typesjson) file has been defined. Identifier referencing the `station_id` field in [station_information.json](#station_informationjson). "
+        },
+        {
+          "line": 799,
+          "text": "\\- `home_station_id` <br/>*(added in v2.3)* | OPTIONAL | ID | The `station_id` of the station this vehicle must be returned to as defined in [station_information.json](#station_informationjson)."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in free_bike_status.json section",
+      "sample_path": "data.bikes[].station_id",
+      "samples": [
+        "86"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.bikes[].home_station_id",
+      "declared_schema_type": "string",
+      "declared_schema_format": null,
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/2.3-free_bike_status.json",
+      "schema_pointer": "/properties/data/properties/bikes/items/properties/home_station_id",
+      "schema_definition": {
+        "description": "The station_id of the station this vehicle must be returned to (added in v2.3-RC).",
+        "type": "string"
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 799,
+          "text": "\\- `home_station_id` <br/>*(added in v2.3)* | OPTIONAL | ID | The `station_id` of the station this vehicle must be returned to as defined in [station_information.json](#station_informationjson)."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in free_bike_status.json section",
+      "sample_path": "data.bikes[].home_station_id",
+      "samples": [
+        "146"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.bikes[].pricing_plan_id",
+      "declared_schema_type": "string",
+      "declared_schema_format": null,
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/2.3-free_bike_status.json",
+      "schema_pointer": "/properties/data/properties/bikes/items/properties/pricing_plan_id",
+      "schema_definition": {
+        "description": "The plan_id of the pricing plan this vehicle is eligible for (added in v2.2).",
+        "type": "string"
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 800,
+          "text": "\\- `pricing_plan_id` <br/>*(added in v2.2)* | OPTIONAL | ID | The `plan_id` of the pricing plan this vehicle is eligible for as described in [system_pricing_plans.json](#system_pricing_plansjson). If this field is defined it supersedes `default_pricing_plan_id` in `vehicle_types.json`. This field SHOULD be used to override `default_pricing_plan_id` in `vehicle_types.json` to define pricing plans for individual vehicles when necessary."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in free_bike_status.json section",
+      "sample_path": "data.bikes[].pricing_plan_id",
+      "samples": [
+        "plan3"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.bikes[].vehicle_equipment[]",
+      "declared_schema_type": null,
+      "declared_schema_format": null,
+      "normalized_type": "unknown",
+      "schema_file": "resources/gbfs/2.3-free_bike_status.json",
+      "schema_pointer": "/properties/data/properties/bikes/items/properties/vehicle_equipment/items",
+      "schema_definition": {
+        "enum": [
+          "child_seat_a",
+          "child_seat_b",
+          "child_seat_c",
+          "winter_tires",
+          "snow_chains"
+        ]
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 801,
+          "text": "\\- `vehicle_equipment`<br/>*(added in v2.3)* | OPTIONAL | Array | List of vehicle equipment provided by the operator in addition to the accessories already provided in the vehicle (field `vehicle_accessories` of `vehicle_types.json`) but subject to more frequent updates.<br/><br/>Current valid values are:<ul><li>`child_seat_a` _(Baby seat (\"0-10kg\"))_</li><li>`child_seat_b`\t _(Seat or seat extension for small children (\"9-18 kg\"))_</li><li>`child_seat_c`\t_(Seat or seat extension for older children (\"15-36 kg\"))_</li><li>`winter_tires` \t_(Vehicle has tires for winter weather)_</li><li>`snow_chains`</li></ul>"
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in free_bike_status.json section",
+      "sample_path": "data.bikes[].vehicle_equipment[]",
+      "samples": [
+        "child_seat_a",
+        "winter_tires"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.bikes[].available_until",
+      "declared_schema_type": "string",
+      "declared_schema_format": null,
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/2.3-free_bike_status.json",
+      "schema_pointer": "/properties/data/properties/bikes/items/properties/available_until",
+      "schema_definition": {
+        "description": "The date and time when any rental of the vehicle must be completed. Added in v2.3.",
+        "type": "string",
+        "pattern": "^([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})(([+-]([0-9]{2}):([0-9]{2}))|Z)$"
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 802,
+          "text": "\\- `available_until`<br/>*(added in v2.3)* | OPTIONAL |  Datetime | The date and time when any rental of the vehicle must be completed. The vehicle must be returned and made available for the next user by this time. If this field is empty, it indicates that the vehicle is available indefinitely.<br /><br /> This field SHOULD be published by carsharing or other mobility systems where vehicles can be booked in advance for future travel."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in free_bike_status.json section",
+      "sample_path": "data.bikes[].available_until",
+      "samples": [
+        "2021-05-17T15:00:00Z"
+      ],
+      "missing_sample_evidence": false
+    }
+  ],
+  "target": [
+    {
+      "name": "last_updated",
+      "declared_schema_type": "string",
+      "declared_schema_format": "date-time",
+      "normalized_type": "timestamp",
+      "schema_file": "resources/gbfs/3.0-vehicle_status.json",
+      "schema_pointer": "/properties/last_updated",
+      "schema_definition": {
+        "description": "Last time the data in the feed was updated in RFC3339 format.",
+        "type": "string",
+        "format": "date-time"
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [],
+      "sample_origin": "Publisher JSON example(s) in vehicle_status.json section",
+      "sample_path": "last_updated",
+      "samples": [
+        "2023-07-17T13:34:13+02:00"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.vehicles[].vehicle_id",
+      "declared_schema_type": "string",
+      "declared_schema_format": null,
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/3.0-vehicle_status.json",
+      "schema_pointer": "/properties/data/properties/vehicles/items/properties/vehicle_id",
+      "schema_definition": {
+        "description": "Rotating (as of v2.0) identifier of a vehicle.",
+        "type": "string"
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 951,
+          "text": "`vehicles[].vehicle_id`<br />*(as of v3.0)*  | Yes | ID | Identifier of a vehicle. The `vehicle_id` identifier MUST be rotated to a random string after each trip to protect user privacy *(as of v2.0)*. Use of persistent vehicle IDs poses a threat to user privacy. The `vehicle_id` identifier SHOULD only be rotated once per trip."
+        },
+        {
+          "line": 957,
+          "text": "`vehicles[].rental_uris.android` | OPTIONAL | URI | URI that can be passed to an Android app with an android.intent.action.VIEW Android intent to support Android Deep Links (https://developer.android.com/training/app-links/deep-linking). Please use Android App Links (https://developer.android.com/training/app-links) if possible, so viewing apps do not need to manually manage the redirect of the user to the app store if the user does not have the application installed. <br><br>This URI SHOULD be a deep link specific to this vehicle, and SHOULD NOT be a general rental page that includes information for more than one vehicle. The deep link SHOULD take users directly to this vehicle, without any prompts, interstitial pages, or logins. Make sure that users can see this vehicle even if they never previously opened the application. Note that providers MUST rotate identifiers within deep links after each rental to avoid unintentionally exposing private vehicle trip origins and destinations.<br><br>If this field is empty, it means deep linking is not supported in the native Android rental app.<br><br>Note that the URI does not necessarily include the `vehicle_id` for this vehicle - other identifiers can be used by the rental app within the URI to uniquely identify this vehicle. <br><br>See the [Analytics](#analytics) section for how viewing apps can report the origin of the deep link to rental apps. <br><br>Android App Links example value: `https://www.example.com/app?sid=1234567890&platform=android` <br><br>Deep Link (without App Links) example value: `com.example.android://open.example.app/app?sid=1234567890`"
+        },
+        {
+          "line": 958,
+          "text": "`vehicles[].rental_uris.ios` | OPTIONAL | URI | URI that can be used on iOS to launch the rental app for this vehicle. More information on this iOS feature can be found [here](https://developer.apple.com/documentation/uikit/core_app/allowing_apps_and_websites_to_link_to_your_content/communicating_with_other_apps_using_custom_urls?language=objc). Please use iOS Universal Links (https://developer.apple.com/ios/universal-links/) if possible, so viewing apps provide a fallback web experience if the application is not installed. <br><br>This URI SHOULD be a deep link specific to this vehicle, and SHOULD NOT be a general rental page that includes information for more than one vehicle.  The deep link SHOULD take users directly to this vehicle, without any prompts, interstitial pages, or logins. Make sure that users can see this vehicle even if they never previously opened the application. Note that providers MUST rotate identifiers within deep links after each rental to avoid unintentionally exposing private vehicle trip origins and destinations. <br><br>If this field is empty, it means deep linking is not supported in the native iOS rental app.<br><br>Note that the URI does not necessarily include the `vehicle_id` - other identifiers can be used by the rental app within the URL to uniquely identify this vehicle. <br><br>See the [Analytics](#analytics) section for how viewing apps can report the origin of the deep link to rental apps. <br><br>iOS Universal Links example value: `https://www.example.com/app?sid=1234567890&platform=ios` <br><br>Deep Link (without Universal Links) example value: `com.example.ios://open.example.app/app?sid=1234567890`"
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in vehicle_status.json section",
+      "sample_path": "data.vehicles[].vehicle_id",
+      "samples": [
+        "973a5c94-c288-4a2b-afa6-de8aeb6ae2e5",
+        "987fd100-b822-4347-86a4-b3eef8ca8b53",
+        "45bd3fb7-a2d5-4def-9de1-c645844ba962",
+        "d4521def-7922-4e46-8e1d-8ac397239bd0"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.vehicles[].lat",
+      "declared_schema_type": "number",
+      "declared_schema_format": null,
+      "normalized_type": "float",
+      "schema_file": "resources/gbfs/3.0-vehicle_status.json",
+      "schema_pointer": "/properties/data/properties/vehicles/items/properties/lat",
+      "schema_definition": {
+        "description": "The latitude of the vehicle.",
+        "type": "number",
+        "minimum": -90,
+        "maximum": 90
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 952,
+          "text": "`vehicles[].lat` | Conditionally REQUIRED <br/>*(as of v2.1)* | Latitude | Latitude of the vehicle in decimal degrees. *(as of v2.1)* REQUIRED if `station_id` is not provided for this vehicle (free floating). This field SHOULD have a precision of 6 decimal places (0.000001). See [Coordinate Precision](#coordinate-precision)."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in vehicle_status.json section",
+      "sample_path": "data.vehicles[].lat",
+      "samples": [
+        "12.345678"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.vehicles[].lon",
+      "declared_schema_type": "number",
+      "declared_schema_format": null,
+      "normalized_type": "float",
+      "schema_file": "resources/gbfs/3.0-vehicle_status.json",
+      "schema_pointer": "/properties/data/properties/vehicles/items/properties/lon",
+      "schema_definition": {
+        "description": "The longitude of the vehicle.",
+        "type": "number",
+        "minimum": -180,
+        "maximum": 180
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 953,
+          "text": "`vehicles[].lon` | Conditionally REQUIRED <br/>*(as of v2.1)* | Longitude | Longitude of the vehicle in decimal degrees. *(as of v2.1)* REQUIRED if `station_id` is not provided for this vehicle (free floating). This field SHOULD have a precision of 6 decimal places (0.000001). See [Coordinate Precision](#coordinate-precision)."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in vehicle_status.json section",
+      "sample_path": "data.vehicles[].lon",
+      "samples": [
+        "56.789012"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.vehicles[].is_reserved",
+      "declared_schema_type": "boolean",
+      "declared_schema_format": null,
+      "normalized_type": "boolean",
+      "schema_file": "resources/gbfs/3.0-vehicle_status.json",
+      "schema_pointer": "/properties/data/properties/vehicles/items/properties/is_reserved",
+      "schema_definition": {
+        "description": "Is the vehicle currently reserved?",
+        "type": "boolean"
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 954,
+          "text": "`vehicles[].is_reserved` | Yes | Boolean | Is the vehicle currently reserved? <br /><br /> `true` - Vehicle is currently reserved. <br /> `false` - Vehicle is not currently reserved."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in vehicle_status.json section",
+      "sample_path": "data.vehicles[].is_reserved",
+      "samples": [
+        "false"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.vehicles[].rental_uris.android",
+      "declared_schema_type": "string",
+      "declared_schema_format": "uri",
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/3.0-vehicle_status.json",
+      "schema_pointer": "/properties/data/properties/vehicles/items/properties/rental_uris/properties/android",
+      "schema_definition": {
+        "description": "URI that can be passed to an Android app with an intent (added in v1.1).",
+        "type": "string",
+        "format": "uri"
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 956,
+          "text": "`vehicles[].rental_uris` | OPTIONAL | Object | JSON object that contains rental URIs for Android, iOS, and web in the `android`, `ios`, and `web` fields. See [examples](#deep-links-examples) of how to use these fields and [supported analytics](#analytics)."
+        },
+        {
+          "line": 957,
+          "text": "`vehicles[].rental_uris.android` | OPTIONAL | URI | URI that can be passed to an Android app with an android.intent.action.VIEW Android intent to support Android Deep Links (https://developer.android.com/training/app-links/deep-linking). Please use Android App Links (https://developer.android.com/training/app-links) if possible, so viewing apps do not need to manually manage the redirect of the user to the app store if the user does not have the application installed. <br><br>This URI SHOULD be a deep link specific to this vehicle, and SHOULD NOT be a general rental page that includes information for more than one vehicle. The deep link SHOULD take users directly to this vehicle, without any prompts, interstitial pages, or logins. Make sure that users can see this vehicle even if they never previously opened the application. Note that providers MUST rotate identifiers within deep links after each rental to avoid unintentionally exposing private vehicle trip origins and destinations.<br><br>If this field is empty, it means deep linking is not supported in the native Android rental app.<br><br>Note that the URI does not necessarily include the `vehicle_id` for this vehicle - other identifiers can be used by the rental app within the URI to uniquely identify this vehicle. <br><br>See the [Analytics](#analytics) section for how viewing apps can report the origin of the deep link to rental apps. <br><br>Android App Links example value: `https://www.example.com/app?sid=1234567890&platform=android` <br><br>Deep Link (without App Links) example value: `com.example.android://open.example.app/app?sid=1234567890`"
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in vehicle_status.json section",
+      "sample_path": "data.vehicles[].rental_uris.android",
+      "samples": [
+        "https://www.example.com/app?vehicle_id=973a5c94-c288-4a2b-afa6-de8aeb6ae2e5&platform=android&"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.vehicles[].rental_uris.ios",
+      "declared_schema_type": "string",
+      "declared_schema_format": "uri",
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/3.0-vehicle_status.json",
+      "schema_pointer": "/properties/data/properties/vehicles/items/properties/rental_uris/properties/ios",
+      "schema_definition": {
+        "description": "URI that can be used on iOS to launch the rental app for this vehicle (added in v1.1).",
+        "type": "string",
+        "format": "uri"
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 956,
+          "text": "`vehicles[].rental_uris` | OPTIONAL | Object | JSON object that contains rental URIs for Android, iOS, and web in the `android`, `ios`, and `web` fields. See [examples](#deep-links-examples) of how to use these fields and [supported analytics](#analytics)."
+        },
+        {
+          "line": 958,
+          "text": "`vehicles[].rental_uris.ios` | OPTIONAL | URI | URI that can be used on iOS to launch the rental app for this vehicle. More information on this iOS feature can be found [here](https://developer.apple.com/documentation/uikit/core_app/allowing_apps_and_websites_to_link_to_your_content/communicating_with_other_apps_using_custom_urls?language=objc). Please use iOS Universal Links (https://developer.apple.com/ios/universal-links/) if possible, so viewing apps provide a fallback web experience if the application is not installed. <br><br>This URI SHOULD be a deep link specific to this vehicle, and SHOULD NOT be a general rental page that includes information for more than one vehicle.  The deep link SHOULD take users directly to this vehicle, without any prompts, interstitial pages, or logins. Make sure that users can see this vehicle even if they never previously opened the application. Note that providers MUST rotate identifiers within deep links after each rental to avoid unintentionally exposing private vehicle trip origins and destinations. <br><br>If this field is empty, it means deep linking is not supported in the native iOS rental app.<br><br>Note that the URI does not necessarily include the `vehicle_id` - other identifiers can be used by the rental app within the URL to uniquely identify this vehicle. <br><br>See the [Analytics](#analytics) section for how viewing apps can report the origin of the deep link to rental apps. <br><br>iOS Universal Links example value: `https://www.example.com/app?sid=1234567890&platform=ios` <br><br>Deep Link (without Universal Links) example value: `com.example.ios://open.example.app/app?sid=1234567890`"
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in vehicle_status.json section",
+      "sample_path": "data.vehicles[].rental_uris.ios",
+      "samples": [
+        "https://www.example.com/app?vehicle_id=973a5c94-c288-4a2b-afa6-de8aeb6ae2e5&platform=ios"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.vehicles[].rental_uris.web",
+      "declared_schema_type": "string",
+      "declared_schema_format": "uri",
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/3.0-vehicle_status.json",
+      "schema_pointer": "/properties/data/properties/vehicles/items/properties/rental_uris/properties/web",
+      "schema_definition": {
+        "description": "URL that can be used by a web browser to show more information about renting this vehicle (added in v1.1).",
+        "type": "string",
+        "format": "uri"
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 956,
+          "text": "`vehicles[].rental_uris` | OPTIONAL | Object | JSON object that contains rental URIs for Android, iOS, and web in the `android`, `ios`, and `web` fields. See [examples](#deep-links-examples) of how to use these fields and [supported analytics](#analytics)."
+        },
+        {
+          "line": 959,
+          "text": "`vehicles[].rental_uris.web` | OPTIONAL | URL | URL that can be used by a web browser to show more information about renting a vehicle at this vehicle. <br><br>This URL SHOULD be a deep link specific to this vehicle, and SHOULD NOT be a general rental page that includes information for more than one vehicle.  The deep link SHOULD take users directly to this vehicle, without any prompts, interstitial pages, or logins. Make sure that users can see this vehicle even if they never previously opened the application. Note that providers MUST rotate identifiers within deep links after each rental to avoid unintentionally exposing private vehicle trip origins and destinations.<br><br>If this field is empty, it means deep linking is not supported for web browsers. <br><br>Example value: `https://www.example.com/app?sid=1234567890`"
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in vehicle_status.json section",
+      "sample_path": "data.vehicles[].rental_uris.web",
+      "samples": [],
+      "missing_sample_evidence": true
+    },
+    {
+      "name": "data.vehicles[].vehicle_type_id",
+      "declared_schema_type": "string",
+      "declared_schema_format": null,
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/3.0-vehicle_status.json",
+      "schema_pointer": "/properties/data/properties/vehicles/items/properties/vehicle_type_id",
+      "schema_definition": {
+        "description": "The vehicle_type_id of this vehicle (added in v2.1-RC).",
+        "type": "string"
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 960,
+          "text": "`vehicles[].vehicle_type_id` <br/>*(added in v2.1)* | Conditionally REQUIRED | ID | The `vehicle_type_id` of this vehicle, as described in [vehicle_types.json](#vehicle_typesjson). REQUIRED if the [vehicle_types.json](#vehicle_typesjson) file is defined."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in vehicle_status.json section",
+      "sample_path": "data.vehicles[].vehicle_type_id",
+      "samples": [
+        "abc123",
+        "def456"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.vehicles[].current_range_meters",
+      "declared_schema_type": "number",
+      "declared_schema_format": null,
+      "normalized_type": "float",
+      "schema_file": "resources/gbfs/3.0-vehicle_status.json",
+      "schema_pointer": "/properties/data/properties/vehicles/items/properties/current_range_meters",
+      "schema_definition": {
+        "description": "The furthest distance in meters that the vehicle can travel without recharging or refueling with the vehicle's current charge or fuel (added in v2.1-RC).",
+        "type": "number",
+        "minimum": 0
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 962,
+          "text": "`vehicles[].current_range_meters` <br/>*(added in v2.1)* | Conditionally REQUIRED | Non-negative float | REQUIRED if the corresponding `vehicle_type` definition for this vehicle has a motor. This value represents the furthest distance in meters that the vehicle can travel with the vehicle's current charge or fuel (without recharging or refueling). Note that in the case of carsharing, the given range is indicative and can be different from the one displayed on the vehicle's dashboard."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in vehicle_status.json section",
+      "sample_path": "data.vehicles[].current_range_meters",
+      "samples": [
+        "6543.0",
+        "400000.0"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.vehicles[].current_fuel_percent",
+      "declared_schema_type": "number",
+      "declared_schema_format": null,
+      "normalized_type": "float",
+      "schema_file": "resources/gbfs/3.0-vehicle_status.json",
+      "schema_pointer": "/properties/data/properties/vehicles/items/properties/current_fuel_percent",
+      "schema_definition": {
+        "description": "This value represents the current percentage, expressed from 0 to 1, of fuel or battery power remaining in the vehicle. Added in v2.3-RC.",
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 963,
+          "text": "`vehicles[].current_fuel_percent` <br/>*(added in v2.3)*| OPTIONAL | Non-negative float | This value represents the current percentage, expressed from 0 to 1, of fuel or battery power remaining in the vehicle."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in vehicle_status.json section",
+      "sample_path": "data.vehicles[].current_fuel_percent",
+      "samples": [
+        "0.7"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.vehicles[].home_station_id",
+      "declared_schema_type": "string",
+      "declared_schema_format": null,
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/3.0-vehicle_status.json",
+      "schema_pointer": "/properties/data/properties/vehicles/items/properties/home_station_id",
+      "schema_definition": {
+        "description": "The station_id of the station this vehicle must be returned to (added in v2.3-RC).",
+        "type": "string"
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 965,
+          "text": "`vehicles[].home_station_id` <br/>*(added in v2.3)* | OPTIONAL | ID | The `station_id` of the station this vehicle must be returned to as defined in [station_information.json](#station_informationjson)."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in vehicle_status.json section",
+      "sample_path": "data.vehicles[].home_station_id",
+      "samples": [
+        "station1",
+        "146"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.vehicles[].pricing_plan_id",
+      "declared_schema_type": "string",
+      "declared_schema_format": null,
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/3.0-vehicle_status.json",
+      "schema_pointer": "/properties/data/properties/vehicles/items/properties/pricing_plan_id",
+      "schema_definition": {
+        "description": "The plan_id of the pricing plan this vehicle is eligible for (added in v2.2).",
+        "type": "string"
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 966,
+          "text": "`vehicles[].pricing_plan_id` <br/>*(added in v2.2)* | OPTIONAL | ID | The `plan_id` of the pricing plan this vehicle is eligible for as described in [system_pricing_plans.json](#system_pricing_plansjson). If this field is defined it supersedes `default_pricing_plan_id` in `vehicle_types.json`. This field SHOULD be used to override `default_pricing_plan_id` in `vehicle_types.json` to define pricing plans for individual vehicles when necessary."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in vehicle_status.json section",
+      "sample_path": "data.vehicles[].pricing_plan_id",
+      "samples": [
+        "plan3"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.vehicles[].vehicle_equipment[]",
+      "declared_schema_type": null,
+      "declared_schema_format": null,
+      "normalized_type": "unknown",
+      "schema_file": "resources/gbfs/3.0-vehicle_status.json",
+      "schema_pointer": "/properties/data/properties/vehicles/items/properties/vehicle_equipment/items",
+      "schema_definition": {
+        "enum": [
+          "child_seat_a",
+          "child_seat_b",
+          "child_seat_c",
+          "winter_tires",
+          "snow_chains"
+        ]
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 967,
+          "text": "`vehicles[].vehicle_equipment`<br/>*(added in v2.3)* | OPTIONAL | Array&lt;String&gt; | List of vehicle equipment provided by the operator in addition to the accessories already provided in the vehicle (field `vehicle_accessories` of `vehicle_types.json`) but subject to more frequent updates.<br/><br/>Current valid values are:<ul><li>`child_seat_a` _(Baby seat (\"0-10kg\"))_</li><li>`child_seat_b`\t _(Seat or seat extension for small children (\"9-18 kg\"))_</li><li>`child_seat_c`\t_(Seat or seat extension for older children (\"15-36 kg\"))_</li><li>`winter_tires` \t_(Vehicle has tires for winter weather)_</li><li>`snow_chains`</li></ul>"
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in vehicle_status.json section",
+      "sample_path": "data.vehicles[].vehicle_equipment[]",
+      "samples": [
+        "child_seat_a",
+        "winter_tires"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.vehicles[].available_until",
+      "declared_schema_type": "string",
+      "declared_schema_format": null,
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/3.0-vehicle_status.json",
+      "schema_pointer": "/properties/data/properties/vehicles/items/properties/available_until",
+      "schema_definition": {
+        "description": "The date and time when any rental of the vehicle must be completed. Added in v2.3.",
+        "type": "string",
+        "pattern": "^([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})(([+-]([0-9]{2}):([0-9]{2}))|Z)$"
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 968,
+          "text": "`vehicles[].available_until`<br/>*(added in v2.3)* | OPTIONAL |  Datetime | The date and time when any rental of the vehicle must be completed. The vehicle must be returned and made available for the next user by this time. If this field is empty, it indicates that the vehicle is available indefinitely.<br /><br /> This field SHOULD be published by carsharing or other mobility systems where vehicles can be booked in advance for future travel."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in vehicle_status.json section",
+      "sample_path": "data.vehicles[].available_until",
+      "samples": [
+        "2021-05-17T15:00:00Z"
+      ],
+      "missing_sample_evidence": false
+    }
+  ],
+  "answers": [
+    {
+      "kind": "match",
+      "source": "data.bikes[].bike_id",
+      "target": "data.vehicles[].vehicle_id",
+      "reason": "Both releases define a rotating identifier of a vehicle; v3.0 explicitly replaces free_bike_status with vehicle_status and bike_id with vehicle_id."
+    },
+    {
+      "kind": "match",
+      "source": "data.bikes[].lat",
+      "target": "data.vehicles[].lat",
+      "reason": "Both release definitions describe the same per-vehicle concept. The containing bikes array is renamed vehicles in v3.0; the original leaf key is unchanged."
+    },
+    {
+      "kind": "match",
+      "source": "data.bikes[].lon",
+      "target": "data.vehicles[].lon",
+      "reason": "Both release definitions describe the same per-vehicle concept. The containing bikes array is renamed vehicles in v3.0; the original leaf key is unchanged."
+    },
+    {
+      "kind": "match",
+      "source": "data.bikes[].is_reserved",
+      "target": "data.vehicles[].is_reserved",
+      "reason": "Both release definitions describe the same per-vehicle concept. The containing bikes array is renamed vehicles in v3.0; the original leaf key is unchanged."
+    },
+    {
+      "kind": "no_match",
+      "source": "data.bikes[].is_disabled",
+      "reason": "The disabled-state field is absent from the target projection. is_reserved records a reservation, not a mechanical issue or low battery. The publisher examples happen to use false for both, which does not make the concepts equivalent."
+    },
+    {
+      "kind": "match",
+      "source": "data.bikes[].rental_uris.android",
+      "target": "data.vehicles[].rental_uris.android",
+      "reason": "Both release definitions describe the same per-vehicle concept. The containing bikes array is renamed vehicles in v3.0; the original leaf key is unchanged."
+    },
+    {
+      "kind": "match",
+      "source": "data.bikes[].rental_uris.ios",
+      "target": "data.vehicles[].rental_uris.ios",
+      "reason": "Both release definitions describe the same per-vehicle concept. The containing bikes array is renamed vehicles in v3.0; the original leaf key is unchanged."
+    },
+    {
+      "kind": "match",
+      "source": "data.bikes[].rental_uris.web",
+      "target": "data.vehicles[].rental_uris.web",
+      "reason": "Both release definitions describe the same per-vehicle concept. The containing bikes array is renamed vehicles in v3.0; the original leaf key is unchanged."
+    },
+    {
+      "kind": "match",
+      "source": "data.bikes[].vehicle_type_id",
+      "target": "data.vehicles[].vehicle_type_id",
+      "reason": "Both release definitions describe the same per-vehicle concept. The containing bikes array is renamed vehicles in v3.0; the original leaf key is unchanged."
+    },
+    {
+      "kind": "no_match",
+      "source": "data.bikes[].last_reported",
+      "reason": "The last vehicle-to-backend report time is absent from the target projection. last_updated is the publisher/feed update time; Data Latency explicitly distinguishes these. available_until is a rental-completion deadline."
+    },
+    {
+      "kind": "match",
+      "source": "data.bikes[].current_range_meters",
+      "target": "data.vehicles[].current_range_meters",
+      "reason": "Both release definitions describe the same per-vehicle concept. The containing bikes array is renamed vehicles in v3.0; the original leaf key is unchanged."
+    },
+    {
+      "kind": "match",
+      "source": "data.bikes[].current_fuel_percent",
+      "target": "data.vehicles[].current_fuel_percent",
+      "reason": "Both release definitions describe the same per-vehicle concept. The containing bikes array is renamed vehicles in v3.0; the original leaf key is unchanged."
+    },
+    {
+      "kind": "no_match",
+      "source": "data.bikes[].station_id",
+      "reason": "The current physical station is absent from the target projection. home_station_id is the required return station, which need not be the current station. vehicle_type_id and vehicle_id also identify different entities."
+    },
+    {
+      "kind": "match",
+      "source": "data.bikes[].home_station_id",
+      "target": "data.vehicles[].home_station_id",
+      "reason": "Both release definitions describe the same per-vehicle concept. The containing bikes array is renamed vehicles in v3.0; the original leaf key is unchanged."
+    },
+    {
+      "kind": "match",
+      "source": "data.bikes[].pricing_plan_id",
+      "target": "data.vehicles[].pricing_plan_id",
+      "reason": "Both release definitions describe the same per-vehicle concept. The containing bikes array is renamed vehicles in v3.0; the original leaf key is unchanged."
+    },
+    {
+      "kind": "match",
+      "source": "data.bikes[].vehicle_equipment[]",
+      "target": "data.vehicles[].vehicle_equipment[]",
+      "reason": "Both release definitions describe the same per-vehicle concept. The containing bikes array is renamed vehicles in v3.0; the original leaf key is unchanged."
+    },
+    {
+      "kind": "match",
+      "source": "data.bikes[].available_until",
+      "target": "data.vehicles[].available_until",
+      "reason": "Both release definitions describe the same per-vehicle concept. The containing bikes array is renamed vehicles in v3.0; the original leaf key is unchanged."
+    }
+  ],
+  "projection": {
+    "source": "All scalar leaves under data.bikes[]; envelope excluded.",
+    "target": "All scalar leaves under data.vehicles[] except station_id, is_disabled, last_reported; plus envelope last_updated. This explicit partial-consumer projection tests current-vs-home station, disabled-vs-reserved state and report-vs-feed-update time."
+  },
+  "limitations": [
+    "Publisher-authored illustrative examples, not observed live fleet records.",
+    "The v2.3 carsharing example has an undeclared home_station key. It is not silently repaired; only the declared home_station_id sample from the other record is extracted.",
+    "rental_uris.web has no value in the examples; samples remain empty.",
+    "vehicle_equipment item schemas contain an enum without an explicit type, retained as unknown instead of inferring a declaration.",
+    "No supported genuine one-to-many ambiguity label is manufactured."
+  ],
+  "label_standard": "Match means same operational concept, allowing ordinary representation conversion. A combined predicate split into independent predicates has no single equivalent target. Arrays are flattened mechanically. Different scope or operational state is not equivalent."
+}

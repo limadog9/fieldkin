@@ -1,0 +1,36 @@
+{
+  "events": [
+    {
+      "eventRouting": {
+        "originatingParties": [
+          {
+            "partyCode": "EXCO",
+            "codeListProvider": "SMDG",
+            "codeListName": "LCL",
+            "partyFunction": "CA"
+          }
+        ]
+      },
+      "eventID": "evt-ship-001",
+      "eventDateTime": "2026-01-20T10:00:00Z",
+      "eventUpdatedDateTime": "2026-01-20T10:05:00Z",
+      "eventClassification": {
+        "eventType": "SHIPMENT",
+        "eventClassifier": "ACTUAL",
+        "shipmentEventType": "CONFIRMED"
+      },
+      "shipmentDetails": {
+        "documentReference": {
+          "type": "BOOKING",
+          "reference": "CARRIER_BOOKING_REFERENCE_PLACEHOLDER"
+        },
+        "additionalDocumentReferences": [
+          {
+            "type": "TRANSPORT_DOCUMENT",
+            "reference": "TRANSPORT_DOCUMENT_REFERENCE_PLACEHOLDER"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "frozen_at": "2026-10-12T19:10:53.257897+00:00",
+  "predictions_observed": false,
+  "matcher_or_repository_read": false,
+  "label_basis": "Official schema definitions and publisher examples only; explicit projection.",
+  "artifacts": {
+    "case.json": "b64912a4f9f1c104f85418de6f0cffc8599541f0ec60af7fa5570bc99bbd3fbc",
+    "field_evidence.json": "ce0f06f64f3fac14244bbc0185a396442728477a362c1562eb6a00a61fe7e985",
+    "extract_case.py": "9bc50ce1647d116595bd81dcc804ec1ce89be50ba5d84f3c3de02eb81f4443ad",
+    "manifest.json": "9898222210ed337e167c5c0fa90cffff91dfc415640ee53be01f617544b61de0",
+    "README_CASE.md": "7c9b0cb12e74e16cd6cc56073f2d86ac7574acb4dfd88c4c71c4992c4af3dff6"
+  },
+  "evidence_extended_at": "2026-10-12T19:11:41.321469+00:00",
+  "target_status": "Official published 3.0.0 draft: WORK IN PROGRESS and not ready for general adoption (schema lines 20\u201322).",
+  "evidence_extension": "Added original parent schema component blocks with allOf/$ref nesting chains and prominent draft status. case.json and labels unchanged."
+}

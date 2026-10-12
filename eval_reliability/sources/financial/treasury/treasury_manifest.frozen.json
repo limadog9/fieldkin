@@ -1,0 +1,83 @@
+{
+  "publisher": "United States Department of the Treasury, USAspending",
+  "repository": "https://github.com/fedspendingtransparency/usaspending-api",
+  "commit": "03b9e2554837998c4c261c65e2947dc79f23855a",
+  "retrieval_date_utc": "2026-10-12",
+  "frozen_at_utc": "2026-10-12T19:10:45.798789+00:00",
+  "license": "CC0-1.0",
+  "schema_only": true,
+  "record_provenance": "No observed record values used. Empty samples intentionally measure missing-value-evidence behavior. No test/evaluation fixtures accessed.",
+  "selection": "Crosswalk row projections selected solely from publisher definitions, financial quantity distinctions, code-versus-description distinctions and entity/event roles before any matcher predictions. Exact field names retained. Target ordering follows publisher crosswalk row order.",
+  "type_policy": "Source CSV types are unknown because crosswalk does not declare storage types. Target types preserve publisher Django declarations mapped to evaluation vocabulary; NumericField is decimal because publisher custom_django_fields.py declares PostgreSQL numeric. No type inferred from names or empty samples.",
+  "crosswalk_authority": "DEC Overview!A4 explicitly says the document specifies how data elements are labelled across environments; DEC Overview!A7 says it is generated from DAIMS. Public columns G/H are download file/field; M/N are database table/field. Definition B supplies role/unit/event semantics.",
+  "blind_review_revision": "Before predictions, independent annotation review replaced target-only row 208 LegalEntityCityName with row 212 LegalEntityCountyCode because generic legal-city wording could encompass foreign cities. No source fields or labels changed. Acquisition timestamps are recorded constants for portable deterministic regeneration.",
+  "historical_note": "Crosswalk is the published file at pinned commit and describes Database Download names. Current model files declare compatibility-view fields; this corpus claims equivalence only for exact selected crosswalk rows validated against declared model fields, not blanket equivalence of current storage schemas.",
+  "sources": [
+    {
+      "local_file": "Data_Dictionary_Crosswalk.xlsx",
+      "url": "https://raw.githubusercontent.com/fedspendingtransparency/usaspending-api/03b9e2554837998c4c261c65e2947dc79f23855a/usaspending_api/data/Data_Dictionary_Crosswalk.xlsx",
+      "sha256": "975eb6fef1fc139fa26b7a37c88b49af92ce3aa257968692dd30555f9f6d3ae0",
+      "bytes": 148539,
+      "retrieved_at_utc": "2026-10-12T19:06:13.364824+00:00"
+    },
+    {
+      "local_file": "transaction_fabs.py",
+      "url": "https://raw.githubusercontent.com/fedspendingtransparency/usaspending-api/03b9e2554837998c4c261c65e2947dc79f23855a/usaspending_api/awards/models/transaction_fabs.py",
+      "sha256": "9b5fdcf077c8564f73fd5628b3121ae33af70ea44ca53905bdd6affd48895862",
+      "bytes": 11414,
+      "retrieved_at_utc": "2026-10-12T19:07:02.709359+00:00"
+    },
+    {
+      "local_file": "transaction_fpds.py",
+      "url": "https://raw.githubusercontent.com/fedspendingtransparency/usaspending-api/03b9e2554837998c4c261c65e2947dc79f23855a/usaspending_api/awards/models/transaction_fpds.py",
+      "sha256": "96675b7633286e5e6db2ff65fc18bfff1bad290cfe6523eab0c3883851e4ac4a",
+      "bytes": 24304,
+      "retrieved_at_utc": "2026-10-12T19:07:02.689179+00:00"
+    },
+    {
+      "local_file": "custom_django_fields.py",
+      "url": "https://raw.githubusercontent.com/fedspendingtransparency/usaspending-api/03b9e2554837998c4c261c65e2947dc79f23855a/usaspending_api/common/custom_django_fields.py",
+      "sha256": "8460970a0fc784122e2814723024e39a95b13867aa10d26e12209028c147e3ba",
+      "bytes": 540,
+      "retrieved_at_utc": "2026-10-12T19:08:05.523750+00:00"
+    },
+    {
+      "local_file": "LICENSE",
+      "url": "https://raw.githubusercontent.com/fedspendingtransparency/usaspending-api/03b9e2554837998c4c261c65e2947dc79f23855a/LICENSE",
+      "sha256": "6d489af6292662d9e36d34ce49423784984a5f6e41d7b58f49b01264df59fa03",
+      "bytes": 7047,
+      "retrieved_at_utc": "2026-10-12T19:05:49.990345+00:00"
+    }
+  ],
+  "artifacts": [
+    {
+      "local_file": "extract_cases.py",
+      "sha256": "d518f9728f0c45092c650a0eb8eb902645be7d97b192d5a0ac369bd9d360c86e"
+    },
+    {
+      "local_file": "treasury_cases.frozen.json",
+      "sha256": "e137151ebb7176739584b79324a9d28444fc48dd7246f51438c7ab2460ef27e3"
+    },
+    {
+      "local_file": "treasury_evidence.frozen.json",
+      "sha256": "82be6df0c34475d8abde87f0f5349a78ba155411d9a267780c715916c57c546e"
+    }
+  ],
+  "reproduction": "python extract_cases.py (Python 3 standard library only; offline; does not import or execute publisher code)",
+  "cases": [
+    {
+      "name": "treasury_assistance_download_to_database_schema_only",
+      "source_fields": 27,
+      "target_fields": 27,
+      "match_labels": 22,
+      "no_match_labels": 5
+    },
+    {
+      "name": "treasury_contract_download_to_database_schema_only",
+      "source_fields": 25,
+      "target_fields": 25,
+      "match_labels": 20,
+      "no_match_labels": 5
+    }
+  ]
+}

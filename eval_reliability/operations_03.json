@@ -1,0 +1,685 @@
+{
+  "name": "dcsa_tnt_equipment_events_2_2_to_3_0",
+  "source": {
+    "fields": [
+      {
+        "name": "eventID",
+        "data_type": "text",
+        "samples": [
+          "3cecb101-7a1a-43a4-9d62-e88a131651e4",
+          "3cecb101-7a1a-43a4-9d62-e88a131651e7"
+        ]
+      },
+      {
+        "name": "eventCreatedDateTime",
+        "data_type": "timestamp",
+        "samples": [
+          "2021-01-23T12:34:56Z",
+          "2021-01-09T14:12:56Z"
+        ]
+      },
+      {
+        "name": "eventDateTime",
+        "data_type": "timestamp",
+        "samples": [
+          "2019-11-12T07:41:00+08:30"
+        ]
+      },
+      {
+        "name": "eventType",
+        "data_type": "text",
+        "samples": [
+          "EQUIPMENT"
+        ]
+      },
+      {
+        "name": "eventClassifierCode",
+        "data_type": "text",
+        "samples": [
+          "EST"
+        ]
+      },
+      {
+        "name": "equipmentEventTypeCode",
+        "data_type": "text",
+        "samples": [
+          "LOAD"
+        ]
+      },
+      {
+        "name": "equipmentReference",
+        "data_type": "text",
+        "samples": [
+          "APZU4812090"
+        ]
+      },
+      {
+        "name": "ISOEquipmentCode",
+        "data_type": "text",
+        "samples": [
+          "22GP"
+        ]
+      },
+      {
+        "name": "emptyIndicatorCode",
+        "data_type": "text",
+        "samples": [
+          "EMPTY"
+        ]
+      },
+      {
+        "name": "eventLocation.locationName",
+        "data_type": "text",
+        "samples": [
+          "Eiffel Tower"
+        ]
+      },
+      {
+        "name": "eventLocation.latitude",
+        "data_type": "text",
+        "samples": [
+          "48.8585500"
+        ]
+      },
+      {
+        "name": "eventLocation.longitude",
+        "data_type": "text",
+        "samples": [
+          "2.294492036"
+        ]
+      },
+      {
+        "name": "eventLocation.UNLocationCode",
+        "data_type": "text",
+        "samples": [
+          "FRPAR"
+        ]
+      },
+      {
+        "name": "eventLocation.facilityCode",
+        "data_type": "text",
+        "samples": [
+          "ADT"
+        ]
+      },
+      {
+        "name": "eventLocation.facilityCodeListProvider",
+        "data_type": "text",
+        "samples": [
+          "SMDG"
+        ]
+      },
+      {
+        "name": "eventLocation.address.name",
+        "data_type": "text",
+        "samples": [
+          "Henrik"
+        ]
+      },
+      {
+        "name": "eventLocation.address.street",
+        "data_type": "text",
+        "samples": [
+          "Kronprincessegade"
+        ]
+      },
+      {
+        "name": "eventLocation.address.streetNumber",
+        "data_type": "text",
+        "samples": [
+          "54"
+        ]
+      },
+      {
+        "name": "eventLocation.address.postCode",
+        "data_type": "text",
+        "samples": [
+          "1306"
+        ]
+      },
+      {
+        "name": "eventLocation.address.city",
+        "data_type": "text",
+        "samples": [
+          "København"
+        ]
+      },
+      {
+        "name": "transportCall.transportCallID",
+        "data_type": "text",
+        "samples": [
+          "123e4567-e89b-12d3-a456-426614174000"
+        ]
+      },
+      {
+        "name": "transportCall.carrierServiceCode",
+        "data_type": "text",
+        "samples": [
+          "FE1"
+        ]
+      },
+      {
+        "name": "transportCall.exportVoyageNumber",
+        "data_type": "text",
+        "samples": [
+          "2103S"
+        ]
+      },
+      {
+        "name": "transportCall.importVoyageNumber",
+        "data_type": "text",
+        "samples": [
+          "2103N"
+        ]
+      },
+      {
+        "name": "transportCall.transportCallSequenceNumber",
+        "data_type": "integer",
+        "samples": [
+          "2"
+        ]
+      },
+      {
+        "name": "transportCall.modeOfTransport",
+        "data_type": "text",
+        "samples": [
+          "VESSEL"
+        ]
+      },
+      {
+        "name": "transportCall.vessel.vesselIMONumber",
+        "data_type": "text",
+        "samples": [
+          "9321483"
+        ]
+      },
+      {
+        "name": "transportCall.vessel.vesselCallSignNumber",
+        "data_type": "text",
+        "samples": [
+          "NCVV"
+        ]
+      },
+      {
+        "name": "transportCall.vessel.vesselOperatorCarrierCode",
+        "data_type": "text",
+        "samples": [
+          "MAEU"
+        ]
+      },
+      {
+        "name": "transportCall.vessel.vesselOperatorCarrierCodeListProvider",
+        "data_type": "text",
+        "samples": [
+          "NMFTA"
+        ]
+      },
+      {
+        "name": "seals[].sealNumber",
+        "data_type": "text",
+        "samples": [
+          "string"
+        ]
+      },
+      {
+        "name": "seals[].sealSource",
+        "data_type": "text",
+        "samples": [
+          "CUS"
+        ]
+      },
+      {
+        "name": "seals[].sealType",
+        "data_type": "text",
+        "samples": [
+          "WIR"
+        ]
+      },
+      {
+        "name": "transportCall.otherFacility",
+        "data_type": "text",
+        "samples": [
+          "Depot location or address"
+        ]
+      }
+    ]
+  },
+  "target": {
+    "fields": [
+      {
+        "name": "eventID",
+        "data_type": "text",
+        "samples": [
+          "evt-resp-equip-001",
+          "evt-resp-equip-002",
+          "evt-equip-001-2026-01-20T14:15:00Z"
+        ]
+      },
+      {
+        "name": "eventDateTime",
+        "data_type": "timestamp",
+        "samples": [
+          "2025-01-27T00:30:00Z",
+          "2025-02-15T00:45:00Z",
+          "2026-01-20T14:15:00Z"
+        ]
+      },
+      {
+        "name": "eventClassification.eventType",
+        "data_type": "text",
+        "samples": [
+          "EQUIPMENT"
+        ]
+      },
+      {
+        "name": "eventClassification.eventClassifier",
+        "data_type": "text",
+        "samples": [
+          "ACTUAL"
+        ]
+      },
+      {
+        "name": "eventClassification.equipmentEventType",
+        "data_type": "text",
+        "samples": [
+          "GATED_IN",
+          "DISCHARGED",
+          "LOADED"
+        ]
+      },
+      {
+        "name": "equipmentDetails.equipmentReference",
+        "data_type": "text",
+        "samples": [
+          "EQUIPMENT_REFERENCE_PLACEHOLDER",
+          "APZU4812090"
+        ]
+      },
+      {
+        "name": "equipmentDetails.ISOEquipmentCode",
+        "data_type": "text",
+        "samples": [
+          "45G1",
+          "22GP"
+        ]
+      },
+      {
+        "name": "equipmentDetails.emptyIndicator",
+        "data_type": "text",
+        "samples": [
+          "EMPTY",
+          "LADEN"
+        ]
+      },
+      {
+        "name": "eventLocation.locationName",
+        "data_type": "text",
+        "samples": [
+          "Example Warehouse Facility",
+          "Example Yard Beta",
+          "Example Container Yard"
+        ]
+      },
+      {
+        "name": "eventLocation.geoCoordinate.latitude",
+        "data_type": "text",
+        "samples": [
+          "33.629152"
+        ]
+      },
+      {
+        "name": "eventLocation.geoCoordinate.longitude",
+        "data_type": "text",
+        "samples": [
+          "-118.587187"
+        ]
+      },
+      {
+        "name": "eventLocation.UNLocationCode",
+        "data_type": "text",
+        "samples": [
+          "FRPAR",
+          "ITGOA",
+          "NLRTM"
+        ]
+      },
+      {
+        "name": "eventLocation.facility.facilityCode",
+        "data_type": "text",
+        "samples": [
+          "AUMELNWQL"
+        ]
+      },
+      {
+        "name": "eventLocation.facility.facilityCodeListProvider",
+        "data_type": "text",
+        "samples": [
+          "SMDG"
+        ]
+      },
+      {
+        "name": "eventLocation.address.street",
+        "data_type": "text",
+        "samples": [
+          "Sample Avenue",
+          "Example Boulevard"
+        ]
+      },
+      {
+        "name": "eventLocation.address.streetNumber",
+        "data_type": "text",
+        "samples": [
+          "456",
+          "123"
+        ]
+      },
+      {
+        "name": "eventLocation.address.postCode",
+        "data_type": "text",
+        "samples": [
+          "75001",
+          "1000AB"
+        ]
+      },
+      {
+        "name": "eventLocation.address.city",
+        "data_type": "text",
+        "samples": [
+          "Example Town",
+          "Example City"
+        ]
+      },
+      {
+        "name": "transportDetails.transportCall.transportCallReference",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "transportDetails.transportCall.serviceCodeOrReference.carrierServiceCode",
+        "data_type": "text",
+        "samples": [
+          "FE1"
+        ]
+      },
+      {
+        "name": "transportDetails.transportCall.exportVoyageNumberOrReference.carrierVoyageNumber",
+        "data_type": "text",
+        "samples": [
+          "2103S"
+        ]
+      },
+      {
+        "name": "transportDetails.transportCall.importVoyageNumberOrReference.carrierVoyageNumber",
+        "data_type": "text",
+        "samples": [
+          "2103S"
+        ]
+      },
+      {
+        "name": "transportDetails.transportCall.transportCallSequenceNumber",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "transportDetails.transportCall.modeOfTransport",
+        "data_type": "text",
+        "samples": [
+          "VESSEL"
+        ]
+      },
+      {
+        "name": "transportDetails.transportCall.vesselTransport.vesselIMONumber",
+        "data_type": "text",
+        "samples": [
+          "9321483"
+        ]
+      },
+      {
+        "name": "transportDetails.transportCall.vesselTransport.vesselCallSign",
+        "data_type": "text",
+        "samples": [
+          "NCVV"
+        ]
+      },
+      {
+        "name": "transportDetails.transportCall.vesselTransport.operatorCarrierCode",
+        "data_type": "text",
+        "samples": [
+          "MAEU"
+        ]
+      },
+      {
+        "name": "transportDetails.transportCall.vesselTransport.operatorCarrierCodeListProvider",
+        "data_type": "text",
+        "samples": [
+          "SMDG"
+        ]
+      },
+      {
+        "name": "equipmentDetails.seals[].number",
+        "data_type": "text",
+        "samples": [
+          "VET123"
+        ]
+      },
+      {
+        "name": "equipmentDetails.seals[].source",
+        "data_type": "text",
+        "samples": [
+          "CUSTOMER"
+        ]
+      },
+      {
+        "name": "equipmentDetails.seals[].type",
+        "data_type": "text",
+        "samples": [
+          "BOLT"
+        ]
+      },
+      {
+        "name": "eventUpdatedDateTime",
+        "data_type": "timestamp",
+        "samples": [
+          "2025-01-27T01:23:45Z",
+          "2025-02-15T01:23:45Z",
+          "2026-01-20T14:20:00Z"
+        ]
+      },
+      {
+        "name": "isRetracted",
+        "data_type": "boolean",
+        "samples": []
+      },
+      {
+        "name": "transportDetails.transportCall.serviceCodeOrReference.universalServiceReference",
+        "data_type": "text",
+        "samples": [
+          "SR12345A"
+        ]
+      },
+      {
+        "name": "transportDetails.transportCall.exportVoyageNumberOrReference.universalVoyageReference",
+        "data_type": "text",
+        "samples": [
+          "2301W"
+        ]
+      },
+      {
+        "name": "transportDetails.transportCall.vesselTransport.vesselMMSINumber",
+        "data_type": "text",
+        "samples": [
+          "278111222"
+        ]
+      }
+    ]
+  },
+  "answers": [
+    {
+      "kind": "match",
+      "source": "eventID",
+      "target": "eventID"
+    },
+    {
+      "kind": "no_match",
+      "source": "eventCreatedDateTime"
+    },
+    {
+      "kind": "match",
+      "source": "eventDateTime",
+      "target": "eventDateTime"
+    },
+    {
+      "kind": "match",
+      "source": "eventType",
+      "target": "eventClassification.eventType"
+    },
+    {
+      "kind": "match",
+      "source": "eventClassifierCode",
+      "target": "eventClassification.eventClassifier"
+    },
+    {
+      "kind": "match",
+      "source": "equipmentEventTypeCode",
+      "target": "eventClassification.equipmentEventType"
+    },
+    {
+      "kind": "match",
+      "source": "equipmentReference",
+      "target": "equipmentDetails.equipmentReference"
+    },
+    {
+      "kind": "match",
+      "source": "ISOEquipmentCode",
+      "target": "equipmentDetails.ISOEquipmentCode"
+    },
+    {
+      "kind": "match",
+      "source": "emptyIndicatorCode",
+      "target": "equipmentDetails.emptyIndicator"
+    },
+    {
+      "kind": "match",
+      "source": "eventLocation.locationName",
+      "target": "eventLocation.locationName"
+    },
+    {
+      "kind": "match",
+      "source": "eventLocation.latitude",
+      "target": "eventLocation.geoCoordinate.latitude"
+    },
+    {
+      "kind": "match",
+      "source": "eventLocation.longitude",
+      "target": "eventLocation.geoCoordinate.longitude"
+    },
+    {
+      "kind": "match",
+      "source": "eventLocation.UNLocationCode",
+      "target": "eventLocation.UNLocationCode"
+    },
+    {
+      "kind": "match",
+      "source": "eventLocation.facilityCode",
+      "target": "eventLocation.facility.facilityCode"
+    },
+    {
+      "kind": "match",
+      "source": "eventLocation.facilityCodeListProvider",
+      "target": "eventLocation.facility.facilityCodeListProvider"
+    },
+    {
+      "kind": "no_match",
+      "source": "eventLocation.address.name"
+    },
+    {
+      "kind": "match",
+      "source": "eventLocation.address.street",
+      "target": "eventLocation.address.street"
+    },
+    {
+      "kind": "match",
+      "source": "eventLocation.address.streetNumber",
+      "target": "eventLocation.address.streetNumber"
+    },
+    {
+      "kind": "match",
+      "source": "eventLocation.address.postCode",
+      "target": "eventLocation.address.postCode"
+    },
+    {
+      "kind": "match",
+      "source": "eventLocation.address.city",
+      "target": "eventLocation.address.city"
+    },
+    {
+      "kind": "match",
+      "source": "transportCall.transportCallID",
+      "target": "transportDetails.transportCall.transportCallReference"
+    },
+    {
+      "kind": "match",
+      "source": "transportCall.carrierServiceCode",
+      "target": "transportDetails.transportCall.serviceCodeOrReference.carrierServiceCode"
+    },
+    {
+      "kind": "match",
+      "source": "transportCall.exportVoyageNumber",
+      "target": "transportDetails.transportCall.exportVoyageNumberOrReference.carrierVoyageNumber"
+    },
+    {
+      "kind": "match",
+      "source": "transportCall.importVoyageNumber",
+      "target": "transportDetails.transportCall.importVoyageNumberOrReference.carrierVoyageNumber"
+    },
+    {
+      "kind": "match",
+      "source": "transportCall.transportCallSequenceNumber",
+      "target": "transportDetails.transportCall.transportCallSequenceNumber"
+    },
+    {
+      "kind": "match",
+      "source": "transportCall.modeOfTransport",
+      "target": "transportDetails.transportCall.modeOfTransport"
+    },
+    {
+      "kind": "match",
+      "source": "transportCall.vessel.vesselIMONumber",
+      "target": "transportDetails.transportCall.vesselTransport.vesselIMONumber"
+    },
+    {
+      "kind": "match",
+      "source": "transportCall.vessel.vesselCallSignNumber",
+      "target": "transportDetails.transportCall.vesselTransport.vesselCallSign"
+    },
+    {
+      "kind": "match",
+      "source": "transportCall.vessel.vesselOperatorCarrierCode",
+      "target": "transportDetails.transportCall.vesselTransport.operatorCarrierCode"
+    },
+    {
+      "kind": "match",
+      "source": "transportCall.vessel.vesselOperatorCarrierCodeListProvider",
+      "target": "transportDetails.transportCall.vesselTransport.operatorCarrierCodeListProvider"
+    },
+    {
+      "kind": "match",
+      "source": "seals[].sealNumber",
+      "target": "equipmentDetails.seals[].number"
+    },
+    {
+      "kind": "match",
+      "source": "seals[].sealSource",
+      "target": "equipmentDetails.seals[].source"
+    },
+    {
+      "kind": "match",
+      "source": "seals[].sealType",
+      "target": "equipmentDetails.seals[].type"
+    },
+    {
+      "kind": "no_match",
+      "source": "transportCall.otherFacility"
+    }
+  ]
+}

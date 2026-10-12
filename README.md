@@ -325,6 +325,20 @@ checks. Omit the check flag (use `evaluate_all -- --independent`) for report-onl
 runs. The two ambiguity labels cover equivalent epoch representations;
 they do not establish reliability on ambiguous business roles.
 
+A further 11 financial, healthcare and operational schema-migration cases
+(236 source fields) test suggestion reliability in two separately frozen trials:
+
+```sh
+cargo run --locked --example evaluate_all -- --check-reliability
+```
+
+The [reliability report](https://github.com/limadog9/fieldkin/blob/main/validation/reliability_report.md)
+records both rejected decision safeguards: fewer false matches did not reliably
+preserve legitimate renames. CI protects the original per-case quality floor.
+These are documented publisher schemas/examples, not production observations;
+they contain no independently supported ambiguity labels. Source archives,
+field-level evidence and extraction checks are excluded from the published crate.
+
 For release performance/scaling measurements, run
 `cargo build --locked --release --example benchmark_performance --jobs 1`, then
 `python3 validation/benchmark_performance.py --output target/performance.json`.

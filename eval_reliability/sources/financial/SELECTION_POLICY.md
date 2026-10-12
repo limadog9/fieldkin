@@ -1,0 +1,7 @@
+# Financial blind source-selection policy
+
+Recorded 2026-10-12 before source retrieval or inspection of matcher outputs.
+
+Select related public financial schemas with independently published definitions of equivalent facts, and nearby fields measuring distinct amounts, dates, identifiers, statuses, or rates. Prefer primary public-sector publishers and actual observed records; publisher-provided examples are acceptable only if explicitly labeled synthetic. Select 2–4 cases with about 15–40 fields per side where evidence supports them. Preserve publisher field names, declared types, and record values; do not invent or hand-rename columns. Explicitly documented projections may omit counterparts to test safe abstention. Do not select sources or projections based on predictions or implementation details. Freeze all labels and archive checksums before predictions. Do not inspect repository matching code, evaluation corpora, or existing fixtures.
+
+Only exact concept equivalences supported by the independent documentation receive match labels. Distinct units, object identity, reporting period, temporal event, or entity role are hard negatives even when names or values resemble each other. Ambiguous equivalences are omitted or labeled uncertain if the evaluation schema permits. Archive schemas and record provenance, exact versions, license, acquisition time, checksums, field-level evidence, and deterministic standard-library extraction instructions.

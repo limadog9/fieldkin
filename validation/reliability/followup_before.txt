@@ -1,0 +1,270 @@
+/workspace/fieldkin/eval_reliability_new/financial_01.json: accuracy 11/27 (40.74%); automatic precision 5/5 (100.00%); recall 5/21 (23.81%); incorrect automatic 0; abstentions 22
+/workspace/fieldkin/eval_reliability_new/healthcare_01.json: accuracy 22/24 (91.67%); automatic precision 17/18 (94.44%); recall 17/17 (100.00%); incorrect automatic 1; abstentions 6
+/workspace/fieldkin/eval_reliability_new/operations_01.json: accuracy 11/16 (68.75%); automatic precision 11/11 (100.00%); recall 11/13 (84.62%); incorrect automatic 0; abstentions 5
+Overall accuracy: 44/67 (65.67%)
+Expected match: 33/51 (64.71%)
+Expected no_match: 11/16 (68.75%)
+Expected ambiguous: 0/0 (n/a)
+Automatic-match precision: 33/34 (97.06%)
+Automatic-match recall: 33/51 (64.71%)
+Automatic-match coverage: 34/67 (50.75%)
+Abstentions: 33 (NoMatch: 28, Ambiguous: 5)
+Incorrect automatic matches: 1
+Automatic selections on expected no_match: 1/16 (6.25%)
+Automatic selections on expected ambiguous: 0/0 (n/a)
+Missed matches: 18
+Incorrect ambiguities: 5
+
+====================================================================================================
+DATASET:  treasury_contract_subaward_download_to_broker_schema_only
+SOURCE:   prime_award_project_title
+EXPECTED: match -> program_title
+GOT:      no_match (0.630)
+
+TOP CANDIDATES
+  program_title                    total=0.630  name=0.684  type=0.500  samples=n/a
+  awardee_or_recipient_legal       total=0.627  name=0.680  type=0.500  samples=n/a
+  sub_awardee_or_recipient_legal   total=0.610  name=0.656  type=0.500  samples=n/a
+
+====================================================================================================
+DATASET:  treasury_contract_subaward_download_to_broker_schema_only
+SOURCE:   subaward_action_date
+EXPECTED: match -> sub_action_date
+GOT:      no_match (0.822)
+
+TOP CANDIDATES
+  sub_action_date                  total=0.822  name=0.956  type=0.500  samples=n/a
+  subaward_amount                  total=0.774  name=0.888  type=0.500  samples=n/a
+  subaward_description             total=0.771  name=0.885  type=0.500  samples=n/a
+
+====================================================================================================
+DATASET:  treasury_contract_subaward_download_to_broker_schema_only
+SOURCE:   subaward_primary_place_of_performance_city_name
+EXPECTED: match -> sub_place_of_perform_city_name
+GOT:      no_match (0.811)
+
+TOP CANDIDATES
+  sub_place_of_perform_city_name   total=0.811  name=0.941  type=0.500  samples=n/a
+  sub_awardee_or_recipient_legal   total=0.738  name=0.837  type=0.500  samples=n/a
+  subaward_report_month            total=0.731  name=0.827  type=0.500  samples=n/a
+
+====================================================================================================
+DATASET:  treasury_contract_subaward_download_to_broker_schema_only
+SOURCE:   subaward_primary_place_of_performance_country_code
+EXPECTED: match -> sub_place_of_perform_country_co
+GOT:      no_match (0.813)
+
+TOP CANDIDATES
+  sub_place_of_perform_country_co  total=0.813  name=0.944  type=0.500  samples=n/a
+  subaward_amount                  total=0.744  name=0.845  type=0.500  samples=n/a
+  subaward_report_month            total=0.727  name=0.821  type=0.500  samples=n/a
+
+====================================================================================================
+DATASET:  treasury_contract_subaward_download_to_broker_schema_only
+SOURCE:   subaward_primary_place_of_performance_state_code
+EXPECTED: match -> sub_place_of_perform_state_code
+GOT:      no_match (0.813)
+
+TOP CANDIDATES
+  sub_place_of_perform_state_code  total=0.813  name=0.944  type=0.500  samples=n/a
+  sub_awardee_or_recipient_legal   total=0.742  name=0.843  type=0.500  samples=n/a
+  subaward_report_month            total=0.729  name=0.825  type=0.500  samples=n/a
+
+====================================================================================================
+DATASET:  treasury_contract_subaward_download_to_broker_schema_only
+SOURCE:   subaward_primary_place_of_performance_address_zip_code
+EXPECTED: match -> sub_place_of_performance_zip
+GOT:      no_match (0.805)
+
+TOP CANDIDATES
+  sub_place_of_performance_zip     total=0.805  name=0.933  type=0.500  samples=n/a
+  subaward_report_year             total=0.634  name=0.690  type=0.500  samples=n/a
+  sub_awardee_or_recipient_legal   total=0.633  name=0.688  type=0.500  samples=n/a
+
+====================================================================================================
+DATASET:  treasury_contract_subaward_download_to_broker_schema_only
+SOURCE:   subaward_fsrs_report_id
+EXPECTED: match -> internal_id
+GOT:      no_match (0.766)
+
+TOP CANDIDATES
+  subaward_report_year             total=0.766  name=0.877  type=0.500  samples=n/a
+  subaward_type                    total=0.765  name=0.875  type=0.500  samples=n/a
+  subaward_description             total=0.760  name=0.868  type=0.500  samples=n/a
+
+====================================================================================================
+DATASET:  treasury_contract_subaward_download_to_broker_schema_only
+SOURCE:   subaward_fsrs_report_last_modified_date
+EXPECTED: match -> date_submitted
+GOT:      no_match (0.750)
+
+TOP CANDIDATES
+  subaward_report_year             total=0.750  name=0.854  type=0.500  samples=n/a
+  subaward_report_month            total=0.743  name=0.844  type=0.500  samples=n/a
+  subaward_description             total=0.734  name=0.832  type=0.500  samples=n/a
+
+====================================================================================================
+DATASET:  treasury_contract_subaward_download_to_broker_schema_only
+SOURCE:   subawardee_business_types
+EXPECTED: match -> sub_business_types
+GOT:      no_match (0.823)
+
+TOP CANDIDATES
+  sub_business_types               total=0.823  name=0.958  type=0.500  samples=n/a
+  subaward_type                    total=0.805  name=0.932  type=0.500  samples=n/a
+  subaward_description             total=0.750  name=0.855  type=0.500  samples=n/a
+
+====================================================================================================
+DATASET:  treasury_contract_subaward_download_to_broker_schema_only
+SOURCE:   subawardee_dba_name
+EXPECTED: match -> sub_dba_name
+GOT:      no_match (0.806)
+
+TOP CANDIDATES
+  sub_dba_name                     total=0.806  name=0.934  type=0.500  samples=n/a
+  subaward_amount                  total=0.760  name=0.868  type=0.500  samples=n/a
+  subaward_type                    total=0.751  name=0.856  type=0.500  samples=n/a
+
+====================================================================================================
+DATASET:  treasury_contract_subaward_download_to_broker_schema_only
+SOURCE:   subawardee_highly_compensated_officer_1_name
+EXPECTED: match -> sub_high_comp_officer1_full_na
+GOT:      no_match (0.748)
+
+TOP CANDIDATES
+  sub_awardee_or_recipient_legal   total=0.748  name=0.851  type=0.500  samples=n/a
+  subaward_type                    total=0.743  name=0.845  type=0.500  samples=n/a
+  subaward_amount                  total=0.738  name=0.837  type=0.500  samples=n/a
+
+====================================================================================================
+DATASET:  treasury_contract_subaward_download_to_broker_schema_only
+SOURCE:   subawardee_city_name
+EXPECTED: match -> sub_legal_entity_city_name
+GOT:      no_match (0.773)
+
+TOP CANDIDATES
+  subaward_type                    total=0.773  name=0.887  type=0.500  samples=n/a
+  subaward_description             total=0.769  name=0.881  type=0.500  samples=n/a
+  sub_awardee_or_recipient_legal   total=0.765  name=0.876  type=0.500  samples=n/a
+
+====================================================================================================
+DATASET:  treasury_contract_subaward_download_to_broker_schema_only
+SOURCE:   subawardee_congressional_district
+EXPECTED: match -> sub_legal_entity_congressional
+GOT:      no_match (0.749)
+
+TOP CANDIDATES
+  subaward_description             total=0.749  name=0.853  type=0.500  samples=n/a
+  sub_awardee_or_recipient_legal   total=0.747  name=0.849  type=0.500  samples=n/a
+  subaward_report_year             total=0.738  name=0.837  type=0.500  samples=n/a
+
+====================================================================================================
+DATASET:  treasury_contract_subaward_download_to_broker_schema_only
+SOURCE:   subawardee_country_code
+EXPECTED: match -> sub_legal_entity_country_code
+GOT:      no_match (0.772)
+
+TOP CANDIDATES
+  subaward_amount                  total=0.772  name=0.886  type=0.500  samples=n/a
+  subaward_report_year             total=0.764  name=0.875  type=0.500  samples=n/a
+  subaward_type                    total=0.761  name=0.870  type=0.500  samples=n/a
+
+====================================================================================================
+DATASET:  treasury_contract_subaward_download_to_broker_schema_only
+SOURCE:   subawardee_state_code
+EXPECTED: match -> sub_legal_entity_state_code
+GOT:      no_match (0.758)
+
+TOP CANDIDATES
+  subaward_report_year             total=0.758  name=0.866  type=0.500  samples=n/a
+  subaward_description             total=0.753  name=0.858  type=0.500  samples=n/a
+  subaward_amount                  total=0.750  name=0.855  type=0.500  samples=n/a
+
+====================================================================================================
+DATASET:  treasury_contract_subaward_download_to_broker_schema_only
+SOURCE:   subawardee_name
+EXPECTED: match -> sub_awardee_or_recipient_legal
+GOT:      no_match (0.780)
+
+TOP CANDIDATES
+  subaward_amount                  total=0.780  name=0.896  type=0.500  samples=n/a
+  subaward_report_year             total=0.768  name=0.879  type=0.500  samples=n/a
+  subaward_type                    total=0.767  name=0.879  type=0.500  samples=n/a
+
+====================================================================================================
+DATASET:  heldout2_hl7_medicationrequest_r4_r5_projection
+SOURCE:   recorder.reference
+EXPECTED: no_match
+GOT:      match -> performer.reference (0.740)
+
+TOP CANDIDATES
+  performer.reference              total=0.740  name=0.816  type=1.000  samples=0.000
+  medication.reference.reference   total=0.690  name=0.733  type=1.000  samples=0.000
+  medication.reference.display     total=0.641  name=0.652  type=1.000  samples=0.000
+
+====================================================================================================
+DATASET:  heldout2_hl7_medicationrequest_r4_r5_projection
+SOURCE:   dosageInstruction.maxDosePerLifetime.value
+EXPECTED: no_match
+GOT:      ambiguous -> [dosageInstruction.maxDosePerAdministration.value, dosageInstruction.timing.repeat.period, dosageInstruction.doseAndRate.doseQuantity.value] (0.799)
+
+TOP CANDIDATES
+  dosageInstruction.maxDosePerAdministration.value total=0.799  name=0.914  type=1.000  samples=0.000
+  dosageInstruction.timing.repeat.period total=0.776  name=0.876  type=1.000  samples=0.000
+  dosageInstruction.doseAndRate.doseQuantity.value total=0.769  name=0.865  type=1.000  samples=0.000
+
+====================================================================================================
+DATASET:  gbfs_station_status_2_3_to_3_0_partial_consumer
+SOURCE:   last_updated
+EXPECTED: match -> last_updated
+GOT:      no_match (0.605)
+
+TOP CANDIDATES
+  data.stations[].num_vehicles_disabled total=0.605  name=0.592  type=1.000  samples=0.000
+  last_updated                     total=0.600  name=1.000  type=0.000  samples=0.000
+  data.stations[].num_docks_available total=0.576  name=0.543  type=1.000  samples=0.000
+
+====================================================================================================
+DATASET:  gbfs_station_status_2_3_to_3_0_partial_consumer
+SOURCE:   data.stations[].num_docks_disabled
+EXPECTED: no_match
+GOT:      ambiguous -> [data.stations[].num_docks_available, data.stations[].num_vehicles_disabled, data.stations[].num_vehicles_available] (0.811)
+
+TOP CANDIDATES
+  data.stations[].num_docks_available total=0.811  name=0.935  type=1.000  samples=0.000
+  data.stations[].num_vehicles_disabled total=0.790  name=0.900  type=1.000  samples=0.000
+  data.stations[].num_vehicles_available total=0.770  name=0.867  type=1.000  samples=0.000
+
+====================================================================================================
+DATASET:  gbfs_station_status_2_3_to_3_0_partial_consumer
+SOURCE:   data.stations[].is_renting
+EXPECTED: no_match
+GOT:      ambiguous -> [data.stations[].is_returning, data.stations[].is_installed] (0.834)
+
+TOP CANDIDATES
+  data.stations[].is_returning     total=0.834  name=0.973  type=1.000  samples=0.000
+  data.stations[].is_installed     total=0.800  name=0.917  type=1.000  samples=0.000
+  data.stations[].station_id       total=0.540  name=0.900  type=0.000  samples=0.000
+
+====================================================================================================
+DATASET:  gbfs_station_status_2_3_to_3_0_partial_consumer
+SOURCE:   data.stations[].last_reported
+EXPECTED: match -> data.stations[].last_reported
+GOT:      ambiguous -> [data.stations[].num_docks_available, data.stations[].vehicle_types_available[].count, data.stations[].num_vehicles_disabled, data.stations[].num_vehicles_available] (0.761)
+
+TOP CANDIDATES
+  data.stations[].num_docks_available total=0.761  name=0.852  type=1.000  samples=0.000
+  data.stations[].vehicle_types_available[].count total=0.758  name=0.847  type=1.000  samples=0.000
+  data.stations[].num_vehicles_disabled total=0.750  name=0.833  type=1.000  samples=0.000
+
+====================================================================================================
+DATASET:  gbfs_station_status_2_3_to_3_0_partial_consumer
+SOURCE:   data.stations[].vehicle_docks_available[].count
+EXPECTED: no_match
+GOT:      ambiguous -> [data.stations[].vehicle_types_available[].count, data.stations[].num_vehicles_available] (0.889)
+
+TOP CANDIDATES
+  data.stations[].vehicle_types_available[].count total=0.889  name=0.940  type=1.000  samples=0.500
+  data.stations[].num_vehicles_available total=0.860  name=0.934  type=1.000  samples=0.333
+  data.stations[].num_vehicles_disabled total=0.829  name=0.882  type=1.000  samples=0.333
+Report only; use --check or --check-independent for the frozen quality baselines.

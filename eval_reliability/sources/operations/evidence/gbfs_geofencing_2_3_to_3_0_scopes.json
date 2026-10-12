@@ -1,0 +1,1015 @@
+{
+  "name": "gbfs_geofencing_2_3_to_3_0_scopes",
+  "source": [
+    {
+      "name": "last_updated",
+      "declared_schema_type": "integer",
+      "declared_schema_format": null,
+      "normalized_type": "integer",
+      "schema_file": "resources/gbfs/2.3-geofencing_zones.json",
+      "schema_pointer": "/properties/last_updated",
+      "schema_definition": {
+        "description": "Last time the data in the feed was updated in POSIX time.",
+        "type": "integer",
+        "minimum": 1450155600
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "last_updated",
+      "samples": [
+        "1640887163"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "ttl",
+      "declared_schema_type": "integer",
+      "declared_schema_format": null,
+      "normalized_type": "integer",
+      "schema_file": "resources/gbfs/2.3-geofencing_zones.json",
+      "schema_pointer": "/properties/ttl",
+      "schema_definition": {
+        "description": "Number of seconds before the data in the feed will be updated again (0 if the data should always be refreshed).",
+        "type": "integer",
+        "minimum": 0
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "ttl",
+      "samples": [
+        "60"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "version",
+      "declared_schema_type": "string",
+      "declared_schema_format": null,
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/2.3-geofencing_zones.json",
+      "schema_pointer": "/properties/version",
+      "schema_definition": {
+        "description": "GBFS version number to which the feed conforms, according to the versioning framework.",
+        "type": "string",
+        "const": "2.3"
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "version",
+      "samples": [
+        "2.3"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.geofencing_zones.type",
+      "declared_schema_type": "string",
+      "declared_schema_format": null,
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/2.3-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/geofencing_zones/properties/type",
+      "schema_definition": {
+        "description": "FeatureCollection as per IETF RFC 7946.",
+        "type": "string",
+        "enum": [
+          "FeatureCollection"
+        ]
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 1192,
+          "text": "\\-&nbsp;`type` | Yes | String | “FeatureCollection” (as per IETF [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3))."
+        },
+        {
+          "line": 1194,
+          "text": "&emsp;\\-&nbsp;`type` | Yes | String | “Feature” (as per IETF [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3))."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.geofencing_zones.type",
+      "samples": [
+        "FeatureCollection"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.geofencing_zones.features[].type",
+      "declared_schema_type": "string",
+      "declared_schema_format": null,
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/2.3-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/geofencing_zones/properties/features/items/properties/type",
+      "schema_definition": {
+        "type": "string",
+        "enum": [
+          "Feature"
+        ]
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 1192,
+          "text": "\\-&nbsp;`type` | Yes | String | “FeatureCollection” (as per IETF [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3))."
+        },
+        {
+          "line": 1194,
+          "text": "&emsp;\\-&nbsp;`type` | Yes | String | “Feature” (as per IETF [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3))."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.geofencing_zones.features[].type",
+      "samples": [
+        "Feature"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.geofencing_zones.features[].properties.name",
+      "declared_schema_type": "string",
+      "declared_schema_format": null,
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/2.3-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/geofencing_zones/properties/features/items/properties/properties/properties/name",
+      "schema_definition": {
+        "description": "Public name of the geofencing zone.",
+        "type": "string"
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 1197,
+          "text": "&emsp;&emsp;\\-&nbsp;`name` | OPTIONAL | String | Public name of the geofencing zone."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.geofencing_zones.features[].properties.name",
+      "samples": [
+        "NE 24th/NE Knott"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.geofencing_zones.features[].properties.start",
+      "declared_schema_type": "integer",
+      "declared_schema_format": null,
+      "normalized_type": "integer",
+      "schema_file": "resources/gbfs/2.3-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/geofencing_zones/properties/features/items/properties/properties/properties/start",
+      "schema_definition": {
+        "description": "Start time of the geofencing zone in POSIX time.",
+        "type": "integer",
+        "minimum": 1450155600
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 1198,
+          "text": "&emsp;&emsp;\\-&nbsp;`start` | OPTIONAL | Timestamp | Start time of the geofencing zone. If the geofencing zone is always active, this can be omitted."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.geofencing_zones.features[].properties.start",
+      "samples": [
+        "1593878400"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.geofencing_zones.features[].properties.end",
+      "declared_schema_type": "integer",
+      "declared_schema_format": null,
+      "normalized_type": "integer",
+      "schema_file": "resources/gbfs/2.3-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/geofencing_zones/properties/features/items/properties/properties/properties/end",
+      "schema_definition": {
+        "description": "End time of the geofencing zone in POSIX time.",
+        "type": "integer",
+        "minimum": 1450155600
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 1199,
+          "text": "&emsp;&emsp;\\-&nbsp;`end` | OPTIONAL | Timestamp | End time of the geofencing zone. If the geofencing zone is always active, this can be omitted."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.geofencing_zones.features[].properties.end",
+      "samples": [
+        "1593907260"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.geofencing_zones.features[].properties.rules[].vehicle_type_id[]",
+      "declared_schema_type": "string",
+      "declared_schema_format": null,
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/2.3-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/geofencing_zones/properties/features/items/properties/properties/properties/rules/items/properties/vehicle_type_id/items",
+      "schema_definition": {
+        "type": "string"
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 1201,
+          "text": "&emsp;&emsp;&emsp;\\-&nbsp;`vehicle_type_id` | OPTIONAL | Array | Array of IDs of vehicle types for which any restrictions SHOULD be applied (see vehicle type definitions in `vehicle_types.json`). If vehicle type IDs are not specified, then restrictions apply to all vehicle types."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.geofencing_zones.features[].properties.rules[].vehicle_type_id[]",
+      "samples": [
+        "moped1",
+        "car1"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.geofencing_zones.features[].properties.rules[].ride_allowed",
+      "declared_schema_type": "boolean",
+      "declared_schema_format": null,
+      "normalized_type": "boolean",
+      "schema_file": "resources/gbfs/2.3-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/geofencing_zones/properties/features/items/properties/properties/properties/rules/items/properties/ride_allowed",
+      "schema_definition": {
+        "description": "Is the undocked ride allowed to start and end in this zone?",
+        "type": "boolean"
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 1202,
+          "text": "&emsp;&emsp;&emsp;\\-&nbsp;`ride_allowed` | Conditionally REQUIRED | Boolean | REQUIRED if `rules` array is defined. Is the undocked (“free floating”) ride allowed to start and end in this zone? <br /><br /> `true` - Undocked (“free floating”) ride can start and end in this zone. <br /> `false` - Undocked (“free floating”) ride cannot start or end in this zone."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.geofencing_zones.features[].properties.rules[].ride_allowed",
+      "samples": [
+        "false"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.geofencing_zones.features[].properties.rules[].ride_through_allowed",
+      "declared_schema_type": "boolean",
+      "declared_schema_format": null,
+      "normalized_type": "boolean",
+      "schema_file": "resources/gbfs/2.3-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/geofencing_zones/properties/features/items/properties/properties/properties/rules/items/properties/ride_through_allowed",
+      "schema_definition": {
+        "description": "Is the ride allowed to travel through this zone?",
+        "type": "boolean"
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 1203,
+          "text": "&emsp;&emsp;&emsp;\\-&nbsp;`ride_through_allowed` | Conditionally REQUIRED | Boolean | REQUIRED if `rules` array is defined. Is the ride allowed to travel through this zone? <br /><br /> `true` - Ride can travel through this zone. <br /> `false` - Ride cannot travel through this zone."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.geofencing_zones.features[].properties.rules[].ride_through_allowed",
+      "samples": [
+        "true"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.geofencing_zones.features[].properties.rules[].maximum_speed_kph",
+      "declared_schema_type": "integer",
+      "declared_schema_format": null,
+      "normalized_type": "integer",
+      "schema_file": "resources/gbfs/2.3-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/geofencing_zones/properties/features/items/properties/properties/properties/rules/items/properties/maximum_speed_kph",
+      "schema_definition": {
+        "description": "What is the maximum speed allowed, in kilometers per hour?",
+        "type": "integer",
+        "minimum": 0
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 1204,
+          "text": "&emsp;&emsp;&emsp;\\-&nbsp;`maximum_speed_kph` | OPTIONAL | Non-negative Integer | What is the maximum speed allowed, in kilometers per hour? <br /><br /> If there is no maximum speed to observe, this can be omitted."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.geofencing_zones.features[].properties.rules[].maximum_speed_kph",
+      "samples": [
+        "10"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.geofencing_zones.features[].properties.rules[].station_parking",
+      "declared_schema_type": "boolean",
+      "declared_schema_format": null,
+      "normalized_type": "boolean",
+      "schema_file": "resources/gbfs/2.3-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/geofencing_zones/properties/features/items/properties/properties/properties/rules/items/properties/station_parking",
+      "schema_definition": {
+        "description": "Vehicle MUST be parked at stations defined in station_information.json within this geofence zone",
+        "type": "boolean"
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 1205,
+          "text": "&emsp;&emsp;&emsp;\\-&nbsp;`station_parking`<br/>*(added in v2.3)* | OPTIONAL | Boolean | Can vehicles only be parked at stations defined in `station_information.json` within this geofence zone? <br /><br />`true` - Vehicles can only be parked at stations.  <br /> `false` - Vehicles may be parked outside of stations."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.geofencing_zones.features[].properties.rules[].station_parking",
+      "samples": [
+        "true"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.geofencing_zones.features[].geometry.type",
+      "declared_schema_type": "string",
+      "declared_schema_format": null,
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/2.3-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/geofencing_zones/properties/features/items/properties/geometry/properties/type",
+      "schema_definition": {
+        "type": "string",
+        "enum": [
+          "MultiPolygon"
+        ]
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [
+        {
+          "line": 1192,
+          "text": "\\-&nbsp;`type` | Yes | String | “FeatureCollection” (as per IETF [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3))."
+        },
+        {
+          "line": 1194,
+          "text": "&emsp;\\-&nbsp;`type` | Yes | String | “Feature” (as per IETF [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3))."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.geofencing_zones.features[].geometry.type",
+      "samples": [
+        "MultiPolygon"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.geofencing_zones.features[].geometry.coordinates[][][][]",
+      "declared_schema_type": "number",
+      "declared_schema_format": null,
+      "normalized_type": "float",
+      "schema_file": "resources/gbfs/2.3-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/geofencing_zones/properties/features/items/properties/geometry/properties/coordinates/items/items/items/items",
+      "schema_definition": {
+        "type": "number"
+      },
+      "documentation_file": "resources/gbfs/gbfs-2.3.md",
+      "definition_lines": [],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.geofencing_zones.features[].geometry.coordinates[][][][]",
+      "samples": [
+        "-122.578067",
+        "45.562982",
+        "-122.661838",
+        "45.562741",
+        "-122.661151",
+        "45.504542",
+        "-122.578926",
+        "45.5046625"
+      ],
+      "missing_sample_evidence": false
+    }
+  ],
+  "target": [
+    {
+      "name": "last_updated",
+      "declared_schema_type": "string",
+      "declared_schema_format": "date-time",
+      "normalized_type": "timestamp",
+      "schema_file": "resources/gbfs/3.0-geofencing_zones.json",
+      "schema_pointer": "/properties/last_updated",
+      "schema_definition": {
+        "description": "Last time the data in the feed was updated in RFC3339 format.",
+        "type": "string",
+        "format": "date-time"
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "last_updated",
+      "samples": [
+        "2023-07-17T13:34:13+02:00"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "ttl",
+      "declared_schema_type": "integer",
+      "declared_schema_format": null,
+      "normalized_type": "integer",
+      "schema_file": "resources/gbfs/3.0-geofencing_zones.json",
+      "schema_pointer": "/properties/ttl",
+      "schema_definition": {
+        "description": "Number of seconds before the data in the feed will be updated again (0 if the data should always be refreshed).",
+        "type": "integer",
+        "minimum": 0
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "ttl",
+      "samples": [
+        "60"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "version",
+      "declared_schema_type": "string",
+      "declared_schema_format": null,
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/3.0-geofencing_zones.json",
+      "schema_pointer": "/properties/version",
+      "schema_definition": {
+        "description": "GBFS version number to which the feed conforms, according to the versioning framework.",
+        "type": "string",
+        "const": "3.0"
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "version",
+      "samples": [
+        "3.0"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.geofencing_zones.type",
+      "declared_schema_type": "string",
+      "declared_schema_format": null,
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/3.0-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/geofencing_zones/properties/type",
+      "schema_definition": {
+        "description": "FeatureCollection as per IETF RFC 7946.",
+        "type": "string",
+        "enum": [
+          "FeatureCollection"
+        ]
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 1331,
+          "text": "`geofencing_zones[].type` | Yes | String | “FeatureCollection” (as per IETF [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3))."
+        },
+        {
+          "line": 1333,
+          "text": "`geofencing_zones[].features[].type` | Yes | String | “Feature” (as per IETF [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3))."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.geofencing_zones.type",
+      "samples": [
+        "FeatureCollection"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.geofencing_zones.features[].type",
+      "declared_schema_type": "string",
+      "declared_schema_format": null,
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/3.0-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/geofencing_zones/properties/features/items/properties/type",
+      "schema_definition": {
+        "type": "string",
+        "enum": [
+          "Feature"
+        ]
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 1331,
+          "text": "`geofencing_zones[].type` | Yes | String | “FeatureCollection” (as per IETF [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3))."
+        },
+        {
+          "line": 1333,
+          "text": "`geofencing_zones[].features[].type` | Yes | String | “Feature” (as per IETF [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3))."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.geofencing_zones.features[].type",
+      "samples": [
+        "Feature"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.geofencing_zones.features[].properties.name[].text",
+      "declared_schema_type": "string",
+      "declared_schema_format": null,
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/3.0-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/geofencing_zones/properties/features/items/properties/properties/properties/name/items/properties/text",
+      "schema_definition": {
+        "description": "The translated text.",
+        "type": "string"
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.geofencing_zones.features[].properties.name[].text",
+      "samples": [
+        "NE 24th/NE Knott"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.geofencing_zones.features[].properties.name[].language",
+      "declared_schema_type": "string",
+      "declared_schema_format": null,
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/3.0-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/geofencing_zones/properties/features/items/properties/properties/properties/name/items/properties/language",
+      "schema_definition": {
+        "description": "IETF BCP 47 language code.",
+        "type": "string",
+        "pattern": "^[a-z]{2,3}(-[A-Z]{2})?$"
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.geofencing_zones.features[].properties.name[].language",
+      "samples": [
+        "en"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.geofencing_zones.features[].properties.start",
+      "declared_schema_type": "string",
+      "declared_schema_format": "date-time",
+      "normalized_type": "timestamp",
+      "schema_file": "resources/gbfs/3.0-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/geofencing_zones/properties/features/items/properties/properties/properties/start",
+      "schema_definition": {
+        "description": "Start time of the geofencing zone in RFC3339 format.",
+        "type": "string",
+        "format": "date-time"
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 1337,
+          "text": "`geofencing_zones[].features[].properties.start` | OPTIONAL | Timestamp | Start time of the geofencing zone. If the geofencing zone is always active, this can be omitted."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.geofencing_zones.features[].properties.start",
+      "samples": [
+        "2023-07-17T13:34:13+02:00"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.geofencing_zones.features[].properties.end",
+      "declared_schema_type": "string",
+      "declared_schema_format": "date-time",
+      "normalized_type": "timestamp",
+      "schema_file": "resources/gbfs/3.0-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/geofencing_zones/properties/features/items/properties/properties/properties/end",
+      "schema_definition": {
+        "description": "End time of the geofencing zone in RFC3339 format.",
+        "type": "string",
+        "format": "date-time"
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 1338,
+          "text": "`geofencing_zones[].features[].properties.end` | OPTIONAL | Timestamp | End time of the geofencing zone. If the geofencing zone is always active, this can be omitted."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.geofencing_zones.features[].properties.end",
+      "samples": [
+        "2024-07-18T13:34:13+02:00"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.geofencing_zones.features[].properties.rules[].vehicle_type_ids[]",
+      "declared_schema_type": "string",
+      "declared_schema_format": null,
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/3.0-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/geofencing_zones/properties/features/items/properties/properties/properties/rules/items/properties/vehicle_type_ids/items",
+      "schema_definition": {
+        "type": "string"
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 1348,
+          "text": "`vehicle_type_ids` <br/>*(as of v3.0)* | OPTIONAL | Array&lt;ID&gt; | An array of `vehicle_type_ids` for which any restrictions SHOULD be applied (see vehicle type definitions in `vehicle_types.json`). If `vehicle_type_ids` are not specified, then restrictions apply to all vehicle types."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.geofencing_zones.features[].properties.rules[].vehicle_type_ids[]",
+      "samples": [
+        "moped1",
+        "car1"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.geofencing_zones.features[].properties.rules[].ride_start_allowed",
+      "declared_schema_type": "boolean",
+      "declared_schema_format": null,
+      "normalized_type": "boolean",
+      "schema_file": "resources/gbfs/3.0-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/geofencing_zones/properties/features/items/properties/properties/properties/rules/items/properties/ride_start_allowed",
+      "schema_definition": {
+        "description": "Is the ride allowed to start in this zone?",
+        "type": "boolean"
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 1349,
+          "text": "`ride_start_allowed` | REQUIRED | Boolean | Is the ride allowed to start in this zone? <br /><br /> `true` - Ride can start in this zone. <br /> `false` - Ride cannot start in this zone."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.geofencing_zones.features[].properties.rules[].ride_start_allowed",
+      "samples": [
+        "true"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.geofencing_zones.features[].properties.rules[].ride_end_allowed",
+      "declared_schema_type": "boolean",
+      "declared_schema_format": null,
+      "normalized_type": "boolean",
+      "schema_file": "resources/gbfs/3.0-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/geofencing_zones/properties/features/items/properties/properties/properties/rules/items/properties/ride_end_allowed",
+      "schema_definition": {
+        "description": "Is the ride allowed to end in this zone?",
+        "type": "boolean"
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 1350,
+          "text": "`ride_end_allowed` | REQUIRED | Boolean | Is the ride allowed to end in this zone? <br /><br /> `true` - Ride can end in this zone. <br /> `false` - Ride cannot end in this zone."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.geofencing_zones.features[].properties.rules[].ride_end_allowed",
+      "samples": [
+        "true"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.geofencing_zones.features[].properties.rules[].maximum_speed_kph",
+      "declared_schema_type": "integer",
+      "declared_schema_format": null,
+      "normalized_type": "integer",
+      "schema_file": "resources/gbfs/3.0-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/geofencing_zones/properties/features/items/properties/properties/properties/rules/items/properties/maximum_speed_kph",
+      "schema_definition": {
+        "description": "What is the maximum speed allowed, in kilometers per hour?",
+        "type": "integer",
+        "minimum": 0
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 1352,
+          "text": "`maximum_speed_kph` | OPTIONAL | Non-negative Integer | What is the maximum speed allowed, in kilometers per hour? <br /><br /> If there is no maximum speed to observe, this can be omitted."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.geofencing_zones.features[].properties.rules[].maximum_speed_kph",
+      "samples": [
+        "10"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.geofencing_zones.features[].geometry.type",
+      "declared_schema_type": "string",
+      "declared_schema_format": null,
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/3.0-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/geofencing_zones/properties/features/items/properties/geometry/properties/type",
+      "schema_definition": {
+        "type": "string",
+        "enum": [
+          "MultiPolygon"
+        ]
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 1331,
+          "text": "`geofencing_zones[].type` | Yes | String | “FeatureCollection” (as per IETF [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3))."
+        },
+        {
+          "line": 1333,
+          "text": "`geofencing_zones[].features[].type` | Yes | String | “Feature” (as per IETF [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3))."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.geofencing_zones.features[].geometry.type",
+      "samples": [
+        "MultiPolygon"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.geofencing_zones.features[].geometry.coordinates[][][][]",
+      "declared_schema_type": "number",
+      "declared_schema_format": null,
+      "normalized_type": "float",
+      "schema_file": "resources/gbfs/3.0-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/geofencing_zones/properties/features/items/properties/geometry/properties/coordinates/items/items/items/items",
+      "schema_definition": {
+        "type": "number"
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.geofencing_zones.features[].geometry.coordinates[][][][]",
+      "samples": [
+        "-122.578067",
+        "45.562982",
+        "-122.661838",
+        "45.562741",
+        "-122.661151",
+        "45.504542",
+        "-122.578926",
+        "45.5046625"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.global_rules[].vehicle_type_ids[]",
+      "declared_schema_type": "string",
+      "declared_schema_format": null,
+      "normalized_type": "text",
+      "schema_file": "resources/gbfs/3.0-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/global_rules/items/properties/vehicle_type_ids/items",
+      "schema_definition": {
+        "type": "string"
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 1348,
+          "text": "`vehicle_type_ids` <br/>*(as of v3.0)* | OPTIONAL | Array&lt;ID&gt; | An array of `vehicle_type_ids` for which any restrictions SHOULD be applied (see vehicle type definitions in `vehicle_types.json`). If `vehicle_type_ids` are not specified, then restrictions apply to all vehicle types."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.global_rules[].vehicle_type_ids[]",
+      "samples": [],
+      "missing_sample_evidence": true
+    },
+    {
+      "name": "data.global_rules[].ride_start_allowed",
+      "declared_schema_type": "boolean",
+      "declared_schema_format": null,
+      "normalized_type": "boolean",
+      "schema_file": "resources/gbfs/3.0-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/global_rules/items/properties/ride_start_allowed",
+      "schema_definition": {
+        "description": "Is the ride allowed to start in this zone?",
+        "type": "boolean"
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 1349,
+          "text": "`ride_start_allowed` | REQUIRED | Boolean | Is the ride allowed to start in this zone? <br /><br /> `true` - Ride can start in this zone. <br /> `false` - Ride cannot start in this zone."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.global_rules[].ride_start_allowed",
+      "samples": [
+        "false"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.global_rules[].ride_end_allowed",
+      "declared_schema_type": "boolean",
+      "declared_schema_format": null,
+      "normalized_type": "boolean",
+      "schema_file": "resources/gbfs/3.0-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/global_rules/items/properties/ride_end_allowed",
+      "schema_definition": {
+        "description": "Is the ride allowed to end in this zone?",
+        "type": "boolean"
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 1350,
+          "text": "`ride_end_allowed` | REQUIRED | Boolean | Is the ride allowed to end in this zone? <br /><br /> `true` - Ride can end in this zone. <br /> `false` - Ride cannot end in this zone."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.global_rules[].ride_end_allowed",
+      "samples": [
+        "false"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.global_rules[].ride_through_allowed",
+      "declared_schema_type": "boolean",
+      "declared_schema_format": null,
+      "normalized_type": "boolean",
+      "schema_file": "resources/gbfs/3.0-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/global_rules/items/properties/ride_through_allowed",
+      "schema_definition": {
+        "description": "Is the ride allowed to travel through this zone?",
+        "type": "boolean"
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 1351,
+          "text": "`ride_through_allowed` | REQUIRED | Boolean | Is the ride allowed to travel through this zone? <br /><br /> `true` - Ride can travel through this zone. <br /> `false` - Ride cannot travel through this zone."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.global_rules[].ride_through_allowed",
+      "samples": [
+        "true"
+      ],
+      "missing_sample_evidence": false
+    },
+    {
+      "name": "data.global_rules[].maximum_speed_kph",
+      "declared_schema_type": "integer",
+      "declared_schema_format": null,
+      "normalized_type": "integer",
+      "schema_file": "resources/gbfs/3.0-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/global_rules/items/properties/maximum_speed_kph",
+      "schema_definition": {
+        "description": "What is the maximum speed allowed, in kilometers per hour?",
+        "type": "integer",
+        "minimum": 0
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 1352,
+          "text": "`maximum_speed_kph` | OPTIONAL | Non-negative Integer | What is the maximum speed allowed, in kilometers per hour? <br /><br /> If there is no maximum speed to observe, this can be omitted."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.global_rules[].maximum_speed_kph",
+      "samples": [],
+      "missing_sample_evidence": true
+    },
+    {
+      "name": "data.global_rules[].station_parking",
+      "declared_schema_type": "boolean",
+      "declared_schema_format": null,
+      "normalized_type": "boolean",
+      "schema_file": "resources/gbfs/3.0-geofencing_zones.json",
+      "schema_pointer": "/properties/data/properties/global_rules/items/properties/station_parking",
+      "schema_definition": {
+        "description": "Vehicle MUST be parked at stations defined in station_information.json within this geofence zone",
+        "type": "boolean"
+      },
+      "documentation_file": "resources/gbfs/gbfs-3.0.md",
+      "definition_lines": [
+        {
+          "line": 1353,
+          "text": "`station_parking`<br/>*(added in v2.3)* | OPTIONAL | Boolean | Can vehicles only be parked at stations defined in `station_information.json` within this geofence zone? <br /><br />`true` - Vehicles can only be parked at stations.  <br /> `false` - Vehicles may be parked outside of stations."
+        }
+      ],
+      "sample_origin": "Publisher JSON example(s) in geofencing_zones.json section",
+      "sample_path": "data.global_rules[].station_parking",
+      "samples": [],
+      "missing_sample_evidence": true
+    }
+  ],
+  "answers": [
+    {
+      "kind": "match",
+      "source": "last_updated",
+      "target": "last_updated",
+      "reason": "Both definitions describe the same time concept. Physical encoding changes from POSIX integer seconds to RFC3339 string; a conversion is required, not a different event meaning."
+    },
+    {
+      "kind": "match",
+      "source": "ttl",
+      "target": "ttl",
+      "reason": "Same original JSON leaf and role in both releases; retained as an exact-name control with actual publisher example values."
+    },
+    {
+      "kind": "match",
+      "source": "version",
+      "target": "version",
+      "reason": "Same original JSON leaf and role in both releases; retained as an exact-name control with actual publisher example values."
+    },
+    {
+      "kind": "match",
+      "source": "data.geofencing_zones.type",
+      "target": "data.geofencing_zones.type",
+      "reason": "Same original JSON leaf and role in both releases; retained as an exact-name control with actual publisher example values."
+    },
+    {
+      "kind": "match",
+      "source": "data.geofencing_zones.features[].type",
+      "target": "data.geofencing_zones.features[].type",
+      "reason": "Same original JSON leaf and role in both releases; retained as an exact-name control with actual publisher example values."
+    },
+    {
+      "kind": "match",
+      "source": "data.geofencing_zones.features[].properties.name",
+      "target": "data.geofencing_zones.features[].properties.name[].text",
+      "reason": "Both are the public geofencing-zone name. v3.0 stores localized text objects; the projected text value is the name, while language is its locale code. This is semantic matching, with locale-aware transformation required in deployment."
+    },
+    {
+      "kind": "match",
+      "source": "data.geofencing_zones.features[].properties.start",
+      "target": "data.geofencing_zones.features[].properties.start",
+      "reason": "Both definitions describe the same time concept. Physical encoding changes from POSIX integer seconds to RFC3339 string; a conversion is required, not a different event meaning."
+    },
+    {
+      "kind": "match",
+      "source": "data.geofencing_zones.features[].properties.end",
+      "target": "data.geofencing_zones.features[].properties.end",
+      "reason": "Both definitions describe the same time concept. Physical encoding changes from POSIX integer seconds to RFC3339 string; a conversion is required, not a different event meaning."
+    },
+    {
+      "kind": "match",
+      "source": "data.geofencing_zones.features[].properties.rules[].vehicle_type_id[]",
+      "target": "data.geofencing_zones.features[].properties.rules[].vehicle_type_ids[]",
+      "reason": "Both definitions are arrays of vehicle type IDs to which this polygon rule applies; v3.0 pluralizes the original key."
+    },
+    {
+      "kind": "no_match",
+      "source": "data.geofencing_zones.features[].properties.rules[].ride_allowed",
+      "reason": "v2.3 ride_allowed jointly governs starting and ending undocked rides. v3.0 has independent ride_start_allowed and ride_end_allowed. Neither one alone represents the original joint predicate, so this is not a one-to-one equivalent match or a pair of interchangeable targets."
+    },
+    {
+      "kind": "no_match",
+      "source": "data.geofencing_zones.features[].properties.rules[].ride_through_allowed",
+      "reason": "The zone-local rule is absent from the target projection. The same leaf name under global_rules governs default restrictions outside an explicitly overriding zone, not this polygon. The v3.0 Rule Precedence prose distinguishes the scopes."
+    },
+    {
+      "kind": "match",
+      "source": "data.geofencing_zones.features[].properties.rules[].maximum_speed_kph",
+      "target": "data.geofencing_zones.features[].properties.rules[].maximum_speed_kph",
+      "reason": "Same original JSON leaf and role in both releases; retained as an exact-name control with actual publisher example values."
+    },
+    {
+      "kind": "no_match",
+      "source": "data.geofencing_zones.features[].properties.rules[].station_parking",
+      "reason": "The zone-local rule is absent from the target projection. The same leaf name under global_rules governs default restrictions outside an explicitly overriding zone, not this polygon. The v3.0 Rule Precedence prose distinguishes the scopes."
+    },
+    {
+      "kind": "match",
+      "source": "data.geofencing_zones.features[].geometry.type",
+      "target": "data.geofencing_zones.features[].geometry.type",
+      "reason": "Same original JSON leaf and role in both releases; retained as an exact-name control with actual publisher example values."
+    },
+    {
+      "kind": "match",
+      "source": "data.geofencing_zones.features[].geometry.coordinates[][][][]",
+      "target": "data.geofencing_zones.features[].geometry.coordinates[][][][]",
+      "reason": "Same original JSON leaf and role in both releases; retained as an exact-name control with actual publisher example values."
+    }
+  ],
+  "projection": {
+    "source": "All scalar leaves of the v2.3 geofencing endpoint; arrays mechanically traversed.",
+    "target": "All scalar leaves of v3.0 geofencing endpoint except polygon-local ride_through_allowed and station_parking. Their global-rule counterparts are retained as explicit scope distractors. Only the first complete endpoint example is sampled; later polygon-overlap fragments are not mixed into feed records."
+  },
+  "limitations": [
+    "Publisher-authored illustrative examples, not observed service boundaries.",
+    "The v3.0 example omits some schema-defined global rule values; these produce empty samples.",
+    "One source predicate splits into two independent target predicates. It is labeled no_match under the one-to-one equivalence standard, not ambiguous.",
+    "Coordinates are mechanically flattened numeric leaves, not invented longitude/latitude columns.",
+    "Mapping a localized name requires selecting the intended locale; the matcher case evaluates the name concept only."
+  ],
+  "label_standard": "Match means same operational concept, allowing ordinary representation conversion. A combined predicate split into independent predicates has no single equivalent target. Arrays are flattened mechanically. Different scope or operational state is not equivalent."
+}

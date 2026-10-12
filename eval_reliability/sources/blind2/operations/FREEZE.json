@@ -1,0 +1,31 @@
+{
+  "format_version": 1,
+  "frozen_at_utc": "2026-10-12T19:34:50.533542+00:00",
+  "stage": "Sealed before second-tranche predictions, runtime access, or disclosure to implementation/root",
+  "case_count": 1,
+  "source_fields": 16,
+  "target_fields": 13,
+  "labels": {
+    "match": 13,
+    "no_match": 3,
+    "ambiguous": 0
+  },
+  "nonidentical_name_positives": 2,
+  "sample_kind": "Literal publisher specification JSON examples; every field covered",
+  "reproducibility": "Python stdlib offline; all source hashes verified; case/evidence byte-identical on repeated extraction",
+  "independence_limit": "Author audited first-tranche results previously; no second-tranche candidate code, policy, predictions, or runtime-agent messages inspected. Full source schema coverage selected under recorded independent policy.",
+  "artifacts": {
+    "README.md": "990f4c6956a7a09cde726b9b2174008899756fc266cff50d05226aeb21812a79",
+    "SELECTION_POLICY.md": "bb903a3bb98e1a5b38f7c6fc419aa6e39e2228ee0b2828aa1031cef25ef478fb",
+    "case.json": "03898f24d15d1313ddb36f50082eeef498ea80cc5b1b4272c317778af0b6f9bf",
+    "evidence.json": "57b9d598a66759f367a1ffec325846a19f596f1318cc6d65761d5bb6cd5d5027",
+    "extract.py": "5f1aff74771f53189094bfd68211b9784ac0991cd5fdf5ba3a6ecdb83f840416",
+    "provenance.json": "953e2ce8c4d4b6921c62549ce02a994ffad83f5fde0bdb3b6d4d53f2a24fc40c",
+    "resources/gbfs-2.3.md": "52d15b0b45a3f0a77f329b2e361dcbff6dfd7741c80d154fdc06dae3343656b8",
+    "resources/gbfs-3.0.md": "a8caf2aff1612c6e65f1f85948ccbdc0a53afa288e33501b94190addeb25bd71",
+    "resources/schema-LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "resources/specification-LICENSE": "e6bc9e9c474700b708f568bac9e5a8a9bcb2b1dad53442f5ba449fcb848b8e76",
+    "resources/station-status-2.3.json": "10ed322ab4b912fe65d1dd897acc031265c39787e1b44fe2af709dacece9c32c",
+    "resources/station-status-3.0.json": "6b92b869d1ed048f7850b86cd9fb517b2ef387ccd0303357a6eba6296234f550"
+  }
+}

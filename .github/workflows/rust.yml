@@ -27,6 +27,13 @@ jobs:
         run: |
           cargo run --locked --example benchmark_accuracy -- --independent --check
           cargo run --locked --example evaluate_all -- --check-independent
+      - name: Verify frozen reliability extraction
+        if: runner.os == 'Linux'
+        run: |
+          python validation/reliability/verify_extraction.py --self-test
+          python validation/reliability/verify_extraction.py
+      - name: Check reliability against the original-runtime baseline
+        run: cargo run --locked --example evaluate_all -- --check-reliability
       - run: cargo test --locked --all-targets --all-features
       - run: cargo test --locked --doc
       - run: cargo clippy --locked --all-targets --all-features -- -D warnings

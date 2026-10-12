@@ -1,0 +1,383 @@
+{
+  "name": "treasury_contract_download_to_database_schema_only",
+  "source": {
+    "fields": [
+      {
+        "name": "base_and_all_options_value",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "base_and_exercised_options_value",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "current_total_value_of_award",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "potential_total_value_of_award",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "ordering_period_end_date",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "period_of_performance_potential_end_date",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "solicitation_date",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "cost_or_pricing_data_code",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "cost_or_pricing_data",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "evaluated_preference_code",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "evaluated_preference",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "extent_competed_code",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "extent_competed",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "number_of_offers_received",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "product_or_service_code",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "product_or_service_code_description",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "solicitation_identifier",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "solicitation_procedures_code",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "solicitation_procedures",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "type_of_set_aside_code",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "type_of_set_aside",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "type_of_contract_pricing_code",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "type_of_contract_pricing",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "dod_acquisition_program_code",
+        "data_type": "unknown",
+        "samples": []
+      },
+      {
+        "name": "dod_acquisition_program_description",
+        "data_type": "unknown",
+        "samples": []
+      }
+    ]
+  },
+  "target": {
+    "fields": [
+      {
+        "name": "base_exercised_options_val",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "cost_accounting_standards",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "cost_accounting_stand_desc",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "cost_or_pricing_data",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "country_of_product_or_serv",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "country_of_product_or_desc",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "current_total_value_award",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "program_system_or_equipmen",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "program_system_or_equ_desc",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "evaluated_preference",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "extent_competed",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "extent_compete_description",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "number_of_offers_received",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "period_of_perf_potential_e",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "potential_total_value_awar",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "price_evaluation_adjustmen",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "product_or_service_code",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "product_or_service_co_desc",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "solicitation_identifier",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "solicitation_procedures",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "solicitation_date",
+        "data_type": "date",
+        "samples": []
+      },
+      {
+        "name": "type_set_aside",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "type_set_aside_description",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "type_of_contract_pricing",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "type_of_contract_pric_desc",
+        "data_type": "text",
+        "samples": []
+      }
+    ]
+  },
+  "answers": [
+    {
+      "kind": "no_match",
+      "source": "base_and_all_options_value"
+    },
+    {
+      "kind": "match",
+      "source": "base_and_exercised_options_value",
+      "target": "base_exercised_options_val"
+    },
+    {
+      "kind": "match",
+      "source": "current_total_value_of_award",
+      "target": "current_total_value_award"
+    },
+    {
+      "kind": "match",
+      "source": "potential_total_value_of_award",
+      "target": "potential_total_value_awar"
+    },
+    {
+      "kind": "no_match",
+      "source": "ordering_period_end_date"
+    },
+    {
+      "kind": "match",
+      "source": "period_of_performance_potential_end_date",
+      "target": "period_of_perf_potential_e"
+    },
+    {
+      "kind": "match",
+      "source": "solicitation_date",
+      "target": "solicitation_date"
+    },
+    {
+      "kind": "match",
+      "source": "cost_or_pricing_data_code",
+      "target": "cost_or_pricing_data"
+    },
+    {
+      "kind": "no_match",
+      "source": "cost_or_pricing_data"
+    },
+    {
+      "kind": "match",
+      "source": "evaluated_preference_code",
+      "target": "evaluated_preference"
+    },
+    {
+      "kind": "no_match",
+      "source": "evaluated_preference"
+    },
+    {
+      "kind": "match",
+      "source": "extent_competed_code",
+      "target": "extent_competed"
+    },
+    {
+      "kind": "match",
+      "source": "extent_competed",
+      "target": "extent_compete_description"
+    },
+    {
+      "kind": "match",
+      "source": "number_of_offers_received",
+      "target": "number_of_offers_received"
+    },
+    {
+      "kind": "match",
+      "source": "product_or_service_code",
+      "target": "product_or_service_code"
+    },
+    {
+      "kind": "match",
+      "source": "product_or_service_code_description",
+      "target": "product_or_service_co_desc"
+    },
+    {
+      "kind": "match",
+      "source": "solicitation_identifier",
+      "target": "solicitation_identifier"
+    },
+    {
+      "kind": "match",
+      "source": "solicitation_procedures_code",
+      "target": "solicitation_procedures"
+    },
+    {
+      "kind": "no_match",
+      "source": "solicitation_procedures"
+    },
+    {
+      "kind": "match",
+      "source": "type_of_set_aside_code",
+      "target": "type_set_aside"
+    },
+    {
+      "kind": "match",
+      "source": "type_of_set_aside",
+      "target": "type_set_aside_description"
+    },
+    {
+      "kind": "match",
+      "source": "type_of_contract_pricing_code",
+      "target": "type_of_contract_pricing"
+    },
+    {
+      "kind": "match",
+      "source": "type_of_contract_pricing",
+      "target": "type_of_contract_pric_desc"
+    },
+    {
+      "kind": "match",
+      "source": "dod_acquisition_program_code",
+      "target": "program_system_or_equipmen"
+    },
+    {
+      "kind": "match",
+      "source": "dod_acquisition_program_description",
+      "target": "program_system_or_equ_desc"
+    }
+  ]
+}

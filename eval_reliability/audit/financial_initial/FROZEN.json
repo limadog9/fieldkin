@@ -1,0 +1,97 @@
+{
+  "frozen_at_utc": "2026-10-12T19:11:40.383317+00:00",
+  "status": "source-only final annotation freeze before predictions",
+  "independence": "No matcher implementation, existing evaluation fixtures, or predictions inspected by financial sourcing agents. Root implementation details withheld.",
+  "case_count": 3,
+  "source_fields": 75,
+  "target_fields": 76,
+  "schema_only": true,
+  "case_sha256": "252363f7379cb1fdaa16946d938f75b534df96106de3c3d77d83fb8078ae77b7",
+  "verification": [
+    "all sources labeled exactly once",
+    "field names unique within each side",
+    "positive target references present",
+    "all observations empty",
+    "complete provenance and type declarations archived",
+    "source-only independent annotation review",
+    "offline regeneration reproduced all cases/evidence/manifests byte-for-byte"
+  ],
+  "artifacts": [
+    {
+      "path": "ANNOTATION_REVIEW.md",
+      "sha256": "da2c4891113fcfa3eacef032d0d3b02390485fadd1c8cfb68ff5fe5eb437a954"
+    },
+    {
+      "path": "README.md",
+      "sha256": "69a7607b06907e41c71f58d408ed8526ccaaac712a99b452a7a82b45373af12d"
+    },
+    {
+      "path": "SELECTION_POLICY.md",
+      "sha256": "a1dcec97a1e0adcaf849326ebc7624dd67dfaba7085dff29421a61ce6740e55a"
+    },
+    {
+      "path": "extract_stripe.py",
+      "sha256": "c7f440fcae6a184ad155daa0fa4aac5fa52b757accb1526449673269203f553e"
+    },
+    {
+      "path": "financial_cases.frozen.json",
+      "sha256": "252363f7379cb1fdaa16946d938f75b534df96106de3c3d77d83fb8078ae77b7"
+    },
+    {
+      "path": "raw/stripe_LICENSE",
+      "sha256": "8c1ce883f4eee7b531e0b7872dbfc72d410ced87dfff9501305de05ca8d203e5"
+    },
+    {
+      "path": "raw/stripe_README.md",
+      "sha256": "1712af062b2f6f3939c2908147fba081c0497e471d6b204e45a5a873051ad8e2"
+    },
+    {
+      "path": "raw/stripe_schema_excerpt.json",
+      "sha256": "3c962236341fe67e6242e3c6ff51c3e568714b703be9ccc26daa92cc5d10dc7c"
+    },
+    {
+      "path": "stripe_manifest.json",
+      "sha256": "83efb9ff976a5b9392ccd615ae14be06358d1a8d327329f71fa014fea0207a97"
+    },
+    {
+      "path": "stripe_plan_price.json",
+      "sha256": "2601a38a62ecdb3db3a203043c1c0bc3c996075a32728aa3e2f0c0dd41e11910"
+    },
+    {
+      "path": "treasury/Data_Dictionary_Crosswalk.xlsx",
+      "sha256": "975eb6fef1fc139fa26b7a37c88b49af92ce3aa257968692dd30555f9f6d3ae0"
+    },
+    {
+      "path": "treasury/LICENSE",
+      "sha256": "6d489af6292662d9e36d34ce49423784984a5f6e41d7b58f49b01264df59fa03"
+    },
+    {
+      "path": "treasury/custom_django_fields.py",
+      "sha256": "8460970a0fc784122e2814723024e39a95b13867aa10d26e12209028c147e3ba"
+    },
+    {
+      "path": "treasury/extract_cases.py",
+      "sha256": "d518f9728f0c45092c650a0eb8eb902645be7d97b192d5a0ac369bd9d360c86e"
+    },
+    {
+      "path": "treasury/transaction_fabs.py",
+      "sha256": "9b5fdcf077c8564f73fd5628b3121ae33af70ea44ca53905bdd6affd48895862"
+    },
+    {
+      "path": "treasury/transaction_fpds.py",
+      "sha256": "96675b7633286e5e6db2ff65fc18bfff1bad290cfe6523eab0c3883851e4ac4a"
+    },
+    {
+      "path": "treasury/treasury_cases.frozen.json",
+      "sha256": "e137151ebb7176739584b79324a9d28444fc48dd7246f51438c7ab2460ef27e3"
+    },
+    {
+      "path": "treasury/treasury_evidence.frozen.json",
+      "sha256": "82be6df0c34475d8abde87f0f5349a78ba155411d9a267780c715916c57c546e"
+    },
+    {
+      "path": "treasury/treasury_manifest.frozen.json",
+      "sha256": "f5df9028673812d35ba92d011d8b111aa5c937b78553ce517f59dbdbcffb874f"
+    }
+  ]
+}

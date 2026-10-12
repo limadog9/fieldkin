@@ -3,3 +3,19 @@ scripts/reference_patches/*.patch -text -whitespace
 
 # Publisher snapshots must retain their downloaded bytes on every platform.
 eval_independent/sources/** -text -whitespace
+
+# Reliability archives and first-comparison records have byte-level SHA-256s.
+eval_reliability/sources/** -text -whitespace
+eval_reliability/audit/** -text -whitespace
+validation/reliability_corpus.json -text
+validation/reliability/implementation_freeze.json -text
+validation/reliability/before.txt -text
+validation/reliability/after.txt -text
+validation/reliability/candidate.patch -text -whitespace
+validation/reliability/candidate-tests.patch -text -whitespace
+validation/reliability_followup_corpus.json -text
+validation/reliability/*_implementation_freeze.json -text
+validation/reliability/followup*.txt -text
+validation/reliability/fallback-candidate.patch -text -whitespace
+validation/reliability/fallback-candidate-tests.patch -text -whitespace
+validation/reliability_quality_baseline.json -text

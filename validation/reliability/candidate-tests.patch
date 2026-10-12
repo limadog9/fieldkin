@@ -1,0 +1,108 @@
+diff --git a/tests/basic.rs b/tests/basic.rs
+index e48e7a2..d447394 100644
+--- a/tests/basic.rs
++++ b/tests/basic.rs
+@@ -276,12 +276,19 @@ fn removing_samples_does_not_promote_a_weak_name_to_a_match() {
+ #[test]
+ fn missing_sample_guard_respects_threshold_and_preserves_rankings() {
+     let source = Schema {
+-        fields: vec![field("net_amount", DataType::Decimal, &[])],
++        fields: vec![field("Population", DataType::Unknown, &[])],
+     };
+     let target = Schema {
+-        fields: vec![field("gross_amount", DataType::Decimal, &[])],
++        fields: vec![field("POP", DataType::Unknown, &[])],
+     };
+-    let report = match_schemas(&source, &target, Config::default());
++    let report = match_schemas(
++        &source,
++        &target,
++        Config {
++            min_score: 0.8,
++            ..Config::default()
++        },
++    );
+     let candidate = &report.fields[0].candidates[0];
+     let evidence = 0.60 * candidate.name_score + 0.25 * candidate.type_score;
+     assert_eq!(candidate.sample_score, None);
+@@ -293,7 +300,7 @@ fn missing_sample_guard_respects_threshold_and_preserves_rankings() {
+             best_score: Some(candidate.score),
+         }
+     );
+-    // Callers can intentionally accept weaker evidence. Equality is inclusive.
++    // A supported abbreviation can meet a lower threshold. Equality is inclusive.
+     let accepted = match_schemas(
+         &source,
+         &target,
+@@ -355,6 +362,71 @@ fn abbreviation_fallback_runs_only_after_normal_no_match() {
+     );
+ }
+ 
++#[test]
++fn unsupported_renames_abstain_without_hiding_ranked_candidates() {
++    for (left, right) in [
++        (&[][..], &[][..]),
++        (&["married", "single"][..], &["paid", "unpaid"][..]),
++        (&[" ", "\t"][..], &[""][..]),
++    ] {
++        let source = Schema {
++            fields: vec![field("status", DataType::Text, left)],
++        };
++        let target = Schema {
++            fields: vec![field("payment_status", DataType::Text, right)],
++        };
++        let report = match_schemas(&source, &target, Config::default());
++        let best = &report.fields[0].candidates[0];
++        assert!(best.score >= Config::default().min_score);
++        assert_eq!(
++            report.fields[0].decision,
++            Decision::NoMatch {
++                best_score: Some(best.score)
++            }
++        );
++        for max_candidates in [0, 1] {
++            let limited = match_schemas(
++                &source,
++                &target,
++                Config {
++                    max_candidates,
++                    ..Config::default()
++                },
++            );
++            assert_eq!(limited.fields[0].decision, report.fields[0].decision);
++        }
++    }
++}
++
++#[test]
++fn corroborated_renames_and_conventional_abbreviations_still_match() {
++    for (left_name, right_name, left, right) in [
++        (
++            "status",
++            "payment_status",
++            &["open", "paid"][..],
++            &["OPEN", "PAID"][..],
++        ),
++        ("reading", "sensor.reading", &[" 17 "][..], &["17"][..]),
++        ("Population", "POP", &["10", "20"][..], &["30", "40"][..]),
++        ("supplier_key", "vendor_id", &[][..], &[][..]),
++        ("wind_spd", "wspd", &["1", "2"][..], &["1", "2"][..]),
++    ] {
++        let source = Schema {
++            fields: vec![field(left_name, DataType::Text, left)],
++        };
++        let target = Schema {
++            fields: vec![field(right_name, DataType::Text, right)],
++        };
++        let report = match_schemas(&source, &target, Config::default());
++        assert!(
++            matches!(&report.fields[0].decision, Decision::Match { target, .. } if target == right_name),
++            "{left_name} -> {right_name}: {:?}",
++            report.fields[0]
++        );
++    }
++}
++
+ #[test]
+ fn invalid_configuration_values_are_rejected() {
+     let schema = Schema {

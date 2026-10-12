@@ -1,0 +1,1071 @@
+{
+  "case": "financial_stripe_plan_price_schema_projection",
+  "publisher": "Stripe, Inc.",
+  "domain": "financial/subscription billing",
+  "evidence_class": "publisher-declared schema only; no observed or synthetic records",
+  "selection_policy": "SELECTION_POLICY.md, recorded before retrieval and predictions",
+  "repository": "https://github.com/stripe/openapi",
+  "revision": "7d04b7f1e0a6f49768e3b46edbfd5de810b59373",
+  "api_version": "2026-09-30.endive",
+  "retrieval_date_utc": "2026-10-12",
+  "license": "MIT; complete publisher license archived at raw/stripe_LICENSE",
+  "resources": [
+    {
+      "url": "https://raw.githubusercontent.com/stripe/openapi/7d04b7f1e0a6f49768e3b46edbfd5de810b59373/openapi/spec3.json",
+      "sha256": "7cff4cc46d0654101a36a3302f7544640f5f73e4f3cad6f264f0e23c19fa1776",
+      "archived_excerpt": "raw/stripe_schema_excerpt.json",
+      "excerpt_sha256": "3c962236341fe67e6242e3c6ff51c3e568714b703be9ccc26daa92cc5d10dc7c",
+      "excerpt_rule": "Keep original info and exactly these complete component schemas in this order: plan, price, recurring, plan_tier, price_tier, transform_usage, transform_quantity, custom_unit_amount"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/stripe/openapi/7d04b7f1e0a6f49768e3b46edbfd5de810b59373/LICENSE",
+      "path": "raw/stripe_LICENSE",
+      "sha256": "8c1ce883f4eee7b531e0b7872dbfc72d410ced87dfff9501305de05ca8d203e5"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/stripe/openapi/7d04b7f1e0a6f49768e3b46edbfd5de810b59373/README.md",
+      "path": "raw/stripe_README.md",
+      "sha256": "1712af062b2f6f3939c2908147fba081c0497e471d6b204e45a5a873051ad8e2"
+    }
+  ],
+  "equivalence_basis": {
+    "pointer": "#/components/schemas/plan/description",
+    "quote": "You can now model subscriptions more flexibly using the [Prices API](https://docs.stripe.com/api#prices). It replaces the Plans API and is backwards compatible to simplify your migration.\n\nPlans define the base price, currency, and billing cycle for recurring purchases of products.\n[Products](https://docs.stripe.com/api#products) help you track inventory or provisioning, and plans help you track pricing. Different physical goods or levels of service should be represented by products, and pricing options should be represented by plans. This approach lets you change prices without having to change your provisioning scheme.\n\nFor example, you might have a single \"gold\" product that has plans for $10/month, $100/year, €9/month, and €90/year.\n\nRelated guides: [Set up a subscription](https://docs.stripe.com/billing/subscriptions/set-up-subscription) and more about [products and prices](https://docs.stripe.com/products-prices/overview).",
+    "interpretation": "Publisher states Prices replaces Plans and is backwards compatible. Retained positive aliases have matching property definitions, units, and roles in that documented migration. For base and tier per-unit amounts, only the integer representation remains on both sides; alternate decimal representations are excluded rather than assuming unique storage-preserving labels."
+  },
+  "projection": {
+    "naming": "Exact publisher property names, with dots representing nested property traversal and [] representing an array element. No aliases, invented leaf names, or synthetic observations introduced.",
+    "source_root": "#/components/schemas/plan",
+    "target_root": "#/components/schemas/price",
+    "constraint": "Recurring Price objects corresponding to legacy Plans; product fields use the declared unexpanded string ID variant.",
+    "target_deliberately_omitted": [
+      "created",
+      "id",
+      "tiers[].flat_amount",
+      "tiers[].flat_amount_decimal"
+    ],
+    "alternate_representation_exclusions": {
+      "source": [
+        "amount_decimal",
+        "tiers[].unit_amount_decimal"
+      ],
+      "target": [
+        "unit_amount_decimal",
+        "tiers[].unit_amount_decimal"
+      ],
+      "reason": "Integer and decimal-string properties represent the same economic amount, but decimal strings support fractional precision not necessarily available in integer fields. Without records, unconditional unique or ambiguous cross-representation labels are not established; only one representation per corresponding quantity is retained."
+    },
+    "other_omitted_fields": "Source and target object discriminators, free-form metadata maps, and currency-option maps are excluded. Nonretained schema properties are outside this explicit projection.",
+    "source_fields": [
+      "active",
+      "amount",
+      "billing_scheme",
+      "created",
+      "currency",
+      "id",
+      "interval",
+      "interval_count",
+      "livemode",
+      "meter",
+      "nickname",
+      "product",
+      "tiers[].flat_amount",
+      "tiers[].flat_amount_decimal",
+      "tiers[].unit_amount",
+      "tiers[].up_to",
+      "tiers_mode",
+      "transform_usage.divide_by",
+      "transform_usage.round",
+      "trial_period_days",
+      "usage_type"
+    ],
+    "target_fields": [
+      "active",
+      "billing_scheme",
+      "currency",
+      "custom_unit_amount.maximum",
+      "custom_unit_amount.minimum",
+      "custom_unit_amount.preset",
+      "livemode",
+      "lookup_key",
+      "nickname",
+      "product",
+      "recurring.interval",
+      "recurring.interval_count",
+      "recurring.meter",
+      "recurring.usage_type",
+      "tax_behavior",
+      "tiers[].unit_amount",
+      "tiers[].up_to",
+      "tiers_mode",
+      "transform_quantity.divide_by",
+      "transform_quantity.round",
+      "type",
+      "unit_amount"
+    ]
+  },
+  "field_evidence": {
+    "source": [
+      {
+        "name": "active",
+        "publisher_entity": "plan",
+        "schema_pointer": "#/components/schemas/plan/properties/active",
+        "reference_trace": [
+          "#/components/schemas/plan",
+          "#/components/schemas/plan/properties/active"
+        ],
+        "declared_schema": {
+          "description": "Whether the plan can be used for new purchases.",
+          "type": "boolean"
+        },
+        "normalized_data_type": "boolean",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "amount",
+        "publisher_entity": "plan",
+        "schema_pointer": "#/components/schemas/plan/properties/amount",
+        "reference_trace": [
+          "#/components/schemas/plan",
+          "#/components/schemas/plan/properties/amount"
+        ],
+        "declared_schema": {
+          "description": "The unit amount in cents (or local equivalent) to be charged, represented as a whole integer if possible. Only set if `billing_scheme=per_unit`.",
+          "nullable": true,
+          "type": "integer"
+        },
+        "normalized_data_type": "integer",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "billing_scheme",
+        "publisher_entity": "plan",
+        "schema_pointer": "#/components/schemas/plan/properties/billing_scheme",
+        "reference_trace": [
+          "#/components/schemas/plan",
+          "#/components/schemas/plan/properties/billing_scheme"
+        ],
+        "declared_schema": {
+          "description": "Describes how to compute the price per period. Either `per_unit` or `tiered`. `per_unit` indicates that the fixed amount (specified in `amount`) will be charged per unit in `quantity` (for plans with `usage_type=licensed`), or per unit of total usage (for plans with `usage_type=metered`). `tiered` indicates that the unit pricing will be computed using a tiering strategy as defined using the `tiers` and `tiers_mode` attributes.",
+          "enum": [
+            "per_unit",
+            "tiered"
+          ],
+          "type": "string"
+        },
+        "normalized_data_type": "text",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "created",
+        "publisher_entity": "plan",
+        "schema_pointer": "#/components/schemas/plan/properties/created",
+        "reference_trace": [
+          "#/components/schemas/plan",
+          "#/components/schemas/plan/properties/created"
+        ],
+        "declared_schema": {
+          "description": "Time at which the object was created. Measured in seconds since the Unix epoch.",
+          "format": "unix-time",
+          "type": "integer"
+        },
+        "normalized_data_type": "integer",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "currency",
+        "publisher_entity": "plan",
+        "schema_pointer": "#/components/schemas/plan/properties/currency",
+        "reference_trace": [
+          "#/components/schemas/plan",
+          "#/components/schemas/plan/properties/currency"
+        ],
+        "declared_schema": {
+          "description": "Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).",
+          "format": "currency",
+          "type": "string"
+        },
+        "normalized_data_type": "text",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "id",
+        "publisher_entity": "plan",
+        "schema_pointer": "#/components/schemas/plan/properties/id",
+        "reference_trace": [
+          "#/components/schemas/plan",
+          "#/components/schemas/plan/properties/id"
+        ],
+        "declared_schema": {
+          "description": "Unique identifier for the object.",
+          "maxLength": 5000,
+          "type": "string"
+        },
+        "normalized_data_type": "text",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "interval",
+        "publisher_entity": "plan",
+        "schema_pointer": "#/components/schemas/plan/properties/interval",
+        "reference_trace": [
+          "#/components/schemas/plan",
+          "#/components/schemas/plan/properties/interval"
+        ],
+        "declared_schema": {
+          "description": "The frequency at which a subscription is billed. One of `day`, `week`, `month` or `year`.",
+          "enum": [
+            "day",
+            "month",
+            "week",
+            "year"
+          ],
+          "type": "string"
+        },
+        "normalized_data_type": "text",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "interval_count",
+        "publisher_entity": "plan",
+        "schema_pointer": "#/components/schemas/plan/properties/interval_count",
+        "reference_trace": [
+          "#/components/schemas/plan",
+          "#/components/schemas/plan/properties/interval_count"
+        ],
+        "declared_schema": {
+          "description": "The number of intervals (specified in the `interval` attribute) between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months.",
+          "type": "integer"
+        },
+        "normalized_data_type": "integer",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "livemode",
+        "publisher_entity": "plan",
+        "schema_pointer": "#/components/schemas/plan/properties/livemode",
+        "reference_trace": [
+          "#/components/schemas/plan",
+          "#/components/schemas/plan/properties/livemode"
+        ],
+        "declared_schema": {
+          "description": "If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.",
+          "type": "boolean"
+        },
+        "normalized_data_type": "boolean",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "meter",
+        "publisher_entity": "plan",
+        "schema_pointer": "#/components/schemas/plan/properties/meter",
+        "reference_trace": [
+          "#/components/schemas/plan",
+          "#/components/schemas/plan/properties/meter"
+        ],
+        "declared_schema": {
+          "description": "The meter tracking the usage of a metered price",
+          "maxLength": 5000,
+          "nullable": true,
+          "type": "string"
+        },
+        "normalized_data_type": "text",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "nickname",
+        "publisher_entity": "plan",
+        "schema_pointer": "#/components/schemas/plan/properties/nickname",
+        "reference_trace": [
+          "#/components/schemas/plan",
+          "#/components/schemas/plan/properties/nickname"
+        ],
+        "declared_schema": {
+          "description": "A brief description of the plan, hidden from customers.",
+          "maxLength": 5000,
+          "nullable": true,
+          "type": "string"
+        },
+        "normalized_data_type": "text",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "product",
+        "publisher_entity": "plan",
+        "schema_pointer": "#/components/schemas/plan/properties/product",
+        "reference_trace": [
+          "#/components/schemas/plan",
+          "#/components/schemas/plan/properties/product"
+        ],
+        "declared_schema": {
+          "anyOf": [
+            {
+              "maxLength": 5000,
+              "type": "string"
+            },
+            {
+              "$ref": "#/components/schemas/product"
+            },
+            {
+              "$ref": "#/components/schemas/deleted_product"
+            }
+          ],
+          "description": "The product whose pricing this plan determines.",
+          "nullable": true,
+          "x-expansionResources": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/product"
+              },
+              {
+                "$ref": "#/components/schemas/deleted_product"
+              }
+            ]
+          }
+        },
+        "normalized_data_type": "text",
+        "samples_origin": "none: schema-only missing-evidence control",
+        "projection_constraint": "Unexpanded publisher-declared product ID string variant (anyOf/0); expanded product objects are outside this projection."
+      },
+      {
+        "name": "tiers[].flat_amount",
+        "publisher_entity": "plan",
+        "schema_pointer": "#/components/schemas/plan_tier/properties/flat_amount",
+        "reference_trace": [
+          "#/components/schemas/plan",
+          "#/components/schemas/plan/properties/tiers",
+          "#/components/schemas/plan_tier",
+          "#/components/schemas/plan_tier/properties/flat_amount"
+        ],
+        "declared_schema": {
+          "description": "Price for the entire tier.",
+          "nullable": true,
+          "type": "integer"
+        },
+        "normalized_data_type": "integer",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "tiers[].flat_amount_decimal",
+        "publisher_entity": "plan",
+        "schema_pointer": "#/components/schemas/plan_tier/properties/flat_amount_decimal",
+        "reference_trace": [
+          "#/components/schemas/plan",
+          "#/components/schemas/plan/properties/tiers",
+          "#/components/schemas/plan_tier",
+          "#/components/schemas/plan_tier/properties/flat_amount_decimal"
+        ],
+        "declared_schema": {
+          "description": "Same as `flat_amount`, but contains a decimal value with at most 12 decimal places.",
+          "format": "decimal",
+          "nullable": true,
+          "type": "string"
+        },
+        "normalized_data_type": "text",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "tiers[].unit_amount",
+        "publisher_entity": "plan",
+        "schema_pointer": "#/components/schemas/plan_tier/properties/unit_amount",
+        "reference_trace": [
+          "#/components/schemas/plan",
+          "#/components/schemas/plan/properties/tiers",
+          "#/components/schemas/plan_tier",
+          "#/components/schemas/plan_tier/properties/unit_amount"
+        ],
+        "declared_schema": {
+          "description": "Per unit price for units relevant to the tier.",
+          "nullable": true,
+          "type": "integer"
+        },
+        "normalized_data_type": "integer",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "tiers[].up_to",
+        "publisher_entity": "plan",
+        "schema_pointer": "#/components/schemas/plan_tier/properties/up_to",
+        "reference_trace": [
+          "#/components/schemas/plan",
+          "#/components/schemas/plan/properties/tiers",
+          "#/components/schemas/plan_tier",
+          "#/components/schemas/plan_tier/properties/up_to"
+        ],
+        "declared_schema": {
+          "description": "Up to and including to this quantity will be contained in the tier.",
+          "nullable": true,
+          "type": "integer"
+        },
+        "normalized_data_type": "integer",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "tiers_mode",
+        "publisher_entity": "plan",
+        "schema_pointer": "#/components/schemas/plan/properties/tiers_mode",
+        "reference_trace": [
+          "#/components/schemas/plan",
+          "#/components/schemas/plan/properties/tiers_mode"
+        ],
+        "declared_schema": {
+          "description": "Defines if the tiering price should be `graduated` or `volume` based. In `volume`-based tiering, the maximum quantity within a period determines the per unit price. In `graduated` tiering, pricing can change as the quantity grows.",
+          "enum": [
+            "graduated",
+            "volume"
+          ],
+          "nullable": true,
+          "type": "string"
+        },
+        "normalized_data_type": "text",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "transform_usage.divide_by",
+        "publisher_entity": "plan",
+        "schema_pointer": "#/components/schemas/transform_usage/properties/divide_by",
+        "reference_trace": [
+          "#/components/schemas/plan",
+          "#/components/schemas/plan/properties/transform_usage",
+          "#/components/schemas/transform_usage/properties/divide_by"
+        ],
+        "declared_schema": {
+          "description": "Divide usage by this number.",
+          "type": "integer"
+        },
+        "normalized_data_type": "integer",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "transform_usage.round",
+        "publisher_entity": "plan",
+        "schema_pointer": "#/components/schemas/transform_usage/properties/round",
+        "reference_trace": [
+          "#/components/schemas/plan",
+          "#/components/schemas/plan/properties/transform_usage",
+          "#/components/schemas/transform_usage/properties/round"
+        ],
+        "declared_schema": {
+          "description": "After division, either round the result `up` or `down`.",
+          "enum": [
+            "down",
+            "up"
+          ],
+          "type": "string"
+        },
+        "normalized_data_type": "text",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "trial_period_days",
+        "publisher_entity": "plan",
+        "schema_pointer": "#/components/schemas/plan/properties/trial_period_days",
+        "reference_trace": [
+          "#/components/schemas/plan",
+          "#/components/schemas/plan/properties/trial_period_days"
+        ],
+        "declared_schema": {
+          "description": "Default number of trial days when subscribing a customer to this plan using [`trial_from_plan=true`](https://docs.stripe.com/api#create_subscription-trial_from_plan).",
+          "nullable": true,
+          "type": "integer"
+        },
+        "normalized_data_type": "integer",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "usage_type",
+        "publisher_entity": "plan",
+        "schema_pointer": "#/components/schemas/plan/properties/usage_type",
+        "reference_trace": [
+          "#/components/schemas/plan",
+          "#/components/schemas/plan/properties/usage_type"
+        ],
+        "declared_schema": {
+          "description": "Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the `quantity` set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`.",
+          "enum": [
+            "licensed",
+            "metered"
+          ],
+          "type": "string"
+        },
+        "normalized_data_type": "text",
+        "samples_origin": "none: schema-only missing-evidence control"
+      }
+    ],
+    "target": [
+      {
+        "name": "active",
+        "publisher_entity": "price",
+        "schema_pointer": "#/components/schemas/price/properties/active",
+        "reference_trace": [
+          "#/components/schemas/price",
+          "#/components/schemas/price/properties/active"
+        ],
+        "declared_schema": {
+          "description": "Whether the price can be used for new purchases.",
+          "type": "boolean"
+        },
+        "normalized_data_type": "boolean",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "billing_scheme",
+        "publisher_entity": "price",
+        "schema_pointer": "#/components/schemas/price/properties/billing_scheme",
+        "reference_trace": [
+          "#/components/schemas/price",
+          "#/components/schemas/price/properties/billing_scheme"
+        ],
+        "declared_schema": {
+          "description": "Describes how to compute the price per period. Either `per_unit` or `tiered`. `per_unit` indicates that the fixed amount (specified in `unit_amount` or `unit_amount_decimal`) will be charged per unit in `quantity` (for prices with `usage_type=licensed`), or per unit of total usage (for prices with `usage_type=metered`). `tiered` indicates that the unit pricing will be computed using a tiering strategy as defined using the `tiers` and `tiers_mode` attributes.",
+          "enum": [
+            "per_unit",
+            "tiered"
+          ],
+          "type": "string"
+        },
+        "normalized_data_type": "text",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "currency",
+        "publisher_entity": "price",
+        "schema_pointer": "#/components/schemas/price/properties/currency",
+        "reference_trace": [
+          "#/components/schemas/price",
+          "#/components/schemas/price/properties/currency"
+        ],
+        "declared_schema": {
+          "description": "Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).",
+          "format": "currency",
+          "type": "string"
+        },
+        "normalized_data_type": "text",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "custom_unit_amount.maximum",
+        "publisher_entity": "price",
+        "schema_pointer": "#/components/schemas/custom_unit_amount/properties/maximum",
+        "reference_trace": [
+          "#/components/schemas/price",
+          "#/components/schemas/price/properties/custom_unit_amount",
+          "#/components/schemas/custom_unit_amount/properties/maximum"
+        ],
+        "declared_schema": {
+          "description": "The maximum unit amount the customer can specify for this item.",
+          "nullable": true,
+          "type": "integer"
+        },
+        "normalized_data_type": "integer",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "custom_unit_amount.minimum",
+        "publisher_entity": "price",
+        "schema_pointer": "#/components/schemas/custom_unit_amount/properties/minimum",
+        "reference_trace": [
+          "#/components/schemas/price",
+          "#/components/schemas/price/properties/custom_unit_amount",
+          "#/components/schemas/custom_unit_amount/properties/minimum"
+        ],
+        "declared_schema": {
+          "description": "The minimum unit amount the customer can specify for this item. Must be at least the minimum charge amount.",
+          "nullable": true,
+          "type": "integer"
+        },
+        "normalized_data_type": "integer",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "custom_unit_amount.preset",
+        "publisher_entity": "price",
+        "schema_pointer": "#/components/schemas/custom_unit_amount/properties/preset",
+        "reference_trace": [
+          "#/components/schemas/price",
+          "#/components/schemas/price/properties/custom_unit_amount",
+          "#/components/schemas/custom_unit_amount/properties/preset"
+        ],
+        "declared_schema": {
+          "description": "The starting unit amount which can be updated by the customer.",
+          "nullable": true,
+          "type": "integer"
+        },
+        "normalized_data_type": "integer",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "livemode",
+        "publisher_entity": "price",
+        "schema_pointer": "#/components/schemas/price/properties/livemode",
+        "reference_trace": [
+          "#/components/schemas/price",
+          "#/components/schemas/price/properties/livemode"
+        ],
+        "declared_schema": {
+          "description": "If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.",
+          "type": "boolean"
+        },
+        "normalized_data_type": "boolean",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "lookup_key",
+        "publisher_entity": "price",
+        "schema_pointer": "#/components/schemas/price/properties/lookup_key",
+        "reference_trace": [
+          "#/components/schemas/price",
+          "#/components/schemas/price/properties/lookup_key"
+        ],
+        "declared_schema": {
+          "description": "A lookup key used to retrieve prices dynamically from a static string. This may be up to 200 characters.",
+          "maxLength": 5000,
+          "nullable": true,
+          "type": "string"
+        },
+        "normalized_data_type": "text",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "nickname",
+        "publisher_entity": "price",
+        "schema_pointer": "#/components/schemas/price/properties/nickname",
+        "reference_trace": [
+          "#/components/schemas/price",
+          "#/components/schemas/price/properties/nickname"
+        ],
+        "declared_schema": {
+          "description": "A brief description of the price, hidden from customers.",
+          "maxLength": 5000,
+          "nullable": true,
+          "type": "string"
+        },
+        "normalized_data_type": "text",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "product",
+        "publisher_entity": "price",
+        "schema_pointer": "#/components/schemas/price/properties/product",
+        "reference_trace": [
+          "#/components/schemas/price",
+          "#/components/schemas/price/properties/product"
+        ],
+        "declared_schema": {
+          "anyOf": [
+            {
+              "maxLength": 5000,
+              "type": "string"
+            },
+            {
+              "$ref": "#/components/schemas/product"
+            },
+            {
+              "$ref": "#/components/schemas/deleted_product"
+            }
+          ],
+          "description": "The ID of the product this price is associated with.",
+          "x-expansionResources": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/product"
+              },
+              {
+                "$ref": "#/components/schemas/deleted_product"
+              }
+            ]
+          }
+        },
+        "normalized_data_type": "text",
+        "samples_origin": "none: schema-only missing-evidence control",
+        "projection_constraint": "Unexpanded publisher-declared product ID string variant (anyOf/0); expanded product objects are outside this projection."
+      },
+      {
+        "name": "recurring.interval",
+        "publisher_entity": "price",
+        "schema_pointer": "#/components/schemas/recurring/properties/interval",
+        "reference_trace": [
+          "#/components/schemas/price",
+          "#/components/schemas/price/properties/recurring",
+          "#/components/schemas/recurring/properties/interval"
+        ],
+        "declared_schema": {
+          "description": "The frequency at which a subscription is billed. One of `day`, `week`, `month` or `year`.",
+          "enum": [
+            "day",
+            "month",
+            "week",
+            "year"
+          ],
+          "type": "string"
+        },
+        "normalized_data_type": "text",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "recurring.interval_count",
+        "publisher_entity": "price",
+        "schema_pointer": "#/components/schemas/recurring/properties/interval_count",
+        "reference_trace": [
+          "#/components/schemas/price",
+          "#/components/schemas/price/properties/recurring",
+          "#/components/schemas/recurring/properties/interval_count"
+        ],
+        "declared_schema": {
+          "description": "The number of intervals (specified in the `interval` attribute) between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months.",
+          "type": "integer"
+        },
+        "normalized_data_type": "integer",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "recurring.meter",
+        "publisher_entity": "price",
+        "schema_pointer": "#/components/schemas/recurring/properties/meter",
+        "reference_trace": [
+          "#/components/schemas/price",
+          "#/components/schemas/price/properties/recurring",
+          "#/components/schemas/recurring/properties/meter"
+        ],
+        "declared_schema": {
+          "description": "The meter tracking the usage of a metered price",
+          "maxLength": 5000,
+          "nullable": true,
+          "type": "string"
+        },
+        "normalized_data_type": "text",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "recurring.usage_type",
+        "publisher_entity": "price",
+        "schema_pointer": "#/components/schemas/recurring/properties/usage_type",
+        "reference_trace": [
+          "#/components/schemas/price",
+          "#/components/schemas/price/properties/recurring",
+          "#/components/schemas/recurring/properties/usage_type"
+        ],
+        "declared_schema": {
+          "description": "Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the `quantity` set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`.",
+          "enum": [
+            "licensed",
+            "metered"
+          ],
+          "type": "string"
+        },
+        "normalized_data_type": "text",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "tax_behavior",
+        "publisher_entity": "price",
+        "schema_pointer": "#/components/schemas/price/properties/tax_behavior",
+        "reference_trace": [
+          "#/components/schemas/price",
+          "#/components/schemas/price/properties/tax_behavior"
+        ],
+        "declared_schema": {
+          "description": "Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.",
+          "enum": [
+            "exclusive",
+            "inclusive",
+            "unspecified"
+          ],
+          "nullable": true,
+          "type": "string"
+        },
+        "normalized_data_type": "text",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "tiers[].unit_amount",
+        "publisher_entity": "price",
+        "schema_pointer": "#/components/schemas/price_tier/properties/unit_amount",
+        "reference_trace": [
+          "#/components/schemas/price",
+          "#/components/schemas/price/properties/tiers",
+          "#/components/schemas/price_tier",
+          "#/components/schemas/price_tier/properties/unit_amount"
+        ],
+        "declared_schema": {
+          "description": "Per unit price for units relevant to the tier.",
+          "nullable": true,
+          "type": "integer"
+        },
+        "normalized_data_type": "integer",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "tiers[].up_to",
+        "publisher_entity": "price",
+        "schema_pointer": "#/components/schemas/price_tier/properties/up_to",
+        "reference_trace": [
+          "#/components/schemas/price",
+          "#/components/schemas/price/properties/tiers",
+          "#/components/schemas/price_tier",
+          "#/components/schemas/price_tier/properties/up_to"
+        ],
+        "declared_schema": {
+          "description": "Up to and including to this quantity will be contained in the tier.",
+          "nullable": true,
+          "type": "integer"
+        },
+        "normalized_data_type": "integer",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "tiers_mode",
+        "publisher_entity": "price",
+        "schema_pointer": "#/components/schemas/price/properties/tiers_mode",
+        "reference_trace": [
+          "#/components/schemas/price",
+          "#/components/schemas/price/properties/tiers_mode"
+        ],
+        "declared_schema": {
+          "description": "Defines if the tiering price should be `graduated` or `volume` based. In `volume`-based tiering, the maximum quantity within a period determines the per unit price. In `graduated` tiering, pricing can change as the quantity grows.",
+          "enum": [
+            "graduated",
+            "volume"
+          ],
+          "nullable": true,
+          "type": "string"
+        },
+        "normalized_data_type": "text",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "transform_quantity.divide_by",
+        "publisher_entity": "price",
+        "schema_pointer": "#/components/schemas/transform_quantity/properties/divide_by",
+        "reference_trace": [
+          "#/components/schemas/price",
+          "#/components/schemas/price/properties/transform_quantity",
+          "#/components/schemas/transform_quantity/properties/divide_by"
+        ],
+        "declared_schema": {
+          "description": "Divide usage by this number.",
+          "type": "integer"
+        },
+        "normalized_data_type": "integer",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "transform_quantity.round",
+        "publisher_entity": "price",
+        "schema_pointer": "#/components/schemas/transform_quantity/properties/round",
+        "reference_trace": [
+          "#/components/schemas/price",
+          "#/components/schemas/price/properties/transform_quantity",
+          "#/components/schemas/transform_quantity/properties/round"
+        ],
+        "declared_schema": {
+          "description": "After division, either round the result `up` or `down`.",
+          "enum": [
+            "down",
+            "up"
+          ],
+          "type": "string"
+        },
+        "normalized_data_type": "text",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "type",
+        "publisher_entity": "price",
+        "schema_pointer": "#/components/schemas/price/properties/type",
+        "reference_trace": [
+          "#/components/schemas/price",
+          "#/components/schemas/price/properties/type"
+        ],
+        "declared_schema": {
+          "description": "One of `one_time` or `recurring` depending on whether the price is for a one-time purchase or a recurring (subscription) purchase.",
+          "enum": [
+            "one_time",
+            "recurring"
+          ],
+          "type": "string"
+        },
+        "normalized_data_type": "text",
+        "samples_origin": "none: schema-only missing-evidence control"
+      },
+      {
+        "name": "unit_amount",
+        "publisher_entity": "price",
+        "schema_pointer": "#/components/schemas/price/properties/unit_amount",
+        "reference_trace": [
+          "#/components/schemas/price",
+          "#/components/schemas/price/properties/unit_amount"
+        ],
+        "declared_schema": {
+          "description": "The unit amount in cents (or local equivalent) to be charged, represented as a whole integer if possible. Only set if `billing_scheme=per_unit`.",
+          "nullable": true,
+          "type": "integer"
+        },
+        "normalized_data_type": "integer",
+        "samples_origin": "none: schema-only missing-evidence control"
+      }
+    ]
+  },
+  "label_evidence": [
+    {
+      "source": "active",
+      "target": "active",
+      "kind": "match",
+      "rationale": "Same role, unit, and definition in the documented backwards-compatible Plan-to-Price migration.",
+      "source_definition": "Whether the plan can be used for new purchases.",
+      "target_definition": "Whether the price can be used for new purchases."
+    },
+    {
+      "source": "amount",
+      "target": "unit_amount",
+      "kind": "match",
+      "rationale": "Same role, unit, and definition in the documented backwards-compatible Plan-to-Price migration.",
+      "source_definition": "The unit amount in cents (or local equivalent) to be charged, represented as a whole integer if possible. Only set if `billing_scheme=per_unit`.",
+      "target_definition": "The unit amount in cents (or local equivalent) to be charged, represented as a whole integer if possible. Only set if `billing_scheme=per_unit`."
+    },
+    {
+      "source": "billing_scheme",
+      "target": "billing_scheme",
+      "kind": "match",
+      "rationale": "Same role, unit, and definition in the documented backwards-compatible Plan-to-Price migration.",
+      "source_definition": "Describes how to compute the price per period. Either `per_unit` or `tiered`. `per_unit` indicates that the fixed amount (specified in `amount`) will be charged per unit in `quantity` (for plans with `usage_type=licensed`), or per unit of total usage (for plans with `usage_type=metered`). `tiered` indicates that the unit pricing will be computed using a tiering strategy as defined using the `tiers` and `tiers_mode` attributes.",
+      "target_definition": "Describes how to compute the price per period. Either `per_unit` or `tiered`. `per_unit` indicates that the fixed amount (specified in `unit_amount` or `unit_amount_decimal`) will be charged per unit in `quantity` (for prices with `usage_type=licensed`), or per unit of total usage (for prices with `usage_type=metered`). `tiered` indicates that the unit pricing will be computed using a tiering strategy as defined using the `tiers` and `tiers_mode` attributes."
+    },
+    {
+      "source": "currency",
+      "target": "currency",
+      "kind": "match",
+      "rationale": "Same role, unit, and definition in the documented backwards-compatible Plan-to-Price migration.",
+      "source_definition": "Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).",
+      "target_definition": "Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies)."
+    },
+    {
+      "source": "interval",
+      "target": "recurring.interval",
+      "kind": "match",
+      "rationale": "Same role, unit, and definition in the documented backwards-compatible Plan-to-Price migration.",
+      "source_definition": "The frequency at which a subscription is billed. One of `day`, `week`, `month` or `year`.",
+      "target_definition": "The frequency at which a subscription is billed. One of `day`, `week`, `month` or `year`."
+    },
+    {
+      "source": "interval_count",
+      "target": "recurring.interval_count",
+      "kind": "match",
+      "rationale": "Same role, unit, and definition in the documented backwards-compatible Plan-to-Price migration.",
+      "source_definition": "The number of intervals (specified in the `interval` attribute) between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months.",
+      "target_definition": "The number of intervals (specified in the `interval` attribute) between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months."
+    },
+    {
+      "source": "livemode",
+      "target": "livemode",
+      "kind": "match",
+      "rationale": "Same role, unit, and definition in the documented backwards-compatible Plan-to-Price migration.",
+      "source_definition": "If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.",
+      "target_definition": "If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`."
+    },
+    {
+      "source": "meter",
+      "target": "recurring.meter",
+      "kind": "match",
+      "rationale": "Same role, unit, and definition in the documented backwards-compatible Plan-to-Price migration.",
+      "source_definition": "The meter tracking the usage of a metered price",
+      "target_definition": "The meter tracking the usage of a metered price"
+    },
+    {
+      "source": "nickname",
+      "target": "nickname",
+      "kind": "match",
+      "rationale": "Same role, unit, and definition in the documented backwards-compatible Plan-to-Price migration.",
+      "source_definition": "A brief description of the plan, hidden from customers.",
+      "target_definition": "A brief description of the price, hidden from customers."
+    },
+    {
+      "source": "product",
+      "target": "product",
+      "kind": "match",
+      "rationale": "Same role, unit, and definition in the documented backwards-compatible Plan-to-Price migration.",
+      "source_definition": "The product whose pricing this plan determines.",
+      "target_definition": "The ID of the product this price is associated with."
+    },
+    {
+      "source": "tiers[].unit_amount",
+      "target": "tiers[].unit_amount",
+      "kind": "match",
+      "rationale": "Same role, unit, and definition in the documented backwards-compatible Plan-to-Price migration.",
+      "source_definition": "Per unit price for units relevant to the tier.",
+      "target_definition": "Per unit price for units relevant to the tier."
+    },
+    {
+      "source": "tiers[].up_to",
+      "target": "tiers[].up_to",
+      "kind": "match",
+      "rationale": "Same role, unit, and definition in the documented backwards-compatible Plan-to-Price migration.",
+      "source_definition": "Up to and including to this quantity will be contained in the tier.",
+      "target_definition": "Up to and including to this quantity will be contained in the tier."
+    },
+    {
+      "source": "tiers_mode",
+      "target": "tiers_mode",
+      "kind": "match",
+      "rationale": "Same role, unit, and definition in the documented backwards-compatible Plan-to-Price migration.",
+      "source_definition": "Defines if the tiering price should be `graduated` or `volume` based. In `volume`-based tiering, the maximum quantity within a period determines the per unit price. In `graduated` tiering, pricing can change as the quantity grows.",
+      "target_definition": "Defines if the tiering price should be `graduated` or `volume` based. In `volume`-based tiering, the maximum quantity within a period determines the per unit price. In `graduated` tiering, pricing can change as the quantity grows."
+    },
+    {
+      "source": "transform_usage.divide_by",
+      "target": "transform_quantity.divide_by",
+      "kind": "match",
+      "rationale": "Same role, unit, and definition in the documented backwards-compatible Plan-to-Price migration.",
+      "source_definition": "Divide usage by this number.",
+      "target_definition": "Divide usage by this number."
+    },
+    {
+      "source": "transform_usage.round",
+      "target": "transform_quantity.round",
+      "kind": "match",
+      "rationale": "Same role, unit, and definition in the documented backwards-compatible Plan-to-Price migration.",
+      "source_definition": "After division, either round the result `up` or `down`.",
+      "target_definition": "After division, either round the result `up` or `down`."
+    },
+    {
+      "source": "usage_type",
+      "target": "recurring.usage_type",
+      "kind": "match",
+      "rationale": "Same role, unit, and definition in the documented backwards-compatible Plan-to-Price migration.",
+      "source_definition": "Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the `quantity` set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`.",
+      "target_definition": "Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the `quantity` set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`."
+    },
+    {
+      "source": "created",
+      "kind": "no_match",
+      "rationale": "Target projection omits price.created. Object creation time is not a billing interval, trial duration, quantity threshold, or amount."
+    },
+    {
+      "source": "id",
+      "kind": "no_match",
+      "rationale": "Target projection omits price.id. The plan's identifier is not the referenced product identifier, meter identifier, or static lookup key."
+    },
+    {
+      "source": "tiers[].flat_amount",
+      "kind": "no_match",
+      "rationale": "Target projection omits price.tiers[].flat_amount and its decimal representation. A price for the entire tier is not the price per unit in that tier or the customer's permitted unit amount."
+    },
+    {
+      "source": "tiers[].flat_amount_decimal",
+      "kind": "no_match",
+      "rationale": "Target projection omits both flat-amount representations. This decimal price for an entire tier is not the per-unit price of a tier or the base per-unit amount."
+    },
+    {
+      "source": "trial_period_days",
+      "kind": "no_match",
+      "rationale": "No trial-period property appears in the published Price recurring schema. Default free-trial days are distinct from billing interval_count, which counts intervals, and divide_by, which transforms usage quantities."
+    }
+  ],
+  "limitations": [
+    "No observed record distributions; all samples are deliberately empty.",
+    "The benchmark projection is curated and does not claim a whole-schema migration.",
+    "Alternate decimal representations of retained base and tier per-unit quantities are excluded from both projections because schema-only evidence cannot establish unconditional cross-representation equivalence.",
+    "Dotted and [] paths expose publisher structure; they are not native CSV column names."
+  ],
+  "regenerate": "python3 extract_stripe.py; use --download to verify and re-extract the immutable publisher resource"
+}

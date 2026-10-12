@@ -1,0 +1,5 @@
+# Pre-selection policy
+
+Recorded before selecting fields or generating any predictions (2026-10-12).
+
+Select small healthcare-schema projections from reputable public publisher sources with actual publisher-provided samples, schema types, and semantic documentation. Prefer real anonymized observations; when network restrictions make those unavailable, clearly identify standards examples as synthetic/publisher examples, not empirical clinical records. Positives require documented concept equivalence across versions, including documented renames when available. Include semantically distinct hard negatives with similar names only when authoritative definitions distinguish the concepts. Every source field receives a documented match/no_match/ambiguous label; exclude uncertain equivalences. Projections and sample-selection rules must be explicit. Do not access Fieldkin matcher code, existing evaluation sets, or predictions. Do not select, remove, or relabel based on predictions. Freeze all cases/evidence before disclosing labels to the implementation author.

@@ -1,0 +1,2479 @@
+{
+  "case": "dcsa_tnt_equipment_events_2_2_to_3_0",
+  "projection": "Scalar leaves of equipment events only; dots retain original nesting keys and [] denotes the original array item. Schemas define types; success fixtures provide samples, with schema examples only as a documented fallback. Field count constrained by the pre-recorded selection policy.",
+  "source": {
+    "eventID": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "eventID",
+      "property": null,
+      "line_start": 1021,
+      "line_end": 1028,
+      "declared_type": "string",
+      "declared_format": "uuid",
+      "data_type": "text",
+      "definition": "    eventID:\n      type: string\n      description: |\n        The unique identifier for the event (the message - not the source).\n\n        <b>NB</b>&#58; This field should be considered Metadata\n      format: uuid\n      example: 3cecb101-7a1a-43a4-9d62-e88a131651e2",
+      "schema_example": "3cecb101-7a1a-43a4-9d62-e88a131651e2",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "eventID",
+          "original_value": "3cecb101-7a1a-43a4-9d62-e88a131651e4"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "eventID",
+          "original_value": "3cecb101-7a1a-43a4-9d62-e88a131651e7"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEvent"
+      ]
+    },
+    "eventCreatedDateTime": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "eventCreatedDateTime",
+      "property": null,
+      "line_start": 985,
+      "line_end": 992,
+      "declared_type": "string",
+      "declared_format": "date-time",
+      "data_type": "timestamp",
+      "definition": "    eventCreatedDateTime:\n      type: string\n      description: |\n        The timestamp of when the event was created.\n\n        <b>NB</b>&#58; This field should be considered Metadata\n      format: date-time\n      example: 2021-01-09T14:12:56+01:00",
+      "schema_example": "2021-01-09T14:12:56+01:00",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "eventCreatedDateTime",
+          "original_value": "2021-01-23T12:34:56Z"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "eventCreatedDateTime",
+          "original_value": "2021-01-09T14:12:56Z"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEvent"
+      ]
+    },
+    "eventDateTime": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "eventDateTime",
+      "property": null,
+      "line_start": 1060,
+      "line_end": 1064,
+      "declared_type": "string",
+      "declared_format": "date-time",
+      "data_type": "timestamp",
+      "definition": "    eventDateTime:\n      type: string\n      description: \"The local date and time, where the event took place or when the event will take place, in ISO 8601 format.\"\n      format: date-time\n      example: 2019-11-12T07:41:00+08:30",
+      "schema_example": "2019-11-12T07:41:00+08:30",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "eventDateTime",
+          "original_value": "2019-11-12T07:41:00+08:30"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "eventDateTime",
+          "original_value": "2019-11-12T07:41:00+08:30"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEvent",
+        "source:baseEventBody"
+      ]
+    },
+    "eventType": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "eventType",
+      "property": null,
+      "line_start": 1050,
+      "line_end": 1055,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    eventType:\n      type: string\n      description: |\n        The Event Type of the object - to be used as a discriminator.\n\n        <b>NB</b>&#58; This field should be considered Metadata",
+      "schema_example": null,
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "eventType",
+          "original_value": "EQUIPMENT"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "eventType",
+          "original_value": "EQUIPMENT"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEvent",
+        "source:baseEventBody",
+        "source:baseEquipmentEvent"
+      ]
+    },
+    "eventClassifierCode": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "eventClassifierCode",
+      "property": null,
+      "line_start": 1056,
+      "line_end": 1059,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    eventClassifierCode:\n      type: string\n      description: |\n        Code for the event classifier. Values can vary depending on eventType",
+      "schema_example": null,
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "eventClassifierCode",
+          "original_value": "EST"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "eventClassifierCode",
+          "original_value": "EST"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEvent",
+        "source:baseEventBody",
+        "source:baseEquipmentEvent"
+      ]
+    },
+    "equipmentEventTypeCode": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "equipmentEventTypeCode",
+      "property": null,
+      "line_start": 948,
+      "line_end": 977,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    equipmentEventTypeCode:\n      type: string\n      description: |\n        Unique identifier for equipmentEventTypeCode.\n        - LOAD (Loaded)\n        - DISC (Discharged)\n        - GTIN (Gated in)\n        - GTOT (Gated out)\n        - STUF (Stuffed)\n        - STRP (Stripped)\n        - PICK (Pick-up)\n        - DROP (Drop-off)\n        - INSP (Inspected)\n        - RSEA (Resealed)\n        - RMVD (Removed)\n\n        More details can be found on <a href=\"https://github.com/dcsaorg/DCSA-Information-Model/blob/master/datamodel/referencedata.d/equipmenteventtypecodes.csv\">GitHub</a>\n      example: LOAD\n      enum:\n        - LOAD\n        - DISC\n        - GTIN\n        - GTOT\n        - STUF\n        - STRP\n        - PICK\n        - DROP\n        - INSP\n        - RSEA\n        - RMVD",
+      "schema_example": "LOAD",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "equipmentEventTypeCode",
+          "original_value": "LOAD"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "equipmentEventTypeCode",
+          "original_value": "LOAD"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent"
+      ]
+    },
+    "equipmentReference": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "equipmentReference",
+      "property": null,
+      "line_start": 978,
+      "line_end": 984,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    equipmentReference:\n      maxLength: 15\n      type: string\n      description: |\n        The unique identifier for the equipment, which should follow the BIC ISO Container Identification Number where possible.\n        According to ISO 6346, a container identification code consists of a 4-letter prefix and a 7-digit number (composed of a 3-letter owner code, a category identifier, a serial number, and a check-digit). If a container does not comply with ISO 6346, it is suggested to follow Recommendation #2 “Container with non-ISO identification” from SMDG.\n      example: APZU4812090",
+      "schema_example": "APZU4812090",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "equipmentReference",
+          "original_value": "APZU4812090"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "equipmentReference",
+          "original_value": "APZU4812090"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent"
+      ]
+    },
+    "ISOEquipmentCode": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "ISOEquipmentCode",
+      "property": null,
+      "line_start": 1784,
+      "line_end": 1788,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    ISOEquipmentCode:\n      maxLength: 4\n      type: string\n      description: Unique code for the different equipment size/type used for transporting commodities. The code is a concatenation of ISO Equipment Size Code and ISO Equipment Type Code A and follows the ISO 6346 standard.\n      example: 22GP",
+      "schema_example": "22GP",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "ISOEquipmentCode",
+          "original_value": "22GP"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "ISOEquipmentCode",
+          "original_value": "22GP"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent"
+      ]
+    },
+    "emptyIndicatorCode": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "emptyIndicatorCode",
+      "property": null,
+      "line_start": 1789,
+      "line_end": 1795,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    emptyIndicatorCode:\n      type: string\n      description: Code to denote whether the equipment is empty or laden.\n      example: EMPTY\n      enum:\n        - EMPTY\n        - LADEN",
+      "schema_example": "EMPTY",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "emptyIndicatorCode",
+          "original_value": "EMPTY"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "emptyIndicatorCode",
+          "original_value": "EMPTY"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent"
+      ]
+    },
+    "eventLocation.locationName": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "locationName",
+      "property": null,
+      "line_start": 1329,
+      "line_end": 1333,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    locationName:\n      maxLength: 100\n      type: string\n      description: The name of the location.\n      example: Eiffel Tower",
+      "schema_example": "Eiffel Tower",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "eventLocation.locationName",
+          "original_value": "Eiffel Tower"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "eventLocation.locationName",
+          "original_value": "Eiffel Tower"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent",
+        "source:location"
+      ]
+    },
+    "eventLocation.latitude": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "latitude",
+      "property": null,
+      "line_start": 1334,
+      "line_end": 1338,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    latitude:\n      maxLength: 10\n      type: string\n      description: Geographic coordinate that specifies the north–south position of a point on the Earth&apos;s surface.\n      example: \"48.8585500\"",
+      "schema_example": "48.8585500",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "eventLocation.latitude",
+          "original_value": "48.8585500"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "eventLocation.latitude",
+          "original_value": "48.8585500"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent",
+        "source:location"
+      ]
+    },
+    "eventLocation.longitude": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "longitude",
+      "property": null,
+      "line_start": 1339,
+      "line_end": 1343,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    longitude:\n      maxLength: 11\n      type: string\n      description: Geographic coordinate that specifies the east–west position of a point on the Earth&apos;s surface.\n      example: \"2.294492036\"",
+      "schema_example": "2.294492036",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "eventLocation.longitude",
+          "original_value": "2.294492036"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "eventLocation.longitude",
+          "original_value": "2.294492036"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent",
+        "source:location"
+      ]
+    },
+    "eventLocation.UNLocationCode": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "UNLocationCode",
+      "property": null,
+      "line_start": 943,
+      "line_end": 947,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    UNLocationCode:\n      maxLength: 5\n      type: string\n      description: The UN Location code specifying where the place is located.\n      example: FRPAR",
+      "schema_example": "FRPAR",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "eventLocation.UNLocationCode",
+          "original_value": "FRPAR"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "eventLocation.UNLocationCode",
+          "original_value": "FRPAR"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent",
+        "source:location"
+      ]
+    },
+    "eventLocation.facilityCode": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "facilityCode",
+      "property": null,
+      "line_start": 1241,
+      "line_end": 1247,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    facilityCode:\n      maxLength: 6\n      type: string\n      description: |\n        The code used for identifying the specific facility. This code does <b>not</b> include the UN Location Code.\n      nullable: false\n      example: ADT",
+      "schema_example": "ADT",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "eventLocation.facilityCode",
+          "original_value": "ADT"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "eventLocation.facilityCode",
+          "original_value": "ADT"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent",
+        "source:location"
+      ]
+    },
+    "eventLocation.facilityCodeListProvider": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "facilityCodeListProvider",
+      "property": null,
+      "line_start": 1248,
+      "line_end": 1255,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    facilityCodeListProvider:\n      type: string\n      description: |\n        The provider used for identifying the facility Code\n      example: SMDG\n      enum:\n        - BIC\n        - SMDG",
+      "schema_example": "SMDG",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "eventLocation.facilityCodeListProvider",
+          "original_value": "SMDG"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "eventLocation.facilityCodeListProvider",
+          "original_value": "SMDG"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent",
+        "source:location"
+      ]
+    },
+    "eventLocation.address.name": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "addressName",
+      "property": null,
+      "line_start": 1380,
+      "line_end": 1384,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    addressName:\n      maxLength: 100\n      type: string\n      description: Name of the address\n      example: Henrik",
+      "schema_example": "Henrik",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "eventLocation.address.name",
+          "original_value": "Henrik"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "eventLocation.address.name",
+          "original_value": "Henrik"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent",
+        "source:location",
+        "source:address"
+      ]
+    },
+    "eventLocation.address.street": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "streetName",
+      "property": null,
+      "line_start": 1385,
+      "line_end": 1389,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    streetName:\n      maxLength: 100\n      type: string\n      description: The name of the street of the party’s address.\n      example: Kronprincessegade",
+      "schema_example": "Kronprincessegade",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "eventLocation.address.street",
+          "original_value": "Kronprincessegade"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "eventLocation.address.street",
+          "original_value": "Kronprincessegade"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent",
+        "source:location",
+        "source:address"
+      ]
+    },
+    "eventLocation.address.streetNumber": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "streetNumber",
+      "property": null,
+      "line_start": 1390,
+      "line_end": 1394,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    streetNumber:\n      maxLength: 50\n      type: string\n      description: The number of the street of the party’s address.\n      example: \"54\"",
+      "schema_example": "54",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "eventLocation.address.streetNumber",
+          "original_value": "54"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "eventLocation.address.streetNumber",
+          "original_value": "54"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent",
+        "source:location",
+        "source:address"
+      ]
+    },
+    "eventLocation.address.postCode": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "postCode",
+      "property": null,
+      "line_start": 1400,
+      "line_end": 1404,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    postCode:\n      maxLength: 10\n      type: string\n      description: The post code of the party’s address.\n      example: \"1306\"",
+      "schema_example": "1306",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "eventLocation.address.postCode",
+          "original_value": "1306"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "eventLocation.address.postCode",
+          "original_value": "1306"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent",
+        "source:location",
+        "source:address"
+      ]
+    },
+    "eventLocation.address.city": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "cityName",
+      "property": null,
+      "line_start": 1405,
+      "line_end": 1409,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    cityName:\n      maxLength: 65\n      type: string\n      description: The city name of the party’s address.\n      example: København",
+      "schema_example": "København",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "eventLocation.address.city",
+          "original_value": "København"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "eventLocation.address.city",
+          "original_value": "København"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent",
+        "source:location",
+        "source:address"
+      ]
+    },
+    "transportCall.transportCallID": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "transportCallID",
+      "property": null,
+      "line_start": 916,
+      "line_end": 920,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    transportCallID:\n      maxLength: 100\n      type: string\n      description: The unique identifier for a transport call\n      example: 123e4567-e89b-12d3-a456-426614174000",
+      "schema_example": "123e4567-e89b-12d3-a456-426614174000",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "transportCall.transportCallID",
+          "original_value": "123e4567-e89b-12d3-a456-426614174000"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "transportCall.transportCallID",
+          "original_value": "123e4567-e89b-12d3-a456-426614174000"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent",
+        "source:transportCall"
+      ]
+    },
+    "transportCall.carrierServiceCode": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "carrierServiceCode",
+      "property": null,
+      "line_start": 937,
+      "line_end": 942,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    carrierServiceCode:\n      maxLength: 5\n      type: string\n      description: |\n        The code of the service for which the schedule details are published.\n      example: FE1",
+      "schema_example": "FE1",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "transportCall.carrierServiceCode",
+          "original_value": "FE1"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "transportCall.carrierServiceCode",
+          "original_value": "FE1"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent",
+        "source:transportCall"
+      ]
+    },
+    "transportCall.exportVoyageNumber": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "exportVoyageNumber",
+      "property": null,
+      "line_start": 932,
+      "line_end": 936,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    exportVoyageNumber:\n      maxLength: 50\n      type: string\n      description: The vessel operator-specific identifier of the export Voyage.\n      example: 2103S",
+      "schema_example": "2103S",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "transportCall.exportVoyageNumber",
+          "original_value": "2103S"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "transportCall.exportVoyageNumber",
+          "original_value": "2103S"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent",
+        "source:transportCall"
+      ]
+    },
+    "transportCall.importVoyageNumber": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "importVoyageNumber",
+      "property": null,
+      "line_start": 1232,
+      "line_end": 1236,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    importVoyageNumber:\n      maxLength: 50\n      type: string\n      description: The vessel operator-specific identifier of the import Voyage.\n      example: 2103N",
+      "schema_example": "2103N",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "transportCall.importVoyageNumber",
+          "original_value": "2103N"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "transportCall.importVoyageNumber",
+          "original_value": "2103N"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent",
+        "source:transportCall"
+      ]
+    },
+    "transportCall.transportCallSequenceNumber": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "transportCallSequenceNumber",
+      "property": null,
+      "line_start": 1237,
+      "line_end": 1240,
+      "declared_type": "integer",
+      "declared_format": null,
+      "data_type": "integer",
+      "definition": "    transportCallSequenceNumber:\n      type: integer\n      description: Transport operator&apos;s key that uniquely identifies each individual call. This key is essential to distinguish between two separate calls at the same location within one voyage.\n      example: 2",
+      "schema_example": "2",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "transportCall.transportCallSequenceNumber",
+          "original_value": 2
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "transportCall.transportCallSequenceNumber",
+          "original_value": 2
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent",
+        "source:transportCall"
+      ]
+    },
+    "transportCall.modeOfTransport": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "modeOfTransport",
+      "property": null,
+      "line_start": 1285,
+      "line_end": 1293,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    modeOfTransport:\n      type: string\n      description: |\n        The mode of transport as defined by DCSA.\n      enum:\n        - VESSEL\n        - RAIL\n        - TRUCK\n        - BARGE",
+      "schema_example": null,
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "transportCall.modeOfTransport",
+          "original_value": "VESSEL"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "transportCall.modeOfTransport",
+          "original_value": "VESSEL"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent",
+        "source:transportCall"
+      ]
+    },
+    "transportCall.vessel.vesselIMONumber": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "vesselIMONumber",
+      "property": null,
+      "line_start": 921,
+      "line_end": 926,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    vesselIMONumber:\n      maxLength: 7\n      type: string\n      description: |\n        The unique reference for a registered Vessel. The reference is the International Maritime Organisation (IMO) number, also sometimes known as the Lloyd&apos;s register code, which does not change during the lifetime of the vessel\n      example: \"9321483\"",
+      "schema_example": "9321483",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "transportCall.vessel.vesselIMONumber",
+          "original_value": "9321483"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "transportCall.vessel.vesselIMONumber",
+          "original_value": "9321483"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent",
+        "source:transportCall",
+        "source:vessel"
+      ]
+    },
+    "transportCall.vessel.vesselCallSignNumber": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "vesselCallSignNumber",
+      "property": null,
+      "line_start": 1462,
+      "line_end": 1467,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    vesselCallSignNumber:\n      maxLength: 10\n      type: string\n      description: |\n        A unique alphanumeric identity that belongs to the vessel and is assigned by the International Telecommunication Union (ITU). It consists of a threeletter alphanumeric prefix that indicates nationality, followed by one to four characters to identify the individual vessel. For instance, vessels registered under Denmark are assigned the prefix ranges 5PA-5QZ, OUAOZZ, and XPA-XPZ. The Call Sign changes whenever a vessel changes its flag.\n      example: NCVV",
+      "schema_example": "NCVV",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "transportCall.vessel.vesselCallSignNumber",
+          "original_value": "NCVV"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "transportCall.vessel.vesselCallSignNumber",
+          "original_value": "NCVV"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent",
+        "source:transportCall",
+        "source:vessel"
+      ]
+    },
+    "transportCall.vessel.vesselOperatorCarrierCode": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "vesselOperatorCarrierCode",
+      "property": null,
+      "line_start": 1468,
+      "line_end": 1474,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    vesselOperatorCarrierCode:\n      maxLength: 10\n      type: string\n      description: |\n        The carrier who is in charge of the vessel operation based on either the SMDG or SCAC code lists\n      nullable: false\n      example: MAEU",
+      "schema_example": "MAEU",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "transportCall.vessel.vesselOperatorCarrierCode",
+          "original_value": "MAEU"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "transportCall.vessel.vesselOperatorCarrierCode",
+          "original_value": "MAEU"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent",
+        "source:transportCall",
+        "source:vessel"
+      ]
+    },
+    "transportCall.vessel.vesselOperatorCarrierCodeListProvider": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "vesselOperatorCarrierCodeListProvider",
+      "property": null,
+      "line_start": 1475,
+      "line_end": 1482,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    vesselOperatorCarrierCodeListProvider:\n      type: string\n      description: Identifies the code list provider used for the operator and partner carriercodes.\n      nullable: false\n      example: NMFTA\n      enum:\n        - SMDG\n        - NMFTA",
+      "schema_example": "NMFTA",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "transportCall.vessel.vesselOperatorCarrierCodeListProvider",
+          "original_value": "NMFTA"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "transportCall.vessel.vesselOperatorCarrierCodeListProvider",
+          "original_value": "NMFTA"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent",
+        "source:transportCall",
+        "source:vessel"
+      ]
+    },
+    "seals[].sealNumber": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "sealNumber",
+      "property": null,
+      "line_start": 1822,
+      "line_end": 1825,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    sealNumber:\n      maxLength: 15\n      type: string\n      description: Identifies a seal affixed to the container.",
+      "schema_example": null,
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "seals[].sealNumber",
+          "original_value": "string"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "seals[].sealNumber",
+          "original_value": "string"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent",
+        "source:seals",
+        "source:seal"
+      ]
+    },
+    "seals[].sealSource": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "sealSource",
+      "property": null,
+      "line_start": 1826,
+      "line_end": 1841,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    sealSource:\n      type: string\n      description: |\n        The source of the seal, namely who has affixed the seal. This attribute links to the Seal Source ID defined in the Seal Source reference data entity.\n        - CAR (Carrier)\n        - SHI (Shipper)\n        - PHY (Phytosanitary)\n        - VET (Veterinary)\n        - CUS (Customs)\n      example: CUS\n      enum:\n        - CAR\n        - SHI\n        - PHY\n        - VET\n        - CUS",
+      "schema_example": "CUS",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "seals[].sealSource",
+          "original_value": "CUS"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "seals[].sealSource",
+          "original_value": "CUS"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent",
+        "source:seals",
+        "source:seal"
+      ]
+    },
+    "seals[].sealType": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "sealType",
+      "property": null,
+      "line_start": 1842,
+      "line_end": 1853,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    sealType:\n      type: string\n      description: |\n        The type of seal. This attribute links to the Seal Type ID defined in the Seal Type reference data entity.\n        - KLP (Keyless padlock)\n        - BLT (Bolt)\n        - WIR (Wire)\n      example: WIR\n      enum:\n        - KLP\n        - BLT\n        - WIR",
+      "schema_example": "WIR",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "seals[].sealType",
+          "original_value": "WIR"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "seals[].sealType",
+          "original_value": "WIR"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent",
+        "source:seals",
+        "source:seal"
+      ]
+    },
+    "transportCall.otherFacility": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "otherFacility",
+      "property": null,
+      "line_start": 1280,
+      "line_end": 1284,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "    otherFacility:\n      maxLength: 50\n      type: string\n      description: An alternative way to capture the facility when no standardized DCSA facility code can be found.\n      example: Depot location or address",
+      "schema_example": "Depot location or address",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 2,
+          "path": "transportCall.otherFacility",
+          "original_value": "Depot location or address"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+          "record_index": 5,
+          "path": "transportCall.otherFacility",
+          "original_value": "Depot location or address"
+        }
+      ],
+      "parent_schema_components": [
+        "source:equipmentEvent",
+        "source:baseEquipmentEvent",
+        "source:transportCall"
+      ]
+    }
+  },
+  "target": {
+    "eventID": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "Event",
+      "property": "eventID",
+      "line_start": 448,
+      "line_end": 459,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        eventID:\n          type: \"string\"\n          description: |\n            ID of the event, unique among all the events published by a T&T Event Producer.\n\n            An event overrides any other event that has the same `eventID` and an earlier `eventUpdatedDateTime`.\n\n            Each event is uniquely identified within each T&T 3.x standard ecosystem of connected implementers\n            by a composite key including:\n            - the `partyCode`, `codeListProvider` and `codeListName` of all `eventRouting.originatingParties` (if present)\n            - the `eventID`\n          example: \"event-HHL71800000-APZU4812090-IoT-DRO-2025-01-23T01:23:45Z\"",
+      "schema_example": "event-HHL71800000-APZU4812090-IoT-DRO-2025-01-23T01:23:45Z",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-response.json",
+          "record_index": 2,
+          "path": "eventID",
+          "original_value": "evt-resp-equip-001"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-response-nextpage.json",
+          "record_index": 2,
+          "path": "eventID",
+          "original_value": "evt-resp-equip-002"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-request-equipment.json",
+          "record_index": 0,
+          "path": "eventID",
+          "original_value": "evt-equip-001-2026-01-20T14:15:00Z"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event"
+      ]
+    },
+    "eventDateTime": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "Event",
+      "property": "eventDateTime",
+      "line_start": 470,
+      "line_end": 474,
+      "declared_type": "string",
+      "declared_format": "date-time",
+      "data_type": "timestamp",
+      "definition": "        eventDateTime:\n          type: \"string\"\n          description: \"The date and time when the real-world event has occurred or will occur.\"\n          format: \"date-time\"\n          example: \"2025-01-23T01:23:45Z\"",
+      "schema_example": "2025-01-23T01:23:45Z",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-response.json",
+          "record_index": 2,
+          "path": "eventDateTime",
+          "original_value": "2025-01-27T00:30:00Z"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-response-nextpage.json",
+          "record_index": 2,
+          "path": "eventDateTime",
+          "original_value": "2025-02-15T00:45:00Z"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-request-equipment.json",
+          "record_index": 0,
+          "path": "eventDateTime",
+          "original_value": "2026-01-20T14:15:00Z"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event"
+      ]
+    },
+    "eventClassification.eventType": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "EventClassification",
+      "property": "eventType",
+      "line_start": 515,
+      "line_end": 524,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        eventType:\n          type: \"string\"\n          description: |-\n            The type of a Track and Trace event\n            - `SHIPMENT` - Shipment event\n            - `TRANSPORT` - Transport event\n            - `EQUIPMENT` - Equipment event\n            - `IOT` - IoT event\n            - `REEFER` - Reefer event\n          example: \"EQUIPMENT\"",
+      "schema_example": "EQUIPMENT",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-response.json",
+          "record_index": 2,
+          "path": "eventClassification.eventType",
+          "original_value": "EQUIPMENT"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-response-nextpage.json",
+          "record_index": 2,
+          "path": "eventClassification.eventType",
+          "original_value": "EQUIPMENT"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-request-equipment.json",
+          "record_index": 0,
+          "path": "eventClassification.eventType",
+          "original_value": "EQUIPMENT"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event",
+        "target:EventClassification"
+      ]
+    },
+    "eventClassification.eventClassifier": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "EventClassification",
+      "property": "eventClassifier",
+      "line_start": 525,
+      "line_end": 532,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        eventClassifier:\n          type: \"string\"\n          description: |-\n            Classifier denoting whether a timestamp or event is planned, estimated or actual\n            - `ACTUAL` - Actual\n            - `ESTIMATED` - Estimated\n            - `PLANNED` - Planned\n          example: \"ESTIMATED\"",
+      "schema_example": "ESTIMATED",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-response.json",
+          "record_index": 2,
+          "path": "eventClassification.eventClassifier",
+          "original_value": "ACTUAL"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-response-nextpage.json",
+          "record_index": 2,
+          "path": "eventClassification.eventClassifier",
+          "original_value": "ACTUAL"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-request-equipment.json",
+          "record_index": 0,
+          "path": "eventClassification.eventClassifier",
+          "original_value": "ACTUAL"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event",
+        "target:EventClassification"
+      ]
+    },
+    "eventClassification.equipmentEventType": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "EventClassification",
+      "property": "equipmentEventType",
+      "line_start": 581,
+      "line_end": 602,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        equipmentEventType:\n          type: \"string\"\n          description: |-\n            The type of an equipment event\n            - `AVAILABLE_FOR_DROP_OFF` - Available for drop-off\n            - `AVAILABLE_FOR_PICKUP` - Available for pickup\n            - `CROSSED` - Crossed\n            - `CUSTOMS_RELEASED` - Released by customs\n            - `CUSTOMS_SELECTED_FOR_INSPECTION` - Selected for customs inspection\n            - `CUSTOMS_SELECTED_FOR_SCAN` - Selected for customs scan\n            - `DISCHARGED` - Discharged\n            - `DROPPED_OFF` - Dropped off\n            - `GATED_IN` - Gated in\n            - `GATED_OUT` - Gated out\n            - `INSPECTED` - Inspected\n            - `LOADED` - Loaded\n            - `PICKED_UP` - Picked up\n            - `REMOVED` - Removed\n            - `RESEALED` - Resealed\n            - `STRIPPED` - Stripped\n            - `STUFFED` - Stuffed\n          example: \"LOADED\"",
+      "schema_example": "LOADED",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-response.json",
+          "record_index": 2,
+          "path": "eventClassification.equipmentEventType",
+          "original_value": "GATED_IN"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-response-nextpage.json",
+          "record_index": 2,
+          "path": "eventClassification.equipmentEventType",
+          "original_value": "DISCHARGED"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-request-equipment.json",
+          "record_index": 0,
+          "path": "eventClassification.equipmentEventType",
+          "original_value": "LOADED"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event",
+        "target:EventClassification"
+      ]
+    },
+    "equipmentDetails.equipmentReference": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "EquipmentDetails",
+      "property": "equipmentReference",
+      "line_start": 401,
+      "line_end": 412,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        equipmentReference:\n          type: \"string\"\n          description: |\n            The unique identifier for the equipment, which should follow the BIC ISO Container Identification Number where possible.\n\n            According to ISO 6346, a container identification code consists of a 4-letter prefix and a 7-digit number\n            (composed of a 3-letter owner code, a category identifier, a serial number, and a check-digit).\n\n            If a container does not comply with ISO 6346, it is suggested to follow\n            [Recommendation #2: Containers with non-ISO identification](https://smdg.org/documents/smdg-recommendations)\n            from SMDG.\n          example: \"APZU4812090\"",
+      "schema_example": "APZU4812090",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-response.json",
+          "record_index": 2,
+          "path": "equipmentDetails.equipmentReference",
+          "original_value": "EQUIPMENT_REFERENCE_PLACEHOLDER"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-response-nextpage.json",
+          "record_index": 2,
+          "path": "equipmentDetails.equipmentReference",
+          "original_value": "EQUIPMENT_REFERENCE_PLACEHOLDER"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-request-equipment.json",
+          "record_index": 0,
+          "path": "equipmentDetails.equipmentReference",
+          "original_value": "APZU4812090"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event",
+        "target:EquipmentDetails"
+      ]
+    },
+    "equipmentDetails.ISOEquipmentCode": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "EquipmentDetails",
+      "property": "ISOEquipmentCode",
+      "line_start": 413,
+      "line_end": 419,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        ISOEquipmentCode:\n          type: \"string\"\n          description: |\n            Unique code identifying the equipment size and type used to transport commodities.\n            The code can refer to either the ISO size type (e.g. 22G1) or the ISO type group (e.g. 22GP)\n            following the [ISO 6346](https://en.wikipedia.org/wiki/ISO_6346) standard.\n          example: \"22GP\"",
+      "schema_example": "22GP",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-response.json",
+          "record_index": 2,
+          "path": "equipmentDetails.ISOEquipmentCode",
+          "original_value": "45G1"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-response-nextpage.json",
+          "record_index": 2,
+          "path": "equipmentDetails.ISOEquipmentCode",
+          "original_value": "22GP"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-request-equipment.json",
+          "record_index": 0,
+          "path": "equipmentDetails.ISOEquipmentCode",
+          "original_value": "22GP"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event",
+        "target:EquipmentDetails"
+      ]
+    },
+    "equipmentDetails.emptyIndicator": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "EquipmentDetails",
+      "property": "emptyIndicator",
+      "line_start": 420,
+      "line_end": 426,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        emptyIndicator:\n          type: \"string\"\n          description: |-\n            Indicator of whether the equipment is empty or laden.\n            - `EMPTY` - Empty\n            - `LADEN` - Laden\n          example: \"LADEN\"",
+      "schema_example": "LADEN",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-response.json",
+          "record_index": 2,
+          "path": "equipmentDetails.emptyIndicator",
+          "original_value": "EMPTY"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-response-nextpage.json",
+          "record_index": 2,
+          "path": "equipmentDetails.emptyIndicator",
+          "original_value": "LADEN"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-request-equipment.json",
+          "record_index": 0,
+          "path": "equipmentDetails.emptyIndicator",
+          "original_value": "LADEN"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event",
+        "target:EquipmentDetails"
+      ]
+    },
+    "eventLocation.locationName": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "Location",
+      "property": "locationName",
+      "line_start": 854,
+      "line_end": 857,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        locationName:\n          type: \"string\"\n          description: \"The name of the location.\"\n          example: \"Port of Amsterdam\"",
+      "schema_example": "Port of Amsterdam",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-response.json",
+          "record_index": 2,
+          "path": "eventLocation.locationName",
+          "original_value": "Example Warehouse Facility"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-response-nextpage.json",
+          "record_index": 2,
+          "path": "eventLocation.locationName",
+          "original_value": "Example Yard Beta"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-request-equipment.json",
+          "record_index": 0,
+          "path": "eventLocation.locationName",
+          "original_value": "Example Container Yard"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event",
+        "target:Location"
+      ]
+    },
+    "eventLocation.geoCoordinate.latitude": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "GeoCoordinate",
+      "property": "latitude",
+      "line_start": 696,
+      "line_end": 699,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        latitude:\n          type: \"string\"\n          description: \"Latitude expressed as decimal degrees using the ISO 6709 data interchange numeric format.\"\n          example: \"33.629152\"",
+      "schema_example": "33.629152",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+          "line_start": 696,
+          "kind": "schema_example",
+          "original_value": "33.629152"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event",
+        "target:Location",
+        "target:GeoCoordinate"
+      ]
+    },
+    "eventLocation.geoCoordinate.longitude": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "GeoCoordinate",
+      "property": "longitude",
+      "line_start": 700,
+      "line_end": 703,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        longitude:\n          type: \"string\"\n          description: \"Longitude expressed as decimal degrees using the ISO 6709 data interchange numeric format.\"\n          example: \"-118.587187\"",
+      "schema_example": "-118.587187",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+          "line_start": 700,
+          "kind": "schema_example",
+          "original_value": "-118.587187"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event",
+        "target:Location",
+        "target:GeoCoordinate"
+      ]
+    },
+    "eventLocation.UNLocationCode": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "Location",
+      "property": "UNLocationCode",
+      "line_start": 876,
+      "line_end": 885,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        UNLocationCode:\n          type: \"string\"\n          description: |\n            The UN Location code specifying where the place is located. The pattern used must be\n\n            - 2 characters for the country code using [ISO 3166-1 alpha-2](https://www.iso.org/obp/ui/#iso:pub:PUB500001:en)\n            - 3 characters to code a location within that country. Letters A-Z and numbers from 2-9 can be used\n\n            More info can be found here: [UN/LOCODE](https://unece.org/trade/cefact/UNLOCODE-Download)\n          example: \"NLAMS\"",
+      "schema_example": "NLAMS",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-response.json",
+          "record_index": 2,
+          "path": "eventLocation.UNLocationCode",
+          "original_value": "FRPAR"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-response-nextpage.json",
+          "record_index": 2,
+          "path": "eventLocation.UNLocationCode",
+          "original_value": "ITGOA"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-request-equipment.json",
+          "record_index": 0,
+          "path": "eventLocation.UNLocationCode",
+          "original_value": "NLRTM"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event",
+        "target:Location"
+      ]
+    },
+    "eventLocation.facility.facilityCode": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "Facility",
+      "property": "facilityCode",
+      "line_start": 653,
+      "line_end": 658,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        facilityCode:\n          type: \"string\"\n          description: |\n            Code identifying a specific facility, as defined by the `facilityCodeListProvider`.\n            The value should be provided according to the format defined by the relevant code list provider.\n          example: \"AUMELNWQL\"",
+      "schema_example": "AUMELNWQL",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+          "line_start": 653,
+          "kind": "schema_example",
+          "original_value": "AUMELNWQL"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event",
+        "target:Location",
+        "target:Facility"
+      ]
+    },
+    "eventLocation.facility.facilityCodeListProvider": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "Facility",
+      "property": "facilityCodeListProvider",
+      "line_start": 659,
+      "line_end": 665,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        facilityCodeListProvider:\n          type: \"string\"\n          description: |\n            Code list provider (each with its relevant code list) defining the `facilityCode`:\n            - `SMDG` (using [SMDG Terminal Code List](https://smdg.org/documents/smdg-code-lists/smdg-terminal-code-list/))\n            - `BIC` (using [BIC Facility Codes](https://www.bic-code.org/facility-codes/))\n          example: \"SMDG\"",
+      "schema_example": "SMDG",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+          "line_start": 659,
+          "kind": "schema_example",
+          "original_value": "SMDG"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event",
+        "target:Location",
+        "target:Facility"
+      ]
+    },
+    "eventLocation.address.street": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "Address",
+      "property": "street",
+      "line_start": 252,
+      "line_end": 255,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        street:\n          type: \"string\"\n          description: \"The name of the street.\"\n          example: \"Ruijggoordweg\"",
+      "schema_example": "Ruijggoordweg",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-response.json",
+          "record_index": 2,
+          "path": "eventLocation.address.street",
+          "original_value": "Sample Avenue"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-request-equipment.json",
+          "record_index": 0,
+          "path": "eventLocation.address.street",
+          "original_value": "Example Boulevard"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event",
+        "target:Location",
+        "target:Address"
+      ]
+    },
+    "eventLocation.address.streetNumber": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "Address",
+      "property": "streetNumber",
+      "line_start": 256,
+      "line_end": 259,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        streetNumber:\n          type: \"string\"\n          description: \"The number of the street.\"\n          example: \"100\"",
+      "schema_example": "100",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-response.json",
+          "record_index": 2,
+          "path": "eventLocation.address.streetNumber",
+          "original_value": "456"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-request-equipment.json",
+          "record_index": 0,
+          "path": "eventLocation.address.streetNumber",
+          "original_value": "123"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event",
+        "target:Location",
+        "target:Address"
+      ]
+    },
+    "eventLocation.address.postCode": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "Address",
+      "property": "postCode",
+      "line_start": 264,
+      "line_end": 267,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        postCode:\n          type: \"string\"\n          description: \"The post code of the address.\"\n          example: \"1047 HM\"",
+      "schema_example": "1047 HM",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-response.json",
+          "record_index": 2,
+          "path": "eventLocation.address.postCode",
+          "original_value": "75001"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-request-equipment.json",
+          "record_index": 0,
+          "path": "eventLocation.address.postCode",
+          "original_value": "1000AB"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event",
+        "target:Location",
+        "target:Address"
+      ]
+    },
+    "eventLocation.address.city": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "Address",
+      "property": "city",
+      "line_start": 272,
+      "line_end": 275,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        city:\n          type: \"string\"\n          description: \"The name of the city.\"\n          example: \"Amsterdam\"",
+      "schema_example": "Amsterdam",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-response.json",
+          "record_index": 2,
+          "path": "eventLocation.address.city",
+          "original_value": "Example Town"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-request-equipment.json",
+          "record_index": 0,
+          "path": "eventLocation.address.city",
+          "original_value": "Example City"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event",
+        "target:Location",
+        "target:Address"
+      ]
+    },
+    "transportDetails.transportCall.transportCallReference": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "TransportCall",
+      "property": "transportCallReference",
+      "line_start": 1336,
+      "line_end": 1342,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        transportCallReference:\n          type: \"string\"\n          description: |\n            Carrier-defined reference of a `TransportCall`.\n\n            If the mode of transport is Vessel and the facility is a Port or Terminal,\n            this reference should be considered a terminal call reference.",
+      "schema_example": null,
+      "sample_evidence": [],
+      "parent_schema_components": [
+        "target:Event",
+        "target:TransportDetails",
+        "target:TransportCall"
+      ]
+    },
+    "transportDetails.transportCall.serviceCodeOrReference.carrierServiceCode": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "ServiceCodeOrReference",
+      "property": "carrierServiceCode",
+      "line_start": 1182,
+      "line_end": 1185,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        carrierServiceCode:\n          type: \"string\"\n          description: \"Carrier-specific identifier of a service.\"\n          example: \"FE1\"",
+      "schema_example": "FE1",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+          "line_start": 1182,
+          "kind": "schema_example",
+          "original_value": "FE1"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event",
+        "target:TransportDetails",
+        "target:TransportCall",
+        "target:ServiceCodeOrReference"
+      ]
+    },
+    "transportDetails.transportCall.exportVoyageNumberOrReference.carrierVoyageNumber": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "VoyageNumberOrReference",
+      "property": "carrierVoyageNumber",
+      "line_start": 1488,
+      "line_end": 1491,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        carrierVoyageNumber:\n          type: \"string\"\n          description: \"Carrier-specific identifier of the voyage\"\n          example: \"2103S\"",
+      "schema_example": "2103S",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+          "line_start": 1488,
+          "kind": "schema_example",
+          "original_value": "2103S"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event",
+        "target:TransportDetails",
+        "target:TransportCall",
+        "target:VoyageNumberOrReference"
+      ]
+    },
+    "transportDetails.transportCall.importVoyageNumberOrReference.carrierVoyageNumber": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "VoyageNumberOrReference",
+      "property": "carrierVoyageNumber",
+      "line_start": 1488,
+      "line_end": 1491,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        carrierVoyageNumber:\n          type: \"string\"\n          description: \"Carrier-specific identifier of the voyage\"\n          example: \"2103S\"",
+      "schema_example": "2103S",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+          "line_start": 1488,
+          "kind": "schema_example",
+          "original_value": "2103S"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event",
+        "target:TransportDetails",
+        "target:TransportCall",
+        "target:VoyageNumberOrReference"
+      ]
+    },
+    "transportDetails.transportCall.transportCallSequenceNumber": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "TransportCall",
+      "property": "transportCallSequenceNumber",
+      "line_start": 1343,
+      "line_end": 1348,
+      "declared_type": "integer",
+      "declared_format": "int32",
+      "data_type": "integer",
+      "definition": "        transportCallSequenceNumber:\n          type: \"integer\"\n          description: |\n            Transport operator's key that uniquely identifies each individual transport call.\n            This key is essential to distinguish between two separate calls at the same location within one voyage.\n          format: \"int32\"",
+      "schema_example": null,
+      "sample_evidence": [],
+      "parent_schema_components": [
+        "target:Event",
+        "target:TransportDetails",
+        "target:TransportCall"
+      ]
+    },
+    "transportDetails.transportCall.modeOfTransport": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "TransportCall",
+      "property": "modeOfTransport",
+      "line_start": 1354,
+      "line_end": 1363,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        modeOfTransport:\n          type: \"string\"\n          description: |-\n            The mode of transport as defined by DCSA\n            - `VESSEL` - Vessel\n            - `RAIL` - Rail\n            - `TRUCK` - Truck\n            - `BARGE` - Barge\n            - `MULTIMODAL` - Multimodal\n          example: \"VESSEL\"",
+      "schema_example": "VESSEL",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+          "line_start": 1354,
+          "kind": "schema_example",
+          "original_value": "VESSEL"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event",
+        "target:TransportDetails",
+        "target:TransportCall"
+      ]
+    },
+    "transportDetails.transportCall.vesselTransport.vesselIMONumber": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "VesselTransport",
+      "property": "vesselIMONumber",
+      "line_start": 1443,
+      "line_end": 1448,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        vesselIMONumber:\n          type: \"string\"\n          description: |\n            The unique reference for a registered vessel, which remains unchanged throughout the entire lifetime of the vessel.\n            The reference is the International Maritime Organisation (IMO) number, also sometimes known as the Lloyd's register code.\n          example: \"9321483\"",
+      "schema_example": "9321483",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+          "line_start": 1443,
+          "kind": "schema_example",
+          "original_value": "9321483"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event",
+        "target:TransportDetails",
+        "target:TransportCall",
+        "target:VesselTransport"
+      ]
+    },
+    "transportDetails.transportCall.vesselTransport.vesselCallSign": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "VesselTransport",
+      "property": "vesselCallSign",
+      "line_start": 1466,
+      "line_end": 1473,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        vesselCallSign:\n          type: \"string\"\n          description: |\n            A unique alphanumeric identity that belongs to the vessel\n            and is assigned by the International Telecommunication Union (ITU).\n            It consists of a three-letter alphanumeric prefix that indicates nationality,\n            followed by one to four characters to identify the individual vessel.\n          example: \"NCVV\"",
+      "schema_example": "NCVV",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+          "line_start": 1466,
+          "kind": "schema_example",
+          "original_value": "NCVV"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event",
+        "target:TransportDetails",
+        "target:TransportCall",
+        "target:VesselTransport"
+      ]
+    },
+    "transportDetails.transportCall.vesselTransport.operatorCarrierCode": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "VesselTransport",
+      "property": "operatorCarrierCode",
+      "line_start": 1474,
+      "line_end": 1478,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        operatorCarrierCode:\n          type: \"string\"\n          description: |\n            The carrier who is in charge of the vessel operation based on `operatorCarrierCodeListProvider`\n          example: \"MAEU\"",
+      "schema_example": "MAEU",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+          "line_start": 1474,
+          "kind": "schema_example",
+          "original_value": "MAEU"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event",
+        "target:TransportDetails",
+        "target:TransportCall",
+        "target:VesselTransport"
+      ]
+    },
+    "transportDetails.transportCall.vesselTransport.operatorCarrierCodeListProvider": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "VesselTransport",
+      "property": "operatorCarrierCodeListProvider",
+      "line_start": 1479,
+      "line_end": 1483,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        operatorCarrierCodeListProvider:\n          type: \"string\"\n          description: |\n            The code list provider used for the `operatorCarrierCode` (SMDG or NMFTA)\n          example: \"SMDG\"",
+      "schema_example": "SMDG",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+          "line_start": 1479,
+          "kind": "schema_example",
+          "original_value": "SMDG"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event",
+        "target:TransportDetails",
+        "target:TransportCall",
+        "target:VesselTransport"
+      ]
+    },
+    "equipmentDetails.seals[].number": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "Seal",
+      "property": "number",
+      "line_start": 1143,
+      "line_end": 1146,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        number:\n          type: \"string\"\n          description: \"Identifies a seal affixed to the container.\"\n          example: \"VET123\"",
+      "schema_example": "VET123",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+          "line_start": 1143,
+          "kind": "schema_example",
+          "original_value": "VET123"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event",
+        "target:EquipmentDetails",
+        "target:Seal"
+      ]
+    },
+    "equipmentDetails.seals[].source": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "Seal",
+      "property": "source",
+      "line_start": 1147,
+      "line_end": 1162,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        source:\n          type: \"string\"\n          description: |-\n            The source of a seal, indicating who has affixed the seal.\n\n            Both `VETERINARY` and `PHYTOSANITARY` map to `AC` (Quarantine agency) in [UN/EDIFACT 16A 9303](https://unece.org/fileadmin/DAM/trade/untdid/d16a/tred/tred9303.htm).\n\n            - `CARRIER` - Carrier\n            - `CONSOLIDATOR` - Consolidator\n            - `CUSTOMER` - Customer\n            - `CUSTOMS` - Customs\n            - `PHYTOSANITARY` - Phytosanitary\n            - `SHIPPER` - Shipper\n            - `TERMINAL` - Terminal\n            - `VETERINARY` - Veterinary\n          example: \"CUSTOMER\"",
+      "schema_example": "CUSTOMER",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+          "line_start": 1147,
+          "kind": "schema_example",
+          "original_value": "CUSTOMER"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event",
+        "target:EquipmentDetails",
+        "target:Seal"
+      ]
+    },
+    "equipmentDetails.seals[].type": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "Seal",
+      "property": "type",
+      "line_start": 1163,
+      "line_end": 1170,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        type:\n          type: \"string\"\n          description: |-\n            The type of a seal.\n            - `KEYLESS_PADLOCK` - Keyless padlock\n            - `BOLT` - Bolt\n            - `WIRE` - Wire\n          example: \"BOLT\"",
+      "schema_example": "BOLT",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+          "line_start": 1163,
+          "kind": "schema_example",
+          "original_value": "BOLT"
+        }
+      ],
+      "parent_schema_components": [
+        "target:Event",
+        "target:EquipmentDetails",
+        "target:Seal"
+      ]
+    },
+    "eventUpdatedDateTime": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "Event",
+      "property": "eventUpdatedDateTime",
+      "line_start": 475,
+      "line_end": 479,
+      "declared_type": "string",
+      "declared_format": "date-time",
+      "data_type": "timestamp",
+      "definition": "        eventUpdatedDateTime:\n          type: \"string\"\n          description: \"The date and time when the technical event was last updated.\"\n          format: \"date-time\"\n          example: \"2025-01-23T01:23:45Z\"",
+      "schema_example": "2025-01-23T01:23:45Z",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-response.json",
+          "record_index": 2,
+          "path": "eventUpdatedDateTime",
+          "original_value": "2025-01-27T01:23:45Z"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-response-nextpage.json",
+          "record_index": 2,
+          "path": "eventUpdatedDateTime",
+          "original_value": "2025-02-15T01:23:45Z"
+        },
+        {
+          "file": "tnt__src__main__resources__standards__tnt__messages__tnt-300-request-equipment.json",
+          "record_index": 0,
+          "path": "eventUpdatedDateTime",
+          "original_value": "2026-01-20T14:20:00Z"
+        }
+      ],
+      "inclusion_rationale": "Hard negative for creation/occurrence time: this is last technical update time.",
+      "parent_schema_components": [
+        "target:Event"
+      ]
+    },
+    "isRetracted": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "Event",
+      "property": "isRetracted",
+      "line_start": 460,
+      "line_end": 469,
+      "declared_type": "boolean",
+      "declared_format": null,
+      "data_type": "boolean",
+      "definition": "        isRetracted:\n          type: \"boolean\"\n          description: |\n            Flag indicating that the event is retracted.\n\n            The data in this and all previously transmitted events with the same `eventID` must be discarded or ignored.\n\n            If this flag is `true`, any event data other than the `eventID` is irrelevant (if present).\n\n            An event with the same `eventID`, a later `eventUpdatedDateTime`, and `isRetracted=false` supersedes the retraction and is treated as a new active representation of the event. It must contain a complete, valid event payload; `isRetracted=false` alone does not restore data that was discarded or ignored.",
+      "schema_example": null,
+      "sample_evidence": [],
+      "inclusion_rationale": "New event retraction flag.",
+      "parent_schema_components": [
+        "target:Event"
+      ]
+    },
+    "transportDetails.transportCall.serviceCodeOrReference.universalServiceReference": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "ServiceCodeOrReference",
+      "property": "universalServiceReference",
+      "line_start": 1186,
+      "line_end": 1201,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        universalServiceReference:\n          type: \"string\"\n          description: |\n            Globally unique identifier of a liner service, assigned by carriers as specified by DCSA.\n\n            DCSA generates and distributes batches of Universal Service References (USRs)\n            to member and non-member carriers upon request, for their own use or for their alliances and VSAs.\n\n            A carrier can use each of its assigned USRs either in agreement with its partners for a service under a VSA or Alliance,\n            or independently for one of its own non-VSA, non-Alliance services.\n\n            Every Universal Service Reference is an 8-character string with the following format:\n             * the prefix \"SR\"\n             * 5 digits\n             * 1 uppercase English letter (A-Z).\n          example: \"SR12345A\"",
+      "schema_example": "SR12345A",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+          "line_start": 1186,
+          "kind": "schema_example",
+          "original_value": "SR12345A"
+        }
+      ],
+      "inclusion_rationale": "Universal service reference is distinct from the carrier service code.",
+      "parent_schema_components": [
+        "target:Event",
+        "target:TransportDetails",
+        "target:TransportCall",
+        "target:ServiceCodeOrReference"
+      ]
+    },
+    "transportDetails.transportCall.exportVoyageNumberOrReference.universalVoyageReference": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "VoyageNumberOrReference",
+      "property": "universalVoyageReference",
+      "line_start": 1492,
+      "line_end": 1504,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        universalVoyageReference:\n          type: \"string\"\n          description: |\n            Unique identifier of the voyage within a service, assigned by carriers as specified by DCSA.\n\n            Carriers assign a Universal Voyage Reference (UVR) to a voyage,\n            either individually for non-VSA services or jointly for shared services under a VSA or Alliance.\n\n            Every Universal Voyage Reference is a 5-character string with the following format:\n             * the last 2 digits of the year\n             * 2 alphanumeric characters for the sequence number of the voyage\n             * 1 character for the initial of the direction/haul (`N`orth, `E`ast, `W`est, `S`outh or `R`oundtrip).\n          example: \"2301W\"",
+      "schema_example": "2301W",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+          "line_start": 1492,
+          "kind": "schema_example",
+          "original_value": "2301W"
+        }
+      ],
+      "inclusion_rationale": "Universal export voyage reference is distinct from the carrier voyage number.",
+      "parent_schema_components": [
+        "target:Event",
+        "target:TransportDetails",
+        "target:TransportCall",
+        "target:VoyageNumberOrReference"
+      ]
+    },
+    "transportDetails.transportCall.vesselTransport.vesselMMSINumber": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "VesselTransport",
+      "property": "vesselMMSINumber",
+      "line_start": 1449,
+      "line_end": 1454,
+      "declared_type": "string",
+      "declared_format": null,
+      "data_type": "text",
+      "definition": "        vesselMMSINumber:\n          type: \"string\"\n          description: |\n            Maritime Mobile Service Identities (MMSIs) are nine-digit numbers used by maritime digital selective calling (DSC),\n            automatic identification systems (AIS) and certain other equipment to uniquely identify a ship or a coast radio station.\n          example: \"278111222\"",
+      "schema_example": "278111222",
+      "sample_evidence": [
+        {
+          "file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+          "line_start": 1449,
+          "kind": "schema_example",
+          "original_value": "278111222"
+        }
+      ],
+      "inclusion_rationale": "MMSI maritime radio/AIS identity is distinct from vessel IMO identity and ITU call sign.",
+      "parent_schema_components": [
+        "target:Event",
+        "target:TransportDetails",
+        "target:TransportCall",
+        "target:VesselTransport"
+      ]
+    }
+  },
+  "labels": [
+    {
+      "kind": "match",
+      "source": "eventID",
+      "target": "eventID",
+      "rationale": "Both identify the published Track and Trace event; v2 enforces UUID while v3 permits a producer-scoped string."
+    },
+    {
+      "kind": "no_match",
+      "source": "eventCreatedDateTime",
+      "rationale": "Creation of the technical event is not its last update or the real-world occurrence time. No creation-time property exists in the target projection."
+    },
+    {
+      "kind": "match",
+      "source": "eventDateTime",
+      "target": "eventDateTime",
+      "rationale": "Both give the occurrence or expected occurrence time of the real-world event."
+    },
+    {
+      "kind": "match",
+      "source": "eventType",
+      "target": "eventClassification.eventType",
+      "rationale": "Both discriminate the event category; v3 expands supported categories."
+    },
+    {
+      "kind": "match",
+      "source": "eventClassifierCode",
+      "target": "eventClassification.eventClassifier",
+      "rationale": "Both distinguish actual, planned and estimated events; v3 expands the code spelling. The v2 baseEquipmentEvent enum supplies ACT/EST/PLN."
+    },
+    {
+      "kind": "match",
+      "source": "equipmentEventTypeCode",
+      "target": "eventClassification.equipmentEventType",
+      "rationale": "Both distinguish equipment events, with documented enum continuity such as LOAD (Loaded) and LOADED - Loaded."
+    },
+    {
+      "kind": "match",
+      "source": "equipmentReference",
+      "target": "equipmentDetails.equipmentReference",
+      "rationale": "Both are the BIC ISO 6346 container identifier where available."
+    },
+    {
+      "kind": "match",
+      "source": "ISOEquipmentCode",
+      "target": "equipmentDetails.ISOEquipmentCode",
+      "rationale": "Both code equipment size and type under ISO 6346."
+    },
+    {
+      "kind": "match",
+      "source": "emptyIndicatorCode",
+      "target": "equipmentDetails.emptyIndicator",
+      "rationale": "Both distinguish empty and laden equipment."
+    },
+    {
+      "kind": "match",
+      "source": "eventLocation.locationName",
+      "target": "eventLocation.locationName",
+      "rationale": "Both name the event location."
+    },
+    {
+      "kind": "match",
+      "source": "eventLocation.latitude",
+      "target": "eventLocation.geoCoordinate.latitude",
+      "rationale": "Both express the north/south coordinate of the event location."
+    },
+    {
+      "kind": "match",
+      "source": "eventLocation.longitude",
+      "target": "eventLocation.geoCoordinate.longitude",
+      "rationale": "Both express the east/west coordinate of the event location."
+    },
+    {
+      "kind": "match",
+      "source": "eventLocation.UNLocationCode",
+      "target": "eventLocation.UNLocationCode",
+      "rationale": "Both identify the event location by UN/LOCODE."
+    },
+    {
+      "kind": "match",
+      "source": "eventLocation.facilityCode",
+      "target": "eventLocation.facility.facilityCode",
+      "rationale": "Both identify the specific event facility under a facility code list."
+    },
+    {
+      "kind": "match",
+      "source": "eventLocation.facilityCodeListProvider",
+      "target": "eventLocation.facility.facilityCodeListProvider",
+      "rationale": "Both identify the provider defining the event facility code."
+    },
+    {
+      "kind": "no_match",
+      "source": "eventLocation.address.name",
+      "rationale": "The old address name (publisher example Henrik) has no corresponding Address property in v3. A location name is a distinct field retained separately."
+    },
+    {
+      "kind": "match",
+      "source": "eventLocation.address.street",
+      "target": "eventLocation.address.street",
+      "rationale": "Both name the street of the event location address."
+    },
+    {
+      "kind": "match",
+      "source": "eventLocation.address.streetNumber",
+      "target": "eventLocation.address.streetNumber",
+      "rationale": "Both identify the street number of the event location address."
+    },
+    {
+      "kind": "match",
+      "source": "eventLocation.address.postCode",
+      "target": "eventLocation.address.postCode",
+      "rationale": "Both give the post code of the event location address."
+    },
+    {
+      "kind": "match",
+      "source": "eventLocation.address.city",
+      "target": "eventLocation.address.city",
+      "rationale": "Both name the city of the event location address."
+    },
+    {
+      "kind": "match",
+      "source": "transportCall.transportCallID",
+      "target": "transportDetails.transportCall.transportCallReference",
+      "rationale": "Both identify the carrier transport call. V3 explicitly describes a carrier-defined reference, including terminal call reference for a vessel at a port/terminal."
+    },
+    {
+      "kind": "match",
+      "source": "transportCall.carrierServiceCode",
+      "target": "transportDetails.transportCall.serviceCodeOrReference.carrierServiceCode",
+      "rationale": "Both identify the carrier service using the carrier-specific code, as distinct from a universal service reference."
+    },
+    {
+      "kind": "match",
+      "source": "transportCall.exportVoyageNumber",
+      "target": "transportDetails.transportCall.exportVoyageNumberOrReference.carrierVoyageNumber",
+      "rationale": "Both are the carrier-specific export voyage identifier. The export parent preserves direction; a universal voyage reference is a separate identifier."
+    },
+    {
+      "kind": "match",
+      "source": "transportCall.importVoyageNumber",
+      "target": "transportDetails.transportCall.importVoyageNumberOrReference.carrierVoyageNumber",
+      "rationale": "Both are the carrier-specific import voyage identifier. The import parent preserves direction."
+    },
+    {
+      "kind": "match",
+      "source": "transportCall.transportCallSequenceNumber",
+      "target": "transportDetails.transportCall.transportCallSequenceNumber",
+      "rationale": "Both distinguish individual transport calls, including repeated calls at one location within a voyage."
+    },
+    {
+      "kind": "match",
+      "source": "transportCall.modeOfTransport",
+      "target": "transportDetails.transportCall.modeOfTransport",
+      "rationale": "Both name the mode of transport for this call."
+    },
+    {
+      "kind": "match",
+      "source": "transportCall.vessel.vesselIMONumber",
+      "target": "transportDetails.transportCall.vesselTransport.vesselIMONumber",
+      "rationale": "Both are the permanent IMO identifier of the vessel; an MMSI is a distinct identifier."
+    },
+    {
+      "kind": "match",
+      "source": "transportCall.vessel.vesselCallSignNumber",
+      "target": "transportDetails.transportCall.vesselTransport.vesselCallSign",
+      "rationale": "Both are the vessel alphanumeric call sign assigned by the ITU."
+    },
+    {
+      "kind": "match",
+      "source": "transportCall.vessel.vesselOperatorCarrierCode",
+      "target": "transportDetails.transportCall.vesselTransport.operatorCarrierCode",
+      "rationale": "Both code the carrier responsible for vessel operation using an associated provider."
+    },
+    {
+      "kind": "match",
+      "source": "transportCall.vessel.vesselOperatorCarrierCodeListProvider",
+      "target": "transportDetails.transportCall.vesselTransport.operatorCarrierCodeListProvider",
+      "rationale": "Both define the code list used for the vessel operator carrier code (SMDG or NMFTA)."
+    },
+    {
+      "kind": "match",
+      "source": "seals[].sealNumber",
+      "target": "equipmentDetails.seals[].number",
+      "rationale": "Both identify a seal affixed to the container."
+    },
+    {
+      "kind": "match",
+      "source": "seals[].sealSource",
+      "target": "equipmentDetails.seals[].source",
+      "rationale": "Both identify who affixed the seal; v3 expands enum spelling, including CUS (Customs) to CUSTOMS."
+    },
+    {
+      "kind": "match",
+      "source": "seals[].sealType",
+      "target": "equipmentDetails.seals[].type",
+      "rationale": "Both identify the seal type; v3 expands enum spelling, including WIR (Wire) to WIRE."
+    },
+    {
+      "kind": "no_match",
+      "source": "transportCall.otherFacility",
+      "rationale": "This is free text for the facility of the transport call. V3 TransportCall has no location/facility property; the projected eventLocation is the separately modeled equipment event location, not the old transport-call facility."
+    }
+  ],
+  "schema_structure_evidence": {
+    "source:equipmentEvent": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "equipmentEvent",
+      "line_start": 1687,
+      "line_end": 1691,
+      "definition": "    equipmentEvent:\n      type: object\n      allOf:\n        - $ref: '#/components/schemas/baseEvent'\n        - $ref: '#/components/schemas/baseEquipmentEvent'"
+    },
+    "source:baseEvent": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "baseEvent",
+      "line_start": 1007,
+      "line_end": 1020,
+      "definition": "    baseEvent:\n      required:\n        - eventCreatedDateTime\n      type: object\n      allOf:\n        - type: object\n          properties:\n            eventID:\n              $ref: '#/components/schemas/eventID'\n        - type: object\n          properties:\n            eventCreatedDateTime:\n              $ref: '#/components/schemas/eventCreatedDateTime'\n        - $ref: '#/components/schemas/baseEventBody'"
+    },
+    "source:baseEventBody": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "baseEventBody",
+      "line_start": 1029,
+      "line_end": 1049,
+      "definition": "    baseEventBody:\n      required:\n        - eventClassifierCode\n        - eventDateTime\n        - eventType\n      type: object\n      description: |\n        The Event entity is described as a generalization of all the specific event categories. An event always takes place in relation to a shipment and can additionally be linked to a transport or an equipment\n      allOf:\n        - type: object\n          properties:\n            eventType:\n              $ref: '#/components/schemas/eventType'\n        - type: object\n          properties:\n            eventClassifierCode:\n              $ref: '#/components/schemas/eventClassifierCode'\n        - type: object\n          properties:\n            eventDateTime:\n              $ref: '#/components/schemas/eventDateTime'"
+    },
+    "source:baseEquipmentEvent": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "baseEquipmentEvent",
+      "line_start": 1692,
+      "line_end": 1783,
+      "definition": "    baseEquipmentEvent:\n      required:\n        - emptyIndicatorCode\n        - equipmentEventTypeCode\n      type: object\n      description: |\n        The equipment event entity is a specialization of the event entity to support specification of data that only applies to an equipment event.\n      allOf:\n        - type: object\n          properties:\n            eventType:\n              type: string\n              example: EQUIPMENT\n              enum:\n                - EQUIPMENT\n        - type: object\n          properties:\n            eventClassifierCode:\n              type: string\n              description: |\n                Code for the event classifier can be\n                - PLN (Planned)\n                - ACT (Actual)\n                - EST (Estimated)\n              example: EST\n              enum:\n                - PLN\n                - ACT\n                - EST\n        - type: object\n          properties:\n            equipmentEventTypeCode:\n              $ref: '#/components/schemas/equipmentEventTypeCode'\n        - type: object\n          properties:\n            equipmentReference:\n              $ref: '#/components/schemas/equipmentReference'\n        - type: object\n          properties:\n            ISOEquipmentCode:\n              $ref: '#/components/schemas/ISOEquipmentCode'\n        - type: object\n          properties:\n            emptyIndicatorCode:\n              $ref: '#/components/schemas/emptyIndicatorCode'\n        - type: object\n          properties:\n            eventLocation:\n              $ref: '#/components/schemas/location'\n        - type: object\n          properties:\n            transportCallID:\n              allOf:\n                - $ref: '#/components/schemas/transportCallID'\n                - deprecated: true\n                - description: The unique identifier for a transport call<br><br>Deprecated - not needed as the TransportCall object is included\n        - type: object\n          properties:\n            transportCall:\n              $ref: '#/components/schemas/transportCall'\n        - type: object\n          properties:\n            documentReferences:\n              $ref: '#/components/schemas/documentReferences'\n        - $ref: '#/components/schemas/references'\n        - $ref: '#/components/schemas/seals'\n        - type: object\n          properties:\n            eventTypeCode:\n              $ref: '#/components/schemas/eventTypeCode'\n        - type: object\n          properties:\n            eventTypeCode:\n              type: string\n              description: |\n                Unique identifier for Event Type Code, for transport events this is either\n                - LOAD (Loaded)\n                - DISC (Discharged)\n                - GTIN (Gated in)\n                - GTOT (Gated out)\n                - STUF (Stuffed)\n                - STRP (Stripped)\n\n                Deprecated - use equipmentEventTypeCode instead\n              deprecated: true\n              enum:\n                - LOAD\n                - DISC\n                - GTIN\n                - GTOT\n                - STUF\n                - STRP"
+    },
+    "source:location": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "location",
+      "line_start": 1294,
+      "line_end": 1328,
+      "definition": "    location:\n      type: object\n      description: |\n        generally used to capture location-related data, also for locations without UN Location Codes.\n      allOf:\n        - type: object\n          properties:\n            locationName:\n              $ref: '#/components/schemas/locationName'\n        - type: object\n          properties:\n            latitude:\n              $ref: '#/components/schemas/latitude'\n        - type: object\n          properties:\n            longitude:\n              $ref: '#/components/schemas/longitude'\n        - type: object\n          properties:\n            UNLocationCode:\n              $ref: '#/components/schemas/UNLocationCode'\n        - type: object\n          properties:\n            facilityCode:\n              $ref: '#/components/schemas/facilityCode'\n        - type: object\n          properties:\n            facilityCodeListProvider:\n              $ref: '#/components/schemas/facilityCodeListProvider'\n        - type: object\n          properties:\n            address:\n              description: Address related information\n              allOf:\n                - $ref: '#/components/schemas/address'"
+    },
+    "source:address": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "address",
+      "line_start": 1344,
+      "line_end": 1379,
+      "definition": "    address:\n      type: object\n      description: An object for storing address related information\n      allOf:\n        - type: object\n          properties:\n            name:\n              $ref: '#/components/schemas/addressName'\n        - type: object\n          properties:\n            street:\n              $ref: '#/components/schemas/streetName'\n        - type: object\n          properties:\n            streetNumber:\n              $ref: '#/components/schemas/streetNumber'\n        - type: object\n          properties:\n            floor:\n              $ref: '#/components/schemas/floor'\n        - type: object\n          properties:\n            postCode:\n              $ref: '#/components/schemas/postCode'\n        - type: object\n          properties:\n            city:\n              $ref: '#/components/schemas/cityName'\n        - type: object\n          properties:\n            stateRegion:\n              $ref: '#/components/schemas/stateRegion'\n        - type: object\n          properties:\n            country:\n              $ref: '#/components/schemas/country'"
+    },
+    "source:transportCall": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "transportCall",
+      "line_start": 1158,
+      "line_end": 1231,
+      "definition": "    transportCall:\n      required:\n        - modeOfTransport\n        - transportCallID\n      type: object\n      allOf:\n        - type: object\n          properties:\n            transportCallID:\n              $ref: '#/components/schemas/transportCallID'\n        - type: object\n          properties:\n            carrierServiceCode:\n              $ref: '#/components/schemas/carrierServiceCode'\n        - type: object\n          properties:\n            carrierVoyageNumber:\n              $ref: '#/components/schemas/carrierVoyageNumber'\n        - type: object\n          properties:\n            carrierVoyageNumber:\n              description: |\n                The vessel operator-specific identifier of the Voyage.\n\n                In case there are multiple voyages the export voyage is chosen.\n              deprecated: true\n        - type: object\n          properties:\n            exportVoyageNumber:\n              $ref: '#/components/schemas/exportVoyageNumber'\n        - type: object\n          properties:\n            importVoyageNumber:\n              $ref: '#/components/schemas/importVoyageNumber'\n        - type: object\n          properties:\n            transportCallSequenceNumber:\n              $ref: '#/components/schemas/transportCallSequenceNumber'\n        - type: object\n          properties:\n            UNLocationCode:\n              $ref: '#/components/schemas/UNLocationCode'\n        - type: object\n          properties:\n            facilityCode:\n              $ref: '#/components/schemas/facilityCode'\n        - type: object\n          properties:\n            facilityCodeListProvider:\n              $ref: '#/components/schemas/facilityCodeListProvider'\n        - type: object\n          properties:\n            facilityTypeCode:\n              $ref: '#/components/schemas/facilityTypeCodeTRN'\n        - type: object\n          properties:\n            otherFacility:\n              $ref: '#/components/schemas/otherFacility'\n        - type: object\n          properties:\n            modeOfTransport:\n              $ref: '#/components/schemas/modeOfTransport'\n        - type: object\n          properties:\n            location:\n              allOf:\n                - $ref: '#/components/schemas/location'\n                - type: object\n                  description: Location of the facility. Can often be omitted when it is just repeating the contents of the UNLocationCode field.\n                  example: null\n        - type: object\n          properties:\n            vessel:\n              $ref: '#/components/schemas/vessel'"
+    },
+    "source:vessel": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "vessel",
+      "line_start": 1420,
+      "line_end": 1449,
+      "definition": "    vessel:\n      required:\n        - vesselIMONumber\n      type: object\n      description: \"describes a floating, sea going structure (mother vessels and feeder vessels) with either an internal or external mode of propulsion designed for the transport of cargo and/or passengers. Ocean vessels are uniquely identified by an IMO number consisting of 7 digits, or alternatively by their AIS signal with an MMSI number. \\n\"\n      allOf:\n        - type: object\n          properties:\n            vesselIMONumber:\n              $ref: '#/components/schemas/vesselIMONumber'\n        - type: object\n          properties:\n            vesselName:\n              $ref: '#/components/schemas/vesselName'\n        - type: object\n          properties:\n            vesselFlag:\n              $ref: '#/components/schemas/vesselFlag'\n        - type: object\n          properties:\n            vesselCallSignNumber:\n              $ref: '#/components/schemas/vesselCallSignNumber'\n        - type: object\n          properties:\n            vesselOperatorCarrierCode:\n              $ref: '#/components/schemas/vesselOperatorCarrierCode'\n        - type: object\n          properties:\n            vesselOperatorCarrierCodeListProvider:\n              $ref: '#/components/schemas/vesselOperatorCarrierCodeListProvider'"
+    },
+    "source:seals": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "seals",
+      "line_start": 1796,
+      "line_end": 1802,
+      "definition": "    seals:\n      type: object\n      properties:\n        seals:\n          type: array\n          items:\n            $ref: '#/components/schemas/seal'"
+    },
+    "source:seal": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+      "schema_component": "seal",
+      "line_start": 1803,
+      "line_end": 1821,
+      "definition": "    seal:\n      required:\n        - sealNumber\n        - sealType\n      type: object\n      description: addresses the seal-related information associated with the shipment equipment. A seal is put on a shipment equipment once it is loaded. This seal is meant to stay on until the shipment equipment reaches its final destination.\n      allOf:\n        - type: object\n          properties:\n            sealNumber:\n              $ref: '#/components/schemas/sealNumber'\n        - type: object\n          properties:\n            sealSource:\n              $ref: '#/components/schemas/sealSource'\n        - type: object\n          properties:\n            sealType:\n              $ref: '#/components/schemas/sealType'"
+    },
+    "target:Event": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "Event",
+      "line_start": 440,
+      "line_end": 511,
+      "definition": "    Event:\n      type: \"object\"\n      properties:\n        eventRouting:\n          description: |\n            Routing of an event from the originating party (or parties), optionally via one or more forwarding parties, to the destination party (or parties).\n          allOf:\n            - $ref: \"#/components/schemas/EventRouting\"\n        eventID:\n          type: \"string\"\n          description: |\n            ID of the event, unique among all the events published by a T&T Event Producer.\n\n            An event overrides any other event that has the same `eventID` and an earlier `eventUpdatedDateTime`.\n\n            Each event is uniquely identified within each T&T 3.x standard ecosystem of connected implementers\n            by a composite key including:\n            - the `partyCode`, `codeListProvider` and `codeListName` of all `eventRouting.originatingParties` (if present)\n            - the `eventID`\n          example: \"event-HHL71800000-APZU4812090-IoT-DRO-2025-01-23T01:23:45Z\"\n        isRetracted:\n          type: \"boolean\"\n          description: |\n            Flag indicating that the event is retracted.\n\n            The data in this and all previously transmitted events with the same `eventID` must be discarded or ignored.\n\n            If this flag is `true`, any event data other than the `eventID` is irrelevant (if present).\n\n            An event with the same `eventID`, a later `eventUpdatedDateTime`, and `isRetracted=false` supersedes the retraction and is treated as a new active representation of the event. It must contain a complete, valid event payload; `isRetracted=false` alone does not restore data that was discarded or ignored.\n        eventDateTime:\n          type: \"string\"\n          description: \"The date and time when the real-world event has occurred or will occur.\"\n          format: \"date-time\"\n          example: \"2025-01-23T01:23:45Z\"\n        eventUpdatedDateTime:\n          type: \"string\"\n          description: \"The date and time when the technical event was last updated.\"\n          format: \"date-time\"\n          example: \"2025-01-23T01:23:45Z\"\n        eventLocation:\n          description: \"The location of the event.\"\n          allOf:\n            - $ref: \"#/components/schemas/Location\"\n        reason:\n          type: \"string\"\n          description: \"Free text information explaining why this event was sent\"\n        eventClassification:\n          description: \"Type, subtype and classifier of an event\"\n          allOf:\n            - $ref: \"#/components/schemas/EventClassification\"\n        shipmentDetails:\n          description: \"Shipment-specific details\"\n          allOf:\n            - $ref: \"#/components/schemas/ShipmentDetails\"\n        transportDetails:\n          description: \"Transport-specific details\"\n          allOf:\n            - $ref: \"#/components/schemas/TransportDetails\"\n        equipmentDetails:\n          description: \"Equipment-specific details\"\n          allOf:\n            - $ref: \"#/components/schemas/EquipmentDetails\"\n        iotDetails:\n          description: \"IoT-specific details\"\n          allOf:\n            - $ref: \"#/components/schemas/IotDetails\"\n        reeferDetails:\n          description: \"Reefer-specific details\"\n          allOf:\n            - $ref: \"#/components/schemas/ReeferDetails\"\n      description: \"Track and Trace event\""
+    },
+    "target:EventClassification": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "EventClassification",
+      "line_start": 512,
+      "line_end": 625,
+      "definition": "    EventClassification:\n      type: \"object\"\n      properties:\n        eventType:\n          type: \"string\"\n          description: |-\n            The type of a Track and Trace event\n            - `SHIPMENT` - Shipment event\n            - `TRANSPORT` - Transport event\n            - `EQUIPMENT` - Equipment event\n            - `IOT` - IoT event\n            - `REEFER` - Reefer event\n          example: \"EQUIPMENT\"\n        eventClassifier:\n          type: \"string\"\n          description: |-\n            Classifier denoting whether a timestamp or event is planned, estimated or actual\n            - `ACTUAL` - Actual\n            - `ESTIMATED` - Estimated\n            - `PLANNED` - Planned\n          example: \"ESTIMATED\"\n        shipmentEventType:\n          type: \"string\"\n          description: |-\n            The type of a shipment event\n            - `AMENDMENT_CANCELLED` - Amendment Cancelled\n            - `AMENDMENT_CONFIRMED` - Amendment Confirmed\n            - `AMENDMENT_DECLINED` - Amendment Declined\n            - `AMENDMENT_IN_PROGRESS` - Amendment In Progress\n            - `AMENDMENT_RECEIVED` - Amendment Received\n            - `APPROVED` - Approved\n            - `CANCELLATION_CONFIRMED` - Cancellation Confirmed\n            - `CANCELLATION_DECLINED` - Cancellation Declined\n            - `CANCELLATION_RECEIVED` - Cancellation Received\n            - `CANCELLED` - Cancelled\n            - `COMPLETED` - Completed\n            - `CONFIRMED` - Confirmed\n            - `DECLINED` - Declined\n            - `DRAFTED` - Drafted\n            - `ISSUED` - Issued\n            - `ON_HOLD` - On Hold\n            - `PENDING_AMENDMENT` - Pending Amendment\n            - `PENDING_APPROVAL` - Pending Approval\n            - `PENDING_SURRENDER_FOR_AMENDMENT` - Pending Surrender for Amendment\n            - `PENDING_SURRENDER_FOR_DELIVERY` - Pending Surrender for Delivery\n            - `PENDING_UPDATE` - Pending Update\n            - `RECEIVED` - Received\n            - `REJECTED` - Rejected\n            - `RELEASED` - Released\n            - `REQUESTED` - Requested\n            - `SUBMITTED` - Submitted\n            - `SURRENDERED` - Surrendered\n            - `SURRENDERED_FOR_AMENDMENT` - Surrendered for Amendment\n            - `SURRENDERED_FOR_DELIVERY` - Surrendered for Delivery\n            - `UPDATE_CANCELLED` - Update Cancelled\n            - `UPDATE_CONFIRMED` - Update Confirmed\n            - `UPDATE_DECLINED` - Update Declined\n            - `UPDATE_IN_PROGRESS` - Update In Progress\n            - `UPDATE_RECEIVED` - Update Received\n            - `VOIDED` - Voided\n          example: \"APPROVED\"\n        transportEventType:\n          type: \"string\"\n          description: |-\n            The type of a transport event\n            - `APPROACHING` - Close to arriving at a certain location\n            - `ARRIVED` - Arrived at a certain location\n            - `DEPARTED` - Departed from a certain location\n          example: \"ARRIVED\"\n        equipmentEventType:\n          type: \"string\"\n          description: |-\n            The type of an equipment event\n            - `AVAILABLE_FOR_DROP_OFF` - Available for drop-off\n            - `AVAILABLE_FOR_PICKUP` - Available for pickup\n            - `CROSSED` - Crossed\n            - `CUSTOMS_RELEASED` - Released by customs\n            - `CUSTOMS_SELECTED_FOR_INSPECTION` - Selected for customs inspection\n            - `CUSTOMS_SELECTED_FOR_SCAN` - Selected for customs scan\n            - `DISCHARGED` - Discharged\n            - `DROPPED_OFF` - Dropped off\n            - `GATED_IN` - Gated in\n            - `GATED_OUT` - Gated out\n            - `INSPECTED` - Inspected\n            - `LOADED` - Loaded\n            - `PICKED_UP` - Picked up\n            - `REMOVED` - Removed\n            - `RESEALED` - Resealed\n            - `STRIPPED` - Stripped\n            - `STUFFED` - Stuffed\n          example: \"LOADED\"\n        iotEventType:\n          type: \"string\"\n          description: |-\n            The type of an IoT event\n            - `BREADCRUMB` - Periodic geolocation update\n            - `DEVICE_STATUS` - IoT device status update\n            - `DOOR_CLOSED` - Door closed\n            - `DOOR_OPENED` - Door opened\n            - `GEOFENCE_ENTRY` - Geofenced area entry\n            - `GEOFENCE_EXIT` - Geofenced area exit\n            - `MOTION_START` - Motion start\n            - `MOTION_STOP` - Motion stop\n            - `PAIRING` - The IoT device is being paired with the equipment\n            - `UNPAIRING` - The IoT device is being unpaired from the equipment\n          example: \"DOOR_OPENED\"\n        reeferEventType:\n          type: \"string\"\n          description: |-\n            The type of a reefer event\n            - `ADJUSTED` - Adjusted\n            - `MEASURED` - Measured\n          example: \"MEASURED\"\n      description: \"Type, subtype and classifier of an event\""
+    },
+    "target:EquipmentDetails": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "EquipmentDetails",
+      "line_start": 398,
+      "line_end": 439,
+      "definition": "    EquipmentDetails:\n      type: \"object\"\n      properties:\n        equipmentReference:\n          type: \"string\"\n          description: |\n            The unique identifier for the equipment, which should follow the BIC ISO Container Identification Number where possible.\n\n            According to ISO 6346, a container identification code consists of a 4-letter prefix and a 7-digit number\n            (composed of a 3-letter owner code, a category identifier, a serial number, and a check-digit).\n\n            If a container does not comply with ISO 6346, it is suggested to follow\n            [Recommendation #2: Containers with non-ISO identification](https://smdg.org/documents/smdg-recommendations)\n            from SMDG.\n          example: \"APZU4812090\"\n        ISOEquipmentCode:\n          type: \"string\"\n          description: |\n            Unique code identifying the equipment size and type used to transport commodities.\n            The code can refer to either the ISO size type (e.g. 22G1) or the ISO type group (e.g. 22GP)\n            following the [ISO 6346](https://en.wikipedia.org/wiki/ISO_6346) standard.\n          example: \"22GP\"\n        emptyIndicator:\n          type: \"string\"\n          description: |-\n            Indicator of whether the equipment is empty or laden.\n            - `EMPTY` - Empty\n            - `LADEN` - Laden\n          example: \"LADEN\"\n        transportPhase:\n          type: \"string\"\n          description: |-\n            The phase of the transport lifecycle in which the event occurs\n            - `EXPORT` - Considered active until the vessel departs the Port of Loading\n            - `IMPORT` - Considered to start when the vessel arrives at the Port of Discharge; may remain active until the empty container is returned after stripping\n            - `TRANSSHIPMENT` - Any intermediate arrival/departure or load/discharge that the carrier chooses to classify as such\n          example: \"EXPORT\"\n        seals:\n          type: \"array\"\n          items:\n            $ref: \"#/components/schemas/Seal\"\n      description: \"Equipment-specific details\""
+    },
+    "target:Location": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "Location",
+      "line_start": 851,
+      "line_end": 895,
+      "definition": "    Location:\n      type: \"object\"\n      properties:\n        locationName:\n          type: \"string\"\n          description: \"The name of the location.\"\n          example: \"Port of Amsterdam\"\n        facilityType:\n          type: \"string\"\n          description: |-\n            A specific type of facility\n            - `BORDER` - Border\n            - `CUSTOMER_LOCATION` - Customer location\n            - `DEPOT` - Depot\n            - `CONTAINER_FREIGHT_STATION` - Container freight station\n            - `INLAND_TERMINAL` - Inland terminal\n            - `OFF_DOCK_STORAGE` - Off-dock storage\n            - `PORT_TERMINAL` - Port terminal\n            - `RAMP` - Ramp\n            - `WAYPOINT` - Waypoint\n          example: \"DEPOT\"\n        address:\n          description: \"Location address\"\n          allOf:\n            - $ref: \"#/components/schemas/Address\"\n        UNLocationCode:\n          type: \"string\"\n          description: |\n            The UN Location code specifying where the place is located. The pattern used must be\n\n            - 2 characters for the country code using [ISO 3166-1 alpha-2](https://www.iso.org/obp/ui/#iso:pub:PUB500001:en)\n            - 3 characters to code a location within that country. Letters A-Z and numbers from 2-9 can be used\n\n            More info can be found here: [UN/LOCODE](https://unece.org/trade/cefact/UNLOCODE-Download)\n          example: \"NLAMS\"\n        facility:\n          description: |\n            Facility identified by a code as defined by a code list provider.\n          allOf:\n            - $ref: \"#/components/schemas/Facility\"\n        geoCoordinate:\n          description: \"An object used to express a location using its geographic coordinates.\"\n          allOf:\n            - $ref: \"#/components/schemas/GeoCoordinate\"\n      description: \"Location information\""
+    },
+    "target:Address": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "Address",
+      "line_start": 249,
+      "line_end": 294,
+      "definition": "    Address:\n      type: \"object\"\n      properties:\n        street:\n          type: \"string\"\n          description: \"The name of the street.\"\n          example: \"Ruijggoordweg\"\n        streetNumber:\n          type: \"string\"\n          description: \"The number of the street.\"\n          example: \"100\"\n        floor:\n          type: \"string\"\n          description: \"The floor of the street number.\"\n          example: \"N/A\"\n        postCode:\n          type: \"string\"\n          description: \"The post code of the address.\"\n          example: \"1047 HM\"\n        POBox:\n          type: \"string\"\n          description: \"A numbered box at a post office where a person or business can have mail or parcels delivered.\"\n          example: \"123\"\n        city:\n          type: \"string\"\n          description: \"The name of the city.\"\n          example: \"Amsterdam\"\n        stateRegion:\n          type: \"string\"\n          description: \"The name of the state/region.\"\n          example: \"North Holland\"\n        countryCode:\n          type: \"string\"\n          description: |\n            The 2 characters for the country code using [ISO 3166-1 alpha-2](https://www.iso.org/obp/ui/#iso:pub:PUB500001:en)\n\n            When the country code is required but not applicable, use the code `ZZ`.\n          example: \"NL\"\n        addressLines:\n          type: \"array\"\n          description: \"Unstructured address lines, used as a fallback when structured address fields are unavailable.\"\n          items:\n            type: \"string\"\n            description: \"One line of an unstructured `Address`.\"\n            example: \"123 Example Rd\"\n      description: \"An object for storing address-related information.\""
+    },
+    "target:Facility": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "Facility",
+      "line_start": 646,
+      "line_end": 667,
+      "definition": "    Facility:\n      type: \"object\"\n      properties:\n        facilityName:\n          type: \"string\"\n          description: \"The name of the facility.\"\n          example: \"Building 123\"\n        facilityCode:\n          type: \"string\"\n          description: |\n            Code identifying a specific facility, as defined by the `facilityCodeListProvider`.\n            The value should be provided according to the format defined by the relevant code list provider.\n          example: \"AUMELNWQL\"\n        facilityCodeListProvider:\n          type: \"string\"\n          description: |\n            Code list provider (each with its relevant code list) defining the `facilityCode`:\n            - `SMDG` (using [SMDG Terminal Code List](https://smdg.org/documents/smdg-code-lists/smdg-terminal-code-list/))\n            - `BIC` (using [BIC Facility Codes](https://www.bic-code.org/facility-codes/))\n          example: \"SMDG\"\n      description: |\n        Facility identified by a code as defined by a code list provider."
+    },
+    "target:GeoCoordinate": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "GeoCoordinate",
+      "line_start": 693,
+      "line_end": 704,
+      "definition": "    GeoCoordinate:\n      type: \"object\"\n      properties:\n        latitude:\n          type: \"string\"\n          description: \"Latitude expressed as decimal degrees using the ISO 6709 data interchange numeric format.\"\n          example: \"33.629152\"\n        longitude:\n          type: \"string\"\n          description: \"Longitude expressed as decimal degrees using the ISO 6709 data interchange numeric format.\"\n          example: \"-118.587187\"\n      description: \"An object used to express a location using its geographic coordinates.\""
+    },
+    "target:TransportDetails": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "TransportDetails",
+      "line_start": 1394,
+      "line_end": 1410,
+      "definition": "    TransportDetails:\n      type: \"object\"\n      properties:\n        delayReasonCodes:\n          type: \"array\"\n          description: \"Codes identifying the reasons for a delay\"\n          items:\n            type: \"string\"\n            description: |\n              Code identifying the reason for a delay,\n              [as defined by SMDG](https://smdg.org/documents/smdg-code-lists/delay-reason-and-port-call-activity/).\n            example: \"STR\"\n        transportCall:\n          description: \"Transport call information\"\n          allOf:\n            - $ref: \"#/components/schemas/TransportCall\"\n      description: \"Transport-specific details\""
+    },
+    "target:TransportCall": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "TransportCall",
+      "line_start": 1333,
+      "line_end": 1393,
+      "definition": "    TransportCall:\n      type: \"object\"\n      properties:\n        transportCallReference:\n          type: \"string\"\n          description: |\n            Carrier-defined reference of a `TransportCall`.\n\n            If the mode of transport is Vessel and the facility is a Port or Terminal,\n            this reference should be considered a terminal call reference.\n        transportCallSequenceNumber:\n          type: \"integer\"\n          description: |\n            Transport operator's key that uniquely identifies each individual transport call.\n            This key is essential to distinguish between two separate calls at the same location within one voyage.\n          format: \"int32\"\n        transportCallSequenceNumberMax:\n          type: \"integer\"\n          description: |\n            The maximum `transportCallSequenceNumber` value to be expected within the set of events emitted as a result of the transport plan change that has triggered this event.\n          format: \"int32\"\n        modeOfTransport:\n          type: \"string\"\n          description: |-\n            The mode of transport as defined by DCSA\n            - `VESSEL` - Vessel\n            - `RAIL` - Rail\n            - `TRUCK` - Truck\n            - `BARGE` - Barge\n            - `MULTIMODAL` - Multimodal\n          example: \"VESSEL\"\n        portVisitReference:\n          type: \"string\"\n          description: |\n            The unique reference that can be used to link different `transportCallReferences` to the same port visit.\n            The reference is provided by the port to uniquely identify a port call.\n        serviceCodeOrReference:\n          description: \"Carrier service code and/or universal service reference\"\n          allOf:\n            - $ref: \"#/components/schemas/ServiceCodeOrReference\"\n        exportVoyageNumberOrReference:\n          description: \"Export voyage number or reference\"\n          allOf:\n            - $ref: \"#/components/schemas/VoyageNumberOrReference\"\n        importVoyageNumberOrReference:\n          description: \"Import voyage number or reference\"\n          allOf:\n            - $ref: \"#/components/schemas/VoyageNumberOrReference\"\n        vesselTransport:\n          description: \"Vessel or barge transport information\"\n          allOf:\n            - $ref: \"#/components/schemas/VesselTransport\"\n        railTransport:\n          description: \"Rail transport information\"\n          allOf:\n            - $ref: \"#/components/schemas/RailTransport\"\n        truckTransport:\n          description: \"Truck transport information\"\n          allOf:\n            - $ref: \"#/components/schemas/TruckTransport\"\n      description: \"Transport call information\""
+    },
+    "target:ServiceCodeOrReference": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "ServiceCodeOrReference",
+      "line_start": 1179,
+      "line_end": 1202,
+      "definition": "    ServiceCodeOrReference:\n      type: \"object\"\n      properties:\n        carrierServiceCode:\n          type: \"string\"\n          description: \"Carrier-specific identifier of a service.\"\n          example: \"FE1\"\n        universalServiceReference:\n          type: \"string\"\n          description: |\n            Globally unique identifier of a liner service, assigned by carriers as specified by DCSA.\n\n            DCSA generates and distributes batches of Universal Service References (USRs)\n            to member and non-member carriers upon request, for their own use or for their alliances and VSAs.\n\n            A carrier can use each of its assigned USRs either in agreement with its partners for a service under a VSA or Alliance,\n            or independently for one of its own non-VSA, non-Alliance services.\n\n            Every Universal Service Reference is an 8-character string with the following format:\n             * the prefix \"SR\"\n             * 5 digits\n             * 1 uppercase English letter (A-Z).\n          example: \"SR12345A\"\n      description: \"Carrier service code and/or universal service reference\""
+    },
+    "target:VoyageNumberOrReference": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "VoyageNumberOrReference",
+      "line_start": 1485,
+      "line_end": 1505,
+      "definition": "    VoyageNumberOrReference:\n      type: \"object\"\n      properties:\n        carrierVoyageNumber:\n          type: \"string\"\n          description: \"Carrier-specific identifier of the voyage\"\n          example: \"2103S\"\n        universalVoyageReference:\n          type: \"string\"\n          description: |\n            Unique identifier of the voyage within a service, assigned by carriers as specified by DCSA.\n\n            Carriers assign a Universal Voyage Reference (UVR) to a voyage,\n            either individually for non-VSA services or jointly for shared services under a VSA or Alliance.\n\n            Every Universal Voyage Reference is a 5-character string with the following format:\n             * the last 2 digits of the year\n             * 2 alphanumeric characters for the sequence number of the voyage\n             * 1 character for the initial of the direction/haul (`N`orth, `E`ast, `W`est, `S`outh or `R`oundtrip).\n          example: \"2301W\"\n      description: \"Carrier voyage number and/or universal voyage reference\""
+    },
+    "target:VesselTransport": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "VesselTransport",
+      "line_start": 1440,
+      "line_end": 1484,
+      "definition": "    VesselTransport:\n      type: \"object\"\n      properties:\n        vesselIMONumber:\n          type: \"string\"\n          description: |\n            The unique reference for a registered vessel, which remains unchanged throughout the entire lifetime of the vessel.\n            The reference is the International Maritime Organisation (IMO) number, also sometimes known as the Lloyd's register code.\n          example: \"9321483\"\n        vesselMMSINumber:\n          type: \"string\"\n          description: |\n            Maritime Mobile Service Identities (MMSIs) are nine-digit numbers used by maritime digital selective calling (DSC),\n            automatic identification systems (AIS) and certain other equipment to uniquely identify a ship or a coast radio station.\n          example: \"278111222\"\n        vesselName:\n          type: \"string\"\n          description: \"Vessel name\"\n          example: \"King of the Seas\"\n        vesselFlag:\n          type: \"string\"\n          description: |\n            The national flag of the country under which a vessel is registered,\n            indicated by the 2-character code defined in\n            [ISO 3166-1 alpha-2](https://www.iso.org/obp/ui/#iso:pub:PUB500001:en).\n          example: \"NL\"\n        vesselCallSign:\n          type: \"string\"\n          description: |\n            A unique alphanumeric identity that belongs to the vessel\n            and is assigned by the International Telecommunication Union (ITU).\n            It consists of a three-letter alphanumeric prefix that indicates nationality,\n            followed by one to four characters to identify the individual vessel.\n          example: \"NCVV\"\n        operatorCarrierCode:\n          type: \"string\"\n          description: |\n            The carrier who is in charge of the vessel operation based on `operatorCarrierCodeListProvider`\n          example: \"MAEU\"\n        operatorCarrierCodeListProvider:\n          type: \"string\"\n          description: |\n            The code list provider used for the `operatorCarrierCode` (SMDG or NMFTA)\n          example: \"SMDG\"\n      description: \"Vessel or barge transport information\""
+    },
+    "target:Seal": {
+      "schema_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+      "schema_component": "Seal",
+      "line_start": 1140,
+      "line_end": 1178,
+      "definition": "    Seal:\n      type: \"object\"\n      properties:\n        number:\n          type: \"string\"\n          description: \"Identifies a seal affixed to the container.\"\n          example: \"VET123\"\n        source:\n          type: \"string\"\n          description: |-\n            The source of a seal, indicating who has affixed the seal.\n\n            Both `VETERINARY` and `PHYTOSANITARY` map to `AC` (Quarantine agency) in [UN/EDIFACT 16A 9303](https://unece.org/fileadmin/DAM/trade/untdid/d16a/tred/tred9303.htm).\n\n            - `CARRIER` - Carrier\n            - `CONSOLIDATOR` - Consolidator\n            - `CUSTOMER` - Customer\n            - `CUSTOMS` - Customs\n            - `PHYTOSANITARY` - Phytosanitary\n            - `SHIPPER` - Shipper\n            - `TERMINAL` - Terminal\n            - `VETERINARY` - Veterinary\n          example: \"CUSTOMER\"\n        type:\n          type: \"string\"\n          description: |-\n            The type of a seal.\n            - `KEYLESS_PADLOCK` - Keyless padlock\n            - `BOLT` - Bolt\n            - `WIRE` - Wire\n          example: \"BOLT\"\n        placement:\n          type: \"string\"\n          description: |-\n            The placement of a seal.\n            - `DOOR` - Door\n            - `VENT` - Vent\n          example: \"DOOR\"\n      description: \"Seal-related information associated with the equipment.\""
+    }
+  },
+  "version_status": {
+    "source": "official 2.2.0 schema",
+    "target": "official published 3.0.0 draft; WORK IN PROGRESS; not ready for general adoption",
+    "target_notice_file": "tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+    "target_notice_lines": [
+      20,
+      22
+    ]
+  }
+}

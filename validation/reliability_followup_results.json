@@ -1,0 +1,1794 @@
+{
+  "corpus_manifest_sha256": "b2e87426e0a48eaec8f33aa015be6d2c8413503e7326752e321c237f8ef6d810",
+  "implementation_freeze_sha256": "af1b5430d4d89cb1a3d97633b231abb92af5b06a068e3597213a074fd6731cd6",
+  "raw_report_sha256": {
+    "followup_before": "306f175c5a9a3fe2809b52293dda34dd5df771ab1d5826a5983401bf9a716b51",
+    "followup_current_all": "99f499fe78d0f054bb01be6b9dc10dd5348a4ecc8b031e285985f13656e970c4"
+  },
+  "before": {
+    "overall": {
+      "total": 236,
+      "correct": 145,
+      "incorrect_automatic_matches": 20,
+      "incorrect_ambiguities": 36,
+      "true_automatic_matches": 118,
+      "automatic_matches": 138,
+      "match_labels": 187,
+      "missed_matches": 69,
+      "no_match_labels": 49,
+      "correct_no_matches": 27,
+      "no_match_automatic_selections": 10,
+      "ambiguous_labels": 0,
+      "abstentions": 98,
+      "no_match_predictions": 62,
+      "ambiguous_predictions": 36,
+      "exact_name_recall": {
+        "correct": 66,
+        "total": 73
+      },
+      "renamed_recall": {
+        "correct": 52,
+        "total": 114
+      }
+    },
+    "datasets": {
+      "eval_reliability/financial_01.json": {
+        "total": 21,
+        "correct": 15,
+        "incorrect_automatic_matches": 2,
+        "incorrect_ambiguities": 4,
+        "true_automatic_matches": 13,
+        "automatic_matches": 15,
+        "match_labels": 16,
+        "missed_matches": 3,
+        "no_match_labels": 5,
+        "correct_no_matches": 2,
+        "no_match_automatic_selections": 2,
+        "ambiguous_labels": 0,
+        "abstentions": 6,
+        "no_match_predictions": 2,
+        "ambiguous_predictions": 4,
+        "exact_name_recall": {
+          "correct": 8,
+          "total": 9
+        },
+        "renamed_recall": {
+          "correct": 5,
+          "total": 7
+        }
+      },
+      "eval_reliability/financial_02.json": {
+        "total": 27,
+        "correct": 15,
+        "incorrect_automatic_matches": 3,
+        "incorrect_ambiguities": 2,
+        "true_automatic_matches": 12,
+        "automatic_matches": 15,
+        "match_labels": 22,
+        "missed_matches": 10,
+        "no_match_labels": 5,
+        "correct_no_matches": 3,
+        "no_match_automatic_selections": 2,
+        "ambiguous_labels": 0,
+        "abstentions": 12,
+        "no_match_predictions": 10,
+        "ambiguous_predictions": 2,
+        "exact_name_recall": {
+          "correct": 6,
+          "total": 6
+        },
+        "renamed_recall": {
+          "correct": 6,
+          "total": 16
+        }
+      },
+      "eval_reliability/financial_03.json": {
+        "total": 25,
+        "correct": 11,
+        "incorrect_automatic_matches": 5,
+        "incorrect_ambiguities": 4,
+        "true_automatic_matches": 9,
+        "automatic_matches": 14,
+        "match_labels": 20,
+        "missed_matches": 11,
+        "no_match_labels": 5,
+        "correct_no_matches": 2,
+        "no_match_automatic_selections": 3,
+        "ambiguous_labels": 0,
+        "abstentions": 11,
+        "no_match_predictions": 7,
+        "ambiguous_predictions": 4,
+        "exact_name_recall": {
+          "correct": 3,
+          "total": 4
+        },
+        "renamed_recall": {
+          "correct": 6,
+          "total": 16
+        }
+      },
+      "eval_reliability/healthcare_01.json": {
+        "total": 15,
+        "correct": 13,
+        "incorrect_automatic_matches": 2,
+        "incorrect_ambiguities": 0,
+        "true_automatic_matches": 9,
+        "automatic_matches": 11,
+        "match_labels": 10,
+        "missed_matches": 1,
+        "no_match_labels": 5,
+        "correct_no_matches": 4,
+        "no_match_automatic_selections": 1,
+        "ambiguous_labels": 0,
+        "abstentions": 4,
+        "no_match_predictions": 4,
+        "ambiguous_predictions": 0,
+        "exact_name_recall": {
+          "correct": 5,
+          "total": 5
+        },
+        "renamed_recall": {
+          "correct": 4,
+          "total": 5
+        }
+      },
+      "eval_reliability/healthcare_02.json": {
+        "total": 15,
+        "correct": 11,
+        "incorrect_automatic_matches": 1,
+        "incorrect_ambiguities": 3,
+        "true_automatic_matches": 9,
+        "automatic_matches": 10,
+        "match_labels": 11,
+        "missed_matches": 2,
+        "no_match_labels": 4,
+        "correct_no_matches": 2,
+        "no_match_automatic_selections": 1,
+        "ambiguous_labels": 0,
+        "abstentions": 5,
+        "no_match_predictions": 2,
+        "ambiguous_predictions": 3,
+        "exact_name_recall": {
+          "correct": 4,
+          "total": 4
+        },
+        "renamed_recall": {
+          "correct": 5,
+          "total": 7
+        }
+      },
+      "eval_reliability/operations_01.json": {
+        "total": 15,
+        "correct": 8,
+        "incorrect_automatic_matches": 2,
+        "incorrect_ambiguities": 4,
+        "true_automatic_matches": 8,
+        "automatic_matches": 10,
+        "match_labels": 12,
+        "missed_matches": 4,
+        "no_match_labels": 3,
+        "correct_no_matches": 0,
+        "no_match_automatic_selections": 0,
+        "ambiguous_labels": 0,
+        "abstentions": 5,
+        "no_match_predictions": 1,
+        "ambiguous_predictions": 4,
+        "exact_name_recall": {
+          "correct": 7,
+          "total": 10
+        },
+        "renamed_recall": {
+          "correct": 1,
+          "total": 2
+        }
+      },
+      "eval_reliability/operations_02.json": {
+        "total": 17,
+        "correct": 10,
+        "incorrect_automatic_matches": 2,
+        "incorrect_ambiguities": 5,
+        "true_automatic_matches": 8,
+        "automatic_matches": 10,
+        "match_labels": 14,
+        "missed_matches": 6,
+        "no_match_labels": 3,
+        "correct_no_matches": 2,
+        "no_match_automatic_selections": 0,
+        "ambiguous_labels": 0,
+        "abstentions": 7,
+        "no_match_predictions": 2,
+        "ambiguous_predictions": 5,
+        "exact_name_recall": {
+          "correct": 0,
+          "total": 0
+        },
+        "renamed_recall": {
+          "correct": 8,
+          "total": 14
+        }
+      },
+      "eval_reliability/operations_03.json": {
+        "total": 34,
+        "correct": 18,
+        "incorrect_automatic_matches": 2,
+        "incorrect_ambiguities": 9,
+        "true_automatic_matches": 17,
+        "automatic_matches": 19,
+        "match_labels": 31,
+        "missed_matches": 14,
+        "no_match_labels": 3,
+        "correct_no_matches": 1,
+        "no_match_automatic_selections": 0,
+        "ambiguous_labels": 0,
+        "abstentions": 15,
+        "no_match_predictions": 6,
+        "ambiguous_predictions": 9,
+        "exact_name_recall": {
+          "correct": 8,
+          "total": 8
+        },
+        "renamed_recall": {
+          "correct": 9,
+          "total": 23
+        }
+      },
+      "eval_reliability_new/financial_01.json": {
+        "total": 27,
+        "correct": 11,
+        "incorrect_automatic_matches": 0,
+        "incorrect_ambiguities": 0,
+        "true_automatic_matches": 5,
+        "automatic_matches": 5,
+        "match_labels": 21,
+        "missed_matches": 16,
+        "no_match_labels": 6,
+        "correct_no_matches": 6,
+        "no_match_automatic_selections": 0,
+        "ambiguous_labels": 0,
+        "abstentions": 22,
+        "no_match_predictions": 22,
+        "ambiguous_predictions": 0,
+        "exact_name_recall": {
+          "correct": 3,
+          "total": 3
+        },
+        "renamed_recall": {
+          "correct": 2,
+          "total": 18
+        }
+      },
+      "eval_reliability_new/healthcare_01.json": {
+        "total": 24,
+        "correct": 22,
+        "incorrect_automatic_matches": 1,
+        "incorrect_ambiguities": 1,
+        "true_automatic_matches": 17,
+        "automatic_matches": 18,
+        "match_labels": 17,
+        "missed_matches": 0,
+        "no_match_labels": 7,
+        "correct_no_matches": 5,
+        "no_match_automatic_selections": 1,
+        "ambiguous_labels": 0,
+        "abstentions": 6,
+        "no_match_predictions": 5,
+        "ambiguous_predictions": 1,
+        "exact_name_recall": {
+          "correct": 13,
+          "total": 13
+        },
+        "renamed_recall": {
+          "correct": 4,
+          "total": 4
+        }
+      },
+      "eval_reliability_new/operations_01.json": {
+        "total": 16,
+        "correct": 11,
+        "incorrect_automatic_matches": 0,
+        "incorrect_ambiguities": 4,
+        "true_automatic_matches": 11,
+        "automatic_matches": 11,
+        "match_labels": 13,
+        "missed_matches": 2,
+        "no_match_labels": 3,
+        "correct_no_matches": 0,
+        "no_match_automatic_selections": 0,
+        "ambiguous_labels": 0,
+        "abstentions": 5,
+        "no_match_predictions": 1,
+        "ambiguous_predictions": 4,
+        "exact_name_recall": {
+          "correct": 9,
+          "total": 11
+        },
+        "renamed_recall": {
+          "correct": 2,
+          "total": 2
+        }
+      }
+    },
+    "domains": {
+      "financial": {
+        "total": 100,
+        "correct": 52,
+        "incorrect_automatic_matches": 10,
+        "incorrect_ambiguities": 10,
+        "true_automatic_matches": 39,
+        "automatic_matches": 49,
+        "match_labels": 79,
+        "missed_matches": 40,
+        "no_match_labels": 21,
+        "correct_no_matches": 13,
+        "no_match_automatic_selections": 7,
+        "ambiguous_labels": 0,
+        "abstentions": 51,
+        "no_match_predictions": 41,
+        "ambiguous_predictions": 10,
+        "exact_name_recall": {
+          "correct": 20,
+          "total": 22
+        },
+        "renamed_recall": {
+          "correct": 19,
+          "total": 57
+        }
+      },
+      "healthcare": {
+        "total": 54,
+        "correct": 46,
+        "incorrect_automatic_matches": 4,
+        "incorrect_ambiguities": 4,
+        "true_automatic_matches": 35,
+        "automatic_matches": 39,
+        "match_labels": 38,
+        "missed_matches": 3,
+        "no_match_labels": 16,
+        "correct_no_matches": 11,
+        "no_match_automatic_selections": 3,
+        "ambiguous_labels": 0,
+        "abstentions": 15,
+        "no_match_predictions": 11,
+        "ambiguous_predictions": 4,
+        "exact_name_recall": {
+          "correct": 22,
+          "total": 22
+        },
+        "renamed_recall": {
+          "correct": 13,
+          "total": 16
+        }
+      },
+      "operations": {
+        "total": 82,
+        "correct": 47,
+        "incorrect_automatic_matches": 6,
+        "incorrect_ambiguities": 22,
+        "true_automatic_matches": 44,
+        "automatic_matches": 50,
+        "match_labels": 70,
+        "missed_matches": 26,
+        "no_match_labels": 12,
+        "correct_no_matches": 3,
+        "no_match_automatic_selections": 0,
+        "ambiguous_labels": 0,
+        "abstentions": 32,
+        "no_match_predictions": 10,
+        "ambiguous_predictions": 22,
+        "exact_name_recall": {
+          "correct": 24,
+          "total": 29
+        },
+        "renamed_recall": {
+          "correct": 20,
+          "total": 41
+        }
+      }
+    }
+  },
+  "after": {
+    "overall": {
+      "total": 236,
+      "correct": 144,
+      "incorrect_automatic_matches": 20,
+      "incorrect_ambiguities": 36,
+      "true_automatic_matches": 117,
+      "automatic_matches": 137,
+      "match_labels": 187,
+      "missed_matches": 70,
+      "no_match_labels": 49,
+      "correct_no_matches": 27,
+      "no_match_automatic_selections": 10,
+      "ambiguous_labels": 0,
+      "abstentions": 99,
+      "no_match_predictions": 63,
+      "ambiguous_predictions": 36,
+      "exact_name_recall": {
+        "correct": 66,
+        "total": 73
+      },
+      "renamed_recall": {
+        "correct": 51,
+        "total": 114
+      }
+    },
+    "datasets": {
+      "eval_reliability/financial_01.json": {
+        "total": 21,
+        "correct": 15,
+        "incorrect_automatic_matches": 2,
+        "incorrect_ambiguities": 4,
+        "true_automatic_matches": 13,
+        "automatic_matches": 15,
+        "match_labels": 16,
+        "missed_matches": 3,
+        "no_match_labels": 5,
+        "correct_no_matches": 2,
+        "no_match_automatic_selections": 2,
+        "ambiguous_labels": 0,
+        "abstentions": 6,
+        "no_match_predictions": 2,
+        "ambiguous_predictions": 4,
+        "exact_name_recall": {
+          "correct": 8,
+          "total": 9
+        },
+        "renamed_recall": {
+          "correct": 5,
+          "total": 7
+        }
+      },
+      "eval_reliability/financial_02.json": {
+        "total": 27,
+        "correct": 15,
+        "incorrect_automatic_matches": 3,
+        "incorrect_ambiguities": 2,
+        "true_automatic_matches": 12,
+        "automatic_matches": 15,
+        "match_labels": 22,
+        "missed_matches": 10,
+        "no_match_labels": 5,
+        "correct_no_matches": 3,
+        "no_match_automatic_selections": 2,
+        "ambiguous_labels": 0,
+        "abstentions": 12,
+        "no_match_predictions": 10,
+        "ambiguous_predictions": 2,
+        "exact_name_recall": {
+          "correct": 6,
+          "total": 6
+        },
+        "renamed_recall": {
+          "correct": 6,
+          "total": 16
+        }
+      },
+      "eval_reliability/financial_03.json": {
+        "total": 25,
+        "correct": 11,
+        "incorrect_automatic_matches": 5,
+        "incorrect_ambiguities": 4,
+        "true_automatic_matches": 9,
+        "automatic_matches": 14,
+        "match_labels": 20,
+        "missed_matches": 11,
+        "no_match_labels": 5,
+        "correct_no_matches": 2,
+        "no_match_automatic_selections": 3,
+        "ambiguous_labels": 0,
+        "abstentions": 11,
+        "no_match_predictions": 7,
+        "ambiguous_predictions": 4,
+        "exact_name_recall": {
+          "correct": 3,
+          "total": 4
+        },
+        "renamed_recall": {
+          "correct": 6,
+          "total": 16
+        }
+      },
+      "eval_reliability/healthcare_01.json": {
+        "total": 15,
+        "correct": 13,
+        "incorrect_automatic_matches": 2,
+        "incorrect_ambiguities": 0,
+        "true_automatic_matches": 9,
+        "automatic_matches": 11,
+        "match_labels": 10,
+        "missed_matches": 1,
+        "no_match_labels": 5,
+        "correct_no_matches": 4,
+        "no_match_automatic_selections": 1,
+        "ambiguous_labels": 0,
+        "abstentions": 4,
+        "no_match_predictions": 4,
+        "ambiguous_predictions": 0,
+        "exact_name_recall": {
+          "correct": 5,
+          "total": 5
+        },
+        "renamed_recall": {
+          "correct": 4,
+          "total": 5
+        }
+      },
+      "eval_reliability/healthcare_02.json": {
+        "total": 15,
+        "correct": 11,
+        "incorrect_automatic_matches": 1,
+        "incorrect_ambiguities": 3,
+        "true_automatic_matches": 9,
+        "automatic_matches": 10,
+        "match_labels": 11,
+        "missed_matches": 2,
+        "no_match_labels": 4,
+        "correct_no_matches": 2,
+        "no_match_automatic_selections": 1,
+        "ambiguous_labels": 0,
+        "abstentions": 5,
+        "no_match_predictions": 2,
+        "ambiguous_predictions": 3,
+        "exact_name_recall": {
+          "correct": 4,
+          "total": 4
+        },
+        "renamed_recall": {
+          "correct": 5,
+          "total": 7
+        }
+      },
+      "eval_reliability/operations_01.json": {
+        "total": 15,
+        "correct": 8,
+        "incorrect_automatic_matches": 2,
+        "incorrect_ambiguities": 4,
+        "true_automatic_matches": 8,
+        "automatic_matches": 10,
+        "match_labels": 12,
+        "missed_matches": 4,
+        "no_match_labels": 3,
+        "correct_no_matches": 0,
+        "no_match_automatic_selections": 0,
+        "ambiguous_labels": 0,
+        "abstentions": 5,
+        "no_match_predictions": 1,
+        "ambiguous_predictions": 4,
+        "exact_name_recall": {
+          "correct": 7,
+          "total": 10
+        },
+        "renamed_recall": {
+          "correct": 1,
+          "total": 2
+        }
+      },
+      "eval_reliability/operations_02.json": {
+        "total": 17,
+        "correct": 10,
+        "incorrect_automatic_matches": 2,
+        "incorrect_ambiguities": 5,
+        "true_automatic_matches": 8,
+        "automatic_matches": 10,
+        "match_labels": 14,
+        "missed_matches": 6,
+        "no_match_labels": 3,
+        "correct_no_matches": 2,
+        "no_match_automatic_selections": 0,
+        "ambiguous_labels": 0,
+        "abstentions": 7,
+        "no_match_predictions": 2,
+        "ambiguous_predictions": 5,
+        "exact_name_recall": {
+          "correct": 0,
+          "total": 0
+        },
+        "renamed_recall": {
+          "correct": 8,
+          "total": 14
+        }
+      },
+      "eval_reliability/operations_03.json": {
+        "total": 34,
+        "correct": 17,
+        "incorrect_automatic_matches": 2,
+        "incorrect_ambiguities": 9,
+        "true_automatic_matches": 16,
+        "automatic_matches": 18,
+        "match_labels": 31,
+        "missed_matches": 15,
+        "no_match_labels": 3,
+        "correct_no_matches": 1,
+        "no_match_automatic_selections": 0,
+        "ambiguous_labels": 0,
+        "abstentions": 16,
+        "no_match_predictions": 7,
+        "ambiguous_predictions": 9,
+        "exact_name_recall": {
+          "correct": 8,
+          "total": 8
+        },
+        "renamed_recall": {
+          "correct": 8,
+          "total": 23
+        }
+      },
+      "eval_reliability_new/financial_01.json": {
+        "total": 27,
+        "correct": 11,
+        "incorrect_automatic_matches": 0,
+        "incorrect_ambiguities": 0,
+        "true_automatic_matches": 5,
+        "automatic_matches": 5,
+        "match_labels": 21,
+        "missed_matches": 16,
+        "no_match_labels": 6,
+        "correct_no_matches": 6,
+        "no_match_automatic_selections": 0,
+        "ambiguous_labels": 0,
+        "abstentions": 22,
+        "no_match_predictions": 22,
+        "ambiguous_predictions": 0,
+        "exact_name_recall": {
+          "correct": 3,
+          "total": 3
+        },
+        "renamed_recall": {
+          "correct": 2,
+          "total": 18
+        }
+      },
+      "eval_reliability_new/healthcare_01.json": {
+        "total": 24,
+        "correct": 22,
+        "incorrect_automatic_matches": 1,
+        "incorrect_ambiguities": 1,
+        "true_automatic_matches": 17,
+        "automatic_matches": 18,
+        "match_labels": 17,
+        "missed_matches": 0,
+        "no_match_labels": 7,
+        "correct_no_matches": 5,
+        "no_match_automatic_selections": 1,
+        "ambiguous_labels": 0,
+        "abstentions": 6,
+        "no_match_predictions": 5,
+        "ambiguous_predictions": 1,
+        "exact_name_recall": {
+          "correct": 13,
+          "total": 13
+        },
+        "renamed_recall": {
+          "correct": 4,
+          "total": 4
+        }
+      },
+      "eval_reliability_new/operations_01.json": {
+        "total": 16,
+        "correct": 11,
+        "incorrect_automatic_matches": 0,
+        "incorrect_ambiguities": 4,
+        "true_automatic_matches": 11,
+        "automatic_matches": 11,
+        "match_labels": 13,
+        "missed_matches": 2,
+        "no_match_labels": 3,
+        "correct_no_matches": 0,
+        "no_match_automatic_selections": 0,
+        "ambiguous_labels": 0,
+        "abstentions": 5,
+        "no_match_predictions": 1,
+        "ambiguous_predictions": 4,
+        "exact_name_recall": {
+          "correct": 9,
+          "total": 11
+        },
+        "renamed_recall": {
+          "correct": 2,
+          "total": 2
+        }
+      }
+    },
+    "domains": {
+      "financial": {
+        "total": 100,
+        "correct": 52,
+        "incorrect_automatic_matches": 10,
+        "incorrect_ambiguities": 10,
+        "true_automatic_matches": 39,
+        "automatic_matches": 49,
+        "match_labels": 79,
+        "missed_matches": 40,
+        "no_match_labels": 21,
+        "correct_no_matches": 13,
+        "no_match_automatic_selections": 7,
+        "ambiguous_labels": 0,
+        "abstentions": 51,
+        "no_match_predictions": 41,
+        "ambiguous_predictions": 10,
+        "exact_name_recall": {
+          "correct": 20,
+          "total": 22
+        },
+        "renamed_recall": {
+          "correct": 19,
+          "total": 57
+        }
+      },
+      "healthcare": {
+        "total": 54,
+        "correct": 46,
+        "incorrect_automatic_matches": 4,
+        "incorrect_ambiguities": 4,
+        "true_automatic_matches": 35,
+        "automatic_matches": 39,
+        "match_labels": 38,
+        "missed_matches": 3,
+        "no_match_labels": 16,
+        "correct_no_matches": 11,
+        "no_match_automatic_selections": 3,
+        "ambiguous_labels": 0,
+        "abstentions": 15,
+        "no_match_predictions": 11,
+        "ambiguous_predictions": 4,
+        "exact_name_recall": {
+          "correct": 22,
+          "total": 22
+        },
+        "renamed_recall": {
+          "correct": 13,
+          "total": 16
+        }
+      },
+      "operations": {
+        "total": 82,
+        "correct": 46,
+        "incorrect_automatic_matches": 6,
+        "incorrect_ambiguities": 22,
+        "true_automatic_matches": 43,
+        "automatic_matches": 49,
+        "match_labels": 70,
+        "missed_matches": 27,
+        "no_match_labels": 12,
+        "correct_no_matches": 3,
+        "no_match_automatic_selections": 0,
+        "ambiguous_labels": 0,
+        "abstentions": 33,
+        "no_match_predictions": 11,
+        "ambiguous_predictions": 22,
+        "exact_name_recall": {
+          "correct": 24,
+          "total": 29
+        },
+        "renamed_recall": {
+          "correct": 19,
+          "total": 41
+        }
+      }
+    }
+  },
+  "first_tranche": {
+    "before": {
+      "overall": {
+        "total": 169,
+        "correct": 101,
+        "incorrect_automatic_matches": 19,
+        "incorrect_ambiguities": 31,
+        "true_automatic_matches": 85,
+        "automatic_matches": 104,
+        "match_labels": 136,
+        "missed_matches": 51,
+        "no_match_labels": 33,
+        "correct_no_matches": 16,
+        "no_match_automatic_selections": 9,
+        "ambiguous_labels": 0,
+        "abstentions": 65,
+        "no_match_predictions": 34,
+        "ambiguous_predictions": 31,
+        "exact_name_recall": {
+          "correct": 41,
+          "total": 46
+        },
+        "renamed_recall": {
+          "correct": 44,
+          "total": 90
+        }
+      },
+      "datasets": {
+        "eval_reliability/financial_01.json": {
+          "total": 21,
+          "correct": 15,
+          "incorrect_automatic_matches": 2,
+          "incorrect_ambiguities": 4,
+          "true_automatic_matches": 13,
+          "automatic_matches": 15,
+          "match_labels": 16,
+          "missed_matches": 3,
+          "no_match_labels": 5,
+          "correct_no_matches": 2,
+          "no_match_automatic_selections": 2,
+          "ambiguous_labels": 0,
+          "abstentions": 6,
+          "no_match_predictions": 2,
+          "ambiguous_predictions": 4,
+          "exact_name_recall": {
+            "correct": 8,
+            "total": 9
+          },
+          "renamed_recall": {
+            "correct": 5,
+            "total": 7
+          }
+        },
+        "eval_reliability/financial_02.json": {
+          "total": 27,
+          "correct": 15,
+          "incorrect_automatic_matches": 3,
+          "incorrect_ambiguities": 2,
+          "true_automatic_matches": 12,
+          "automatic_matches": 15,
+          "match_labels": 22,
+          "missed_matches": 10,
+          "no_match_labels": 5,
+          "correct_no_matches": 3,
+          "no_match_automatic_selections": 2,
+          "ambiguous_labels": 0,
+          "abstentions": 12,
+          "no_match_predictions": 10,
+          "ambiguous_predictions": 2,
+          "exact_name_recall": {
+            "correct": 6,
+            "total": 6
+          },
+          "renamed_recall": {
+            "correct": 6,
+            "total": 16
+          }
+        },
+        "eval_reliability/financial_03.json": {
+          "total": 25,
+          "correct": 11,
+          "incorrect_automatic_matches": 5,
+          "incorrect_ambiguities": 4,
+          "true_automatic_matches": 9,
+          "automatic_matches": 14,
+          "match_labels": 20,
+          "missed_matches": 11,
+          "no_match_labels": 5,
+          "correct_no_matches": 2,
+          "no_match_automatic_selections": 3,
+          "ambiguous_labels": 0,
+          "abstentions": 11,
+          "no_match_predictions": 7,
+          "ambiguous_predictions": 4,
+          "exact_name_recall": {
+            "correct": 3,
+            "total": 4
+          },
+          "renamed_recall": {
+            "correct": 6,
+            "total": 16
+          }
+        },
+        "eval_reliability/healthcare_01.json": {
+          "total": 15,
+          "correct": 13,
+          "incorrect_automatic_matches": 2,
+          "incorrect_ambiguities": 0,
+          "true_automatic_matches": 9,
+          "automatic_matches": 11,
+          "match_labels": 10,
+          "missed_matches": 1,
+          "no_match_labels": 5,
+          "correct_no_matches": 4,
+          "no_match_automatic_selections": 1,
+          "ambiguous_labels": 0,
+          "abstentions": 4,
+          "no_match_predictions": 4,
+          "ambiguous_predictions": 0,
+          "exact_name_recall": {
+            "correct": 5,
+            "total": 5
+          },
+          "renamed_recall": {
+            "correct": 4,
+            "total": 5
+          }
+        },
+        "eval_reliability/healthcare_02.json": {
+          "total": 15,
+          "correct": 11,
+          "incorrect_automatic_matches": 1,
+          "incorrect_ambiguities": 3,
+          "true_automatic_matches": 9,
+          "automatic_matches": 10,
+          "match_labels": 11,
+          "missed_matches": 2,
+          "no_match_labels": 4,
+          "correct_no_matches": 2,
+          "no_match_automatic_selections": 1,
+          "ambiguous_labels": 0,
+          "abstentions": 5,
+          "no_match_predictions": 2,
+          "ambiguous_predictions": 3,
+          "exact_name_recall": {
+            "correct": 4,
+            "total": 4
+          },
+          "renamed_recall": {
+            "correct": 5,
+            "total": 7
+          }
+        },
+        "eval_reliability/operations_01.json": {
+          "total": 15,
+          "correct": 8,
+          "incorrect_automatic_matches": 2,
+          "incorrect_ambiguities": 4,
+          "true_automatic_matches": 8,
+          "automatic_matches": 10,
+          "match_labels": 12,
+          "missed_matches": 4,
+          "no_match_labels": 3,
+          "correct_no_matches": 0,
+          "no_match_automatic_selections": 0,
+          "ambiguous_labels": 0,
+          "abstentions": 5,
+          "no_match_predictions": 1,
+          "ambiguous_predictions": 4,
+          "exact_name_recall": {
+            "correct": 7,
+            "total": 10
+          },
+          "renamed_recall": {
+            "correct": 1,
+            "total": 2
+          }
+        },
+        "eval_reliability/operations_02.json": {
+          "total": 17,
+          "correct": 10,
+          "incorrect_automatic_matches": 2,
+          "incorrect_ambiguities": 5,
+          "true_automatic_matches": 8,
+          "automatic_matches": 10,
+          "match_labels": 14,
+          "missed_matches": 6,
+          "no_match_labels": 3,
+          "correct_no_matches": 2,
+          "no_match_automatic_selections": 0,
+          "ambiguous_labels": 0,
+          "abstentions": 7,
+          "no_match_predictions": 2,
+          "ambiguous_predictions": 5,
+          "exact_name_recall": {
+            "correct": 0,
+            "total": 0
+          },
+          "renamed_recall": {
+            "correct": 8,
+            "total": 14
+          }
+        },
+        "eval_reliability/operations_03.json": {
+          "total": 34,
+          "correct": 18,
+          "incorrect_automatic_matches": 2,
+          "incorrect_ambiguities": 9,
+          "true_automatic_matches": 17,
+          "automatic_matches": 19,
+          "match_labels": 31,
+          "missed_matches": 14,
+          "no_match_labels": 3,
+          "correct_no_matches": 1,
+          "no_match_automatic_selections": 0,
+          "ambiguous_labels": 0,
+          "abstentions": 15,
+          "no_match_predictions": 6,
+          "ambiguous_predictions": 9,
+          "exact_name_recall": {
+            "correct": 8,
+            "total": 8
+          },
+          "renamed_recall": {
+            "correct": 9,
+            "total": 23
+          }
+        }
+      },
+      "domains": {
+        "financial": {
+          "total": 73,
+          "correct": 41,
+          "incorrect_automatic_matches": 10,
+          "incorrect_ambiguities": 10,
+          "true_automatic_matches": 34,
+          "automatic_matches": 44,
+          "match_labels": 58,
+          "missed_matches": 24,
+          "no_match_labels": 15,
+          "correct_no_matches": 7,
+          "no_match_automatic_selections": 7,
+          "ambiguous_labels": 0,
+          "abstentions": 29,
+          "no_match_predictions": 19,
+          "ambiguous_predictions": 10,
+          "exact_name_recall": {
+            "correct": 17,
+            "total": 19
+          },
+          "renamed_recall": {
+            "correct": 17,
+            "total": 39
+          }
+        },
+        "healthcare": {
+          "total": 30,
+          "correct": 24,
+          "incorrect_automatic_matches": 3,
+          "incorrect_ambiguities": 3,
+          "true_automatic_matches": 18,
+          "automatic_matches": 21,
+          "match_labels": 21,
+          "missed_matches": 3,
+          "no_match_labels": 9,
+          "correct_no_matches": 6,
+          "no_match_automatic_selections": 2,
+          "ambiguous_labels": 0,
+          "abstentions": 9,
+          "no_match_predictions": 6,
+          "ambiguous_predictions": 3,
+          "exact_name_recall": {
+            "correct": 9,
+            "total": 9
+          },
+          "renamed_recall": {
+            "correct": 9,
+            "total": 12
+          }
+        },
+        "operations": {
+          "total": 66,
+          "correct": 36,
+          "incorrect_automatic_matches": 6,
+          "incorrect_ambiguities": 18,
+          "true_automatic_matches": 33,
+          "automatic_matches": 39,
+          "match_labels": 57,
+          "missed_matches": 24,
+          "no_match_labels": 9,
+          "correct_no_matches": 3,
+          "no_match_automatic_selections": 0,
+          "ambiguous_labels": 0,
+          "abstentions": 27,
+          "no_match_predictions": 9,
+          "ambiguous_predictions": 18,
+          "exact_name_recall": {
+            "correct": 15,
+            "total": 18
+          },
+          "renamed_recall": {
+            "correct": 18,
+            "total": 39
+          }
+        }
+      }
+    },
+    "after": {
+      "overall": {
+        "total": 169,
+        "correct": 100,
+        "incorrect_automatic_matches": 19,
+        "incorrect_ambiguities": 31,
+        "true_automatic_matches": 84,
+        "automatic_matches": 103,
+        "match_labels": 136,
+        "missed_matches": 52,
+        "no_match_labels": 33,
+        "correct_no_matches": 16,
+        "no_match_automatic_selections": 9,
+        "ambiguous_labels": 0,
+        "abstentions": 66,
+        "no_match_predictions": 35,
+        "ambiguous_predictions": 31,
+        "exact_name_recall": {
+          "correct": 41,
+          "total": 46
+        },
+        "renamed_recall": {
+          "correct": 43,
+          "total": 90
+        }
+      },
+      "datasets": {
+        "eval_reliability/financial_01.json": {
+          "total": 21,
+          "correct": 15,
+          "incorrect_automatic_matches": 2,
+          "incorrect_ambiguities": 4,
+          "true_automatic_matches": 13,
+          "automatic_matches": 15,
+          "match_labels": 16,
+          "missed_matches": 3,
+          "no_match_labels": 5,
+          "correct_no_matches": 2,
+          "no_match_automatic_selections": 2,
+          "ambiguous_labels": 0,
+          "abstentions": 6,
+          "no_match_predictions": 2,
+          "ambiguous_predictions": 4,
+          "exact_name_recall": {
+            "correct": 8,
+            "total": 9
+          },
+          "renamed_recall": {
+            "correct": 5,
+            "total": 7
+          }
+        },
+        "eval_reliability/financial_02.json": {
+          "total": 27,
+          "correct": 15,
+          "incorrect_automatic_matches": 3,
+          "incorrect_ambiguities": 2,
+          "true_automatic_matches": 12,
+          "automatic_matches": 15,
+          "match_labels": 22,
+          "missed_matches": 10,
+          "no_match_labels": 5,
+          "correct_no_matches": 3,
+          "no_match_automatic_selections": 2,
+          "ambiguous_labels": 0,
+          "abstentions": 12,
+          "no_match_predictions": 10,
+          "ambiguous_predictions": 2,
+          "exact_name_recall": {
+            "correct": 6,
+            "total": 6
+          },
+          "renamed_recall": {
+            "correct": 6,
+            "total": 16
+          }
+        },
+        "eval_reliability/financial_03.json": {
+          "total": 25,
+          "correct": 11,
+          "incorrect_automatic_matches": 5,
+          "incorrect_ambiguities": 4,
+          "true_automatic_matches": 9,
+          "automatic_matches": 14,
+          "match_labels": 20,
+          "missed_matches": 11,
+          "no_match_labels": 5,
+          "correct_no_matches": 2,
+          "no_match_automatic_selections": 3,
+          "ambiguous_labels": 0,
+          "abstentions": 11,
+          "no_match_predictions": 7,
+          "ambiguous_predictions": 4,
+          "exact_name_recall": {
+            "correct": 3,
+            "total": 4
+          },
+          "renamed_recall": {
+            "correct": 6,
+            "total": 16
+          }
+        },
+        "eval_reliability/healthcare_01.json": {
+          "total": 15,
+          "correct": 13,
+          "incorrect_automatic_matches": 2,
+          "incorrect_ambiguities": 0,
+          "true_automatic_matches": 9,
+          "automatic_matches": 11,
+          "match_labels": 10,
+          "missed_matches": 1,
+          "no_match_labels": 5,
+          "correct_no_matches": 4,
+          "no_match_automatic_selections": 1,
+          "ambiguous_labels": 0,
+          "abstentions": 4,
+          "no_match_predictions": 4,
+          "ambiguous_predictions": 0,
+          "exact_name_recall": {
+            "correct": 5,
+            "total": 5
+          },
+          "renamed_recall": {
+            "correct": 4,
+            "total": 5
+          }
+        },
+        "eval_reliability/healthcare_02.json": {
+          "total": 15,
+          "correct": 11,
+          "incorrect_automatic_matches": 1,
+          "incorrect_ambiguities": 3,
+          "true_automatic_matches": 9,
+          "automatic_matches": 10,
+          "match_labels": 11,
+          "missed_matches": 2,
+          "no_match_labels": 4,
+          "correct_no_matches": 2,
+          "no_match_automatic_selections": 1,
+          "ambiguous_labels": 0,
+          "abstentions": 5,
+          "no_match_predictions": 2,
+          "ambiguous_predictions": 3,
+          "exact_name_recall": {
+            "correct": 4,
+            "total": 4
+          },
+          "renamed_recall": {
+            "correct": 5,
+            "total": 7
+          }
+        },
+        "eval_reliability/operations_01.json": {
+          "total": 15,
+          "correct": 8,
+          "incorrect_automatic_matches": 2,
+          "incorrect_ambiguities": 4,
+          "true_automatic_matches": 8,
+          "automatic_matches": 10,
+          "match_labels": 12,
+          "missed_matches": 4,
+          "no_match_labels": 3,
+          "correct_no_matches": 0,
+          "no_match_automatic_selections": 0,
+          "ambiguous_labels": 0,
+          "abstentions": 5,
+          "no_match_predictions": 1,
+          "ambiguous_predictions": 4,
+          "exact_name_recall": {
+            "correct": 7,
+            "total": 10
+          },
+          "renamed_recall": {
+            "correct": 1,
+            "total": 2
+          }
+        },
+        "eval_reliability/operations_02.json": {
+          "total": 17,
+          "correct": 10,
+          "incorrect_automatic_matches": 2,
+          "incorrect_ambiguities": 5,
+          "true_automatic_matches": 8,
+          "automatic_matches": 10,
+          "match_labels": 14,
+          "missed_matches": 6,
+          "no_match_labels": 3,
+          "correct_no_matches": 2,
+          "no_match_automatic_selections": 0,
+          "ambiguous_labels": 0,
+          "abstentions": 7,
+          "no_match_predictions": 2,
+          "ambiguous_predictions": 5,
+          "exact_name_recall": {
+            "correct": 0,
+            "total": 0
+          },
+          "renamed_recall": {
+            "correct": 8,
+            "total": 14
+          }
+        },
+        "eval_reliability/operations_03.json": {
+          "total": 34,
+          "correct": 17,
+          "incorrect_automatic_matches": 2,
+          "incorrect_ambiguities": 9,
+          "true_automatic_matches": 16,
+          "automatic_matches": 18,
+          "match_labels": 31,
+          "missed_matches": 15,
+          "no_match_labels": 3,
+          "correct_no_matches": 1,
+          "no_match_automatic_selections": 0,
+          "ambiguous_labels": 0,
+          "abstentions": 16,
+          "no_match_predictions": 7,
+          "ambiguous_predictions": 9,
+          "exact_name_recall": {
+            "correct": 8,
+            "total": 8
+          },
+          "renamed_recall": {
+            "correct": 8,
+            "total": 23
+          }
+        }
+      },
+      "domains": {
+        "financial": {
+          "total": 73,
+          "correct": 41,
+          "incorrect_automatic_matches": 10,
+          "incorrect_ambiguities": 10,
+          "true_automatic_matches": 34,
+          "automatic_matches": 44,
+          "match_labels": 58,
+          "missed_matches": 24,
+          "no_match_labels": 15,
+          "correct_no_matches": 7,
+          "no_match_automatic_selections": 7,
+          "ambiguous_labels": 0,
+          "abstentions": 29,
+          "no_match_predictions": 19,
+          "ambiguous_predictions": 10,
+          "exact_name_recall": {
+            "correct": 17,
+            "total": 19
+          },
+          "renamed_recall": {
+            "correct": 17,
+            "total": 39
+          }
+        },
+        "healthcare": {
+          "total": 30,
+          "correct": 24,
+          "incorrect_automatic_matches": 3,
+          "incorrect_ambiguities": 3,
+          "true_automatic_matches": 18,
+          "automatic_matches": 21,
+          "match_labels": 21,
+          "missed_matches": 3,
+          "no_match_labels": 9,
+          "correct_no_matches": 6,
+          "no_match_automatic_selections": 2,
+          "ambiguous_labels": 0,
+          "abstentions": 9,
+          "no_match_predictions": 6,
+          "ambiguous_predictions": 3,
+          "exact_name_recall": {
+            "correct": 9,
+            "total": 9
+          },
+          "renamed_recall": {
+            "correct": 9,
+            "total": 12
+          }
+        },
+        "operations": {
+          "total": 66,
+          "correct": 35,
+          "incorrect_automatic_matches": 6,
+          "incorrect_ambiguities": 18,
+          "true_automatic_matches": 32,
+          "automatic_matches": 38,
+          "match_labels": 57,
+          "missed_matches": 25,
+          "no_match_labels": 9,
+          "correct_no_matches": 3,
+          "no_match_automatic_selections": 0,
+          "ambiguous_labels": 0,
+          "abstentions": 28,
+          "no_match_predictions": 10,
+          "ambiguous_predictions": 18,
+          "exact_name_recall": {
+            "correct": 15,
+            "total": 18
+          },
+          "renamed_recall": {
+            "correct": 17,
+            "total": 39
+          }
+        }
+      }
+    }
+  },
+  "second_tranche": {
+    "before": {
+      "overall": {
+        "total": 67,
+        "correct": 44,
+        "incorrect_automatic_matches": 1,
+        "incorrect_ambiguities": 5,
+        "true_automatic_matches": 33,
+        "automatic_matches": 34,
+        "match_labels": 51,
+        "missed_matches": 18,
+        "no_match_labels": 16,
+        "correct_no_matches": 11,
+        "no_match_automatic_selections": 1,
+        "ambiguous_labels": 0,
+        "abstentions": 33,
+        "no_match_predictions": 28,
+        "ambiguous_predictions": 5,
+        "exact_name_recall": {
+          "correct": 25,
+          "total": 27
+        },
+        "renamed_recall": {
+          "correct": 8,
+          "total": 24
+        }
+      },
+      "datasets": {
+        "eval_reliability_new/financial_01.json": {
+          "total": 27,
+          "correct": 11,
+          "incorrect_automatic_matches": 0,
+          "incorrect_ambiguities": 0,
+          "true_automatic_matches": 5,
+          "automatic_matches": 5,
+          "match_labels": 21,
+          "missed_matches": 16,
+          "no_match_labels": 6,
+          "correct_no_matches": 6,
+          "no_match_automatic_selections": 0,
+          "ambiguous_labels": 0,
+          "abstentions": 22,
+          "no_match_predictions": 22,
+          "ambiguous_predictions": 0,
+          "exact_name_recall": {
+            "correct": 3,
+            "total": 3
+          },
+          "renamed_recall": {
+            "correct": 2,
+            "total": 18
+          }
+        },
+        "eval_reliability_new/healthcare_01.json": {
+          "total": 24,
+          "correct": 22,
+          "incorrect_automatic_matches": 1,
+          "incorrect_ambiguities": 1,
+          "true_automatic_matches": 17,
+          "automatic_matches": 18,
+          "match_labels": 17,
+          "missed_matches": 0,
+          "no_match_labels": 7,
+          "correct_no_matches": 5,
+          "no_match_automatic_selections": 1,
+          "ambiguous_labels": 0,
+          "abstentions": 6,
+          "no_match_predictions": 5,
+          "ambiguous_predictions": 1,
+          "exact_name_recall": {
+            "correct": 13,
+            "total": 13
+          },
+          "renamed_recall": {
+            "correct": 4,
+            "total": 4
+          }
+        },
+        "eval_reliability_new/operations_01.json": {
+          "total": 16,
+          "correct": 11,
+          "incorrect_automatic_matches": 0,
+          "incorrect_ambiguities": 4,
+          "true_automatic_matches": 11,
+          "automatic_matches": 11,
+          "match_labels": 13,
+          "missed_matches": 2,
+          "no_match_labels": 3,
+          "correct_no_matches": 0,
+          "no_match_automatic_selections": 0,
+          "ambiguous_labels": 0,
+          "abstentions": 5,
+          "no_match_predictions": 1,
+          "ambiguous_predictions": 4,
+          "exact_name_recall": {
+            "correct": 9,
+            "total": 11
+          },
+          "renamed_recall": {
+            "correct": 2,
+            "total": 2
+          }
+        }
+      },
+      "domains": {
+        "financial": {
+          "total": 27,
+          "correct": 11,
+          "incorrect_automatic_matches": 0,
+          "incorrect_ambiguities": 0,
+          "true_automatic_matches": 5,
+          "automatic_matches": 5,
+          "match_labels": 21,
+          "missed_matches": 16,
+          "no_match_labels": 6,
+          "correct_no_matches": 6,
+          "no_match_automatic_selections": 0,
+          "ambiguous_labels": 0,
+          "abstentions": 22,
+          "no_match_predictions": 22,
+          "ambiguous_predictions": 0,
+          "exact_name_recall": {
+            "correct": 3,
+            "total": 3
+          },
+          "renamed_recall": {
+            "correct": 2,
+            "total": 18
+          }
+        },
+        "healthcare": {
+          "total": 24,
+          "correct": 22,
+          "incorrect_automatic_matches": 1,
+          "incorrect_ambiguities": 1,
+          "true_automatic_matches": 17,
+          "automatic_matches": 18,
+          "match_labels": 17,
+          "missed_matches": 0,
+          "no_match_labels": 7,
+          "correct_no_matches": 5,
+          "no_match_automatic_selections": 1,
+          "ambiguous_labels": 0,
+          "abstentions": 6,
+          "no_match_predictions": 5,
+          "ambiguous_predictions": 1,
+          "exact_name_recall": {
+            "correct": 13,
+            "total": 13
+          },
+          "renamed_recall": {
+            "correct": 4,
+            "total": 4
+          }
+        },
+        "operations": {
+          "total": 16,
+          "correct": 11,
+          "incorrect_automatic_matches": 0,
+          "incorrect_ambiguities": 4,
+          "true_automatic_matches": 11,
+          "automatic_matches": 11,
+          "match_labels": 13,
+          "missed_matches": 2,
+          "no_match_labels": 3,
+          "correct_no_matches": 0,
+          "no_match_automatic_selections": 0,
+          "ambiguous_labels": 0,
+          "abstentions": 5,
+          "no_match_predictions": 1,
+          "ambiguous_predictions": 4,
+          "exact_name_recall": {
+            "correct": 9,
+            "total": 11
+          },
+          "renamed_recall": {
+            "correct": 2,
+            "total": 2
+          }
+        }
+      }
+    },
+    "after": {
+      "overall": {
+        "total": 67,
+        "correct": 44,
+        "incorrect_automatic_matches": 1,
+        "incorrect_ambiguities": 5,
+        "true_automatic_matches": 33,
+        "automatic_matches": 34,
+        "match_labels": 51,
+        "missed_matches": 18,
+        "no_match_labels": 16,
+        "correct_no_matches": 11,
+        "no_match_automatic_selections": 1,
+        "ambiguous_labels": 0,
+        "abstentions": 33,
+        "no_match_predictions": 28,
+        "ambiguous_predictions": 5,
+        "exact_name_recall": {
+          "correct": 25,
+          "total": 27
+        },
+        "renamed_recall": {
+          "correct": 8,
+          "total": 24
+        }
+      },
+      "datasets": {
+        "eval_reliability_new/financial_01.json": {
+          "total": 27,
+          "correct": 11,
+          "incorrect_automatic_matches": 0,
+          "incorrect_ambiguities": 0,
+          "true_automatic_matches": 5,
+          "automatic_matches": 5,
+          "match_labels": 21,
+          "missed_matches": 16,
+          "no_match_labels": 6,
+          "correct_no_matches": 6,
+          "no_match_automatic_selections": 0,
+          "ambiguous_labels": 0,
+          "abstentions": 22,
+          "no_match_predictions": 22,
+          "ambiguous_predictions": 0,
+          "exact_name_recall": {
+            "correct": 3,
+            "total": 3
+          },
+          "renamed_recall": {
+            "correct": 2,
+            "total": 18
+          }
+        },
+        "eval_reliability_new/healthcare_01.json": {
+          "total": 24,
+          "correct": 22,
+          "incorrect_automatic_matches": 1,
+          "incorrect_ambiguities": 1,
+          "true_automatic_matches": 17,
+          "automatic_matches": 18,
+          "match_labels": 17,
+          "missed_matches": 0,
+          "no_match_labels": 7,
+          "correct_no_matches": 5,
+          "no_match_automatic_selections": 1,
+          "ambiguous_labels": 0,
+          "abstentions": 6,
+          "no_match_predictions": 5,
+          "ambiguous_predictions": 1,
+          "exact_name_recall": {
+            "correct": 13,
+            "total": 13
+          },
+          "renamed_recall": {
+            "correct": 4,
+            "total": 4
+          }
+        },
+        "eval_reliability_new/operations_01.json": {
+          "total": 16,
+          "correct": 11,
+          "incorrect_automatic_matches": 0,
+          "incorrect_ambiguities": 4,
+          "true_automatic_matches": 11,
+          "automatic_matches": 11,
+          "match_labels": 13,
+          "missed_matches": 2,
+          "no_match_labels": 3,
+          "correct_no_matches": 0,
+          "no_match_automatic_selections": 0,
+          "ambiguous_labels": 0,
+          "abstentions": 5,
+          "no_match_predictions": 1,
+          "ambiguous_predictions": 4,
+          "exact_name_recall": {
+            "correct": 9,
+            "total": 11
+          },
+          "renamed_recall": {
+            "correct": 2,
+            "total": 2
+          }
+        }
+      },
+      "domains": {
+        "financial": {
+          "total": 27,
+          "correct": 11,
+          "incorrect_automatic_matches": 0,
+          "incorrect_ambiguities": 0,
+          "true_automatic_matches": 5,
+          "automatic_matches": 5,
+          "match_labels": 21,
+          "missed_matches": 16,
+          "no_match_labels": 6,
+          "correct_no_matches": 6,
+          "no_match_automatic_selections": 0,
+          "ambiguous_labels": 0,
+          "abstentions": 22,
+          "no_match_predictions": 22,
+          "ambiguous_predictions": 0,
+          "exact_name_recall": {
+            "correct": 3,
+            "total": 3
+          },
+          "renamed_recall": {
+            "correct": 2,
+            "total": 18
+          }
+        },
+        "healthcare": {
+          "total": 24,
+          "correct": 22,
+          "incorrect_automatic_matches": 1,
+          "incorrect_ambiguities": 1,
+          "true_automatic_matches": 17,
+          "automatic_matches": 18,
+          "match_labels": 17,
+          "missed_matches": 0,
+          "no_match_labels": 7,
+          "correct_no_matches": 5,
+          "no_match_automatic_selections": 1,
+          "ambiguous_labels": 0,
+          "abstentions": 6,
+          "no_match_predictions": 5,
+          "ambiguous_predictions": 1,
+          "exact_name_recall": {
+            "correct": 13,
+            "total": 13
+          },
+          "renamed_recall": {
+            "correct": 4,
+            "total": 4
+          }
+        },
+        "operations": {
+          "total": 16,
+          "correct": 11,
+          "incorrect_automatic_matches": 0,
+          "incorrect_ambiguities": 4,
+          "true_automatic_matches": 11,
+          "automatic_matches": 11,
+          "match_labels": 13,
+          "missed_matches": 2,
+          "no_match_labels": 3,
+          "correct_no_matches": 0,
+          "no_match_automatic_selections": 0,
+          "ambiguous_labels": 0,
+          "abstentions": 5,
+          "no_match_predictions": 1,
+          "ambiguous_predictions": 4,
+          "exact_name_recall": {
+            "correct": 9,
+            "total": 11
+          },
+          "renamed_recall": {
+            "correct": 2,
+            "total": 2
+          }
+        }
+      }
+    }
+  },
+  "changed_decisions": [
+    {
+      "dataset": "eval_reliability/operations_03.json",
+      "source": "transportCall.importVoyageNumber",
+      "expected": {
+        "kind": "match",
+        "source": "transportCall.importVoyageNumber",
+        "target": "transportDetails.transportCall.importVoyageNumberOrReference.carrierVoyageNumber"
+      },
+      "before": "match -> transportDetails.transportCall.importVoyageNumberOrReference.carrierVoyageNumber",
+      "after": "no_match (0.835)",
+      "before_correct": true,
+      "after_correct": false
+    }
+  ],
+  "before_started_utc": "2026-10-12T19:43:23.717284+00:00",
+  "original_baseline_extended_utc": "2026-10-12T19:43:24.133041+00:00",
+  "current_started_utc": "2026-10-12T19:43:24.133041+00:00",
+  "candidate_comparison": {
+    "fields": 236,
+    "candidate_pairs": 5384,
+    "candidate_lists_order_and_all_score_bits_identical": true,
+    "decision_changes": [
+      {
+        "dataset": "eval_reliability/operations_03.json",
+        "source": "transportCall.importVoyageNumber",
+        "before": {
+          "kind": "match",
+          "score_bits": 4605694303867677078,
+          "target": "transportDetails.transportCall.importVoyageNumberOrReference.carrierVoyageNumber"
+        },
+        "after": {
+          "kind": "no_match",
+          "score_bits": 4605694303867677078
+        }
+      }
+    ],
+    "before_jsonl_sha256": "1681bf99235b11edf91aace1416d99bfe0e4f7ddb6a50a906982eb3159b8b113",
+    "after_jsonl_sha256": "d7c4b0fd59ee19b3f203f9c7ad4a33e5ed0f61ade4a25a6b76d6730365104ed7",
+    "temporary_harness_sha256": "8e700203cc7bc14671a824a44f434a8f9c51a8a36649acee4bd4c9652f36d34a",
+    "method": "Temporary Cargo harness outside the repository, original revision engine/signals versus frozen candidate copies, max_candidates=usize::MAX; target order and f64::to_bits for total/name/type/optional sample scores compared for every candidate."
+  },
+  "candidate_rejected": true,
+  "accepted_runtime": "Original baseline revision 073127592d7e9099c5aa8c3f7f9f2ffc3131a431; both candidates rejected; no runtime changes accepted.",
+  "restored_runtime_matches_baseline_revision": true,
+  "accepted_baseline_sha256": "808ed6b51da7c5fb8adda27670c3a29be87352ed342b907c852e6678caac8b5f"
+}

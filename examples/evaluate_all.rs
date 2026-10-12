@@ -12,6 +12,8 @@ use serde::{Deserialize, Serialize};
 mod independent;
 #[path = "support/labeled.rs"]
 mod labeled;
+#[path = "support/reliability.rs"]
+mod reliability;
 #[cfg(test)]
 use labeled::parse_case;
 use labeled::{Answer, EvalCase, FrozenCorpus, fingerprint, load_cases, verify_freeze};
@@ -19,6 +21,7 @@ use labeled::{Answer, EvalCase, FrozenCorpus, fingerprint, load_cases, verify_fr
 const CORPORA: &[&str] = &["eval", "eval_realworld"];
 const BASELINE: &str = "validation/quality_baseline.json";
 const INDEPENDENT_BASELINE: &str = "validation/independent_quality_baseline.json";
+const RELIABILITY_BASELINE: &str = "validation/reliability_quality_baseline.json";
 
 impl Answer {
     fn category(&self) -> Category {
@@ -562,7 +565,7 @@ fn run() -> Result<(), String> {
     let command = args.next().unwrap_or_else(|| "--check".into());
     if args.next().is_some() {
         return Err(
-            "usage: evaluate_all [--check | --print-baseline | --independent | --check-independent | --print-independent-baseline | DIRECTORY]".into(),
+            "usage: evaluate_all [--check | --print-baseline | --independent | --check-independent | --print-independent-baseline | --reliability | --check-reliability | --print-reliability-baseline | DIRECTORY]".into(),
         );
     }
     let root = Path::new(env!("CARGO_MANIFEST_DIR"));
@@ -591,15 +594,29 @@ fn run() -> Result<(), String> {
         directory
             if matches!(
                 directory,
-                "--independent" | "--check-independent" | "--print-independent-baseline"
+                "--independent"
+                    | "--check-independent"
+                    | "--print-independent-baseline"
+                    | "--reliability"
+                    | "--check-reliability"
+                    | "--print-reliability-baseline"
             ) || !directory.starts_with('-') =>
         {
-            let evaluation = if directory.starts_with("--") {
+            let is_reliability = matches!(
+                directory,
+                "--reliability" | "--check-reliability" | "--print-reliability-baseline"
+            );
+            let evaluation = if is_reliability {
+                evaluate_cases(reliability::load_verified(root)?)?
+            } else if directory.starts_with("--") {
                 evaluate_independent(root)?
             } else {
                 evaluate(Path::new("."), &[directory])?
             };
-            if directory == "--print-independent-baseline" {
+            if matches!(
+                directory,
+                "--print-independent-baseline" | "--print-reliability-baseline"
+            ) {
                 println!(
                     "{}",
                     serde_json::to_string_pretty(&summarize(&evaluation))
@@ -618,15 +635,25 @@ fn run() -> Result<(), String> {
             if directory == "--check-independent" {
                 check(&evaluation, &independent_baseline(root)?)?;
                 println!("Independent suggestion quality regression check passed.");
+            } else if directory == "--check-reliability" {
+                let path = root.join(RELIABILITY_BASELINE);
+                let raw = fs::read_to_string(&path)
+                    .map_err(|error| format!("{}: {error}", path.display()))?;
+                let baseline: Baseline =
+                    serde_json::from_str(&raw).map_err(|error| error.to_string())?;
+                check(&evaluation, &baseline)?;
+                println!(
+                    "Reliability suggestion quality regression check passed (existing errors remain visible)."
+                );
             } else {
                 println!(
-                    "Report only; use --check or --check-independent for the frozen quality baselines."
+                    "Report only; use --check, --check-independent or --check-reliability for the frozen quality baselines."
                 );
             }
         }
         _ => {
             return Err(
-                "usage: evaluate_all [--check | --print-baseline | --independent | --check-independent | --print-independent-baseline | DIRECTORY]"
+                "usage: evaluate_all [--check | --print-baseline | --independent | --check-independent | --print-independent-baseline | --reliability | --check-reliability | --print-reliability-baseline | DIRECTORY]"
                     .into(),
             );
         }

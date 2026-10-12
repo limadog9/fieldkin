@@ -1,0 +1,331 @@
+{
+  "name": "gbfs_vehicle_2_3_to_3_0_projected",
+  "source": {
+    "fields": [
+      {
+        "name": "data.bikes[].bike_id",
+        "data_type": "text",
+        "samples": [
+          "973a5c94-c288-4a2b-afa6-de8aeb6ae2e5",
+          "987fd100-b822-4347-86a4-b3eef8ca8b53",
+          "45bd3fb7-a2d5-4def-9de1-c645844ba962",
+          "d4521def-7922-4e46-8e1d-8ac397239bd0"
+        ]
+      },
+      {
+        "name": "data.bikes[].lat",
+        "data_type": "float",
+        "samples": [
+          "12.34",
+          "12.345678"
+        ]
+      },
+      {
+        "name": "data.bikes[].lon",
+        "data_type": "float",
+        "samples": [
+          "56.78",
+          "56.789012"
+        ]
+      },
+      {
+        "name": "data.bikes[].is_reserved",
+        "data_type": "boolean",
+        "samples": [
+          "false"
+        ]
+      },
+      {
+        "name": "data.bikes[].is_disabled",
+        "data_type": "boolean",
+        "samples": [
+          "false"
+        ]
+      },
+      {
+        "name": "data.bikes[].rental_uris.android",
+        "data_type": "text",
+        "samples": [
+          "https://www.example.com/app?bike_id=973a5c94-c288-4a2b-afa6-de8aeb6ae2e5&platform=android&"
+        ]
+      },
+      {
+        "name": "data.bikes[].rental_uris.ios",
+        "data_type": "text",
+        "samples": [
+          "https://www.example.com/app?bike_id=973a5c94-c288-4a2b-afa6-de8aeb6ae2e5&platform=ios"
+        ]
+      },
+      {
+        "name": "data.bikes[].rental_uris.web",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "data.bikes[].vehicle_type_id",
+        "data_type": "text",
+        "samples": [
+          "abc123",
+          "def456"
+        ]
+      },
+      {
+        "name": "data.bikes[].last_reported",
+        "data_type": "integer",
+        "samples": [
+          "1609866109",
+          "1609866204"
+        ]
+      },
+      {
+        "name": "data.bikes[].current_range_meters",
+        "data_type": "float",
+        "samples": [
+          "6543.0",
+          "400000.0"
+        ]
+      },
+      {
+        "name": "data.bikes[].current_fuel_percent",
+        "data_type": "float",
+        "samples": [
+          "0.7"
+        ]
+      },
+      {
+        "name": "data.bikes[].station_id",
+        "data_type": "text",
+        "samples": [
+          "86"
+        ]
+      },
+      {
+        "name": "data.bikes[].home_station_id",
+        "data_type": "text",
+        "samples": [
+          "146"
+        ]
+      },
+      {
+        "name": "data.bikes[].pricing_plan_id",
+        "data_type": "text",
+        "samples": [
+          "plan3"
+        ]
+      },
+      {
+        "name": "data.bikes[].vehicle_equipment[]",
+        "data_type": "unknown",
+        "samples": [
+          "child_seat_a",
+          "winter_tires"
+        ]
+      },
+      {
+        "name": "data.bikes[].available_until",
+        "data_type": "text",
+        "samples": [
+          "2021-05-17T15:00:00Z"
+        ]
+      }
+    ]
+  },
+  "target": {
+    "fields": [
+      {
+        "name": "last_updated",
+        "data_type": "timestamp",
+        "samples": [
+          "2023-07-17T13:34:13+02:00"
+        ]
+      },
+      {
+        "name": "data.vehicles[].vehicle_id",
+        "data_type": "text",
+        "samples": [
+          "973a5c94-c288-4a2b-afa6-de8aeb6ae2e5",
+          "987fd100-b822-4347-86a4-b3eef8ca8b53",
+          "45bd3fb7-a2d5-4def-9de1-c645844ba962",
+          "d4521def-7922-4e46-8e1d-8ac397239bd0"
+        ]
+      },
+      {
+        "name": "data.vehicles[].lat",
+        "data_type": "float",
+        "samples": [
+          "12.345678"
+        ]
+      },
+      {
+        "name": "data.vehicles[].lon",
+        "data_type": "float",
+        "samples": [
+          "56.789012"
+        ]
+      },
+      {
+        "name": "data.vehicles[].is_reserved",
+        "data_type": "boolean",
+        "samples": [
+          "false"
+        ]
+      },
+      {
+        "name": "data.vehicles[].rental_uris.android",
+        "data_type": "text",
+        "samples": [
+          "https://www.example.com/app?vehicle_id=973a5c94-c288-4a2b-afa6-de8aeb6ae2e5&platform=android&"
+        ]
+      },
+      {
+        "name": "data.vehicles[].rental_uris.ios",
+        "data_type": "text",
+        "samples": [
+          "https://www.example.com/app?vehicle_id=973a5c94-c288-4a2b-afa6-de8aeb6ae2e5&platform=ios"
+        ]
+      },
+      {
+        "name": "data.vehicles[].rental_uris.web",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "data.vehicles[].vehicle_type_id",
+        "data_type": "text",
+        "samples": [
+          "abc123",
+          "def456"
+        ]
+      },
+      {
+        "name": "data.vehicles[].current_range_meters",
+        "data_type": "float",
+        "samples": [
+          "6543.0",
+          "400000.0"
+        ]
+      },
+      {
+        "name": "data.vehicles[].current_fuel_percent",
+        "data_type": "float",
+        "samples": [
+          "0.7"
+        ]
+      },
+      {
+        "name": "data.vehicles[].home_station_id",
+        "data_type": "text",
+        "samples": [
+          "station1",
+          "146"
+        ]
+      },
+      {
+        "name": "data.vehicles[].pricing_plan_id",
+        "data_type": "text",
+        "samples": [
+          "plan3"
+        ]
+      },
+      {
+        "name": "data.vehicles[].vehicle_equipment[]",
+        "data_type": "unknown",
+        "samples": [
+          "child_seat_a",
+          "winter_tires"
+        ]
+      },
+      {
+        "name": "data.vehicles[].available_until",
+        "data_type": "text",
+        "samples": [
+          "2021-05-17T15:00:00Z"
+        ]
+      }
+    ]
+  },
+  "answers": [
+    {
+      "kind": "match",
+      "source": "data.bikes[].bike_id",
+      "target": "data.vehicles[].vehicle_id"
+    },
+    {
+      "kind": "match",
+      "source": "data.bikes[].lat",
+      "target": "data.vehicles[].lat"
+    },
+    {
+      "kind": "match",
+      "source": "data.bikes[].lon",
+      "target": "data.vehicles[].lon"
+    },
+    {
+      "kind": "match",
+      "source": "data.bikes[].is_reserved",
+      "target": "data.vehicles[].is_reserved"
+    },
+    {
+      "kind": "no_match",
+      "source": "data.bikes[].is_disabled"
+    },
+    {
+      "kind": "match",
+      "source": "data.bikes[].rental_uris.android",
+      "target": "data.vehicles[].rental_uris.android"
+    },
+    {
+      "kind": "match",
+      "source": "data.bikes[].rental_uris.ios",
+      "target": "data.vehicles[].rental_uris.ios"
+    },
+    {
+      "kind": "match",
+      "source": "data.bikes[].rental_uris.web",
+      "target": "data.vehicles[].rental_uris.web"
+    },
+    {
+      "kind": "match",
+      "source": "data.bikes[].vehicle_type_id",
+      "target": "data.vehicles[].vehicle_type_id"
+    },
+    {
+      "kind": "no_match",
+      "source": "data.bikes[].last_reported"
+    },
+    {
+      "kind": "match",
+      "source": "data.bikes[].current_range_meters",
+      "target": "data.vehicles[].current_range_meters"
+    },
+    {
+      "kind": "match",
+      "source": "data.bikes[].current_fuel_percent",
+      "target": "data.vehicles[].current_fuel_percent"
+    },
+    {
+      "kind": "no_match",
+      "source": "data.bikes[].station_id"
+    },
+    {
+      "kind": "match",
+      "source": "data.bikes[].home_station_id",
+      "target": "data.vehicles[].home_station_id"
+    },
+    {
+      "kind": "match",
+      "source": "data.bikes[].pricing_plan_id",
+      "target": "data.vehicles[].pricing_plan_id"
+    },
+    {
+      "kind": "match",
+      "source": "data.bikes[].vehicle_equipment[]",
+      "target": "data.vehicles[].vehicle_equipment[]"
+    },
+    {
+      "kind": "match",
+      "source": "data.bikes[].available_until",
+      "target": "data.vehicles[].available_until"
+    }
+  ]
+}

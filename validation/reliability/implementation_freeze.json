@@ -1,0 +1,28 @@
+{
+  "frozen_utc": "2026-10-12T19:18:49.038653+00:00",
+  "baseline_git_revision": "073127592d7e9099c5aa8c3f7f9f2ffc3131a431",
+  "selection_policy": "After existing normal/fallback ranking and ambiguity selection, veto Match unless normalized prefix names, equal canonical token sets, greedy ordered token-prefix abbreviation, or nonblank observed sample intersection corroborates it. Never rerank or retry fallback after this veto. No tuning on new reliability corpus.",
+  "files": {
+    "src/algorithms/coma.rs": "24b95093904c703e5f6ee4107bfef67dde7dc4ca7a7c0d4863dcbb734d3a6a84",
+    "src/algorithms/cupid.rs": "e1a1db593754bd048e9b766c7489aa4482acf555fe384923f6c8931ae78440a7",
+    "src/algorithms/distribution.rs": "b245b409decf19fec57cb2b2c0852f2dd936b06190966c11b42900e13f5e7506",
+    "src/algorithms/flooding.rs": "a5cd7cf73d3b52ba9f9f495541d9937acad178550776ae5ec38b75b78d22a0a2",
+    "src/algorithms/jaccard.rs": "e9c503a20441c9a61c653673aed5bd88b54c836e25b9497eb225fc650ed87421",
+    "src/algorithms/mod.rs": "61864ed4145bf764ed22566ae44ec4f7075d611a4ca3f234d7ebe25e60cd8f03",
+    "src/algorithms/strings.rs": "9f7b60bfa1316cb1365b7fc0c927ed5759f7aff6de2b12cc8922c4b436187ed0",
+    "src/bin/fieldkin.rs": "ee195c349c0947752179dffc890f2eb59094c4e4bc320220ce05591114fbfe3e",
+    "src/embeddings.rs": "28f87b6f028d64609a94c85430b14acec4c6376d83de4105143c18b8020ba8c2",
+    "src/engine.rs": "cd224d5d016128931b2ebb9ca746d956eeb7b5b35fe6e033e3981c60b9d4baf8",
+    "src/lib.rs": "0cc30034311a690ec64e2f45490de90da7ce0bd87b03c66b8641267e1759326e",
+    "src/metrics.rs": "d14193db9dbf827def0834930eae4e58fceae4acdd5a089847863ebda72b3381",
+    "src/polars.rs": "00c89b05832aba7052ddef309f92a882f8165ddf1a9118a01a3ae1c585e016e7",
+    "src/results.rs": "b78af9f3072f0a1d448977a70f3cb2e9e262975ce7bbbb910ee8d20d218acbb6",
+    "src/signals.rs": "032c04e4160a2ddb0fb7f90d20e9cc560e60c4ee6292da66e13706526d06e7a0",
+    "src/synonyms.rs": "83ce407c1fad910e8fcff798e585f5004c90271551545402cbf0831cb092285d",
+    "src/table.rs": "70f77c49c09a2282726a478652249b1b34664f09463c27a47aa3cc0333afc004",
+    "src/types.rs": "c3ed5d4e652597dda5a43d3a08a72c6d66b38ba8187fd0738541d3d1db0ffa3e",
+    "Cargo.toml": "af257ad5dc2ce576aa38da267f4dcb150536120b5261647407564574a6fa8e3f",
+    "Cargo.lock": "cd90f7548e40faa5ea8ddcc2f609a07e44a8da0b2364bdc0041650ad1b0d0514"
+  },
+  "baseline_evaluator_sha256": "3bb511112d3cec63ddd846b114cb2375773efd717d55ced09565f25b0aa27f94"
+}

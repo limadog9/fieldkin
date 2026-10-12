@@ -1,0 +1,7 @@
+# Second-tranche financial source selection policy
+
+Recorded before second-tranche field selection or retrieval on 2026-10-12.
+
+Source at most one new financial schema case with 15–35 source fields from an authoritative publisher crosswalk or independently documented migration. Prefer a different financial schema/entity from the first tranche. Existing primary-source archives and extraction mechanisms may be reused; previously delivered label pairs must not be reused. Select the complete projection from publisher-defined financial facts and challenging but distinct amounts, identities, dates, locations, and code/description fields, without knowledge of matcher implementation, proposed policy, previous predictions, or evaluation reports. No such implementation or prediction content will be accessed.
+
+Preserve publisher field names, declared types, and observations exactly. If declared CSV storage types or actual observations are absent, retain unknown types and empty samples; do not infer values from names or invent examples. Alternate representations of the same quantity are not automatically distinct facts. Exclude uncertain correspondences rather than forcing unique or ambiguous labels. No-match labels apply only within an explicit target projection. Archive definitions, exact versions, licenses, URLs, checksums, and deterministic extraction. Freeze every selected source field and its answer before any predictions. Report only readiness, counts, hashes, and blockers to root until authorized.

@@ -1,0 +1,114 @@
+[
+  {
+    "path": "/tmp/fieldkin-blind-operations/scan/dcsa_tnt/tnt__src__main__resources__standards__tnt__messages__tnt-220-response-wrong-date-times.json",
+    "url": "https://raw.githubusercontent.com/dcsaorg/Conformance-Gateway/ffa064b01a452ab4fcd34e08086b53cf41635aa6/tnt/src/main/resources/standards/tnt/messages/tnt-220-response-wrong-date-times.json",
+    "revision": "ffa064b01a452ab4fcd34e08086b53cf41635aa6",
+    "retrieved_at": "2026-10-12T19:06:37.779177+00:00",
+    "sha256": "ac87c9c9da337f32af4d94efa3d247e06e8329c8a4e2e7cac98d98cd6aa6009c"
+  },
+  {
+    "path": "/tmp/fieldkin-blind-operations/scan/dcsa_tnt/tnt__src__main__resources__standards__tnt__messages__tnt-220-response-wrong-event-ids.json",
+    "url": "https://raw.githubusercontent.com/dcsaorg/Conformance-Gateway/ffa064b01a452ab4fcd34e08086b53cf41635aa6/tnt/src/main/resources/standards/tnt/messages/tnt-220-response-wrong-event-ids.json",
+    "revision": "ffa064b01a452ab4fcd34e08086b53cf41635aa6",
+    "retrieved_at": "2026-10-12T19:06:37.784181+00:00",
+    "sha256": "ab8fced586de1c51789a1e05ad0d0e0c2102273d3709aba27ff0f6d74e2c2148"
+  },
+  {
+    "path": "/tmp/fieldkin-blind-operations/scan/dcsa_tnt/tnt__src__main__resources__standards__tnt__messages__tnt-220-response-wrong-attribute-values.json",
+    "url": "https://raw.githubusercontent.com/dcsaorg/Conformance-Gateway/ffa064b01a452ab4fcd34e08086b53cf41635aa6/tnt/src/main/resources/standards/tnt/messages/tnt-220-response-wrong-attribute-values.json",
+    "revision": "ffa064b01a452ab4fcd34e08086b53cf41635aa6",
+    "retrieved_at": "2026-10-12T19:06:37.909008+00:00",
+    "sha256": "2a8324e355f51d4e8d1301e6a32f4b975db903b501f91b8e42cb815d5b2cb0b4"
+  },
+  {
+    "path": "/tmp/fieldkin-blind-operations/scan/dcsa_tnt/LICENSE",
+    "url": "https://raw.githubusercontent.com/dcsaorg/Conformance-Gateway/ffa064b01a452ab4fcd34e08086b53cf41635aa6/LICENSE",
+    "revision": "ffa064b01a452ab4fcd34e08086b53cf41635aa6",
+    "retrieved_at": "2026-10-12T19:06:38.048355+00:00",
+    "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+  },
+  {
+    "path": "/tmp/fieldkin-blind-operations/scan/dcsa_tnt/README.md",
+    "url": "https://raw.githubusercontent.com/dcsaorg/Conformance-Gateway/ffa064b01a452ab4fcd34e08086b53cf41635aa6/README.md",
+    "revision": "ffa064b01a452ab4fcd34e08086b53cf41635aa6",
+    "retrieved_at": "2026-10-12T19:06:38.094533+00:00",
+    "sha256": "4a59b37b6ede9ed215c2e733905c2fb27f1888111a9e7f641adeaaea44d32a9e"
+  },
+  {
+    "path": "/tmp/fieldkin-blind-operations/scan/dcsa_tnt/tnt__src__main__resources__standards__tnt__messages__tnt-220-response-wrong-structure.json",
+    "url": "https://raw.githubusercontent.com/dcsaorg/Conformance-Gateway/ffa064b01a452ab4fcd34e08086b53cf41635aa6/tnt/src/main/resources/standards/tnt/messages/tnt-220-response-wrong-structure.json",
+    "revision": "ffa064b01a452ab4fcd34e08086b53cf41635aa6",
+    "retrieved_at": "2026-10-12T19:06:38.115947+00:00",
+    "sha256": "fa61d7ffc81028c2bc9e12efa19c35f8cef3ab349eaf5583922c61c5341da2a0"
+  },
+  {
+    "path": "/tmp/fieldkin-blind-operations/scan/dcsa_tnt/tnt__src__main__resources__standards__tnt__messages__tnt-300-request-equipment.json",
+    "url": "https://raw.githubusercontent.com/dcsaorg/Conformance-Gateway/ffa064b01a452ab4fcd34e08086b53cf41635aa6/tnt/src/main/resources/standards/tnt/messages/tnt-300-request-equipment.json",
+    "revision": "ffa064b01a452ab4fcd34e08086b53cf41635aa6",
+    "retrieved_at": "2026-10-12T19:06:38.157927+00:00",
+    "sha256": "74c36b69351cd9b70478608bbcf3846fe9611755b286ce41e5af36e888eb27d0"
+  },
+  {
+    "path": "/tmp/fieldkin-blind-operations/scan/dcsa_tnt/tnt__src__main__resources__standards__tnt__messages__tnt-220-response.json",
+    "url": "https://raw.githubusercontent.com/dcsaorg/Conformance-Gateway/ffa064b01a452ab4fcd34e08086b53cf41635aa6/tnt/src/main/resources/standards/tnt/messages/tnt-220-response.json",
+    "revision": "ffa064b01a452ab4fcd34e08086b53cf41635aa6",
+    "retrieved_at": "2026-10-12T19:06:38.180384+00:00",
+    "sha256": "c019135ddd02a66c94c7fcd8d72515633a0b4ef0512b8e3c82927b9f55df53df"
+  },
+  {
+    "path": "/tmp/fieldkin-blind-operations/scan/dcsa_tnt/tnt__src__main__resources__standards__tnt__messages__tnt-300-request-iot.json",
+    "url": "https://raw.githubusercontent.com/dcsaorg/Conformance-Gateway/ffa064b01a452ab4fcd34e08086b53cf41635aa6/tnt/src/main/resources/standards/tnt/messages/tnt-300-request-iot.json",
+    "revision": "ffa064b01a452ab4fcd34e08086b53cf41635aa6",
+    "retrieved_at": "2026-10-12T19:06:38.288651+00:00",
+    "sha256": "26f183b6176fad46a1a722a0a85fb991aa05974262ef2371c4d8517d45e007ee"
+  },
+  {
+    "path": "/tmp/fieldkin-blind-operations/scan/dcsa_tnt/tnt__src__main__resources__standards__tnt__messages__tnt-300-request-shipment.json",
+    "url": "https://raw.githubusercontent.com/dcsaorg/Conformance-Gateway/ffa064b01a452ab4fcd34e08086b53cf41635aa6/tnt/src/main/resources/standards/tnt/messages/tnt-300-request-shipment.json",
+    "revision": "ffa064b01a452ab4fcd34e08086b53cf41635aa6",
+    "retrieved_at": "2026-10-12T19:06:38.450145+00:00",
+    "sha256": "a0e6df31835b5905d92ebb9bc09407d8cc66ffc4a0ea4401394a07c02b0bc8f4"
+  },
+  {
+    "path": "/tmp/fieldkin-blind-operations/scan/dcsa_tnt/tnt__src__main__resources__standards__tnt__messages__tnt-300-response-nextpage.json",
+    "url": "https://raw.githubusercontent.com/dcsaorg/Conformance-Gateway/ffa064b01a452ab4fcd34e08086b53cf41635aa6/tnt/src/main/resources/standards/tnt/messages/tnt-300-response-nextpage.json",
+    "revision": "ffa064b01a452ab4fcd34e08086b53cf41635aa6",
+    "retrieved_at": "2026-10-12T19:06:38.535928+00:00",
+    "sha256": "b46bdb2d74b754834e4f36dd99915b63b59233d98a343d5a80f0d5779ebc34fb"
+  },
+  {
+    "path": "/tmp/fieldkin-blind-operations/scan/dcsa_tnt/tnt__src__main__resources__standards__tnt__messages__tnt-300-request-transport.json",
+    "url": "https://raw.githubusercontent.com/dcsaorg/Conformance-Gateway/ffa064b01a452ab4fcd34e08086b53cf41635aa6/tnt/src/main/resources/standards/tnt/messages/tnt-300-request-transport.json",
+    "revision": "ffa064b01a452ab4fcd34e08086b53cf41635aa6",
+    "retrieved_at": "2026-10-12T19:06:38.767972+00:00",
+    "sha256": "fe8a9eacffda1ea83bfdba4c5871f49ac7ad53f7d0223f7fe4e23ba51b3d83e2"
+  },
+  {
+    "path": "/tmp/fieldkin-blind-operations/scan/dcsa_tnt/tnt__src__main__resources__standards__tnt__messages__tnt-300-request-reefer.json",
+    "url": "https://raw.githubusercontent.com/dcsaorg/Conformance-Gateway/ffa064b01a452ab4fcd34e08086b53cf41635aa6/tnt/src/main/resources/standards/tnt/messages/tnt-300-request-reefer.json",
+    "revision": "ffa064b01a452ab4fcd34e08086b53cf41635aa6",
+    "retrieved_at": "2026-10-12T19:06:38.781239+00:00",
+    "sha256": "fd2c8d35f9bb80570df51ebe7ce6abbd937afe5939392c1bddf3975cab931403"
+  },
+  {
+    "path": "/tmp/fieldkin-blind-operations/scan/dcsa_tnt/tnt__src__main__resources__standards__tnt__messages__tnt-300-response.json",
+    "url": "https://raw.githubusercontent.com/dcsaorg/Conformance-Gateway/ffa064b01a452ab4fcd34e08086b53cf41635aa6/tnt/src/main/resources/standards/tnt/messages/tnt-300-response.json",
+    "revision": "ffa064b01a452ab4fcd34e08086b53cf41635aa6",
+    "retrieved_at": "2026-10-12T19:06:38.914790+00:00",
+    "sha256": "6f723b69fe78528e053e459afa5fb3f264783ed656ec521691f2bb5a9f8966ce"
+  },
+  {
+    "path": "/tmp/fieldkin-blind-operations/scan/dcsa_tnt/tnt__src__main__resources__standards__tnt__schemas__TNT_v2.2.0-resolved.yaml",
+    "url": "https://raw.githubusercontent.com/dcsaorg/Conformance-Gateway/ffa064b01a452ab4fcd34e08086b53cf41635aa6/tnt/src/main/resources/standards/tnt/schemas/TNT_v2.2.0-resolved.yaml",
+    "revision": "ffa064b01a452ab4fcd34e08086b53cf41635aa6",
+    "retrieved_at": "2026-10-12T19:06:38.986119+00:00",
+    "sha256": "2e405ef73e0dd0338cbf887473e37a1b695c4546bc107e823cfd64257f10b6e2"
+  },
+  {
+    "path": "/tmp/fieldkin-blind-operations/scan/dcsa_tnt/tnt__src__main__resources__standards__tnt__schemas__TNT_v3.0.0.yaml",
+    "url": "https://raw.githubusercontent.com/dcsaorg/Conformance-Gateway/ffa064b01a452ab4fcd34e08086b53cf41635aa6/tnt/src/main/resources/standards/tnt/schemas/TNT_v3.0.0.yaml",
+    "revision": "ffa064b01a452ab4fcd34e08086b53cf41635aa6",
+    "retrieved_at": "2026-10-12T19:06:38.986312+00:00",
+    "sha256": "2dadbbb910eaedf78b27cb3fb6d6db91efa94b47df519017afb6579e75c8c52d"
+  }
+]

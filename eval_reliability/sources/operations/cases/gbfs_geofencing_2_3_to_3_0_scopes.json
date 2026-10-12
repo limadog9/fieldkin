@@ -1,0 +1,347 @@
+{
+  "name": "gbfs_geofencing_2_3_to_3_0_scopes",
+  "source": {
+    "fields": [
+      {
+        "name": "last_updated",
+        "data_type": "integer",
+        "samples": [
+          "1640887163"
+        ]
+      },
+      {
+        "name": "ttl",
+        "data_type": "integer",
+        "samples": [
+          "60"
+        ]
+      },
+      {
+        "name": "version",
+        "data_type": "text",
+        "samples": [
+          "2.3"
+        ]
+      },
+      {
+        "name": "data.geofencing_zones.type",
+        "data_type": "text",
+        "samples": [
+          "FeatureCollection"
+        ]
+      },
+      {
+        "name": "data.geofencing_zones.features[].type",
+        "data_type": "text",
+        "samples": [
+          "Feature"
+        ]
+      },
+      {
+        "name": "data.geofencing_zones.features[].properties.name",
+        "data_type": "text",
+        "samples": [
+          "NE 24th/NE Knott"
+        ]
+      },
+      {
+        "name": "data.geofencing_zones.features[].properties.start",
+        "data_type": "integer",
+        "samples": [
+          "1593878400"
+        ]
+      },
+      {
+        "name": "data.geofencing_zones.features[].properties.end",
+        "data_type": "integer",
+        "samples": [
+          "1593907260"
+        ]
+      },
+      {
+        "name": "data.geofencing_zones.features[].properties.rules[].vehicle_type_id[]",
+        "data_type": "text",
+        "samples": [
+          "moped1",
+          "car1"
+        ]
+      },
+      {
+        "name": "data.geofencing_zones.features[].properties.rules[].ride_allowed",
+        "data_type": "boolean",
+        "samples": [
+          "false"
+        ]
+      },
+      {
+        "name": "data.geofencing_zones.features[].properties.rules[].ride_through_allowed",
+        "data_type": "boolean",
+        "samples": [
+          "true"
+        ]
+      },
+      {
+        "name": "data.geofencing_zones.features[].properties.rules[].maximum_speed_kph",
+        "data_type": "integer",
+        "samples": [
+          "10"
+        ]
+      },
+      {
+        "name": "data.geofencing_zones.features[].properties.rules[].station_parking",
+        "data_type": "boolean",
+        "samples": [
+          "true"
+        ]
+      },
+      {
+        "name": "data.geofencing_zones.features[].geometry.type",
+        "data_type": "text",
+        "samples": [
+          "MultiPolygon"
+        ]
+      },
+      {
+        "name": "data.geofencing_zones.features[].geometry.coordinates[][][][]",
+        "data_type": "float",
+        "samples": [
+          "-122.578067",
+          "45.562982",
+          "-122.661838",
+          "45.562741",
+          "-122.661151",
+          "45.504542",
+          "-122.578926",
+          "45.5046625"
+        ]
+      }
+    ]
+  },
+  "target": {
+    "fields": [
+      {
+        "name": "last_updated",
+        "data_type": "timestamp",
+        "samples": [
+          "2023-07-17T13:34:13+02:00"
+        ]
+      },
+      {
+        "name": "ttl",
+        "data_type": "integer",
+        "samples": [
+          "60"
+        ]
+      },
+      {
+        "name": "version",
+        "data_type": "text",
+        "samples": [
+          "3.0"
+        ]
+      },
+      {
+        "name": "data.geofencing_zones.type",
+        "data_type": "text",
+        "samples": [
+          "FeatureCollection"
+        ]
+      },
+      {
+        "name": "data.geofencing_zones.features[].type",
+        "data_type": "text",
+        "samples": [
+          "Feature"
+        ]
+      },
+      {
+        "name": "data.geofencing_zones.features[].properties.name[].text",
+        "data_type": "text",
+        "samples": [
+          "NE 24th/NE Knott"
+        ]
+      },
+      {
+        "name": "data.geofencing_zones.features[].properties.name[].language",
+        "data_type": "text",
+        "samples": [
+          "en"
+        ]
+      },
+      {
+        "name": "data.geofencing_zones.features[].properties.start",
+        "data_type": "timestamp",
+        "samples": [
+          "2023-07-17T13:34:13+02:00"
+        ]
+      },
+      {
+        "name": "data.geofencing_zones.features[].properties.end",
+        "data_type": "timestamp",
+        "samples": [
+          "2024-07-18T13:34:13+02:00"
+        ]
+      },
+      {
+        "name": "data.geofencing_zones.features[].properties.rules[].vehicle_type_ids[]",
+        "data_type": "text",
+        "samples": [
+          "moped1",
+          "car1"
+        ]
+      },
+      {
+        "name": "data.geofencing_zones.features[].properties.rules[].ride_start_allowed",
+        "data_type": "boolean",
+        "samples": [
+          "true"
+        ]
+      },
+      {
+        "name": "data.geofencing_zones.features[].properties.rules[].ride_end_allowed",
+        "data_type": "boolean",
+        "samples": [
+          "true"
+        ]
+      },
+      {
+        "name": "data.geofencing_zones.features[].properties.rules[].maximum_speed_kph",
+        "data_type": "integer",
+        "samples": [
+          "10"
+        ]
+      },
+      {
+        "name": "data.geofencing_zones.features[].geometry.type",
+        "data_type": "text",
+        "samples": [
+          "MultiPolygon"
+        ]
+      },
+      {
+        "name": "data.geofencing_zones.features[].geometry.coordinates[][][][]",
+        "data_type": "float",
+        "samples": [
+          "-122.578067",
+          "45.562982",
+          "-122.661838",
+          "45.562741",
+          "-122.661151",
+          "45.504542",
+          "-122.578926",
+          "45.5046625"
+        ]
+      },
+      {
+        "name": "data.global_rules[].vehicle_type_ids[]",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "data.global_rules[].ride_start_allowed",
+        "data_type": "boolean",
+        "samples": [
+          "false"
+        ]
+      },
+      {
+        "name": "data.global_rules[].ride_end_allowed",
+        "data_type": "boolean",
+        "samples": [
+          "false"
+        ]
+      },
+      {
+        "name": "data.global_rules[].ride_through_allowed",
+        "data_type": "boolean",
+        "samples": [
+          "true"
+        ]
+      },
+      {
+        "name": "data.global_rules[].maximum_speed_kph",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "data.global_rules[].station_parking",
+        "data_type": "boolean",
+        "samples": []
+      }
+    ]
+  },
+  "answers": [
+    {
+      "kind": "match",
+      "source": "last_updated",
+      "target": "last_updated"
+    },
+    {
+      "kind": "match",
+      "source": "ttl",
+      "target": "ttl"
+    },
+    {
+      "kind": "match",
+      "source": "version",
+      "target": "version"
+    },
+    {
+      "kind": "match",
+      "source": "data.geofencing_zones.type",
+      "target": "data.geofencing_zones.type"
+    },
+    {
+      "kind": "match",
+      "source": "data.geofencing_zones.features[].type",
+      "target": "data.geofencing_zones.features[].type"
+    },
+    {
+      "kind": "match",
+      "source": "data.geofencing_zones.features[].properties.name",
+      "target": "data.geofencing_zones.features[].properties.name[].text"
+    },
+    {
+      "kind": "match",
+      "source": "data.geofencing_zones.features[].properties.start",
+      "target": "data.geofencing_zones.features[].properties.start"
+    },
+    {
+      "kind": "match",
+      "source": "data.geofencing_zones.features[].properties.end",
+      "target": "data.geofencing_zones.features[].properties.end"
+    },
+    {
+      "kind": "match",
+      "source": "data.geofencing_zones.features[].properties.rules[].vehicle_type_id[]",
+      "target": "data.geofencing_zones.features[].properties.rules[].vehicle_type_ids[]"
+    },
+    {
+      "kind": "no_match",
+      "source": "data.geofencing_zones.features[].properties.rules[].ride_allowed"
+    },
+    {
+      "kind": "no_match",
+      "source": "data.geofencing_zones.features[].properties.rules[].ride_through_allowed"
+    },
+    {
+      "kind": "match",
+      "source": "data.geofencing_zones.features[].properties.rules[].maximum_speed_kph",
+      "target": "data.geofencing_zones.features[].properties.rules[].maximum_speed_kph"
+    },
+    {
+      "kind": "no_match",
+      "source": "data.geofencing_zones.features[].properties.rules[].station_parking"
+    },
+    {
+      "kind": "match",
+      "source": "data.geofencing_zones.features[].geometry.type",
+      "target": "data.geofencing_zones.features[].geometry.type"
+    },
+    {
+      "kind": "match",
+      "source": "data.geofencing_zones.features[].geometry.coordinates[][][][]",
+      "target": "data.geofencing_zones.features[].geometry.coordinates[][][][]"
+    }
+  ]
+}

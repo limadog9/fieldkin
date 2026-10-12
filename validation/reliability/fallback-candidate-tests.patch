@@ -1,0 +1,74 @@
+diff --git a/tests/basic.rs b/tests/basic.rs
+index e48e7a2..3b7111d 100644
+--- a/tests/basic.rs
++++ b/tests/basic.rs
+@@ -36,6 +36,69 @@ fn exact_name_and_type_match() {
+     ));
+ }
+ 
++#[test]
++fn unsupported_character_subsequences_do_not_become_automatic_matches() {
++    for (left, right) in [
++        (vec![], vec![]),
++        (vec!["", " "], vec!["\t"]),
++        (vec!["1", "1"], vec!["1", "1"]),
++        (vec!["1", "2"], vec!["3", "4"]),
++    ] {
++        let source = Schema {
++            fields: vec![field("Index (Model Type Index)", DataType::Integer, &left)],
++        };
++        let target = Schema {
++            fields: vec![field("id", DataType::Integer, &right)],
++        };
++        let report = match_schemas(&source, &target, Config::default());
++        let best = &report.fields[0].candidates[0];
++        // Keep the fuzzy fallback ranking available for review, but a character
++        // subsequence and a compatible type do not establish an abbreviation.
++        assert_eq!(best.target, "id");
++        assert!(best.score >= Config::default().min_score);
++        assert_eq!(
++            report.fields[0].decision,
++            Decision::NoMatch {
++                best_score: Some(best.score)
++            }
++        );
++        let without_details = match_schemas(
++            &source,
++            &target,
++            Config {
++                max_candidates: 0,
++                ..Config::default()
++            },
++        );
++        assert_eq!(
++            without_details.fields[0].decision,
++            report.fields[0].decision
++        );
++        assert!(without_details.fields[0].candidates.is_empty());
++    }
++}
++
++#[test]
++fn initials_remain_automatic_matches_without_samples() {
++    // Greedily consuming both letters from the first word would incorrectly
++    // leave no initial for the second word. Exercise the public fallback path.
++    for (short, long) in [("in", "invoice_number"), ("at", "attribute_type")] {
++        for (source_name, target_name) in [(short, long), (long, short)] {
++            let source = Schema {
++                fields: vec![field(source_name, DataType::Integer, &[])],
++            };
++            let target = Schema {
++                fields: vec![field(target_name, DataType::Integer, &[])],
++            };
++            let report = match_schemas(&source, &target, Config::default());
++            assert!(matches!(
++                &report.fields[0].decision,
++                Decision::Match { target, .. } if target == target_name
++            ));
++        }
++    }
++}
++
+ #[test]
+ fn empty_schemas_have_empty_or_unmatched_results() {
+     let empty = Schema { fields: vec![] };

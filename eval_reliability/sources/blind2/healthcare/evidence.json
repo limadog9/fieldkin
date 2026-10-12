@@ -1,0 +1,2885 @@
+[
+  {
+    "case": "heldout2_hl7_medicationrequest_r4_r5_projection",
+    "domain": "healthcare",
+    "sample_nature": "Publisher illustrative examples; not empirical clinical records",
+    "projection": "Exact primitive wire paths, with resource prefix omitted. Include only numbered publisher examples, pool repeated leaves in XML order, retain first three distinct literal values by lexicographically sorted filename. No match means absent in the explicitly partial target projection. No aggregation or changed measured population is equated.",
+    "target_fields": [
+      {
+        "field": "medication.reference.reference",
+        "native_leaf_type": "string",
+        "documentation": [
+          {
+            "element": "MedicationRequest.medication",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "Identifies the medication being requested. This is a link to a resource that represents the medication which may be the details of the medication or simply an attribute carrying a code that identifies the medication from a known list of medications.",
+            "type": "CodeableReference",
+            "locator": "element[@id=\"MedicationRequest.medication\"]"
+          },
+          {
+            "element": "CodeableReference.reference",
+            "path": "archive/r5/source/datatypes/codeablereference.xml",
+            "definition": "A reference to a resource the provides exact details about the information being referenced",
+            "type": "Reference",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[4]"
+          },
+          {
+            "element": "Reference.reference",
+            "path": "archive/r5/source/datatypes/reference.xml",
+            "definition": "A reference to a location at which the other resource is found. The reference may be a relative reference, in which case it is relative to the service base URL, or an absolute URL that resolves to the location where the resource is found. The reference may be version specific or not. If the reference is not to a FHIR RESTful server, then it should be assumed to be version specific. Internal fragment references (start with '#') refer to contained resources",
+            "type": "string",
+            "definition_source": "Definition",
+            "comments": "Using absolute URLs provides a stable scalable approach suitable for a cloud/web context, while using relative/logical references provides a flexible approach suitable for use when trading across closed eco-system boundaries.   Absolute URLs do not need to point to a FHIR RESTful server, though this is the preferred approach. If the URL conforms to the structure \"[type]/[id]\" then it should be assumed that the reference is to a FHIR RESTful server",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "#med0310",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/medication/reference/reference/@value"
+          },
+          {
+            "value": "#med0320",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0302.xml",
+            "xpath": "MedicationRequest/medication/reference/reference/@value"
+          },
+          {
+            "value": "#med0311",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0303.xml",
+            "xpath": "MedicationRequest/medication/reference/reference/@value"
+          }
+        ]
+      },
+      {
+        "field": "medication.reference.display",
+        "native_leaf_type": "string",
+        "documentation": [
+          {
+            "element": "MedicationRequest.medication",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "Identifies the medication being requested. This is a link to a resource that represents the medication which may be the details of the medication or simply an attribute carrying a code that identifies the medication from a known list of medications.",
+            "type": "CodeableReference",
+            "locator": "element[@id=\"MedicationRequest.medication\"]"
+          },
+          {
+            "element": "CodeableReference.reference",
+            "path": "archive/r5/source/datatypes/codeablereference.xml",
+            "definition": "A reference to a resource the provides exact details about the information being referenced",
+            "type": "Reference",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[4]"
+          },
+          {
+            "element": "Reference.display",
+            "path": "archive/r5/source/datatypes/reference.xml",
+            "definition": "Plain text narrative that identifies the resource in addition to the resource reference",
+            "type": "string",
+            "definition_source": "Definition",
+            "comments": "This is generally not the same as the Resource.text of the referenced resource.  The purpose is to identify what's being referenced, not to fully describe it.",
+            "locator": "Worksheet[Data Elements]/Row[6]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "Nystatin 100,000 u/ml oral suspension",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0304.xml",
+            "xpath": "MedicationRequest/medication/reference/display/@value"
+          },
+          {
+            "value": "Myleran 2mg tablet",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0306.xml",
+            "xpath": "MedicationRequest/medication/reference/display/@value"
+          },
+          {
+            "value": "Piperacillin/Tazobactam 4.5gm",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0319.xml",
+            "xpath": "MedicationRequest/medication/reference/display/@value"
+          }
+        ]
+      },
+      {
+        "field": "medication.concept.coding.code",
+        "native_leaf_type": "code",
+        "documentation": [
+          {
+            "element": "MedicationRequest.medication",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "Identifies the medication being requested. This is a link to a resource that represents the medication which may be the details of the medication or simply an attribute carrying a code that identifies the medication from a known list of medications.",
+            "type": "CodeableReference",
+            "locator": "element[@id=\"MedicationRequest.medication\"]"
+          },
+          {
+            "element": "CodeableReference.concept",
+            "path": "archive/r5/source/datatypes/codeablereference.xml",
+            "definition": "A reference to a concept - e.g. the information is identified by its general class to the degree of precision found in the terminology",
+            "type": "CodeableConcept",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          },
+          {
+            "element": "CodeableConcept.coding",
+            "path": "archive/r5/source/datatypes/codeableconcept.xml",
+            "definition": "A reference to a code defined by a terminology system",
+            "type": "Coding",
+            "definition_source": "Definition",
+            "comments": "Codes may be defined very casually in enumerations, or code lists, up to very formal definitions such as SNOMED CT - see the HL7 v3 Core Principles for more information.  Ordering of codings is undefined and SHALL NOT be used to infer meaning. Generally, at most only one of the coding values will be labeled as UserSelected = true",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          },
+          {
+            "element": "Coding.code",
+            "path": "archive/r5/source/datatypes/coding.xml",
+            "definition": "A symbol in syntax defined by the system. The symbol may be a predefined code or an expression in a syntax defined by the coding system (e.g. post-coordination)",
+            "type": "code",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[5]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "856907",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0308.xml",
+            "xpath": "MedicationRequest/medication/concept/coding/code/@value"
+          },
+          {
+            "value": "1313112",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0312.xml",
+            "xpath": "MedicationRequest/medication/concept/coding/code/@value"
+          },
+          {
+            "value": "324252006",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0313.xml",
+            "xpath": "MedicationRequest/medication/concept/coding/code/@value"
+          }
+        ]
+      },
+      {
+        "field": "dosageInstruction.asNeeded",
+        "native_leaf_type": "boolean",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "Specific instructions for how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "locator": "element[@id=\"MedicationRequest.dosageInstruction\"]"
+          },
+          {
+            "element": "Dosage.asNeeded",
+            "path": "archive/r5/source/datatypes/dosage.xml",
+            "definition": "Indicates whether the Medication is only taken when needed within a specific dosing schedule (Boolean option)",
+            "type": "boolean",
+            "definition_source": "Definition",
+            "comments": "Can express \"as needed\" without a reason by setting the Boolean = True.  In this case the CodeableConcept is not populated.",
+            "locator": "Worksheet[Data Elements]/Row[8]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "true",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0315.xml",
+            "xpath": "MedicationRequest/dosageInstruction/asNeeded/@value"
+          }
+        ]
+      },
+      {
+        "field": "dispenseRequest.validityPeriod.start",
+        "native_leaf_type": "dateTime",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dispenseRequest.validityPeriod",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "This indicates the validity period of a prescription (stale dating the Prescription).",
+            "type": "Period",
+            "locator": "element[@id=\"MedicationRequest.dispenseRequest.validityPeriod\"]"
+          },
+          {
+            "element": "Period.start",
+            "path": "archive/r5/source/datatypes/period.xml",
+            "definition": "The start of the period. The boundary is inclusive.",
+            "type": "dateTime",
+            "definition_source": "Definition",
+            "comments": "If the low element is missing, the meaning is that the low boundary is not known.",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "2015-01-15",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/dispenseRequest/validityPeriod/start/@value"
+          }
+        ]
+      },
+      {
+        "field": "dispenseRequest.validityPeriod.end",
+        "native_leaf_type": "dateTime",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dispenseRequest.validityPeriod",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "This indicates the validity period of a prescription (stale dating the Prescription).",
+            "type": "Period",
+            "locator": "element[@id=\"MedicationRequest.dispenseRequest.validityPeriod\"]"
+          },
+          {
+            "element": "Period.end",
+            "path": "archive/r5/source/datatypes/period.xml",
+            "definition": "The end of the period. If the end of the period is missing, it means no end was known or planned at the time the instance was created. The start may be in the past, and the end date in the future, which means that period is expected/planned to end at that time",
+            "type": "dateTime",
+            "definition_source": "Definition",
+            "comments": "The end value includes any matching date/time. i.e. 2012-02-03T10:00:00 is in a period that has an end value of 2012-02-03",
+            "locator": "Worksheet[Data Elements]/Row[4]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "2016-01-15",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/dispenseRequest/validityPeriod/end/@value"
+          }
+        ]
+      },
+      {
+        "field": "dispenseRequest.numberOfRepeatsAllowed",
+        "native_leaf_type": "unsignedInt",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dispenseRequest.numberOfRepeatsAllowed",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "An integer indicating the number of times, in addition to the original dispense, (aka refills or repeats) that the patient can receive the prescribed medication. Usage Notes: This integer does not include the original order dispense. This means that if an order indicates dispense 30 tablets plus \"3 repeats\", then the order can be dispensed a total of 4 times and the patient can receive a total of 120 tablets.  A prescriber may explicitly say that zero refills are permitted after the initial dispense.",
+            "type": "unsignedInt",
+            "locator": "element[@id=\"MedicationRequest.dispenseRequest.numberOfRepeatsAllowed\"]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "0",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/dispenseRequest/numberOfRepeatsAllowed/@value"
+          },
+          {
+            "value": "1",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0302.xml",
+            "xpath": "MedicationRequest/dispenseRequest/numberOfRepeatsAllowed/@value"
+          },
+          {
+            "value": "3",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0304.xml",
+            "xpath": "MedicationRequest/dispenseRequest/numberOfRepeatsAllowed/@value"
+          }
+        ]
+      },
+      {
+        "field": "dosageInstruction.patientInstruction",
+        "native_leaf_type": "string",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "Specific instructions for how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "locator": "element[@id=\"MedicationRequest.dosageInstruction\"]"
+          },
+          {
+            "element": "Dosage.patientInstruction",
+            "path": "archive/r5/source/datatypes/dosage.xml",
+            "definition": "Instructions in terms that are understood by the patient or consumer",
+            "type": "string",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[6]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "Take one to two tablets every four to six hours as needed for rib pain",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/dosageInstruction/patientInstruction/@value"
+          }
+        ]
+      },
+      {
+        "field": "dosageInstruction.text",
+        "native_leaf_type": "string",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "Specific instructions for how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "locator": "element[@id=\"MedicationRequest.dosageInstruction\"]"
+          },
+          {
+            "element": "Dosage.text",
+            "path": "archive/r5/source/datatypes/dosage.xml",
+            "definition": "Free text dosage instructions e.g. SIG",
+            "type": "string",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[4]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "one to two tablets every 4-6 hours as needed for rib pain",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/dosageInstruction/text/@value"
+          },
+          {
+            "value": "Two tablets at once",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0302.xml",
+            "xpath": "MedicationRequest/dosageInstruction/text/@value"
+          },
+          {
+            "value": "One tablet daily for 4 days",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0302.xml",
+            "xpath": "MedicationRequest/dosageInstruction/text/@value"
+          }
+        ]
+      },
+      {
+        "field": "dosageInstruction.sequence",
+        "native_leaf_type": "integer",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "Specific instructions for how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "locator": "element[@id=\"MedicationRequest.dosageInstruction\"]"
+          },
+          {
+            "element": "Dosage.sequence",
+            "path": "archive/r5/source/datatypes/dosage.xml",
+            "definition": "Indicates the order in which the dosage instructions should be applied or interpreted",
+            "type": "integer",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "1",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/dosageInstruction/sequence/@value"
+          },
+          {
+            "value": "2",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0302.xml",
+            "xpath": "MedicationRequest/dosageInstruction/sequence/@value"
+          },
+          {
+            "value": "3",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0303.xml",
+            "xpath": "MedicationRequest/dosageInstruction/sequence/@value"
+          }
+        ]
+      },
+      {
+        "field": "dosageInstruction.timing.repeat.frequency",
+        "native_leaf_type": "positiveInt",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "Specific instructions for how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "locator": "element[@id=\"MedicationRequest.dosageInstruction\"]"
+          },
+          {
+            "element": "Dosage.timing",
+            "path": "archive/r5/source/datatypes/dosage.xml",
+            "definition": "When medication should be administered",
+            "type": "Timing",
+            "definition_source": "Definition",
+            "comments": "This attribute might not always be populated while the Dosage.text is expected to be populated.  If both are populated, then the Dosage.text should reflect the content of the Dosage.timing.",
+            "locator": "Worksheet[Data Elements]/Row[7]"
+          },
+          {
+            "element": "Timing.repeat.frequency",
+            "path": "archive/r5/source/datatypes/timing.xml",
+            "definition": "The number of times to repeat the action within the specified period. If frequencyMax is present, this element indicates the lower bound of the allowed range of the frequency",
+            "type": "positiveInt",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[11]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "1",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/dosageInstruction/timing/repeat/frequency/@value"
+          },
+          {
+            "value": "4",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0304.xml",
+            "xpath": "MedicationRequest/dosageInstruction/timing/repeat/frequency/@value"
+          },
+          {
+            "value": "3",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0312.xml",
+            "xpath": "MedicationRequest/dosageInstruction/timing/repeat/frequency/@value"
+          }
+        ]
+      },
+      {
+        "field": "dosageInstruction.timing.repeat.period",
+        "native_leaf_type": "decimal",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "Specific instructions for how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "locator": "element[@id=\"MedicationRequest.dosageInstruction\"]"
+          },
+          {
+            "element": "Dosage.timing",
+            "path": "archive/r5/source/datatypes/dosage.xml",
+            "definition": "When medication should be administered",
+            "type": "Timing",
+            "definition_source": "Definition",
+            "comments": "This attribute might not always be populated while the Dosage.text is expected to be populated.  If both are populated, then the Dosage.text should reflect the content of the Dosage.timing.",
+            "locator": "Worksheet[Data Elements]/Row[7]"
+          },
+          {
+            "element": "Timing.repeat.period",
+            "path": "archive/r5/source/datatypes/timing.xml",
+            "definition": "Indicates the duration of time over which repetitions are to occur; e.g. to express \"3 times per day\", 3 would be the frequency and \"1 day\" would be the period. If periodMax is present, this element indicates the lower bound of the allowed range of the period length",
+            "type": "decimal",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[13]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "4",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/dosageInstruction/timing/repeat/period/@value"
+          },
+          {
+            "value": "1",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0302.xml",
+            "xpath": "MedicationRequest/dosageInstruction/timing/repeat/period/@value"
+          },
+          {
+            "value": "6",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0305.xml",
+            "xpath": "MedicationRequest/dosageInstruction/timing/repeat/period/@value"
+          }
+        ]
+      },
+      {
+        "field": "dosageInstruction.timing.repeat.periodUnit",
+        "native_leaf_type": "code",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "Specific instructions for how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "locator": "element[@id=\"MedicationRequest.dosageInstruction\"]"
+          },
+          {
+            "element": "Dosage.timing",
+            "path": "archive/r5/source/datatypes/dosage.xml",
+            "definition": "When medication should be administered",
+            "type": "Timing",
+            "definition_source": "Definition",
+            "comments": "This attribute might not always be populated while the Dosage.text is expected to be populated.  If both are populated, then the Dosage.text should reflect the content of the Dosage.timing.",
+            "locator": "Worksheet[Data Elements]/Row[7]"
+          },
+          {
+            "element": "Timing.repeat.periodUnit",
+            "path": "archive/r5/source/datatypes/timing.xml",
+            "definition": "The units of time for the period in UCUM units\nNormal practice is to use the 'mo' code as a calendar month when calculating the next occurrence.",
+            "type": "code",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[15]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "h",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/dosageInstruction/timing/repeat/periodUnit/@value"
+          },
+          {
+            "value": "d",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0302.xml",
+            "xpath": "MedicationRequest/dosageInstruction/timing/repeat/periodUnit/@value"
+          },
+          {
+            "value": "min",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0315.xml",
+            "xpath": "MedicationRequest/dosageInstruction/timing/repeat/periodUnit/@value"
+          }
+        ]
+      },
+      {
+        "field": "substitution.allowedBoolean",
+        "native_leaf_type": "boolean",
+        "documentation": [
+          {
+            "element": "MedicationRequest.substitution.allowed[x]",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "True if the prescriber allows a different drug to be dispensed from what was prescribed.",
+            "type": "boolean|CodeableConcept",
+            "locator": "element[@id=\"MedicationRequest.substitution.allowed[x]\"]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "true",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/substitution/allowedBoolean/@value"
+          },
+          {
+            "value": "false",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0308.xml",
+            "xpath": "MedicationRequest/substitution/allowedBoolean/@value"
+          }
+        ]
+      },
+      {
+        "field": "performer.reference",
+        "native_leaf_type": "string",
+        "documentation": [
+          {
+            "element": "MedicationRequest.performer",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "The specified desired performer of the medication treatment (e.g. the performer of the medication administration).  For devices, this is the device that is intended to perform the administration of the medication.  An IV Pump would be an example of a device that is performing the administration.  Both the IV Pump and the practitioner that set the rate or bolus on the pump can be listed as performers.",
+            "type": "Reference",
+            "locator": "element[@id=\"MedicationRequest.performer\"]"
+          },
+          {
+            "element": "Reference.reference",
+            "path": "archive/r5/source/datatypes/reference.xml",
+            "definition": "A reference to a location at which the other resource is found. The reference may be a relative reference, in which case it is relative to the service base URL, or an absolute URL that resolves to the location where the resource is found. The reference may be version specific or not. If the reference is not to a FHIR RESTful server, then it should be assumed to be version specific. Internal fragment references (start with '#') refer to contained resources",
+            "type": "string",
+            "definition_source": "Definition",
+            "comments": "Using absolute URLs provides a stable scalable approach suitable for a cloud/web context, while using relative/logical references provides a flexible approach suitable for use when trading across closed eco-system boundaries.   Absolute URLs do not need to point to a FHIR RESTful server, though this is the preferred approach. If the URL conforms to the structure \"[type]/[id]\" then it should be assumed that the reference is to a FHIR RESTful server",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "Practitioner/f204",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/performer/reference/@value"
+          }
+        ]
+      },
+      {
+        "field": "dosageInstruction.maxDosePerAdministration.value",
+        "native_leaf_type": "decimal",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "Specific instructions for how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "locator": "element[@id=\"MedicationRequest.dosageInstruction\"]"
+          },
+          {
+            "element": "Dosage.maxDosePerAdministration",
+            "path": "archive/r5/source/datatypes/dosage.xml",
+            "definition": "Upper limit on medication per administration",
+            "type": "SimpleQuantity",
+            "definition_source": "Definition",
+            "comments": "This is intended for use as an adjunct to the dosage when there is an upper cap.  For example, a body surface area related dose with a maximum amount, such as 1.5 mg/m2 (maximum 2 mg) IV over 5 \u2013 10 minutes would have doseQuantity of 1.5 mg/m2 and maxDosePerAdministration of 2 mg.",
+            "locator": "Worksheet[Data Elements]/Row[18]"
+          },
+          {
+            "element": "Quantity.value",
+            "path": "archive/r5/source/datatypes/quantity.xml",
+            "definition": "The value of the measured amount. The value includes an implicit precision in the presentation of the value",
+            "type": "decimal",
+            "definition_source": "Definition",
+            "comments": "The implicit precision in the value should always be honored. Monetary values have their own rules for handling precision (refer to standard accounting text books)",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "4",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0305.xml",
+            "xpath": "MedicationRequest/dosageInstruction/maxDosePerAdministration/value/@value"
+          }
+        ]
+      },
+      {
+        "field": "dosageInstruction.doseAndRate.doseQuantity.value",
+        "native_leaf_type": "decimal",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "Specific instructions for how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "locator": "element[@id=\"MedicationRequest.dosageInstruction\"]"
+          },
+          {
+            "element": "Dosage.doseAndRate.dose[x]",
+            "path": "archive/r5/source/datatypes/dosage.xml",
+            "definition": "Amount of medication per dose",
+            "type": "Range | SimpleQuantity",
+            "definition_source": "Definition",
+            "comments": "Note that this specifies the quantity of the specified medication, not the quantity for each active ingredient(s). Each ingredient amount can be communicated in the Medication resource. For example, if one wants to communicate that a tablet was 375 mg, where the dose was one tablet, you can use the Medication resource to document that the tablet was comprised of 375 mg of drug XYZ. Alternatively if the dose was 375 mg, then you may only need to use the Medication resource to indicate this was a tablet. If the example were an IV such as dopamine and you wanted to communicate that 400mg of dopamine was mixed in 500 ml of some IV solution, then this would all be communicated in the Medication resource. If the administration is not intended to be instantaneous (rate is present or timing has a duration), this can be specified to convey the total amount to be administered over the period of time as indicated by the schedule e.g. 500 ml in dose, with timing used to convey that this should be done over 4 hours.",
+            "locator": "Worksheet[Data Elements]/Row[15]"
+          },
+          {
+            "element": "Quantity.value",
+            "path": "archive/r5/source/datatypes/quantity.xml",
+            "definition": "The value of the measured amount. The value includes an implicit precision in the presentation of the value",
+            "type": "decimal",
+            "definition_source": "Definition",
+            "comments": "The implicit precision in the value should always be honored. Monetary values have their own rules for handling precision (refer to standard accounting text books)",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "2",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0302.xml",
+            "xpath": "MedicationRequest/dosageInstruction/doseAndRate/doseQuantity/value/@value"
+          },
+          {
+            "value": "1",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0302.xml",
+            "xpath": "MedicationRequest/dosageInstruction/doseAndRate/doseQuantity/value/@value"
+          },
+          {
+            "value": "4",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0303.xml",
+            "xpath": "MedicationRequest/dosageInstruction/doseAndRate/doseQuantity/value/@value"
+          }
+        ]
+      },
+      {
+        "field": "dosageInstruction.doseAndRate.doseQuantity.unit",
+        "native_leaf_type": "string",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "Specific instructions for how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "locator": "element[@id=\"MedicationRequest.dosageInstruction\"]"
+          },
+          {
+            "element": "Dosage.doseAndRate.dose[x]",
+            "path": "archive/r5/source/datatypes/dosage.xml",
+            "definition": "Amount of medication per dose",
+            "type": "Range | SimpleQuantity",
+            "definition_source": "Definition",
+            "comments": "Note that this specifies the quantity of the specified medication, not the quantity for each active ingredient(s). Each ingredient amount can be communicated in the Medication resource. For example, if one wants to communicate that a tablet was 375 mg, where the dose was one tablet, you can use the Medication resource to document that the tablet was comprised of 375 mg of drug XYZ. Alternatively if the dose was 375 mg, then you may only need to use the Medication resource to indicate this was a tablet. If the example were an IV such as dopamine and you wanted to communicate that 400mg of dopamine was mixed in 500 ml of some IV solution, then this would all be communicated in the Medication resource. If the administration is not intended to be instantaneous (rate is present or timing has a duration), this can be specified to convey the total amount to be administered over the period of time as indicated by the schedule e.g. 500 ml in dose, with timing used to convey that this should be done over 4 hours.",
+            "locator": "Worksheet[Data Elements]/Row[15]"
+          },
+          {
+            "element": "Quantity.unit",
+            "path": "archive/r5/source/datatypes/quantity.xml",
+            "definition": "A human-readable form of the unit",
+            "type": "string",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[5]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "TAB",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0302.xml",
+            "xpath": "MedicationRequest/dosageInstruction/doseAndRate/doseQuantity/unit/@value"
+          },
+          {
+            "value": "drop",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0304.xml",
+            "xpath": "MedicationRequest/dosageInstruction/doseAndRate/doseQuantity/unit/@value"
+          },
+          {
+            "value": "mg",
+            "path": "archive/r5/source/medicationrequest/medicationrequest0306.xml",
+            "xpath": "MedicationRequest/dosageInstruction/doseAndRate/doseQuantity/unit/@value"
+          }
+        ]
+      }
+    ],
+    "fields": [
+      {
+        "field": "medicationReference.reference",
+        "native_leaf_type": "string",
+        "documentation": [
+          {
+            "element": "MedicationRequest.medication[x]",
+            "path": "archive/r4/source/medicationrequest/medicationrequest-spreadsheet.xml",
+            "definition": "Identifies the medication being requested. This is a link to a resource that represents the medication which may be the details of the medication or simply an attribute carrying a code that identifies the medication from a known list of medications.",
+            "type": "CodeableConcept|Reference(Medication)",
+            "definition_source": "Definition",
+            "comments": "If only a code is specified, then it needs to be a code for a specific product. If more information is required, then the use of the Medication resource is recommended.\u00a0 For example, if\u00a0you require\u00a0form or\u00a0lot number or if the medication is compounded or extemporaneously prepared, then you must\u00a0reference the Medication resource.",
+            "locator": "Worksheet[Data Elements]/Row[11]"
+          },
+          {
+            "element": "Reference.reference",
+            "path": "archive/r4/source/datatypes/reference.xml",
+            "definition": "A reference to a location at which the other resource is found. The reference may be a relative reference, in which case it is relative to the service base URL, or an absolute URL that resolves to the location where the resource is found. The reference may be version specific or not. If the reference is not to a FHIR RESTful server, then it should be assumed to be version specific. Internal fragment references (start with '#') refer to contained resources",
+            "type": "string",
+            "definition_source": "Definition",
+            "comments": "Using absolute URLs provides a stable scalable approach suitable for a cloud/web context, while using relative/logical references provides a flexible approach suitable for use when trading across closed eco-system boundaries.   Absolute URLs do not need to point to a FHIR RESTful server, though this is the preferred approach. If the URL conforms to the structure \"/[type]/[id]\" then it should be assumed that the reference is to a FHIR RESTful server",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "#med0310",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/medicationReference/reference/@value"
+          },
+          {
+            "value": "#med0320",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0302.xml",
+            "xpath": "MedicationRequest/medicationReference/reference/@value"
+          },
+          {
+            "value": "#med0311",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0303.xml",
+            "xpath": "MedicationRequest/medicationReference/reference/@value"
+          }
+        ],
+        "answer": {
+          "kind": "match",
+          "source": "medicationReference.reference",
+          "target": "medication.reference.reference"
+        },
+        "target_documentation": [
+          {
+            "element": "MedicationRequest.medication",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "Identifies the medication being requested. This is a link to a resource that represents the medication which may be the details of the medication or simply an attribute carrying a code that identifies the medication from a known list of medications.",
+            "type": "CodeableReference",
+            "locator": "element[@id=\"MedicationRequest.medication\"]"
+          },
+          {
+            "element": "CodeableReference.reference",
+            "path": "archive/r5/source/datatypes/codeablereference.xml",
+            "definition": "A reference to a resource the provides exact details about the information being referenced",
+            "type": "Reference",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[4]"
+          },
+          {
+            "element": "Reference.reference",
+            "path": "archive/r5/source/datatypes/reference.xml",
+            "definition": "A reference to a location at which the other resource is found. The reference may be a relative reference, in which case it is relative to the service base URL, or an absolute URL that resolves to the location where the resource is found. The reference may be version specific or not. If the reference is not to a FHIR RESTful server, then it should be assumed to be version specific. Internal fragment references (start with '#') refer to contained resources",
+            "type": "string",
+            "definition_source": "Definition",
+            "comments": "Using absolute URLs provides a stable scalable approach suitable for a cloud/web context, while using relative/logical references provides a flexible approach suitable for use when trading across closed eco-system boundaries.   Absolute URLs do not need to point to a FHIR RESTful server, though this is the preferred approach. If the URL conforms to the structure \"[type]/[id]\" then it should be assumed that the reference is to a FHIR RESTful server",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "mapping_evidence": [
+          {
+            "path": "archive/xver/input/R4toR5/MedicationRequest4to5.fml",
+            "line": 23,
+            "quote": "src.medication : Reference -> tgt.medication \"medicationReference\";"
+          },
+          {
+            "path": "archive/xver/input/R4toR5/Reference4to5.fml",
+            "line": 35,
+            "quote": "src.reference as v ->  tgt.reference as t,  t.reference = v;"
+          },
+          {
+            "path": "archive/xver/input/R4toR5/Reference4to5.fml",
+            "line": 16,
+            "quote": "src.reference -> tgt.reference;"
+          }
+        ],
+        "reason": "Official migration explicitly preserves this field concept; schema/type definitions preserve its role and measured quantity. This is a directional R4-to-R5 mapping, not a claim of universal bidirectional value-domain equality."
+      },
+      {
+        "field": "medicationReference.display",
+        "native_leaf_type": "string",
+        "documentation": [
+          {
+            "element": "MedicationRequest.medication[x]",
+            "path": "archive/r4/source/medicationrequest/medicationrequest-spreadsheet.xml",
+            "definition": "Identifies the medication being requested. This is a link to a resource that represents the medication which may be the details of the medication or simply an attribute carrying a code that identifies the medication from a known list of medications.",
+            "type": "CodeableConcept|Reference(Medication)",
+            "definition_source": "Definition",
+            "comments": "If only a code is specified, then it needs to be a code for a specific product. If more information is required, then the use of the Medication resource is recommended.\u00a0 For example, if\u00a0you require\u00a0form or\u00a0lot number or if the medication is compounded or extemporaneously prepared, then you must\u00a0reference the Medication resource.",
+            "locator": "Worksheet[Data Elements]/Row[11]"
+          },
+          {
+            "element": "Reference.display",
+            "path": "archive/r4/source/datatypes/reference.xml",
+            "definition": "Plain text narrative that identifies the resource in addition to the resource reference",
+            "type": "string",
+            "definition_source": "Definition",
+            "comments": "This is generally not the same as the Resource.text of the referenced resource.  The purpose is to identify what's being referenced, not to fully describe it.",
+            "locator": "Worksheet[Data Elements]/Row[6]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "Nystatin 100,000 u/ml oral suspension",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0304.xml",
+            "xpath": "MedicationRequest/medicationReference/display/@value"
+          },
+          {
+            "value": "Myleran 2mg tablet",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0306.xml",
+            "xpath": "MedicationRequest/medicationReference/display/@value"
+          },
+          {
+            "value": "Piperacillin/Tazobactam 4.5gm",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0319.xml",
+            "xpath": "MedicationRequest/medicationReference/display/@value"
+          }
+        ],
+        "answer": {
+          "kind": "match",
+          "source": "medicationReference.display",
+          "target": "medication.reference.display"
+        },
+        "target_documentation": [
+          {
+            "element": "MedicationRequest.medication",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "Identifies the medication being requested. This is a link to a resource that represents the medication which may be the details of the medication or simply an attribute carrying a code that identifies the medication from a known list of medications.",
+            "type": "CodeableReference",
+            "locator": "element[@id=\"MedicationRequest.medication\"]"
+          },
+          {
+            "element": "CodeableReference.reference",
+            "path": "archive/r5/source/datatypes/codeablereference.xml",
+            "definition": "A reference to a resource the provides exact details about the information being referenced",
+            "type": "Reference",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[4]"
+          },
+          {
+            "element": "Reference.display",
+            "path": "archive/r5/source/datatypes/reference.xml",
+            "definition": "Plain text narrative that identifies the resource in addition to the resource reference",
+            "type": "string",
+            "definition_source": "Definition",
+            "comments": "This is generally not the same as the Resource.text of the referenced resource.  The purpose is to identify what's being referenced, not to fully describe it.",
+            "locator": "Worksheet[Data Elements]/Row[6]"
+          }
+        ],
+        "mapping_evidence": [
+          {
+            "path": "archive/xver/input/R4toR5/MedicationRequest4to5.fml",
+            "line": 23,
+            "quote": "src.medication : Reference -> tgt.medication \"medicationReference\";"
+          },
+          {
+            "path": "archive/xver/input/R4toR5/Reference4to5.fml",
+            "line": 38,
+            "quote": "src.display as v ->  tgt.reference as t,  t.display = v;"
+          },
+          {
+            "path": "archive/xver/input/R4toR5/Reference4to5.fml",
+            "line": 19,
+            "quote": "src.display -> tgt.display;"
+          }
+        ],
+        "reason": "Official migration explicitly preserves this field concept; schema/type definitions preserve its role and measured quantity. This is a directional R4-to-R5 mapping, not a claim of universal bidirectional value-domain equality."
+      },
+      {
+        "field": "medicationCodeableConcept.coding.code",
+        "native_leaf_type": "code",
+        "documentation": [
+          {
+            "element": "MedicationRequest.medication[x]",
+            "path": "archive/r4/source/medicationrequest/medicationrequest-spreadsheet.xml",
+            "definition": "Identifies the medication being requested. This is a link to a resource that represents the medication which may be the details of the medication or simply an attribute carrying a code that identifies the medication from a known list of medications.",
+            "type": "CodeableConcept|Reference(Medication)",
+            "definition_source": "Definition",
+            "comments": "If only a code is specified, then it needs to be a code for a specific product. If more information is required, then the use of the Medication resource is recommended.\u00a0 For example, if\u00a0you require\u00a0form or\u00a0lot number or if the medication is compounded or extemporaneously prepared, then you must\u00a0reference the Medication resource.",
+            "locator": "Worksheet[Data Elements]/Row[11]"
+          },
+          {
+            "element": "CodeableConcept.coding",
+            "path": "archive/r4/source/datatypes/codeableconcept.xml",
+            "definition": "A reference to a code defined by a terminology system",
+            "type": "Coding",
+            "definition_source": "Definition",
+            "comments": "Codes may be defined very casually in enumerations, or code lists, up to very formal definitions such as SNOMED CT - see the HL7 v3 Core Principles for more information.  Ordering of codings is undefined and SHALL NOT be used to infer meaning. Generally, at most only one of the coding values will be labeled as UserSelected = true",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          },
+          {
+            "element": "Coding.code",
+            "path": "archive/r4/source/datatypes/coding.xml",
+            "definition": "A symbol in syntax defined by the system. The symbol may be a predefined code or an expression in a syntax defined by the coding system (e.g. post-coordination)",
+            "type": "code",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[5]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "856907",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0308.xml",
+            "xpath": "MedicationRequest/medicationCodeableConcept/coding/code/@value"
+          },
+          {
+            "value": "1313112",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0312.xml",
+            "xpath": "MedicationRequest/medicationCodeableConcept/coding/code/@value"
+          },
+          {
+            "value": "324252006",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0313.xml",
+            "xpath": "MedicationRequest/medicationCodeableConcept/coding/code/@value"
+          }
+        ],
+        "answer": {
+          "kind": "match",
+          "source": "medicationCodeableConcept.coding.code",
+          "target": "medication.concept.coding.code"
+        },
+        "target_documentation": [
+          {
+            "element": "MedicationRequest.medication",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "Identifies the medication being requested. This is a link to a resource that represents the medication which may be the details of the medication or simply an attribute carrying a code that identifies the medication from a known list of medications.",
+            "type": "CodeableReference",
+            "locator": "element[@id=\"MedicationRequest.medication\"]"
+          },
+          {
+            "element": "CodeableReference.concept",
+            "path": "archive/r5/source/datatypes/codeablereference.xml",
+            "definition": "A reference to a concept - e.g. the information is identified by its general class to the degree of precision found in the terminology",
+            "type": "CodeableConcept",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          },
+          {
+            "element": "CodeableConcept.coding",
+            "path": "archive/r5/source/datatypes/codeableconcept.xml",
+            "definition": "A reference to a code defined by a terminology system",
+            "type": "Coding",
+            "definition_source": "Definition",
+            "comments": "Codes may be defined very casually in enumerations, or code lists, up to very formal definitions such as SNOMED CT - see the HL7 v3 Core Principles for more information.  Ordering of codings is undefined and SHALL NOT be used to infer meaning. Generally, at most only one of the coding values will be labeled as UserSelected = true",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          },
+          {
+            "element": "Coding.code",
+            "path": "archive/r5/source/datatypes/coding.xml",
+            "definition": "A symbol in syntax defined by the system. The symbol may be a predefined code or an expression in a syntax defined by the coding system (e.g. post-coordination)",
+            "type": "code",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[5]"
+          }
+        ],
+        "mapping_evidence": [
+          {
+            "path": "archive/xver/input/R4toR5/MedicationRequest4to5.fml",
+            "line": 22,
+            "quote": "src.medication : CodeableConcept -> tgt.medication \"medicationCodeableConcept\";"
+          },
+          {
+            "path": "archive/xver/input/R4toR5/CodeableConcept4to5.fml",
+            "line": 27,
+            "quote": "src as s -> tgt.concept as t then CodeableConcept(s, t) \"CodeableConcept2CodeableReference\";"
+          },
+          {
+            "path": "archive/xver/input/R4toR5/CodeableConcept4to5.fml",
+            "line": 18,
+            "quote": "src.coding -> tgt.coding;"
+          },
+          {
+            "path": "archive/xver/input/R4toR5/Coding4to5.fml",
+            "line": 14,
+            "quote": "src.code -> tgt.code;"
+          }
+        ],
+        "reason": "Official migration explicitly preserves this field concept; schema/type definitions preserve its role and measured quantity. This is a directional R4-to-R5 mapping, not a claim of universal bidirectional value-domain equality."
+      },
+      {
+        "field": "dosageInstruction.asNeededBoolean",
+        "native_leaf_type": "boolean",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r4/source/medicationrequest/medicationrequest-spreadsheet.xml",
+            "definition": "Indicates how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "definition_source": "Definition",
+            "comments": "There are examples where a medication request may include the option of an oral dose or an Intravenous or Intramuscular dose.  For example, \"Ondansetron 8mg orally or IV twice a day as needed for nausea\" or \"Compazine\u00ae (prochlorperazine) 5-10mg PO or 25mg PR bid prn nausea or vomiting\".  In these cases, two medication requests would be created that could be grouped together.  The decision on which dose and route of administration to use is based on the patient's condition at the time the dose is needed.",
+            "locator": "Worksheet[Data Elements]/Row[29]"
+          },
+          {
+            "element": "Dosage.asNeeded[x]",
+            "path": "archive/r4/source/datatypes/dosage.xml",
+            "definition": "Indicates whether the Medication is only taken when needed within a specific dosing schedule (Boolean option), or it indicates the precondition for taking the Medication (CodeableConcept).",
+            "type": "boolean | CodeableConcept",
+            "definition_source": "Definition",
+            "comments": "Can express \"as needed\" without a reason by setting the Boolean = True.  In this case the CodeableConcept is not populated.  Or you can express \"as needed\" with a reason by including the CodeableConcept.  In this case the Boolean is assumed to be True.  If you set the Boolean to False, then the dose is given according to the schedule and is not \"prn\" or \"as needed\"",
+            "locator": "Worksheet[Data Elements]/Row[8]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "true",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0315.xml",
+            "xpath": "MedicationRequest/dosageInstruction/asNeededBoolean/@value"
+          }
+        ],
+        "answer": {
+          "kind": "match",
+          "source": "dosageInstruction.asNeededBoolean",
+          "target": "dosageInstruction.asNeeded"
+        },
+        "target_documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "Specific instructions for how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "locator": "element[@id=\"MedicationRequest.dosageInstruction\"]"
+          },
+          {
+            "element": "Dosage.asNeeded",
+            "path": "archive/r5/source/datatypes/dosage.xml",
+            "definition": "Indicates whether the Medication is only taken when needed within a specific dosing schedule (Boolean option)",
+            "type": "boolean",
+            "definition_source": "Definition",
+            "comments": "Can express \"as needed\" without a reason by setting the Boolean = True.  In this case the CodeableConcept is not populated.",
+            "locator": "Worksheet[Data Elements]/Row[8]"
+          }
+        ],
+        "mapping_evidence": [
+          {
+            "path": "archive/xver/input/R4toR5/MedicationRequest4to5.fml",
+            "line": 40,
+            "quote": "src.dosageInstruction -> tgt.dosageInstruction;"
+          },
+          {
+            "path": "archive/xver/input/R4toR5/Dosage4to5.fml",
+            "line": 18,
+            "quote": "src.asNeeded : boolean -> tgt.asNeeded \"asNeededBoolean\";"
+          }
+        ],
+        "reason": "Official migration explicitly preserves this field concept; schema/type definitions preserve its role and measured quantity. This is a directional R4-to-R5 mapping, not a claim of universal bidirectional value-domain equality."
+      },
+      {
+        "field": "dispenseRequest.validityPeriod.start",
+        "native_leaf_type": "dateTime",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dispenseRequest.validityPeriod",
+            "path": "archive/r4/source/medicationrequest/medicationrequest-spreadsheet.xml",
+            "definition": "This indicates the validity period of a prescription (stale dating the Prescription)",
+            "type": "Period",
+            "definition_source": "Definition",
+            "comments": "It reflects the prescribers' perspective for the validity of the prescription. Dispenses must not be made against the prescription outside of this period. The lower-bound of the Dispensing Window signifies the earliest date that the prescription can be filled for the first time. If an upper-bound is not specified then the Prescription is open-ended or will default to a stale-date based on regulations.",
+            "locator": "Worksheet[Data Elements]/Row[35]"
+          },
+          {
+            "element": "Period.start",
+            "path": "archive/r4/source/datatypes/period.xml",
+            "definition": "The start of the period. The boundary is inclusive.",
+            "type": "dateTime",
+            "definition_source": "Definition",
+            "comments": "If the low element is missing, the meaning is that the low boundary is not known.",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "2015-01-15",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/dispenseRequest/validityPeriod/start/@value"
+          }
+        ],
+        "answer": {
+          "kind": "match",
+          "source": "dispenseRequest.validityPeriod.start",
+          "target": "dispenseRequest.validityPeriod.start"
+        },
+        "target_documentation": [
+          {
+            "element": "MedicationRequest.dispenseRequest.validityPeriod",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "This indicates the validity period of a prescription (stale dating the Prescription).",
+            "type": "Period",
+            "locator": "element[@id=\"MedicationRequest.dispenseRequest.validityPeriod\"]"
+          },
+          {
+            "element": "Period.start",
+            "path": "archive/r5/source/datatypes/period.xml",
+            "definition": "The start of the period. The boundary is inclusive.",
+            "type": "dateTime",
+            "definition_source": "Definition",
+            "comments": "If the low element is missing, the meaning is that the low boundary is not known.",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "mapping_evidence": [
+          {
+            "path": "archive/xver/input/R4toR5/MedicationRequest4to5.fml",
+            "line": 37,
+            "quote": "src.dispenseRequest as s -> tgt.dispenseRequest as t then MedicationRequestDispenseRequest(s, t);"
+          },
+          {
+            "path": "archive/xver/input/R4toR5/MedicationRequest4to5.fml",
+            "line": 46,
+            "quote": "src.validityPeriod -> tgt.validityPeriod;"
+          }
+        ],
+        "reason": "Official migration explicitly preserves this field concept; schema/type definitions preserve its role and measured quantity. This is a directional R4-to-R5 mapping, not a claim of universal bidirectional value-domain equality."
+      },
+      {
+        "field": "dispenseRequest.validityPeriod.end",
+        "native_leaf_type": "dateTime",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dispenseRequest.validityPeriod",
+            "path": "archive/r4/source/medicationrequest/medicationrequest-spreadsheet.xml",
+            "definition": "This indicates the validity period of a prescription (stale dating the Prescription)",
+            "type": "Period",
+            "definition_source": "Definition",
+            "comments": "It reflects the prescribers' perspective for the validity of the prescription. Dispenses must not be made against the prescription outside of this period. The lower-bound of the Dispensing Window signifies the earliest date that the prescription can be filled for the first time. If an upper-bound is not specified then the Prescription is open-ended or will default to a stale-date based on regulations.",
+            "locator": "Worksheet[Data Elements]/Row[35]"
+          },
+          {
+            "element": "Period.end",
+            "path": "archive/r4/source/datatypes/period.xml",
+            "definition": "The end of the period. If the end of the period is missing, it means no end was known or planned at the time the instance was created. The start may be in the past, and the end date in the future, which means that period is expected/planned to end at that time",
+            "type": "dateTime",
+            "definition_source": "Definition",
+            "comments": "The high value includes any matching date/time. i.e. 2012-02-03T10:00:00 is in a period that has an end value of 2012-02-03",
+            "locator": "Worksheet[Data Elements]/Row[4]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "2016-01-15",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/dispenseRequest/validityPeriod/end/@value"
+          }
+        ],
+        "answer": {
+          "kind": "match",
+          "source": "dispenseRequest.validityPeriod.end",
+          "target": "dispenseRequest.validityPeriod.end"
+        },
+        "target_documentation": [
+          {
+            "element": "MedicationRequest.dispenseRequest.validityPeriod",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "This indicates the validity period of a prescription (stale dating the Prescription).",
+            "type": "Period",
+            "locator": "element[@id=\"MedicationRequest.dispenseRequest.validityPeriod\"]"
+          },
+          {
+            "element": "Period.end",
+            "path": "archive/r5/source/datatypes/period.xml",
+            "definition": "The end of the period. If the end of the period is missing, it means no end was known or planned at the time the instance was created. The start may be in the past, and the end date in the future, which means that period is expected/planned to end at that time",
+            "type": "dateTime",
+            "definition_source": "Definition",
+            "comments": "The end value includes any matching date/time. i.e. 2012-02-03T10:00:00 is in a period that has an end value of 2012-02-03",
+            "locator": "Worksheet[Data Elements]/Row[4]"
+          }
+        ],
+        "mapping_evidence": [
+          {
+            "path": "archive/xver/input/R4toR5/MedicationRequest4to5.fml",
+            "line": 37,
+            "quote": "src.dispenseRequest as s -> tgt.dispenseRequest as t then MedicationRequestDispenseRequest(s, t);"
+          },
+          {
+            "path": "archive/xver/input/R4toR5/MedicationRequest4to5.fml",
+            "line": 46,
+            "quote": "src.validityPeriod -> tgt.validityPeriod;"
+          }
+        ],
+        "reason": "Official migration explicitly preserves this field concept; schema/type definitions preserve its role and measured quantity. This is a directional R4-to-R5 mapping, not a claim of universal bidirectional value-domain equality."
+      },
+      {
+        "field": "dispenseRequest.numberOfRepeatsAllowed",
+        "native_leaf_type": "unsignedInt",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dispenseRequest.numberOfRepeatsAllowed",
+            "path": "archive/r4/source/medicationrequest/medicationrequest-spreadsheet.xml",
+            "definition": "An integer indicating the number of times, in addition to the original dispense, (aka refills or repeats) that the patient can receive the prescribed medication. Usage Notes: This integer does not include the original order dispense. This means that if an order indicates dispense 30 tablets plus \"3 repeats\", then the order can be dispensed a total of 4 times and the patient can receive a total of 120 tablets.  A prescriber may explicitly say that zero refills are permitted after the initial dispense.",
+            "type": "unsignedInt",
+            "definition_source": "Definition",
+            "comments": "If displaying \"number of authorized fills\", add 1 to this number.",
+            "locator": "Worksheet[Data Elements]/Row[36]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "0",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/dispenseRequest/numberOfRepeatsAllowed/@value"
+          },
+          {
+            "value": "1",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0302.xml",
+            "xpath": "MedicationRequest/dispenseRequest/numberOfRepeatsAllowed/@value"
+          },
+          {
+            "value": "3",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0304.xml",
+            "xpath": "MedicationRequest/dispenseRequest/numberOfRepeatsAllowed/@value"
+          }
+        ],
+        "answer": {
+          "kind": "match",
+          "source": "dispenseRequest.numberOfRepeatsAllowed",
+          "target": "dispenseRequest.numberOfRepeatsAllowed"
+        },
+        "target_documentation": [
+          {
+            "element": "MedicationRequest.dispenseRequest.numberOfRepeatsAllowed",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "An integer indicating the number of times, in addition to the original dispense, (aka refills or repeats) that the patient can receive the prescribed medication. Usage Notes: This integer does not include the original order dispense. This means that if an order indicates dispense 30 tablets plus \"3 repeats\", then the order can be dispensed a total of 4 times and the patient can receive a total of 120 tablets.  A prescriber may explicitly say that zero refills are permitted after the initial dispense.",
+            "type": "unsignedInt",
+            "locator": "element[@id=\"MedicationRequest.dispenseRequest.numberOfRepeatsAllowed\"]"
+          }
+        ],
+        "mapping_evidence": [
+          {
+            "path": "archive/xver/input/R4toR5/MedicationRequest4to5.fml",
+            "line": 37,
+            "quote": "src.dispenseRequest as s -> tgt.dispenseRequest as t then MedicationRequestDispenseRequest(s, t);"
+          },
+          {
+            "path": "archive/xver/input/R4toR5/MedicationRequest4to5.fml",
+            "line": 47,
+            "quote": "src.numberOfRepeatsAllowed -> tgt.numberOfRepeatsAllowed;"
+          }
+        ],
+        "reason": "Official migration explicitly preserves this field concept; schema/type definitions preserve its role and measured quantity. This is a directional R4-to-R5 mapping, not a claim of universal bidirectional value-domain equality."
+      },
+      {
+        "field": "dosageInstruction.patientInstruction",
+        "native_leaf_type": "string",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r4/source/medicationrequest/medicationrequest-spreadsheet.xml",
+            "definition": "Indicates how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "definition_source": "Definition",
+            "comments": "There are examples where a medication request may include the option of an oral dose or an Intravenous or Intramuscular dose.  For example, \"Ondansetron 8mg orally or IV twice a day as needed for nausea\" or \"Compazine\u00ae (prochlorperazine) 5-10mg PO or 25mg PR bid prn nausea or vomiting\".  In these cases, two medication requests would be created that could be grouped together.  The decision on which dose and route of administration to use is based on the patient's condition at the time the dose is needed.",
+            "locator": "Worksheet[Data Elements]/Row[29]"
+          },
+          {
+            "element": "Dosage.patientInstruction",
+            "path": "archive/r4/source/datatypes/dosage.xml",
+            "definition": "Instructions in terms that are understood by the patient or consumer",
+            "type": "string",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[6]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "Take one to two tablets every four to six hours as needed for rib pain",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/dosageInstruction/patientInstruction/@value"
+          }
+        ],
+        "answer": {
+          "kind": "match",
+          "source": "dosageInstruction.patientInstruction",
+          "target": "dosageInstruction.patientInstruction"
+        },
+        "target_documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "Specific instructions for how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "locator": "element[@id=\"MedicationRequest.dosageInstruction\"]"
+          },
+          {
+            "element": "Dosage.patientInstruction",
+            "path": "archive/r5/source/datatypes/dosage.xml",
+            "definition": "Instructions in terms that are understood by the patient or consumer",
+            "type": "string",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[6]"
+          }
+        ],
+        "mapping_evidence": [
+          {
+            "path": "archive/xver/input/R4toR5/MedicationRequest4to5.fml",
+            "line": 40,
+            "quote": "src.dosageInstruction -> tgt.dosageInstruction;"
+          },
+          {
+            "path": "archive/xver/input/R4toR5/Dosage4to5.fml",
+            "line": 16,
+            "quote": "src.patientInstruction -> tgt.patientInstruction;"
+          }
+        ],
+        "reason": "Official migration explicitly preserves this field concept; schema/type definitions preserve its role and measured quantity. This is a directional R4-to-R5 mapping, not a claim of universal bidirectional value-domain equality."
+      },
+      {
+        "field": "dosageInstruction.text",
+        "native_leaf_type": "string",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r4/source/medicationrequest/medicationrequest-spreadsheet.xml",
+            "definition": "Indicates how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "definition_source": "Definition",
+            "comments": "There are examples where a medication request may include the option of an oral dose or an Intravenous or Intramuscular dose.  For example, \"Ondansetron 8mg orally or IV twice a day as needed for nausea\" or \"Compazine\u00ae (prochlorperazine) 5-10mg PO or 25mg PR bid prn nausea or vomiting\".  In these cases, two medication requests would be created that could be grouped together.  The decision on which dose and route of administration to use is based on the patient's condition at the time the dose is needed.",
+            "locator": "Worksheet[Data Elements]/Row[29]"
+          },
+          {
+            "element": "Dosage.text",
+            "path": "archive/r4/source/datatypes/dosage.xml",
+            "definition": "Free text dosage instructions e.g. SIG",
+            "type": "string",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[4]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "one to two tablets every 4-6 hours as needed for rib pain",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/dosageInstruction/text/@value"
+          },
+          {
+            "value": "Two tablets at once",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0302.xml",
+            "xpath": "MedicationRequest/dosageInstruction/text/@value"
+          },
+          {
+            "value": "One tablet daily for 4 days",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0302.xml",
+            "xpath": "MedicationRequest/dosageInstruction/text/@value"
+          }
+        ],
+        "answer": {
+          "kind": "match",
+          "source": "dosageInstruction.text",
+          "target": "dosageInstruction.text"
+        },
+        "target_documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "Specific instructions for how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "locator": "element[@id=\"MedicationRequest.dosageInstruction\"]"
+          },
+          {
+            "element": "Dosage.text",
+            "path": "archive/r5/source/datatypes/dosage.xml",
+            "definition": "Free text dosage instructions e.g. SIG",
+            "type": "string",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[4]"
+          }
+        ],
+        "mapping_evidence": [
+          {
+            "path": "archive/xver/input/R4toR5/MedicationRequest4to5.fml",
+            "line": 40,
+            "quote": "src.dosageInstruction -> tgt.dosageInstruction;"
+          },
+          {
+            "path": "archive/xver/input/R4toR5/Dosage4to5.fml",
+            "line": 14,
+            "quote": "src.text -> tgt.text;"
+          }
+        ],
+        "reason": "Official migration explicitly preserves this field concept; schema/type definitions preserve its role and measured quantity. This is a directional R4-to-R5 mapping, not a claim of universal bidirectional value-domain equality."
+      },
+      {
+        "field": "dosageInstruction.sequence",
+        "native_leaf_type": "integer",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r4/source/medicationrequest/medicationrequest-spreadsheet.xml",
+            "definition": "Indicates how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "definition_source": "Definition",
+            "comments": "There are examples where a medication request may include the option of an oral dose or an Intravenous or Intramuscular dose.  For example, \"Ondansetron 8mg orally or IV twice a day as needed for nausea\" or \"Compazine\u00ae (prochlorperazine) 5-10mg PO or 25mg PR bid prn nausea or vomiting\".  In these cases, two medication requests would be created that could be grouped together.  The decision on which dose and route of administration to use is based on the patient's condition at the time the dose is needed.",
+            "locator": "Worksheet[Data Elements]/Row[29]"
+          },
+          {
+            "element": "Dosage.sequence",
+            "path": "archive/r4/source/datatypes/dosage.xml",
+            "definition": "Indicates the order in which the dosage instructions should be applied or interpreted",
+            "type": "integer",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "1",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/dosageInstruction/sequence/@value"
+          },
+          {
+            "value": "2",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0302.xml",
+            "xpath": "MedicationRequest/dosageInstruction/sequence/@value"
+          },
+          {
+            "value": "3",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0303.xml",
+            "xpath": "MedicationRequest/dosageInstruction/sequence/@value"
+          }
+        ],
+        "answer": {
+          "kind": "match",
+          "source": "dosageInstruction.sequence",
+          "target": "dosageInstruction.sequence"
+        },
+        "target_documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "Specific instructions for how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "locator": "element[@id=\"MedicationRequest.dosageInstruction\"]"
+          },
+          {
+            "element": "Dosage.sequence",
+            "path": "archive/r5/source/datatypes/dosage.xml",
+            "definition": "Indicates the order in which the dosage instructions should be applied or interpreted",
+            "type": "integer",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "mapping_evidence": [
+          {
+            "path": "archive/xver/input/R4toR5/MedicationRequest4to5.fml",
+            "line": 40,
+            "quote": "src.dosageInstruction -> tgt.dosageInstruction;"
+          },
+          {
+            "path": "archive/xver/input/R4toR5/Dosage4to5.fml",
+            "line": 13,
+            "quote": "src.sequence -> tgt.sequence;"
+          }
+        ],
+        "reason": "Official migration explicitly preserves this field concept; schema/type definitions preserve its role and measured quantity. This is a directional R4-to-R5 mapping, not a claim of universal bidirectional value-domain equality."
+      },
+      {
+        "field": "dosageInstruction.timing.repeat.frequency",
+        "native_leaf_type": "positiveInt",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r4/source/medicationrequest/medicationrequest-spreadsheet.xml",
+            "definition": "Indicates how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "definition_source": "Definition",
+            "comments": "There are examples where a medication request may include the option of an oral dose or an Intravenous or Intramuscular dose.  For example, \"Ondansetron 8mg orally or IV twice a day as needed for nausea\" or \"Compazine\u00ae (prochlorperazine) 5-10mg PO or 25mg PR bid prn nausea or vomiting\".  In these cases, two medication requests would be created that could be grouped together.  The decision on which dose and route of administration to use is based on the patient's condition at the time the dose is needed.",
+            "locator": "Worksheet[Data Elements]/Row[29]"
+          },
+          {
+            "element": "Dosage.timing",
+            "path": "archive/r4/source/datatypes/dosage.xml",
+            "definition": "When medication should be administered",
+            "type": "Timing",
+            "definition_source": "Definition",
+            "comments": "This attribute might not always be populated while the Dosage.text is expected to be populated.  If both are populated, then the Dosage.text should reflect the content of the Dosage.timing.",
+            "locator": "Worksheet[Data Elements]/Row[7]"
+          },
+          {
+            "element": "Timing.repeat.frequency",
+            "path": "archive/r4/source/datatypes/timing.xml",
+            "definition": "The number of times to repeat the action within the specified period. If frequencyMax is present, this element indicates the lower bound of the allowed range of the frequency",
+            "type": "positiveInt",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[11]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "1",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/dosageInstruction/timing/repeat/frequency/@value"
+          },
+          {
+            "value": "4",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0302.xml",
+            "xpath": "MedicationRequest/dosageInstruction/timing/repeat/frequency/@value"
+          },
+          {
+            "value": "3",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0312.xml",
+            "xpath": "MedicationRequest/dosageInstruction/timing/repeat/frequency/@value"
+          }
+        ],
+        "answer": {
+          "kind": "match",
+          "source": "dosageInstruction.timing.repeat.frequency",
+          "target": "dosageInstruction.timing.repeat.frequency"
+        },
+        "target_documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "Specific instructions for how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "locator": "element[@id=\"MedicationRequest.dosageInstruction\"]"
+          },
+          {
+            "element": "Dosage.timing",
+            "path": "archive/r5/source/datatypes/dosage.xml",
+            "definition": "When medication should be administered",
+            "type": "Timing",
+            "definition_source": "Definition",
+            "comments": "This attribute might not always be populated while the Dosage.text is expected to be populated.  If both are populated, then the Dosage.text should reflect the content of the Dosage.timing.",
+            "locator": "Worksheet[Data Elements]/Row[7]"
+          },
+          {
+            "element": "Timing.repeat.frequency",
+            "path": "archive/r5/source/datatypes/timing.xml",
+            "definition": "The number of times to repeat the action within the specified period. If frequencyMax is present, this element indicates the lower bound of the allowed range of the frequency",
+            "type": "positiveInt",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[11]"
+          }
+        ],
+        "mapping_evidence": [
+          {
+            "path": "archive/xver/input/R4toR5/MedicationRequest4to5.fml",
+            "line": 40,
+            "quote": "src.dosageInstruction -> tgt.dosageInstruction;"
+          },
+          {
+            "path": "archive/xver/input/R4toR5/Dosage4to5.fml",
+            "line": 17,
+            "quote": "src.timing -> tgt.timing;"
+          },
+          {
+            "path": "archive/xver/input/R4toR5/Timing4to5.fml",
+            "line": 27,
+            "quote": "src.frequency -> tgt.frequency;"
+          }
+        ],
+        "reason": "Official migration explicitly preserves this field concept; schema/type definitions preserve its role and measured quantity. This is a directional R4-to-R5 mapping, not a claim of universal bidirectional value-domain equality."
+      },
+      {
+        "field": "dosageInstruction.timing.repeat.period",
+        "native_leaf_type": "decimal",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r4/source/medicationrequest/medicationrequest-spreadsheet.xml",
+            "definition": "Indicates how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "definition_source": "Definition",
+            "comments": "There are examples where a medication request may include the option of an oral dose or an Intravenous or Intramuscular dose.  For example, \"Ondansetron 8mg orally or IV twice a day as needed for nausea\" or \"Compazine\u00ae (prochlorperazine) 5-10mg PO or 25mg PR bid prn nausea or vomiting\".  In these cases, two medication requests would be created that could be grouped together.  The decision on which dose and route of administration to use is based on the patient's condition at the time the dose is needed.",
+            "locator": "Worksheet[Data Elements]/Row[29]"
+          },
+          {
+            "element": "Dosage.timing",
+            "path": "archive/r4/source/datatypes/dosage.xml",
+            "definition": "When medication should be administered",
+            "type": "Timing",
+            "definition_source": "Definition",
+            "comments": "This attribute might not always be populated while the Dosage.text is expected to be populated.  If both are populated, then the Dosage.text should reflect the content of the Dosage.timing.",
+            "locator": "Worksheet[Data Elements]/Row[7]"
+          },
+          {
+            "element": "Timing.repeat.period",
+            "path": "archive/r4/source/datatypes/timing.xml",
+            "definition": "Indicates the duration of time over which repetitions are to occur; e.g. to express \"3 times per day\", 3 would be the frequency and \"1 day\" would be the period. If periodMax is present, this element indicates the lower bound of the allowed range of the period length",
+            "type": "decimal",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[13]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "4",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/dosageInstruction/timing/repeat/period/@value"
+          },
+          {
+            "value": "1",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0302.xml",
+            "xpath": "MedicationRequest/dosageInstruction/timing/repeat/period/@value"
+          },
+          {
+            "value": "6",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0305.xml",
+            "xpath": "MedicationRequest/dosageInstruction/timing/repeat/period/@value"
+          }
+        ],
+        "answer": {
+          "kind": "match",
+          "source": "dosageInstruction.timing.repeat.period",
+          "target": "dosageInstruction.timing.repeat.period"
+        },
+        "target_documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "Specific instructions for how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "locator": "element[@id=\"MedicationRequest.dosageInstruction\"]"
+          },
+          {
+            "element": "Dosage.timing",
+            "path": "archive/r5/source/datatypes/dosage.xml",
+            "definition": "When medication should be administered",
+            "type": "Timing",
+            "definition_source": "Definition",
+            "comments": "This attribute might not always be populated while the Dosage.text is expected to be populated.  If both are populated, then the Dosage.text should reflect the content of the Dosage.timing.",
+            "locator": "Worksheet[Data Elements]/Row[7]"
+          },
+          {
+            "element": "Timing.repeat.period",
+            "path": "archive/r5/source/datatypes/timing.xml",
+            "definition": "Indicates the duration of time over which repetitions are to occur; e.g. to express \"3 times per day\", 3 would be the frequency and \"1 day\" would be the period. If periodMax is present, this element indicates the lower bound of the allowed range of the period length",
+            "type": "decimal",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[13]"
+          }
+        ],
+        "mapping_evidence": [
+          {
+            "path": "archive/xver/input/R4toR5/MedicationRequest4to5.fml",
+            "line": 40,
+            "quote": "src.dosageInstruction -> tgt.dosageInstruction;"
+          },
+          {
+            "path": "archive/xver/input/R4toR5/Dosage4to5.fml",
+            "line": 17,
+            "quote": "src.timing -> tgt.timing;"
+          },
+          {
+            "path": "archive/xver/input/R4toR5/Timing4to5.fml",
+            "line": 29,
+            "quote": "src.period -> tgt.period;"
+          }
+        ],
+        "reason": "Official migration explicitly preserves this field concept; schema/type definitions preserve its role and measured quantity. This is a directional R4-to-R5 mapping, not a claim of universal bidirectional value-domain equality."
+      },
+      {
+        "field": "dosageInstruction.timing.repeat.periodUnit",
+        "native_leaf_type": "code",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r4/source/medicationrequest/medicationrequest-spreadsheet.xml",
+            "definition": "Indicates how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "definition_source": "Definition",
+            "comments": "There are examples where a medication request may include the option of an oral dose or an Intravenous or Intramuscular dose.  For example, \"Ondansetron 8mg orally or IV twice a day as needed for nausea\" or \"Compazine\u00ae (prochlorperazine) 5-10mg PO or 25mg PR bid prn nausea or vomiting\".  In these cases, two medication requests would be created that could be grouped together.  The decision on which dose and route of administration to use is based on the patient's condition at the time the dose is needed.",
+            "locator": "Worksheet[Data Elements]/Row[29]"
+          },
+          {
+            "element": "Dosage.timing",
+            "path": "archive/r4/source/datatypes/dosage.xml",
+            "definition": "When medication should be administered",
+            "type": "Timing",
+            "definition_source": "Definition",
+            "comments": "This attribute might not always be populated while the Dosage.text is expected to be populated.  If both are populated, then the Dosage.text should reflect the content of the Dosage.timing.",
+            "locator": "Worksheet[Data Elements]/Row[7]"
+          },
+          {
+            "element": "Timing.repeat.periodUnit",
+            "path": "archive/r4/source/datatypes/timing.xml",
+            "definition": "The units of time for the period in UCUM units",
+            "type": "code",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[15]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "h",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/dosageInstruction/timing/repeat/periodUnit/@value"
+          },
+          {
+            "value": "d",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0302.xml",
+            "xpath": "MedicationRequest/dosageInstruction/timing/repeat/periodUnit/@value"
+          },
+          {
+            "value": "min",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0315.xml",
+            "xpath": "MedicationRequest/dosageInstruction/timing/repeat/periodUnit/@value"
+          }
+        ],
+        "answer": {
+          "kind": "match",
+          "source": "dosageInstruction.timing.repeat.periodUnit",
+          "target": "dosageInstruction.timing.repeat.periodUnit"
+        },
+        "target_documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "Specific instructions for how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "locator": "element[@id=\"MedicationRequest.dosageInstruction\"]"
+          },
+          {
+            "element": "Dosage.timing",
+            "path": "archive/r5/source/datatypes/dosage.xml",
+            "definition": "When medication should be administered",
+            "type": "Timing",
+            "definition_source": "Definition",
+            "comments": "This attribute might not always be populated while the Dosage.text is expected to be populated.  If both are populated, then the Dosage.text should reflect the content of the Dosage.timing.",
+            "locator": "Worksheet[Data Elements]/Row[7]"
+          },
+          {
+            "element": "Timing.repeat.periodUnit",
+            "path": "archive/r5/source/datatypes/timing.xml",
+            "definition": "The units of time for the period in UCUM units\nNormal practice is to use the 'mo' code as a calendar month when calculating the next occurrence.",
+            "type": "code",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[15]"
+          }
+        ],
+        "mapping_evidence": [
+          {
+            "path": "archive/xver/input/R4toR5/MedicationRequest4to5.fml",
+            "line": 40,
+            "quote": "src.dosageInstruction -> tgt.dosageInstruction;"
+          },
+          {
+            "path": "archive/xver/input/R4toR5/Dosage4to5.fml",
+            "line": 17,
+            "quote": "src.timing -> tgt.timing;"
+          },
+          {
+            "path": "archive/xver/input/R4toR5/Timing4to5.fml",
+            "line": 31,
+            "quote": "src.periodUnit -> tgt.periodUnit;"
+          }
+        ],
+        "reason": "Official migration explicitly preserves this field concept; schema/type definitions preserve its role and measured quantity. This is a directional R4-to-R5 mapping, not a claim of universal bidirectional value-domain equality."
+      },
+      {
+        "field": "substitution.allowedBoolean",
+        "native_leaf_type": "boolean",
+        "documentation": [
+          {
+            "element": "MedicationRequest.substitution.allowed[x]",
+            "path": "archive/r4/source/medicationrequest/medicationrequest-spreadsheet.xml",
+            "definition": "True if the prescriber allows a different drug to be dispensed from what was prescribed.",
+            "type": "boolean | CodeableConcept",
+            "definition_source": "Definition",
+            "comments": "This element is labeled as a modifier because whether substitution is allow or not, it cannot be ignored.",
+            "locator": "Worksheet[Data Elements]/Row[41]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "true",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/substitution/allowedBoolean/@value"
+          },
+          {
+            "value": "false",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0308.xml",
+            "xpath": "MedicationRequest/substitution/allowedBoolean/@value"
+          }
+        ],
+        "answer": {
+          "kind": "match",
+          "source": "substitution.allowedBoolean",
+          "target": "substitution.allowedBoolean"
+        },
+        "target_documentation": [
+          {
+            "element": "MedicationRequest.substitution.allowed[x]",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "True if the prescriber allows a different drug to be dispensed from what was prescribed.",
+            "type": "boolean|CodeableConcept",
+            "locator": "element[@id=\"MedicationRequest.substitution.allowed[x]\"]"
+          }
+        ],
+        "mapping_evidence": [
+          {
+            "path": "archive/xver/input/R4toR5/MedicationRequest4to5.fml",
+            "line": 38,
+            "quote": "src.substitution as s -> tgt.substitution as t then MedicationRequestSubstitution(s, t);"
+          },
+          {
+            "path": "archive/xver/input/R4toR5/MedicationRequest4to5.fml",
+            "line": 59,
+            "quote": "src.allowed : boolean -> tgt.allowed \"allowedBoolean\";"
+          }
+        ],
+        "reason": "Official migration explicitly preserves this field concept; schema/type definitions preserve its role and measured quantity. This is a directional R4-to-R5 mapping, not a claim of universal bidirectional value-domain equality."
+      },
+      {
+        "field": "performer.reference",
+        "native_leaf_type": "string",
+        "documentation": [
+          {
+            "element": "MedicationRequest.performer",
+            "path": "archive/r4/source/medicationrequest/medicationrequest-spreadsheet.xml",
+            "definition": "The specified desired performer of the medication treatment (e.g. the performer of the medication administration).",
+            "type": "Reference(Practitioner | PractitionerRole | Organization | Patient | Device |RelatedPerson |CareTeam)",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[17]"
+          },
+          {
+            "element": "Reference.reference",
+            "path": "archive/r4/source/datatypes/reference.xml",
+            "definition": "A reference to a location at which the other resource is found. The reference may be a relative reference, in which case it is relative to the service base URL, or an absolute URL that resolves to the location where the resource is found. The reference may be version specific or not. If the reference is not to a FHIR RESTful server, then it should be assumed to be version specific. Internal fragment references (start with '#') refer to contained resources",
+            "type": "string",
+            "definition_source": "Definition",
+            "comments": "Using absolute URLs provides a stable scalable approach suitable for a cloud/web context, while using relative/logical references provides a flexible approach suitable for use when trading across closed eco-system boundaries.   Absolute URLs do not need to point to a FHIR RESTful server, though this is the preferred approach. If the URL conforms to the structure \"/[type]/[id]\" then it should be assumed that the reference is to a FHIR RESTful server",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "Practitioner/f204",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/performer/reference/@value"
+          }
+        ],
+        "answer": {
+          "kind": "match",
+          "source": "performer.reference",
+          "target": "performer.reference"
+        },
+        "target_documentation": [
+          {
+            "element": "MedicationRequest.performer",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "The specified desired performer of the medication treatment (e.g. the performer of the medication administration).  For devices, this is the device that is intended to perform the administration of the medication.  An IV Pump would be an example of a device that is performing the administration.  Both the IV Pump and the practitioner that set the rate or bolus on the pump can be listed as performers.",
+            "type": "Reference",
+            "locator": "element[@id=\"MedicationRequest.performer\"]"
+          },
+          {
+            "element": "Reference.reference",
+            "path": "archive/r5/source/datatypes/reference.xml",
+            "definition": "A reference to a location at which the other resource is found. The reference may be a relative reference, in which case it is relative to the service base URL, or an absolute URL that resolves to the location where the resource is found. The reference may be version specific or not. If the reference is not to a FHIR RESTful server, then it should be assumed to be version specific. Internal fragment references (start with '#') refer to contained resources",
+            "type": "string",
+            "definition_source": "Definition",
+            "comments": "Using absolute URLs provides a stable scalable approach suitable for a cloud/web context, while using relative/logical references provides a flexible approach suitable for use when trading across closed eco-system boundaries.   Absolute URLs do not need to point to a FHIR RESTful server, though this is the preferred approach. If the URL conforms to the structure \"[type]/[id]\" then it should be assumed that the reference is to a FHIR RESTful server",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "mapping_evidence": [
+          {
+            "path": "archive/xver/input/R4toR5/MedicationRequest4to5.fml",
+            "line": 30,
+            "quote": "src.performer -> tgt.performer;"
+          }
+        ],
+        "reason": "Official migration explicitly preserves this field concept; schema/type definitions preserve its role and measured quantity. This is a directional R4-to-R5 mapping, not a claim of universal bidirectional value-domain equality."
+      },
+      {
+        "field": "recorder.reference",
+        "native_leaf_type": "string",
+        "documentation": [
+          {
+            "element": "MedicationRequest.recorder",
+            "path": "archive/r4/source/medicationrequest/medicationrequest-spreadsheet.xml",
+            "definition": "The person who entered the order on behalf of another individual for example in the case of a verbal or a telephone order.",
+            "type": "Reference(Practitioner |PractitionerRole)",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[19]"
+          },
+          {
+            "element": "Reference.reference",
+            "path": "archive/r4/source/datatypes/reference.xml",
+            "definition": "A reference to a location at which the other resource is found. The reference may be a relative reference, in which case it is relative to the service base URL, or an absolute URL that resolves to the location where the resource is found. The reference may be version specific or not. If the reference is not to a FHIR RESTful server, then it should be assumed to be version specific. Internal fragment references (start with '#') refer to contained resources",
+            "type": "string",
+            "definition_source": "Definition",
+            "comments": "Using absolute URLs provides a stable scalable approach suitable for a cloud/web context, while using relative/logical references provides a flexible approach suitable for use when trading across closed eco-system boundaries.   Absolute URLs do not need to point to a FHIR RESTful server, though this is the preferred approach. If the URL conforms to the structure \"/[type]/[id]\" then it should be assumed that the reference is to a FHIR RESTful server",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "Practitioner/f204",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0308.xml",
+            "xpath": "MedicationRequest/recorder/reference/@value"
+          }
+        ],
+        "answer": {
+          "kind": "no_match",
+          "source": "recorder.reference"
+        },
+        "reason": "The person entering the order on behalf of another is distinct from the desired administrator of the medication. The target projection omits recorder.",
+        "contrasting_target_definitions": [
+          {
+            "field": "performer.reference",
+            "documentation": [
+              {
+                "element": "MedicationRequest.performer",
+                "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+                "definition": "The specified desired performer of the medication treatment (e.g. the performer of the medication administration).  For devices, this is the device that is intended to perform the administration of the medication.  An IV Pump would be an example of a device that is performing the administration.  Both the IV Pump and the practitioner that set the rate or bolus on the pump can be listed as performers.",
+                "type": "Reference",
+                "locator": "element[@id=\"MedicationRequest.performer\"]"
+              },
+              {
+                "element": "Reference.reference",
+                "path": "archive/r5/source/datatypes/reference.xml",
+                "definition": "A reference to a location at which the other resource is found. The reference may be a relative reference, in which case it is relative to the service base URL, or an absolute URL that resolves to the location where the resource is found. The reference may be version specific or not. If the reference is not to a FHIR RESTful server, then it should be assumed to be version specific. Internal fragment references (start with '#') refer to contained resources",
+                "type": "string",
+                "definition_source": "Definition",
+                "comments": "Using absolute URLs provides a stable scalable approach suitable for a cloud/web context, while using relative/logical references provides a flexible approach suitable for use when trading across closed eco-system boundaries.   Absolute URLs do not need to point to a FHIR RESTful server, though this is the preferred approach. If the URL conforms to the structure \"[type]/[id]\" then it should be assumed that the reference is to a FHIR RESTful server",
+                "locator": "Worksheet[Data Elements]/Row[3]"
+              }
+            ]
+          }
+        ],
+        "omitted_equivalent_definition": [
+          {
+            "element": "MedicationRequest.recorder",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "The person who entered the order on behalf of another individual for example in the case of a verbal or a telephone order.",
+            "type": "Reference",
+            "locator": "element[@id=\"MedicationRequest.recorder\"]"
+          },
+          {
+            "element": "Reference.reference",
+            "path": "archive/r5/source/datatypes/reference.xml",
+            "definition": "A reference to a location at which the other resource is found. The reference may be a relative reference, in which case it is relative to the service base URL, or an absolute URL that resolves to the location where the resource is found. The reference may be version specific or not. If the reference is not to a FHIR RESTful server, then it should be assumed to be version specific. Internal fragment references (start with '#') refer to contained resources",
+            "type": "string",
+            "definition_source": "Definition",
+            "comments": "Using absolute URLs provides a stable scalable approach suitable for a cloud/web context, while using relative/logical references provides a flexible approach suitable for use when trading across closed eco-system boundaries.   Absolute URLs do not need to point to a FHIR RESTful server, though this is the preferred approach. If the URL conforms to the structure \"[type]/[id]\" then it should be assumed that the reference is to a FHIR RESTful server",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "all_target_fields_reviewed": [
+          "medication.reference.reference",
+          "medication.reference.display",
+          "medication.concept.coding.code",
+          "dosageInstruction.asNeeded",
+          "dispenseRequest.validityPeriod.start",
+          "dispenseRequest.validityPeriod.end",
+          "dispenseRequest.numberOfRepeatsAllowed",
+          "dosageInstruction.patientInstruction",
+          "dosageInstruction.text",
+          "dosageInstruction.sequence",
+          "dosageInstruction.timing.repeat.frequency",
+          "dosageInstruction.timing.repeat.period",
+          "dosageInstruction.timing.repeat.periodUnit",
+          "substitution.allowedBoolean",
+          "performer.reference",
+          "dosageInstruction.maxDosePerAdministration.value",
+          "dosageInstruction.doseAndRate.doseQuantity.value",
+          "dosageInstruction.doseAndRate.doseQuantity.unit"
+        ]
+      },
+      {
+        "field": "requester.reference",
+        "native_leaf_type": "string",
+        "documentation": [
+          {
+            "element": "MedicationRequest.requester",
+            "path": "archive/r4/source/medicationrequest/medicationrequest-spreadsheet.xml",
+            "definition": "The individual, organization, or device that initiated the request and has responsibility for its activation.",
+            "type": "Reference(Practitioner |PractitionerRole | Organization | Patient | RelatedPerson | Device)",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[16]"
+          },
+          {
+            "element": "Reference.reference",
+            "path": "archive/r4/source/datatypes/reference.xml",
+            "definition": "A reference to a location at which the other resource is found. The reference may be a relative reference, in which case it is relative to the service base URL, or an absolute URL that resolves to the location where the resource is found. The reference may be version specific or not. If the reference is not to a FHIR RESTful server, then it should be assumed to be version specific. Internal fragment references (start with '#') refer to contained resources",
+            "type": "string",
+            "definition_source": "Definition",
+            "comments": "Using absolute URLs provides a stable scalable approach suitable for a cloud/web context, while using relative/logical references provides a flexible approach suitable for use when trading across closed eco-system boundaries.   Absolute URLs do not need to point to a FHIR RESTful server, though this is the preferred approach. If the URL conforms to the structure \"/[type]/[id]\" then it should be assumed that the reference is to a FHIR RESTful server",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "Practitioner/f007",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/requester/reference/@value"
+          }
+        ],
+        "answer": {
+          "kind": "no_match",
+          "source": "requester.reference"
+        },
+        "reason": "The initiator responsible for activating the request is distinct from the desired medication administrator. The target projection omits requester.",
+        "contrasting_target_definitions": [
+          {
+            "field": "performer.reference",
+            "documentation": [
+              {
+                "element": "MedicationRequest.performer",
+                "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+                "definition": "The specified desired performer of the medication treatment (e.g. the performer of the medication administration).  For devices, this is the device that is intended to perform the administration of the medication.  An IV Pump would be an example of a device that is performing the administration.  Both the IV Pump and the practitioner that set the rate or bolus on the pump can be listed as performers.",
+                "type": "Reference",
+                "locator": "element[@id=\"MedicationRequest.performer\"]"
+              },
+              {
+                "element": "Reference.reference",
+                "path": "archive/r5/source/datatypes/reference.xml",
+                "definition": "A reference to a location at which the other resource is found. The reference may be a relative reference, in which case it is relative to the service base URL, or an absolute URL that resolves to the location where the resource is found. The reference may be version specific or not. If the reference is not to a FHIR RESTful server, then it should be assumed to be version specific. Internal fragment references (start with '#') refer to contained resources",
+                "type": "string",
+                "definition_source": "Definition",
+                "comments": "Using absolute URLs provides a stable scalable approach suitable for a cloud/web context, while using relative/logical references provides a flexible approach suitable for use when trading across closed eco-system boundaries.   Absolute URLs do not need to point to a FHIR RESTful server, though this is the preferred approach. If the URL conforms to the structure \"[type]/[id]\" then it should be assumed that the reference is to a FHIR RESTful server",
+                "locator": "Worksheet[Data Elements]/Row[3]"
+              }
+            ]
+          }
+        ],
+        "omitted_equivalent_definition": [
+          {
+            "element": "MedicationRequest.requester",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "The individual, organization, or device that initiated the request and has responsibility for its activation.",
+            "type": "Reference",
+            "locator": "element[@id=\"MedicationRequest.requester\"]"
+          },
+          {
+            "element": "Reference.reference",
+            "path": "archive/r5/source/datatypes/reference.xml",
+            "definition": "A reference to a location at which the other resource is found. The reference may be a relative reference, in which case it is relative to the service base URL, or an absolute URL that resolves to the location where the resource is found. The reference may be version specific or not. If the reference is not to a FHIR RESTful server, then it should be assumed to be version specific. Internal fragment references (start with '#') refer to contained resources",
+            "type": "string",
+            "definition_source": "Definition",
+            "comments": "Using absolute URLs provides a stable scalable approach suitable for a cloud/web context, while using relative/logical references provides a flexible approach suitable for use when trading across closed eco-system boundaries.   Absolute URLs do not need to point to a FHIR RESTful server, though this is the preferred approach. If the URL conforms to the structure \"[type]/[id]\" then it should be assumed that the reference is to a FHIR RESTful server",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "all_target_fields_reviewed": [
+          "medication.reference.reference",
+          "medication.reference.display",
+          "medication.concept.coding.code",
+          "dosageInstruction.asNeeded",
+          "dispenseRequest.validityPeriod.start",
+          "dispenseRequest.validityPeriod.end",
+          "dispenseRequest.numberOfRepeatsAllowed",
+          "dosageInstruction.patientInstruction",
+          "dosageInstruction.text",
+          "dosageInstruction.sequence",
+          "dosageInstruction.timing.repeat.frequency",
+          "dosageInstruction.timing.repeat.period",
+          "dosageInstruction.timing.repeat.periodUnit",
+          "substitution.allowedBoolean",
+          "performer.reference",
+          "dosageInstruction.maxDosePerAdministration.value",
+          "dosageInstruction.doseAndRate.doseQuantity.value",
+          "dosageInstruction.doseAndRate.doseQuantity.unit"
+        ]
+      },
+      {
+        "field": "dispenseRequest.quantity.value",
+        "native_leaf_type": "decimal",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dispenseRequest.quantity",
+            "path": "archive/r4/source/medicationrequest/medicationrequest-spreadsheet.xml",
+            "definition": "The amount that is to be dispensed for one fill.",
+            "type": "SimpleQuantity",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[37]"
+          },
+          {
+            "element": "Quantity.value",
+            "path": "archive/r4/source/datatypes/quantity.xml",
+            "definition": "The value of the measured amount. The value includes an implicit precision in the presentation of the value",
+            "type": "decimal",
+            "definition_source": "Definition",
+            "comments": "The implicit precision in the value should always be honored. Monetary values have their own rules for handling precision (refer to standard accounting text books)",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "30",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/dispenseRequest/quantity/value/@value"
+          },
+          {
+            "value": "6",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0302.xml",
+            "xpath": "MedicationRequest/dispenseRequest/quantity/value/@value"
+          },
+          {
+            "value": "51",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0303.xml",
+            "xpath": "MedicationRequest/dispenseRequest/quantity/value/@value"
+          }
+        ],
+        "answer": {
+          "kind": "no_match",
+          "source": "dispenseRequest.quantity.value"
+        },
+        "reason": "Quantity supplied per fill is distinct from quantity administered per dose, even when both are measured in tablets or mL. The target projection omits dispense quantity.",
+        "contrasting_target_definitions": [
+          {
+            "field": "dosageInstruction.doseAndRate.doseQuantity.value",
+            "documentation": [
+              {
+                "element": "MedicationRequest.dosageInstruction",
+                "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+                "definition": "Specific instructions for how the medication is to be used by the patient.",
+                "type": "Dosage",
+                "locator": "element[@id=\"MedicationRequest.dosageInstruction\"]"
+              },
+              {
+                "element": "Dosage.doseAndRate.dose[x]",
+                "path": "archive/r5/source/datatypes/dosage.xml",
+                "definition": "Amount of medication per dose",
+                "type": "Range | SimpleQuantity",
+                "definition_source": "Definition",
+                "comments": "Note that this specifies the quantity of the specified medication, not the quantity for each active ingredient(s). Each ingredient amount can be communicated in the Medication resource. For example, if one wants to communicate that a tablet was 375 mg, where the dose was one tablet, you can use the Medication resource to document that the tablet was comprised of 375 mg of drug XYZ. Alternatively if the dose was 375 mg, then you may only need to use the Medication resource to indicate this was a tablet. If the example were an IV such as dopamine and you wanted to communicate that 400mg of dopamine was mixed in 500 ml of some IV solution, then this would all be communicated in the Medication resource. If the administration is not intended to be instantaneous (rate is present or timing has a duration), this can be specified to convey the total amount to be administered over the period of time as indicated by the schedule e.g. 500 ml in dose, with timing used to convey that this should be done over 4 hours.",
+                "locator": "Worksheet[Data Elements]/Row[15]"
+              },
+              {
+                "element": "Quantity.value",
+                "path": "archive/r5/source/datatypes/quantity.xml",
+                "definition": "The value of the measured amount. The value includes an implicit precision in the presentation of the value",
+                "type": "decimal",
+                "definition_source": "Definition",
+                "comments": "The implicit precision in the value should always be honored. Monetary values have their own rules for handling precision (refer to standard accounting text books)",
+                "locator": "Worksheet[Data Elements]/Row[3]"
+              }
+            ]
+          }
+        ],
+        "omitted_equivalent_definition": [
+          {
+            "element": "MedicationRequest.dispenseRequest.quantity",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "The amount that is to be dispensed for one fill.",
+            "type": "Quantity",
+            "locator": "element[@id=\"MedicationRequest.dispenseRequest.quantity\"]"
+          },
+          {
+            "element": "Quantity.value",
+            "path": "archive/r5/source/datatypes/quantity.xml",
+            "definition": "The value of the measured amount. The value includes an implicit precision in the presentation of the value",
+            "type": "decimal",
+            "definition_source": "Definition",
+            "comments": "The implicit precision in the value should always be honored. Monetary values have their own rules for handling precision (refer to standard accounting text books)",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "all_target_fields_reviewed": [
+          "medication.reference.reference",
+          "medication.reference.display",
+          "medication.concept.coding.code",
+          "dosageInstruction.asNeeded",
+          "dispenseRequest.validityPeriod.start",
+          "dispenseRequest.validityPeriod.end",
+          "dispenseRequest.numberOfRepeatsAllowed",
+          "dosageInstruction.patientInstruction",
+          "dosageInstruction.text",
+          "dosageInstruction.sequence",
+          "dosageInstruction.timing.repeat.frequency",
+          "dosageInstruction.timing.repeat.period",
+          "dosageInstruction.timing.repeat.periodUnit",
+          "substitution.allowedBoolean",
+          "performer.reference",
+          "dosageInstruction.maxDosePerAdministration.value",
+          "dosageInstruction.doseAndRate.doseQuantity.value",
+          "dosageInstruction.doseAndRate.doseQuantity.unit"
+        ]
+      },
+      {
+        "field": "dispenseRequest.quantity.unit",
+        "native_leaf_type": "string",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dispenseRequest.quantity",
+            "path": "archive/r4/source/medicationrequest/medicationrequest-spreadsheet.xml",
+            "definition": "The amount that is to be dispensed for one fill.",
+            "type": "SimpleQuantity",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[37]"
+          },
+          {
+            "element": "Quantity.unit",
+            "path": "archive/r4/source/datatypes/quantity.xml",
+            "definition": "A human-readable form of the unit",
+            "type": "string",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[5]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "TAB",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/dispenseRequest/quantity/unit/@value"
+          },
+          {
+            "value": "ml",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0304.xml",
+            "xpath": "MedicationRequest/dispenseRequest/quantity/unit/@value"
+          },
+          {
+            "value": "mL",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0312.xml",
+            "xpath": "MedicationRequest/dispenseRequest/quantity/unit/@value"
+          }
+        ],
+        "answer": {
+          "kind": "no_match",
+          "source": "dispenseRequest.quantity.unit"
+        },
+        "reason": "The unit of the dispense quantity is scoped to a different measured amount from the unit of the per-dose quantity; no universal equality is asserted. The target projection omits dispense quantity.",
+        "contrasting_target_definitions": [
+          {
+            "field": "dosageInstruction.doseAndRate.doseQuantity.unit",
+            "documentation": [
+              {
+                "element": "MedicationRequest.dosageInstruction",
+                "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+                "definition": "Specific instructions for how the medication is to be used by the patient.",
+                "type": "Dosage",
+                "locator": "element[@id=\"MedicationRequest.dosageInstruction\"]"
+              },
+              {
+                "element": "Dosage.doseAndRate.dose[x]",
+                "path": "archive/r5/source/datatypes/dosage.xml",
+                "definition": "Amount of medication per dose",
+                "type": "Range | SimpleQuantity",
+                "definition_source": "Definition",
+                "comments": "Note that this specifies the quantity of the specified medication, not the quantity for each active ingredient(s). Each ingredient amount can be communicated in the Medication resource. For example, if one wants to communicate that a tablet was 375 mg, where the dose was one tablet, you can use the Medication resource to document that the tablet was comprised of 375 mg of drug XYZ. Alternatively if the dose was 375 mg, then you may only need to use the Medication resource to indicate this was a tablet. If the example were an IV such as dopamine and you wanted to communicate that 400mg of dopamine was mixed in 500 ml of some IV solution, then this would all be communicated in the Medication resource. If the administration is not intended to be instantaneous (rate is present or timing has a duration), this can be specified to convey the total amount to be administered over the period of time as indicated by the schedule e.g. 500 ml in dose, with timing used to convey that this should be done over 4 hours.",
+                "locator": "Worksheet[Data Elements]/Row[15]"
+              },
+              {
+                "element": "Quantity.unit",
+                "path": "archive/r5/source/datatypes/quantity.xml",
+                "definition": "A human-readable form of the unit",
+                "type": "string",
+                "definition_source": "Definition",
+                "comments": "",
+                "locator": "Worksheet[Data Elements]/Row[5]"
+              }
+            ]
+          }
+        ],
+        "omitted_equivalent_definition": [
+          {
+            "element": "MedicationRequest.dispenseRequest.quantity",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "The amount that is to be dispensed for one fill.",
+            "type": "Quantity",
+            "locator": "element[@id=\"MedicationRequest.dispenseRequest.quantity\"]"
+          },
+          {
+            "element": "Quantity.unit",
+            "path": "archive/r5/source/datatypes/quantity.xml",
+            "definition": "A human-readable form of the unit",
+            "type": "string",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[5]"
+          }
+        ],
+        "all_target_fields_reviewed": [
+          "medication.reference.reference",
+          "medication.reference.display",
+          "medication.concept.coding.code",
+          "dosageInstruction.asNeeded",
+          "dispenseRequest.validityPeriod.start",
+          "dispenseRequest.validityPeriod.end",
+          "dispenseRequest.numberOfRepeatsAllowed",
+          "dosageInstruction.patientInstruction",
+          "dosageInstruction.text",
+          "dosageInstruction.sequence",
+          "dosageInstruction.timing.repeat.frequency",
+          "dosageInstruction.timing.repeat.period",
+          "dosageInstruction.timing.repeat.periodUnit",
+          "substitution.allowedBoolean",
+          "performer.reference",
+          "dosageInstruction.maxDosePerAdministration.value",
+          "dosageInstruction.doseAndRate.doseQuantity.value",
+          "dosageInstruction.doseAndRate.doseQuantity.unit"
+        ]
+      },
+      {
+        "field": "dosageInstruction.maxDosePerLifetime.value",
+        "native_leaf_type": "decimal",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r4/source/medicationrequest/medicationrequest-spreadsheet.xml",
+            "definition": "Indicates how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "definition_source": "Definition",
+            "comments": "There are examples where a medication request may include the option of an oral dose or an Intravenous or Intramuscular dose.  For example, \"Ondansetron 8mg orally or IV twice a day as needed for nausea\" or \"Compazine\u00ae (prochlorperazine) 5-10mg PO or 25mg PR bid prn nausea or vomiting\".  In these cases, two medication requests would be created that could be grouped together.  The decision on which dose and route of administration to use is based on the patient's condition at the time the dose is needed.",
+            "locator": "Worksheet[Data Elements]/Row[29]"
+          },
+          {
+            "element": "Dosage.maxDosePerLifetime",
+            "path": "archive/r4/source/datatypes/dosage.xml",
+            "definition": "Upper limit on medication per lifetime of the patient",
+            "type": "SimpleQuantity",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[18]"
+          },
+          {
+            "element": "Quantity.value",
+            "path": "archive/r4/source/datatypes/quantity.xml",
+            "definition": "The value of the measured amount. The value includes an implicit precision in the presentation of the value",
+            "type": "decimal",
+            "definition_source": "Definition",
+            "comments": "The implicit precision in the value should always be honored. Monetary values have their own rules for handling precision (refer to standard accounting text books)",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "400",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0316.xml",
+            "xpath": "MedicationRequest/dosageInstruction/maxDosePerLifetime/value/@value"
+          }
+        ],
+        "answer": {
+          "kind": "no_match",
+          "source": "dosageInstruction.maxDosePerLifetime.value"
+        },
+        "reason": "Maximum cumulative medication over a lifetime is distinct from the maximum per administration. The target projection omits the lifetime maximum.",
+        "contrasting_target_definitions": [
+          {
+            "field": "dosageInstruction.maxDosePerAdministration.value",
+            "documentation": [
+              {
+                "element": "MedicationRequest.dosageInstruction",
+                "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+                "definition": "Specific instructions for how the medication is to be used by the patient.",
+                "type": "Dosage",
+                "locator": "element[@id=\"MedicationRequest.dosageInstruction\"]"
+              },
+              {
+                "element": "Dosage.maxDosePerAdministration",
+                "path": "archive/r5/source/datatypes/dosage.xml",
+                "definition": "Upper limit on medication per administration",
+                "type": "SimpleQuantity",
+                "definition_source": "Definition",
+                "comments": "This is intended for use as an adjunct to the dosage when there is an upper cap.  For example, a body surface area related dose with a maximum amount, such as 1.5 mg/m2 (maximum 2 mg) IV over 5 \u2013 10 minutes would have doseQuantity of 1.5 mg/m2 and maxDosePerAdministration of 2 mg.",
+                "locator": "Worksheet[Data Elements]/Row[18]"
+              },
+              {
+                "element": "Quantity.value",
+                "path": "archive/r5/source/datatypes/quantity.xml",
+                "definition": "The value of the measured amount. The value includes an implicit precision in the presentation of the value",
+                "type": "decimal",
+                "definition_source": "Definition",
+                "comments": "The implicit precision in the value should always be honored. Monetary values have their own rules for handling precision (refer to standard accounting text books)",
+                "locator": "Worksheet[Data Elements]/Row[3]"
+              }
+            ]
+          }
+        ],
+        "omitted_equivalent_definition": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "Specific instructions for how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "locator": "element[@id=\"MedicationRequest.dosageInstruction\"]"
+          },
+          {
+            "element": "Dosage.maxDosePerLifetime",
+            "path": "archive/r5/source/datatypes/dosage.xml",
+            "definition": "Upper limit on medication per lifetime of the patient",
+            "type": "SimpleQuantity",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[19]"
+          },
+          {
+            "element": "Quantity.value",
+            "path": "archive/r5/source/datatypes/quantity.xml",
+            "definition": "The value of the measured amount. The value includes an implicit precision in the presentation of the value",
+            "type": "decimal",
+            "definition_source": "Definition",
+            "comments": "The implicit precision in the value should always be honored. Monetary values have their own rules for handling precision (refer to standard accounting text books)",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "all_target_fields_reviewed": [
+          "medication.reference.reference",
+          "medication.reference.display",
+          "medication.concept.coding.code",
+          "dosageInstruction.asNeeded",
+          "dispenseRequest.validityPeriod.start",
+          "dispenseRequest.validityPeriod.end",
+          "dispenseRequest.numberOfRepeatsAllowed",
+          "dosageInstruction.patientInstruction",
+          "dosageInstruction.text",
+          "dosageInstruction.sequence",
+          "dosageInstruction.timing.repeat.frequency",
+          "dosageInstruction.timing.repeat.period",
+          "dosageInstruction.timing.repeat.periodUnit",
+          "substitution.allowedBoolean",
+          "performer.reference",
+          "dosageInstruction.maxDosePerAdministration.value",
+          "dosageInstruction.doseAndRate.doseQuantity.value",
+          "dosageInstruction.doseAndRate.doseQuantity.unit"
+        ]
+      },
+      {
+        "field": "dosageInstruction.maxDosePerAdministration.value",
+        "native_leaf_type": "decimal",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r4/source/medicationrequest/medicationrequest-spreadsheet.xml",
+            "definition": "Indicates how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "definition_source": "Definition",
+            "comments": "There are examples where a medication request may include the option of an oral dose or an Intravenous or Intramuscular dose.  For example, \"Ondansetron 8mg orally or IV twice a day as needed for nausea\" or \"Compazine\u00ae (prochlorperazine) 5-10mg PO or 25mg PR bid prn nausea or vomiting\".  In these cases, two medication requests would be created that could be grouped together.  The decision on which dose and route of administration to use is based on the patient's condition at the time the dose is needed.",
+            "locator": "Worksheet[Data Elements]/Row[29]"
+          },
+          {
+            "element": "Dosage.maxDosePerAdministration",
+            "path": "archive/r4/source/datatypes/dosage.xml",
+            "definition": "Upper limit on medication per administration",
+            "type": "SimpleQuantity",
+            "definition_source": "Definition",
+            "comments": "This is intended for use as an adjunct to the dosage when there is an upper cap.  For example, a body surface area related dose with a maximum amount, such as 1.5 mg/m2 (maximum 2 mg) IV over 5 \u2013 10 minutes would have doseQuantity of 1.5 mg/m2 and maxDosePerAdministration of 2 mg.",
+            "locator": "Worksheet[Data Elements]/Row[17]"
+          },
+          {
+            "element": "Quantity.value",
+            "path": "archive/r4/source/datatypes/quantity.xml",
+            "definition": "The value of the measured amount. The value includes an implicit precision in the presentation of the value",
+            "type": "decimal",
+            "definition_source": "Definition",
+            "comments": "The implicit precision in the value should always be honored. Monetary values have their own rules for handling precision (refer to standard accounting text books)",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "4",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0305.xml",
+            "xpath": "MedicationRequest/dosageInstruction/maxDosePerAdministration/value/@value"
+          }
+        ],
+        "answer": {
+          "kind": "match",
+          "source": "dosageInstruction.maxDosePerAdministration.value",
+          "target": "dosageInstruction.maxDosePerAdministration.value"
+        },
+        "target_documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "Specific instructions for how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "locator": "element[@id=\"MedicationRequest.dosageInstruction\"]"
+          },
+          {
+            "element": "Dosage.maxDosePerAdministration",
+            "path": "archive/r5/source/datatypes/dosage.xml",
+            "definition": "Upper limit on medication per administration",
+            "type": "SimpleQuantity",
+            "definition_source": "Definition",
+            "comments": "This is intended for use as an adjunct to the dosage when there is an upper cap.  For example, a body surface area related dose with a maximum amount, such as 1.5 mg/m2 (maximum 2 mg) IV over 5 \u2013 10 minutes would have doseQuantity of 1.5 mg/m2 and maxDosePerAdministration of 2 mg.",
+            "locator": "Worksheet[Data Elements]/Row[18]"
+          },
+          {
+            "element": "Quantity.value",
+            "path": "archive/r5/source/datatypes/quantity.xml",
+            "definition": "The value of the measured amount. The value includes an implicit precision in the presentation of the value",
+            "type": "decimal",
+            "definition_source": "Definition",
+            "comments": "The implicit precision in the value should always be honored. Monetary values have their own rules for handling precision (refer to standard accounting text books)",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "mapping_evidence": [
+          {
+            "path": "archive/xver/input/R4toR5/MedicationRequest4to5.fml",
+            "line": 40,
+            "quote": "src.dosageInstruction -> tgt.dosageInstruction;"
+          },
+          {
+            "path": "archive/xver/input/R4toR5/Dosage4to5.fml",
+            "line": 25,
+            "quote": "src.maxDosePerAdministration -> tgt.maxDosePerAdministration;"
+          }
+        ],
+        "reason": "Official migration explicitly preserves this field concept; schema/type definitions preserve its role and measured quantity. This is a directional R4-to-R5 mapping, not a claim of universal bidirectional value-domain equality."
+      },
+      {
+        "field": "authoredOn",
+        "native_leaf_type": "dateTime",
+        "documentation": [
+          {
+            "element": "MedicationRequest.authoredOn",
+            "path": "archive/r4/source/medicationrequest/medicationrequest-spreadsheet.xml",
+            "definition": "The date (and perhaps time) when the prescription was initially written or authored on",
+            "type": "dateTime",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[15]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "2015-01-15",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0301.xml",
+            "xpath": "MedicationRequest/authoredOn/@value"
+          }
+        ],
+        "answer": {
+          "kind": "no_match",
+          "source": "authoredOn"
+        },
+        "reason": "When the prescription was written differs from the start or end of its authorization-to-dispense window, including when samples happen to coincide. The target projection omits authoredOn.",
+        "contrasting_target_definitions": [
+          {
+            "field": "dispenseRequest.validityPeriod.start",
+            "documentation": [
+              {
+                "element": "MedicationRequest.dispenseRequest.validityPeriod",
+                "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+                "definition": "This indicates the validity period of a prescription (stale dating the Prescription).",
+                "type": "Period",
+                "locator": "element[@id=\"MedicationRequest.dispenseRequest.validityPeriod\"]"
+              },
+              {
+                "element": "Period.start",
+                "path": "archive/r5/source/datatypes/period.xml",
+                "definition": "The start of the period. The boundary is inclusive.",
+                "type": "dateTime",
+                "definition_source": "Definition",
+                "comments": "If the low element is missing, the meaning is that the low boundary is not known.",
+                "locator": "Worksheet[Data Elements]/Row[3]"
+              }
+            ]
+          },
+          {
+            "field": "dispenseRequest.validityPeriod.end",
+            "documentation": [
+              {
+                "element": "MedicationRequest.dispenseRequest.validityPeriod",
+                "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+                "definition": "This indicates the validity period of a prescription (stale dating the Prescription).",
+                "type": "Period",
+                "locator": "element[@id=\"MedicationRequest.dispenseRequest.validityPeriod\"]"
+              },
+              {
+                "element": "Period.end",
+                "path": "archive/r5/source/datatypes/period.xml",
+                "definition": "The end of the period. If the end of the period is missing, it means no end was known or planned at the time the instance was created. The start may be in the past, and the end date in the future, which means that period is expected/planned to end at that time",
+                "type": "dateTime",
+                "definition_source": "Definition",
+                "comments": "The end value includes any matching date/time. i.e. 2012-02-03T10:00:00 is in a period that has an end value of 2012-02-03",
+                "locator": "Worksheet[Data Elements]/Row[4]"
+              }
+            ]
+          }
+        ],
+        "omitted_equivalent_definition": [
+          {
+            "element": "MedicationRequest.authoredOn",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "The date (and perhaps time) when the prescription was initially written or authored on.",
+            "type": "dateTime",
+            "locator": "element[@id=\"MedicationRequest.authoredOn\"]"
+          }
+        ],
+        "all_target_fields_reviewed": [
+          "medication.reference.reference",
+          "medication.reference.display",
+          "medication.concept.coding.code",
+          "dosageInstruction.asNeeded",
+          "dispenseRequest.validityPeriod.start",
+          "dispenseRequest.validityPeriod.end",
+          "dispenseRequest.numberOfRepeatsAllowed",
+          "dosageInstruction.patientInstruction",
+          "dosageInstruction.text",
+          "dosageInstruction.sequence",
+          "dosageInstruction.timing.repeat.frequency",
+          "dosageInstruction.timing.repeat.period",
+          "dosageInstruction.timing.repeat.periodUnit",
+          "substitution.allowedBoolean",
+          "performer.reference",
+          "dosageInstruction.maxDosePerAdministration.value",
+          "dosageInstruction.doseAndRate.doseQuantity.value",
+          "dosageInstruction.doseAndRate.doseQuantity.unit"
+        ]
+      },
+      {
+        "field": "dosageInstruction.timing.event",
+        "native_leaf_type": "dateTime",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r4/source/medicationrequest/medicationrequest-spreadsheet.xml",
+            "definition": "Indicates how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "definition_source": "Definition",
+            "comments": "There are examples where a medication request may include the option of an oral dose or an Intravenous or Intramuscular dose.  For example, \"Ondansetron 8mg orally or IV twice a day as needed for nausea\" or \"Compazine\u00ae (prochlorperazine) 5-10mg PO or 25mg PR bid prn nausea or vomiting\".  In these cases, two medication requests would be created that could be grouped together.  The decision on which dose and route of administration to use is based on the patient's condition at the time the dose is needed.",
+            "locator": "Worksheet[Data Elements]/Row[29]"
+          },
+          {
+            "element": "Dosage.timing",
+            "path": "archive/r4/source/datatypes/dosage.xml",
+            "definition": "When medication should be administered",
+            "type": "Timing",
+            "definition_source": "Definition",
+            "comments": "This attribute might not always be populated while the Dosage.text is expected to be populated.  If both are populated, then the Dosage.text should reflect the content of the Dosage.timing.",
+            "locator": "Worksheet[Data Elements]/Row[7]"
+          },
+          {
+            "element": "Timing.event",
+            "path": "archive/r4/source/datatypes/timing.xml",
+            "definition": "Identifies specific times when the event occurs",
+            "type": "dateTime",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "2015-01-15T22:00:00+11:00",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0323.xml",
+            "xpath": "MedicationRequest/dosageInstruction/timing/event/@value"
+          }
+        ],
+        "answer": {
+          "kind": "no_match",
+          "source": "dosageInstruction.timing.event"
+        },
+        "reason": "Specific times when medication is to be taken differ from the prescription validity window. The target projection omits the dose-event schedule.",
+        "contrasting_target_definitions": [
+          {
+            "field": "dispenseRequest.validityPeriod.start",
+            "documentation": [
+              {
+                "element": "MedicationRequest.dispenseRequest.validityPeriod",
+                "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+                "definition": "This indicates the validity period of a prescription (stale dating the Prescription).",
+                "type": "Period",
+                "locator": "element[@id=\"MedicationRequest.dispenseRequest.validityPeriod\"]"
+              },
+              {
+                "element": "Period.start",
+                "path": "archive/r5/source/datatypes/period.xml",
+                "definition": "The start of the period. The boundary is inclusive.",
+                "type": "dateTime",
+                "definition_source": "Definition",
+                "comments": "If the low element is missing, the meaning is that the low boundary is not known.",
+                "locator": "Worksheet[Data Elements]/Row[3]"
+              }
+            ]
+          },
+          {
+            "field": "dispenseRequest.validityPeriod.end",
+            "documentation": [
+              {
+                "element": "MedicationRequest.dispenseRequest.validityPeriod",
+                "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+                "definition": "This indicates the validity period of a prescription (stale dating the Prescription).",
+                "type": "Period",
+                "locator": "element[@id=\"MedicationRequest.dispenseRequest.validityPeriod\"]"
+              },
+              {
+                "element": "Period.end",
+                "path": "archive/r5/source/datatypes/period.xml",
+                "definition": "The end of the period. If the end of the period is missing, it means no end was known or planned at the time the instance was created. The start may be in the past, and the end date in the future, which means that period is expected/planned to end at that time",
+                "type": "dateTime",
+                "definition_source": "Definition",
+                "comments": "The end value includes any matching date/time. i.e. 2012-02-03T10:00:00 is in a period that has an end value of 2012-02-03",
+                "locator": "Worksheet[Data Elements]/Row[4]"
+              }
+            ]
+          }
+        ],
+        "omitted_equivalent_definition": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "Specific instructions for how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "locator": "element[@id=\"MedicationRequest.dosageInstruction\"]"
+          },
+          {
+            "element": "Dosage.timing",
+            "path": "archive/r5/source/datatypes/dosage.xml",
+            "definition": "When medication should be administered",
+            "type": "Timing",
+            "definition_source": "Definition",
+            "comments": "This attribute might not always be populated while the Dosage.text is expected to be populated.  If both are populated, then the Dosage.text should reflect the content of the Dosage.timing.",
+            "locator": "Worksheet[Data Elements]/Row[7]"
+          },
+          {
+            "element": "Timing.event",
+            "path": "archive/r5/source/datatypes/timing.xml",
+            "definition": "Identifies specific times when the event occurs",
+            "type": "dateTime",
+            "definition_source": "Definition",
+            "comments": "",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "all_target_fields_reviewed": [
+          "medication.reference.reference",
+          "medication.reference.display",
+          "medication.concept.coding.code",
+          "dosageInstruction.asNeeded",
+          "dispenseRequest.validityPeriod.start",
+          "dispenseRequest.validityPeriod.end",
+          "dispenseRequest.numberOfRepeatsAllowed",
+          "dosageInstruction.patientInstruction",
+          "dosageInstruction.text",
+          "dosageInstruction.sequence",
+          "dosageInstruction.timing.repeat.frequency",
+          "dosageInstruction.timing.repeat.period",
+          "dosageInstruction.timing.repeat.periodUnit",
+          "substitution.allowedBoolean",
+          "performer.reference",
+          "dosageInstruction.maxDosePerAdministration.value",
+          "dosageInstruction.doseAndRate.doseQuantity.value",
+          "dosageInstruction.doseAndRate.doseQuantity.unit"
+        ]
+      },
+      {
+        "field": "dosageInstruction.doseAndRate.doseQuantity.value",
+        "native_leaf_type": "decimal",
+        "documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r4/source/medicationrequest/medicationrequest-spreadsheet.xml",
+            "definition": "Indicates how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "definition_source": "Definition",
+            "comments": "There are examples where a medication request may include the option of an oral dose or an Intravenous or Intramuscular dose.  For example, \"Ondansetron 8mg orally or IV twice a day as needed for nausea\" or \"Compazine\u00ae (prochlorperazine) 5-10mg PO or 25mg PR bid prn nausea or vomiting\".  In these cases, two medication requests would be created that could be grouped together.  The decision on which dose and route of administration to use is based on the patient's condition at the time the dose is needed.",
+            "locator": "Worksheet[Data Elements]/Row[29]"
+          },
+          {
+            "element": "Dosage.doseAndRate.dose[x]",
+            "path": "archive/r4/source/datatypes/dosage.xml",
+            "definition": "Amount of medication per dose",
+            "type": "Range | SimpleQuantity",
+            "definition_source": "Definition",
+            "comments": "Note that this specifies the quantity of the specified medication, not the quantity for each active ingredient(s). Each ingredient amount can be communicated in the Medication resource. For example, if one wants to communicate that a tablet was 375 mg, where the dose was one tablet, you can use the Medication resource to document that the tablet was comprised of 375 mg of drug XYZ. Alternatively if the dose was 375 mg, then you may only need to use the Medication resource to indicate this was a tablet. If the example were an IV such as dopamine and you wanted to communicate that 400mg of dopamine was mixed in 500 ml of some IV solution, then this would all be communicated in the Medication resource. If the administration is not intended to be instantaneous (rate is present or timing has a duration), this can be specified to convey the total amount to be administered over the period of time as indicated by the schedule e.g. 500 ml in dose, with timing used to convey that this should be done over 4 hours.",
+            "locator": "Worksheet[Data Elements]/Row[14]"
+          },
+          {
+            "element": "Quantity.value",
+            "path": "archive/r4/source/datatypes/quantity.xml",
+            "definition": "The value of the measured amount. The value includes an implicit precision in the presentation of the value",
+            "type": "decimal",
+            "definition_source": "Definition",
+            "comments": "The implicit precision in the value should always be honored. Monetary values have their own rules for handling precision (refer to standard accounting text books)",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "sample_sources": [
+          {
+            "value": "2",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0302.xml",
+            "xpath": "MedicationRequest/dosageInstruction/doseAndRate/doseQuantity/value/@value"
+          },
+          {
+            "value": "1",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0302.xml",
+            "xpath": "MedicationRequest/dosageInstruction/doseAndRate/doseQuantity/value/@value"
+          },
+          {
+            "value": "4",
+            "path": "archive/r4/source/medicationrequest/medicationrequest0303.xml",
+            "xpath": "MedicationRequest/dosageInstruction/doseAndRate/doseQuantity/value/@value"
+          }
+        ],
+        "answer": {
+          "kind": "match",
+          "source": "dosageInstruction.doseAndRate.doseQuantity.value",
+          "target": "dosageInstruction.doseAndRate.doseQuantity.value"
+        },
+        "target_documentation": [
+          {
+            "element": "MedicationRequest.dosageInstruction",
+            "path": "archive/r5/source/medicationrequest/structuredefinition-MedicationRequest.xml",
+            "definition": "Specific instructions for how the medication is to be used by the patient.",
+            "type": "Dosage",
+            "locator": "element[@id=\"MedicationRequest.dosageInstruction\"]"
+          },
+          {
+            "element": "Dosage.doseAndRate.dose[x]",
+            "path": "archive/r5/source/datatypes/dosage.xml",
+            "definition": "Amount of medication per dose",
+            "type": "Range | SimpleQuantity",
+            "definition_source": "Definition",
+            "comments": "Note that this specifies the quantity of the specified medication, not the quantity for each active ingredient(s). Each ingredient amount can be communicated in the Medication resource. For example, if one wants to communicate that a tablet was 375 mg, where the dose was one tablet, you can use the Medication resource to document that the tablet was comprised of 375 mg of drug XYZ. Alternatively if the dose was 375 mg, then you may only need to use the Medication resource to indicate this was a tablet. If the example were an IV such as dopamine and you wanted to communicate that 400mg of dopamine was mixed in 500 ml of some IV solution, then this would all be communicated in the Medication resource. If the administration is not intended to be instantaneous (rate is present or timing has a duration), this can be specified to convey the total amount to be administered over the period of time as indicated by the schedule e.g. 500 ml in dose, with timing used to convey that this should be done over 4 hours.",
+            "locator": "Worksheet[Data Elements]/Row[15]"
+          },
+          {
+            "element": "Quantity.value",
+            "path": "archive/r5/source/datatypes/quantity.xml",
+            "definition": "The value of the measured amount. The value includes an implicit precision in the presentation of the value",
+            "type": "decimal",
+            "definition_source": "Definition",
+            "comments": "The implicit precision in the value should always be honored. Monetary values have their own rules for handling precision (refer to standard accounting text books)",
+            "locator": "Worksheet[Data Elements]/Row[3]"
+          }
+        ],
+        "mapping_evidence": [
+          {
+            "path": "archive/xver/input/R4toR5/MedicationRequest4to5.fml",
+            "line": 40,
+            "quote": "src.dosageInstruction -> tgt.dosageInstruction;"
+          },
+          {
+            "path": "archive/xver/input/R4toR5/Dosage4to5.fml",
+            "line": 23,
+            "quote": "src.doseAndRate as s -> tgt.doseAndRate as t then DosageDoseAndRate(s, t);"
+          },
+          {
+            "path": "archive/xver/input/R4toR5/Dosage4to5.fml",
+            "line": 32,
+            "quote": "src.dose : Quantity -> tgt.dose \"doseQuantity\";"
+          }
+        ],
+        "reason": "Official migration explicitly preserves this field concept; schema/type definitions preserve its role and measured quantity. This is a directional R4-to-R5 mapping, not a claim of universal bidirectional value-domain equality."
+      }
+    ]
+  }
+]

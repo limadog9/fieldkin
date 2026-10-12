@@ -1,0 +1,314 @@
+{
+  "name": "gbfs_station_status_2_3_to_3_0_partial_consumer",
+  "source": {
+    "fields": [
+      {
+        "name": "last_updated",
+        "data_type": "integer",
+        "samples": [
+          "1640887163"
+        ]
+      },
+      {
+        "name": "ttl",
+        "data_type": "integer",
+        "samples": [
+          "0"
+        ]
+      },
+      {
+        "name": "version",
+        "data_type": "text",
+        "samples": [
+          "2.3"
+        ]
+      },
+      {
+        "name": "data.stations[].station_id",
+        "data_type": "text",
+        "samples": [
+          "station1",
+          "station2"
+        ]
+      },
+      {
+        "name": "data.stations[].num_bikes_available",
+        "data_type": "integer",
+        "samples": [
+          "1",
+          "6"
+        ]
+      },
+      {
+        "name": "data.stations[].vehicle_types_available[].vehicle_type_id",
+        "data_type": "text",
+        "samples": [
+          "abc123",
+          "def456"
+        ]
+      },
+      {
+        "name": "data.stations[].vehicle_types_available[].count",
+        "data_type": "integer",
+        "samples": [
+          "1",
+          "0",
+          "2",
+          "4"
+        ]
+      },
+      {
+        "name": "data.stations[].num_bikes_disabled",
+        "data_type": "integer",
+        "samples": [
+          "2",
+          "1"
+        ]
+      },
+      {
+        "name": "data.stations[].num_docks_available",
+        "data_type": "integer",
+        "samples": [
+          "3",
+          "8"
+        ]
+      },
+      {
+        "name": "data.stations[].num_docks_disabled",
+        "data_type": "integer",
+        "samples": [
+          "1"
+        ]
+      },
+      {
+        "name": "data.stations[].is_installed",
+        "data_type": "boolean",
+        "samples": [
+          "true"
+        ]
+      },
+      {
+        "name": "data.stations[].is_renting",
+        "data_type": "boolean",
+        "samples": [
+          "true"
+        ]
+      },
+      {
+        "name": "data.stations[].is_returning",
+        "data_type": "boolean",
+        "samples": [
+          "true"
+        ]
+      },
+      {
+        "name": "data.stations[].last_reported",
+        "data_type": "integer",
+        "samples": [
+          "1609866125",
+          "1609866106"
+        ]
+      },
+      {
+        "name": "data.stations[].vehicle_docks_available[].vehicle_type_ids[]",
+        "data_type": "text",
+        "samples": [
+          "abc123",
+          "def456"
+        ]
+      },
+      {
+        "name": "data.stations[].vehicle_docks_available[].count",
+        "data_type": "integer",
+        "samples": [
+          "2",
+          "1",
+          "6"
+        ]
+      }
+    ]
+  },
+  "target": {
+    "fields": [
+      {
+        "name": "last_updated",
+        "data_type": "timestamp",
+        "samples": [
+          "2023-07-17T13:34:13+02:00"
+        ]
+      },
+      {
+        "name": "ttl",
+        "data_type": "integer",
+        "samples": [
+          "0"
+        ]
+      },
+      {
+        "name": "version",
+        "data_type": "text",
+        "samples": [
+          "3.0"
+        ]
+      },
+      {
+        "name": "data.stations[].station_id",
+        "data_type": "text",
+        "samples": [
+          "station1",
+          "station2"
+        ]
+      },
+      {
+        "name": "data.stations[].num_vehicles_available",
+        "data_type": "integer",
+        "samples": [
+          "1",
+          "6"
+        ]
+      },
+      {
+        "name": "data.stations[].vehicle_types_available[].vehicle_type_id",
+        "data_type": "text",
+        "samples": [
+          "abc123",
+          "def456"
+        ]
+      },
+      {
+        "name": "data.stations[].vehicle_types_available[].count",
+        "data_type": "integer",
+        "samples": [
+          "1",
+          "0",
+          "2",
+          "4"
+        ]
+      },
+      {
+        "name": "data.stations[].num_vehicles_disabled",
+        "data_type": "integer",
+        "samples": [
+          "2",
+          "1"
+        ]
+      },
+      {
+        "name": "data.stations[].num_docks_available",
+        "data_type": "integer",
+        "samples": [
+          "3",
+          "8"
+        ]
+      },
+      {
+        "name": "data.stations[].is_installed",
+        "data_type": "boolean",
+        "samples": [
+          "true"
+        ]
+      },
+      {
+        "name": "data.stations[].is_returning",
+        "data_type": "boolean",
+        "samples": [
+          "true"
+        ]
+      },
+      {
+        "name": "data.stations[].last_reported",
+        "data_type": "timestamp",
+        "samples": [
+          "2023-07-17T13:34:13+02:00"
+        ]
+      },
+      {
+        "name": "data.stations[].vehicle_docks_available[].vehicle_type_ids[]",
+        "data_type": "text",
+        "samples": [
+          "abc123",
+          "def456"
+        ]
+      }
+    ]
+  },
+  "answers": [
+    {
+      "kind": "match",
+      "source": "last_updated",
+      "target": "last_updated"
+    },
+    {
+      "kind": "match",
+      "source": "ttl",
+      "target": "ttl"
+    },
+    {
+      "kind": "match",
+      "source": "version",
+      "target": "version"
+    },
+    {
+      "kind": "match",
+      "source": "data.stations[].station_id",
+      "target": "data.stations[].station_id"
+    },
+    {
+      "kind": "match",
+      "source": "data.stations[].num_bikes_available",
+      "target": "data.stations[].num_vehicles_available"
+    },
+    {
+      "kind": "match",
+      "source": "data.stations[].vehicle_types_available[].vehicle_type_id",
+      "target": "data.stations[].vehicle_types_available[].vehicle_type_id"
+    },
+    {
+      "kind": "match",
+      "source": "data.stations[].vehicle_types_available[].count",
+      "target": "data.stations[].vehicle_types_available[].count"
+    },
+    {
+      "kind": "match",
+      "source": "data.stations[].num_bikes_disabled",
+      "target": "data.stations[].num_vehicles_disabled"
+    },
+    {
+      "kind": "match",
+      "source": "data.stations[].num_docks_available",
+      "target": "data.stations[].num_docks_available"
+    },
+    {
+      "kind": "no_match",
+      "source": "data.stations[].num_docks_disabled"
+    },
+    {
+      "kind": "match",
+      "source": "data.stations[].is_installed",
+      "target": "data.stations[].is_installed"
+    },
+    {
+      "kind": "no_match",
+      "source": "data.stations[].is_renting"
+    },
+    {
+      "kind": "match",
+      "source": "data.stations[].is_returning",
+      "target": "data.stations[].is_returning"
+    },
+    {
+      "kind": "match",
+      "source": "data.stations[].last_reported",
+      "target": "data.stations[].last_reported"
+    },
+    {
+      "kind": "match",
+      "source": "data.stations[].vehicle_docks_available[].vehicle_type_ids[]",
+      "target": "data.stations[].vehicle_docks_available[].vehicle_type_ids[]"
+    },
+    {
+      "kind": "no_match",
+      "source": "data.stations[].vehicle_docks_available[].count"
+    }
+  ]
+}

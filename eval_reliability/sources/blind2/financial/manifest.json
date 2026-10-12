@@ -1,0 +1,59 @@
+{
+  "publisher": "United States Department of the Treasury, USAspending",
+  "repository": "https://github.com/fedspendingtransparency/usaspending-api",
+  "commit": "03b9e2554837998c4c261c65e2947dc79f23855a",
+  "license": "CC0-1.0; full license archived at raw/LICENSE",
+  "source_kind": "publisher schemas only; no observed or synthetic records",
+  "source_schema": "Contracts_Subawards.csv fields in official Data Dictionary Crosswalk Public columns I/J",
+  "target_schema": "broker_subaward fields in Public columns M/N; declared PostgreSQL types in BROKER_SUBAWARDS_COLUMNS",
+  "scope": "Explicit 27-field source and 27-field target projections of contract-subaward reporting schemas. All selected source fields receive labels; mappings are limited to these projections.",
+  "sources": [
+    {
+      "path": "raw/Data_Dictionary_Crosswalk.xlsx",
+      "url": "https://raw.githubusercontent.com/fedspendingtransparency/usaspending-api/03b9e2554837998c4c261c65e2947dc79f23855a/usaspending_api/data/Data_Dictionary_Crosswalk.xlsx",
+      "sha256": "975eb6fef1fc139fa26b7a37c88b49af92ce3aa257968692dd30555f9f6d3ae0",
+      "retrieved_at_utc": "2026-10-12T19:06:13.364824+00:00",
+      "archive_reuse": "Exact first-tranche primary-source archive reused; source schemas only, no first-tranche predictions."
+    },
+    {
+      "path": "raw/LICENSE",
+      "url": "https://raw.githubusercontent.com/fedspendingtransparency/usaspending-api/03b9e2554837998c4c261c65e2947dc79f23855a/LICENSE",
+      "sha256": "6d489af6292662d9e36d34ce49423784984a5f6e41d7b58f49b01264df59fa03",
+      "retrieved_at_utc": "2026-10-12T19:05:49.990345+00:00",
+      "archive_reuse": "Exact first-tranche primary-source archive reused; source schemas only, no first-tranche predictions."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/fedspendingtransparency/usaspending-api/03b9e2554837998c4c261c65e2947dc79f23855a/usaspending_api/awards/delta_models/broker_subawards.py",
+      "path": "raw/broker_subawards.py",
+      "sha256": "bbf7e1f66d320dcac184eb689a3ce4631ae45c9e8d1ad4a6cadacd02a4f15507",
+      "retrieved_at_utc": "2026-10-12T19:31:51.525164+00:00"
+    }
+  ],
+  "selection_policy": "SELECTION_POLICY.md, recorded before second-tranche source selection or retrieval",
+  "equivalence_basis": "The authoritative crosswalk puts subaward CSV headers and database fields on the same named concept row with a definition. For multi-table rows, database fields are aligned positionally with their table names, or a sole database name applies to all listed tables. No guessed aliases.",
+  "type_policy": "Source CSV storage types are unknown because the official crosswalk does not declare storage types. Target types preserve explicit PostgreSQL TEXT declarations as text, even for amounts, dates and numeric-looking codes. No inferred numeric values or fabricated examples.",
+  "negative_policy": "No-match source concepts have their exact counterpart deliberately omitted. Negatives distinguish recipient role, legal address versus performance address, an FSRS report ID versus a nonunique tracking number, and executive fiscal-year earnings versus an award amount.",
+  "ambiguity_controls": [
+    "No geographic code/name alternatives included for the same entity and attribute.",
+    "No competing integer/decimal representation of a quantity.",
+    "No prime base/latest-action-date pair that shares the crosswalk database field.",
+    "No PIID/FAIN choice sharing one database field.",
+    "No competing numbered executive amounts; numbering is not claimed to establish stable officer identity or rank."
+  ],
+  "first_tranche_independence": {
+    "prior_source_corpus_sha256": "070ca51567325c9e20e82676b4c8d30ca069423746953ba9d8b5ca1fdc0b547e",
+    "shared_source_field_names": 0,
+    "shared_answer_pairs": 0,
+    "check": "Compared only original sourced labels to avoid reuse; no predictions, policy, runtime implementation or reports accessed."
+  },
+  "reproduction": "python3 extract.py; standard-library ZIP/XML/AST parsing only; no network and no publisher-code execution.",
+  "generated_outputs": [
+    "financial_cases.frozen.json",
+    "evidence.json"
+  ],
+  "limitations": [
+    "Schema-only: all sample arrays empty and no claims about observed distributions.",
+    "A curated schema projection, not a whole-table migration.",
+    "Reuses the authoritative publisher crosswalk archive from the first tranche, but selects a distinct financial reporting entity and previously unused source fields and answer pairs."
+  ]
+}
