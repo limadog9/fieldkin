@@ -1,5 +1,367 @@
 # Python Valentine comparison and measured Rust optimizations
 
+## Current follow-up: exact COMA document reuse and Jaccard rejection bounds
+
+Measured **2026-10-13**, starting from `origin/main` at
+`e82bdc5b901fc2ddefa0976a275a2046be6c38a9`, on branch
+`perf/valentine-performance`. The sections below this follow-up are historical;
+their large-input timeouts and unavailable ONNX execution describe those earlier
+runs. No suggestion-engine behavior, dependencies, public APIs, algorithm
+formulas, defaults, samples, labels or frozen gates changed in this follow-up.
+[Machine-readable evidence](valentine_performance_20261013.json) preserves raw
+matching/warmup timings, ranges, process peaks, hashes, failures and validation.
+
+### Measured bottlenecks and retained changes
+
+Temporary stage/call instrumentation identified large COMA instance matching as
+28.628 s of cosine work versus 0.395 s of TF-IDF preparation and 0.0004 s of
+result construction: **2,147,483,648 cosine evaluations**. The input contained
+524,288 document occurrences but only 1,024 distinct documents per column.
+COMA now prepares identical raw documents once per column and compares their
+vectors once. IDF still counts every occurrence; maxima are expanded in original
+sample order before summing, preserving floating-point addition order. The
+lookup-only hash map never determines output order. Unique and tokenless inputs
+remain supported. This is 38 net production lines, plus an expanded-document
+oracle checking score bits, details, global multi-table IDF and boundary cases.
+
+The large Jaccard profile made **453,725,688 Levenshtein calls**, despite its
+existing length bound and partner-hit shortcut. Each distinct value now lazily
+stores its Unicode scalar length and a 128-bit hashed adjacent-character bitmap.
+An edit can change at most four presence bits, so `ceil(xor_popcount / 4)` is an
+exact lower bound on edit distance. Hash collisions only weaken rejection.
+The existing length bound and rounded inclusive cutoff remain authoritative;
+pairs are skipped only when the bound proves they cannot qualify. Metadata is
+shared only within the existing matching call, including its worker threads,
+and is unnecessary on identical/exact/embedding/other-distance paths. It adds
+24 bytes per distinct value on this host (about 1.5 MiB at the largest workload),
+not an unbounded cache. This is 50 net production lines. Independent Unicode
+edit-distance and Cartesian-score oracles cover collisions, empty values,
+cutoff equality, ties and nonidentical parallel/batch inputs.
+
+Rejected alternatives include eager tokenless-document caching, wider eager
+preparation, and additional length/cutoff guards: measured regressions or
+insignificant gains did not justify their complexity. DistributionBased, Cupid,
+SimilarityFlooding and COMA name scoring were left unchanged.
+
+### Comparable three-way measurements
+
+Release Rust 1.99.0 / LLVM 23.1.1, Python 3.12.14, pinned Valentine 1.0.0
+`d8fa9ee6d312b49ce2c45b62824df1fd31b94a72`, with the **existing two reference
+fixes** described below. The unmodified reference is separately verified.
+Hardware remains the shared Xeon Platinum 8573C Linux 6.18.44 container, five
+visible CPUs, four-CPU quota, 32 GiB memory limit. Processes were pinned to CPU 0;
+matcher/BLAS worker counts were one. No concurrent task builds or matching runs
+were scheduled during timing. This is not a dedicated-host or multithreaded claim.
+
+Small/medium/large retain the existing 4×32×16, 16×1,024×128 and
+32×8,192×1,024 column×row×distinct controls; two frozen real inputs are unchanged.
+Each side used three fresh processes, one recorded first-call warmup and three
+timed matches per process, rotating before/after/Python order. The table reports
+medians of process medians. `get_matches` includes internal preparation and
+result construction; parsing, startup, constructors, disposal, selection,
+hashing and serialization are outside timing on **both** sides. Python's prior
+result is now released outside timing too. Warmups and setup remain in the JSON:
+small Cupid first calls were about 60–64 ms native versus 2,057 ms Python, far
+above warmed times. All inputs use every nonempty sample without a cap.
+
+Memory is Linux **lifetime process `VmHWM`**, including setup, inputs, matching,
+verification and allocator retention; Rust samples before final serialization,
+Python after the preceding checkpoint. It is not incremental matcher memory.
+**Python CBC children are excluded**, so total Distribution memory is unmeasured.
+
+All **30/30** core comparisons complete and meet the unchanged Python pair,
+score and ranking checks. Every native before/after output also agrees bit for
+bit, including ordered candidates, component details and five result selections.
+Times are ms; memory is before→after MiB with the qualified scope above. Changes
+in untouched algorithms are controls, not optimization claims.
+
+| Workload | Algorithm | Python ms | Rust before ms | Rust after ms | Native peak MiB | Before/after |
+|---|---|---:|---:|---:|---:|---:|
+| small | coma | 0.107 | 0.037 | 0.037 | 2.9→3.0 | 1.01× |
+| small | coma_instances | 4.032 | 0.206 | 0.132 | 3.2→3.0 | 1.56× |
+| small | cupid | 0.670 | 0.070 | 0.070 | 42.4→42.4 | 0.99× |
+| small | distribution | 48.460 | 0.507 | 0.501 | 3.0→3.0 | 1.01× |
+| small | jaccard | 0.210 | 0.141 | 0.068 | 2.9→3.0 | 2.07× |
+| small | flooding | 23.328 | 0.117 | 0.116 | 3.2→3.1 | 1.00× |
+| medium | coma | 2.294 | 0.543 | 0.538 | 6.8→6.8 | 1.01× |
+| medium | coma_instances | 342.637 | 318.399 | 8.703 | 22.6→7.8 | 36.59× |
+| medium | cupid | 4.008 | 0.332 | 0.341 | 44.5→44.7 | 0.97× |
+| medium | distribution | 594.343 | 66.421 | 35.313 | 7.8→7.8 | 1.88× |
+| medium | jaccard | 51.935 | 106.068 | 23.522 | 6.8→6.9 | 4.51× |
+| medium | flooding | 709.777 | 1.136 | 1.131 | 6.9→6.8 | 1.00× |
+| large | coma | 27.361 | 2.237 | 2.009 | 65.2→65.2 | 1.11× |
+| large | coma_instances | 13331.926 | 28919.854 | 665.047 | 316.7→79.2 | 43.49× |
+| large | cupid | 17.150 | 0.844 | 0.876 | 80.6→80.6 | 0.96× |
+| large | distribution | 4460.680 | 1613.296 | 1503.257 | 69.2→69.2 | 1.07× |
+| large | jaccard | 12359.852 | 44940.931 | 5542.306 | 65.2→65.2 | 8.11× |
+| large | flooding | 4554.746 | 4.873 | 8.158 | 65.2→65.2 | 0.60× |
+| 01_penguins | coma | 0.652 | 0.290 | 0.269 | 3.0→3.0 | 1.08× |
+| 01_penguins | coma_instances | 40.221 | 0.840 | 0.737 | 3.2→3.3 | 1.14× |
+| 01_penguins | cupid | 3.198 | 0.544 | 0.610 | 42.5→42.4 | 0.89× |
+| 01_penguins | distribution | 60.099 | 1.393 | 1.448 | 3.1→3.2 | 0.96× |
+| 01_penguins | jaccard | 1.387 | 0.225 | 0.172 | 2.9→2.9 | 1.31× |
+| 01_penguins | flooding | 236.424 | 0.663 | 0.669 | 3.9→3.8 | 0.99× |
+| 02_aircraft_flights | coma | 0.735 | 0.223 | 0.210 | 3.1→3.1 | 1.06× |
+| 02_aircraft_flights | coma_instances | 21.070 | 0.804 | 0.699 | 3.3→3.4 | 1.15× |
+| 02_aircraft_flights | cupid | 1.587 | 0.390 | 0.396 | 42.5→42.2 | 0.99× |
+| 02_aircraft_flights | distribution | 138.964 | 1.575 | 1.640 | 3.1→3.1 | 0.96× |
+| 02_aircraft_flights | jaccard | 1.732 | 0.363 | 0.250 | 2.9→3.1 | 1.45× |
+| 02_aircraft_flights | flooding | 250.647 | 0.641 | 0.785 | 4.0→4.0 | 0.82× |
+
+Large COMA instances improves **43.49× (97.7% less time)** and process peak drops
+**316.7→79.2 MiB (75.0%)**, versus Python's 477.0 MiB excluding children.
+Its process-median timing ranges are before **28.630–39.870 s**, after
+**0.510–0.770 s**, Python **10.904–15.128 s**. Large Jaccard improves **8.11×
+(87.7%)**: before **39.871–48.890 s**, after **5.332–6.005 s**, Python
+**11.156–12.764 s**; process peak remains about 65.2 MiB. These formerly losing
+Rust workloads now beat this pinned Python configuration, not every possible
+Valentine workload.
+
+### Controls, unfavorable results and remaining limitations
+
+The same three-way method checks high-cardinality unique documents, tokenless
+Unicode, partially overlapping Unicode, dense similar names, long shared
+prefixes/suffixes, and disjoint deterministic hashes. All ten comparisons pass
+native exact-output and Python parity checks. No controls are silently omitted.
+
+| Control | Algorithm | Python ms | Before ms | After ms |
+|---|---|---:|---:|---:|
+| coma_unique | coma_instances | 395.064 | 297.139 | 285.798 |
+| coma_tokenless | coma_instances | 37.813 | 12.130 | 9.110 |
+| jaccard_unicode | coma_instances | 6.947 | 1.505 | 1.585 |
+| jaccard_dense | coma_instances | 105.443 | 27.493 | 45.011 |
+| jaccard_long | coma_instances | 8.808 | 1.257 | 1.435 |
+| jaccard_disjoint | coma_instances | 8.454 | 1.920 | 2.083 |
+| jaccard_unicode | jaccard | 3.396 | 13.140 | 1.860 |
+| jaccard_dense | jaccard | 966.147 | 27.363 | 21.403 |
+| jaccard_long | jaccard | 621.182 | 5.279 | 5.751 |
+| jaccard_disjoint | jaccard | 25.805 | 205.205 | 7.792 |
+
+Shared-host variation is substantial, sometimes about 2× even in unchanged
+algorithms. Five fresh-process native rechecks with 21 timed calls each retain
+all observations: COMA dense's apparent 27.493→45.011 ms regression became
+**27.260→27.578 ms** (after range 27.093–36.067); unchanged large Flooding's
+4.873→8.158 ms observation reversed to **6.524→4.646 ms**. Neither supports a
+kernel speedup/regression claim. Jaccard long strings have a real preparation
+tradeoff: three-way **5.279→5.751 ms (+8.9%)**; the recheck was less favorable,
+**5.303→7.727 ms (+45.7%)**, with after range **5.760–11.002 ms** versus before
+5.262–5.422 ms. Both are reported; timing noise does not erase the overhead.
+COMA unique documents use slightly more memory (23.7→24.0 MiB) and no compelling
+speed gain; its long/Unicode controls also have small absolute regressions.
+The large repeat-heavy and disjoint-value wins justify the limited extra work,
+but these optimizations are not uniformly beneficial. Dense or colliding Jaccard
+values still permit quadratic comparisons; no implicit budgets/sampling are added.
+
+Conflicting Distribution clustering remains a separate limitation. Existing
+ring8/ring16 controls run unchanged in Rust before/after but differ from Python
+(64/256 native pairs versus 32/64 Python pairs); **speedup ratios are withheld**.
+A temporary ring8 diagnostic proved identical 16-node sign graphs, 240 directed
+binary variables, 3,360 triangles, both optimal statuses, exactly feasible binary
+solutions and recomputed objective **64** on both sides. Different tied optima
+(112 differing directed arcs) produce different weak zero-edge components.
+This is pre-existing solver-dependent behavior, not a performance regression.
+Ring16's cause was not separately instrumented. Adding symmetry or changing the
+objective would change established behavior, so neither is included here.
+The interleaved32 control is equivalent: Python **18,624 ms**, Rust before/after
+**46.484/45.558 ms**; Distribution code is unchanged. Process peaks were
+575.0 MiB Python excluding CBC and 4.6/4.4 MiB native. Neither solved controls
+nor this result establishes predictable resource consumption for general MILPs.
+
+A first benchmark batch was **discarded in full** after finding Cargo's shared
+target reused the optimized library in the supposed baseline executable. The
+accepted baseline was rebuilt in an isolated target and independently verified.
+An early stress batch was also rejected by strict parameter validation because
+an export-only flag appeared in normal JSON; serialization was corrected, then
+the suite rerun. These measurements are not used as successful comparisons.
+The first core batch was interrupted by an environment restart after 21 complete
+comparisons; the remaining nine were run with the same immutable binaries/inputs.
+
+### Reproduce this follow-up
+
+Use the pinned dependencies/NLTK setup below. Build the baseline with the **same
+measurement harness but an independent Cargo target directory**:
+
+```sh
+PERF_BEFORE="$(mktemp -d)/fieldkin"
+git worktree add --detach "$PERF_BEFORE" e82bdc5b901fc2ddefa0976a275a2046be6c38a9
+mkdir -p "$PERF_BEFORE/examples/support"
+cp examples/valentine_parity.rs examples/benchmark_performance.rs "$PERF_BEFORE/examples/"
+cp examples/support/performance.rs "$PERF_BEFORE/examples/support/"
+cargo build --locked --release --jobs 1 --manifest-path "$PERF_BEFORE/Cargo.toml" \
+  --target-dir "$PWD/target/performance-before" \
+  --example valentine_parity --example benchmark_performance
+cargo build --locked --release --jobs 1 --example valentine_parity --example benchmark_performance
+taskset -c 0 python validation/benchmark_valentine.py \
+  --baseline-binary target/performance-before/release/examples/valentine_parity \
+  --baseline-revision e82bdc5b901fc2ddefa0976a275a2046be6c38a9 \
+  --rounds 3 --repetitions 3 --warmups 1 --timeout 480 \
+  --output target/valentine-performance-threeway.json
+```
+
+Select an available CPU if 0 is outside your affinity. Binary/source/input hashes
+are recorded automatically. The new `--dataset` option reuses the same runner for
+controls; the native example's `--dump-input PATH` exports its existing generator
+without matching, so Python receives identical clustering stress data:
+
+```sh
+mkdir -p target/performance-controls
+target/release/examples/benchmark_performance --algorithm distribution --values ring \
+  --columns 8 --rows 128 --distinct 128 --overlap 100 \
+  --dump-input target/performance-controls/ring8.json
+taskset -c 0 python validation/benchmark_valentine.py \
+  --baseline-binary target/performance-before/release/examples/valentine_parity \
+  --baseline-revision e82bdc5b901fc2ddefa0976a275a2046be6c38a9 \
+  --dataset target/performance-controls/ring8.json --algorithm distribution \
+  --rounds 3 --repetitions 3 --warmups 1 --timeout 120 \
+  --output target/performance-ring.json
+```
+
+The ring comparison intentionally exits 1 for non-equivalence. No tolerances or
+selection rules are loosened. Native stress commands below use the existing
+`valentine_match` boundary, including table preparation, with separate 30-second
+fresh-process deadlines and a 512 MiB address-space limit.
+
+
+Generate the additional controls from the existing synthetic helper (no labels):
+
+```sh
+python - <<'PY_CONTROLS'
+import hashlib, json, pathlib, sys
+sys.path.insert(0, "validation")
+from benchmark_valentine import synthetic
+out = pathlib.Path("target/performance-controls")
+out.mkdir(parents=True, exist_ok=True)
+profiles = {"coma_unique": (16, 1024), "coma_tokenless": (8, 4096),
+            "jaccard_unicode": (4, 128), "jaccard_dense": (8, 512),
+            "jaccard_long": (2, 128), "jaccard_disjoint": (2, 512)}
+for name, (columns, rows) in profiles.items():
+    case = synthetic(name, columns, rows, rows)
+    for side, schema in enumerate((case["source"], case["target"])):
+        for column, field in enumerate(schema["fields"]):
+            if name == "coma_unique":
+                continue
+            field["data_type"] = "text"
+            values = field["samples"]
+            if name == "coma_tokenless":
+                values = ["東京" + chr(0x4e00 + side * rows + i) + "県" for i in range(rows)]
+            elif name == "jaccard_unicode":
+                values = ["東京🙂" + v + "é" for v in values]
+            elif name == "jaccard_long":
+                values = ["a" * 256 + v + "b" * 256 for v in values]
+            elif name == "jaccard_dense":
+                values = [f"customer-account-{(column * 2 + (side if i >= rows * 3 // 4 else 0)) * rows + i:016}"
+                          for i in range(rows)]
+            elif name == "jaccard_disjoint":
+                values = [hashlib.sha256(f"{side}:{column}:{i}".encode()).hexdigest()[:32] for i in range(rows)]
+            field["samples"] = values
+    (out / f"{name}.json").write_text(json.dumps(case, separators=(",", ":")) + "\n")
+PY_CONTROLS
+```
+
+Reuse the three-way command with `--algorithm coma_instances` and six repeated
+`--dataset target/performance-controls/NAME.json` flags; for `--algorithm jaccard`
+use the four `jaccard_*` files. To reproduce native stress controls:
+
+```sh
+taskset -c 0 python validation/benchmark_performance.py \
+  --baseline-binary target/performance-before/release/examples/benchmark_performance \
+  --rounds 3 --repetitions 3 --timeout 30 --memory-limit-mib 512 \
+  --case coma-base --case cupid-base --case distribution-base --case flooding-base \
+  --case jaccard-base --case jaccard-tables --case jaccard-distinct512 --case jaccard-codes512 \
+  --case jaccard-single2048-overlap0 --case jaccard-single2048-overlap50 \
+  --case jaccard-single2048-overlap100 --case distribution-interleaved8 \
+  --case distribution-interleaved32 --case distribution-interleaved64 \
+  --case distribution-ring8 --case distribution-ring12 --case distribution-ring16 \
+  --output target/performance-stress.json
+```
+
+All **102/102** native stress processes completed with exact ordered output,
+details and selection hashes. Disjoint/half-overlapping 2,048-value hash controls
+were **633.855→16.955 ms** and **683.856→17.105 ms**; identical sets remained
+**0.226→0.222 ms**. Metadata adds roughly 0.13–0.16 MiB observed process peak on
+the first two controls; no substantial reduction is claimed. Ring16 completed
+within the budget but regressed **1,834→2,268 ms** in this batch (unchanged code);
+interleaved32 similarly changed **48.111→73.476 ms** with overlapping ranges.
+These are retained unfavorable controls, not new Distribution improvements.
+
+A larger **ring32** case (64 columns across two tables) tested one cold call,
+three fresh processes per runtime, a 20-second process deadline and **2 GiB
+virtual-address-space limit inherited by CBC too**. All nine processes timed
+out: baseline, optimized Rust and Python. There is no completed matching time,
+peak RSS, correctness result or speedup for this case. The deadline includes
+startup; it is not evidence for an exact 20-second matching duration. This
+confirms a remaining resource/scalability limitation without changing the
+optimization objective or accepting incomplete solutions. Reproduce separately:
+
+```sh
+target/release/examples/benchmark_performance --algorithm distribution --values ring \
+  --columns 32 --rows 128 --distinct 128 --overlap 100 \
+  --dump-input target/performance-controls/ring32.json
+(
+  ulimit -v 2097152
+  taskset -c 0 python validation/benchmark_valentine.py \
+    --baseline-binary target/performance-before/release/examples/valentine_parity \
+    --baseline-revision e82bdc5b901fc2ddefa0976a275a2046be6c38a9 \
+    --dataset target/performance-controls/ring32.json --algorithm distribution \
+    --rounds 3 --repetitions 1 --warmups 0 --timeout 20 \
+    --output target/performance-ring32-deadline.json
+)
+```
+
+### Validation completed
+
+Default tests, Polars tests, all-target/all-feature tests, four doctests, strict
+all-feature Clippy, warning-free all-feature rustdoc, Python methodology/ranking
+checks, reference-patch checks, all four original suggestion quality gates,
+independent Valentine accuracy gate and development accuracy report passed.
+Full current live parity: **90/90** against the explicit fixed reference, **60
+numerically exact**, **89 exactly ranked**, all 9,199 pairs within existing
+tolerances. Every before/after native output is exact across all 90 cases.
+The unmodified upstream run completed but the comparator correctly exited 1:
+**88/90 equivalent** here. USGS Distribution retains its three sanitized-name
+mismatches, and customers Cupid's balance→account_balance differs by
+0.0136752136752 due to its documented object-ID-dependent WordNet orientation.
+Neither difference is new; the same Rust baseline results agree exactly with
+the optimized build. The two existing source fixes are kept separate and the
+upstream checkout remains clean; no fixture/tolerance/reference patch changed.
+
+`cargo package --locked` verified the runtime commit without `--no-verify`.
+The package excludes benchmark/evaluation tooling and measurements. Real optional
+ONNX inference also passed with official ONNX Runtime 1.28.0 and a local,
+checksum-verified Qdrant MiniLM cache (model revision
+`d13954661f83248295ba75c1ed411eef3b7b936e`). Automatic model retrieval failed in
+the proxy environment; curl retrieved the pinned weights with TLS verification,
+so this is a download-client limitation, not an unavailable inference check.
+Weights and runtime binaries remain outside Git/the published crate.
+Linux validation executed locally; Windows execution belongs to the existing CI.
+No cross-platform success is inferred from Linux tests.
+
+Re-run validation with the commands in the historical section below, using
+`--check-independent`, `--check-reliability` and `--check-semantic` for the
+corresponding suggestion gates. A local ONNX installation can be selected with
+`ORT_LIB_LOCATION`, `ORT_PREFER_DYNAMIC_LINK=1` and `LD_LIBRARY_PATH`; these checks
+used the actual runtime, not `ORT_SKIP_DOWNLOAD`. To reproduce live parity:
+
+```sh
+target/release/examples/valentine_parity target/parity/current-rust.json
+python scripts/run_valentine_parity.py --reference-fixes --output target/parity/current-python-fixed.json
+python scripts/compare_valentine_parity.py --rust target/parity/current-rust.json \
+  --python target/parity/current-python-fixed.json --output target/parity/current-fixed-comparison.json
+python scripts/run_valentine_parity.py --output target/parity/current-python-upstream.json
+python scripts/compare_valentine_parity.py --rust target/parity/current-rust.json \
+  --python target/parity/current-python-upstream.json --output target/parity/current-upstream-comparison.json
+```
+
+The unmodified comparison may expose either or both documented defects; it is
+not expected to pass unconditionally. Reproduce native exactness by running the
+isolated baseline example on the same inputs and comparing `output_sha256` for
+every dataset/algorithm. Expensive performance runs stay outside regular CI.
+
+
+---
+
+# Historical measurements (2026-10-11)
+
 Measured 2026-10-11. These are implementation and performance comparisons, not
 schema-matching accuracy claims. No scoring formulas, thresholds, public APIs,
 reference fixtures, evaluation labels or quality baselines changed.

@@ -30,6 +30,8 @@ struct Args {
     schema_overlap: usize,
     repetitions: usize,
     sample_size: Option<usize>,
+    #[serde(skip)]
+    dump_input: Option<String>,
 }
 
 impl Default for Args {
@@ -45,6 +47,7 @@ impl Default for Args {
             schema_overlap: 100,
             repetitions: 5,
             sample_size: None,
+            dump_input: None,
         }
     }
 }
@@ -67,6 +70,7 @@ fn parse(args: impl IntoIterator<Item = String>) -> BenchResult<Args> {
             "--schema-overlap" => parsed.schema_overlap = value.parse()?,
             "--repetitions" => parsed.repetitions = value.parse()?,
             "--sample-size" => parsed.sample_size = Some(value.parse()?),
+            "--dump-input" => parsed.dump_input = Some(value),
             _ => return Err(format!("unknown option {flag}").into()),
         }
     }
@@ -281,11 +285,30 @@ fn main() -> BenchResult<()> {
             --overlap PERCENT (50) --schema-overlap PERCENT (100) --repetitions N (5) --sample-size N (default: all)\n\
             CSV/JSON ingest one table; --tables and overlap settings do not affect ingestion.\n\
             Actual distinct count is min(rows, distinct); zero rows are supported.\n\
-            Peak RSS includes generated inputs and warmup; hashing/selection follow measurement."
+            Peak RSS includes generated inputs and warmup; hashing/selection follow measurement.\n\
+            --dump-input PATH exports an unsampled two-table matching workload without executing it."
         );
         return Ok(());
     }
     let args = parse(arguments)?;
+    if let Some(path) = &args.dump_input {
+        if args.tables != 2
+            || args.sample_size.is_some()
+            || matches!(args.algorithm.as_str(), "csv" | "json")
+        {
+            return Err("--dump-input requires unsampled matching with two tables".into());
+        }
+        let tables = tables(&args)?;
+        std::fs::write(
+            path,
+            serde_json::to_vec_pretty(&serde_json::json!({
+                "name": format!("performance_{}_{}", args.values, args.columns),
+                "source": {"fields": tables[0].columns},
+                "target": {"fields": tables[1].columns},
+            }))?,
+        )?;
+        return Ok(());
+    }
     let (timings, peak_rss, count, fingerprint) =
         if matches!(args.algorithm.as_str(), "csv" | "json") {
             let input = encoded_input(&args);
