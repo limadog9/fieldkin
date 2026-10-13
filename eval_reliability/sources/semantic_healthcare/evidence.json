@@ -1,0 +1,320 @@
+{
+  "case_name": "omop_v5_0_1_procedure_cost_to_v5_2_2_cost",
+  "label_scope": "Intended semantic correspondence between published schema roles; not unconditional row-preserving or lossless value copying. No synthetic values, matcher observations, or prediction-driven selections were used.",
+  "selection_decisions": [
+    {
+      "candidate": "CDM 5.2.2 COST to CDM 5.4.1 COST",
+      "decision": "Not used: no meaningful structural migration in this selected area."
+    },
+    {
+      "candidate": "Complete CDM 5.0.1 DRUG_COST",
+      "decision": "Whole case excluded before label construction: AWP is documented as a list price, while target conventions permit AWP but do not assign an unambiguous amount field."
+    },
+    {
+      "candidate": "Complete CDM 5.0.1 VISIT_COST",
+      "decision": "Whole case excluded before label construction: total_out_of_pocket explicitly excludes copay while inherited procedure conventions include it."
+    },
+    {
+      "candidate": "Complete CDM 5.0.1 PROCEDURE_COST to complete CDM 5.2.2 COST",
+      "decision": "Retained: authoritative role descriptions and aggregate formulas support intended schema correspondences; payment-provenance caveats are documented."
+    }
+  ],
+  "independent_review": "A second source-only agent reviewed official raw sources before label files existed. It inspected no matcher, predictions, runtime proposals, or prior fixtures and agreed with intended procedure schema correspondence, secondary versus primary hard negative, and exclusions for disputed whole cases.",
+  "labels": [
+    {
+      "source": "procedure_cost.procedure_cost_id",
+      "kind": "match",
+      "target": "cost.cost_id",
+      "basis": "Both fields identify one cost record, distinct from the healthcare event it describes. The publisher explicitly states that COST replaces PROCEDURE_COST.",
+      "source_description_quote": "A unique identifier for each procedure cost record.",
+      "source_citation": {
+        "document_id": "source_pdf",
+        "section": "7.3 PROCEDURE_COST and 7.3.1 CONVENTIONS",
+        "excerpt": "raw/source_procedure_cost_pdf_excerpt.txt"
+      },
+      "target_description_quote": "A unique identifier for each COST record.",
+      "target_citation": {
+        "document_id": "target_cost_doc",
+        "field": "cost_id",
+        "excerpt": "raw/target_cost_documentation.md"
+      },
+      "declaration_citations": [
+        "raw/source_procedure_cost_ddl.sql",
+        "raw/target_cost_ddl.sql"
+      ]
+    },
+    {
+      "source": "procedure_cost.procedure_occurrence_id",
+      "kind": "match",
+      "target": "cost.cost_event_id",
+      "basis": "Both fields identify the healthcare event for which this cost record is recorded. The target cost_domain_id convention identifies Procedure events with PROCEDURE_OCCURRENCE; the source table already fixes that event domain.",
+      "source_description_quote": "A foreign key identifier to the procedure record for which cost data are recorded.",
+      "source_citation": {
+        "document_id": "source_pdf",
+        "section": "7.3 PROCEDURE_COST and 7.3.1 CONVENTIONS",
+        "excerpt": "raw/source_procedure_cost_pdf_excerpt.txt"
+      },
+      "target_description_quote": "A foreign key identifier to the event (e.g. Measurement, Procedure, Visit, Drug Exposure, etc) record for which cost data are recorded.",
+      "target_citation": {
+        "document_id": "target_cost_doc",
+        "field": "cost_event_id",
+        "excerpt": "raw/target_cost_documentation.md"
+      },
+      "declaration_citations": [
+        "raw/source_procedure_cost_ddl.sql",
+        "raw/target_cost_ddl.sql"
+      ]
+    },
+    {
+      "source": "procedure_cost.currency_concept_id",
+      "kind": "match",
+      "target": "cost.currency_concept_id",
+      "basis": "Both fields refer to the currency concept representing a three-letter international currency code; neither represents a payment amount.",
+      "source_description_quote": "A concept representing the 3-letter code used to delineate international currencies, such as USD for US Dollar.",
+      "source_citation": {
+        "document_id": "source_pdf",
+        "section": "7.3 PROCEDURE_COST and 7.3.1 CONVENTIONS",
+        "excerpt": "raw/source_procedure_cost_pdf_excerpt.txt"
+      },
+      "target_description_quote": "A foreign key identifier to the concept representing the 3-letter code used to delineate international currencies, such as USD for US Dollar.",
+      "target_citation": {
+        "document_id": "target_cost_doc",
+        "field": "currency_concept_id",
+        "excerpt": "raw/target_cost_documentation.md"
+      },
+      "declaration_citations": [
+        "raw/source_procedure_cost_ddl.sql",
+        "raw/target_cost_ddl.sql"
+      ]
+    },
+    {
+      "source": "procedure_cost.paid_copay",
+      "kind": "match",
+      "target": "cost.paid_patient_copay",
+      "basis": "Both fields represent the person's fixed contribution to expenses. The source aggregate-copay inconsistency does not change the published fixed-payment component role.",
+      "source_description_quote": "The amount paid by the person as a fixed contribution to the expenses. Copay does not contribute to the out_of_pocket expenses.",
+      "source_citation": {
+        "document_id": "source_pdf",
+        "section": "7.3 PROCEDURE_COST and 7.3.1 CONVENTIONS",
+        "excerpt": "raw/source_procedure_cost_pdf_excerpt.txt"
+      },
+      "target_description_quote": "The amount paid by the Person as a fixed contribution to the expenses.",
+      "target_citation": {
+        "document_id": "target_cost_doc",
+        "field": "paid_patient_copay",
+        "excerpt": "raw/target_cost_documentation.md"
+      },
+      "declaration_citations": [
+        "raw/source_procedure_cost_ddl.sql",
+        "raw/target_cost_ddl.sql"
+      ]
+    },
+    {
+      "source": "procedure_cost.paid_coinsurance",
+      "kind": "match",
+      "target": "cost.paid_patient_coinsurance",
+      "basis": "Both fields represent the person's percentage-based joint share of expenses after the deductible.",
+      "source_description_quote": "The amount paid by the person as a joint assumption of risk. Typically, this is a percentage of the expenses defined by the payer plan (policy) after the person's deductible is exceeded.",
+      "source_citation": {
+        "document_id": "source_pdf",
+        "section": "7.3 PROCEDURE_COST and 7.3.1 CONVENTIONS",
+        "excerpt": "raw/source_procedure_cost_pdf_excerpt.txt"
+      },
+      "target_description_quote": "The amount paid by the Person as a joint assumption of risk. Typically, this is a percentage of the expenses defined by the Payer Plan after the Person's deductible is exceeded.",
+      "target_citation": {
+        "document_id": "target_cost_doc",
+        "field": "paid_patient_coinsurance",
+        "excerpt": "raw/target_cost_documentation.md"
+      },
+      "declaration_citations": [
+        "raw/source_procedure_cost_ddl.sql",
+        "raw/target_cost_ddl.sql"
+      ]
+    },
+    {
+      "source": "procedure_cost.paid_toward_deductible",
+      "kind": "match",
+      "target": "cost.paid_patient_deductible",
+      "basis": "Both fields represent the person's contribution counted toward the health plan deductible.",
+      "source_description_quote": "The amount paid by the person that is counted toward the deductible defined by the payer plan (policy).",
+      "source_citation": {
+        "document_id": "source_pdf",
+        "section": "7.3 PROCEDURE_COST and 7.3.1 CONVENTIONS",
+        "excerpt": "raw/source_procedure_cost_pdf_excerpt.txt"
+      },
+      "target_description_quote": "The amount paid by the Person that is counted toward the deductible defined by the Payer Plan. paid_patient_deductible does contribute to the paid_by_patient variable.",
+      "target_citation": {
+        "document_id": "target_cost_doc",
+        "field": "paid_patient_deductible",
+        "excerpt": "raw/target_cost_documentation.md"
+      },
+      "declaration_citations": [
+        "raw/source_procedure_cost_ddl.sql",
+        "raw/target_cost_ddl.sql"
+      ]
+    },
+    {
+      "source": "procedure_cost.paid_by_payer",
+      "kind": "match",
+      "target": "cost.paid_by_payer",
+      "basis": "Both fields contain the payment by the payer represented by that cost record, with multiple payer cost records allowed.",
+      "source_description_quote": "The amount paid by the payer (insurer). If there is more than one payer, several procedure_cost records indicate that fact.",
+      "source_citation": {
+        "document_id": "source_pdf",
+        "section": "7.3 PROCEDURE_COST and 7.3.1 CONVENTIONS",
+        "excerpt": "raw/source_procedure_cost_pdf_excerpt.txt"
+      },
+      "target_description_quote": "The amount paid by the Payer for the goods or services.",
+      "target_citation": {
+        "document_id": "target_cost_doc",
+        "field": "paid_by_payer",
+        "excerpt": "raw/target_cost_documentation.md"
+      },
+      "declaration_citations": [
+        "raw/source_procedure_cost_ddl.sql",
+        "raw/target_cost_ddl.sql"
+      ]
+    },
+    {
+      "source": "procedure_cost.paid_by_coordination_benefits",
+      "kind": "no_match",
+      "basis": "The source stores payment by a secondary payer as a component of the original event cost record. The target paid_by_primary stores payment by a primary payer reported on the secondary payer's claim, which reverses the payer role. Target paid_by_payer stores the payment by the payer represented by that record. Secondary payments can be represented after creating a separate cost record for the secondary reporting payer; this is a row transformation, not a directly equivalent same-record field. No complete target COST declaration preserves the source secondary-component role.",
+      "source_description_quote": "The amount paid by a secondary payer through the coordination of benefits.",
+      "source_citation": {
+        "document_id": "source_pdf",
+        "section": "7.3 PROCEDURE_COST and 7.3.1 CONVENTIONS",
+        "excerpt": "raw/source_procedure_cost_pdf_excerpt.txt"
+      },
+      "hard_negative_quotes": [
+        {
+          "name": "cost.paid_by_primary",
+          "description": "The amount paid by a primary Payer through the coordination of benefits."
+        },
+        {
+          "name": "cost.paid_by_payer",
+          "description": "The amount paid by the Payer for the goods or services."
+        }
+      ],
+      "target_citation": {
+        "document_id": "target_cost_doc",
+        "sections": [
+          "field definitions",
+          "Conventions: cost record for each reporting payer",
+          "Conventions: paid_by_primary"
+        ],
+        "excerpt": "raw/target_cost_documentation.md"
+      },
+      "complete_target_declaration": "raw/target_cost_ddl.sql"
+    },
+    {
+      "source": "procedure_cost.total_out_of_pocket",
+      "kind": "match",
+      "target": "cost.paid_by_patient",
+      "basis": "Both field definitions represent the person's total share of expenses. The source procedure conventions give Out of Pocket = Copay + Coinsurance + Deductible; the target paid_by_patient convention gives the same three-component sum. This establishes intended schema-role correspondence, with the published claim-responsibility versus verified-actual-payment caveat.",
+      "source_description_quote": "The total amount paid by the person as a share of the expenses",
+      "source_citation": {
+        "document_id": "source_pdf",
+        "section": "7.3 PROCEDURE_COST and 7.3.1 CONVENTIONS",
+        "excerpt": "raw/source_procedure_cost_pdf_excerpt.txt"
+      },
+      "target_description_quote": "The total amount paid by the Person as a share of the expenses.",
+      "target_citation": {
+        "document_id": "target_cost_doc",
+        "field": "paid_by_patient",
+        "excerpt": "raw/target_cost_documentation.md"
+      },
+      "declaration_citations": [
+        "raw/source_procedure_cost_ddl.sql",
+        "raw/target_cost_ddl.sql"
+      ]
+    },
+    {
+      "source": "procedure_cost.total_paid",
+      "kind": "match",
+      "target": "cost.total_paid",
+      "basis": "Both fields represent total payment for the event, as distinct from individual payer or patient components. This is intended aggregate-role correspondence, with the target's published expected-versus-actual reimbursement caveat.",
+      "source_description_quote": "The total amount paid for the expenses of the procedure.",
+      "source_citation": {
+        "document_id": "source_pdf",
+        "section": "7.3 PROCEDURE_COST and 7.3.1 CONVENTIONS",
+        "excerpt": "raw/source_procedure_cost_pdf_excerpt.txt"
+      },
+      "target_description_quote": "The total amount actually paid from all payers for goods or services of the provider.",
+      "target_citation": {
+        "document_id": "target_cost_doc",
+        "field": "total_paid",
+        "excerpt": "raw/target_cost_documentation.md"
+      },
+      "declaration_citations": [
+        "raw/source_procedure_cost_ddl.sql",
+        "raw/target_cost_ddl.sql"
+      ]
+    },
+    {
+      "source": "procedure_cost.revenue_code_concept_id",
+      "kind": "match",
+      "target": "cost.revenue_code_concept_id",
+      "basis": "Both fields refer to a standardized revenue-code concept used for hospital charges. The DRG concept field classifies hospital cases and is a different role.",
+      "source_description_quote": "A foreign key referring to a standard concept identifier in the Standardized Vocabularies for revenue codes.",
+      "source_citation": {
+        "document_id": "source_pdf",
+        "section": "7.3 PROCEDURE_COST and 7.3.1 CONVENTIONS",
+        "excerpt": "raw/source_procedure_cost_pdf_excerpt.txt"
+      },
+      "target_description_quote": "A foreign key referring to a Standard Concept ID in the Standardized Vocabularies for Revenue codes.",
+      "target_citation": {
+        "document_id": "target_cost_doc",
+        "field": "revenue_code_concept_id",
+        "excerpt": "raw/target_cost_documentation.md"
+      },
+      "declaration_citations": [
+        "raw/source_procedure_cost_ddl.sql",
+        "raw/target_cost_ddl.sql"
+      ]
+    },
+    {
+      "source": "procedure_cost.payer_plan_period_id",
+      "kind": "match",
+      "target": "cost.payer_plan_period_id",
+      "basis": "Both fields are references to PAYER_PLAN_PERIOD, whose payer, plan and family details explain the payment record.",
+      "source_description_quote": "A foreign key to the payer_plan_period table, where the details of the payer, plan and family are stored.",
+      "source_citation": {
+        "document_id": "source_pdf",
+        "section": "7.3 PROCEDURE_COST and 7.3.1 CONVENTIONS",
+        "excerpt": "raw/source_procedure_cost_pdf_excerpt.txt"
+      },
+      "target_description_quote": "A foreign key to the PAYER_PLAN_PERIOD table, where the details of the Payer, Plan and Family are stored.  Record the payer_plan_id that relates to the payer who contributed to the paid_by_payer field.",
+      "target_citation": {
+        "document_id": "target_cost_doc",
+        "field": "payer_plan_period_id",
+        "excerpt": "raw/target_cost_documentation.md"
+      },
+      "declaration_citations": [
+        "raw/source_procedure_cost_ddl.sql",
+        "raw/target_cost_ddl.sql"
+      ]
+    },
+    {
+      "source": "procedure_cost.revenue_code_source_value",
+      "kind": "match",
+      "target": "cost.reveue_code_source_value",
+      "basis": "Both publisher schema descriptions specify the raw source revenue code retained for reference, distinct from a standardized concept identifier or a DRG source code. The target physical DDL misspells this as reveue_code_source_value; its VARCHAR(50) type, position beside revenue_code_concept_id, and identical documented semantic role establish the correspondence.",
+      "source_description_quote": "The source code for the revenue code as it appears in the source data, stored here for reference.",
+      "source_citation": {
+        "document_id": "source_pdf",
+        "section": "7.3 PROCEDURE_COST and 7.3.1 CONVENTIONS",
+        "excerpt": "raw/source_procedure_cost_pdf_excerpt.txt"
+      },
+      "target_description_quote": "The source code for the Revenue code as it appears in the source data, stored here for reference.",
+      "target_citation": {
+        "document_id": "target_cost_doc",
+        "field": "revenue_code_source_value",
+        "excerpt": "raw/target_cost_documentation.md"
+      },
+      "declaration_citations": [
+        "raw/source_procedure_cost_ddl.sql",
+        "raw/target_cost_ddl.sql"
+      ]
+    }
+  ]
+}

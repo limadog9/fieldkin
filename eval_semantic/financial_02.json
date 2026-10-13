@@ -1,0 +1,367 @@
+{
+  "name": "adyen_classic_payment52_to_checkout72",
+  "source": {
+    "fields": [
+      {
+        "name": "captureDelayHours",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "dateOfBirth",
+        "data_type": "date",
+        "samples": []
+      },
+      {
+        "name": "deliveryDate",
+        "data_type": "timestamp",
+        "samples": [
+          "2017-07-17T13:42:40.428+01:00"
+        ]
+      },
+      {
+        "name": "fraudOffset",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "merchantAccount",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "merchantOrderReference",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "orderReference",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "recurringProcessingModel",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "reference",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "shopperEmail",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "shopperIP",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "shopperInteraction",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "shopperLocale",
+        "data_type": "text",
+        "samples": [
+          "nl-NL"
+        ]
+      },
+      {
+        "name": "shopperReference",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "shopperStatement",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "store",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "telephoneNumber",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "threeDSAuthenticationOnly",
+        "data_type": "boolean",
+        "samples": []
+      },
+      {
+        "name": "totalsGroup",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "trustedShopper",
+        "data_type": "boolean",
+        "samples": []
+      },
+      {
+        "name": "enableRealTimeUpdate",
+        "data_type": "boolean",
+        "samples": []
+      }
+    ]
+  },
+  "target": {
+    "fields": [
+      {
+        "name": "captureDelayHours",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "dateOfBirth",
+        "data_type": "timestamp",
+        "samples": []
+      },
+      {
+        "name": "deliveryDate",
+        "data_type": "timestamp",
+        "samples": [
+          "2017-07-17T13:42:40.428+01:00"
+        ]
+      },
+      {
+        "name": "fraudOffset",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "merchantAccount",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "merchantOrderReference",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "orderReference",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "recurringProcessingModel",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "reference",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "shopperEmail",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "shopperIP",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "shopperInteraction",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "shopperLocale",
+        "data_type": "text",
+        "samples": [
+          "nl-NL"
+        ]
+      },
+      {
+        "name": "shopperReference",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "shopperStatement",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "store",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "telephoneNumber",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "threeDSAuthenticationOnly",
+        "data_type": "boolean",
+        "samples": []
+      },
+      {
+        "name": "trustedShopper",
+        "data_type": "boolean",
+        "samples": []
+      },
+      {
+        "name": "deliverAt",
+        "data_type": "timestamp",
+        "samples": [
+          "2017-07-17T13:42:40.428+01:00"
+        ]
+      },
+      {
+        "name": "countryCode",
+        "data_type": "text",
+        "samples": [
+          "NL",
+          "DE"
+        ]
+      },
+      {
+        "name": "enableRecurring",
+        "data_type": "boolean",
+        "samples": []
+      },
+      {
+        "name": "storePaymentMethod",
+        "data_type": "boolean",
+        "samples": []
+      },
+      {
+        "name": "checkoutAttemptId",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "channel",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "sessionValidity",
+        "data_type": "text",
+        "samples": []
+      }
+    ]
+  },
+  "answers": [
+    {
+      "source": "captureDelayHours",
+      "kind": "match",
+      "target": "captureDelayHours"
+    },
+    {
+      "source": "dateOfBirth",
+      "kind": "match",
+      "target": "dateOfBirth"
+    },
+    {
+      "source": "deliveryDate",
+      "kind": "ambiguous",
+      "targets": [
+        "deliveryDate",
+        "deliverAt"
+      ]
+    },
+    {
+      "source": "fraudOffset",
+      "kind": "match",
+      "target": "fraudOffset"
+    },
+    {
+      "source": "merchantAccount",
+      "kind": "match",
+      "target": "merchantAccount"
+    },
+    {
+      "source": "merchantOrderReference",
+      "kind": "match",
+      "target": "merchantOrderReference"
+    },
+    {
+      "source": "orderReference",
+      "kind": "match",
+      "target": "orderReference"
+    },
+    {
+      "source": "recurringProcessingModel",
+      "kind": "match",
+      "target": "recurringProcessingModel"
+    },
+    {
+      "source": "reference",
+      "kind": "match",
+      "target": "reference"
+    },
+    {
+      "source": "shopperEmail",
+      "kind": "match",
+      "target": "shopperEmail"
+    },
+    {
+      "source": "shopperIP",
+      "kind": "match",
+      "target": "shopperIP"
+    },
+    {
+      "source": "shopperInteraction",
+      "kind": "match",
+      "target": "shopperInteraction"
+    },
+    {
+      "source": "shopperLocale",
+      "kind": "match",
+      "target": "shopperLocale"
+    },
+    {
+      "source": "shopperReference",
+      "kind": "match",
+      "target": "shopperReference"
+    },
+    {
+      "source": "shopperStatement",
+      "kind": "match",
+      "target": "shopperStatement"
+    },
+    {
+      "source": "store",
+      "kind": "match",
+      "target": "store"
+    },
+    {
+      "source": "telephoneNumber",
+      "kind": "match",
+      "target": "telephoneNumber"
+    },
+    {
+      "source": "threeDSAuthenticationOnly",
+      "kind": "match",
+      "target": "threeDSAuthenticationOnly"
+    },
+    {
+      "source": "totalsGroup",
+      "kind": "no_match"
+    },
+    {
+      "source": "trustedShopper",
+      "kind": "match",
+      "target": "trustedShopper"
+    },
+    {
+      "source": "enableRealTimeUpdate",
+      "kind": "no_match"
+    }
+  ]
+}

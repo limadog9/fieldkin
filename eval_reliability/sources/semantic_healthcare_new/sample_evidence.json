@@ -1,0 +1,30 @@
+{
+  "status": "Schema-only with publisher vocabulary illustrations; no observed clinical records.",
+  "source": {
+    "field": "visit_occurrence.visit_concept_id",
+    "document_id": "source_visit_documentation",
+    "quote": "To annotate this correctly, the visit concept \"Emergency Room and Inpatient Visit\" (concept_id=262) should be used.",
+    "values": [
+      262
+    ]
+  },
+  "target": {
+    "field": "VISIT_OCCURRENCE.visit_concept_id",
+    "document_id": "target_table_documentation",
+    "cell": "VISIT_OCCURRENCE.userGuidance",
+    "basis": "The publisher lists named standard Visit-domain concept illustrations and their exact Athena concept URLs.",
+    "values": [
+      9201,
+      9203,
+      262,
+      42898160,
+      9202,
+      581476,
+      5083,
+      581458,
+      32036,
+      581478,
+      38004193
+    ]
+  }
+}

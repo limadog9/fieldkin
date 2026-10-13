@@ -1,0 +1,582 @@
+{
+  "case_name": "omop_v5_2_2_visit_occurrence_to_v5_4_1_visit_occurrence",
+  "label_scope": "Intended semantic schema-role correspondence, not universally transformation-free patient-record copying. No matching implementation or predictions inspected; no label uses name similarity or sample equality as sole evidence.",
+  "independence": "New selection after root runtime-freeze notice. All names/labels remained withheld from root through preparation. Independent reviewer read only official raw publisher sources before case labels were written and reported pass without table/field details in final status.",
+  "counts": {
+    "source_fields": 17,
+    "target_fields": 17,
+    "match": 17,
+    "no_match": 0,
+    "ambiguous": 0,
+    "individually_reviewed_directed_hard_negatives": 27
+  },
+  "publisher_caveats": [
+    "Place of Service versus standardized Visit-domain vocabulary descriptions may require an ETL vocabulary remap despite equivalent transition roles.",
+    "Source documentation has five malformed rows; source DDL corroborates all declared names, types and requiredness.",
+    "Undeclared stale aliases in conventions are not added as fictional schema fields.",
+    "Target date/datetime ETL prose is not used to collapse distinct DATE and TIMESTAMP fields."
+  ],
+  "labels": [
+    {
+      "source": "visit_occurrence.visit_occurrence_id",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.visit_occurrence_id",
+      "basis": "Both identify the current encounter/visit, distinct from a reference to the preceding visit. Target isPrimaryKey is Yes.",
+      "source_description_quote": "A unique identifier for each Person's visit or encounter at a healthcare provider.",
+      "source_citation": {
+        "document_id": "source_visit_documentation",
+        "line": 5,
+        "excerpt": "raw/source_visit_documentation.md"
+      },
+      "target_user_guidance_quote": "Use this to identify unique interactions between a person and the health care system. This identifier links across the other CDM event tables to associate events with a visit.",
+      "target_etl_conventions_quote": "This should be populated by creating a unique identifier for each unique interaction between a person and the healthcare system where the person receives a medical good or service over a span of time.",
+      "target_declared_role_metadata": {
+        "isPrimaryKey": "Yes",
+        "isForeignKey": "No",
+        "fkTableName": "",
+        "fkFieldName": "",
+        "fkDomain": ""
+      },
+      "target_citation": {
+        "document_id": "target_field_documentation",
+        "row_selector": {
+          "cdmTableName": "VISIT_OCCURRENCE",
+          "cdmFieldName": "visit_occurrence_id"
+        },
+        "excerpt": "raw/target_field_documentation_excerpt.json"
+      },
+      "declaration_citations": [
+        "raw/source_visit_ddl_excerpt.sql",
+        "raw/target_visit_ddl_excerpt.sql"
+      ]
+    },
+    {
+      "source": "visit_occurrence.person_id",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.person_id",
+      "basis": "Both refer to the patient/person for whom the visit occurred. Target explicitly references PERSON.PERSON_ID, distinct from PROVIDER or CARE_SITE.",
+      "source_description_quote": "A foreign key identifier to the Person for whom the visit is recorded. The demographic details of that Person are stored in the PERSON table.",
+      "source_citation": {
+        "document_id": "source_visit_documentation",
+        "line": 6,
+        "excerpt": "raw/source_visit_documentation.md"
+      },
+      "target_user_guidance_quote": "",
+      "target_etl_conventions_quote": "",
+      "target_declared_role_metadata": {
+        "isPrimaryKey": "No",
+        "isForeignKey": "Yes",
+        "fkTableName": "PERSON",
+        "fkFieldName": "PERSON_ID",
+        "fkDomain": ""
+      },
+      "target_citation": {
+        "document_id": "target_field_documentation",
+        "row_selector": {
+          "cdmTableName": "VISIT_OCCURRENCE",
+          "cdmFieldName": "person_id"
+        },
+        "excerpt": "raw/target_field_documentation_excerpt.json"
+      },
+      "declaration_citations": [
+        "raw/source_visit_ddl_excerpt.sql",
+        "raw/target_visit_ddl_excerpt.sql"
+      ]
+    },
+    {
+      "source": "visit_occurrence.visit_concept_id",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.visit_concept_id",
+      "basis": "Both represent the standardized kind or setting of the visit. Source conventions require Visit-domain concepts; target identifies inpatient/outpatient kinds and fkDomain Visit.",
+      "source_description_quote": "A foreign key that refers to a visit Concept identifier in the Standardized Vocabularies.",
+      "source_citation": {
+        "document_id": "source_visit_documentation",
+        "line": 7,
+        "excerpt": "raw/source_visit_documentation.md"
+      },
+      "target_user_guidance_quote": "This field contains a concept id representing the kind of visit, like inpatient or outpatient. All concepts in this field should be standard and belong to the Visit domain.",
+      "target_etl_conventions_quote": "Populate this field based on the kind of visit that took place for the person. For example this could be \"Inpatient Visit\", \"Outpatient Visit\", \"Ambulatory Visit\", etc. This table will contain standard concepts in the Visit domain. These concepts are arranged in a hierarchical structure to facilitate cohort definitions by rolling up to generally familiar Visits adopted in most healthcare systems worldwide. [Accepted Concepts](https://athena.ohdsi.org/search-terms/terms?domain=Visit&standardConcept=Standard&page=1&pageSize=15&query=).",
+      "target_declared_role_metadata": {
+        "isPrimaryKey": "No",
+        "isForeignKey": "Yes",
+        "fkTableName": "CONCEPT",
+        "fkFieldName": "CONCEPT_ID",
+        "fkDomain": "Visit"
+      },
+      "target_citation": {
+        "document_id": "target_field_documentation",
+        "row_selector": {
+          "cdmTableName": "VISIT_OCCURRENCE",
+          "cdmFieldName": "visit_concept_id"
+        },
+        "excerpt": "raw/target_field_documentation_excerpt.json"
+      },
+      "declaration_citations": [
+        "raw/source_visit_ddl_excerpt.sql",
+        "raw/target_visit_ddl_excerpt.sql"
+      ]
+    },
+    {
+      "source": "visit_occurrence.visit_start_date",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.visit_start_date",
+      "basis": "Both represent the start calendar date, and both declare DATE and require it. Target specifically identifies admission date for inpatient visits and interaction date otherwise.",
+      "source_description_quote": "The start date of the visit.",
+      "source_citation": {
+        "document_id": "source_visit_documentation",
+        "line": 8,
+        "excerpt": "raw/source_visit_documentation.md"
+      },
+      "target_user_guidance_quote": "For inpatient visits, the start date is typically the admission date. For outpatient visits the start date and end date will be the same.",
+      "target_etl_conventions_quote": "When populating VISIT_START_DATE, you should think about the patient experience to make decisions on how to define visits. In the case of an inpatient visit this should be the date the patient was admitted to the hospital or institution. In all other cases this should be the date of the patient-provider interaction.",
+      "target_declared_role_metadata": {
+        "isPrimaryKey": "No",
+        "isForeignKey": "No",
+        "fkTableName": "",
+        "fkFieldName": "",
+        "fkDomain": ""
+      },
+      "target_citation": {
+        "document_id": "target_field_documentation",
+        "row_selector": {
+          "cdmTableName": "VISIT_OCCURRENCE",
+          "cdmFieldName": "visit_start_date"
+        },
+        "excerpt": "raw/target_field_documentation_excerpt.json"
+      },
+      "declaration_citations": [
+        "raw/source_visit_ddl_excerpt.sql",
+        "raw/target_visit_ddl_excerpt.sql"
+      ]
+    },
+    {
+      "source": "visit_occurrence.visit_start_datetime",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.visit_start_datetime",
+      "basis": "Both represent start date/time at TIMESTAMP precision. Target conventions discuss the visit start time and midnight when time is unavailable. The calendar date field is a distinct lower-precision role.",
+      "source_description_quote": "The date and time of the visit started.",
+      "source_citation": {
+        "document_id": "source_visit_documentation",
+        "line": 9,
+        "excerpt": "raw/source_visit_documentation.md"
+      },
+      "target_user_guidance_quote": "",
+      "target_etl_conventions_quote": "If no time is given for the start date of a visit, set it to midnight (00:00:0000).",
+      "target_declared_role_metadata": {
+        "isPrimaryKey": "No",
+        "isForeignKey": "No",
+        "fkTableName": "",
+        "fkFieldName": "",
+        "fkDomain": ""
+      },
+      "target_citation": {
+        "document_id": "target_field_documentation",
+        "row_selector": {
+          "cdmTableName": "VISIT_OCCURRENCE",
+          "cdmFieldName": "visit_start_datetime"
+        },
+        "excerpt": "raw/target_field_documentation_excerpt.json"
+      },
+      "declaration_citations": [
+        "raw/source_visit_ddl_excerpt.sql",
+        "raw/target_visit_ddl_excerpt.sql"
+      ]
+    },
+    {
+      "source": "visit_occurrence.visit_end_date",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.visit_end_date",
+      "basis": "Both represent end calendar date and are DATE required. Target end-date guidance identifies discharge date; start date and datetime have separate roles.",
+      "source_description_quote": "The end date of the visit. If this is a one-day visit the end date should match the start date.",
+      "source_citation": {
+        "document_id": "source_visit_documentation",
+        "line": 10,
+        "excerpt": "raw/source_visit_documentation.md"
+      },
+      "target_user_guidance_quote": "For inpatient visits the end date is typically the discharge date.  If a Person is still an inpatient in the hospital at the time of the data extract and does not have a visit_end_date, then set the visit_end_date to the date of the data pull.",
+      "target_etl_conventions_quote": "Visit end dates are mandatory. If end dates are not provided in the source there are three ways in which to derive them:\n- Outpatient Visit: visit_end_datetime = visit_start_datetime\n- Emergency Room Visit: visit_end_datetime = visit_start_datetime\n- Inpatient Visit: Usually there is information about discharge. If not, you should be able to derive the end date from the sudden decline of activity or from the absence of inpatient procedures/drugs.\n- Non-hospital institution Visits: Particularly for claims data, if end dates are not provided assume the visit is for the duration of month that it occurs.\nFor Inpatient Visits ongoing at the date of ETL, put date of processing the data into visit_end_datetime and visit_type_concept_id with 32220 \"Still patient\" to identify the visit as incomplete.\n- All other Visits: visit_end_datetime = visit_start_datetime. If this is a one-day visit the end date should match the start date.",
+      "target_declared_role_metadata": {
+        "isPrimaryKey": "No",
+        "isForeignKey": "No",
+        "fkTableName": "",
+        "fkFieldName": "",
+        "fkDomain": ""
+      },
+      "target_citation": {
+        "document_id": "target_field_documentation",
+        "row_selector": {
+          "cdmTableName": "VISIT_OCCURRENCE",
+          "cdmFieldName": "visit_end_date"
+        },
+        "excerpt": "raw/target_field_documentation_excerpt.json"
+      },
+      "declaration_citations": [
+        "raw/source_visit_ddl_excerpt.sql",
+        "raw/target_visit_ddl_excerpt.sql"
+      ]
+    },
+    {
+      "source": "visit_occurrence.visit_end_datetime",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.visit_end_datetime",
+      "basis": "Both represent end date/time at TIMESTAMP precision. Target conventions concern visit end time and midnight when time is unavailable.",
+      "source_description_quote": "The date and time of the visit end.",
+      "source_citation": {
+        "document_id": "source_visit_documentation",
+        "line": 11,
+        "excerpt": "raw/source_visit_documentation.md"
+      },
+      "target_user_guidance_quote": "If a Person is still an inpatient in the hospital at the time of the data extract and does not have a visit_end_datetime, then set the visit_end_datetime to the datetime of the data pull.",
+      "target_etl_conventions_quote": "If no time is given for the end date of a visit, set it to midnight (00:00:0000).",
+      "target_declared_role_metadata": {
+        "isPrimaryKey": "No",
+        "isForeignKey": "No",
+        "fkTableName": "",
+        "fkFieldName": "",
+        "fkDomain": ""
+      },
+      "target_citation": {
+        "document_id": "target_field_documentation",
+        "row_selector": {
+          "cdmTableName": "VISIT_OCCURRENCE",
+          "cdmFieldName": "visit_end_datetime"
+        },
+        "excerpt": "raw/target_field_documentation_excerpt.json"
+      },
+      "declaration_citations": [
+        "raw/source_visit_ddl_excerpt.sql",
+        "raw/target_visit_ddl_excerpt.sql"
+      ]
+    },
+    {
+      "source": "visit_occurrence.visit_type_concept_id",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.visit_type_concept_id",
+      "basis": "Both encode provenance of the visit record, rather than clinical kind of visit. Source explicitly describes type of source data; target explicitly distinguishes EHR records and billing claims and uses fkDomain Type Concept.",
+      "source_description_quote": "A foreign key to the predefined Concept identifier in the Standardized Vocabularies reflecting the type of source data from which the visit record is derived.",
+      "source_citation": {
+        "document_id": "source_visit_documentation",
+        "line": 12,
+        "excerpt": "raw/source_visit_documentation.md"
+      },
+      "target_user_guidance_quote": "Use this field to understand the provenance of the visit record, or where the record comes from.",
+      "target_etl_conventions_quote": "Populate this field based on the provenance of the visit record, as in whether it came from an EHR record or billing claim. [Accepted Concepts](https://athena.ohdsi.org/search-terms/terms?domain=Type+Concept&standardConcept=Standard&page=1&pageSize=15&query=). A more detailed explanation of each Type Concept can be found on the [vocabulary wiki](https://github.com/OHDSI/Vocabulary-v5.0/wiki/Vocab.-TYPE_CONCEPT). ",
+      "target_declared_role_metadata": {
+        "isPrimaryKey": "No",
+        "isForeignKey": "Yes",
+        "fkTableName": "CONCEPT",
+        "fkFieldName": "CONCEPT_ID",
+        "fkDomain": "Type Concept"
+      },
+      "target_citation": {
+        "document_id": "target_field_documentation",
+        "row_selector": {
+          "cdmTableName": "VISIT_OCCURRENCE",
+          "cdmFieldName": "visit_type_concept_id"
+        },
+        "excerpt": "raw/target_field_documentation_excerpt.json"
+      },
+      "declaration_citations": [
+        "raw/source_visit_ddl_excerpt.sql",
+        "raw/target_visit_ddl_excerpt.sql"
+      ]
+    },
+    {
+      "source": "visit_occurrence.provider_id",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.provider_id",
+      "basis": "Both refer to a provider associated with the visit, with a one-provider selection convention. Target FK PROVIDER.PROVIDER_ID corroborates the role.",
+      "source_description_quote": "A foreign key to the provider in the provider table who was associated with the visit.",
+      "source_citation": {
+        "document_id": "source_visit_documentation",
+        "line": 13,
+        "excerpt": "raw/source_visit_documentation.md"
+      },
+      "target_user_guidance_quote": "There will only be one provider per visit record and the ETL document should clearly state how they were chosen (attending, admitting, etc.). If there are multiple providers associated with a visit in the source, this can be reflected in the event tables (CONDITION_OCCURRENCE, PROCEDURE_OCCURRENCE, etc.) or in the VISIT_DETAIL table.",
+      "target_etl_conventions_quote": "If there are multiple providers associated with a visit, you will need to choose which one to put here. The additional providers can be stored in the [VISIT_DETAIL](https://ohdsi.github.io/CommonDataModel/cdm531.html#visit_detail) table.",
+      "target_declared_role_metadata": {
+        "isPrimaryKey": "No",
+        "isForeignKey": "Yes",
+        "fkTableName": "PROVIDER",
+        "fkFieldName": "PROVIDER_ID",
+        "fkDomain": ""
+      },
+      "target_citation": {
+        "document_id": "target_field_documentation",
+        "row_selector": {
+          "cdmTableName": "VISIT_OCCURRENCE",
+          "cdmFieldName": "provider_id"
+        },
+        "excerpt": "raw/target_field_documentation_excerpt.json"
+      },
+      "declaration_citations": [
+        "raw/source_visit_ddl_excerpt.sql",
+        "raw/target_visit_ddl_excerpt.sql"
+      ]
+    },
+    {
+      "source": "visit_occurrence.care_site_id",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.care_site_id",
+      "basis": "Both refer to the actual care site visited. Target FK CARE_SITE.CARE_SITE_ID distinguishes it from the admission-origin concept.",
+      "source_description_quote": "A foreign key to the care site in the care site table that was visited.",
+      "source_citation": {
+        "document_id": "source_visit_documentation",
+        "line": 14,
+        "excerpt": "raw/source_visit_documentation.md"
+      },
+      "target_user_guidance_quote": "This field provides information about the Care Site where the Visit took place.",
+      "target_etl_conventions_quote": "There should only be one Care Site associated with a Visit.",
+      "target_declared_role_metadata": {
+        "isPrimaryKey": "No",
+        "isForeignKey": "Yes",
+        "fkTableName": "CARE_SITE",
+        "fkFieldName": "CARE_SITE_ID",
+        "fkDomain": ""
+      },
+      "target_citation": {
+        "document_id": "target_field_documentation",
+        "row_selector": {
+          "cdmTableName": "VISIT_OCCURRENCE",
+          "cdmFieldName": "care_site_id"
+        },
+        "excerpt": "raw/target_field_documentation_excerpt.json"
+      },
+      "declaration_citations": [
+        "raw/source_visit_ddl_excerpt.sql",
+        "raw/target_visit_ddl_excerpt.sql"
+      ]
+    },
+    {
+      "source": "visit_occurrence.visit_source_value",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.visit_source_value",
+      "basis": "Both retain the raw original code/value representing the kind of visit. It is a source string rather than standardized concept or source-concept identifier.",
+      "source_description_quote": "The source code for the visit as it appears in the source data.",
+      "source_citation": {
+        "document_id": "source_visit_documentation",
+        "line": 15,
+        "excerpt": "raw/source_visit_documentation.md"
+      },
+      "target_user_guidance_quote": "This field houses the verbatim value from the source data representing the kind of visit that took place (inpatient, outpatient, emergency, etc.)",
+      "target_etl_conventions_quote": "If there is information about the kind of visit in the source data that value should be stored here. If a visit is an amalgamation of visits from the source then use a hierarchy to choose the visit source value, such as IP -> ER-> OP. This should line up with the logic chosen to determine how visits are created.",
+      "target_declared_role_metadata": {
+        "isPrimaryKey": "No",
+        "isForeignKey": "No",
+        "fkTableName": "",
+        "fkFieldName": "",
+        "fkDomain": ""
+      },
+      "target_citation": {
+        "document_id": "target_field_documentation",
+        "row_selector": {
+          "cdmTableName": "VISIT_OCCURRENCE",
+          "cdmFieldName": "visit_source_value"
+        },
+        "excerpt": "raw/target_field_documentation_excerpt.json"
+      },
+      "declaration_citations": [
+        "raw/source_visit_ddl_excerpt.sql",
+        "raw/target_visit_ddl_excerpt.sql"
+      ]
+    },
+    {
+      "source": "visit_occurrence.visit_source_concept_id",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.visit_source_concept_id",
+      "basis": "Both represent the OMOP concept of the code used in the original source, distinct from the standardized Visit-domain concept. Target conventions explicitly identify a concept corresponding to the visit source value.",
+      "source_description_quote": "A foreign key to a Concept that refers to the code used in the source.",
+      "source_citation": {
+        "document_id": "source_visit_documentation",
+        "line": 16,
+        "excerpt": "raw/source_visit_documentation.md"
+      },
+      "target_user_guidance_quote": "",
+      "target_etl_conventions_quote": "If the visit source value is coded in the source data using an OMOP supported vocabulary put the concept id representing the source value here.",
+      "target_declared_role_metadata": {
+        "isPrimaryKey": "No",
+        "isForeignKey": "Yes",
+        "fkTableName": "CONCEPT",
+        "fkFieldName": "CONCEPT_ID",
+        "fkDomain": ""
+      },
+      "target_citation": {
+        "document_id": "target_field_documentation",
+        "row_selector": {
+          "cdmTableName": "VISIT_OCCURRENCE",
+          "cdmFieldName": "visit_source_concept_id"
+        },
+        "excerpt": "raw/target_field_documentation_excerpt.json"
+      },
+      "declaration_citations": [
+        "raw/source_visit_ddl_excerpt.sql",
+        "raw/target_visit_ddl_excerpt.sql"
+      ]
+    },
+    {
+      "source": "visit_occurrence.admitting_source_concept_id",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.admitted_from_concept_id",
+      "basis": "Both encode where the patient was admitted from, the admission origin, rather than discharge destination or actual care-site identifier. Publisher vocabulary ranges evolved; intended field-role correspondence does not claim no-remap data conversion.",
+      "source_description_quote": "A foreign key to the predefined concept in the Place of Service Vocabulary reflecting the admitting source for a visit.",
+      "source_citation": {
+        "document_id": "source_visit_documentation",
+        "line": 17,
+        "excerpt": "raw/source_visit_documentation.md"
+      },
+      "target_user_guidance_quote": "Use this field to determine where the patient was admitted from. This concept is part of the visit domain and can indicate if a patient was admitted to the hospital from a long-term care facility, for example.",
+      "target_etl_conventions_quote": "If available, map the admitted_from_source_value to a standard concept in the visit domain. [Accepted Concepts](https://athena.ohdsi.org/search-terms/terms?domain=Visit&standardConcept=Standard&page=1&pageSize=15&query=). If a person was admitted from home, set this to 0.",
+      "target_declared_role_metadata": {
+        "isPrimaryKey": "No",
+        "isForeignKey": "Yes",
+        "fkTableName": "CONCEPT",
+        "fkFieldName": "CONCEPT_ID",
+        "fkDomain": "Visit"
+      },
+      "target_citation": {
+        "document_id": "target_field_documentation",
+        "row_selector": {
+          "cdmTableName": "VISIT_OCCURRENCE",
+          "cdmFieldName": "admitted_from_concept_id"
+        },
+        "excerpt": "raw/target_field_documentation_excerpt.json"
+      },
+      "declaration_citations": [
+        "raw/source_visit_ddl_excerpt.sql",
+        "raw/target_visit_ddl_excerpt.sql"
+      ]
+    },
+    {
+      "source": "visit_occurrence.admitting_source_value",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.admitted_from_source_value",
+      "basis": "Both retain the raw source code/value for where a person was admitted from; the standardized origin concept and discharge destination are different roles.",
+      "source_description_quote": "The source code for the admitting source as it appears in the source data.",
+      "source_citation": {
+        "document_id": "source_visit_documentation",
+        "line": 18,
+        "excerpt": "raw/source_visit_documentation.md"
+      },
+      "target_user_guidance_quote": "",
+      "target_etl_conventions_quote": "This information may be called something different in the source data but the field is meant to contain a value indicating where a person was admitted from. Typically this applies only to visits that have a length of stay, like inpatient visits or long-term care visits.",
+      "target_declared_role_metadata": {
+        "isPrimaryKey": "No",
+        "isForeignKey": "No",
+        "fkTableName": "",
+        "fkFieldName": "",
+        "fkDomain": ""
+      },
+      "target_citation": {
+        "document_id": "target_field_documentation",
+        "row_selector": {
+          "cdmTableName": "VISIT_OCCURRENCE",
+          "cdmFieldName": "admitted_from_source_value"
+        },
+        "excerpt": "raw/target_field_documentation_excerpt.json"
+      },
+      "declaration_citations": [
+        "raw/source_visit_ddl_excerpt.sql",
+        "raw/target_visit_ddl_excerpt.sql"
+      ]
+    },
+    {
+      "source": "visit_occurrence.discharge_to_concept_id",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.discharged_to_concept_id",
+      "basis": "Both encode discharge destination/disposition, where the patient went after the visit. Publisher vocabulary ranges evolved; intended role correspondence does not claim no-remap data conversion.",
+      "source_description_quote": "A foreign key to the predefined concept in the Place of Service Vocabulary reflecting the discharge disposition for a visit.",
+      "source_citation": {
+        "document_id": "source_visit_documentation",
+        "line": 19,
+        "excerpt": "raw/source_visit_documentation.md"
+      },
+      "target_user_guidance_quote": "Use this field to determine where the patient was discharged to after a visit. This concept is part of the visit domain and can indicate if a patient was transferred to another hospital or sent to a long-term care facility, for example.  It is assumed that a person is discharged to home therefore there is not a standard concept id for \"home\".  Use concept id = 0 when a person is discharged to home.",
+      "target_etl_conventions_quote": "If available, map the discharged_to_source_value to a standard concept in the visit domain. [Accepted Concepts](https://athena.ohdsi.org/search-terms/terms?domain=Visit&standardConcept=Standard&page=1&pageSize=15&query=).",
+      "target_declared_role_metadata": {
+        "isPrimaryKey": "No",
+        "isForeignKey": "Yes",
+        "fkTableName": "CONCEPT",
+        "fkFieldName": "CONCEPT_ID",
+        "fkDomain": "Visit"
+      },
+      "target_citation": {
+        "document_id": "target_field_documentation",
+        "row_selector": {
+          "cdmTableName": "VISIT_OCCURRENCE",
+          "cdmFieldName": "discharged_to_concept_id"
+        },
+        "excerpt": "raw/target_field_documentation_excerpt.json"
+      },
+      "declaration_citations": [
+        "raw/source_visit_ddl_excerpt.sql",
+        "raw/target_visit_ddl_excerpt.sql"
+      ]
+    },
+    {
+      "source": "visit_occurrence.discharge_to_source_value",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.discharged_to_source_value",
+      "basis": "Both retain the raw source code/value for discharge destination/disposition, distinct from an origin value or standardized destination concept.",
+      "source_description_quote": "The source code for the discharge disposition as it appears in the source data.",
+      "source_citation": {
+        "document_id": "source_visit_documentation",
+        "line": 20,
+        "excerpt": "raw/source_visit_documentation.md"
+      },
+      "target_user_guidance_quote": "",
+      "target_etl_conventions_quote": "This information may be called something different in the source data but the field is meant to contain a value indicating where a person was discharged to after a visit, as in they went home or were moved to long-term care. Typically this applies only to visits that have a length of stay of a day or more.",
+      "target_declared_role_metadata": {
+        "isPrimaryKey": "No",
+        "isForeignKey": "No",
+        "fkTableName": "",
+        "fkFieldName": "",
+        "fkDomain": ""
+      },
+      "target_citation": {
+        "document_id": "target_field_documentation",
+        "row_selector": {
+          "cdmTableName": "VISIT_OCCURRENCE",
+          "cdmFieldName": "discharged_to_source_value"
+        },
+        "excerpt": "raw/target_field_documentation_excerpt.json"
+      },
+      "declaration_citations": [
+        "raw/source_visit_ddl_excerpt.sql",
+        "raw/target_visit_ddl_excerpt.sql"
+      ]
+    },
+    {
+      "source": "visit_occurrence.preceding_visit_occurrence_id",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.preceding_visit_occurrence_id",
+      "basis": "Both reference the visit immediately preceding the current one. Target explicitly says this is not symmetrical and refers back to VISIT_OCCURRENCE.VISIT_OCCURRENCE_ID.",
+      "source_description_quote": "A foreign key to the VISIT_OCCURRENCE table of the visit immediately preceding this visit",
+      "source_citation": {
+        "document_id": "source_visit_documentation",
+        "line": 21,
+        "excerpt": "raw/source_visit_documentation.md"
+      },
+      "target_user_guidance_quote": "Use this field to find the visit that occurred for the person prior to the given visit. There could be a few days or a few years in between.",
+      "target_etl_conventions_quote": "This field can be used to link a visit immediately preceding the current visit. Note this is not symmetrical, and there is no such thing as a \"following_visit_id\".",
+      "target_declared_role_metadata": {
+        "isPrimaryKey": "No",
+        "isForeignKey": "Yes",
+        "fkTableName": "VISIT_OCCURRENCE",
+        "fkFieldName": "VISIT_OCCURRENCE_ID",
+        "fkDomain": ""
+      },
+      "target_citation": {
+        "document_id": "target_field_documentation",
+        "row_selector": {
+          "cdmTableName": "VISIT_OCCURRENCE",
+          "cdmFieldName": "preceding_visit_occurrence_id"
+        },
+        "excerpt": "raw/target_field_documentation_excerpt.json"
+      },
+      "declaration_citations": [
+        "raw/source_visit_ddl_excerpt.sql",
+        "raw/target_visit_ddl_excerpt.sql"
+      ]
+    }
+  ]
+}

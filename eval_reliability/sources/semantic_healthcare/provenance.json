@@ -1,0 +1,75 @@
+{
+  "publisher": "OHDSI/CommonDataModel",
+  "publisher_url": "https://github.com/OHDSI/CommonDataModel",
+  "retrieved_utc": "2026-10-12",
+  "schema_only": true,
+  "samples_policy": "No attributable field-level observations were present in the selected schema sources; all sample arrays are empty.",
+  "naming": "Case names preserve PostgreSQL DDL table and field identifiers. PDF/Markdown logical identifiers are retained separately in context. Documentation and physical schema monetary types are float and NUMERIC respectively; NUMERIC is normalized to decimal.",
+  "source_documents": [
+    {
+      "id": "source_ddl",
+      "tag": "v5.0.1",
+      "commit": "2ab4be78c4c57100b93005b1689617b6c62d4ffd",
+      "path": "PostgreSQL/OMOP CDM ddl - PostgreSQL.sql",
+      "sha256": "648514ea0dcbbc47817d0b05a4816abb2ae93e84db4c81b2d44617ef66979c5e",
+      "url": "https://raw.githubusercontent.com/OHDSI/CommonDataModel/2ab4be78c4c57100b93005b1689617b6c62d4ffd/PostgreSQL/OMOP%20CDM%20ddl%20-%20PostgreSQL.sql",
+      "full_source_bytes": 20320
+    },
+    {
+      "id": "source_pdf",
+      "tag": "v5.0.1",
+      "commit": "2ab4be78c4c57100b93005b1689617b6c62d4ffd",
+      "path": "OMOP CDM v5.pdf",
+      "sha256": "d0ac7e9e499ea947068708471225f631c31ba0c72478acd0e306472b5b2e7977",
+      "url": "https://raw.githubusercontent.com/OHDSI/CommonDataModel/2ab4be78c4c57100b93005b1689617b6c62d4ffd/OMOP%20CDM%20v5.pdf",
+      "full_source_bytes": 1092167
+    },
+    {
+      "id": "source_repo_license",
+      "tag": "v5.0.1",
+      "commit": "2ab4be78c4c57100b93005b1689617b6c62d4ffd",
+      "path": "LICENSE",
+      "sha256": "cb5e8e7e5f4a3988e1063c142c60dc2df75605f4c46515e776e3aca6df976e14",
+      "url": "https://raw.githubusercontent.com/OHDSI/CommonDataModel/2ab4be78c4c57100b93005b1689617b6c62d4ffd/LICENSE",
+      "full_source_bytes": 11325
+    },
+    {
+      "id": "target_ddl",
+      "tag": "v5.2.2",
+      "commit": "3f49979dd407c67fe452e4b308464ce05d0a577c",
+      "path": "PostgreSQL/OMOP CDM ddl - PostgreSQL.sql",
+      "sha256": "886e1adfe021b537e7f0adf8b5bb222ada98ea825d6cdfeffca718a813a5dbe6",
+      "url": "https://raw.githubusercontent.com/OHDSI/CommonDataModel/3f49979dd407c67fe452e4b308464ce05d0a577c/PostgreSQL/OMOP%20CDM%20ddl%20-%20PostgreSQL.sql",
+      "full_source_bytes": 19598
+    },
+    {
+      "id": "target_cost_doc",
+      "tag": "v5.2.2",
+      "commit": "3f49979dd407c67fe452e4b308464ce05d0a577c",
+      "path": "Documentation/CommonDataModel_Wiki_Files/StandardizedHealthEconomicsDataTables/COST.md",
+      "sha256": "de7fa61b0973366650f7b05b4c4c3617c07b7b2f567a1ca6ebc8002736b09a54",
+      "url": "https://raw.githubusercontent.com/OHDSI/CommonDataModel/3f49979dd407c67fe452e4b308464ce05d0a577c/Documentation/CommonDataModel_Wiki_Files/StandardizedHealthEconomicsDataTables/COST.md",
+      "full_source_bytes": 11110
+    },
+    {
+      "id": "target_doc_license",
+      "tag": "v5.2.2",
+      "commit": "3f49979dd407c67fe452e4b308464ce05d0a577c",
+      "path": "Documentation/CommonDataModel_Wiki_Files/License.md",
+      "sha256": "47916d758df3abf2a5a80d76dddf8632711a34cc2865c8edf0b25116790a1c4a",
+      "url": "https://raw.githubusercontent.com/OHDSI/CommonDataModel/3f49979dd407c67fe452e4b308464ce05d0a577c/Documentation/CommonDataModel_Wiki_Files/License.md",
+      "full_source_bytes": 642
+    }
+  ],
+  "license_evidence": {
+    "source_repository": "Apache-2.0 (source_repo_license)",
+    "source_pdf": "Public-domain dedication / CC0-1.0 declaration on PDF page 2",
+    "target_documentation": "Public-domain dedication / CC0-1.0 declaration (target_doc_license)"
+  },
+  "known_publisher_discrepancies": [
+    "Target PostgreSQL field reveue_code_source_value is spelled revenue_code_source_value in the official logical schema; both are retained.",
+    "The target Markdown DRG rows transpose Required and Type; extraction identifies the Yes/No cell and corroborates types using PostgreSQL DDL.",
+    "Source copay prose excludes copay from out-of-pocket but procedure conventions include it; the total field and aggregate formula are used for intended schema correspondence.",
+    "Target patient payment conventions distinguish claim responsibility from verified actual payments; this evaluation concerns intended field roles, not universally lossless ETL."
+  ]
+}

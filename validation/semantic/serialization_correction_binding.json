@@ -1,0 +1,6 @@
+{
+  "bound_at_utc": "2026-10-13T00:23:25.772217+00:00",
+  "original_packet_sha256": "a90115f1b11df7e4a0a35ec1d093097726ef992081e24979508c506f98e7e429",
+  "corrected_packet_sha256": "990467d03322de557d5547fdc0b6485c4282d79c36aa241f99d217ad4840acaa",
+  "reason": "Strict parser rejected numeric sample values before any prediction for the new healthcare case. Independent author converted only exact numeric illustrations to strings and recorded unchanged labels/names/types/context/evidence. Original invalid case/schema retained. Candidate policy unchanged."
+}

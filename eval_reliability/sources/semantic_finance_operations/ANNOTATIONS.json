@@ -1,0 +1,285 @@
+{
+  "cfpb_hmda_modified_lar_2017_to_2018": [
+    {
+      "source": "Agency Code",
+      "kind": "no_match",
+      "rationale": "The source codes identify the federal supervisory/regulatory agency (OCC, FRS, FDIC, NCUA, HUD, CFPB). No selected 2018 target field identifies that agency; the LEI identifies a legal entity, and loan type/purpose identify the loan.",
+      "absence_scope": "All selected target dictionary fields; complete official 2018 Modified LAR dictionary also has no Agency Code field.",
+      "negative_contrasts": [
+        {
+          "target": "Legal Entity Identifier (LEI)",
+          "official_basis": "2018 dictionary field heading Legal Entity Identifier (LEI)"
+        },
+        {
+          "target": "Loan Type",
+          "official_basis": "2018 codes classify insurance/guarantee status, not supervisory agency."
+        }
+      ]
+    },
+    {
+      "source": "Loan Type",
+      "kind": "match",
+      "target": "Loan Type",
+      "rationale": "Both official codesheets define the same insurance/guarantee loan type, with the conventional/FHA/VA/FSA-RHS categories preserved."
+    },
+    {
+      "source": "Loan Amount",
+      "kind": "match",
+      "target": "Loan Amount",
+      "rationale": "Both dictionaries designate Loan Amount. The 2017 filing specification says report in thousands; the 2018 dictionary publishes dollar midpoint values for $10000 intervals. Match the measure, with unit conversion and changed disclosure precision explicitly recorded."
+    },
+    {
+      "source": "Preapprovals",
+      "kind": "match",
+      "target": "Preapproval",
+      "rationale": "The 2017 Preapprovals codesheet and 2018 Preapproval codesheet both distinguish whether preapproval was requested. The 2018 code domain removes the older not-applicable code."
+    },
+    {
+      "source": "Type of Action Taken",
+      "kind": "match",
+      "target": "Action Taken",
+      "rationale": "The eight official action categories align, including originated, approved but not accepted, denied, withdrawn, incomplete, purchased, and preapproval disposition."
+    },
+    {
+      "source": "Metropolitan Statistical Area/Metropolitan Division",
+      "kind": "no_match",
+      "rationale": "The 2017 specification explicitly identifies an MSA or metropolitan-division code. The 2018 dictionary has state, county and census-tract identifiers, and no MSA/MD field. Those are distinct geographic levels.",
+      "absence_scope": "All selected target fields; complete official 2018 Modified LAR dictionary also has no MSA/MD field.",
+      "negative_contrasts": [
+        {
+          "target": "State",
+          "official_basis": "two-letter state code"
+        },
+        {
+          "target": "County",
+          "official_basis": "state-county FIPS code"
+        },
+        {
+          "target": "Census Tract",
+          "official_basis": "11 digit census tract number"
+        }
+      ]
+    },
+    {
+      "source": "Applicant Ethnicity",
+      "kind": "match",
+      "target": "Ethnicity of Applicant or Borrower: 1",
+      "rationale": "The source applicant ethnicity field and target first applicant/borrower ethnicity slot have the same person role and core ethnicity categories. The first target slot preserves information-not-provided and not-applicable codes."
+    },
+    {
+      "source": "Co-Applicant Ethnicity",
+      "kind": "match",
+      "target": "Ethnicity of Co-Applicant or Co-Borrower: 1",
+      "rationale": "The source co-applicant ethnicity field and target first co-applicant/co-borrower ethnicity slot retain the same person role, including the no-co-applicant category."
+    },
+    {
+      "source": "Applicant Race: 1",
+      "kind": "match",
+      "target": "Race of Applicant or Borrower: 1",
+      "rationale": "Both published names identify the first race slot for the applicant. The target first slot retains the source missing/not-applicable categories while adding detailed race categories."
+    },
+    {
+      "source": "Co-Applicant Race: 1",
+      "kind": "match",
+      "target": "Race of Co-Applicant or Co-Borrower: 1",
+      "rationale": "Both published names identify the first race slot for the co-applicant. The target first slot retains missing/not-applicable/no-co-applicant categories while adding detailed race categories."
+    },
+    {
+      "source": "Applicant Sex",
+      "kind": "match",
+      "target": "Sex of Applicant or Borrower",
+      "rationale": "Both codesheets define sex for the applicant, with male/female/information-not-provided/not-applicable categories. The target separately adds a both-selected category."
+    },
+    {
+      "source": "Co-applicant Sex",
+      "kind": "match",
+      "target": "Sex of Co-Applicant or Co-Borrower",
+      "rationale": "Both codesheets define sex for the co-applicant, retaining the no-co-applicant role distinction. The target separately adds a both-selected category."
+    },
+    {
+      "source": "Type of Purchaser",
+      "kind": "match",
+      "target": "Type of Purchaser",
+      "rationale": "Both official codesheets classify the purchaser of a loan. The institution categories are preserved conceptually, with the older combined code-7 category split into codes 71 and 72."
+    },
+    {
+      "source": "Denial Reason: 1",
+      "kind": "match",
+      "target": "Reason for Denial: 1",
+      "rationale": "Both dictionaries identify the first denial-reason slot. Codesheets independently list the same core debt-to-income, employment, credit, collateral, cash, unverifiable, incomplete, insurance and other categories."
+    },
+    {
+      "source": "Rate Spread",
+      "kind": "match",
+      "target": "Rate Spread",
+      "rationale": "The same published Rate Spread field appears in both versions. The 2017 specification independently provides a decimal-string example; the 2018 dictionary declares a character-varying field with NA and Exempt sentinels."
+    },
+    {
+      "source": "HOEPA Status",
+      "kind": "match",
+      "target": "HOEPA Status",
+      "rationale": "Both versions explicitly name HOEPA Status. The 2017 codes distinguish HOEPA loan versus not; the 2018 codes distinguish high-cost mortgage versus not and add not-applicable."
+    },
+    {
+      "source": "Lien Status",
+      "kind": "match",
+      "target": "Lien Status",
+      "rationale": "Both codesheets explicitly classify first versus subordinate liens. The target removes two older extra statuses, so matching the concept does not promise a lossless recode."
+    }
+  ],
+  "adyen_classic_payment52_to_checkout72": [
+    {
+      "source": "captureDelayHours",
+      "kind": "match",
+      "target": "captureDelayHours",
+      "rationale": "Both independently define the delay between payment authorization and automatic capture, explicitly in hours."
+    },
+    {
+      "source": "dateOfBirth",
+      "kind": "match",
+      "target": "dateOfBirth",
+      "rationale": "Both independently state the shopper date of birth and YYYY-MM-DD. Their declared schema formats differ; the semantic field matches while the inconsistent representation is preserved."
+    },
+    {
+      "source": "deliveryDate",
+      "kind": "ambiguous",
+      "targets": [
+        "deliveryDate",
+        "deliverAt"
+      ],
+      "rationale": "The target retains deliveryDate and adds deliverAt, both with exactly the source purchased-goods delivery datetime description and identical official example. Target deliveryDate is deprecated in version 70 and explicitly says Use `deliverAt` instead. Either target carries the source concept under the published v72 schema; the migration-preferred spelling is deliverAt."
+    },
+    {
+      "source": "fraudOffset",
+      "kind": "match",
+      "target": "fraudOffset",
+      "rationale": "Both independently define an integer adjustment, positive or negative, added to the normal fraud score."
+    },
+    {
+      "source": "merchantAccount",
+      "kind": "match",
+      "target": "merchantAccount",
+      "rationale": "Both independently define the merchant account identifier used to process the transaction."
+    },
+    {
+      "source": "merchantOrderReference",
+      "kind": "match",
+      "target": "merchantOrderReference",
+      "rationale": "Both independently define a merchant reference linking multiple transactions and unique per billing cycle; the role differs from payment reference and first-partial-payment reference."
+    },
+    {
+      "source": "orderReference",
+      "kind": "match",
+      "target": "orderReference",
+      "rationale": "Both independently define the pspReference of the first partial gift-card payment used to link multiple payments."
+    },
+    {
+      "source": "recurringProcessingModel",
+      "kind": "match",
+      "target": "recurringProcessingModel",
+      "rationale": "Both independently define the recurring payment type and the Subscription, CardOnFile and UnscheduledCardOnFile roles."
+    },
+    {
+      "source": "reference",
+      "kind": "match",
+      "target": "reference",
+      "rationale": "Both independently define the merchant reference identifying one payment and used in payment-status communication."
+    },
+    {
+      "source": "shopperEmail",
+      "kind": "match",
+      "target": "shopperEmail",
+      "rationale": "Both independently define the shopper email address used in velocity/fraud checks."
+    },
+    {
+      "source": "shopperIP",
+      "kind": "match",
+      "target": "shopperIP",
+      "rationale": "Both independently define the shopper IP address used in risk checks and authentication requirements."
+    },
+    {
+      "source": "shopperInteraction",
+      "kind": "match",
+      "target": "shopperInteraction",
+      "rationale": "Both independently define the sales channel and whether the shopper is returning, with Ecommerce, ContAuth, Moto and POS meanings."
+    },
+    {
+      "source": "shopperLocale",
+      "kind": "match",
+      "target": "shopperLocale",
+      "rationale": "Both independently define payment language from a language code and country code."
+    },
+    {
+      "source": "shopperReference",
+      "kind": "match",
+      "target": "shopperReference",
+      "rationale": "Both independently define the merchant reference identifying the shopper, required for recurring payments and distinct from one-payment or one-order references."
+    },
+    {
+      "source": "shopperStatement",
+      "kind": "match",
+      "target": "shopperStatement",
+      "rationale": "Both independently define the text shown on the shopper bank statement."
+    },
+    {
+      "source": "store",
+      "kind": "match",
+      "target": "store",
+      "rationale": "Both independently define the ecommerce or point-of-sale store processing the payment."
+    },
+    {
+      "source": "telephoneNumber",
+      "kind": "match",
+      "target": "telephoneNumber",
+      "rationale": "Both independently define the shopper telephone number, with country-code requirements."
+    },
+    {
+      "source": "threeDSAuthenticationOnly",
+      "kind": "match",
+      "target": "threeDSAuthenticationOnly",
+      "rationale": "Both independently define performing only 3DS authentication without proceeding to payment authorization."
+    },
+    {
+      "source": "totalsGroup",
+      "kind": "no_match",
+      "rationale": "The source is a reference for aggregation of sales totals in reporting. Target merchantOrderReference links transactions for an order/billing cycle; target store identifies the processing store. The documented fallback to store is a default-value rule and does not make the dedicated sales-report aggregation reference identical to a store identity.",
+      "absence_scope": "Selected top-level PaymentRequest scalar properties; full v72 PaymentRequest schema has no totalsGroup property. totalsGroup in BalanceCheckRequest is a different resource and is outside this case.",
+      "negative_contrasts": [
+        {
+          "target": "merchantOrderReference",
+          "official_basis": "Link multiple transactions; unique for each billing cycle."
+        },
+        {
+          "target": "store",
+          "official_basis": "The ecommerce or point-of-sale store processing the payment."
+        }
+      ]
+    },
+    {
+      "source": "trustedShopper",
+      "kind": "match",
+      "target": "trustedShopper",
+      "rationale": "Both independently define routing the payment to a trusted MID."
+    },
+    {
+      "source": "enableRealTimeUpdate",
+      "kind": "no_match",
+      "rationale": "The source chooses whether this transaction uses the Real-time Account Updater. The selected target booleans store payment details for recurring use or perform only authentication; neither selects account updating, and no named top-level v72 PaymentRequest scalar has that documented role.",
+      "absence_scope": "Selected documented top-level PaymentRequest scalar properties; arbitrary additionalData keys are outside this projection and no undocumented key is assumed.",
+      "negative_contrasts": [
+        {
+          "target": "storePaymentMethod",
+          "official_basis": "Store payment details for future recurring payments."
+        },
+        {
+          "target": "enableRecurring",
+          "official_basis": "Store payment details for recurring payments where the shopper is absent."
+        },
+        {
+          "target": "threeDSAuthenticationOnly",
+          "official_basis": "Perform 3D Secure authentication without payment authorization."
+        }
+      ]
+    }
+  ]
+}

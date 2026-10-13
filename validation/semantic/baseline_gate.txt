@@ -1,0 +1,359 @@
+eval_semantic/financial_01.json: accuracy 10/17 (58.82%); automatic precision 8/8 (100.00%); recall 8/15 (53.33%); incorrect automatic 0; abstentions 9
+eval_semantic/financial_02.json: accuracy 20/21 (95.24%); automatic precision 18/19 (94.74%); recall 18/18 (100.00%); incorrect automatic 1; abstentions 2
+eval_semantic/healthcare_01_partially_exposed.json: accuracy 3/13 (23.08%); automatic precision 2/4 (50.00%); recall 2/12 (16.67%); incorrect automatic 2; abstentions 9
+eval_semantic/healthcare_02.json: accuracy 4/17 (23.53%); automatic precision 4/5 (80.00%); recall 4/17 (23.53%); incorrect automatic 1; abstentions 12
+Overall accuracy: 37/68 (54.41%)
+Expected match: 32/62 (51.61%)
+Expected no_match: 5/5 (100.00%)
+Expected ambiguous: 0/1 (0.00%)
+Automatic-match precision: 32/36 (88.89%)
+Automatic-match recall: 32/62 (51.61%)
+Automatic-match coverage: 36/68 (52.94%)
+Abstentions: 32 (NoMatch: 14, Ambiguous: 18)
+Incorrect automatic matches: 4
+Automatic selections on expected no_match: 0/5 (0.00%)
+Automatic selections on expected ambiguous: 1/1 (100.00%)
+Missed matches: 30
+Incorrect ambiguities: 18
+
+====================================================================================================
+DATASET:  cfpb_hmda_modified_lar_2017_to_2018
+SOURCE:   Loan Amount
+EXPECTED: match -> Loan Amount
+GOT:      no_match (0.690)
+
+TOP CANDIDATES
+  Race of Applicant or Borrower: 1 total=0.690  name=0.561  type=1.000  samples=n/a
+  Ethnicity of Applicant or Borrower: 1 total=0.690  name=0.561  type=1.000  samples=n/a
+  Ethnicity of Co-Applicant or Co-Borrower: 1 total=0.683  name=0.551  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  cfpb_hmda_modified_lar_2017_to_2018
+SOURCE:   Applicant Ethnicity
+EXPECTED: match -> Ethnicity of Applicant or Borrower: 1
+GOT:      no_match (0.787)
+
+TOP CANDIDATES
+  Action Taken                     total=0.787  name=0.699  type=1.000  samples=n/a
+  Lien Status                      total=0.718  name=0.601  type=1.000  samples=n/a
+  Loan Type                        total=0.706  name=0.583  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  cfpb_hmda_modified_lar_2017_to_2018
+SOURCE:   Co-Applicant Ethnicity
+EXPECTED: match -> Ethnicity of Co-Applicant or Co-Borrower: 1
+GOT:      no_match (0.790)
+
+TOP CANDIDATES
+  Action Taken                     total=0.790  name=0.703  type=1.000  samples=n/a
+  Occupancy Type                   total=0.772  name=0.678  type=1.000  samples=n/a
+  Sex of Co-Applicant or Co-Borrower total=0.765  name=0.667  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  cfpb_hmda_modified_lar_2017_to_2018
+SOURCE:   Applicant Race: 1
+EXPECTED: match -> Race of Applicant or Borrower: 1
+GOT:      no_match (0.730)
+
+TOP CANDIDATES
+  Action Taken                     total=0.730  name=0.617  type=1.000  samples=n/a
+  Loan Type                        total=0.728  name=0.615  type=1.000  samples=n/a
+  Sex of Applicant or Borrower     total=0.715  name=0.597  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  cfpb_hmda_modified_lar_2017_to_2018
+SOURCE:   Co-Applicant Race: 1
+EXPECTED: match -> Race of Co-Applicant or Co-Borrower: 1
+GOT:      no_match (0.787)
+
+TOP CANDIDATES
+  Occupancy Type                   total=0.787  name=0.698  type=1.000  samples=n/a
+  Sex of Applicant or Borrower     total=0.765  name=0.667  type=1.000  samples=n/a
+  Sex of Co-Applicant or Co-Borrower total=0.752  name=0.649  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  cfpb_hmda_modified_lar_2017_to_2018
+SOURCE:   Applicant Sex
+EXPECTED: match -> Sex of Applicant or Borrower
+GOT:      ambiguous -> [Sex of Applicant or Borrower, Sex of Co-Applicant or Co-Borrower] (1.000)
+
+TOP CANDIDATES
+  Sex of Applicant or Borrower     total=1.000  name=1.000  type=1.000  samples=n/a
+  Sex of Co-Applicant or Co-Borrower total=1.000  name=1.000  type=1.000  samples=n/a
+  Action Taken                     total=0.749  name=0.645  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  cfpb_hmda_modified_lar_2017_to_2018
+SOURCE:   Denial Reason: 1
+EXPECTED: match -> Reason for Denial: 1
+GOT:      no_match (0.726)
+
+TOP CANDIDATES
+  Debt-to-Income Ratio             total=0.726  name=0.612  type=1.000  samples=n/a
+  Reason for Denial: 1             total=0.706  name=1.000  type=0.000  samples=n/a
+  Interest Rate                    total=0.693  name=0.564  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  adyen_classic_payment52_to_checkout72
+SOURCE:   deliveryDate
+EXPECTED: ambiguous -> [deliveryDate, deliverAt]
+GOT:      match -> deliveryDate (0.980)
+
+TOP CANDIDATES
+  deliveryDate                     total=0.980  name=1.000  type=1.000  samples=0.000
+  deliverAt                        total=0.820  name=0.950  type=1.000  samples=0.000
+  dateOfBirth                      total=0.734  name=0.624  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  omop_v5_0_1_procedure_cost_to_v5_2_2_cost
+SOURCE:   procedure_cost.procedure_occurrence_id
+EXPECTED: match -> cost.cost_event_id
+GOT:      match -> cost.cost_id (1.000)
+
+TOP CANDIDATES
+  cost.cost_id                     total=1.000  name=1.000  type=1.000  samples=n/a
+  cost.revenue_code_concept_id     total=0.780  name=0.688  type=1.000  samples=n/a
+  cost.cost_event_id               total=0.765  name=0.667  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  omop_v5_0_1_procedure_cost_to_v5_2_2_cost
+SOURCE:   procedure_cost.currency_concept_id
+EXPECTED: match -> cost.currency_concept_id
+GOT:      ambiguous -> [cost.cost_id, cost.currency_concept_id] (1.000)
+
+TOP CANDIDATES
+  cost.cost_id                     total=1.000  name=1.000  type=1.000  samples=n/a
+  cost.currency_concept_id         total=1.000  name=1.000  type=1.000  samples=n/a
+  cost.revenue_code_concept_id     total=0.853  name=0.792  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  omop_v5_0_1_procedure_cost_to_v5_2_2_cost
+SOURCE:   procedure_cost.paid_copay
+EXPECTED: match -> cost.paid_patient_copay
+GOT:      no_match (0.824)
+
+TOP CANDIDATES
+  cost.paid_patient_copay          total=0.824  name=0.750  type=1.000  samples=n/a
+  cost.paid_by_payer               total=0.782  name=0.691  type=1.000  samples=n/a
+  cost.paid_ingredient_cost        total=0.765  name=0.667  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  omop_v5_0_1_procedure_cost_to_v5_2_2_cost
+SOURCE:   procedure_cost.paid_coinsurance
+EXPECTED: match -> cost.paid_patient_coinsurance
+GOT:      no_match (0.829)
+
+TOP CANDIDATES
+  cost.paid_patient_coinsurance    total=0.829  name=0.757  type=1.000  samples=n/a
+  cost.paid_dispensing_fee         total=0.766  name=0.668  type=1.000  samples=n/a
+  cost.paid_ingredient_cost        total=0.765  name=0.667  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  omop_v5_0_1_procedure_cost_to_v5_2_2_cost
+SOURCE:   procedure_cost.paid_toward_deductible
+EXPECTED: match -> cost.paid_patient_deductible
+GOT:      no_match (0.824)
+
+TOP CANDIDATES
+  cost.paid_patient_deductible     total=0.824  name=0.750  type=1.000  samples=n/a
+  cost.paid_ingredient_cost        total=0.765  name=0.667  type=1.000  samples=n/a
+  cost.total_paid                  total=0.765  name=0.667  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  omop_v5_0_1_procedure_cost_to_v5_2_2_cost
+SOURCE:   procedure_cost.total_out_of_pocket
+EXPECTED: match -> cost.paid_by_patient
+GOT:      match -> cost.total_cost (1.000)
+
+TOP CANDIDATES
+  cost.total_cost                  total=1.000  name=1.000  type=1.000  samples=n/a
+  cost.total_charge                total=0.765  name=0.667  type=1.000  samples=n/a
+  cost.total_paid                  total=0.765  name=0.667  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  omop_v5_0_1_procedure_cost_to_v5_2_2_cost
+SOURCE:   procedure_cost.total_paid
+EXPECTED: match -> cost.total_paid
+GOT:      ambiguous -> [cost.total_cost, cost.total_paid] (1.000)
+
+TOP CANDIDATES
+  cost.total_cost                  total=1.000  name=1.000  type=1.000  samples=n/a
+  cost.total_paid                  total=1.000  name=1.000  type=1.000  samples=n/a
+  cost.total_charge                total=0.782  name=0.691  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  omop_v5_0_1_procedure_cost_to_v5_2_2_cost
+SOURCE:   procedure_cost.revenue_code_concept_id
+EXPECTED: match -> cost.revenue_code_concept_id
+GOT:      ambiguous -> [cost.cost_id, cost.revenue_code_concept_id] (1.000)
+
+TOP CANDIDATES
+  cost.cost_id                     total=1.000  name=1.000  type=1.000  samples=n/a
+  cost.revenue_code_concept_id     total=1.000  name=1.000  type=1.000  samples=n/a
+  cost.cost_type_concept_id        total=0.824  name=0.750  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  omop_v5_0_1_procedure_cost_to_v5_2_2_cost
+SOURCE:   procedure_cost.payer_plan_period_id
+EXPECTED: match -> cost.payer_plan_period_id
+GOT:      ambiguous -> [cost.cost_id, cost.payer_plan_period_id] (1.000)
+
+TOP CANDIDATES
+  cost.cost_id                     total=1.000  name=1.000  type=1.000  samples=n/a
+  cost.payer_plan_period_id        total=1.000  name=1.000  type=1.000  samples=n/a
+  cost.cost_event_id               total=0.765  name=0.667  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  omop_v5_0_1_procedure_cost_to_v5_2_2_cost
+SOURCE:   procedure_cost.revenue_code_source_value
+EXPECTED: match -> cost.reveue_code_source_value
+GOT:      ambiguous -> [cost.reveue_code_source_value, cost.drg_source_value] (0.859)
+
+TOP CANDIDATES
+  cost.reveue_code_source_value    total=0.859  name=0.800  type=1.000  samples=n/a
+  cost.drg_source_value            total=0.824  name=0.750  type=1.000  samples=n/a
+  cost.cost_domain_id              total=0.650  name=0.504  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  omop_v5_2_2_visit_occurrence_to_v5_4_1_visit_occurrence
+SOURCE:   visit_occurrence.visit_occurrence_id
+EXPECTED: match -> VISIT_OCCURRENCE.visit_occurrence_id
+GOT:      ambiguous -> [VISIT_OCCURRENCE.admitted_from_concept_id, VISIT_OCCURRENCE.care_site_id, VISIT_OCCURRENCE.discharged_to_concept_id, VISIT_OCCURRENCE.person_id, VISIT_OCCURRENCE.preceding_visit_occurrence_id, VISIT_OCCURRENCE.provider_id, VISIT_OCCURRENCE.visit_concept_id, VISIT_OCCURRENCE.visit_occurrence_id, VISIT_OCCURRENCE.visit_source_concept_id, VISIT_OCCURRENCE.visit_type_concept_id] (1.000)
+
+TOP CANDIDATES
+  VISIT_OCCURRENCE.admitted_from_concept_id total=1.000  name=1.000  type=1.000  samples=n/a
+  VISIT_OCCURRENCE.care_site_id    total=1.000  name=1.000  type=1.000  samples=n/a
+  VISIT_OCCURRENCE.discharged_to_concept_id total=1.000  name=1.000  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  omop_v5_2_2_visit_occurrence_to_v5_4_1_visit_occurrence
+SOURCE:   visit_occurrence.person_id
+EXPECTED: match -> VISIT_OCCURRENCE.person_id
+GOT:      ambiguous -> [VISIT_OCCURRENCE.person_id, VISIT_OCCURRENCE.visit_occurrence_id, VISIT_OCCURRENCE.provider_id] (1.000)
+
+TOP CANDIDATES
+  VISIT_OCCURRENCE.person_id       total=1.000  name=1.000  type=1.000  samples=n/a
+  VISIT_OCCURRENCE.visit_occurrence_id total=1.000  name=1.000  type=1.000  samples=n/a
+  VISIT_OCCURRENCE.provider_id     total=0.952  name=0.932  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  omop_v5_2_2_visit_occurrence_to_v5_4_1_visit_occurrence
+SOURCE:   visit_occurrence.visit_concept_id
+EXPECTED: match -> VISIT_OCCURRENCE.visit_concept_id
+GOT:      ambiguous -> [VISIT_OCCURRENCE.admitted_from_concept_id, VISIT_OCCURRENCE.discharged_to_concept_id, VISIT_OCCURRENCE.visit_occurrence_id, VISIT_OCCURRENCE.visit_source_concept_id, VISIT_OCCURRENCE.visit_type_concept_id, VISIT_OCCURRENCE.visit_concept_id] (1.000)
+
+TOP CANDIDATES
+  VISIT_OCCURRENCE.admitted_from_concept_id total=1.000  name=1.000  type=1.000  samples=n/a
+  VISIT_OCCURRENCE.discharged_to_concept_id total=1.000  name=1.000  type=1.000  samples=n/a
+  VISIT_OCCURRENCE.visit_occurrence_id total=1.000  name=1.000  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  omop_v5_2_2_visit_occurrence_to_v5_4_1_visit_occurrence
+SOURCE:   visit_occurrence.visit_type_concept_id
+EXPECTED: match -> VISIT_OCCURRENCE.visit_type_concept_id
+GOT:      ambiguous -> [VISIT_OCCURRENCE.visit_concept_id, VISIT_OCCURRENCE.visit_occurrence_id, VISIT_OCCURRENCE.visit_type_concept_id, VISIT_OCCURRENCE.visit_source_concept_id] (1.000)
+
+TOP CANDIDATES
+  VISIT_OCCURRENCE.visit_concept_id total=1.000  name=1.000  type=1.000  samples=n/a
+  VISIT_OCCURRENCE.visit_occurrence_id total=1.000  name=1.000  type=1.000  samples=n/a
+  VISIT_OCCURRENCE.visit_type_concept_id total=1.000  name=1.000  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  omop_v5_2_2_visit_occurrence_to_v5_4_1_visit_occurrence
+SOURCE:   visit_occurrence.provider_id
+EXPECTED: match -> VISIT_OCCURRENCE.provider_id
+GOT:      ambiguous -> [VISIT_OCCURRENCE.provider_id, VISIT_OCCURRENCE.visit_occurrence_id, VISIT_OCCURRENCE.person_id] (1.000)
+
+TOP CANDIDATES
+  VISIT_OCCURRENCE.provider_id     total=1.000  name=1.000  type=1.000  samples=n/a
+  VISIT_OCCURRENCE.visit_occurrence_id total=1.000  name=1.000  type=1.000  samples=n/a
+  VISIT_OCCURRENCE.person_id       total=0.952  name=0.932  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  omop_v5_2_2_visit_occurrence_to_v5_4_1_visit_occurrence
+SOURCE:   visit_occurrence.care_site_id
+EXPECTED: match -> VISIT_OCCURRENCE.care_site_id
+GOT:      ambiguous -> [VISIT_OCCURRENCE.care_site_id, VISIT_OCCURRENCE.visit_occurrence_id] (1.000)
+
+TOP CANDIDATES
+  VISIT_OCCURRENCE.care_site_id    total=1.000  name=1.000  type=1.000  samples=n/a
+  VISIT_OCCURRENCE.visit_occurrence_id total=1.000  name=1.000  type=1.000  samples=n/a
+  VISIT_OCCURRENCE.person_id       total=0.946  name=0.924  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  omop_v5_2_2_visit_occurrence_to_v5_4_1_visit_occurrence
+SOURCE:   visit_occurrence.visit_source_value
+EXPECTED: match -> VISIT_OCCURRENCE.visit_source_value
+GOT:      ambiguous -> [VISIT_OCCURRENCE.admitted_from_source_value, VISIT_OCCURRENCE.discharged_to_source_value, VISIT_OCCURRENCE.visit_source_value] (1.000)
+
+TOP CANDIDATES
+  VISIT_OCCURRENCE.admitted_from_source_value total=1.000  name=1.000  type=1.000  samples=n/a
+  VISIT_OCCURRENCE.discharged_to_source_value total=1.000  name=1.000  type=1.000  samples=n/a
+  VISIT_OCCURRENCE.visit_source_value total=1.000  name=1.000  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  omop_v5_2_2_visit_occurrence_to_v5_4_1_visit_occurrence
+SOURCE:   visit_occurrence.visit_source_concept_id
+EXPECTED: match -> VISIT_OCCURRENCE.visit_source_concept_id
+GOT:      ambiguous -> [VISIT_OCCURRENCE.visit_concept_id, VISIT_OCCURRENCE.visit_occurrence_id, VISIT_OCCURRENCE.visit_source_concept_id, VISIT_OCCURRENCE.visit_type_concept_id, VISIT_OCCURRENCE.discharged_to_concept_id] (1.000)
+
+TOP CANDIDATES
+  VISIT_OCCURRENCE.visit_concept_id total=1.000  name=1.000  type=1.000  samples=n/a
+  VISIT_OCCURRENCE.visit_occurrence_id total=1.000  name=1.000  type=1.000  samples=n/a
+  VISIT_OCCURRENCE.visit_source_concept_id total=1.000  name=1.000  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  omop_v5_2_2_visit_occurrence_to_v5_4_1_visit_occurrence
+SOURCE:   visit_occurrence.admitting_source_concept_id
+EXPECTED: match -> VISIT_OCCURRENCE.admitted_from_concept_id
+GOT:      ambiguous -> [VISIT_OCCURRENCE.visit_concept_id, VISIT_OCCURRENCE.visit_occurrence_id, VISIT_OCCURRENCE.visit_source_concept_id] (1.000)
+
+TOP CANDIDATES
+  VISIT_OCCURRENCE.visit_concept_id total=1.000  name=1.000  type=1.000  samples=n/a
+  VISIT_OCCURRENCE.visit_occurrence_id total=1.000  name=1.000  type=1.000  samples=n/a
+  VISIT_OCCURRENCE.visit_source_concept_id total=1.000  name=1.000  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  omop_v5_2_2_visit_occurrence_to_v5_4_1_visit_occurrence
+SOURCE:   visit_occurrence.admitting_source_value
+EXPECTED: match -> VISIT_OCCURRENCE.admitted_from_source_value
+GOT:      match -> VISIT_OCCURRENCE.visit_source_value (1.000)
+
+TOP CANDIDATES
+  VISIT_OCCURRENCE.visit_source_value total=1.000  name=1.000  type=1.000  samples=n/a
+  VISIT_OCCURRENCE.admitted_from_source_value total=0.944  name=0.920  type=1.000  samples=n/a
+  VISIT_OCCURRENCE.discharged_to_source_value total=0.921  name=0.889  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  omop_v5_2_2_visit_occurrence_to_v5_4_1_visit_occurrence
+SOURCE:   visit_occurrence.discharge_to_concept_id
+EXPECTED: match -> VISIT_OCCURRENCE.discharged_to_concept_id
+GOT:      ambiguous -> [VISIT_OCCURRENCE.visit_concept_id, VISIT_OCCURRENCE.visit_occurrence_id, VISIT_OCCURRENCE.discharged_to_concept_id] (1.000)
+
+TOP CANDIDATES
+  VISIT_OCCURRENCE.visit_concept_id total=1.000  name=1.000  type=1.000  samples=n/a
+  VISIT_OCCURRENCE.visit_occurrence_id total=1.000  name=1.000  type=1.000  samples=n/a
+  VISIT_OCCURRENCE.discharged_to_concept_id total=0.976  name=0.966  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  omop_v5_2_2_visit_occurrence_to_v5_4_1_visit_occurrence
+SOURCE:   visit_occurrence.discharge_to_source_value
+EXPECTED: match -> VISIT_OCCURRENCE.discharged_to_source_value
+GOT:      ambiguous -> [VISIT_OCCURRENCE.visit_source_value, VISIT_OCCURRENCE.discharged_to_source_value] (1.000)
+
+TOP CANDIDATES
+  VISIT_OCCURRENCE.visit_source_value total=1.000  name=1.000  type=1.000  samples=n/a
+  VISIT_OCCURRENCE.discharged_to_source_value total=0.996  name=0.995  type=1.000  samples=n/a
+  VISIT_OCCURRENCE.admitted_from_source_value total=0.945  name=0.922  type=1.000  samples=n/a
+
+====================================================================================================
+DATASET:  omop_v5_2_2_visit_occurrence_to_v5_4_1_visit_occurrence
+SOURCE:   visit_occurrence.preceding_visit_occurrence_id
+EXPECTED: match -> VISIT_OCCURRENCE.preceding_visit_occurrence_id
+GOT:      ambiguous -> [VISIT_OCCURRENCE.preceding_visit_occurrence_id, VISIT_OCCURRENCE.visit_occurrence_id] (1.000)
+
+TOP CANDIDATES
+  VISIT_OCCURRENCE.preceding_visit_occurrence_id total=1.000  name=1.000  type=1.000  samples=n/a
+  VISIT_OCCURRENCE.visit_occurrence_id total=1.000  name=1.000  type=1.000  samples=n/a
+  VISIT_OCCURRENCE.provider_id     total=0.928  name=0.898  type=1.000  samples=n/a
+Semantic suggestion quality regression check passed (existing errors remain visible).

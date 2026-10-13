@@ -1,0 +1,1437 @@
+{
+  "baseline_revision": "c6b5a2caa2c337ee63ff0dd2993bed352eff2637",
+  "scope": "Existing exposed reliability corpus only; failure classification is not a claim of fixability or independent improvement. Primary categories are mutually exclusive human source-level diagnoses; other mechanisms can co-occur.",
+  "event_counts": {
+    "incorrect_automatic_matches": 20,
+    "missed_renamed_correspondences": 62,
+    "overlap": 8,
+    "unique_fields": 74
+  },
+  "category_counts": {
+    "incorrect_automatic_match": {
+      "explicit_code_description_role_not_used": 3,
+      "generic_identifier_alias_without_entity_role": 1,
+      "hierarchical_leaf_role_not_preserved": 8,
+      "representation_type_change": 2,
+      "role_missing_from_supplied_input": 5,
+      "unrelated_fuzzy_abbreviation": 1
+    },
+    "missed_renamed_match": {
+      "abbreviation_truncation_and_missing_evidence_gate": 13,
+      "explicit_code_description_role_not_used": 6,
+      "generic_quantity_missing_semantic_scope": 1,
+      "hierarchical_leaf_role_not_preserved": 25,
+      "role_missing_from_supplied_input": 3,
+      "semantic_alias_requires_external_context": 14
+    }
+  },
+  "evidence_availability_counts": {
+    "incorrect_automatic_match": {
+      "missing": 5,
+      "partial": 3,
+      "present": 12
+    },
+    "missed_renamed_match": {
+      "missing": 3,
+      "partial": 15,
+      "present": 44
+    }
+  },
+  "classification_notes": "Present means a useful contrast exists in supplied names/paths, not that a fix is known or uniquely correct. Partial means plausibility without semantic proof; Missing means the relevant role distinction is absent from the supplied Field. Categories are source-reviewed interpretations, not machine-derived gold labels. Ambiguous actual decisions record count and gold membership instead of copying all candidate names. Evidence document indices refer to evidence_documents.",
+  "categories": {
+    "hierarchical_leaf_role_not_preserved": {
+      "evidence_availability": "present",
+      "available_evidence": "Leaf names, parent paths, camelCase word boundaries, and nearby fields distinguish candidates. Flat normalized whole-name similarity allows long common prefixes or generic leaves to dominate. Different parent or terminal labels are evidence to use, not a proof that a rename is invalid."
+    },
+    "explicit_code_description_role_not_used": {
+      "evidence_availability": "present",
+      "available_evidence": "Description/code role words are present, sometimes as desc/truncated abbreviations. Token containment ignores extra role words and can tie a description with its code."
+    },
+    "abbreviation_truncation_and_missing_evidence_gate": {
+      "evidence_availability": "present",
+      "available_evidence": "Names expose many retained words or abbreviations and all13 gold candidates rank first except highly-compensated-officer (rank10). Source type is Unknown and samples absent. The absolute-evidence gate requires name score at least119/120=.991666..., despite correct normalized ranking. Raising evidence credit globally is unsafe."
+    },
+    "role_missing_from_supplied_input": {
+      "evidence_availability": "missing",
+      "available_evidence": "Source values and storage type are unavailable; source names do not mark description-vs-code role. Archived publisher crosswalk assigns different meanings to deceptively same field names. Requires richer metadata or user confirmation; exact-name heuristics alone cannot prove equivalence."
+    },
+    "semantic_alias_requires_external_context": {
+      "evidence_availability": "partial",
+      "available_evidence": "Some concept or entity-role words overlap, but replacements such as recipient/legal_entity, acquisition_program/program_system_or_equipment, or fsrs_report_id/internal_id lack sufficient current input evidence. Archived publisher crosswalk supports the labels; no samples and Unknown source type."
+    },
+    "generic_identifier_alias_without_entity_role": {
+      "evidence_availability": "partial",
+      "available_evidence": "id/key canonicalization makes a generic object identifier equal a lookup key. Entity/identifier scope is missing from input, although different surface names warn of uncertainty."
+    },
+    "generic_quantity_missing_semantic_scope": {
+      "evidence_availability": "partial",
+      "available_evidence": "amount is compatible with multiple nested amount values. Path scopes distinguish base and tier/custom values, but source amount has no declared quantity role or samples. Publisher definition identifies the per-unit amount."
+    },
+    "representation_type_change": {
+      "evidence_availability": "partial",
+      "available_evidence": "Same complete path denotes start/end; source Integer versus target Timestamp loses all type credit, so a same-Integer speed candidate outranks it. Units/epoch conversion are documented externally; inferring every integer as temporal would be unsafe."
+    },
+    "unrelated_fuzzy_abbreviation": {
+      "evidence_availability": "present",
+      "available_evidence": "Flat amount/decimal and tiers mode are distinct roles in the actual field name. Skim subsequence fallback supplies overly strong name evidence despite unrelated words."
+    }
+  },
+  "evidence_documents": [
+    {
+      "path": "eval_reliability/sources/blind2/financial/evidence.json",
+      "sha256": "905e1a6433aa8d48c3a3ecab6e5cf9c2ff60d5b2e03d03d19ebf66134226e105"
+    },
+    {
+      "path": "eval_reliability/sources/blind2/healthcare/evidence.json",
+      "sha256": "fdd73d999b2162b66e61f60cad6b2e62f9cacc662de01ce4cea5eca6a4e12519"
+    },
+    {
+      "path": "eval_reliability/sources/financial/stripe_manifest.json",
+      "sha256": "11648c628567ebc5e602eff3e25194ef2ef7accb727a5776bdaefa440dec38cd"
+    },
+    {
+      "path": "eval_reliability/sources/financial/treasury/treasury_evidence.frozen.json",
+      "sha256": "82be6df0c34475d8abde87f0f5349a78ba155411d9a267780c715916c57c546e"
+    },
+    {
+      "path": "eval_reliability/sources/healthcare/evidence.json",
+      "sha256": "99300b6e85ab16cc2988444e174a5c50cc9ae1b00cac7fb60b11a79808a5a655"
+    },
+    {
+      "path": "eval_reliability/sources/operations/dcsa_tnt/field_evidence.json",
+      "sha256": "ce0f06f64f3fac14244bbc0185a396442728477a362c1562eb6a00a61fe7e985"
+    },
+    {
+      "path": "eval_reliability/sources/operations/evidence/gbfs_geofencing_2_3_to_3_0_scopes.json",
+      "sha256": "f3e3cdd90fbc5350759f6ba3d1bc8822fd1227301d2eb9e3089e7a6592eb0989"
+    },
+    {
+      "path": "eval_reliability/sources/operations/evidence/gbfs_vehicle_2_3_to_3_0_projected.json",
+      "sha256": "fd6270b92b258baa51dc3e0a2726da71834fe4b368e2e1cdce62dc2d685c298a"
+    }
+  ],
+  "case_sha256": {
+    "eval_reliability/financial_01.json": "0eb10de0f53e3e3e1aae2e1372d168eacc2c344c397f98eadc6a8434aa9a055a",
+    "eval_reliability/financial_02.json": "f80114f39ca55e6f54389dadc07707846688f9fbce5f23d729ab7da0163e92b4",
+    "eval_reliability/financial_03.json": "30d435956389302352ab2a95d9aa93a42f543c274be24b47eb3076b95a07460b",
+    "eval_reliability/healthcare_01.json": "9b3dc0cb6e2ac75b820651b74abf70168f3707599641373df6e7e0bf4c51ee3d",
+    "eval_reliability/healthcare_02.json": "5c49b24d0320a309320a7f4b6343be72f730d9141d9e1398cadbe32c1fba0ecf",
+    "eval_reliability/operations_01.json": "75d39bf538c2023699302aefb0cd552d1bdf3a229a6f514eec080a7495c11c13",
+    "eval_reliability/operations_02.json": "6a8307cbc7cad5d8cf960ce9ce3d1feeaeab6102ed2ee5f19e76b2efdb38c70e",
+    "eval_reliability/operations_03.json": "b64912a4f9f1c104f85418de6f0cffc8599541f0ec60af7fa5570bc99bbd3fbc",
+    "eval_reliability_new/financial_01.json": "1650f5c3b1777e67d2f3874f4e21ebe790b6472b79f25db0ff6f86dfe6157649",
+    "eval_reliability_new/healthcare_01.json": "de6daeb8ff276295916ab4c0d2bdc1aac4b26ea4b60c4d0f0016b28e3fe45b99"
+  },
+  "fields": [
+    {
+      "dataset": "eval_reliability/financial_01.json",
+      "source": "amount",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "generic_quantity_missing_semantic_scope",
+      "expected": {
+        "kind": "match",
+        "target": "unit_amount"
+      },
+      "actual": {
+        "kind": "ambiguous",
+        "targets_count": 5,
+        "includes_gold": true
+      },
+      "gold_rank": 5,
+      "evidence_document": 2,
+      "evidence_locator": "amount"
+    },
+    {
+      "dataset": "eval_reliability/financial_01.json",
+      "source": "id",
+      "wrong_auto": true,
+      "missed_rename": false,
+      "category": "generic_identifier_alias_without_entity_role",
+      "expected": {
+        "kind": "no_match"
+      },
+      "actual": {
+        "kind": "match",
+        "target": "lookup_key"
+      },
+      "gold_rank": null,
+      "evidence_document": 2,
+      "evidence_locator": "id"
+    },
+    {
+      "dataset": "eval_reliability/financial_01.json",
+      "source": "tiers[].flat_amount_decimal",
+      "wrong_auto": true,
+      "missed_rename": false,
+      "category": "unrelated_fuzzy_abbreviation",
+      "expected": {
+        "kind": "no_match"
+      },
+      "actual": {
+        "kind": "match",
+        "target": "tiers_mode"
+      },
+      "gold_rank": null,
+      "evidence_document": 2,
+      "evidence_locator": "tiers[].flat_amount_decimal"
+    },
+    {
+      "dataset": "eval_reliability/financial_01.json",
+      "source": "usage_type",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "match",
+        "target": "recurring.usage_type"
+      },
+      "actual": {
+        "kind": "ambiguous",
+        "targets_count": 2,
+        "includes_gold": true
+      },
+      "gold_rank": 1,
+      "evidence_document": 2,
+      "evidence_locator": "usage_type"
+    },
+    {
+      "dataset": "eval_reliability/financial_02.json",
+      "source": "assistance_transaction_unique_key",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "semantic_alias_requires_external_context",
+      "expected": {
+        "kind": "match",
+        "target": "afa_generated_unique"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 4,
+      "evidence_document": 3,
+      "evidence_locator": "Public row 26"
+    },
+    {
+      "dataset": "eval_reliability/financial_02.json",
+      "source": "assistance_type_description",
+      "wrong_auto": true,
+      "missed_rename": false,
+      "category": "explicit_code_description_role_not_used",
+      "expected": {
+        "kind": "no_match"
+      },
+      "actual": {
+        "kind": "match",
+        "target": "assistance_type"
+      },
+      "gold_rank": null,
+      "evidence_document": 3,
+      "evidence_locator": "Public row 28"
+    },
+    {
+      "dataset": "eval_reliability/financial_02.json",
+      "source": "business_funds_indicator_description",
+      "wrong_auto": true,
+      "missed_rename": true,
+      "category": "explicit_code_description_role_not_used",
+      "expected": {
+        "kind": "match",
+        "target": "business_funds_ind_desc"
+      },
+      "actual": {
+        "kind": "match",
+        "target": "business_funds_indicator"
+      },
+      "gold_rank": 2,
+      "evidence_document": 3,
+      "evidence_locator": "Public row 53"
+    },
+    {
+      "dataset": "eval_reliability/financial_02.json",
+      "source": "business_types_code",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "explicit_code_description_role_not_used",
+      "expected": {
+        "kind": "match",
+        "target": "business_types"
+      },
+      "actual": {
+        "kind": "ambiguous",
+        "targets_count": 2,
+        "includes_gold": true
+      },
+      "gold_rank": 1,
+      "evidence_document": 3,
+      "evidence_locator": "Public row 54"
+    },
+    {
+      "dataset": "eval_reliability/financial_02.json",
+      "source": "business_types_description",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "explicit_code_description_role_not_used",
+      "expected": {
+        "kind": "match",
+        "target": "business_types_desc"
+      },
+      "actual": {
+        "kind": "ambiguous",
+        "targets_count": 2,
+        "includes_gold": true
+      },
+      "gold_rank": 2,
+      "evidence_document": 3,
+      "evidence_locator": "Public row 55"
+    },
+    {
+      "dataset": "eval_reliability/financial_02.json",
+      "source": "correction_delete_indicator_code",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "abbreviation_truncation_and_missing_evidence_gate",
+      "expected": {
+        "kind": "match",
+        "target": "correction_delete_indicatr"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 1,
+      "evidence_document": 3,
+      "evidence_locator": "Public row 89"
+    },
+    {
+      "dataset": "eval_reliability/financial_02.json",
+      "source": "correction_delete_indicator_description",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "explicit_code_description_role_not_used",
+      "expected": {
+        "kind": "match",
+        "target": "correction_delete_ind_desc"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 2,
+      "evidence_document": 3,
+      "evidence_locator": "Public row 90"
+    },
+    {
+      "dataset": "eval_reliability/financial_02.json",
+      "source": "indirect_cost_federal_share_amount",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "semantic_alias_requires_external_context",
+      "expected": {
+        "kind": "match",
+        "target": "indirect_federal_sharing"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 1,
+      "evidence_document": 3,
+      "evidence_locator": "Public row 189"
+    },
+    {
+      "dataset": "eval_reliability/financial_02.json",
+      "source": "recipient_city_code",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "semantic_alias_requires_external_context",
+      "expected": {
+        "kind": "match",
+        "target": "legal_entity_city_code"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 1,
+      "evidence_document": 3,
+      "evidence_locator": "Public row 207"
+    },
+    {
+      "dataset": "eval_reliability/financial_02.json",
+      "source": "recipient_foreign_province_name",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "semantic_alias_requires_external_context",
+      "expected": {
+        "kind": "match",
+        "target": "legal_entity_foreign_provi"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 3,
+      "evidence_document": 3,
+      "evidence_locator": "Public row 216"
+    },
+    {
+      "dataset": "eval_reliability/financial_02.json",
+      "source": "primary_place_of_performance_foreign_location",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "abbreviation_truncation_and_missing_evidence_gate",
+      "expected": {
+        "kind": "match",
+        "target": "place_of_performance_forei"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 1,
+      "evidence_document": 3,
+      "evidence_locator": "Public row 293"
+    },
+    {
+      "dataset": "eval_reliability/financial_02.json",
+      "source": "record_type_description",
+      "wrong_auto": true,
+      "missed_rename": false,
+      "category": "explicit_code_description_role_not_used",
+      "expected": {
+        "kind": "no_match"
+      },
+      "actual": {
+        "kind": "match",
+        "target": "record_type"
+      },
+      "gold_rank": null,
+      "evidence_document": 3,
+      "evidence_locator": "Public row 314"
+    },
+    {
+      "dataset": "eval_reliability/financial_03.json",
+      "source": "base_and_exercised_options_value",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "abbreviation_truncation_and_missing_evidence_gate",
+      "expected": {
+        "kind": "match",
+        "target": "base_exercised_options_val"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 1,
+      "evidence_document": 3,
+      "evidence_locator": "Public row 44"
+    },
+    {
+      "dataset": "eval_reliability/financial_03.json",
+      "source": "potential_total_value_of_award",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "abbreviation_truncation_and_missing_evidence_gate",
+      "expected": {
+        "kind": "match",
+        "target": "potential_total_value_awar"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 1,
+      "evidence_document": 3,
+      "evidence_locator": "Public row 284"
+    },
+    {
+      "dataset": "eval_reliability/financial_03.json",
+      "source": "period_of_performance_potential_end_date",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "abbreviation_truncation_and_missing_evidence_gate",
+      "expected": {
+        "kind": "match",
+        "target": "period_of_perf_potential_e"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 1,
+      "evidence_document": 3,
+      "evidence_locator": "Public row 278"
+    },
+    {
+      "dataset": "eval_reliability/financial_03.json",
+      "source": "cost_or_pricing_data",
+      "wrong_auto": true,
+      "missed_rename": false,
+      "category": "role_missing_from_supplied_input",
+      "expected": {
+        "kind": "no_match"
+      },
+      "actual": {
+        "kind": "match",
+        "target": "cost_or_pricing_data"
+      },
+      "gold_rank": null,
+      "evidence_document": 3,
+      "evidence_locator": "Public row 94"
+    },
+    {
+      "dataset": "eval_reliability/financial_03.json",
+      "source": "evaluated_preference",
+      "wrong_auto": true,
+      "missed_rename": false,
+      "category": "role_missing_from_supplied_input",
+      "expected": {
+        "kind": "no_match"
+      },
+      "actual": {
+        "kind": "match",
+        "target": "evaluated_preference"
+      },
+      "gold_rank": null,
+      "evidence_document": 3,
+      "evidence_locator": "Public row 130"
+    },
+    {
+      "dataset": "eval_reliability/financial_03.json",
+      "source": "extent_competed",
+      "wrong_auto": true,
+      "missed_rename": true,
+      "category": "role_missing_from_supplied_input",
+      "expected": {
+        "kind": "match",
+        "target": "extent_compete_description"
+      },
+      "actual": {
+        "kind": "match",
+        "target": "extent_competed"
+      },
+      "gold_rank": 2,
+      "evidence_document": 3,
+      "evidence_locator": "Public row 132"
+    },
+    {
+      "dataset": "eval_reliability/financial_03.json",
+      "source": "product_or_service_code_description",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "explicit_code_description_role_not_used",
+      "expected": {
+        "kind": "match",
+        "target": "product_or_service_co_desc"
+      },
+      "actual": {
+        "kind": "ambiguous",
+        "targets_count": 2,
+        "includes_gold": true
+      },
+      "gold_rank": 2,
+      "evidence_document": 3,
+      "evidence_locator": "Public row 306"
+    },
+    {
+      "dataset": "eval_reliability/financial_03.json",
+      "source": "solicitation_procedures",
+      "wrong_auto": true,
+      "missed_rename": false,
+      "category": "role_missing_from_supplied_input",
+      "expected": {
+        "kind": "no_match"
+      },
+      "actual": {
+        "kind": "match",
+        "target": "solicitation_procedures"
+      },
+      "gold_rank": null,
+      "evidence_document": 3,
+      "evidence_locator": "Public row 344"
+    },
+    {
+      "dataset": "eval_reliability/financial_03.json",
+      "source": "type_of_set_aside",
+      "wrong_auto": true,
+      "missed_rename": true,
+      "category": "role_missing_from_supplied_input",
+      "expected": {
+        "kind": "match",
+        "target": "type_set_aside_description"
+      },
+      "actual": {
+        "kind": "match",
+        "target": "type_set_aside"
+      },
+      "gold_rank": 2,
+      "evidence_document": 3,
+      "evidence_locator": "Public row 414"
+    },
+    {
+      "dataset": "eval_reliability/financial_03.json",
+      "source": "type_of_contract_pricing_code",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "explicit_code_description_role_not_used",
+      "expected": {
+        "kind": "match",
+        "target": "type_of_contract_pricing"
+      },
+      "actual": {
+        "kind": "ambiguous",
+        "targets_count": 2,
+        "includes_gold": true
+      },
+      "gold_rank": 1,
+      "evidence_document": 3,
+      "evidence_locator": "Public row 417"
+    },
+    {
+      "dataset": "eval_reliability/financial_03.json",
+      "source": "type_of_contract_pricing",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "role_missing_from_supplied_input",
+      "expected": {
+        "kind": "match",
+        "target": "type_of_contract_pric_desc"
+      },
+      "actual": {
+        "kind": "ambiguous",
+        "targets_count": 2,
+        "includes_gold": true
+      },
+      "gold_rank": 2,
+      "evidence_document": 3,
+      "evidence_locator": "Public row 418"
+    },
+    {
+      "dataset": "eval_reliability/financial_03.json",
+      "source": "dod_acquisition_program_code",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "semantic_alias_requires_external_context",
+      "expected": {
+        "kind": "match",
+        "target": "program_system_or_equipmen"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 13,
+      "evidence_document": 3,
+      "evidence_locator": "Public row 100"
+    },
+    {
+      "dataset": "eval_reliability/financial_03.json",
+      "source": "dod_acquisition_program_description",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "semantic_alias_requires_external_context",
+      "expected": {
+        "kind": "match",
+        "target": "program_system_or_equ_desc"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 10,
+      "evidence_document": 3,
+      "evidence_locator": "Public row 101"
+    },
+    {
+      "dataset": "eval_reliability/healthcare_01.json",
+      "source": "period.start",
+      "wrong_auto": true,
+      "missed_rename": true,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "match",
+        "target": "actualPeriod.start"
+      },
+      "actual": {
+        "kind": "match",
+        "target": "location.period.start"
+      },
+      "gold_rank": 2,
+      "evidence_document": 4,
+      "evidence_locator": "Worksheet[Data Elements]/Row[23]"
+    },
+    {
+      "dataset": "eval_reliability/healthcare_01.json",
+      "source": "status",
+      "wrong_auto": true,
+      "missed_rename": false,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "no_match"
+      },
+      "actual": {
+        "kind": "match",
+        "target": "location.status"
+      },
+      "gold_rank": null,
+      "evidence_document": 4,
+      "evidence_locator": "Worksheet[Data Elements]/Row[4]"
+    },
+    {
+      "dataset": "eval_reliability/healthcare_02.json",
+      "source": "performedPeriod.start",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "match",
+        "target": "occurrencePeriod.start"
+      },
+      "actual": {
+        "kind": "ambiguous",
+        "targets_count": 2,
+        "includes_gold": true
+      },
+      "gold_rank": 1,
+      "evidence_document": 4,
+      "evidence_locator": "Worksheet[Data Elements]/Row[15]"
+    },
+    {
+      "dataset": "eval_reliability/healthcare_02.json",
+      "source": "performedPeriod.end",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "match",
+        "target": "occurrencePeriod.end"
+      },
+      "actual": {
+        "kind": "ambiguous",
+        "targets_count": 3,
+        "includes_gold": true
+      },
+      "gold_rank": 1,
+      "evidence_document": 4,
+      "evidence_locator": "Worksheet[Data Elements]/Row[15]"
+    },
+    {
+      "dataset": "eval_reliability/healthcare_02.json",
+      "source": "performer.onBehalfOf.reference",
+      "wrong_auto": true,
+      "missed_rename": false,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "no_match"
+      },
+      "actual": {
+        "kind": "match",
+        "target": "performer.actor.reference"
+      },
+      "gold_rank": null,
+      "evidence_document": 4,
+      "evidence_locator": "Worksheet[Data Elements]/Row[21]"
+    },
+    {
+      "dataset": "eval_reliability/operations_01.json",
+      "source": "data.geofencing_zones.features[].properties.name",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "match",
+        "target": "data.geofencing_zones.features[].properties.name[].text"
+      },
+      "actual": {
+        "kind": "ambiguous",
+        "targets_count": 5,
+        "includes_gold": true
+      },
+      "gold_rank": 2,
+      "evidence_document": 6,
+      "evidence_locator": "data.geofencing_zones.features[].properties.name"
+    },
+    {
+      "dataset": "eval_reliability/operations_01.json",
+      "source": "data.geofencing_zones.features[].properties.start",
+      "wrong_auto": true,
+      "missed_rename": false,
+      "category": "representation_type_change",
+      "expected": {
+        "kind": "match",
+        "target": "data.geofencing_zones.features[].properties.start"
+      },
+      "actual": {
+        "kind": "match",
+        "target": "data.geofencing_zones.features[].properties.rules[].maximum_speed_kph"
+      },
+      "gold_rank": 5,
+      "evidence_document": 6,
+      "evidence_locator": "data.geofencing_zones.features[].properties.start"
+    },
+    {
+      "dataset": "eval_reliability/operations_01.json",
+      "source": "data.geofencing_zones.features[].properties.end",
+      "wrong_auto": true,
+      "missed_rename": false,
+      "category": "representation_type_change",
+      "expected": {
+        "kind": "match",
+        "target": "data.geofencing_zones.features[].properties.end"
+      },
+      "actual": {
+        "kind": "match",
+        "target": "data.geofencing_zones.features[].properties.rules[].maximum_speed_kph"
+      },
+      "gold_rank": 4,
+      "evidence_document": 6,
+      "evidence_locator": "data.geofencing_zones.features[].properties.end"
+    },
+    {
+      "dataset": "eval_reliability/operations_02.json",
+      "source": "data.bikes[].rental_uris.android",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "match",
+        "target": "data.vehicles[].rental_uris.android"
+      },
+      "actual": {
+        "kind": "ambiguous",
+        "targets_count": 3,
+        "includes_gold": true
+      },
+      "gold_rank": 1,
+      "evidence_document": 7,
+      "evidence_locator": "data.bikes[].rental_uris.android"
+    },
+    {
+      "dataset": "eval_reliability/operations_02.json",
+      "source": "data.bikes[].rental_uris.ios",
+      "wrong_auto": true,
+      "missed_rename": true,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "match",
+        "target": "data.vehicles[].rental_uris.ios"
+      },
+      "actual": {
+        "kind": "match",
+        "target": "data.vehicles[].rental_uris.web"
+      },
+      "gold_rank": 2,
+      "evidence_document": 7,
+      "evidence_locator": "data.bikes[].rental_uris.ios"
+    },
+    {
+      "dataset": "eval_reliability/operations_02.json",
+      "source": "data.bikes[].rental_uris.web",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "match",
+        "target": "data.vehicles[].rental_uris.web"
+      },
+      "actual": {
+        "kind": "ambiguous",
+        "targets_count": 2,
+        "includes_gold": true
+      },
+      "gold_rank": 1,
+      "evidence_document": 7,
+      "evidence_locator": "data.bikes[].rental_uris.web"
+    },
+    {
+      "dataset": "eval_reliability/operations_02.json",
+      "source": "data.bikes[].current_fuel_percent",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "match",
+        "target": "data.vehicles[].current_fuel_percent"
+      },
+      "actual": {
+        "kind": "ambiguous",
+        "targets_count": 2,
+        "includes_gold": true
+      },
+      "gold_rank": 1,
+      "evidence_document": 7,
+      "evidence_locator": "data.bikes[].current_fuel_percent"
+    },
+    {
+      "dataset": "eval_reliability/operations_02.json",
+      "source": "data.bikes[].home_station_id",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "match",
+        "target": "data.vehicles[].home_station_id"
+      },
+      "actual": {
+        "kind": "ambiguous",
+        "targets_count": 2,
+        "includes_gold": true
+      },
+      "gold_rank": 1,
+      "evidence_document": 7,
+      "evidence_locator": "data.bikes[].home_station_id"
+    },
+    {
+      "dataset": "eval_reliability/operations_02.json",
+      "source": "data.bikes[].available_until",
+      "wrong_auto": true,
+      "missed_rename": true,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "match",
+        "target": "data.vehicles[].available_until"
+      },
+      "actual": {
+        "kind": "match",
+        "target": "data.vehicles[].rental_uris.web"
+      },
+      "gold_rank": 2,
+      "evidence_document": 7,
+      "evidence_locator": "data.bikes[].available_until"
+    },
+    {
+      "dataset": "eval_reliability/operations_03.json",
+      "source": "eventClassifierCode",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "match",
+        "target": "eventClassification.eventClassifier"
+      },
+      "actual": {
+        "kind": "ambiguous",
+        "targets_count": 8,
+        "includes_gold": true
+      },
+      "gold_rank": 2,
+      "evidence_document": 5,
+      "evidence_locator": "eventClassifierCode"
+    },
+    {
+      "dataset": "eval_reliability/operations_03.json",
+      "source": "equipmentEventTypeCode",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "match",
+        "target": "eventClassification.equipmentEventType"
+      },
+      "actual": {
+        "kind": "ambiguous",
+        "targets_count": 6,
+        "includes_gold": false
+      },
+      "gold_rank": 12,
+      "evidence_document": 5,
+      "evidence_locator": "equipmentEventTypeCode"
+    },
+    {
+      "dataset": "eval_reliability/operations_03.json",
+      "source": "emptyIndicatorCode",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "match",
+        "target": "equipmentDetails.emptyIndicator"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 6,
+      "evidence_document": 5,
+      "evidence_locator": "emptyIndicatorCode"
+    },
+    {
+      "dataset": "eval_reliability/operations_03.json",
+      "source": "eventLocation.latitude",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "match",
+        "target": "eventLocation.geoCoordinate.latitude"
+      },
+      "actual": {
+        "kind": "ambiguous",
+        "targets_count": 2,
+        "includes_gold": true
+      },
+      "gold_rank": 1,
+      "evidence_document": 5,
+      "evidence_locator": "eventLocation.latitude"
+    },
+    {
+      "dataset": "eval_reliability/operations_03.json",
+      "source": "eventLocation.longitude",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "match",
+        "target": "eventLocation.geoCoordinate.longitude"
+      },
+      "actual": {
+        "kind": "ambiguous",
+        "targets_count": 2,
+        "includes_gold": true
+      },
+      "gold_rank": 1,
+      "evidence_document": 5,
+      "evidence_locator": "eventLocation.longitude"
+    },
+    {
+      "dataset": "eval_reliability/operations_03.json",
+      "source": "transportCall.carrierServiceCode",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "match",
+        "target": "transportDetails.transportCall.serviceCodeOrReference.carrierServiceCode"
+      },
+      "actual": {
+        "kind": "ambiguous",
+        "targets_count": 2,
+        "includes_gold": true
+      },
+      "gold_rank": 2,
+      "evidence_document": 5,
+      "evidence_locator": "transportCall.carrierServiceCode"
+    },
+    {
+      "dataset": "eval_reliability/operations_03.json",
+      "source": "transportCall.exportVoyageNumber",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "match",
+        "target": "transportDetails.transportCall.exportVoyageNumberOrReference.carrierVoyageNumber"
+      },
+      "actual": {
+        "kind": "ambiguous",
+        "targets_count": 2,
+        "includes_gold": true
+      },
+      "gold_rank": 1,
+      "evidence_document": 5,
+      "evidence_locator": "transportCall.exportVoyageNumber"
+    },
+    {
+      "dataset": "eval_reliability/operations_03.json",
+      "source": "transportCall.vessel.vesselIMONumber",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "match",
+        "target": "transportDetails.transportCall.vesselTransport.vesselIMONumber"
+      },
+      "actual": {
+        "kind": "ambiguous",
+        "targets_count": 2,
+        "includes_gold": true
+      },
+      "gold_rank": 1,
+      "evidence_document": 5,
+      "evidence_locator": "transportCall.vessel.vesselIMONumber"
+    },
+    {
+      "dataset": "eval_reliability/operations_03.json",
+      "source": "transportCall.vessel.vesselCallSignNumber",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "match",
+        "target": "transportDetails.transportCall.vesselTransport.vesselCallSign"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 2,
+      "evidence_document": 5,
+      "evidence_locator": "transportCall.vessel.vesselCallSignNumber"
+    },
+    {
+      "dataset": "eval_reliability/operations_03.json",
+      "source": "transportCall.vessel.vesselOperatorCarrierCode",
+      "wrong_auto": true,
+      "missed_rename": true,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "match",
+        "target": "transportDetails.transportCall.vesselTransport.operatorCarrierCode"
+      },
+      "actual": {
+        "kind": "match",
+        "target": "transportDetails.transportCall.transportCallReference"
+      },
+      "gold_rank": 2,
+      "evidence_document": 5,
+      "evidence_locator": "transportCall.vessel.vesselOperatorCarrierCode"
+    },
+    {
+      "dataset": "eval_reliability/operations_03.json",
+      "source": "transportCall.vessel.vesselOperatorCarrierCodeListProvider",
+      "wrong_auto": true,
+      "missed_rename": true,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "match",
+        "target": "transportDetails.transportCall.vesselTransport.operatorCarrierCodeListProvider"
+      },
+      "actual": {
+        "kind": "match",
+        "target": "transportDetails.transportCall.transportCallReference"
+      },
+      "gold_rank": 2,
+      "evidence_document": 5,
+      "evidence_locator": "transportCall.vessel.vesselOperatorCarrierCodeListProvider"
+    },
+    {
+      "dataset": "eval_reliability/operations_03.json",
+      "source": "seals[].sealNumber",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "match",
+        "target": "equipmentDetails.seals[].number"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 1,
+      "evidence_document": 5,
+      "evidence_locator": "seals[].sealNumber"
+    },
+    {
+      "dataset": "eval_reliability/operations_03.json",
+      "source": "seals[].sealSource",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "match",
+        "target": "equipmentDetails.seals[].source"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 2,
+      "evidence_document": 5,
+      "evidence_locator": "seals[].sealSource"
+    },
+    {
+      "dataset": "eval_reliability/operations_03.json",
+      "source": "seals[].sealType",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "match",
+        "target": "equipmentDetails.seals[].type"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 2,
+      "evidence_document": 5,
+      "evidence_locator": "seals[].sealType"
+    },
+    {
+      "dataset": "eval_reliability_new/financial_01.json",
+      "source": "prime_award_project_title",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "semantic_alias_requires_external_context",
+      "expected": {
+        "kind": "match",
+        "target": "program_title"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 1,
+      "evidence_document": 0,
+      "evidence_locator": "Public row 301"
+    },
+    {
+      "dataset": "eval_reliability_new/financial_01.json",
+      "source": "subaward_action_date",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "abbreviation_truncation_and_missing_evidence_gate",
+      "expected": {
+        "kind": "match",
+        "target": "sub_action_date"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 1,
+      "evidence_document": 0,
+      "evidence_locator": "Public row 350"
+    },
+    {
+      "dataset": "eval_reliability_new/financial_01.json",
+      "source": "subaward_primary_place_of_performance_city_name",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "abbreviation_truncation_and_missing_evidence_gate",
+      "expected": {
+        "kind": "match",
+        "target": "sub_place_of_perform_city_name"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 1,
+      "evidence_document": 0,
+      "evidence_locator": "Public row 356"
+    },
+    {
+      "dataset": "eval_reliability_new/financial_01.json",
+      "source": "subaward_primary_place_of_performance_country_code",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "abbreviation_truncation_and_missing_evidence_gate",
+      "expected": {
+        "kind": "match",
+        "target": "sub_place_of_perform_country_co"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 1,
+      "evidence_document": 0,
+      "evidence_locator": "Public row 358"
+    },
+    {
+      "dataset": "eval_reliability_new/financial_01.json",
+      "source": "subaward_primary_place_of_performance_state_code",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "abbreviation_truncation_and_missing_evidence_gate",
+      "expected": {
+        "kind": "match",
+        "target": "sub_place_of_perform_state_code"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 1,
+      "evidence_document": 0,
+      "evidence_locator": "Public row 360"
+    },
+    {
+      "dataset": "eval_reliability_new/financial_01.json",
+      "source": "subaward_primary_place_of_performance_address_zip_code",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "abbreviation_truncation_and_missing_evidence_gate",
+      "expected": {
+        "kind": "match",
+        "target": "sub_place_of_performance_zip"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 1,
+      "evidence_document": 0,
+      "evidence_locator": "Public row 362"
+    },
+    {
+      "dataset": "eval_reliability_new/financial_01.json",
+      "source": "subaward_fsrs_report_id",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "semantic_alias_requires_external_context",
+      "expected": {
+        "kind": "match",
+        "target": "internal_id"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 22,
+      "evidence_document": 0,
+      "evidence_locator": "Public row 363"
+    },
+    {
+      "dataset": "eval_reliability_new/financial_01.json",
+      "source": "subaward_fsrs_report_last_modified_date",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "semantic_alias_requires_external_context",
+      "expected": {
+        "kind": "match",
+        "target": "date_submitted"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 21,
+      "evidence_document": 0,
+      "evidence_locator": "Public row 364"
+    },
+    {
+      "dataset": "eval_reliability_new/financial_01.json",
+      "source": "subawardee_business_types",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "abbreviation_truncation_and_missing_evidence_gate",
+      "expected": {
+        "kind": "match",
+        "target": "sub_business_types"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 1,
+      "evidence_document": 0,
+      "evidence_locator": "Public row 368"
+    },
+    {
+      "dataset": "eval_reliability_new/financial_01.json",
+      "source": "subawardee_dba_name",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "abbreviation_truncation_and_missing_evidence_gate",
+      "expected": {
+        "kind": "match",
+        "target": "sub_dba_name"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 1,
+      "evidence_document": 0,
+      "evidence_locator": "Public row 369"
+    },
+    {
+      "dataset": "eval_reliability_new/financial_01.json",
+      "source": "subawardee_highly_compensated_officer_1_name",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "abbreviation_truncation_and_missing_evidence_gate",
+      "expected": {
+        "kind": "match",
+        "target": "sub_high_comp_officer1_full_na"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 10,
+      "evidence_document": 0,
+      "evidence_locator": "Public row 371"
+    },
+    {
+      "dataset": "eval_reliability_new/financial_01.json",
+      "source": "subawardee_city_name",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "semantic_alias_requires_external_context",
+      "expected": {
+        "kind": "match",
+        "target": "sub_legal_entity_city_name"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 8,
+      "evidence_document": 0,
+      "evidence_locator": "Public row 381"
+    },
+    {
+      "dataset": "eval_reliability_new/financial_01.json",
+      "source": "subawardee_congressional_district",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "semantic_alias_requires_external_context",
+      "expected": {
+        "kind": "match",
+        "target": "sub_legal_entity_congressional"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 7,
+      "evidence_document": 0,
+      "evidence_locator": "Public row 382"
+    },
+    {
+      "dataset": "eval_reliability_new/financial_01.json",
+      "source": "subawardee_country_code",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "semantic_alias_requires_external_context",
+      "expected": {
+        "kind": "match",
+        "target": "sub_legal_entity_country_code"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 7,
+      "evidence_document": 0,
+      "evidence_locator": "Public row 383"
+    },
+    {
+      "dataset": "eval_reliability_new/financial_01.json",
+      "source": "subawardee_state_code",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "semantic_alias_requires_external_context",
+      "expected": {
+        "kind": "match",
+        "target": "sub_legal_entity_state_code"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 6,
+      "evidence_document": 0,
+      "evidence_locator": "Public row 386"
+    },
+    {
+      "dataset": "eval_reliability_new/financial_01.json",
+      "source": "subawardee_name",
+      "wrong_auto": false,
+      "missed_rename": true,
+      "category": "semantic_alias_requires_external_context",
+      "expected": {
+        "kind": "match",
+        "target": "sub_awardee_or_recipient_legal"
+      },
+      "actual": {
+        "kind": "no_match"
+      },
+      "gold_rank": 6,
+      "evidence_document": 0,
+      "evidence_locator": "Public row 389"
+    },
+    {
+      "dataset": "eval_reliability_new/healthcare_01.json",
+      "source": "recorder.reference",
+      "wrong_auto": true,
+      "missed_rename": false,
+      "category": "hierarchical_leaf_role_not_preserved",
+      "expected": {
+        "kind": "no_match"
+      },
+      "actual": {
+        "kind": "match",
+        "target": "performer.reference"
+      },
+      "gold_rank": null,
+      "evidence_document": 1,
+      "evidence_locator": "Worksheet[Data Elements]/Row[19]"
+    }
+  ]
+}

@@ -17,6 +17,8 @@ use serde::{Deserialize, Serialize};
 mod independent;
 #[path = "support/labeled.rs"]
 mod labeled;
+#[path = "support/reliability.rs"]
+mod reliability;
 use labeled::{Answer, EvalCase, FrozenCorpus, fingerprint, verify_freeze};
 #[cfg(test)]
 use labeled::{FrozenDataset, parse_case};
@@ -25,6 +27,7 @@ const CUTOFF: f64 = 0.5;
 const CORPORA: &[&str] = &["eval", "eval_realworld"];
 const FREEZE: &str = "validation/quality_baseline.json";
 const INDEPENDENT_BASELINE: &str = "validation/independent_quality_baseline.json";
+const SEMANTIC_STATUS: &str = "Semantic corpus: 3 fully held-out cases (55 fields), 1 partly exposed case (13 fields); see validation/semantic_reliability_report.md.";
 
 type NamedMatcher = (&'static str, Box<dyn Matcher>);
 
@@ -297,7 +300,15 @@ fn check(
     }
 }
 
-fn load_cases(root: &Path, independent: bool) -> Result<BTreeMap<String, EvalCase>, String> {
+fn load_cases(root: &Path, corpus: &str) -> Result<BTreeMap<String, EvalCase>, String> {
+    if corpus == "semantic" {
+        return reliability::load_verified_corpus(
+            root,
+            "validation/semantic_corpus.json",
+            "eval_semantic",
+        );
+    }
+    let independent = corpus == "independent";
     let (corpora, freeze) = if independent {
         (
             &["eval_independent"][..],
@@ -523,13 +534,13 @@ fn percent(value: Option<f64>) -> String {
         .unwrap_or_else(|| "n/a".into())
 }
 
-fn print_summary(results: &BTreeMap<String, AlgorithmResult>, details: bool, independent: bool) {
-    if independent {
-        println!(
+fn print_summary(results: &BTreeMap<String, AlgorithmResult>, details: bool, corpus: &str) {
+    match corpus {
+        "independent" => println!(
             "Independent-corpus accuracy; publisher evidence and inputs frozen before predictions."
-        );
-    } else {
-        println!("Development-corpus accuracy; see --independent for held-out measurements.");
+        ),
+        "semantic" => println!("{SEMANTIC_STATUS}"),
+        _ => println!("Development-corpus accuracy; see --independent for held-out measurements."),
     }
     println!(
         "Fixed defaults; positive candidates ranked per source; automatic cutoff >= {CUTOFF:.2}."
@@ -617,33 +628,34 @@ fn print_summary(results: &BTreeMap<String, AlgorithmResult>, details: bool, ind
     }
 }
 
-fn options(args: &[String]) -> Result<(bool, &'static str), String> {
-    let mut independent = false;
+fn options(args: &[String]) -> Result<(&'static str, &'static str), String> {
+    let mut corpus = "development";
     let mut mode = "summary";
     for flag in args {
         match flag.as_str() {
-            "--independent" if !independent => independent = true,
+            "--independent" if corpus == "development" => corpus = "independent",
+            "--semantic" if corpus == "development" => corpus = "semantic",
             "--details" if mode == "summary" => mode = "details",
             "--json" if mode == "summary" => mode = "json",
             "--check" if mode == "summary" => mode = "check",
             _ => {
                 return Err(
-                    "usage: benchmark_accuracy [--independent] [--details | --json | --check] (--check requires --independent)".into(),
+                    "usage: benchmark_accuracy [--independent | --semantic] [--details | --json | --check] (--check requires --independent)".into(),
                 );
             }
         }
     }
-    if mode == "check" && !independent {
+    if mode == "check" && corpus != "independent" {
         return Err("--check requires --independent; the development suggestion gate is evaluate_all --check".into());
     }
-    Ok((independent, mode))
+    Ok((corpus, mode))
 }
 
 fn run() -> Result<(), String> {
     let args: Vec<_> = env::args().skip(1).collect();
-    let (independent, mode) = options(&args)?;
+    let (corpus, mode) = options(&args)?;
     let root = Path::new(env!("CARGO_MANIFEST_DIR"));
-    let cases = load_cases(root, independent)?; // Validate the complete frozen corpus before any predictions.
+    let cases = load_cases(root, corpus)?; // Validate the complete frozen corpus before any predictions.
     let results = evaluate(&cases)?;
     if mode == "json" {
         let mut datasets = BTreeMap::new();
@@ -661,15 +673,22 @@ fn run() -> Result<(), String> {
             (name, serde_json::json!({"counts": result.overall, "scores": result.overall.scores(),
                 "match_conditions": result.match_conditions, "datasets": datasets}))
         }).collect();
-        let report = serde_json::json!({"protocol": if independent { "validation/independent_accuracy.md" } else { "validation/accuracy_protocol.md" },
-            "corpus_status": if independent { "independent; publisher evidence frozen before predictions" } else { "development" },
+        let (protocol, status) = match corpus {
+            "independent" => (
+                "validation/independent_accuracy.md",
+                "independent; publisher evidence frozen before predictions",
+            ),
+            "semantic" => ("validation/semantic_reliability_report.md", SEMANTIC_STATUS),
+            _ => ("validation/accuracy_protocol.md", "development"),
+        };
+        let report = serde_json::json!({"protocol": protocol, "corpus_status": status,
             "automatic_cutoff": CUTOFF, "datasets": datasets, "algorithms": algorithms});
         println!(
             "{}",
             serde_json::to_string_pretty(&report).map_err(|error| error.to_string())?
         );
     } else {
-        print_summary(&results, mode == "details", independent);
+        print_summary(&results, mode == "details", corpus);
     }
     if mode == "check" {
         check(&cases, &results, &read_baseline(root)?)?;
@@ -697,14 +716,14 @@ mod tests {
 
     #[test]
     fn independent_options_are_opt_in_and_keep_output_modes() {
-        assert_eq!(options(&[]).unwrap(), (false, "summary"));
+        assert_eq!(options(&[]).unwrap(), ("development", "summary"));
         for args in [
             vec!["--independent", "--json"],
             vec!["--json", "--independent"],
         ] {
             assert_eq!(
                 options(&args.into_iter().map(String::from).collect::<Vec<_>>()).unwrap(),
-                (true, "json")
+                ("independent", "json")
             );
         }
         for args in [
@@ -718,14 +737,39 @@ mod tests {
         }
         assert_eq!(
             options(&["--independent".into(), "--check".into()]).unwrap(),
-            (true, "check")
+            ("independent", "check")
         );
+    }
+
+    #[test]
+    fn semantic_options_preserve_modes_and_reject_mixed_corpora() {
+        assert_eq!(
+            options(&["--semantic".into()]).unwrap(),
+            ("semantic", "summary")
+        );
+        for flag in ["--details", "--json"] {
+            for args in [["--semantic", flag], [flag, "--semantic"]] {
+                assert_eq!(
+                    options(&args.map(String::from)).unwrap(),
+                    ("semantic", flag.trim_start_matches("--"))
+                );
+            }
+        }
+        for args in [
+            ["--semantic", "--semantic"],
+            ["--semantic", "--independent"],
+            ["--independent", "--semantic"],
+            ["--semantic", "--check"],
+            ["--check", "--semantic"],
+        ] {
+            assert!(options(&args.map(String::from)).is_err());
+        }
     }
 
     #[test]
     fn independent_quality_gate_rejects_empty_predictions_and_malformed_baselines() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR"));
-        let cases = load_cases(root, true).unwrap();
+        let cases = load_cases(root, "independent").unwrap();
         let mut results = evaluate(&cases).unwrap();
         let baseline = read_baseline(root).unwrap();
         check(&cases, &results, &baseline).unwrap();
@@ -898,7 +942,7 @@ mod tests {
     #[test]
     fn independent_corpus_validates_without_running_predictions() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR"));
-        let cases = load_cases(root, true).unwrap();
+        let cases = load_cases(root, "independent").unwrap();
         let mut counts = Counts::default();
         for case in cases.values() {
             for answer in &case.answers {
@@ -923,7 +967,7 @@ mod tests {
     #[test]
     fn independent_annotation_evidence_must_be_complete_and_consistent() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR"));
-        let cases = load_cases(root, true).unwrap();
+        let cases = load_cases(root, "independent").unwrap();
         let raw = fs::read_to_string(root.join("validation/independent_corpus.json")).unwrap();
         let manifest: Value = serde_json::from_str(&raw).unwrap();
         let id = "eval_independent/01_penguins.json";
@@ -1291,7 +1335,7 @@ mod tests {
                 .contains("missing frozen evaluation dataset")
         );
         let root = Path::new(env!("CARGO_MANIFEST_DIR"));
-        assert_eq!(load_cases(root, false).unwrap().len(), 15);
+        assert_eq!(load_cases(root, "development").unwrap().len(), 15);
     }
 
     #[test]
@@ -1309,14 +1353,14 @@ mod tests {
         }
         fs::write(root.join(FREEZE), r#"{"datasets":{}}"#).unwrap();
         assert!(
-            load_cases(&root, false)
+            load_cases(&root, "development")
                 .unwrap_err()
                 .contains("empty evaluation corpus")
         );
         let path = root.join("eval/a.json");
         fs::write(&path, "{").unwrap();
         assert!(
-            load_cases(&root, false)
+            load_cases(&root, "development")
                 .unwrap_err()
                 .starts_with("eval/a.json:")
         );
@@ -1324,12 +1368,16 @@ mod tests {
         fs::write(&path, &raw).unwrap();
         fs::write(root.join("eval/b.json"), &raw).unwrap();
         assert!(
-            load_cases(&root, false)
+            load_cases(&root, "development")
                 .unwrap_err()
                 .contains("duplicate dataset name")
         );
         fs::write(root.join(FREEZE), "{").unwrap();
-        assert!(load_cases(&root, false).unwrap_err().starts_with(FREEZE));
+        assert!(
+            load_cases(&root, "development")
+                .unwrap_err()
+                .starts_with(FREEZE)
+        );
         fs::remove_dir_all(root).unwrap();
     }
 }

@@ -1,0 +1,91 @@
+{
+  "publisher": "OHDSI/CommonDataModel",
+  "publisher_url": "https://github.com/OHDSI/CommonDataModel",
+  "retrieved_utc": "2026-10-13",
+  "source_documents": [
+    {
+      "id": "source_visit_documentation",
+      "tag": "v5.2.2",
+      "commit": "3f49979dd407c67fe452e4b308464ce05d0a577c",
+      "path": "Documentation/CommonDataModel_Wiki_Files/StandardizedClinicalDataTables/VISIT_OCCURRENCE.md",
+      "sha256": "cef08995bee75ea536be5bb96bf74e9ecc37377408c5a48aa72fd72d96e30c77",
+      "url": "https://raw.githubusercontent.com/OHDSI/CommonDataModel/3f49979dd407c67fe452e4b308464ce05d0a577c/Documentation/CommonDataModel_Wiki_Files/StandardizedClinicalDataTables/VISIT_OCCURRENCE.md",
+      "full_source_bytes": 5171
+    },
+    {
+      "id": "source_ddl",
+      "tag": "v5.2.2",
+      "commit": "3f49979dd407c67fe452e4b308464ce05d0a577c",
+      "path": "PostgreSQL/OMOP CDM ddl - PostgreSQL.sql",
+      "sha256": "886e1adfe021b537e7f0adf8b5bb222ada98ea825d6cdfeffca718a813a5dbe6",
+      "url": "https://raw.githubusercontent.com/OHDSI/CommonDataModel/3f49979dd407c67fe452e4b308464ce05d0a577c/PostgreSQL/OMOP%20CDM%20ddl%20-%20PostgreSQL.sql",
+      "full_source_bytes": 19598
+    },
+    {
+      "id": "source_license",
+      "tag": "v5.2.2",
+      "commit": "3f49979dd407c67fe452e4b308464ce05d0a577c",
+      "path": "Documentation/CommonDataModel_Wiki_Files/License.md",
+      "sha256": "47916d758df3abf2a5a80d76dddf8632711a34cc2865c8edf0b25116790a1c4a",
+      "url": "https://raw.githubusercontent.com/OHDSI/CommonDataModel/3f49979dd407c67fe452e4b308464ce05d0a577c/Documentation/CommonDataModel_Wiki_Files/License.md",
+      "full_source_bytes": 642
+    },
+    {
+      "id": "target_field_documentation",
+      "tag": "v5.4.1",
+      "commit": "4432382693f4e824f2fd5e482692c33772b7568a",
+      "path": "inst/csv/OMOP_CDMv5.4_Field_Level.csv",
+      "sha256": "06882359e4cfacd7f421855c6b9d542625fceaceb92e26df6fef873514257e17",
+      "url": "https://raw.githubusercontent.com/OHDSI/CommonDataModel/4432382693f4e824f2fd5e482692c33772b7568a/inst/csv/OMOP_CDMv5.4_Field_Level.csv",
+      "full_source_bytes": 123789
+    },
+    {
+      "id": "target_table_documentation",
+      "tag": "v5.4.1",
+      "commit": "4432382693f4e824f2fd5e482692c33772b7568a",
+      "path": "inst/csv/OMOP_CDMv5.4_Table_Level.csv",
+      "sha256": "fd77b570b1e55406d42f494bd9b240d330026b5866f6354064e979f6918286de",
+      "url": "https://raw.githubusercontent.com/OHDSI/CommonDataModel/4432382693f4e824f2fd5e482692c33772b7568a/inst/csv/OMOP_CDMv5.4_Table_Level.csv",
+      "full_source_bytes": 41750
+    },
+    {
+      "id": "target_ddl",
+      "tag": "v5.4.1",
+      "commit": "4432382693f4e824f2fd5e482692c33772b7568a",
+      "path": "inst/ddl/5.4/postgresql/OMOPCDM_postgresql_5.4_ddl.sql",
+      "sha256": "e4b845ed6044ac0a735f2ceb1613ff4106caa933ef5dc5eee5ef3b6109fceea0",
+      "url": "https://raw.githubusercontent.com/OHDSI/CommonDataModel/4432382693f4e824f2fd5e482692c33772b7568a/inst/ddl/5.4/postgresql/OMOPCDM_postgresql_5.4_ddl.sql",
+      "full_source_bytes": 19554
+    },
+    {
+      "id": "target_license",
+      "tag": "v5.4.1",
+      "commit": "4432382693f4e824f2fd5e482692c33772b7568a",
+      "path": "LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "url": "https://raw.githubusercontent.com/OHDSI/CommonDataModel/4432382693f4e824f2fd5e482692c33772b7568a/LICENSE",
+      "full_source_bytes": 11357
+    }
+  ],
+  "schema_only": true,
+  "observed_records": false,
+  "examples": "Illustrative vocabulary identifiers published in the source schema conventions and target table documentation; sample_evidence.json identifies every included value. Other field samples are empty.",
+  "identifier_policy": "Preserve each literal declared table/field spelling: source visit_occurrence and target VISIT_OCCURRENCE. The target @cdmDatabaseSchema token is the publisher's schema placeholder and is omitted. PostgreSQL resolves the unquoted uppercase name case-insensitively.",
+  "type_translation": {
+    "INTEGER": "integer",
+    "DATE": "date",
+    "TIMESTAMP": "timestamp",
+    "VARCHAR(n)": "text",
+    "documented datetime": "physical TIMESTAMP; normalized timestamp"
+  },
+  "licenses": {
+    "source_documentation": "Public-domain dedication / CC0-1.0, source_license",
+    "target_repository": "Apache-2.0, target_license"
+  },
+  "publisher_discrepancies": [
+    "Source Markdown has an extra blank cell in one row and transposes Type/Required in five rows; named descriptions and requiredness are validated against DDL.",
+    "Source conventions contain undeclared stale aliases discharge_disposition_concept_id and PRECEDING_VISIT_ID; these are retained in context prose but not fabricated as schema fields.",
+    "Admission/discharge vocabulary ranges evolve from Place of Service descriptions to standardized Visit-domain concepts. Field roles correspond; a data ETL may require vocabulary remapping.",
+    "Target end-date conventions contain date/datetime spelling and record-provenance examples; field-specific descriptions, foreign-key domains and DDL govern roles."
+  ]
+}

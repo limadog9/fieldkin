@@ -1,0 +1,25 @@
+--- a/examples/evaluate_all.rs
++++ b/examples/evaluate_all.rs
+@@ -5,7 +5,7 @@
+     process::ExitCode,
+ };
+ 
+-use fieldkin::{Config, Decision, FieldResult, match_schemas};
++use fieldkin::{Config, Decision, FieldResult};
+ use serde::{Deserialize, Serialize};
+ 
+ #[path = "support/independent.rs"]
+@@ -281,7 +281,12 @@
+     let mut evaluation = Evaluation::new();
+     for (id, case) in cases {
+         let sha256 = fingerprint(&case)?;
+-        let report = match_schemas(&case.source, &case.target, Config::default());
++        let report = fieldkin::try_match_schemas_corroborated(
++            &case.source,
++            &case.target,
++            Config::default(),
++        )
++        .map_err(|error| error.to_string())?;
+         let field_count = report.fields.len();
+         let mut results: BTreeMap<_, _> = report
+             .fields

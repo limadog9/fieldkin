@@ -1,0 +1,17 @@
+{
+  "auditor": "Independent delegated source-only auditor",
+  "status": "passed",
+  "completed_at_utc": "2026-10-13T00:00:06.701074+00:00",
+  "findings": [
+    "All nine pinned official upstream sources were independently fetched in memory and matched original-file SHA256 hashes.",
+    "Both Adyen excerpts preserve the exact complete PaymentRequest definitions, API titles and versions.",
+    "Publisher names, types, descriptions and explicit examples agree with retained raw sources.",
+    "The context pipeline extracts publisher material before answer construction and does not use annotations to manufacture descriptions.",
+    "A greedy codesheet heading parser was repaired before freezing, restoring actual descriptions.",
+    "An insufficiently justified nationality negative was excluded rather than assigning an unsupported label.",
+    "The exact dictionary field name Co-applicant Sex is preserved; its actual codesheet heading Co-Applicant Sex is correctly retained in metadata and citations.",
+    "The four remaining negative labels and one alternative-target label are supported within the expressly declared schema projections.",
+    "Publisher CC0 and MIT licenses are retained; the initial criteria hash is unchanged."
+  ],
+  "blindness": "No matcher implementation, predictions, prior labels, implementation-agent materials or runtime evaluation inspected or executed."
+}

@@ -1,0 +1,127 @@
+[
+  {
+    "artifact": "rawsources/hmda-2017_Modified_LAR_Data_Dictionary.csv",
+    "original_url": "https://raw.githubusercontent.com/cfpb/hmda-platform/94254a13e45795a4bdb3bbfe2c81098ae27a66a6/docs/v1/2017_Modified_LAR_Data_Dictionary.csv",
+    "github_url": "https://github.com/cfpb/hmda-platform/blob/94254a13e45795a4bdb3bbfe2c81098ae27a66a6/docs/v1/2017_Modified_LAR_Data_Dictionary.csv",
+    "repository": "cfpb/hmda-platform",
+    "pinned_commit": "94254a13e45795a4bdb3bbfe2c81098ae27a66a6",
+    "retrieved_at_utc": "2026-10-12T23:54:23.234233+00:00",
+    "license": "CC0-1.0",
+    "original_file_sha256": "c7d2b3fa7e2e0afb903fc82eec3231494b8a4d3b0f54700fe3f097d1b3de5d8e",
+    "artifact_sha256": "c7d2b3fa7e2e0afb903fc82eec3231494b8a4d3b0f54700fe3f097d1b3de5d8e",
+    "excerpt_selectors": null,
+    "extraction_note": "Original bytes."
+  },
+  {
+    "artifact": "rawsources/hmda-2017_File_Spec_LAR.csv",
+    "original_url": "https://raw.githubusercontent.com/cfpb/hmda-platform/94254a13e45795a4bdb3bbfe2c81098ae27a66a6/docs/v1/2017_File_Spec_LAR.csv",
+    "github_url": "https://github.com/cfpb/hmda-platform/blob/94254a13e45795a4bdb3bbfe2c81098ae27a66a6/docs/v1/2017_File_Spec_LAR.csv",
+    "repository": "cfpb/hmda-platform",
+    "pinned_commit": "94254a13e45795a4bdb3bbfe2c81098ae27a66a6",
+    "retrieved_at_utc": "2026-10-12T23:54:23.753383+00:00",
+    "license": "CC0-1.0",
+    "original_file_sha256": "99c0c449d65e7d871aa2ed5f49605d3d0fb1a457d1598e41173c018f93cefde3",
+    "artifact_sha256": "99c0c449d65e7d871aa2ed5f49605d3d0fb1a457d1598e41173c018f93cefde3",
+    "excerpt_selectors": null,
+    "extraction_note": "Original bytes."
+  },
+  {
+    "artifact": "rawsources/hmda-2017_Modified_LAR_Codesheet.md",
+    "original_url": "https://raw.githubusercontent.com/cfpb/hmda-platform/94254a13e45795a4bdb3bbfe2c81098ae27a66a6/docs/spec/markdown/modified_lar/2017_Modified_LAR_Codesheet.md",
+    "github_url": "https://github.com/cfpb/hmda-platform/blob/94254a13e45795a4bdb3bbfe2c81098ae27a66a6/docs/spec/markdown/modified_lar/2017_Modified_LAR_Codesheet.md",
+    "repository": "cfpb/hmda-platform",
+    "pinned_commit": "94254a13e45795a4bdb3bbfe2c81098ae27a66a6",
+    "retrieved_at_utc": "2026-10-12T23:54:24.226356+00:00",
+    "license": "CC0-1.0",
+    "original_file_sha256": "499324df2d205151b1be2a073e2b3e967181c3d06142aa9182aa059059d61a73",
+    "artifact_sha256": "499324df2d205151b1be2a073e2b3e967181c3d06142aa9182aa059059d61a73",
+    "excerpt_selectors": null,
+    "extraction_note": "Original bytes."
+  },
+  {
+    "artifact": "rawsources/hmda-2018_Modified_LAR_Data_Dictionary.md",
+    "original_url": "https://raw.githubusercontent.com/cfpb/hmda-platform/94254a13e45795a4bdb3bbfe2c81098ae27a66a6/docs/spec/markdown/modified_lar/2018_Modified_LAR_Data_Dictionary.md",
+    "github_url": "https://github.com/cfpb/hmda-platform/blob/94254a13e45795a4bdb3bbfe2c81098ae27a66a6/docs/spec/markdown/modified_lar/2018_Modified_LAR_Data_Dictionary.md",
+    "repository": "cfpb/hmda-platform",
+    "pinned_commit": "94254a13e45795a4bdb3bbfe2c81098ae27a66a6",
+    "retrieved_at_utc": "2026-10-12T23:54:24.226618+00:00",
+    "license": "CC0-1.0",
+    "original_file_sha256": "6ee8c5dfa9618aead485a0f93776cbbd72862d9b05fc703887fa5cf7bde0cbbd",
+    "artifact_sha256": "6ee8c5dfa9618aead485a0f93776cbbd72862d9b05fc703887fa5cf7bde0cbbd",
+    "excerpt_selectors": null,
+    "extraction_note": "Original bytes."
+  },
+  {
+    "artifact": "rawsources/hmda-2018_Modified_LAR_Codesheet.md",
+    "original_url": "https://raw.githubusercontent.com/cfpb/hmda-platform/94254a13e45795a4bdb3bbfe2c81098ae27a66a6/docs/spec/markdown/modified_lar/2018_Modified_LAR_Codesheet.md",
+    "github_url": "https://github.com/cfpb/hmda-platform/blob/94254a13e45795a4bdb3bbfe2c81098ae27a66a6/docs/spec/markdown/modified_lar/2018_Modified_LAR_Codesheet.md",
+    "repository": "cfpb/hmda-platform",
+    "pinned_commit": "94254a13e45795a4bdb3bbfe2c81098ae27a66a6",
+    "retrieved_at_utc": "2026-10-12T23:54:24.703639+00:00",
+    "license": "CC0-1.0",
+    "original_file_sha256": "5b8eb7fc2de84a8a7e5a0f153d14f306580c08b852178b471b2a0a388fb1e16e",
+    "artifact_sha256": "5b8eb7fc2de84a8a7e5a0f153d14f306580c08b852178b471b2a0a388fb1e16e",
+    "excerpt_selectors": null,
+    "extraction_note": "Original bytes."
+  },
+  {
+    "artifact": "rawsources/hmda-LICENSE",
+    "original_url": "https://raw.githubusercontent.com/cfpb/hmda-platform/94254a13e45795a4bdb3bbfe2c81098ae27a66a6/LICENSE",
+    "github_url": "https://github.com/cfpb/hmda-platform/blob/94254a13e45795a4bdb3bbfe2c81098ae27a66a6/LICENSE",
+    "repository": "cfpb/hmda-platform",
+    "pinned_commit": "94254a13e45795a4bdb3bbfe2c81098ae27a66a6",
+    "retrieved_at_utc": "2026-10-12T23:54:24.704086+00:00",
+    "license": "CC0-1.0",
+    "original_file_sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+    "artifact_sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+    "excerpt_selectors": null,
+    "extraction_note": "Original bytes."
+  },
+  {
+    "artifact": "rawsources/adyen-PaymentService-v52.excerpt.json",
+    "original_url": "https://raw.githubusercontent.com/Adyen/adyen-openapi/45520ee6246d7e3d8074c3c5c5e991e65c2c02d6/json/PaymentService-v52.json",
+    "github_url": "https://github.com/Adyen/adyen-openapi/blob/45520ee6246d7e3d8074c3c5c5e991e65c2c02d6/json/PaymentService-v52.json",
+    "repository": "Adyen/adyen-openapi",
+    "pinned_commit": "45520ee6246d7e3d8074c3c5c5e991e65c2c02d6",
+    "retrieved_at_utc": "2026-10-12T23:54:24.887346+00:00",
+    "license": "MIT",
+    "original_file_sha256": "99d3e9cd71d1c2b75869b59db6e2e83a70183c22a895c88020bf41967b191f67",
+    "artifact_sha256": "c5b4348f0866927e6d0311da3dfc171aadb72ee03328c30fbfd8ea8b528743c0",
+    "excerpt_selectors": [
+      "/info/title",
+      "/info/version",
+      "/components/schemas/PaymentRequest"
+    ],
+    "extraction_note": "JSON selection and reserialization; all PaymentRequest properties are preserved."
+  },
+  {
+    "artifact": "rawsources/adyen-CheckoutService-v72.excerpt.json",
+    "original_url": "https://raw.githubusercontent.com/Adyen/adyen-openapi/45520ee6246d7e3d8074c3c5c5e991e65c2c02d6/json/CheckoutService-v72.json",
+    "github_url": "https://github.com/Adyen/adyen-openapi/blob/45520ee6246d7e3d8074c3c5c5e991e65c2c02d6/json/CheckoutService-v72.json",
+    "repository": "Adyen/adyen-openapi",
+    "pinned_commit": "45520ee6246d7e3d8074c3c5c5e991e65c2c02d6",
+    "retrieved_at_utc": "2026-10-12T23:54:24.931799+00:00",
+    "license": "MIT",
+    "original_file_sha256": "6cae82a2e038d01957be57e982ec35111436dc0f5fc26240437d6e01ee7d0b92",
+    "artifact_sha256": "d46dfcd1ce9d7dc612ea486a6ee705c65ffaff792d4a14dc5ea4dd0278d01e55",
+    "excerpt_selectors": [
+      "/info/title",
+      "/info/version",
+      "/components/schemas/PaymentRequest"
+    ],
+    "extraction_note": "JSON selection and reserialization; all PaymentRequest properties are preserved."
+  },
+  {
+    "artifact": "rawsources/adyen-LICENSE",
+    "original_url": "https://raw.githubusercontent.com/Adyen/adyen-openapi/45520ee6246d7e3d8074c3c5c5e991e65c2c02d6/LICENSE",
+    "github_url": "https://github.com/Adyen/adyen-openapi/blob/45520ee6246d7e3d8074c3c5c5e991e65c2c02d6/LICENSE",
+    "repository": "Adyen/adyen-openapi",
+    "pinned_commit": "45520ee6246d7e3d8074c3c5c5e991e65c2c02d6",
+    "retrieved_at_utc": "2026-10-12T23:54:24.932698+00:00",
+    "license": "MIT",
+    "original_file_sha256": "8e89c3a1118ad53e7fad5b1a27c577c1602b7c57e8d3f88555e85d9561499d06",
+    "artifact_sha256": "8e89c3a1118ad53e7fad5b1a27c577c1602b7c57e8d3f88555e85d9561499d06",
+    "excerpt_selectors": null,
+    "extraction_note": "Original bytes."
+  }
+]

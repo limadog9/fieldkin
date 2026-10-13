@@ -1,0 +1,30 @@
+{
+  "baseline_revision": "c6b5a2caa2c337ee63ff0dd2993bed352eff2637",
+  "frozen_at_utc": "2026-10-13T00:05:46.390183+00:00",
+  "policy": "Optional original NoMatch rescue from sole positive default COMA correspondence to original top meeting Config.min_score; other decision changes require same sole COMA target and unique positive default Jaccard top, selected original candidate meeting Config.min_score. Original scores/ranks/defaults preserved. No averaging or new thresholds.",
+  "candidate_source_sha256": "e383699359344a066b464b697da84538d83a84fbdb3b5b57ff71975bef68cba8",
+  "runtime_files": {
+    "src/engine.rs": "81eae741a850ed63062a75539676c8ad7abc64d9d9f00219a5ff6a1b01ac2649",
+    "src/lib.rs": "440315cbad0ccaab1eb06ea3f1b7b2b3b13668c46ee98da0eb040ad773a578a2",
+    "src/types.rs": "f75f842e7d1927a091a6a470106635037ac8f15aead9d79df5a6a6f20517556d",
+    "src/signals.rs": "53b945a52aa696d0547e288976ea7ca84d8786ab57e9ae8d0ed6877c5061409b",
+    "src/synonyms.rs": "83ce407c1fad910e8fcff798e585f5004c90271551545402cbf0831cb092285d",
+    "src/table.rs": "70f77c49c09a2282726a478652249b1b34664f09463c27a47aa3cc0333afc004",
+    "src/results.rs": "b78af9f3072f0a1d448977a70f3cb2e9e262975ce7bbbb910ee8d20d218acbb6",
+    "Cargo.toml": "af257ad5dc2ce576aa38da267f4dcb150536120b5261647407564574a6fa8e3f",
+    "Cargo.lock": "cd90f7548e40faa5ea8ddcc2f609a07e44a8da0b2364bdc0041650ad1b0d0514",
+    "src/algorithms/coma.rs": "24b95093904c703e5f6ee4107bfef67dde7dc4ca7a7c0d4863dcbb734d3a6a84",
+    "src/algorithms/cupid.rs": "e1a1db593754bd048e9b766c7489aa4482acf555fe384923f6c8931ae78440a7",
+    "src/algorithms/distribution.rs": "5d7cb18fad28e043925d13ba3d9dd06ae6f1c2af319089c5988eac7ca894a1c4",
+    "src/algorithms/flooding.rs": "a5cd7cf73d3b52ba9f9f495541d9937acad178550776ae5ec38b75b78d22a0a2",
+    "src/algorithms/jaccard.rs": "9389b0119769ea230329bbafda7baec29c5051cb2d86f4ae3b2a5d03483f1a5e",
+    "src/algorithms/mod.rs": "61864ed4145bf764ed22566ae44ec4f7075d611a4ca3f234d7ebe25e60cd8f03",
+    "src/algorithms/strings.rs": "9f7b60bfa1316cb1365b7fc0c927ed5759f7aff6de2b12cc8922c4b436187ed0"
+  },
+  "source_packet_freezes": {
+    "finance_operations": "ffad316bc3f1e05c140848be0969990924064500593017c69c31a2e8bf676bef",
+    "healthcare": "c3731c476fc587efa6a89294b6d0ec5fdfc734144b5dc8742cb776e0826832d8"
+  },
+  "independence": "Finance/operations source authors and separate source audit never saw candidate code/predictions; implementation author has not accessed cases/labels before this freeze. Healthcare annotations independently sealed before predictions, but a status listing exposed a few mappings to implementation author before candidate freeze; treat this packet as partially exposed validation, not fully held-out.",
+  "acceptance": "No weakening of old gates/labels; retain only if new genuinely held-out evidence shows a meaningful improvement without individual correctness regressions or unjustified cost/complexity. No runtime-policy tuning after held-out prediction exposure. If rejected, restore existing runtime and preserve experiment records."
+}

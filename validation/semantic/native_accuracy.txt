@@ -1,0 +1,266 @@
+Semantic corpus: 3 fully held-out cases (55 fields), 1 partly exposed case (13 fields); see validation/semantic_reliability_report.md.
+Fixed defaults; positive candidates ranked per source; automatic cutoff >= 0.50.
+Ambiguous automatic selections count as FP. Top-1 and recall@5 use only match labels, before cutoff.
+
+| Algorithm | Precision | Recall | F1 | Top-1 | Recall@5 | Coverage |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| COMA | 88.89% | 90.32% | 89.60% | 90.32% | 96.77% | 92.65% |
+| Cupid | 88.89% | 77.42% | 82.76% | 77.42% | 79.03% | 79.41% |
+| DistributionBased | 50.00% | 1.61% | 3.12% | 1.61% | 1.61% | 2.94% |
+| JaccardDistanceMatcher | 50.00% | 1.61% | 3.12% | 3.23% | 3.23% | 2.94% |
+| SimilarityFlooding | n/a | 0.00% | 0.00% | 87.10% | 96.77% | 0.00% |
+
+| Algorithm | TP / automatic | No-match automatic / labels | Ambiguous automatic / labels | Ambiguous any / all alternatives @5 |
+| --- | ---: | ---: | ---: | ---: |
+| COMA | 56 / 63 | 1 / 5 | 1 / 1 | 1 / 0 (of 1) |
+| Cupid | 48 / 54 | 0 / 5 | 1 / 1 | 1 / 0 (of 1) |
+| DistributionBased | 1 / 2 | 0 / 5 | 1 / 1 | 1 / 1 (of 1) |
+| JaccardDistanceMatcher | 1 / 2 | 0 / 5 | 1 / 1 | 1 / 1 (of 1) |
+| SimilarityFlooding | 0 / 0 | 0 / 5 | 0 / 1 | 1 / 1 (of 1) |
+
+Per-dataset top-1 correct / match labels (before cutoff; full metrics in --json):
+
+| Dataset | COMA | Cupid | DistributionBased | JaccardDistanceMatcher | SimilarityFlooding |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| eval_semantic/financial_01.json | 15 / 15 | 8 / 15 | 0 / 15 | 0 / 15 | 15 / 15 |
+| eval_semantic/financial_02.json | 18 / 18 | 18 / 18 | 1 / 18 | 1 / 18 | 18 / 18 |
+| eval_semantic/healthcare_01_partially_exposed.json | 10 / 12 | 5 / 12 | 0 / 12 | 0 / 12 | 10 / 12 |
+| eval_semantic/healthcare_02.json | 13 / 17 | 17 / 17 | 0 / 17 | 1 / 17 | 11 / 17 |
+
+Match-only conditions; groups overlap across name/type dimensions:
+
+| Algorithm | Condition | Labels | Top-1 | Recall@5 | Automatic recall |
+| --- | --- | ---: | ---: | ---: | ---: |
+| COMA | different_declared_type | 7 | 100.00% | 100.00% | 100.00% |
+| COMA | renamed | 38 | 84.21% | 94.74% | 84.21% |
+| COMA | same_declared_type | 55 | 89.09% | 96.36% | 89.09% |
+| COMA | unchanged_name | 24 | 100.00% | 100.00% | 100.00% |
+| Cupid | different_declared_type | 7 | 14.29% | 14.29% | 14.29% |
+| Cupid | renamed | 38 | 65.79% | 68.42% | 65.79% |
+| Cupid | same_declared_type | 55 | 85.45% | 87.27% | 85.45% |
+| Cupid | unchanged_name | 24 | 95.83% | 95.83% | 95.83% |
+| DistributionBased | different_declared_type | 7 | 0.00% | 0.00% | 0.00% |
+| DistributionBased | renamed | 38 | 0.00% | 0.00% | 0.00% |
+| DistributionBased | same_declared_type | 55 | 1.82% | 1.82% | 1.82% |
+| DistributionBased | unchanged_name | 24 | 4.17% | 4.17% | 4.17% |
+| JaccardDistanceMatcher | different_declared_type | 7 | 0.00% | 0.00% | 0.00% |
+| JaccardDistanceMatcher | renamed | 38 | 2.63% | 2.63% | 0.00% |
+| JaccardDistanceMatcher | same_declared_type | 55 | 3.64% | 3.64% | 1.82% |
+| JaccardDistanceMatcher | unchanged_name | 24 | 4.17% | 4.17% | 4.17% |
+| SimilarityFlooding | different_declared_type | 7 | 100.00% | 100.00% | 0.00% |
+| SimilarityFlooding | renamed | 38 | 78.95% | 94.74% | 0.00% |
+| SimilarityFlooding | same_declared_type | 55 | 85.45% | 96.36% | 0.00% |
+| SimilarityFlooding | unchanged_name | 24 | 100.00% | 100.00% | 0.00% |
+
+Field diagnostics (all ambiguity rows and incorrect/missed automatic selections):
+
+COMA / eval_semantic/financial_02.json: source "deliveryDate"; expected ambiguous -> [deliveryDate, deliverAt]; automatic deliveryDate (1.000000); top 5 [deliveryDate (1.000000)]
+COMA / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.procedure_occurrence_id"; expected match -> cost.cost_event_id; automatic cost.cost_domain_id (0.571429); top 5 [cost.cost_domain_id (0.571429), cost.cost_event_id (0.571429)]
+COMA / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.paid_by_coordination_benefits"; expected no_match; automatic cost.paid_by_patient (0.600000); top 5 [cost.paid_by_patient (0.600000), cost.paid_by_primary (0.600000)]
+COMA / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.total_out_of_pocket"; expected match -> cost.paid_by_patient; automatic abstain; top 5 []
+COMA / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_start_datetime"; expected match -> VISIT_OCCURRENCE.visit_start_datetime; automatic VISIT_OCCURRENCE.visit_start_date (1.000000); top 5 [VISIT_OCCURRENCE.visit_start_date (1.000000), VISIT_OCCURRENCE.visit_start_datetime (1.000000)]
+COMA / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_end_datetime"; expected match -> VISIT_OCCURRENCE.visit_end_datetime; automatic VISIT_OCCURRENCE.visit_end_date (1.000000); top 5 [VISIT_OCCURRENCE.visit_end_date (1.000000), VISIT_OCCURRENCE.visit_end_datetime (1.000000)]
+COMA / eval_semantic/healthcare_02.json: source "visit_occurrence.admitting_source_concept_id"; expected match -> VISIT_OCCURRENCE.admitted_from_concept_id; automatic VISIT_OCCURRENCE.visit_source_concept_id (0.909091); top 5 [VISIT_OCCURRENCE.visit_source_concept_id (0.909091)]
+COMA / eval_semantic/healthcare_02.json: source "visit_occurrence.admitting_source_value"; expected match -> VISIT_OCCURRENCE.admitted_from_source_value; automatic VISIT_OCCURRENCE.visit_source_value (0.888889); top 5 [VISIT_OCCURRENCE.visit_source_value (0.888889), VISIT_OCCURRENCE.admitted_from_source_value (0.820513)]
+Cupid / eval_semantic/financial_01.json: source "Loan Amount"; expected match -> Loan Amount; automatic Property Value (0.706506); top 5 [Property Value (0.706506)]
+Cupid / eval_semantic/financial_01.json: source "Applicant Ethnicity"; expected match -> Ethnicity of Applicant or Borrower: 1; automatic abstain; top 5 []
+Cupid / eval_semantic/financial_01.json: source "Co-Applicant Ethnicity"; expected match -> Ethnicity of Co-Applicant or Co-Borrower: 1; automatic Sex of Co-Applicant or Co-Borrower (0.741368); top 5 [Sex of Co-Applicant or Co-Borrower (0.741368)]
+Cupid / eval_semantic/financial_01.json: source "Applicant Race: 1"; expected match -> Race of Applicant or Borrower: 1; automatic abstain; top 5 []
+Cupid / eval_semantic/financial_01.json: source "Co-Applicant Race: 1"; expected match -> Race of Co-Applicant or Co-Borrower: 1; automatic Sex of Co-Applicant or Co-Borrower (0.752277); top 5 [Sex of Co-Applicant or Co-Borrower (0.752277)]
+Cupid / eval_semantic/financial_01.json: source "Co-applicant Sex"; expected match -> Sex of Co-Applicant or Co-Borrower; automatic abstain; top 5 []
+Cupid / eval_semantic/financial_01.json: source "Denial Reason: 1"; expected match -> Reason for Denial: 1; automatic abstain; top 5 []
+Cupid / eval_semantic/financial_02.json: source "deliveryDate"; expected ambiguous -> [deliveryDate, deliverAt]; automatic deliveryDate (0.865610); top 5 [deliveryDate (0.865610), dateOfBirth (0.838943)]
+Cupid / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.procedure_cost_id"; expected match -> cost.cost_id; automatic abstain; top 5 []
+Cupid / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.procedure_occurrence_id"; expected match -> cost.cost_event_id; automatic abstain; top 5 []
+Cupid / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.paid_copay"; expected match -> cost.paid_patient_copay; automatic abstain; top 5 []
+Cupid / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.paid_coinsurance"; expected match -> cost.paid_patient_coinsurance; automatic abstain; top 5 []
+Cupid / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.paid_toward_deductible"; expected match -> cost.paid_patient_deductible; automatic abstain; top 5 []
+Cupid / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.total_out_of_pocket"; expected match -> cost.paid_by_patient; automatic cost.total_charge (0.761610); top 5 [cost.total_charge (0.761610)]
+Cupid / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.total_paid"; expected match -> cost.total_paid; automatic cost.total_charge (0.787896); top 5 [cost.total_charge (0.787896), cost.total_paid (0.737610)]
+DistributionBased / eval_semantic/financial_01.json: source "Loan Type"; expected match -> Loan Type; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_01.json: source "Loan Amount"; expected match -> Loan Amount; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_01.json: source "Preapprovals"; expected match -> Preapproval; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_01.json: source "Type of Action Taken"; expected match -> Action Taken; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_01.json: source "Applicant Ethnicity"; expected match -> Ethnicity of Applicant or Borrower: 1; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_01.json: source "Co-Applicant Ethnicity"; expected match -> Ethnicity of Co-Applicant or Co-Borrower: 1; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_01.json: source "Applicant Race: 1"; expected match -> Race of Applicant or Borrower: 1; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_01.json: source "Co-Applicant Race: 1"; expected match -> Race of Co-Applicant or Co-Borrower: 1; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_01.json: source "Applicant Sex"; expected match -> Sex of Applicant or Borrower; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_01.json: source "Co-applicant Sex"; expected match -> Sex of Co-Applicant or Co-Borrower; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_01.json: source "Type of Purchaser"; expected match -> Type of Purchaser; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_01.json: source "Denial Reason: 1"; expected match -> Reason for Denial: 1; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_01.json: source "Rate Spread"; expected match -> Rate Spread; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_01.json: source "HOEPA Status"; expected match -> HOEPA Status; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_01.json: source "Lien Status"; expected match -> Lien Status; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_02.json: source "captureDelayHours"; expected match -> captureDelayHours; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_02.json: source "dateOfBirth"; expected match -> dateOfBirth; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_02.json: source "deliveryDate"; expected ambiguous -> [deliveryDate, deliverAt]; automatic deliverAt (1.000000); top 5 [deliverAt (1.000000), deliveryDate (1.000000)]
+DistributionBased / eval_semantic/financial_02.json: source "fraudOffset"; expected match -> fraudOffset; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_02.json: source "merchantAccount"; expected match -> merchantAccount; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_02.json: source "merchantOrderReference"; expected match -> merchantOrderReference; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_02.json: source "orderReference"; expected match -> orderReference; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_02.json: source "recurringProcessingModel"; expected match -> recurringProcessingModel; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_02.json: source "reference"; expected match -> reference; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_02.json: source "shopperEmail"; expected match -> shopperEmail; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_02.json: source "shopperIP"; expected match -> shopperIP; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_02.json: source "shopperInteraction"; expected match -> shopperInteraction; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_02.json: source "shopperReference"; expected match -> shopperReference; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_02.json: source "shopperStatement"; expected match -> shopperStatement; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_02.json: source "store"; expected match -> store; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_02.json: source "telephoneNumber"; expected match -> telephoneNumber; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_02.json: source "threeDSAuthenticationOnly"; expected match -> threeDSAuthenticationOnly; automatic abstain; top 5 []
+DistributionBased / eval_semantic/financial_02.json: source "trustedShopper"; expected match -> trustedShopper; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.procedure_cost_id"; expected match -> cost.cost_id; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.procedure_occurrence_id"; expected match -> cost.cost_event_id; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.currency_concept_id"; expected match -> cost.currency_concept_id; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.paid_copay"; expected match -> cost.paid_patient_copay; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.paid_coinsurance"; expected match -> cost.paid_patient_coinsurance; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.paid_toward_deductible"; expected match -> cost.paid_patient_deductible; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.paid_by_payer"; expected match -> cost.paid_by_payer; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.total_out_of_pocket"; expected match -> cost.paid_by_patient; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.total_paid"; expected match -> cost.total_paid; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.revenue_code_concept_id"; expected match -> cost.revenue_code_concept_id; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.payer_plan_period_id"; expected match -> cost.payer_plan_period_id; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.revenue_code_source_value"; expected match -> cost.reveue_code_source_value; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_occurrence_id"; expected match -> VISIT_OCCURRENCE.visit_occurrence_id; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_02.json: source "visit_occurrence.person_id"; expected match -> VISIT_OCCURRENCE.person_id; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_concept_id"; expected match -> VISIT_OCCURRENCE.visit_concept_id; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_start_date"; expected match -> VISIT_OCCURRENCE.visit_start_date; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_start_datetime"; expected match -> VISIT_OCCURRENCE.visit_start_datetime; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_end_date"; expected match -> VISIT_OCCURRENCE.visit_end_date; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_end_datetime"; expected match -> VISIT_OCCURRENCE.visit_end_datetime; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_type_concept_id"; expected match -> VISIT_OCCURRENCE.visit_type_concept_id; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_02.json: source "visit_occurrence.provider_id"; expected match -> VISIT_OCCURRENCE.provider_id; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_02.json: source "visit_occurrence.care_site_id"; expected match -> VISIT_OCCURRENCE.care_site_id; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_source_value"; expected match -> VISIT_OCCURRENCE.visit_source_value; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_source_concept_id"; expected match -> VISIT_OCCURRENCE.visit_source_concept_id; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_02.json: source "visit_occurrence.admitting_source_concept_id"; expected match -> VISIT_OCCURRENCE.admitted_from_concept_id; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_02.json: source "visit_occurrence.admitting_source_value"; expected match -> VISIT_OCCURRENCE.admitted_from_source_value; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_02.json: source "visit_occurrence.discharge_to_concept_id"; expected match -> VISIT_OCCURRENCE.discharged_to_concept_id; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_02.json: source "visit_occurrence.discharge_to_source_value"; expected match -> VISIT_OCCURRENCE.discharged_to_source_value; automatic abstain; top 5 []
+DistributionBased / eval_semantic/healthcare_02.json: source "visit_occurrence.preceding_visit_occurrence_id"; expected match -> VISIT_OCCURRENCE.preceding_visit_occurrence_id; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_01.json: source "Loan Type"; expected match -> Loan Type; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_01.json: source "Loan Amount"; expected match -> Loan Amount; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_01.json: source "Preapprovals"; expected match -> Preapproval; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_01.json: source "Type of Action Taken"; expected match -> Action Taken; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_01.json: source "Applicant Ethnicity"; expected match -> Ethnicity of Applicant or Borrower: 1; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_01.json: source "Co-Applicant Ethnicity"; expected match -> Ethnicity of Co-Applicant or Co-Borrower: 1; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_01.json: source "Applicant Race: 1"; expected match -> Race of Applicant or Borrower: 1; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_01.json: source "Co-Applicant Race: 1"; expected match -> Race of Co-Applicant or Co-Borrower: 1; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_01.json: source "Applicant Sex"; expected match -> Sex of Applicant or Borrower; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_01.json: source "Co-applicant Sex"; expected match -> Sex of Co-Applicant or Co-Borrower; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_01.json: source "Type of Purchaser"; expected match -> Type of Purchaser; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_01.json: source "Denial Reason: 1"; expected match -> Reason for Denial: 1; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_01.json: source "Rate Spread"; expected match -> Rate Spread; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_01.json: source "HOEPA Status"; expected match -> HOEPA Status; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_01.json: source "Lien Status"; expected match -> Lien Status; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_02.json: source "captureDelayHours"; expected match -> captureDelayHours; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_02.json: source "dateOfBirth"; expected match -> dateOfBirth; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_02.json: source "deliveryDate"; expected ambiguous -> [deliveryDate, deliverAt]; automatic deliverAt (1.000000); top 5 [deliverAt (1.000000), deliveryDate (1.000000)]
+JaccardDistanceMatcher / eval_semantic/financial_02.json: source "fraudOffset"; expected match -> fraudOffset; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_02.json: source "merchantAccount"; expected match -> merchantAccount; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_02.json: source "merchantOrderReference"; expected match -> merchantOrderReference; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_02.json: source "orderReference"; expected match -> orderReference; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_02.json: source "recurringProcessingModel"; expected match -> recurringProcessingModel; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_02.json: source "reference"; expected match -> reference; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_02.json: source "shopperEmail"; expected match -> shopperEmail; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_02.json: source "shopperIP"; expected match -> shopperIP; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_02.json: source "shopperInteraction"; expected match -> shopperInteraction; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_02.json: source "shopperReference"; expected match -> shopperReference; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_02.json: source "shopperStatement"; expected match -> shopperStatement; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_02.json: source "store"; expected match -> store; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_02.json: source "telephoneNumber"; expected match -> telephoneNumber; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_02.json: source "threeDSAuthenticationOnly"; expected match -> threeDSAuthenticationOnly; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/financial_02.json: source "trustedShopper"; expected match -> trustedShopper; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.procedure_cost_id"; expected match -> cost.cost_id; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.procedure_occurrence_id"; expected match -> cost.cost_event_id; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.currency_concept_id"; expected match -> cost.currency_concept_id; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.paid_copay"; expected match -> cost.paid_patient_copay; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.paid_coinsurance"; expected match -> cost.paid_patient_coinsurance; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.paid_toward_deductible"; expected match -> cost.paid_patient_deductible; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.paid_by_payer"; expected match -> cost.paid_by_payer; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.total_out_of_pocket"; expected match -> cost.paid_by_patient; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.total_paid"; expected match -> cost.total_paid; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.revenue_code_concept_id"; expected match -> cost.revenue_code_concept_id; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.payer_plan_period_id"; expected match -> cost.payer_plan_period_id; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.revenue_code_source_value"; expected match -> cost.reveue_code_source_value; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_occurrence_id"; expected match -> VISIT_OCCURRENCE.visit_occurrence_id; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_02.json: source "visit_occurrence.person_id"; expected match -> VISIT_OCCURRENCE.person_id; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_concept_id"; expected match -> VISIT_OCCURRENCE.visit_concept_id; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_concept_id (0.090909)]
+JaccardDistanceMatcher / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_start_date"; expected match -> VISIT_OCCURRENCE.visit_start_date; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_start_datetime"; expected match -> VISIT_OCCURRENCE.visit_start_datetime; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_end_date"; expected match -> VISIT_OCCURRENCE.visit_end_date; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_end_datetime"; expected match -> VISIT_OCCURRENCE.visit_end_datetime; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_type_concept_id"; expected match -> VISIT_OCCURRENCE.visit_type_concept_id; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_02.json: source "visit_occurrence.provider_id"; expected match -> VISIT_OCCURRENCE.provider_id; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_02.json: source "visit_occurrence.care_site_id"; expected match -> VISIT_OCCURRENCE.care_site_id; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_source_value"; expected match -> VISIT_OCCURRENCE.visit_source_value; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_source_concept_id"; expected match -> VISIT_OCCURRENCE.visit_source_concept_id; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_02.json: source "visit_occurrence.admitting_source_concept_id"; expected match -> VISIT_OCCURRENCE.admitted_from_concept_id; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_02.json: source "visit_occurrence.admitting_source_value"; expected match -> VISIT_OCCURRENCE.admitted_from_source_value; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_02.json: source "visit_occurrence.discharge_to_concept_id"; expected match -> VISIT_OCCURRENCE.discharged_to_concept_id; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_02.json: source "visit_occurrence.discharge_to_source_value"; expected match -> VISIT_OCCURRENCE.discharged_to_source_value; automatic abstain; top 5 []
+JaccardDistanceMatcher / eval_semantic/healthcare_02.json: source "visit_occurrence.preceding_visit_occurrence_id"; expected match -> VISIT_OCCURRENCE.preceding_visit_occurrence_id; automatic abstain; top 5 []
+SimilarityFlooding / eval_semantic/financial_01.json: source "Loan Type"; expected match -> Loan Type; automatic abstain; top 5 [Loan Type (0.106553), Occupancy Type (0.060878), Loan Amount (0.058557), Type of Purchaser (0.051743), Lien Status (0.038041)]
+SimilarityFlooding / eval_semantic/financial_01.json: source "Loan Amount"; expected match -> Loan Amount; automatic abstain; top 5 [Loan Amount (0.105112), Loan Type (0.058942), Lien Status (0.036104), Action Taken (0.028187), Legal Entity Identifier (LEI) (0.022350)]
+SimilarityFlooding / eval_semantic/financial_01.json: source "Preapprovals"; expected match -> Preapproval; automatic abstain; top 5 [Preapproval (0.091963), Property Value (0.021330), Type of Purchaser (0.018058), HOEPA Status (0.017740), Lien Status (0.017740)]
+SimilarityFlooding / eval_semantic/financial_01.json: source "Type of Action Taken"; expected match -> Action Taken; automatic abstain; top 5 [Action Taken (0.078539), Type of Purchaser (0.069491), Loan Type (0.052217), Occupancy Type (0.048089), Race of Applicant or Borrower: 1 (0.043322)]
+SimilarityFlooding / eval_semantic/financial_01.json: source "Applicant Ethnicity"; expected match -> Ethnicity of Applicant or Borrower: 1; automatic abstain; top 5 [Ethnicity of Applicant or Borrower: 1 (0.060239), Ethnicity of Co-Applicant or Co-Borrower: 1 (0.051104), Sex of Applicant or Borrower (0.041303), Race of Applicant or Borrower: 1 (0.037401), Sex of Co-Applicant or Co-Borrower (0.035503)]
+SimilarityFlooding / eval_semantic/financial_01.json: source "Co-Applicant Ethnicity"; expected match -> Ethnicity of Co-Applicant or Co-Borrower: 1; automatic abstain; top 5 [Ethnicity of Co-Applicant or Co-Borrower: 1 (0.072696), Sex of Co-Applicant or Co-Borrower (0.060878), Race of Co-Applicant or Co-Borrower: 1 (0.056087), Ethnicity of Applicant or Borrower: 1 (0.055164), Sex of Applicant or Borrower (0.038041)]
+SimilarityFlooding / eval_semantic/financial_01.json: source "Applicant Race: 1"; expected match -> Race of Applicant or Borrower: 1; automatic abstain; top 5 [Race of Applicant or Borrower: 1 (0.075464), Race of Co-Applicant or Co-Borrower: 1 (0.064391), Ethnicity of Applicant or Borrower: 1 (0.055164), Ethnicity of Co-Applicant or Co-Borrower: 1 (0.047782), Interest Rate (0.045578)]
+SimilarityFlooding / eval_semantic/financial_01.json: source "Co-Applicant Race: 1"; expected match -> Race of Co-Applicant or Co-Borrower: 1; automatic abstain; top 5 [Race of Co-Applicant or Co-Borrower: 1 (0.083076), Race of Applicant or Borrower: 1 (0.069374), Ethnicity of Co-Applicant or Co-Borrower: 1 (0.067851), Sex of Co-Applicant or Co-Borrower (0.056726), Ethnicity of Applicant or Borrower: 1 (0.051104)]
+SimilarityFlooding / eval_semantic/financial_01.json: source "Applicant Sex"; expected match -> Sex of Applicant or Borrower; automatic abstain; top 5 [Sex of Applicant or Borrower (0.067403), Sex of Co-Applicant or Co-Borrower (0.055803), Ethnicity of Applicant or Borrower: 1 (0.037401), Race of Applicant or Borrower: 1 (0.037401), Ethnicity of Co-Applicant or Co-Borrower: 1 (0.032834)]
+SimilarityFlooding / eval_semantic/financial_01.json: source "Co-applicant Sex"; expected match -> Sex of Co-Applicant or Co-Borrower; automatic abstain; top 5 [Sex of Co-Applicant or Co-Borrower (0.077118), Sex of Applicant or Borrower (0.058341), Ethnicity of Co-Applicant or Co-Borrower: 1 (0.054241), Race of Co-Applicant or Co-Borrower: 1 (0.054241), Ethnicity of Applicant or Borrower: 1 (0.032608)]
+SimilarityFlooding / eval_semantic/financial_01.json: source "Type of Purchaser"; expected match -> Type of Purchaser; automatic abstain; top 5 [Type of Purchaser (0.106553), Loan Type (0.051743), Occupancy Type (0.051743), Race of Applicant or Borrower: 1 (0.049024), Sex of Applicant or Borrower (0.048261)]
+SimilarityFlooding / eval_semantic/financial_01.json: source "Denial Reason: 1"; expected match -> Reason for Denial: 1; automatic abstain; top 5 [Reason for Denial: 1 (0.091567), Race of Applicant or Borrower: 1 (0.036760), Ethnicity of Applicant or Borrower: 1 (0.034504), Race of Co-Applicant or Co-Borrower: 1 (0.032659), Ethnicity of Co-Applicant or Co-Borrower: 1 (0.030814)]
+SimilarityFlooding / eval_semantic/financial_01.json: source "Rate Spread"; expected match -> Rate Spread; automatic abstain; top 5 [Rate Spread (0.105555), Interest Rate (0.059880), State (0.047666), Race of Applicant or Borrower: 1 (0.031333), Debt-to-Income Ratio (0.030512)]
+SimilarityFlooding / eval_semantic/financial_01.json: source "HOEPA Status"; expected match -> HOEPA Status; automatic abstain; top 5 [HOEPA Status (0.106553), Lien Status (0.060878), State (0.048397), Census Tract (0.029789), Rate Spread (0.022176)]
+SimilarityFlooding / eval_semantic/financial_01.json: source "Lien Status"; expected match -> Lien Status; automatic abstain; top 5 [Lien Status (0.106553), HOEPA Status (0.060878), State (0.048397), Loan Type (0.038041), Loan Amount (0.035720)]
+SimilarityFlooding / eval_semantic/financial_02.json: source "captureDelayHours"; expected match -> captureDelayHours; automatic abstain; top 5 [captureDelayHours (0.095686), deliveryDate (0.018475), store (0.018343), countryCode (0.017680), threeDSAuthenticationOnly (0.017064)]
+SimilarityFlooding / eval_semantic/financial_02.json: source "dateOfBirth"; expected match -> dateOfBirth; automatic abstain; top 5 [dateOfBirth (0.094970), deliveryDate (0.039100), countryCode (0.018180), threeDSAuthenticationOnly (0.016671), store (0.016555)]
+SimilarityFlooding / eval_semantic/financial_02.json: source "deliveryDate"; expected ambiguous -> [deliveryDate, deliverAt]; automatic abstain; top 5 [deliveryDate (0.094970), deliverAt (0.044814), dateOfBirth (0.039100), countryCode (0.029100), store (0.018722)]
+SimilarityFlooding / eval_semantic/financial_02.json: source "fraudOffset"; expected match -> fraudOffset; automatic abstain; top 5 [fraudOffset (0.095686), storePaymentMethod (0.018546), checkoutAttemptId (0.018155), merchantAccount (0.016931), merchantOrderReference (0.016089)]
+SimilarityFlooding / eval_semantic/financial_02.json: source "merchantAccount"; expected match -> merchantAccount; automatic abstain; top 5 [merchantAccount (0.094071), merchantOrderReference (0.048867), checkoutAttemptId (0.026156), storePaymentMethod (0.025648), shopperStatement (0.024343)]
+SimilarityFlooding / eval_semantic/financial_02.json: source "merchantOrderReference"; expected match -> merchantOrderReference; automatic abstain; top 5 [merchantOrderReference (0.094071), orderReference (0.071317), shopperReference (0.051946), reference (0.048924), merchantAccount (0.048867)]
+SimilarityFlooding / eval_semantic/financial_02.json: source "orderReference"; expected match -> orderReference; automatic abstain; top 5 [orderReference (0.094071), merchantOrderReference (0.071317), shopperReference (0.061731), reference (0.060963), telephoneNumber (0.028607)]
+SimilarityFlooding / eval_semantic/financial_02.json: source "recurringProcessingModel"; expected match -> recurringProcessingModel; automatic abstain; top 5 [recurringProcessingModel (0.094071), enableRecurring (0.046088), reference (0.021835), channel (0.021098), shopperEmail (0.019307)]
+SimilarityFlooding / eval_semantic/financial_02.json: source "reference"; expected match -> reference; automatic abstain; top 5 [reference (0.094071), orderReference (0.060963), shopperReference (0.060963), merchantOrderReference (0.048924), recurringProcessingModel (0.021835)]
+SimilarityFlooding / eval_semantic/financial_02.json: source "shopperEmail"; expected match -> shopperEmail; automatic abstain; top 5 [shopperEmail (0.094071), shopperIP (0.053438), shopperInteraction (0.053438), shopperLocale (0.053438), shopperReference (0.053438)]
+SimilarityFlooding / eval_semantic/financial_02.json: source "shopperIP"; expected match -> shopperIP; automatic abstain; top 5 [shopperIP (0.094071), shopperInteraction (0.054110), shopperEmail (0.053438), shopperLocale (0.053438), shopperReference (0.053438)]
+SimilarityFlooding / eval_semantic/financial_02.json: source "shopperInteraction"; expected match -> shopperInteraction; automatic abstain; top 5 [shopperInteraction (0.094071), shopperIP (0.054110), shopperEmail (0.053438), shopperLocale (0.053438), shopperReference (0.053438)]
+SimilarityFlooding / eval_semantic/financial_02.json: source "shopperLocale"; expected match -> shopperLocale; automatic abstain; top 5 [shopperLocale (0.094071), shopperReference (0.056448), shopperEmail (0.053438), shopperIP (0.053438), shopperInteraction (0.053438)]
+SimilarityFlooding / eval_semantic/financial_02.json: source "shopperReference"; expected match -> shopperReference; automatic abstain; top 5 [shopperReference (0.094071), orderReference (0.061731), reference (0.060963), shopperLocale (0.056448), shopperEmail (0.053438)]
+SimilarityFlooding / eval_semantic/financial_02.json: source "shopperStatement"; expected match -> shopperStatement; automatic abstain; top 5 [shopperStatement (0.094071), shopperEmail (0.053438), shopperIP (0.053438), shopperInteraction (0.053438), shopperLocale (0.053438)]
+SimilarityFlooding / eval_semantic/financial_02.json: source "store"; expected match -> store; automatic abstain; top 5 [store (0.094071), storePaymentMethod (0.053438), shopperLocale (0.023094), countryCode (0.021474), enableRecurring (0.020330)]
+SimilarityFlooding / eval_semantic/financial_02.json: source "telephoneNumber"; expected match -> telephoneNumber; automatic abstain; top 5 [telephoneNumber (0.094071), orderReference (0.028607), shopperReference (0.027271), trustedShopper (0.026268), shopperLocale (0.025766)]
+SimilarityFlooding / eval_semantic/financial_02.json: source "threeDSAuthenticationOnly"; expected match -> threeDSAuthenticationOnly; automatic abstain; top 5 [threeDSAuthenticationOnly (0.094071), countryCode (0.019351), store (0.019307), shopperInteraction (0.018887), merchantOrderReference (0.017954)]
+SimilarityFlooding / eval_semantic/financial_02.json: source "trustedShopper"; expected match -> trustedShopper; automatic abstain; top 5 [trustedShopper (0.094071), shopperStatement (0.049389), shopperEmail (0.047634), shopperIP (0.047634), shopperInteraction (0.047634)]
+SimilarityFlooding / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.procedure_cost_id"; expected match -> cost.cost_id; automatic abstain; top 5 [cost.cost_id (0.070224), cost.cost_event_id (0.065367), cost.cost_domain_id (0.062471), cost.cost_type_concept_id (0.062023), cost.revenue_code_concept_id (0.059141)]
+SimilarityFlooding / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.procedure_occurrence_id"; expected match -> cost.cost_event_id; automatic abstain; top 5 [cost.cost_id (0.060963), cost.cost_event_id (0.057135), cost.cost_type_concept_id (0.054910), cost.cost_domain_id (0.054239), cost.revenue_code_concept_id (0.052251)]
+SimilarityFlooding / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.currency_concept_id"; expected match -> cost.currency_concept_id; automatic abstain; top 5 [cost.currency_concept_id (0.080514), cost.cost_type_concept_id (0.068062), cost.drg_concept_id (0.064950), cost.revenue_code_concept_id (0.064906), cost.cost_id (0.063810)]
+SimilarityFlooding / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.paid_copay"; expected match -> cost.paid_patient_copay; automatic abstain; top 5 [cost.paid_patient_copay (0.072655), cost.paid_ingredient_cost (0.064873), cost.total_paid (0.061022), cost.paid_by_payer (0.059060), cost.paid_by_primary (0.058726)]
+SimilarityFlooding / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.paid_coinsurance"; expected match -> cost.paid_patient_coinsurance; automatic abstain; top 5 [cost.paid_patient_coinsurance (0.072655), cost.paid_ingredient_cost (0.062522), cost.total_paid (0.058335), cost.paid_patient_copay (0.057862), cost.paid_by_payer (0.055968)]
+SimilarityFlooding / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.paid_toward_deductible"; expected match -> cost.paid_patient_deductible; automatic abstain; top 5 [cost.paid_patient_deductible (0.067168), cost.paid_ingredient_cost (0.057587), cost.total_paid (0.057423), cost.paid_patient_copay (0.053309), cost.paid_patient_coinsurance (0.052035)]
+SimilarityFlooding / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.paid_by_payer"; expected match -> cost.paid_by_payer; automatic abstain; top 5 [cost.paid_by_payer (0.081141), cost.paid_by_primary (0.069649), cost.paid_by_patient (0.069194), cost.paid_ingredient_cost (0.059306), cost.paid_patient_copay (0.056023)]
+SimilarityFlooding / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.total_out_of_pocket"; expected match -> cost.paid_by_patient; automatic abstain; top 5 [cost.total_cost (0.058395), cost.total_charge (0.051687), cost.total_paid (0.051484), cost.paid_ingredient_cost (0.040848), cost.cost_id (0.040743)]
+SimilarityFlooding / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.total_paid"; expected match -> cost.total_paid; automatic abstain; top 5 [cost.total_paid (0.078804), cost.total_cost (0.067697), cost.paid_ingredient_cost (0.061909), cost.total_charge (0.059072), cost.paid_patient_copay (0.057096)]
+SimilarityFlooding / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.revenue_code_concept_id"; expected match -> cost.revenue_code_concept_id; automatic abstain; top 5 [cost.revenue_code_concept_id (0.082593), cost.cost_type_concept_id (0.067739), cost.currency_concept_id (0.063625), cost.drg_concept_id (0.062815), cost.cost_id (0.061950)]
+SimilarityFlooding / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.payer_plan_period_id"; expected match -> cost.payer_plan_period_id; automatic abstain; top 5 [cost.payer_plan_period_id (0.082510), cost.cost_id (0.056275), cost.cost_event_id (0.053299), cost.cost_domain_id (0.052181), cost.paid_by_payer (0.051323)]
+SimilarityFlooding / eval_semantic/healthcare_01_partially_exposed.json: source "procedure_cost.revenue_code_source_value"; expected match -> cost.reveue_code_source_value; automatic abstain; top 5 [cost.reveue_code_source_value (0.080056), cost.drg_source_value (0.065996), cost.revenue_code_concept_id (0.057470), cost.cost_type_concept_id (0.042242), cost.cost_domain_id (0.041708)]
+SimilarityFlooding / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_occurrence_id"; expected match -> VISIT_OCCURRENCE.visit_occurrence_id; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_occurrence_id (0.081346), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.075485), VISIT_OCCURRENCE.visit_concept_id (0.057991), VISIT_OCCURRENCE.visit_source_concept_id (0.056890), VISIT_OCCURRENCE.visit_type_concept_id (0.055132)]
+SimilarityFlooding / eval_semantic/healthcare_02.json: source "visit_occurrence.person_id"; expected match -> VISIT_OCCURRENCE.person_id; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_occurrence_id (0.070601), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.066422), VISIT_OCCURRENCE.person_id (0.057169), VISIT_OCCURRENCE.visit_concept_id (0.053605), VISIT_OCCURRENCE.visit_source_concept_id (0.051866)]
+SimilarityFlooding / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_concept_id"; expected match -> VISIT_OCCURRENCE.visit_concept_id; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_occurrence_id (0.074109), VISIT_OCCURRENCE.visit_concept_id (0.073287), VISIT_OCCURRENCE.visit_source_concept_id (0.069917), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.068906), VISIT_OCCURRENCE.visit_type_concept_id (0.068744)]
+SimilarityFlooding / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_start_date"; expected match -> VISIT_OCCURRENCE.visit_start_date; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_start_date (0.073317), VISIT_OCCURRENCE.visit_start_datetime (0.061550), VISIT_OCCURRENCE.visit_end_date (0.058810), VISIT_OCCURRENCE.visit_occurrence_id (0.056780), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.052941)]
+SimilarityFlooding / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_start_datetime"; expected match -> VISIT_OCCURRENCE.visit_start_datetime; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_start_datetime (0.073639), VISIT_OCCURRENCE.visit_start_date (0.061228), VISIT_OCCURRENCE.visit_end_datetime (0.059133), VISIT_OCCURRENCE.visit_occurrence_id (0.057102), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.053234)]
+SimilarityFlooding / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_end_date"; expected match -> VISIT_OCCURRENCE.visit_end_date; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_end_date (0.073317), VISIT_OCCURRENCE.visit_end_datetime (0.061550), VISIT_OCCURRENCE.visit_start_date (0.058810), VISIT_OCCURRENCE.visit_occurrence_id (0.058750), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.054732)]
+SimilarityFlooding / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_end_datetime"; expected match -> VISIT_OCCURRENCE.visit_end_datetime; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_end_datetime (0.073639), VISIT_OCCURRENCE.visit_end_date (0.061228), VISIT_OCCURRENCE.visit_start_datetime (0.059133), VISIT_OCCURRENCE.visit_occurrence_id (0.059072), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.055025)]
+SimilarityFlooding / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_type_concept_id"; expected match -> VISIT_OCCURRENCE.visit_type_concept_id; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_type_concept_id (0.077585), VISIT_OCCURRENCE.visit_occurrence_id (0.069199), VISIT_OCCURRENCE.visit_concept_id (0.068158), VISIT_OCCURRENCE.visit_source_concept_id (0.066243), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.064838)]
+SimilarityFlooding / eval_semantic/healthcare_02.json: source "visit_occurrence.provider_id"; expected match -> VISIT_OCCURRENCE.provider_id; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_occurrence_id (0.070601), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.068412), VISIT_OCCURRENCE.provider_id (0.057169), VISIT_OCCURRENCE.visit_concept_id (0.053605), VISIT_OCCURRENCE.visit_source_concept_id (0.051866)]
+SimilarityFlooding / eval_semantic/healthcare_02.json: source "visit_occurrence.care_site_id"; expected match -> VISIT_OCCURRENCE.care_site_id; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_occurrence_id (0.065872), VISIT_OCCURRENCE.care_site_id (0.065550), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.061418), VISIT_OCCURRENCE.visit_type_concept_id (0.052714), VISIT_OCCURRENCE.visit_source_concept_id (0.051876)]
+SimilarityFlooding / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_source_value"; expected match -> VISIT_OCCURRENCE.visit_source_value; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_source_value (0.074280), VISIT_OCCURRENCE.visit_occurrence_id (0.057186), VISIT_OCCURRENCE.visit_source_concept_id (0.054036), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.053289), VISIT_OCCURRENCE.admitted_from_source_value (0.050015)]
+SimilarityFlooding / eval_semantic/healthcare_02.json: source "visit_occurrence.visit_source_concept_id"; expected match -> VISIT_OCCURRENCE.visit_source_concept_id; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_source_concept_id (0.078122), VISIT_OCCURRENCE.visit_occurrence_id (0.069785), VISIT_OCCURRENCE.visit_concept_id (0.068158), VISIT_OCCURRENCE.visit_type_concept_id (0.065646), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.065376)]
+SimilarityFlooding / eval_semantic/healthcare_02.json: source "visit_occurrence.admitting_source_concept_id"; expected match -> VISIT_OCCURRENCE.admitted_from_concept_id; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_source_concept_id (0.071406), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.063137), VISIT_OCCURRENCE.visit_occurrence_id (0.062459), VISIT_OCCURRENCE.visit_concept_id (0.060832), VISIT_OCCURRENCE.visit_type_concept_id (0.058930)]
+SimilarityFlooding / eval_semantic/healthcare_02.json: source "visit_occurrence.admitting_source_value"; expected match -> VISIT_OCCURRENCE.admitted_from_source_value; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_source_value (0.066221), VISIT_OCCURRENCE.admitted_from_source_value (0.057233), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.050847), VISIT_OCCURRENCE.visit_occurrence_id (0.049127), VISIT_OCCURRENCE.discharged_to_source_value (0.048550)]
+SimilarityFlooding / eval_semantic/healthcare_02.json: source "visit_occurrence.discharge_to_concept_id"; expected match -> VISIT_OCCURRENCE.discharged_to_concept_id; automatic abstain; top 5 [VISIT_OCCURRENCE.discharged_to_concept_id (0.068734), VISIT_OCCURRENCE.visit_occurrence_id (0.062239), VISIT_OCCURRENCE.visit_concept_id (0.060832), VISIT_OCCURRENCE.visit_type_concept_id (0.059448), VISIT_OCCURRENCE.visit_source_concept_id (0.059278)]
+SimilarityFlooding / eval_semantic/healthcare_02.json: source "visit_occurrence.discharge_to_source_value"; expected match -> VISIT_OCCURRENCE.discharged_to_source_value; automatic abstain; top 5 [VISIT_OCCURRENCE.discharged_to_source_value (0.070224), VISIT_OCCURRENCE.visit_source_value (0.062280), VISIT_OCCURRENCE.visit_occurrence_id (0.046622), VISIT_OCCURRENCE.admitted_from_source_value (0.046409), VISIT_OCCURRENCE.visit_source_concept_id (0.044507)]
+SimilarityFlooding / eval_semantic/healthcare_02.json: source "visit_occurrence.preceding_visit_occurrence_id"; expected match -> VISIT_OCCURRENCE.preceding_visit_occurrence_id; automatic abstain; top 5 [VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.084032), VISIT_OCCURRENCE.visit_occurrence_id (0.075485), VISIT_OCCURRENCE.visit_concept_id (0.054253), VISIT_OCCURRENCE.visit_source_concept_id (0.053556), VISIT_OCCURRENCE.visit_type_concept_id (0.051944)]

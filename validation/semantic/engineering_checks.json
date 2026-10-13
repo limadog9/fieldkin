@@ -1,0 +1,460 @@
+{
+  "baseline_revision": "c6b5a2caa2c337ee63ff0dd2993bed352eff2637",
+  "branch": "improve/semantic-reliability",
+  "checks": [
+    {
+      "check": "fmt",
+      "returncode": 0,
+      "seconds": 0.2587308509973809,
+      "command": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "status": "passed"
+    },
+    {
+      "check": "default-tests",
+      "returncode": 0,
+      "seconds": 19.321878249000292,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--all-targets",
+        "--jobs",
+        "1"
+      ],
+      "status": "passed",
+      "tests_passed": 179
+    },
+    {
+      "check": "tests",
+      "returncode": 0,
+      "seconds": 42.18996880197665,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--all-targets",
+        "--features",
+        "polars",
+        "--jobs",
+        "1"
+      ],
+      "status": "passed",
+      "tests_passed": 191
+    },
+    {
+      "check": "doc",
+      "returncode": 0,
+      "seconds": 3.258445830026176,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--doc"
+      ],
+      "status": "passed",
+      "tests_passed": 4
+    },
+    {
+      "check": "clippy",
+      "returncode": 0,
+      "seconds": 3.850119805021677,
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--all-targets",
+        "--features",
+        "polars",
+        "--jobs",
+        "1",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "status": "passed"
+    },
+    {
+      "check": "independent-suggestion-gate",
+      "returncode": 0,
+      "seconds": 1.0295864579966292,
+      "command": [
+        "cargo",
+        "run",
+        "--locked",
+        "--quiet",
+        "--example",
+        "evaluate_all",
+        "--",
+        "--check-independent"
+      ],
+      "status": "passed"
+    },
+    {
+      "check": "independent-valentine-gate",
+      "returncode": 0,
+      "seconds": 3.566727972996887,
+      "command": [
+        "cargo",
+        "run",
+        "--locked",
+        "--quiet",
+        "--example",
+        "benchmark_accuracy",
+        "--",
+        "--independent",
+        "--check"
+      ],
+      "status": "passed"
+    },
+    {
+      "check": "quality",
+      "returncode": 0,
+      "seconds": 1.531714827986434,
+      "command": [
+        "cargo",
+        "run",
+        "--locked",
+        "--quiet",
+        "--example",
+        "evaluate_all",
+        "--",
+        "--check"
+      ],
+      "status": "passed"
+    },
+    {
+      "check": "semantic-gate",
+      "returncode": 0,
+      "seconds": 0.12099219497758895,
+      "command": [
+        "cargo",
+        "run",
+        "--locked",
+        "--quiet",
+        "--example",
+        "evaluate_all",
+        "--",
+        "--check-semantic"
+      ],
+      "status": "passed"
+    },
+    {
+      "check": "reliability-gate",
+      "returncode": 0,
+      "seconds": 0.49155634199269116,
+      "command": [
+        "cargo",
+        "run",
+        "--locked",
+        "--quiet",
+        "--example",
+        "evaluate_all",
+        "--",
+        "--check-reliability"
+      ],
+      "status": "passed"
+    },
+    {
+      "check": "semantic-suggestions",
+      "returncode": 0,
+      "seconds": 0.12079224403714761,
+      "command": [
+        "cargo",
+        "run",
+        "--locked",
+        "--quiet",
+        "--example",
+        "evaluate_all",
+        "--",
+        "--semantic"
+      ],
+      "status": "passed"
+    },
+    {
+      "check": "semantic-native",
+      "returncode": 0,
+      "seconds": 0.5567276059882715,
+      "command": [
+        "cargo",
+        "run",
+        "--locked",
+        "--quiet",
+        "--example",
+        "benchmark_accuracy",
+        "--",
+        "--semantic",
+        "--json"
+      ],
+      "status": "passed"
+    },
+    {
+      "check": "development",
+      "returncode": 0,
+      "seconds": 16.760832224041224,
+      "command": [
+        "cargo",
+        "run",
+        "--locked",
+        "--quiet",
+        "--example",
+        "benchmark_accuracy",
+        "--",
+        "--json"
+      ],
+      "status": "passed"
+    },
+    {
+      "check": "independent",
+      "returncode": 0,
+      "seconds": 0.8132658620015718,
+      "command": [
+        "cargo",
+        "run",
+        "--locked",
+        "--quiet",
+        "--example",
+        "benchmark_accuracy",
+        "--",
+        "--independent",
+        "--json"
+      ],
+      "status": "passed"
+    },
+    {
+      "check": "suggestions",
+      "returncode": 0,
+      "seconds": 0.2504930459544994,
+      "command": [
+        "cargo",
+        "run",
+        "--locked",
+        "--quiet",
+        "--example",
+        "evaluate_all",
+        "--",
+        "--independent"
+      ],
+      "status": "passed"
+    },
+    {
+      "check": "all-features",
+      "returncode": 101,
+      "seconds": 0.2246237730141729,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--all-targets",
+        "--all-features",
+        "--jobs",
+        "1"
+      ],
+      "status": "blocked",
+      "reason": "ort-sys ONNX runtime binary download from cdn.pyke.io denied by network proxy (CONNECT 403); inference did not run."
+    },
+    {
+      "check": "clippy-all-features",
+      "returncode": 101,
+      "seconds": 0.2487246689852327,
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--all-targets",
+        "--all-features",
+        "--jobs",
+        "1",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "status": "blocked",
+      "reason": "ort-sys ONNX runtime binary download from cdn.pyke.io denied by network proxy (CONNECT 403); inference did not run."
+    },
+    {
+      "check": "clippy-static",
+      "returncode": 0,
+      "seconds": 5.869730233971495,
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--all-targets",
+        "--all-features",
+        "--jobs",
+        "1",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "status": "passed",
+      "environment": {
+        "ORT_SKIP_DOWNLOAD": "1"
+      },
+      "scope": "Static all-feature lint only; not ONNX execution."
+    },
+    {
+      "check": "rustdoc",
+      "returncode": 0,
+      "seconds": 0.6615801950101741,
+      "command": [
+        "cargo",
+        "doc",
+        "--locked",
+        "--no-deps",
+        "--features",
+        "polars"
+      ],
+      "status": "passed",
+      "environment": {
+        "RUSTDOCFLAGS": "-D warnings"
+      }
+    },
+    {
+      "check": "package",
+      "returncode": 0,
+      "seconds": 9.947337132995017,
+      "command": [
+        "cargo",
+        "package",
+        "--locked",
+        "--allow-dirty"
+      ],
+      "status": "passed"
+    },
+    {
+      "check": "corpus-tests",
+      "returncode": 0,
+      "seconds": 0.10068642103578895,
+      "command": [
+        "python3",
+        "validation/reliability/verify_extraction.py",
+        "--self-test"
+      ],
+      "status": "passed"
+    },
+    {
+      "check": "corpus-extraction",
+      "returncode": 0,
+      "seconds": 1.0566555580007844,
+      "command": [
+        "python3",
+        "validation/reliability/verify_extraction.py"
+      ],
+      "status": "passed"
+    },
+    {
+      "check": "parity",
+      "returncode": 0,
+      "seconds": 30.24850044201594,
+      "command": [
+        "cargo",
+        "run",
+        "--locked",
+        "--quiet",
+        "--example",
+        "valentine_parity",
+        "--",
+        "target/parity/semantic_review_rust.json"
+      ],
+      "status": "passed"
+    },
+    {
+      "check": "parity-compare",
+      "returncode": 0,
+      "seconds": 0.25923101196531206,
+      "command": [
+        "python3",
+        "scripts/compare_valentine_parity.py",
+        "--rust",
+        "target/parity/semantic_review_rust.json",
+        "--python",
+        "target/parity/engineering_20261011_fixed.json",
+        "--output",
+        "target/parity/semantic_review_comparison_fixed.json"
+      ],
+      "status": "passed"
+    },
+    {
+      "check": "python-parity",
+      "returncode": 0,
+      "seconds": 0.07587223598966375,
+      "command": [
+        "python",
+        "scripts/test_compare_valentine_parity.py"
+      ],
+      "status": "passed"
+    },
+    {
+      "check": "python-benchmark",
+      "returncode": 0,
+      "seconds": 0.1014081840403378,
+      "command": [
+        "python",
+        "validation/test_benchmark_valentine.py"
+      ],
+      "status": "passed"
+    }
+  ],
+  "additional_checks": {
+    "runtime_files_and_dependencies_unchanged": true,
+    "previous_commit_outputs": {
+      "algorithm_cases": 90,
+      "correspondence_pairs": 9199,
+      "score_bits_and_order_identical": true
+    },
+    "pinned_python_reference": {
+      "valentine": "1.0.0",
+      "revision": "d8fa9ee6d312b49ce2c45b62824df1fd31b94a72",
+      "reference": "previously executed pinned reference with documented Cupid order and Distribution identifier fixes; unchanged saved output comparison, not a new Python execution",
+      "equivalent_cases": 90,
+      "exact_cases": 60,
+      "exact_source_rankings": 89,
+      "tolerance_equivalent_rankings": 90
+    },
+    "rejected_candidate_gate": {
+      "exit_code": 1,
+      "expected_failure_verified": true,
+      "source": "enableRealTimeUpdate",
+      "actual": "enableRecurring",
+      "log": "rejected_candidate_gate.txt"
+    },
+    "performance_reproduction": {
+      "workloads": 7,
+      "frozen_output_fingerprints_and_candidate_bits_identical": true
+    },
+    "packaging": {
+      "files": 45,
+      "verification_executed": true,
+      "new_corpora_and_tools_excluded": true
+    },
+    "windows": "Not executed locally; unchanged matrix workflow now includes new semantic gate.",
+    "source_reproduction": [
+      {
+        "bundle": "semantic_finance_operations",
+        "frozen_files": 22,
+        "seconds": 0.04017112997826189,
+        "source_extraction_and_case_reassembly_byte_identical": true
+      },
+      {
+        "bundle": "semantic_healthcare",
+        "frozen_files": 20,
+        "seconds": 4.703325195994694,
+        "source_extraction_and_case_reassembly_byte_identical": true
+      },
+      {
+        "bundle": "semantic_healthcare_new",
+        "frozen_files": 24,
+        "seconds": 4.087542238004971,
+        "source_extraction_and_case_reassembly_byte_identical": true
+      }
+    ],
+    "new_native_benchmark_repeated_json_identical": true
+  }
+}

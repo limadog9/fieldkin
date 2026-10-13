@@ -1,0 +1,568 @@
+{
+  "all": {
+    "baseline": {
+      "fields": 597,
+      "correct_decisions": 451,
+      "match_labels": 432,
+      "no_match_labels": 157,
+      "ambiguous_labels": 8,
+      "true_automatic": 323,
+      "incorrect_automatic": 36,
+      "automatic": 359,
+      "renamed_labels": 236,
+      "renamed_true_automatic": 135,
+      "correct_ambiguity": 5,
+      "incorrect_ambiguity": 40,
+      "no_match_predictions": 193,
+      "ambiguous_predictions": 45,
+      "abstentions": 238,
+      "precision": 0.8997214484679665,
+      "recall": 0.7476851851851852,
+      "renamed_recall": 0.5720338983050848,
+      "accuracy": 0.7554438860971524,
+      "coverage": 0.6013400335008375
+    },
+    "proposed": {
+      "fields": 597,
+      "correct_decisions": 470,
+      "match_labels": 432,
+      "no_match_labels": 157,
+      "ambiguous_labels": 8,
+      "true_automatic": 342,
+      "incorrect_automatic": 34,
+      "automatic": 376,
+      "renamed_labels": 236,
+      "renamed_true_automatic": 154,
+      "correct_ambiguity": 5,
+      "incorrect_ambiguity": 36,
+      "no_match_predictions": 180,
+      "ambiguous_predictions": 41,
+      "abstentions": 221,
+      "precision": 0.9095744680851063,
+      "recall": 0.7916666666666666,
+      "renamed_recall": 0.652542372881356,
+      "accuracy": 0.7872696817420436,
+      "coverage": 0.6298157453936348
+    }
+  },
+  "development": {
+    "baseline": {
+      "fields": 256,
+      "correct_decisions": 215,
+      "match_labels": 204,
+      "no_match_labels": 46,
+      "ambiguous_labels": 6,
+      "true_automatic": 170,
+      "incorrect_automatic": 8,
+      "automatic": 178,
+      "renamed_labels": 99,
+      "renamed_true_automatic": 66,
+      "correct_ambiguity": 5,
+      "incorrect_ambiguity": 4,
+      "no_match_predictions": 69,
+      "ambiguous_predictions": 9,
+      "abstentions": 78,
+      "precision": 0.9550561797752809,
+      "recall": 0.8333333333333334,
+      "renamed_recall": 0.6666666666666666,
+      "accuracy": 0.83984375,
+      "coverage": 0.6953125
+    },
+    "proposed": {
+      "fields": 256,
+      "correct_decisions": 215,
+      "match_labels": 204,
+      "no_match_labels": 46,
+      "ambiguous_labels": 6,
+      "true_automatic": 170,
+      "incorrect_automatic": 8,
+      "automatic": 178,
+      "renamed_labels": 99,
+      "renamed_true_automatic": 66,
+      "correct_ambiguity": 5,
+      "incorrect_ambiguity": 4,
+      "no_match_predictions": 69,
+      "ambiguous_predictions": 9,
+      "abstentions": 78,
+      "precision": 0.9550561797752809,
+      "recall": 0.8333333333333334,
+      "renamed_recall": 0.6666666666666666,
+      "accuracy": 0.83984375,
+      "coverage": 0.6953125
+    }
+  },
+  "prior_independent": {
+    "baseline": {
+      "fields": 105,
+      "correct_decisions": 91,
+      "match_labels": 41,
+      "no_match_labels": 62,
+      "ambiguous_labels": 2,
+      "true_automatic": 35,
+      "incorrect_automatic": 8,
+      "automatic": 43,
+      "renamed_labels": 23,
+      "renamed_true_automatic": 17,
+      "correct_ambiguity": 0,
+      "incorrect_ambiguity": 0,
+      "no_match_predictions": 62,
+      "ambiguous_predictions": 0,
+      "abstentions": 62,
+      "precision": 0.813953488372093,
+      "recall": 0.8536585365853658,
+      "renamed_recall": 0.7391304347826086,
+      "accuracy": 0.8666666666666667,
+      "coverage": 0.4095238095238095
+    },
+    "proposed": {
+      "fields": 105,
+      "correct_decisions": 91,
+      "match_labels": 41,
+      "no_match_labels": 62,
+      "ambiguous_labels": 2,
+      "true_automatic": 35,
+      "incorrect_automatic": 8,
+      "automatic": 43,
+      "renamed_labels": 23,
+      "renamed_true_automatic": 17,
+      "correct_ambiguity": 0,
+      "incorrect_ambiguity": 0,
+      "no_match_predictions": 62,
+      "ambiguous_predictions": 0,
+      "abstentions": 62,
+      "precision": 0.813953488372093,
+      "recall": 0.8536585365853658,
+      "renamed_recall": 0.7391304347826086,
+      "accuracy": 0.8666666666666667,
+      "coverage": 0.4095238095238095
+    }
+  },
+  "reliability": {
+    "baseline": {
+      "fields": 236,
+      "correct_decisions": 145,
+      "match_labels": 187,
+      "no_match_labels": 49,
+      "ambiguous_labels": 0,
+      "true_automatic": 118,
+      "incorrect_automatic": 20,
+      "automatic": 138,
+      "renamed_labels": 114,
+      "renamed_true_automatic": 52,
+      "correct_ambiguity": 0,
+      "incorrect_ambiguity": 36,
+      "no_match_predictions": 62,
+      "ambiguous_predictions": 36,
+      "abstentions": 98,
+      "precision": 0.855072463768116,
+      "recall": 0.6310160427807486,
+      "renamed_recall": 0.45614035087719296,
+      "accuracy": 0.614406779661017,
+      "coverage": 0.5847457627118644
+    },
+    "proposed": {
+      "fields": 236,
+      "correct_decisions": 164,
+      "match_labels": 187,
+      "no_match_labels": 49,
+      "ambiguous_labels": 0,
+      "true_automatic": 137,
+      "incorrect_automatic": 18,
+      "automatic": 155,
+      "renamed_labels": 114,
+      "renamed_true_automatic": 71,
+      "correct_ambiguity": 0,
+      "incorrect_ambiguity": 32,
+      "no_match_predictions": 49,
+      "ambiguous_predictions": 32,
+      "abstentions": 81,
+      "precision": 0.8838709677419355,
+      "recall": 0.732620320855615,
+      "renamed_recall": 0.6228070175438597,
+      "accuracy": 0.6949152542372882,
+      "coverage": 0.6567796610169492
+    }
+  },
+  "changes": [
+    {
+      "baseline": {
+        "kind": "no_match",
+        "score": 0.8414400383371271
+      },
+      "dataset": "eval_reliability/financial_02.json",
+      "gold": {
+        "kind": "match",
+        "source": "correction_delete_indicator_code",
+        "target": "correction_delete_indicatr"
+      },
+      "ms": 5.217629,
+      "proposed": {
+        "kind": "match",
+        "score": 0.8414400383371271,
+        "target": "correction_delete_indicatr"
+      },
+      "source": "correction_delete_indicator_code"
+    },
+    {
+      "baseline": {
+        "kind": "no_match",
+        "score": 0.764812834224599
+      },
+      "dataset": "eval_reliability/financial_02.json",
+      "gold": {
+        "kind": "match",
+        "source": "indirect_cost_federal_share_amount",
+        "target": "indirect_federal_sharing"
+      },
+      "ms": 5.217629,
+      "proposed": {
+        "kind": "match",
+        "score": 0.764812834224599,
+        "target": "indirect_federal_sharing"
+      },
+      "source": "indirect_cost_federal_share_amount"
+    },
+    {
+      "baseline": {
+        "kind": "no_match",
+        "score": 0.8319595354065193
+      },
+      "dataset": "eval_reliability/financial_02.json",
+      "gold": {
+        "kind": "match",
+        "source": "primary_place_of_performance_foreign_location",
+        "target": "place_of_performance_forei"
+      },
+      "ms": 5.217629,
+      "proposed": {
+        "kind": "match",
+        "score": 0.8319595354065193,
+        "target": "place_of_performance_forei"
+      },
+      "source": "primary_place_of_performance_foreign_location"
+    },
+    {
+      "baseline": {
+        "kind": "no_match",
+        "score": 0.8379542899962533
+      },
+      "dataset": "eval_reliability/financial_03.json",
+      "gold": {
+        "kind": "match",
+        "source": "base_and_exercised_options_value",
+        "target": "base_exercised_options_val"
+      },
+      "ms": 5.26281,
+      "proposed": {
+        "kind": "match",
+        "score": 0.8379542899962533,
+        "target": "base_exercised_options_val"
+      },
+      "source": "base_and_exercised_options_value"
+    },
+    {
+      "baseline": {
+        "kind": "no_match",
+        "score": 0.8394529786436867
+      },
+      "dataset": "eval_reliability/financial_03.json",
+      "gold": {
+        "kind": "match",
+        "source": "potential_total_value_of_award",
+        "target": "potential_total_value_awar"
+      },
+      "ms": 5.26281,
+      "proposed": {
+        "kind": "match",
+        "score": 0.8394529786436867,
+        "target": "potential_total_value_awar"
+      },
+      "source": "potential_total_value_of_award"
+    },
+    {
+      "baseline": {
+        "kind": "no_match",
+        "score": 0.8310290856919265
+      },
+      "dataset": "eval_reliability/financial_03.json",
+      "gold": {
+        "kind": "match",
+        "source": "period_of_performance_potential_end_date",
+        "target": "period_of_perf_potential_e"
+      },
+      "ms": 5.26281,
+      "proposed": {
+        "kind": "match",
+        "score": 0.8310290856919265,
+        "target": "period_of_perf_potential_e"
+      },
+      "source": "period_of_performance_potential_end_date"
+    },
+    {
+      "baseline": {
+        "kind": "match",
+        "score": 0.9,
+        "target": "location.period.start"
+      },
+      "dataset": "eval_reliability/healthcare_01.json",
+      "gold": {
+        "kind": "match",
+        "source": "period.start",
+        "target": "actualPeriod.start"
+      },
+      "ms": 1.480307,
+      "proposed": {
+        "kind": "match",
+        "score": 0.8385026737967914,
+        "target": "actualPeriod.start"
+      },
+      "source": "period.start"
+    },
+    {
+      "baseline": {
+        "kind": "ambiguous",
+        "score": 0.7779111111111111,
+        "targets": [
+          "data.vehicles[].current_fuel_percent",
+          "data.vehicles[].current_range_meters"
+        ]
+      },
+      "dataset": "eval_reliability/operations_02.json",
+      "gold": {
+        "kind": "match",
+        "source": "data.bikes[].current_fuel_percent",
+        "target": "data.vehicles[].current_fuel_percent"
+      },
+      "ms": 3.590873,
+      "proposed": {
+        "kind": "match",
+        "score": 0.7779111111111111,
+        "target": "data.vehicles[].current_fuel_percent"
+      },
+      "source": "data.bikes[].current_fuel_percent"
+    },
+    {
+      "baseline": {
+        "kind": "ambiguous",
+        "score": 0.7970909090909091,
+        "targets": [
+          "data.vehicles[].home_station_id",
+          "data.vehicles[].rental_uris.web"
+        ]
+      },
+      "dataset": "eval_reliability/operations_02.json",
+      "gold": {
+        "kind": "match",
+        "source": "data.bikes[].home_station_id",
+        "target": "data.vehicles[].home_station_id"
+      },
+      "ms": 3.590873,
+      "proposed": {
+        "kind": "match",
+        "score": 0.7970909090909091,
+        "target": "data.vehicles[].home_station_id"
+      },
+      "source": "data.bikes[].home_station_id"
+    },
+    {
+      "baseline": {
+        "kind": "match",
+        "score": 0.8764723935610049,
+        "target": "data.vehicles[].rental_uris.web"
+      },
+      "dataset": "eval_reliability/operations_02.json",
+      "gold": {
+        "kind": "match",
+        "source": "data.bikes[].available_until",
+        "target": "data.vehicles[].available_until"
+      },
+      "ms": 3.590873,
+      "proposed": {
+        "kind": "match",
+        "score": 0.7707740086000956,
+        "target": "data.vehicles[].available_until"
+      },
+      "source": "data.bikes[].available_until"
+    },
+    {
+      "baseline": {
+        "kind": "ambiguous",
+        "score": 0.8823338063878302,
+        "targets": [
+          "transportDetails.transportCall.transportCallReference",
+          "transportDetails.transportCall.serviceCodeOrReference.carrierServiceCode"
+        ]
+      },
+      "dataset": "eval_reliability/operations_03.json",
+      "gold": {
+        "kind": "match",
+        "source": "transportCall.carrierServiceCode",
+        "target": "transportDetails.transportCall.serviceCodeOrReference.carrierServiceCode"
+      },
+      "ms": 13.185018,
+      "proposed": {
+        "kind": "match",
+        "score": 0.85,
+        "target": "transportDetails.transportCall.serviceCodeOrReference.carrierServiceCode"
+      },
+      "source": "transportCall.carrierServiceCode"
+    },
+    {
+      "baseline": {
+        "kind": "ambiguous",
+        "score": 0.8222141823444283,
+        "targets": [
+          "transportDetails.transportCall.vesselTransport.vesselIMONumber",
+          "transportDetails.transportCall.transportCallReference"
+        ]
+      },
+      "dataset": "eval_reliability/operations_03.json",
+      "gold": {
+        "kind": "match",
+        "source": "transportCall.vessel.vesselIMONumber",
+        "target": "transportDetails.transportCall.vesselTransport.vesselIMONumber"
+      },
+      "ms": 13.185018,
+      "proposed": {
+        "kind": "match",
+        "score": 0.8222141823444283,
+        "target": "transportDetails.transportCall.vesselTransport.vesselIMONumber"
+      },
+      "source": "transportCall.vessel.vesselIMONumber"
+    },
+    {
+      "baseline": {
+        "kind": "no_match",
+        "score": 0.8216843933145214
+      },
+      "dataset": "eval_reliability_new/financial_01.json",
+      "gold": {
+        "kind": "match",
+        "source": "subaward_action_date",
+        "target": "sub_action_date"
+      },
+      "ms": 6.589463,
+      "proposed": {
+        "kind": "match",
+        "score": 0.8216843933145214,
+        "target": "sub_action_date"
+      },
+      "source": "subaward_action_date"
+    },
+    {
+      "baseline": {
+        "kind": "no_match",
+        "score": 0.8114999424427305
+      },
+      "dataset": "eval_reliability_new/financial_01.json",
+      "gold": {
+        "kind": "match",
+        "source": "subaward_primary_place_of_performance_city_name",
+        "target": "sub_place_of_perform_city_name"
+      },
+      "ms": 6.589463,
+      "proposed": {
+        "kind": "match",
+        "score": 0.8114999424427305,
+        "target": "sub_place_of_perform_city_name"
+      },
+      "source": "subaward_primary_place_of_performance_city_name"
+    },
+    {
+      "baseline": {
+        "kind": "no_match",
+        "score": 0.8130608175473579
+      },
+      "dataset": "eval_reliability_new/financial_01.json",
+      "gold": {
+        "kind": "match",
+        "source": "subaward_primary_place_of_performance_country_code",
+        "target": "sub_place_of_perform_country_co"
+      },
+      "ms": 6.589463,
+      "proposed": {
+        "kind": "match",
+        "score": 0.8130608175473579,
+        "target": "sub_place_of_perform_country_co"
+      },
+      "source": "subaward_primary_place_of_performance_country_code"
+    },
+    {
+      "baseline": {
+        "kind": "no_match",
+        "score": 0.8130608175473579
+      },
+      "dataset": "eval_reliability_new/financial_01.json",
+      "gold": {
+        "kind": "match",
+        "source": "subaward_primary_place_of_performance_state_code",
+        "target": "sub_place_of_perform_state_code"
+      },
+      "ms": 6.589463,
+      "proposed": {
+        "kind": "match",
+        "score": 0.8130608175473579,
+        "target": "sub_place_of_perform_state_code"
+      },
+      "source": "subaward_primary_place_of_performance_state_code"
+    },
+    {
+      "baseline": {
+        "kind": "no_match",
+        "score": 0.8054989816700612
+      },
+      "dataset": "eval_reliability_new/financial_01.json",
+      "gold": {
+        "kind": "match",
+        "source": "subaward_primary_place_of_performance_address_zip_code",
+        "target": "sub_place_of_performance_zip"
+      },
+      "ms": 6.589463,
+      "proposed": {
+        "kind": "match",
+        "score": 0.8054989816700612,
+        "target": "sub_place_of_performance_zip"
+      },
+      "source": "subaward_primary_place_of_performance_address_zip_code"
+    },
+    {
+      "baseline": {
+        "kind": "no_match",
+        "score": 0.8230851252887862
+      },
+      "dataset": "eval_reliability_new/financial_01.json",
+      "gold": {
+        "kind": "match",
+        "source": "subawardee_business_types",
+        "target": "sub_business_types"
+      },
+      "ms": 6.589463,
+      "proposed": {
+        "kind": "match",
+        "score": 0.8230851252887862,
+        "target": "sub_business_types"
+      },
+      "source": "subawardee_business_types"
+    },
+    {
+      "baseline": {
+        "kind": "no_match",
+        "score": 0.8061053805408419
+      },
+      "dataset": "eval_reliability_new/financial_01.json",
+      "gold": {
+        "kind": "match",
+        "source": "subawardee_dba_name",
+        "target": "sub_dba_name"
+      },
+      "ms": 6.589463,
+      "proposed": {
+        "kind": "match",
+        "score": 0.8061053805408419,
+        "target": "sub_dba_name"
+      },
+      "source": "subawardee_dba_name"
+    }
+  ],
+  "correctness_regressions": []
+}

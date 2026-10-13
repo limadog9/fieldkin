@@ -1,0 +1,89 @@
+7.3 PROCEDURE_COST
+The procedure cost table captures the cost of a Procedure performed on a Person. The information about
+the cost is only derived from the amounts paid for the Procedure. This is in contrast to the Drug Cost data
+which also contain information about true amount charged by the distributor. In addition, Revenue codes
+are captured.
+ Field                             Required     Type          Description
+
+ procedure_cost_id                    Yes       integer       A unique identifier for each procedure cost record.
+
+ procedure_occurrence_id              Yes       integer       A foreign key identifier to the procedure record for
+                                                              which cost data are recorded.
+
+
+
+
+                                                                                                                     59
+OMOP Common Data Model Specification – Version 5
+
+
+ Field                           Required   Type          Description
+
+ currency_concept_id                No      integer       A concept representing the 3-letter code used to
+                                                          delineate international currencies, such as USD for
+                                                          US Dollar.
+ paid_copay                         No      float         The amount paid by the person as a fixed contribution
+                                                          to the expenses. Copay does not contribute to the
+                                                          out_of_pocket expenses.
+ paid_coinsurance                   No      float         The amount paid by the person as a joint assumption
+                                                          of risk. Typically, this is a percentage of the expenses
+                                                          defined by the payer plan (policy) after the person's
+                                                          deductible is exceeded.
+ paid_toward_deductible             No      float         The amount paid by the person that is counted toward
+                                                          the deductible defined by the payer plan (policy).
+
+ paid_by_payer                      No      float         The amount paid by the payer (insurer). If there is
+                                                          more than one payer, several procedure_cost records
+                                                          indicate that fact.
+ paid_by_coordination_benefits      No      float         The amount paid by a secondary payer through the
+                                                          coordination of benefits.
+ total_out_of_pocket                No      float         The total amount paid by the person as a share of the
+                                                          expenses
+ total_paid                         No      float         The total amount paid for the expenses of the
+                                                          procedure.
+ revenue_code_concept_id            No      integer       A foreign key referring to a standard concept identifier
+                                                          in the Standardized Vocabularies for revenue codes.
+
+
+ payer_plan_period_id               No      integer       A foreign key to the payer_plan_period table, where
+                                                          the details of the payer, plan and family are stored.
+
+ revenue_code_source_value          No      varchar(50)   The source code for the revenue code as it appears in
+                                                          the source data, stored here for reference.
+
+
+
+7.3.1 CONVENTIONS
+
+        Each Procedure Occurrence may have any number of corresponding records in the Procedure
+         Cost table, but typically it is none (cost data not captured) or one (one payment per Procedure).
+         They are linked directly through the Procedure Occurrence ID field.
+
+The amounts paid are:
+        Copay – a fixed amount to be paid by the Person
+        Coinsurance – a relative amount of the total paid by the Person
+        Deductible – an amount of money paid by the Person before the Payer starts contributing
+        Primary Payer – the amount the primary Payer pays towards the total
+        Coordination of Benefits – the amount a secondary Payer or Family Plan pays towards the total
+        Out of Pocket = Copay + Coinsurance + Deductible
+        Total – the total amount paid for the procedure
+
+The amounts in various payment components should equal the total, so Copay + Coinsurance +
+Deductible + Primary Payer + COB = Total Paid. In reality, this is not always reflected in the source data.
+It is up to the ETL to determine how to deal with quality problems in the data.
+
+                                                                                                                  60
+OMOP Common Data Model Specification – Version 5
+
+
+There are important indicators for the amount paid that are determined through the health plan design:
+
+        Revenue Codes – determining what service within a provider is charging for the service
+
+All these data are captured as Source Values and Concept IDs referring to the Standardized
+Vocabularies.
+Finally, the health plan of the Person that is determined by these numbers is referred to through the
+Payer Plan Period ID (see below).
+
+
+

@@ -22,6 +22,8 @@ const CORPORA: &[&str] = &["eval", "eval_realworld"];
 const BASELINE: &str = "validation/quality_baseline.json";
 const INDEPENDENT_BASELINE: &str = "validation/independent_quality_baseline.json";
 const RELIABILITY_BASELINE: &str = "validation/reliability_quality_baseline.json";
+const SEMANTIC_BASELINE: &str = "validation/semantic_quality_baseline.json";
+const SEMANTIC_MANIFEST: &str = "validation/semantic_corpus.json";
 
 impl Answer {
     fn category(&self) -> Category {
@@ -565,7 +567,7 @@ fn run() -> Result<(), String> {
     let command = args.next().unwrap_or_else(|| "--check".into());
     if args.next().is_some() {
         return Err(
-            "usage: evaluate_all [--check | --print-baseline | --independent | --check-independent | --print-independent-baseline | --reliability | --check-reliability | --print-reliability-baseline | DIRECTORY]".into(),
+            "usage: evaluate_all [--check | --print-baseline | --independent | --check-independent | --print-independent-baseline | --reliability | --check-reliability | --print-reliability-baseline | --semantic | --check-semantic | --print-semantic-baseline | DIRECTORY]".into(),
         );
     }
     let root = Path::new(env!("CARGO_MANIFEST_DIR"));
@@ -600,13 +602,26 @@ fn run() -> Result<(), String> {
                     | "--reliability"
                     | "--check-reliability"
                     | "--print-reliability-baseline"
+                    | "--semantic"
+                    | "--check-semantic"
+                    | "--print-semantic-baseline"
             ) || !directory.starts_with('-') =>
         {
             let is_reliability = matches!(
                 directory,
                 "--reliability" | "--check-reliability" | "--print-reliability-baseline"
             );
-            let evaluation = if is_reliability {
+            let is_semantic = matches!(
+                directory,
+                "--semantic" | "--check-semantic" | "--print-semantic-baseline"
+            );
+            let evaluation = if is_semantic {
+                evaluate_cases(reliability::load_verified_corpus(
+                    root,
+                    SEMANTIC_MANIFEST,
+                    "eval_semantic",
+                )?)?
+            } else if is_reliability {
                 evaluate_cases(reliability::load_verified(root)?)?
             } else if directory.starts_with("--") {
                 evaluate_independent(root)?
@@ -615,7 +630,9 @@ fn run() -> Result<(), String> {
             };
             if matches!(
                 directory,
-                "--print-independent-baseline" | "--print-reliability-baseline"
+                "--print-independent-baseline"
+                    | "--print-reliability-baseline"
+                    | "--print-semantic-baseline"
             ) {
                 println!(
                     "{}",
@@ -635,25 +652,34 @@ fn run() -> Result<(), String> {
             if directory == "--check-independent" {
                 check(&evaluation, &independent_baseline(root)?)?;
                 println!("Independent suggestion quality regression check passed.");
-            } else if directory == "--check-reliability" {
-                let path = root.join(RELIABILITY_BASELINE);
+            } else if directory == "--check-reliability" || directory == "--check-semantic" {
+                let path = root.join(if is_semantic {
+                    SEMANTIC_BASELINE
+                } else {
+                    RELIABILITY_BASELINE
+                });
                 let raw = fs::read_to_string(&path)
                     .map_err(|error| format!("{}: {error}", path.display()))?;
                 let baseline: Baseline =
                     serde_json::from_str(&raw).map_err(|error| error.to_string())?;
                 check(&evaluation, &baseline)?;
                 println!(
-                    "Reliability suggestion quality regression check passed (existing errors remain visible)."
+                    "{} suggestion quality regression check passed (existing errors remain visible).",
+                    if is_semantic {
+                        "Semantic"
+                    } else {
+                        "Reliability"
+                    }
                 );
             } else {
                 println!(
-                    "Report only; use --check, --check-independent or --check-reliability for the frozen quality baselines."
+                    "Report only; use --check, --check-independent, --check-reliability or --check-semantic for the frozen quality baselines."
                 );
             }
         }
         _ => {
             return Err(
-                "usage: evaluate_all [--check | --print-baseline | --independent | --check-independent | --print-independent-baseline | --reliability | --check-reliability | --print-reliability-baseline | DIRECTORY]"
+                "usage: evaluate_all [--check | --print-baseline | --independent | --check-independent | --print-independent-baseline | --reliability | --check-reliability | --print-reliability-baseline | --semantic | --check-semantic | --print-semantic-baseline | DIRECTORY]"
                     .into(),
             );
         }

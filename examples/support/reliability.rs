@@ -11,7 +11,10 @@ use sha2::{Digest, Sha256};
 
 use crate::labeled::{EvalCase, FrozenCorpus, fingerprint, load_cases, parse_case, verify_freeze};
 
+// Some runners reuse only the single-corpus loader rather than these tranches.
+#[allow(dead_code)]
 pub const MANIFEST: &str = "validation/reliability_corpus.json";
+#[allow(dead_code)]
 const FOLLOWUP_MANIFEST: &str = "validation/reliability_followup_corpus.json";
 
 #[derive(Deserialize)]
@@ -136,6 +139,20 @@ fn verify(root: &Path, raw: &str, cases: &BTreeMap<String, EvalCase>) -> Result<
     Ok(())
 }
 
+/// Verify one frozen corpus, its provenance, and its original case selection
+/// before the caller can invoke a matcher. No source code is executed here.
+pub fn load_verified_corpus(
+    root: &Path,
+    manifest: &str,
+    directory: &str,
+) -> Result<BTreeMap<String, EvalCase>, String> {
+    let raw = fs::read_to_string(root.join(manifest)).map_err(|e| format!("{manifest}: {e}"))?;
+    let cases = load_cases(root, &[directory])?;
+    verify(root, &raw, &cases).map_err(|e| format!("{manifest}: {e}"))?;
+    Ok(cases)
+}
+
+#[allow(dead_code)]
 pub fn load_verified(root: &Path) -> Result<BTreeMap<String, EvalCase>, String> {
     let mut combined = BTreeMap::new();
     let mut names = BTreeSet::new();
@@ -145,10 +162,7 @@ pub fn load_verified(root: &Path) -> Result<BTreeMap<String, EvalCase>, String> 
         (MANIFEST, "eval_reliability"),
         (FOLLOWUP_MANIFEST, "eval_reliability_new"),
     ] {
-        let raw =
-            fs::read_to_string(root.join(manifest)).map_err(|e| format!("{manifest}: {e}"))?;
-        let cases = load_cases(root, &[directory])?;
-        verify(root, &raw, &cases).map_err(|e| format!("{manifest}: {e}"))?;
+        let cases = load_verified_corpus(root, manifest, directory)?;
         for (id, case) in cases {
             if !names.insert(case.name.clone()) || combined.insert(id.clone(), case).is_some() {
                 return Err(format!("{id}: duplicate reliability case across tranches"));
@@ -165,6 +179,22 @@ mod tests {
     #[test]
     fn frozen_reliability_labels_and_provenance_are_valid() {
         load_verified(Path::new(env!("CARGO_MANIFEST_DIR"))).unwrap();
+    }
+
+    #[test]
+    fn frozen_semantic_corpus_has_valid_provenance_and_gold_ambiguity() {
+        let cases = load_verified_corpus(
+            Path::new(env!("CARGO_MANIFEST_DIR")),
+            "validation/semantic_corpus.json",
+            "eval_semantic",
+        )
+        .unwrap();
+        assert!(
+            cases
+                .values()
+                .flat_map(|case| &case.answers)
+                .any(|answer| { matches!(answer, crate::labeled::Answer::Ambiguous { .. }) })
+        );
     }
 
     #[test]

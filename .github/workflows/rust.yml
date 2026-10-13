@@ -57,6 +57,8 @@ jobs:
           python validation/reliability/verify_extraction.py
       - name: Check reliability against the original-runtime baseline
         run: cargo run --locked --example evaluate_all -- --check-reliability
+      - name: Check newly sourced semantic cases against the original runtime
+        run: cargo run --locked --example evaluate_all -- --check-semantic
       - run: cargo test --locked --all-targets --all-features
       - run: cargo test --locked --doc
       - run: cargo package --locked

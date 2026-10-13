@@ -1,0 +1,252 @@
+{
+  "name": "omop_v5_0_1_procedure_cost_to_v5_2_2_cost",
+  "source": {
+    "fields": [
+      {
+        "name": "procedure_cost.procedure_cost_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "procedure_cost.procedure_occurrence_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "procedure_cost.currency_concept_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "procedure_cost.paid_copay",
+        "data_type": "decimal",
+        "samples": []
+      },
+      {
+        "name": "procedure_cost.paid_coinsurance",
+        "data_type": "decimal",
+        "samples": []
+      },
+      {
+        "name": "procedure_cost.paid_toward_deductible",
+        "data_type": "decimal",
+        "samples": []
+      },
+      {
+        "name": "procedure_cost.paid_by_payer",
+        "data_type": "decimal",
+        "samples": []
+      },
+      {
+        "name": "procedure_cost.paid_by_coordination_benefits",
+        "data_type": "decimal",
+        "samples": []
+      },
+      {
+        "name": "procedure_cost.total_out_of_pocket",
+        "data_type": "decimal",
+        "samples": []
+      },
+      {
+        "name": "procedure_cost.total_paid",
+        "data_type": "decimal",
+        "samples": []
+      },
+      {
+        "name": "procedure_cost.revenue_code_concept_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "procedure_cost.payer_plan_period_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "procedure_cost.revenue_code_source_value",
+        "data_type": "text",
+        "samples": []
+      }
+    ]
+  },
+  "target": {
+    "fields": [
+      {
+        "name": "cost.cost_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "cost.cost_event_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "cost.cost_domain_id",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "cost.cost_type_concept_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "cost.currency_concept_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "cost.total_charge",
+        "data_type": "decimal",
+        "samples": []
+      },
+      {
+        "name": "cost.total_cost",
+        "data_type": "decimal",
+        "samples": []
+      },
+      {
+        "name": "cost.total_paid",
+        "data_type": "decimal",
+        "samples": []
+      },
+      {
+        "name": "cost.paid_by_payer",
+        "data_type": "decimal",
+        "samples": []
+      },
+      {
+        "name": "cost.paid_by_patient",
+        "data_type": "decimal",
+        "samples": []
+      },
+      {
+        "name": "cost.paid_patient_copay",
+        "data_type": "decimal",
+        "samples": []
+      },
+      {
+        "name": "cost.paid_patient_coinsurance",
+        "data_type": "decimal",
+        "samples": []
+      },
+      {
+        "name": "cost.paid_patient_deductible",
+        "data_type": "decimal",
+        "samples": []
+      },
+      {
+        "name": "cost.paid_by_primary",
+        "data_type": "decimal",
+        "samples": []
+      },
+      {
+        "name": "cost.paid_ingredient_cost",
+        "data_type": "decimal",
+        "samples": []
+      },
+      {
+        "name": "cost.paid_dispensing_fee",
+        "data_type": "decimal",
+        "samples": []
+      },
+      {
+        "name": "cost.payer_plan_period_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "cost.amount_allowed",
+        "data_type": "decimal",
+        "samples": []
+      },
+      {
+        "name": "cost.revenue_code_concept_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "cost.reveue_code_source_value",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "cost.drg_concept_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "cost.drg_source_value",
+        "data_type": "text",
+        "samples": []
+      }
+    ]
+  },
+  "answers": [
+    {
+      "source": "procedure_cost.procedure_cost_id",
+      "kind": "match",
+      "target": "cost.cost_id"
+    },
+    {
+      "source": "procedure_cost.procedure_occurrence_id",
+      "kind": "match",
+      "target": "cost.cost_event_id"
+    },
+    {
+      "source": "procedure_cost.currency_concept_id",
+      "kind": "match",
+      "target": "cost.currency_concept_id"
+    },
+    {
+      "source": "procedure_cost.paid_copay",
+      "kind": "match",
+      "target": "cost.paid_patient_copay"
+    },
+    {
+      "source": "procedure_cost.paid_coinsurance",
+      "kind": "match",
+      "target": "cost.paid_patient_coinsurance"
+    },
+    {
+      "source": "procedure_cost.paid_toward_deductible",
+      "kind": "match",
+      "target": "cost.paid_patient_deductible"
+    },
+    {
+      "source": "procedure_cost.paid_by_payer",
+      "kind": "match",
+      "target": "cost.paid_by_payer"
+    },
+    {
+      "source": "procedure_cost.paid_by_coordination_benefits",
+      "kind": "no_match"
+    },
+    {
+      "source": "procedure_cost.total_out_of_pocket",
+      "kind": "match",
+      "target": "cost.paid_by_patient"
+    },
+    {
+      "source": "procedure_cost.total_paid",
+      "kind": "match",
+      "target": "cost.total_paid"
+    },
+    {
+      "source": "procedure_cost.revenue_code_concept_id",
+      "kind": "match",
+      "target": "cost.revenue_code_concept_id"
+    },
+    {
+      "source": "procedure_cost.payer_plan_period_id",
+      "kind": "match",
+      "target": "cost.payer_plan_period_id"
+    },
+    {
+      "source": "procedure_cost.revenue_code_source_value",
+      "kind": "match",
+      "target": "cost.reveue_code_source_value"
+    }
+  ]
+}

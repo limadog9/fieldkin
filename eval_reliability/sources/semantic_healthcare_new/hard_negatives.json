@@ -1,0 +1,276 @@
+{
+  "count": 27,
+  "scope": "These actual target fields are individually reviewed confounders. No claim of separate review for every other noncorresponding pair in the full Cartesian matrix.",
+  "pairs": [
+    {
+      "source": "visit_occurrence.visit_occurrence_id",
+      "target": "VISIT_OCCURRENCE.preceding_visit_occurrence_id",
+      "kind": "hard_negative",
+      "basis": "Identity of the current visit differs from the self-reference to the immediately preceding visit.",
+      "source_description_quote": "A unique identifier for each Person's visit or encounter at a healthcare provider.",
+      "target_user_guidance_quote": "Use this field to find the visit that occurred for the person prior to the given visit. There could be a few days or a few years in between.",
+      "target_etl_conventions_quote": "This field can be used to link a visit immediately preceding the current visit. Note this is not symmetrical, and there is no such thing as a \"following_visit_id\".",
+      "evidence": "Full field-role and declaration quotations are in contexts.json and raw publisher excerpts; independent source reviewer confirmed this distinction."
+    },
+    {
+      "source": "visit_occurrence.preceding_visit_occurrence_id",
+      "target": "VISIT_OCCURRENCE.visit_occurrence_id",
+      "kind": "hard_negative",
+      "basis": "Identity of the current visit differs from the self-reference to the immediately preceding visit.",
+      "source_description_quote": "A foreign key to the VISIT_OCCURRENCE table of the visit immediately preceding this visit",
+      "target_user_guidance_quote": "Use this to identify unique interactions between a person and the health care system. This identifier links across the other CDM event tables to associate events with a visit.",
+      "target_etl_conventions_quote": "This should be populated by creating a unique identifier for each unique interaction between a person and the healthcare system where the person receives a medical good or service over a span of time.",
+      "evidence": "Full field-role and declaration quotations are in contexts.json and raw publisher excerpts; independent source reviewer confirmed this distinction."
+    },
+    {
+      "source": "visit_occurrence.person_id",
+      "target": "VISIT_OCCURRENCE.provider_id",
+      "kind": "hard_negative",
+      "basis": "The patient/person receiving care and the provider delivering it are distinct referenced entities.",
+      "source_description_quote": "A foreign key identifier to the Person for whom the visit is recorded. The demographic details of that Person are stored in the PERSON table.",
+      "target_user_guidance_quote": "There will only be one provider per visit record and the ETL document should clearly state how they were chosen (attending, admitting, etc.). If there are multiple providers associated with a visit in the source, this can be reflected in the event tables (CONDITION_OCCURRENCE, PROCEDURE_OCCURRENCE, etc.) or in the VISIT_DETAIL table.",
+      "target_etl_conventions_quote": "If there are multiple providers associated with a visit, you will need to choose which one to put here. The additional providers can be stored in the [VISIT_DETAIL](https://ohdsi.github.io/CommonDataModel/cdm531.html#visit_detail) table.",
+      "evidence": "Full field-role and declaration quotations are in contexts.json and raw publisher excerpts; independent source reviewer confirmed this distinction."
+    },
+    {
+      "source": "visit_occurrence.provider_id",
+      "target": "VISIT_OCCURRENCE.person_id",
+      "kind": "hard_negative",
+      "basis": "The patient/person receiving care and the provider delivering it are distinct referenced entities.",
+      "source_description_quote": "A foreign key to the provider in the provider table who was associated with the visit.",
+      "target_user_guidance_quote": "",
+      "target_etl_conventions_quote": "",
+      "evidence": "Full field-role and declaration quotations are in contexts.json and raw publisher excerpts; independent source reviewer confirmed this distinction."
+    },
+    {
+      "source": "visit_occurrence.visit_concept_id",
+      "target": "VISIT_OCCURRENCE.visit_type_concept_id",
+      "kind": "hard_negative",
+      "basis": "The kind/setting of the medical visit and the provenance of the source record are different concept domains and roles.",
+      "source_description_quote": "A foreign key that refers to a visit Concept identifier in the Standardized Vocabularies.",
+      "target_user_guidance_quote": "Use this field to understand the provenance of the visit record, or where the record comes from.",
+      "target_etl_conventions_quote": "Populate this field based on the provenance of the visit record, as in whether it came from an EHR record or billing claim. [Accepted Concepts](https://athena.ohdsi.org/search-terms/terms?domain=Type+Concept&standardConcept=Standard&page=1&pageSize=15&query=). A more detailed explanation of each Type Concept can be found on the [vocabulary wiki](https://github.com/OHDSI/Vocabulary-v5.0/wiki/Vocab.-TYPE_CONCEPT). ",
+      "evidence": "Full field-role and declaration quotations are in contexts.json and raw publisher excerpts; independent source reviewer confirmed this distinction."
+    },
+    {
+      "source": "visit_occurrence.visit_type_concept_id",
+      "target": "VISIT_OCCURRENCE.visit_concept_id",
+      "kind": "hard_negative",
+      "basis": "The kind/setting of the medical visit and the provenance of the source record are different concept domains and roles.",
+      "source_description_quote": "A foreign key to the predefined Concept identifier in the Standardized Vocabularies reflecting the type of source data from which the visit record is derived.",
+      "target_user_guidance_quote": "This field contains a concept id representing the kind of visit, like inpatient or outpatient. All concepts in this field should be standard and belong to the Visit domain.",
+      "target_etl_conventions_quote": "Populate this field based on the kind of visit that took place for the person. For example this could be \"Inpatient Visit\", \"Outpatient Visit\", \"Ambulatory Visit\", etc. This table will contain standard concepts in the Visit domain. These concepts are arranged in a hierarchical structure to facilitate cohort definitions by rolling up to generally familiar Visits adopted in most healthcare systems worldwide. [Accepted Concepts](https://athena.ohdsi.org/search-terms/terms?domain=Visit&standardConcept=Standard&page=1&pageSize=15&query=).",
+      "evidence": "Full field-role and declaration quotations are in contexts.json and raw publisher excerpts; independent source reviewer confirmed this distinction."
+    },
+    {
+      "source": "visit_occurrence.visit_start_date",
+      "target": "VISIT_OCCURRENCE.visit_start_datetime",
+      "kind": "hard_negative",
+      "basis": "Calendar date and date/time TIMESTAMP precision are separately declared roles; neither field is a direct replacement of the other.",
+      "source_description_quote": "The start date of the visit.",
+      "target_user_guidance_quote": "",
+      "target_etl_conventions_quote": "If no time is given for the start date of a visit, set it to midnight (00:00:0000).",
+      "evidence": "Full field-role and declaration quotations are in contexts.json and raw publisher excerpts; independent source reviewer confirmed this distinction."
+    },
+    {
+      "source": "visit_occurrence.visit_start_datetime",
+      "target": "VISIT_OCCURRENCE.visit_start_date",
+      "kind": "hard_negative",
+      "basis": "Calendar date and date/time TIMESTAMP precision are separately declared roles; neither field is a direct replacement of the other.",
+      "source_description_quote": "The date and time of the visit started.",
+      "target_user_guidance_quote": "For inpatient visits, the start date is typically the admission date. For outpatient visits the start date and end date will be the same.",
+      "target_etl_conventions_quote": "When populating VISIT_START_DATE, you should think about the patient experience to make decisions on how to define visits. In the case of an inpatient visit this should be the date the patient was admitted to the hospital or institution. In all other cases this should be the date of the patient-provider interaction.",
+      "evidence": "Full field-role and declaration quotations are in contexts.json and raw publisher excerpts; independent source reviewer confirmed this distinction."
+    },
+    {
+      "source": "visit_occurrence.visit_end_date",
+      "target": "VISIT_OCCURRENCE.visit_end_datetime",
+      "kind": "hard_negative",
+      "basis": "Calendar date and date/time TIMESTAMP precision are separately declared roles; neither field is a direct replacement of the other.",
+      "source_description_quote": "The end date of the visit. If this is a one-day visit the end date should match the start date.",
+      "target_user_guidance_quote": "If a Person is still an inpatient in the hospital at the time of the data extract and does not have a visit_end_datetime, then set the visit_end_datetime to the datetime of the data pull.",
+      "target_etl_conventions_quote": "If no time is given for the end date of a visit, set it to midnight (00:00:0000).",
+      "evidence": "Full field-role and declaration quotations are in contexts.json and raw publisher excerpts; independent source reviewer confirmed this distinction."
+    },
+    {
+      "source": "visit_occurrence.visit_end_datetime",
+      "target": "VISIT_OCCURRENCE.visit_end_date",
+      "kind": "hard_negative",
+      "basis": "Calendar date and date/time TIMESTAMP precision are separately declared roles; neither field is a direct replacement of the other.",
+      "source_description_quote": "The date and time of the visit end.",
+      "target_user_guidance_quote": "For inpatient visits the end date is typically the discharge date.  If a Person is still an inpatient in the hospital at the time of the data extract and does not have a visit_end_date, then set the visit_end_date to the date of the data pull.",
+      "target_etl_conventions_quote": "Visit end dates are mandatory. If end dates are not provided in the source there are three ways in which to derive them:\n- Outpatient Visit: visit_end_datetime = visit_start_datetime\n- Emergency Room Visit: visit_end_datetime = visit_start_datetime\n- Inpatient Visit: Usually there is information about discharge. If not, you should be able to derive the end date from the sudden decline of activity or from the absence of inpatient procedures/drugs.\n- Non-hospital institution Visits: Particularly for claims data, if end dates are not provided assume the visit is for the duration of month that it occurs.\nFor Inpatient Visits ongoing at the date of ETL, put date of processing the data into visit_end_datetime and visit_type_concept_id with 32220 \"Still patient\" to identify the visit as incomplete.\n- All other Visits: visit_end_datetime = visit_start_datetime. If this is a one-day visit the end date should match the start date.",
+      "evidence": "Full field-role and declaration quotations are in contexts.json and raw publisher excerpts; independent source reviewer confirmed this distinction."
+    },
+    {
+      "source": "visit_occurrence.visit_start_date",
+      "target": "VISIT_OCCURRENCE.visit_end_date",
+      "kind": "hard_negative",
+      "basis": "Beginning of the visit and end/discharge of the visit are different temporal boundaries.",
+      "source_description_quote": "The start date of the visit.",
+      "target_user_guidance_quote": "For inpatient visits the end date is typically the discharge date.  If a Person is still an inpatient in the hospital at the time of the data extract and does not have a visit_end_date, then set the visit_end_date to the date of the data pull.",
+      "target_etl_conventions_quote": "Visit end dates are mandatory. If end dates are not provided in the source there are three ways in which to derive them:\n- Outpatient Visit: visit_end_datetime = visit_start_datetime\n- Emergency Room Visit: visit_end_datetime = visit_start_datetime\n- Inpatient Visit: Usually there is information about discharge. If not, you should be able to derive the end date from the sudden decline of activity or from the absence of inpatient procedures/drugs.\n- Non-hospital institution Visits: Particularly for claims data, if end dates are not provided assume the visit is for the duration of month that it occurs.\nFor Inpatient Visits ongoing at the date of ETL, put date of processing the data into visit_end_datetime and visit_type_concept_id with 32220 \"Still patient\" to identify the visit as incomplete.\n- All other Visits: visit_end_datetime = visit_start_datetime. If this is a one-day visit the end date should match the start date.",
+      "evidence": "Full field-role and declaration quotations are in contexts.json and raw publisher excerpts; independent source reviewer confirmed this distinction."
+    },
+    {
+      "source": "visit_occurrence.visit_end_date",
+      "target": "VISIT_OCCURRENCE.visit_start_date",
+      "kind": "hard_negative",
+      "basis": "Beginning of the visit and end/discharge of the visit are different temporal boundaries.",
+      "source_description_quote": "The end date of the visit. If this is a one-day visit the end date should match the start date.",
+      "target_user_guidance_quote": "For inpatient visits, the start date is typically the admission date. For outpatient visits the start date and end date will be the same.",
+      "target_etl_conventions_quote": "When populating VISIT_START_DATE, you should think about the patient experience to make decisions on how to define visits. In the case of an inpatient visit this should be the date the patient was admitted to the hospital or institution. In all other cases this should be the date of the patient-provider interaction.",
+      "evidence": "Full field-role and declaration quotations are in contexts.json and raw publisher excerpts; independent source reviewer confirmed this distinction."
+    },
+    {
+      "source": "visit_occurrence.visit_start_datetime",
+      "target": "VISIT_OCCURRENCE.visit_end_datetime",
+      "kind": "hard_negative",
+      "basis": "Beginning of the visit and end/discharge of the visit are different temporal boundaries.",
+      "source_description_quote": "The date and time of the visit started.",
+      "target_user_guidance_quote": "If a Person is still an inpatient in the hospital at the time of the data extract and does not have a visit_end_datetime, then set the visit_end_datetime to the datetime of the data pull.",
+      "target_etl_conventions_quote": "If no time is given for the end date of a visit, set it to midnight (00:00:0000).",
+      "evidence": "Full field-role and declaration quotations are in contexts.json and raw publisher excerpts; independent source reviewer confirmed this distinction."
+    },
+    {
+      "source": "visit_occurrence.visit_end_datetime",
+      "target": "VISIT_OCCURRENCE.visit_start_datetime",
+      "kind": "hard_negative",
+      "basis": "Beginning of the visit and end/discharge of the visit are different temporal boundaries.",
+      "source_description_quote": "The date and time of the visit end.",
+      "target_user_guidance_quote": "",
+      "target_etl_conventions_quote": "If no time is given for the start date of a visit, set it to midnight (00:00:0000).",
+      "evidence": "Full field-role and declaration quotations are in contexts.json and raw publisher excerpts; independent source reviewer confirmed this distinction."
+    },
+    {
+      "source": "visit_occurrence.care_site_id",
+      "target": "VISIT_OCCURRENCE.admitted_from_concept_id",
+      "kind": "hard_negative",
+      "basis": "The actual care-site record visited differs from the standardized concept describing the admission origin.",
+      "source_description_quote": "A foreign key to the care site in the care site table that was visited.",
+      "target_user_guidance_quote": "Use this field to determine where the patient was admitted from. This concept is part of the visit domain and can indicate if a patient was admitted to the hospital from a long-term care facility, for example.",
+      "target_etl_conventions_quote": "If available, map the admitted_from_source_value to a standard concept in the visit domain. [Accepted Concepts](https://athena.ohdsi.org/search-terms/terms?domain=Visit&standardConcept=Standard&page=1&pageSize=15&query=). If a person was admitted from home, set this to 0.",
+      "evidence": "Full field-role and declaration quotations are in contexts.json and raw publisher excerpts; independent source reviewer confirmed this distinction."
+    },
+    {
+      "source": "visit_occurrence.visit_source_value",
+      "target": "VISIT_OCCURRENCE.visit_source_concept_id",
+      "kind": "hard_negative",
+      "basis": "A verbatim source string and the integer concept representing that source value have distinct representations and roles.",
+      "source_description_quote": "The source code for the visit as it appears in the source data.",
+      "target_user_guidance_quote": "",
+      "target_etl_conventions_quote": "If the visit source value is coded in the source data using an OMOP supported vocabulary put the concept id representing the source value here.",
+      "evidence": "Full field-role and declaration quotations are in contexts.json and raw publisher excerpts; independent source reviewer confirmed this distinction."
+    },
+    {
+      "source": "visit_occurrence.visit_source_concept_id",
+      "target": "VISIT_OCCURRENCE.visit_source_value",
+      "kind": "hard_negative",
+      "basis": "A verbatim source string and the integer concept representing that source value have distinct representations and roles.",
+      "source_description_quote": "A foreign key to a Concept that refers to the code used in the source.",
+      "target_user_guidance_quote": "This field houses the verbatim value from the source data representing the kind of visit that took place (inpatient, outpatient, emergency, etc.)",
+      "target_etl_conventions_quote": "If there is information about the kind of visit in the source data that value should be stored here. If a visit is an amalgamation of visits from the source then use a hierarchy to choose the visit source value, such as IP -> ER-> OP. This should line up with the logic chosen to determine how visits are created.",
+      "evidence": "Full field-role and declaration quotations are in contexts.json and raw publisher excerpts; independent source reviewer confirmed this distinction."
+    },
+    {
+      "source": "visit_occurrence.visit_concept_id",
+      "target": "VISIT_OCCURRENCE.visit_source_concept_id",
+      "kind": "hard_negative",
+      "basis": "A standardized kind of visit is different from the concept representing the original source code, even though both are integers referencing CONCEPT.",
+      "source_description_quote": "A foreign key that refers to a visit Concept identifier in the Standardized Vocabularies.",
+      "target_user_guidance_quote": "",
+      "target_etl_conventions_quote": "If the visit source value is coded in the source data using an OMOP supported vocabulary put the concept id representing the source value here.",
+      "evidence": "Full field-role and declaration quotations are in contexts.json and raw publisher excerpts; independent source reviewer confirmed this distinction."
+    },
+    {
+      "source": "visit_occurrence.visit_source_concept_id",
+      "target": "VISIT_OCCURRENCE.visit_concept_id",
+      "kind": "hard_negative",
+      "basis": "A standardized kind of visit is different from the concept representing the original source code, even though both are integers referencing CONCEPT.",
+      "source_description_quote": "A foreign key to a Concept that refers to the code used in the source.",
+      "target_user_guidance_quote": "This field contains a concept id representing the kind of visit, like inpatient or outpatient. All concepts in this field should be standard and belong to the Visit domain.",
+      "target_etl_conventions_quote": "Populate this field based on the kind of visit that took place for the person. For example this could be \"Inpatient Visit\", \"Outpatient Visit\", \"Ambulatory Visit\", etc. This table will contain standard concepts in the Visit domain. These concepts are arranged in a hierarchical structure to facilitate cohort definitions by rolling up to generally familiar Visits adopted in most healthcare systems worldwide. [Accepted Concepts](https://athena.ohdsi.org/search-terms/terms?domain=Visit&standardConcept=Standard&page=1&pageSize=15&query=).",
+      "evidence": "Full field-role and declaration quotations are in contexts.json and raw publisher excerpts; independent source reviewer confirmed this distinction."
+    },
+    {
+      "source": "visit_occurrence.admitting_source_concept_id",
+      "target": "VISIT_OCCURRENCE.discharged_to_concept_id",
+      "kind": "hard_negative",
+      "basis": "Where admitted FROM and where discharged TO are opposite transition endpoints with distinct publisher definitions.",
+      "source_description_quote": "A foreign key to the predefined concept in the Place of Service Vocabulary reflecting the admitting source for a visit.",
+      "target_user_guidance_quote": "Use this field to determine where the patient was discharged to after a visit. This concept is part of the visit domain and can indicate if a patient was transferred to another hospital or sent to a long-term care facility, for example.  It is assumed that a person is discharged to home therefore there is not a standard concept id for \"home\".  Use concept id = 0 when a person is discharged to home.",
+      "target_etl_conventions_quote": "If available, map the discharged_to_source_value to a standard concept in the visit domain. [Accepted Concepts](https://athena.ohdsi.org/search-terms/terms?domain=Visit&standardConcept=Standard&page=1&pageSize=15&query=).",
+      "evidence": "Full field-role and declaration quotations are in contexts.json and raw publisher excerpts; independent source reviewer confirmed this distinction."
+    },
+    {
+      "source": "visit_occurrence.discharge_to_concept_id",
+      "target": "VISIT_OCCURRENCE.admitted_from_concept_id",
+      "kind": "hard_negative",
+      "basis": "Where admitted FROM and where discharged TO are opposite transition endpoints with distinct publisher definitions.",
+      "source_description_quote": "A foreign key to the predefined concept in the Place of Service Vocabulary reflecting the discharge disposition for a visit.",
+      "target_user_guidance_quote": "Use this field to determine where the patient was admitted from. This concept is part of the visit domain and can indicate if a patient was admitted to the hospital from a long-term care facility, for example.",
+      "target_etl_conventions_quote": "If available, map the admitted_from_source_value to a standard concept in the visit domain. [Accepted Concepts](https://athena.ohdsi.org/search-terms/terms?domain=Visit&standardConcept=Standard&page=1&pageSize=15&query=). If a person was admitted from home, set this to 0.",
+      "evidence": "Full field-role and declaration quotations are in contexts.json and raw publisher excerpts; independent source reviewer confirmed this distinction."
+    },
+    {
+      "source": "visit_occurrence.admitting_source_value",
+      "target": "VISIT_OCCURRENCE.discharged_to_source_value",
+      "kind": "hard_negative",
+      "basis": "Where admitted FROM and where discharged TO are opposite transition endpoints with distinct publisher definitions.",
+      "source_description_quote": "The source code for the admitting source as it appears in the source data.",
+      "target_user_guidance_quote": "",
+      "target_etl_conventions_quote": "This information may be called something different in the source data but the field is meant to contain a value indicating where a person was discharged to after a visit, as in they went home or were moved to long-term care. Typically this applies only to visits that have a length of stay of a day or more.",
+      "evidence": "Full field-role and declaration quotations are in contexts.json and raw publisher excerpts; independent source reviewer confirmed this distinction."
+    },
+    {
+      "source": "visit_occurrence.discharge_to_source_value",
+      "target": "VISIT_OCCURRENCE.admitted_from_source_value",
+      "kind": "hard_negative",
+      "basis": "Where admitted FROM and where discharged TO are opposite transition endpoints with distinct publisher definitions.",
+      "source_description_quote": "The source code for the discharge disposition as it appears in the source data.",
+      "target_user_guidance_quote": "",
+      "target_etl_conventions_quote": "This information may be called something different in the source data but the field is meant to contain a value indicating where a person was admitted from. Typically this applies only to visits that have a length of stay, like inpatient visits or long-term care visits.",
+      "evidence": "Full field-role and declaration quotations are in contexts.json and raw publisher excerpts; independent source reviewer confirmed this distinction."
+    },
+    {
+      "source": "visit_occurrence.admitting_source_concept_id",
+      "target": "VISIT_OCCURRENCE.admitted_from_source_value",
+      "kind": "hard_negative",
+      "basis": "The standardized concept identifier and raw source string at this transition are separately declared code representations.",
+      "source_description_quote": "A foreign key to the predefined concept in the Place of Service Vocabulary reflecting the admitting source for a visit.",
+      "target_user_guidance_quote": "",
+      "target_etl_conventions_quote": "This information may be called something different in the source data but the field is meant to contain a value indicating where a person was admitted from. Typically this applies only to visits that have a length of stay, like inpatient visits or long-term care visits.",
+      "evidence": "Full field-role and declaration quotations are in contexts.json and raw publisher excerpts; independent source reviewer confirmed this distinction."
+    },
+    {
+      "source": "visit_occurrence.admitting_source_value",
+      "target": "VISIT_OCCURRENCE.admitted_from_concept_id",
+      "kind": "hard_negative",
+      "basis": "The standardized concept identifier and raw source string at this transition are separately declared code representations.",
+      "source_description_quote": "The source code for the admitting source as it appears in the source data.",
+      "target_user_guidance_quote": "Use this field to determine where the patient was admitted from. This concept is part of the visit domain and can indicate if a patient was admitted to the hospital from a long-term care facility, for example.",
+      "target_etl_conventions_quote": "If available, map the admitted_from_source_value to a standard concept in the visit domain. [Accepted Concepts](https://athena.ohdsi.org/search-terms/terms?domain=Visit&standardConcept=Standard&page=1&pageSize=15&query=). If a person was admitted from home, set this to 0.",
+      "evidence": "Full field-role and declaration quotations are in contexts.json and raw publisher excerpts; independent source reviewer confirmed this distinction."
+    },
+    {
+      "source": "visit_occurrence.discharge_to_concept_id",
+      "target": "VISIT_OCCURRENCE.discharged_to_source_value",
+      "kind": "hard_negative",
+      "basis": "The standardized concept identifier and raw source string at this transition are separately declared code representations.",
+      "source_description_quote": "A foreign key to the predefined concept in the Place of Service Vocabulary reflecting the discharge disposition for a visit.",
+      "target_user_guidance_quote": "",
+      "target_etl_conventions_quote": "This information may be called something different in the source data but the field is meant to contain a value indicating where a person was discharged to after a visit, as in they went home or were moved to long-term care. Typically this applies only to visits that have a length of stay of a day or more.",
+      "evidence": "Full field-role and declaration quotations are in contexts.json and raw publisher excerpts; independent source reviewer confirmed this distinction."
+    },
+    {
+      "source": "visit_occurrence.discharge_to_source_value",
+      "target": "VISIT_OCCURRENCE.discharged_to_concept_id",
+      "kind": "hard_negative",
+      "basis": "The standardized concept identifier and raw source string at this transition are separately declared code representations.",
+      "source_description_quote": "The source code for the discharge disposition as it appears in the source data.",
+      "target_user_guidance_quote": "Use this field to determine where the patient was discharged to after a visit. This concept is part of the visit domain and can indicate if a patient was transferred to another hospital or sent to a long-term care facility, for example.  It is assumed that a person is discharged to home therefore there is not a standard concept id for \"home\".  Use concept id = 0 when a person is discharged to home.",
+      "target_etl_conventions_quote": "If available, map the discharged_to_source_value to a standard concept in the visit domain. [Accepted Concepts](https://athena.ohdsi.org/search-terms/terms?domain=Visit&standardConcept=Standard&page=1&pageSize=15&query=).",
+      "evidence": "Full field-role and declaration quotations are in contexts.json and raw publisher excerpts; independent source reviewer confirmed this distinction."
+    }
+  ]
+}

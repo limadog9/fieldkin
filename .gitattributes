@@ -19,3 +19,8 @@ validation/reliability/followup*.txt -text
 validation/reliability/fallback-candidate.patch -text -whitespace
 validation/reliability/fallback-candidate-tests.patch -text -whitespace
 validation/reliability_quality_baseline.json -text
+
+# Preserve semantic trial freezes, source-packet bindings and archived predictions.
+validation/semantic/** -text -whitespace
+validation/semantic_corpus.json -text
+validation/semantic_quality_baseline.json -text

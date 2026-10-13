@@ -1,0 +1,11 @@
+{
+  "frozen_at_utc": "2026-10-12T23:56:14.623997+00:00",
+  "purpose": "Freeze schema and independently extracted publisher context before label construction. Context extraction does not access labels, cases or matcher output.",
+  "sha256": {
+    "SELECTION_CRITERIA.json": "284d5fd85fbce9e77bccf657a5d54332df9d484b3ed84ccd69be0c1b7bd87f41",
+    "extract.py": "4ea43115458d3f79d6fd2705768d240539ccd7a85f4d39865505687ef7175195",
+    "schemas.json": "36364f20971e6259fd1b7ec2370e867ebb8094ad0a89bd27f60d5dfbb6d599ed",
+    "contexts.json": "7080a7749299b4bc591c0382fcad19dd786d94b5a28a14bd17160636c8941be3",
+    "provenance.json": "2534fdb1efdad953a2d8bcbe92859be977d73f7f31491c603a50c92124df2f76"
+  }
+}

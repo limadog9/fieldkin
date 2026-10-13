@@ -1,0 +1,1955 @@
+[
+  {
+    "name": "cfpb_hmda_modified_lar_2017_to_2018",
+    "source": {
+      "publisher": "Consumer Financial Protection Bureau",
+      "resource_name": "2017 Modified LAR",
+      "schema_title": "2017 Modified LAR Data Dictionary",
+      "schema_version": "2017",
+      "fields": [
+        {
+          "name": "Agency Code",
+          "path": "Agency Code",
+          "table_name": "2017 Modified LAR",
+          "declared_type": "Integer",
+          "description": "Descriptions: 1. Office of the Comptroller of the Currency (OCC) 2. Federal Reserve System (FRS) 3. Federal Deposit Insurance Corporation (FDIC) 5. National Credit Union Administration (NCUA)  7. United States Department of Housing and Urban Development (HUD) 9. Consumer Financial Protection Bureau (CFPB)\n\nCode | Description|\n|----|-------------|\n1|Office of the Comptroller of the Currency (OCC)|\n2|Federal Reserve System (FRS)|\n3|Federal Deposit Insurance Corporation (FDIC)|\n5|National Credit Union Administration (NCUA)|\n7|United States Department of Housing and Urban Development (HUD)|\n9|Consumer Financial Protection Bureau (CFPB)|",
+          "publisher_field_heading": "Agency Code",
+          "code_description_heading": "Agency Code",
+          "valid_values_raw": "[1, 2, 3, 5, 7, 9]",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2017_Modified_LAR_Data_Dictionary.csv#Agency Code",
+            "rawsources/hmda-2017_File_Spec_LAR.csv#field-3",
+            "rawsources/hmda-2017_Modified_LAR_Codesheet.md#Agency Code"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Loan Type",
+          "path": "Loan Type",
+          "table_name": "2017 Modified LAR",
+          "declared_type": "Integer",
+          "description": "Descriptions:1. Conventional (any loan other than FHA VA FSA or RHS loans)  2. FHA-insured (Federal Housing Administration) 3. VA-guaranteed (Veterans Administration) 4. FSA/RHS-guaranteed (Farm Service Agency or Rural Housing Service)\n\nCode | Description|\n|----|-------------|\n1|Conventional (any loan other than FHA, VA, FSA, or RHS loans)\n2|FHA-insured (Federal Housing Administration)\n3|VA-guaranteed (Veterans Administration)\n4|FSA/RHS-guaranteed (Farm Service Agency or Rural Housing Service)",
+          "publisher_field_heading": "Loan Type",
+          "code_description_heading": "Loan Type",
+          "valid_values_raw": "[1, 2, 3, 4]",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2017_Modified_LAR_Data_Dictionary.csv#Loan Type",
+            "rawsources/hmda-2017_File_Spec_LAR.csv#field-6",
+            "rawsources/hmda-2017_Modified_LAR_Codesheet.md#Loan Type"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Loan Amount",
+          "path": "Loan Amount",
+          "table_name": "2017 Modified LAR",
+          "declared_type": "Character Varying",
+          "description": "Report in thousands. Round to the nearest thousand without leading zeros and without commas. Example: 111",
+          "publisher_field_heading": "Loan Amount",
+          "code_description_heading": null,
+          "valid_values_raw": "[NA]",
+          "notes_raw": "",
+          "units_raw": [
+            "Report in thousands. Round to the nearest thousand without leading zeros and without commas. Example: 111"
+          ],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2017_Modified_LAR_Data_Dictionary.csv#Loan Amount",
+            "rawsources/hmda-2017_File_Spec_LAR.csv#field-10"
+          ],
+          "sample_kind": "publisher_documented_example",
+          "sample_citations": [
+            "rawsources/hmda-2017_File_Spec_LAR.csv#field-10"
+          ]
+        },
+        {
+          "name": "Preapprovals",
+          "path": "Preapprovals",
+          "table_name": "2017 Modified LAR",
+          "declared_type": "Integer",
+          "description": "Descriptions: 1. Preapproval was requested 2. Preapproval was not requested 3. Not applicable\n\nCode | Description|\n|----|-------------|\n1|Preapproval was requested\n2|Preapproval was not requested \n3|Not applicable",
+          "publisher_field_heading": "Preapprovals",
+          "code_description_heading": "Preapprovals",
+          "valid_values_raw": "[1, 2, 3]",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2017_Modified_LAR_Data_Dictionary.csv#Preapprovals",
+            "rawsources/hmda-2017_File_Spec_LAR.csv#field-11",
+            "rawsources/hmda-2017_Modified_LAR_Codesheet.md#Preapprovals"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Type of Action Taken",
+          "path": "Type of Action Taken",
+          "table_name": "2017 Modified LAR",
+          "declared_type": "Integer",
+          "description": "Descriptions: 1. Loan originated 2. Application approved but not accepted 3. Application denied by financial institution 4. Application withdrawn by applicant  5. File closed for incompleteness 6. Loan purchased by your institution 7. Preapproval request denied by financial institution 8. Preapproval request approved but not accepted (optional reporting)\n\nCode | Description|\n|----|-------------|\n1|Loan originated\n2|Application approved but not accepted\n3|Application denied by financial institution \n4|Application withdrawn by applicant\n5|File closed for incompleteness\n6|Loan purchased by your institution\n7|Preapproval request denied by financial institution\n8|Preapproval request approved but not accepted (optional reporting)",
+          "publisher_field_heading": "Type of Action Taken",
+          "code_description_heading": "Type of Action Taken",
+          "valid_values_raw": "[1, 2, 3, 4, 5, 6, 7, 8]",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2017_Modified_LAR_Data_Dictionary.csv#Type of Action Taken",
+            "rawsources/hmda-2017_File_Spec_LAR.csv#field-12",
+            "rawsources/hmda-2017_Modified_LAR_Codesheet.md#Type of Action Taken"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Metropolitan Statistical Area/Metropolitan Division",
+          "path": "Metropolitan Statistical Area/Metropolitan Division",
+          "table_name": "2017 Modified LAR",
+          "declared_type": "Character Varying",
+          "description": "Metropolitan Statistical Area or Metropolitan Division (if appropriate) code or NA. Example: 40900",
+          "publisher_field_heading": "Metropolitan Statistical Area/Metropolitan Division",
+          "code_description_heading": null,
+          "valid_values_raw": "[NA]",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2017_Modified_LAR_Data_Dictionary.csv#Metropolitan Statistical Area/Metropolitan Division",
+            "rawsources/hmda-2017_File_Spec_LAR.csv#field-14"
+          ],
+          "sample_kind": "publisher_documented_example",
+          "sample_citations": [
+            "rawsources/hmda-2017_File_Spec_LAR.csv#field-14"
+          ]
+        },
+        {
+          "name": "Applicant Ethnicity",
+          "path": "Applicant Ethnicity",
+          "table_name": "2017 Modified LAR",
+          "declared_type": "Integer",
+          "description": "Descriptions: 1. Hispanic or Latino 2. Not Hispanic or Latino 3. Information not provided by applicant in mail Internet or telephone application (see App. A I.D.2.) 4. Not applicable\n\nCode | Description|\n|----|-------------|\n1|Hispanic or Latino\n2|Not Hispanic or Latino\n3|Information not provided by applicant in mail, Internet, or telephone application\n4|Not applicable",
+          "publisher_field_heading": "Applicant Ethnicity",
+          "code_description_heading": "Applicant Ethnicity",
+          "valid_values_raw": "[1, 2, 3, 4]",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "Applicant Ethnicity"
+          ],
+          "description_citations": [
+            "rawsources/hmda-2017_Modified_LAR_Data_Dictionary.csv#Applicant Ethnicity",
+            "rawsources/hmda-2017_File_Spec_LAR.csv#field-18",
+            "rawsources/hmda-2017_Modified_LAR_Codesheet.md#Applicant Ethnicity"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Co-Applicant Ethnicity",
+          "path": "Co-Applicant Ethnicity",
+          "table_name": "2017 Modified LAR",
+          "declared_type": "Integer",
+          "description": "Descriptions: 1. Hispanic or Latino 2. Not Hispanic or Latino 3. Information not provided by applicant in mail Internet or telephone application (see App. A I.D.2.) 4. Not applicable 5. No co-applicant\n\nCode | Description|\n|----|-------------|\n1|Hispanic or Latino\n2|Not Hispanic or Latino\n3|Information not provided by applicant in mail, Internet, or telephone application\n4|Not applicable\n5|No co-applicant",
+          "publisher_field_heading": "Co-Applicant Ethnicity",
+          "code_description_heading": "Co-Applicant Ethnicity",
+          "valid_values_raw": "[1, 2, 3, 4, 5]",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "Co-Applicant Ethnicity"
+          ],
+          "description_citations": [
+            "rawsources/hmda-2017_Modified_LAR_Data_Dictionary.csv#Co-Applicant Ethnicity",
+            "rawsources/hmda-2017_File_Spec_LAR.csv#field-19",
+            "rawsources/hmda-2017_Modified_LAR_Codesheet.md#Co-Applicant Ethnicity"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Applicant Race: 1",
+          "path": "Applicant Race: 1",
+          "table_name": "2017 Modified LAR",
+          "declared_type": "Integer",
+          "description": "Descriptions: 1. American Indian or Alaska Native 2. Asian 3. Black or African American 4. Native Hawaiian or Other Pacific Islander  5. White 6. Information not provided by applicant in mail Internet or telephone application (see App. A I.D.2.) 7. Not applicable\n\nCode | Description|\n|----|-------------|\n1|American Indian or Alaska Native\n2|Asian\n3|Black or African American\n4|Native Hawaiian or Other Pacific Islander\n5|White\n6| *Information not provided by applicant in mail, Internet, or telephone application \n7| *Not applicable\n\n* Fields only valid for Applicant Race: 1",
+          "publisher_field_heading": "Applicant Race: 1",
+          "code_description_heading": "Applicant Race",
+          "valid_values_raw": "[1, 2, 3, 4, 5, 6, 7]",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "Applicant Race"
+          ],
+          "description_citations": [
+            "rawsources/hmda-2017_Modified_LAR_Data_Dictionary.csv#Applicant Race: 1",
+            "rawsources/hmda-2017_File_Spec_LAR.csv#field-20",
+            "rawsources/hmda-2017_Modified_LAR_Codesheet.md#Applicant Race"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Co-Applicant Race: 1",
+          "path": "Co-Applicant Race: 1",
+          "table_name": "2017 Modified LAR",
+          "declared_type": "Integer",
+          "description": "Descriptions: 1. American Indian or Alaska Native 2. Asian 3. Black or African American 4. Native Hawaiian or Other Pacific Islander 5. White 6. Information not provided by applicant in mail Internet or telephone application (see App. A I.D.2.) 7. Not applicable 8. No co-applicant\n\nCode | Description|\n|----|-------------|\n1|American Indian or Alaska Native\n2|Asian\n3|Black or African American\n4|Native Hawaiian or Other Pacific Islander\n5|White\n6| *Information not provided by applicant in mail, Internet, or telephone application \n7| *Not applicable\n8|*No co-applicant\n\n* Fields only valid for Co-Applicant Race: 1",
+          "publisher_field_heading": "Co-Applicant Race: 1",
+          "code_description_heading": "Co-Applicant Race",
+          "valid_values_raw": "[1, 2, 3, 4, 5, 6, 7, 8]",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "Co-Applicant Race"
+          ],
+          "description_citations": [
+            "rawsources/hmda-2017_Modified_LAR_Data_Dictionary.csv#Co-Applicant Race: 1",
+            "rawsources/hmda-2017_File_Spec_LAR.csv#field-25",
+            "rawsources/hmda-2017_Modified_LAR_Codesheet.md#Co-Applicant Race"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Applicant Sex",
+          "path": "Applicant Sex",
+          "table_name": "2017 Modified LAR",
+          "declared_type": "Integer",
+          "description": "Descriptions: 1. Male 2. Female 3. Information not provided by applicant in mail Internet or telephone application (see App. A I.D.2.) 4. Not applicable\n\nCode | Description|\n|----|-------------|\n1|Male\n2|Female\n3|Information not provided by applicant in mail, Internet, or telephone application\n4|Not applicable",
+          "publisher_field_heading": "Applicant Sex",
+          "code_description_heading": "Applicant Sex",
+          "valid_values_raw": "[1, 2, 3, 4]",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "Applicant Sex"
+          ],
+          "description_citations": [
+            "rawsources/hmda-2017_Modified_LAR_Data_Dictionary.csv#Applicant Sex",
+            "rawsources/hmda-2017_File_Spec_LAR.csv#field-30",
+            "rawsources/hmda-2017_Modified_LAR_Codesheet.md#Applicant Sex"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Co-applicant Sex",
+          "path": "Co-applicant Sex",
+          "table_name": "2017 Modified LAR",
+          "declared_type": "Integer",
+          "description": "Descriptions: 1. Male 2. Female 3. Information not provided by applicant in mail Internet or telephone application (see App. A I.D.2.) 4. Not applicable 5. No co-applicant\n\nCode | Description|\n|----|-------------|\n1|Male\n2|Female\n3|Information not provided by applicant in mail, Internet, or telephone application\n4|Not applicable\n5|No co-applicant",
+          "publisher_field_heading": "Co-applicant Sex",
+          "code_description_heading": "Co-Applicant Sex",
+          "valid_values_raw": "[1, 2, 3, 4, 5]",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "Co-Applicant Sex"
+          ],
+          "description_citations": [
+            "rawsources/hmda-2017_Modified_LAR_Data_Dictionary.csv#Co-applicant Sex",
+            "rawsources/hmda-2017_File_Spec_LAR.csv#field-31",
+            "rawsources/hmda-2017_Modified_LAR_Codesheet.md#Co-Applicant Sex"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Type of Purchaser",
+          "path": "Type of Purchaser",
+          "table_name": "2017 Modified LAR",
+          "declared_type": "Integer",
+          "description": "Descriptions: 0. Loan was not originated or was not sold in calendar year 1. Fannie Mae 2. Ginnie Mae 3. Freddie Mac 4. Farmer Mac  5. Private securitization  6. Commercial bank savings bank or savings association  7. Life insurance company credit union mortgage bank or finance company 8. Affiliate institution 9. Other type of purchaser\n\nCode | Description|\n|----|-------------|\n0|Loan was not originated or was not sold in calendar year\n1|Fannie Mae\n2|Ginnie Mae\n3|Freddie Mac\n4|Farmer Mac\n5|Private securitization\n6|Commercial bank, savings bank or savings association\n7|Life insurance company, credit union, mortgage bank, or finance company\n8|Affiliate institution\n9|Other type of purchaser",
+          "publisher_field_heading": "Type of Purchaser",
+          "code_description_heading": "Type of Purchaser",
+          "valid_values_raw": "[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2017_Modified_LAR_Data_Dictionary.csv#Type of Purchaser",
+            "rawsources/hmda-2017_File_Spec_LAR.csv#field-33",
+            "rawsources/hmda-2017_Modified_LAR_Codesheet.md#Type of Purchaser"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Denial Reason: 1",
+          "path": "Denial Reason: 1",
+          "table_name": "2017 Modified LAR",
+          "declared_type": "Character Varying",
+          "description": "Descriptions: 1. Debt-to-income ratio 2. Employment history 3. Credit history 4. Collateral 5. Insufficient cash (down payment closing costs) 6. Unverifiable information 7. Credit application incomplete 8. Mortgage insurance denied 9. Other. If this data field does not contain an entry leave it blank\n\nCode | Description|\n|----|-------------|\n1|Debt-to-income ratio\n2|Employment history\n3|Credit history\n4|Collateral\n5|Insufficient cash (down payment, closing costs)\n6|Unverifiable information\n7|Credit application incomplete\n8|Mortgage insurance denied\n9|Other",
+          "publisher_field_heading": "Denial Reason: 1",
+          "code_description_heading": "Denial Reason",
+          "valid_values_raw": "[1, 2, 3, 4, 5, 6, 7, 8, 9]",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2017_Modified_LAR_Data_Dictionary.csv#Denial Reason: 1",
+            "rawsources/hmda-2017_File_Spec_LAR.csv#field-34",
+            "rawsources/hmda-2017_Modified_LAR_Codesheet.md#Denial Reason"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Rate Spread",
+          "path": "Rate Spread",
+          "table_name": "2017 Modified LAR",
+          "declared_type": "Character Varying",
+          "description": "Enter the rate spread to two decimal places. Include the decimal point and any leading or trailing zeros or NA. Example: 03.29",
+          "publisher_field_heading": "Rate Spread",
+          "code_description_heading": null,
+          "valid_values_raw": "[NA]",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2017_Modified_LAR_Data_Dictionary.csv#Rate Spread",
+            "rawsources/hmda-2017_File_Spec_LAR.csv#field-37"
+          ],
+          "sample_kind": "publisher_documented_example",
+          "sample_citations": [
+            "rawsources/hmda-2017_File_Spec_LAR.csv#field-37"
+          ]
+        },
+        {
+          "name": "HOEPA Status",
+          "path": "HOEPA Status",
+          "table_name": "2017 Modified LAR",
+          "declared_type": "Integer",
+          "description": "Descriptions: 1. HOEPA loan 2. Not a HOEPA loan\n\nCode | Description|\n|----|-------------|\n1| HOEPA loan\n2| Not a HOEPA loan",
+          "publisher_field_heading": "HOEPA Status",
+          "code_description_heading": "HOEPA Status",
+          "valid_values_raw": "[1, 2]",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2017_Modified_LAR_Data_Dictionary.csv#HOEPA Status",
+            "rawsources/hmda-2017_File_Spec_LAR.csv#field-38",
+            "rawsources/hmda-2017_Modified_LAR_Codesheet.md#HOEPA Status"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Lien Status",
+          "path": "Lien Status",
+          "table_name": "2017 Modified LAR",
+          "declared_type": "Integer",
+          "description": "Descriptions: 1. Secured by a first lien 2. Secured by a subordinate lien 3. Not secured by a lien 4. Not applicable (purchased loans)\n\nCode | Description|\n|----|-------------|\n1|Secured by a first lien\n2|Secured by a subordinate lien\n3|Not secured by a lien\n4|Not applicable (purchased loans)",
+          "publisher_field_heading": "Lien Status",
+          "code_description_heading": "Lien Status",
+          "valid_values_raw": "[1, 2, 3, 4]",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2017_Modified_LAR_Data_Dictionary.csv#Lien Status",
+            "rawsources/hmda-2017_File_Spec_LAR.csv#field-39",
+            "rawsources/hmda-2017_Modified_LAR_Codesheet.md#Lien Status"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        }
+      ]
+    },
+    "target": {
+      "publisher": "Consumer Financial Protection Bureau",
+      "resource_name": "2018 Modified LAR",
+      "schema_title": "2018 Modified LAR Data Dictionary",
+      "schema_version": "2018",
+      "fields": [
+        {
+          "name": "Loan Type",
+          "path": "Loan Type",
+          "table_name": "2018 Modified LAR",
+          "declared_type": "Integer",
+          "description": "Code | Description|\n|----|-------------|\n1 | Conventional (not insured or guaranteed by FHA VA RHS or FSA)\n2 | Federal Housing Administration insured (FHA)\n3 | Veterans Affairs guaranteed (VA)\n4 | USDA Rural Housing Service or Farm Service Agency guaranteed (RHS or FSA)",
+          "publisher_field_heading": "Loan Type",
+          "code_description_heading": "Loan Type",
+          "valid_values_raw": "1, 2, 3, 4",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2018_Modified_LAR_Data_Dictionary.md#Loan Type",
+            "rawsources/hmda-2018_Modified_LAR_Codesheet.md#Loan Type"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Loan Amount",
+          "path": "Loan Amount",
+          "table_name": "2018 Modified LAR",
+          "declared_type": "Numeric",
+          "description": "Loan amounts are rounded to the midpoint of the nearest $10000 interval for which the reported value falls (For example a reported value of $117834 would be disclosed as $115000 as the midpoint between values $110000 and $120000).",
+          "publisher_field_heading": "Loan Amount",
+          "code_description_heading": null,
+          "valid_values_raw": "",
+          "notes_raw": "Loan amounts are rounded to the midpoint of the nearest $10000 interval for which the reported value falls (For example a reported value of $117834 would be disclosed as $115000 as the midpoint between values $110000 and $120000).",
+          "units_raw": [
+            "Loan amounts are rounded to the midpoint of the nearest $10000 interval for which the reported value falls (For example a reported value of $117834 would be disclosed as $115000 as the midpoint between values $110000 and $120000)."
+          ],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2018_Modified_LAR_Data_Dictionary.md#Loan Amount"
+          ],
+          "sample_kind": "publisher_documented_example",
+          "sample_citations": [
+            "rawsources/hmda-2018_Modified_LAR_Data_Dictionary.md#Loan Amount"
+          ]
+        },
+        {
+          "name": "Preapproval",
+          "path": "Preapproval",
+          "table_name": "2018 Modified LAR",
+          "declared_type": "Integer",
+          "description": "Code | Description|\n|----|-------------|\n1 | Preapproval requested\t\n2 | Preapproval not requested",
+          "publisher_field_heading": "Preapproval",
+          "code_description_heading": "Preapproval",
+          "valid_values_raw": "1, 2",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2018_Modified_LAR_Data_Dictionary.md#Preapproval",
+            "rawsources/hmda-2018_Modified_LAR_Codesheet.md#Preapproval"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Action Taken",
+          "path": "Action Taken",
+          "table_name": "2018 Modified LAR",
+          "declared_type": "Integer",
+          "description": "Code | Description|\n|----|-------------|\n1 |\tLoan originated\t\n2 |\tApplication approved but not accepted\t\n3 |\tApplication denied\t\n4 |\tApplication withdrawn by applicant\t\n5 |\tFile closed for incompleteness\t\n6 |\tPurchased loan\t\n7 |\tPreapproval request denied\t\n8 |\tPreapproval request approved but not accepted",
+          "publisher_field_heading": "Action Taken",
+          "code_description_heading": "Action Taken",
+          "valid_values_raw": "1, 2, 3, 4, 5, 6, 7, 8",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2018_Modified_LAR_Data_Dictionary.md#Action Taken",
+            "rawsources/hmda-2018_Modified_LAR_Codesheet.md#Action Taken"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Ethnicity of Applicant or Borrower: 1",
+          "path": "Ethnicity of Applicant or Borrower: 1",
+          "table_name": "2018 Modified LAR",
+          "declared_type": "Character Varying",
+          "description": "Code | Description|\n|----|-------------|\n1 | Hispanic or Latino\t\n11 | Mexican\t\n12 | Puerto Rican\t\n13 | Cuban\t\n14 | Other Hispanic or Latino\t\n2 | Not Hispanic or Latino\t\n3 | Information not provided by applicant in mail internet or telephone application*\t\n4 | Not applicable**\t\n\n*Code 3 only valid for Ethnicity of Applicant or Borrower: 1\n\n**Code 4 only valid for Ethnicity of Applicant or Borrower: 1",
+          "publisher_field_heading": "Ethnicity of Applicant or Borrower: 1",
+          "code_description_heading": "Ethnicity of Applicant or Borrower",
+          "valid_values_raw": "1, 11, 12, 13, 14, 2, 3, 4",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "Ethnicity of Applicant or Borrower"
+          ],
+          "description_citations": [
+            "rawsources/hmda-2018_Modified_LAR_Data_Dictionary.md#Ethnicity of Applicant or Borrower: 1",
+            "rawsources/hmda-2018_Modified_LAR_Codesheet.md#Ethnicity of Applicant or Borrower"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Ethnicity of Co-Applicant or Co-Borrower: 1",
+          "path": "Ethnicity of Co-Applicant or Co-Borrower: 1",
+          "table_name": "2018 Modified LAR",
+          "declared_type": "Character Varying",
+          "description": "Code | Description|\n|----|-------------|\n1 | Hispanic or Latino\t\n11 | Mexican\t\n12 | Puerto Rican\t\n13 | Cuban\t\n14 | Other Hispanic or Latino\t\n2 | Not Hispanic or Latino\t\n3 | Information not provided by applicant in mail internet or telephone application*\t\n4 | Not applicable**\t\n5 | No co-applicant***\t\n*Code 3 only valid for ethnicity of Co-Applicant or Co-Borrower: 1 \n\n**Code 4 only valid for Ethnicity of Co-Applicant or Co-Borrower: 1 \n\n***Code 5 only valid for Ethnicity of Co-Applicant or Co-Borrower: 1",
+          "publisher_field_heading": "Ethnicity of Co-Applicant or Co-Borrower: 1",
+          "code_description_heading": "Ethnicity of Co-Applicant or Co-Borrower",
+          "valid_values_raw": "1, 11, 12, 13, 14, 2, 3, 4, 5",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "Ethnicity of Co-Applicant or Co-Borrower"
+          ],
+          "description_citations": [
+            "rawsources/hmda-2018_Modified_LAR_Data_Dictionary.md#Ethnicity of Co-Applicant or Co-Borrower: 1",
+            "rawsources/hmda-2018_Modified_LAR_Codesheet.md#Ethnicity of Co-Applicant or Co-Borrower"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Race of Applicant or Borrower: 1",
+          "path": "Race of Applicant or Borrower: 1",
+          "table_name": "2018 Modified LAR",
+          "declared_type": "Character Varying",
+          "description": "Code | Description|\n|----|-------------|\n1 | American Indian or Alaska Native\t\n2 | Asian\t\n21 | Asian Indian\t\n22 | Chinese\t\n23 | Filipino\t\n24 | Japanese\t\n25 | Korean\t\n26 | Vietnamese\t\n27 | Other Asian\t\n3 | Black or African American\t\n4 | Native Hawaiian or Other Pacific Islander\t\n41 | Native Hawaiian\t\n42 | Guamanian or Chamorro\t\n43 | Samoan\t\n44 | Other Pacific Islander\t\n5 | White\t\n6 | Information not provided by applicant in mail internet or telephone application*\t\n7 | Not applicable**\t\n\n*Code 6 is only valid for Race of Applicant or Borrower: 1\n\n**Code 7 is only valid for Race of Applicant or Borrower: 1",
+          "publisher_field_heading": "Race of Applicant or Borrower: 1",
+          "code_description_heading": "Race of Applicant or Borrower",
+          "valid_values_raw": "1, 2, 21, 22, 23, 24, 25, 26, 27, 3, 4, 41, 42, 43, 44, 5, 6, 7",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "Race of Applicant or Borrower"
+          ],
+          "description_citations": [
+            "rawsources/hmda-2018_Modified_LAR_Data_Dictionary.md#Race of Applicant or Borrower: 1",
+            "rawsources/hmda-2018_Modified_LAR_Codesheet.md#Race of Applicant or Borrower"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Race of Co-Applicant or Co-Borrower: 1",
+          "path": "Race of Co-Applicant or Co-Borrower: 1",
+          "table_name": "2018 Modified LAR",
+          "declared_type": "Character Varying",
+          "description": "Code | Description|\n|----|-------------|\n1 | American Indian or Alaska Native\t\n2 | Asian\t\n21 | Asian Indian\t\n22 | Chinese\t\n23 | Filipino\t\n24 | Japanese\t\n25 | Korean\t\n26 | Vietnamese\t\n27 | Other Asian\t\n3 | Black or African American\t\n4 | Native Hawaiian or Other Pacific Islander\t\n41 | Native Hawaiian\t\n42 | Guamanian or Chamorro\t\n43 | Samoan\t\n44 | Other Pacific Islander\t\n5 | White\t\n6 | Information not provided by applicant in mail internet or telephone application*\t\n7 | Not applicable**\n8 | No co-applicant***\n\n*Code 6 is only valid for Race of Co-Applicant or Co-Borrower: 1\n\n**Code 7 is only valid for Race of Co-Applicant or Co-Borrower: 1\n\n***Code 8 is only valid for Race of Co-Applicant or Co-Borrower: 1",
+          "publisher_field_heading": "Race of Co-Applicant or Co-Borrower: 1",
+          "code_description_heading": "Race of Co-Applicant or Co-Borrower",
+          "valid_values_raw": "1, 2, 21, 22, 23, 24, 25, 26, 27, 3, 4, 41, 42, 43, 44, 5, 6, 7, 8",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "Race of Co-Applicant or Co-Borrower"
+          ],
+          "description_citations": [
+            "rawsources/hmda-2018_Modified_LAR_Data_Dictionary.md#Race of Co-Applicant or Co-Borrower: 1",
+            "rawsources/hmda-2018_Modified_LAR_Codesheet.md#Race of Co-Applicant or Co-Borrower"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Sex of Applicant or Borrower",
+          "path": "Sex of Applicant or Borrower",
+          "table_name": "2018 Modified LAR",
+          "declared_type": "Integer",
+          "description": "Code | Description|\n|----|-------------|\n1 | Male\t\n2 | Female\t\n3 | Information not provided by applicant in mail internet or telephone application\t\n4 | Not applicable\t\n6 | Applicant selected both male and female",
+          "publisher_field_heading": "Sex of Applicant or Borrower",
+          "code_description_heading": "Sex of Applicant or Borrower",
+          "valid_values_raw": "1, 2, 3, 4, 6",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "Sex of Applicant or Borrower"
+          ],
+          "description_citations": [
+            "rawsources/hmda-2018_Modified_LAR_Data_Dictionary.md#Sex of Applicant or Borrower",
+            "rawsources/hmda-2018_Modified_LAR_Codesheet.md#Sex of Applicant or Borrower"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Sex of Co-Applicant or Co-Borrower",
+          "path": "Sex of Co-Applicant or Co-Borrower",
+          "table_name": "2018 Modified LAR",
+          "declared_type": "Integer",
+          "description": "Code | Description|\n|----|-------------|\n1 | Male\t\n2 | Female\t\n3 | Information not provided by applicant in mail internet or telephone application\t\n4 | Not applicable\t\n5 | No co-applicant\n6 | Applicant selected both male and female",
+          "publisher_field_heading": "Sex of Co-Applicant or Co-Borrower",
+          "code_description_heading": "Sex of Co-Applicant or Co-Borrower",
+          "valid_values_raw": "1, 2, 3, 4, 5, 6",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "Sex of Co-Applicant or Co-Borrower"
+          ],
+          "description_citations": [
+            "rawsources/hmda-2018_Modified_LAR_Data_Dictionary.md#Sex of Co-Applicant or Co-Borrower",
+            "rawsources/hmda-2018_Modified_LAR_Codesheet.md#Sex of Co-Applicant or Co-Borrower"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Type of Purchaser",
+          "path": "Type of Purchaser",
+          "table_name": "2018 Modified LAR",
+          "declared_type": "Integer",
+          "description": "Code | Description|\n|----|-------------|\t\n0 | Not applicable\t\n1 | Fannie Mae\t\n2 | Ginnie Mae\t\n3 | Freddie Mac\t\n4  | Farmer Mac\t\n5 | Private securitizer\t\n6 | Commercial bank savings bank or savings association\t\n71 | Credit union mortgage company or finance company\t\n72 | Life insurance company\t\n8 | Affiliate institution\t\n9 | Other type of purchaser",
+          "publisher_field_heading": "Type of Purchaser",
+          "code_description_heading": "Type of Purchaser",
+          "valid_values_raw": "0, 1, 2, 3, 4, 5, 6, 71, 72, 8, 9",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2018_Modified_LAR_Data_Dictionary.md#Type of Purchaser",
+            "rawsources/hmda-2018_Modified_LAR_Codesheet.md#Type of Purchaser"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Reason for Denial: 1",
+          "path": "Reason for Denial: 1",
+          "table_name": "2018 Modified LAR",
+          "declared_type": "Integer",
+          "description": "Code | Description|\n|----|-------------|\n1 | Debt-to-income ratio\t\n2 | Employment history\t\n3 | Credit history\t\n4 | Collateral\t\n5 | Insufficient cash (downpayment closing costs)\t\n6 | Unverifiable information\t\n7 | Credit application incomplete\t\n8 | Mortgage insruance denied\t\n9 | Other\t\n10 | Not applicable\tCode 10 is only valid for Reason for Denial: 1\n1111 | ExemptCode 1111 is only valid for Reason for Denial: 1",
+          "publisher_field_heading": "Reason for Denial: 1",
+          "code_description_heading": "Reason for Denial",
+          "valid_values_raw": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1111",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2018_Modified_LAR_Data_Dictionary.md#Reason for Denial: 1",
+            "rawsources/hmda-2018_Modified_LAR_Codesheet.md#Reason for Denial"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Rate Spread",
+          "path": "Rate Spread",
+          "table_name": "2018 Modified LAR",
+          "declared_type": "Character Varying",
+          "description": "",
+          "publisher_field_heading": "Rate Spread",
+          "code_description_heading": null,
+          "valid_values_raw": "NA, Exempt",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2018_Modified_LAR_Data_Dictionary.md#Rate Spread"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "HOEPA Status",
+          "path": "HOEPA Status",
+          "table_name": "2018 Modified LAR",
+          "declared_type": "Integer",
+          "description": "Code | Description|\n|----|-------------|\n1 | High-cost mortgage\t\n2 | Not a high-cost mortgage\t\n3 | Not applicable",
+          "publisher_field_heading": "HOEPA Status",
+          "code_description_heading": "HOEPA Status",
+          "valid_values_raw": "1, 2, 3",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2018_Modified_LAR_Data_Dictionary.md#HOEPA Status",
+            "rawsources/hmda-2018_Modified_LAR_Codesheet.md#HOEPA Status"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Lien Status",
+          "path": "Lien Status",
+          "table_name": "2018 Modified LAR",
+          "declared_type": "Integer",
+          "description": "Code | Description|\n|----|-------------|\n1 | Secured by a first lien\t\n2 | Secured by a subordinate lien",
+          "publisher_field_heading": "Lien Status",
+          "code_description_heading": "Lien Status",
+          "valid_values_raw": "1, 2",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2018_Modified_LAR_Data_Dictionary.md#Lien Status",
+            "rawsources/hmda-2018_Modified_LAR_Codesheet.md#Lien Status"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Legal Entity Identifier (LEI)",
+          "path": "Legal Entity Identifier (LEI)",
+          "table_name": "2018 Modified LAR",
+          "declared_type": "Character Varying",
+          "description": "",
+          "publisher_field_heading": "Legal Entity Identifier (LEI)",
+          "code_description_heading": null,
+          "valid_values_raw": "",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2018_Modified_LAR_Data_Dictionary.md#Legal Entity Identifier (LEI)"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Construction Method",
+          "path": "Construction Method",
+          "table_name": "2018 Modified LAR",
+          "declared_type": "Integer",
+          "description": "Code | Description|\n|----|-------------|\n1 | Site-built\t\n2 | Manufactured Home",
+          "publisher_field_heading": "Construction Method",
+          "code_description_heading": "Construction Method",
+          "valid_values_raw": "1, 2",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2018_Modified_LAR_Data_Dictionary.md#Construction Method",
+            "rawsources/hmda-2018_Modified_LAR_Codesheet.md#Construction Method"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Occupancy Type",
+          "path": "Occupancy Type",
+          "table_name": "2018 Modified LAR",
+          "declared_type": "Integer",
+          "description": "Code | Description|\n|----|-------------|\n1 | Principal residence\t\n2 | Second residence\t\n3 | Investment property",
+          "publisher_field_heading": "Occupancy Type",
+          "code_description_heading": "Occupancy Type",
+          "valid_values_raw": "1, 2, 3",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2018_Modified_LAR_Data_Dictionary.md#Occupancy Type",
+            "rawsources/hmda-2018_Modified_LAR_Codesheet.md#Occupancy Type"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "State",
+          "path": "State",
+          "table_name": "2018 Modified LAR",
+          "declared_type": "Character Varying",
+          "description": "two-letter state code",
+          "publisher_field_heading": "State",
+          "code_description_heading": null,
+          "valid_values_raw": "NA",
+          "notes_raw": "two-letter state code",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2018_Modified_LAR_Data_Dictionary.md#State"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "County",
+          "path": "County",
+          "table_name": "2018 Modified LAR",
+          "declared_type": "Character Varying",
+          "description": "state-county FIPS code",
+          "publisher_field_heading": "County",
+          "code_description_heading": null,
+          "valid_values_raw": "NA Exempt",
+          "notes_raw": "state-county FIPS code",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2018_Modified_LAR_Data_Dictionary.md#County"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Census Tract",
+          "path": "Census Tract",
+          "table_name": "2018 Modified LAR",
+          "declared_type": "Character Varying",
+          "description": "11 digit census tract number",
+          "publisher_field_heading": "Census Tract",
+          "code_description_heading": null,
+          "valid_values_raw": "NA",
+          "notes_raw": "11 digit census tract number",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2018_Modified_LAR_Data_Dictionary.md#Census Tract"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Income",
+          "path": "Income",
+          "table_name": "2018 Modified LAR",
+          "declared_type": "Character Varying",
+          "description": "",
+          "publisher_field_heading": "Income",
+          "code_description_heading": null,
+          "valid_values_raw": "NA",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2018_Modified_LAR_Data_Dictionary.md#Income"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Interest Rate",
+          "path": "Interest Rate",
+          "table_name": "2018 Modified LAR",
+          "declared_type": "Character Varying",
+          "description": "",
+          "publisher_field_heading": "Interest Rate",
+          "code_description_heading": null,
+          "valid_values_raw": "NA, Exempt",
+          "notes_raw": "",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2018_Modified_LAR_Data_Dictionary.md#Interest Rate"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Property Value",
+          "path": "Property Value",
+          "table_name": "2018 Modified LAR",
+          "declared_type": "Character Varying",
+          "description": "Property values are rounded to the midpoint of the nearest $10000 interval for which the reported value falls (For example a reported value of $117834 would be disclosed as $115000 as the midpoint between values $110000 and $120000).",
+          "publisher_field_heading": "Property Value",
+          "code_description_heading": null,
+          "valid_values_raw": "NA, Exempt",
+          "notes_raw": "Property values are rounded to the midpoint of the nearest $10000 interval for which the reported value falls (For example a reported value of $117834 would be disclosed as $115000 as the midpoint between values $110000 and $120000).",
+          "units_raw": [
+            "Property values are rounded to the midpoint of the nearest $10000 interval for which the reported value falls (For example a reported value of $117834 would be disclosed as $115000 as the midpoint between values $110000 and $120000)."
+          ],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2018_Modified_LAR_Data_Dictionary.md#Property Value"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "Debt-to-Income Ratio",
+          "path": "Debt-to-Income Ratio",
+          "table_name": "2018 Modified LAR",
+          "declared_type": "Character Varying",
+          "description": "Exact values are reported between 36% and 49%.",
+          "publisher_field_heading": "Debt-to-Income Ratio",
+          "code_description_heading": null,
+          "valid_values_raw": "<20%, 20%-<30%, 30%-<36%, 50%-60%, >60%, NA, Exempt",
+          "notes_raw": "Exact values are reported between 36% and 49%.",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/hmda-2018_Modified_LAR_Data_Dictionary.md#Debt-to-Income Ratio"
+          ],
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        }
+      ]
+    }
+  },
+  {
+    "name": "adyen_classic_payment52_to_checkout72",
+    "source": {
+      "publisher": "Adyen",
+      "resource_name": "PaymentRequest",
+      "api_title": "Adyen Payment API",
+      "schema_version": "52",
+      "projection": "Selected documented top-level scalar properties; arrays and object-valued properties are excluded.",
+      "fields": [
+        {
+          "name": "captureDelayHours",
+          "path": "/components/schemas/PaymentRequest/properties/captureDelayHours",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Payment API",
+          "declared_type": "integer",
+          "declared_format": "int32",
+          "description": "The delay between the authorisation and scheduled auto-capture, specified in hours.",
+          "publisher_field_heading": "captureDelayHours",
+          "units_raw": [
+            "The delay between the authorisation and scheduled auto-capture, specified in hours."
+          ],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/adyen-PaymentService-v52.excerpt.json#/components/schemas/PaymentRequest/properties/captureDelayHours"
+          ],
+          "publisher_extensions": {
+            "x-addedInVersion": "2"
+          },
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "dateOfBirth",
+          "path": "/components/schemas/PaymentRequest/properties/dateOfBirth",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Payment API",
+          "declared_type": "string",
+          "declared_format": "date",
+          "description": "The shopper's date of birth.\n\nFormat [ISO-8601](https://www.w3.org/TR/NOTE-datetime): YYYY-MM-DD",
+          "publisher_field_heading": "dateOfBirth",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "The shopper's date of birth."
+          ],
+          "description_citations": [
+            "rawsources/adyen-PaymentService-v52.excerpt.json#/components/schemas/PaymentRequest/properties/dateOfBirth"
+          ],
+          "publisher_extensions": {
+            "x-addedInVersion": "7"
+          },
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "deliveryDate",
+          "path": "/components/schemas/PaymentRequest/properties/deliveryDate",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Payment API",
+          "declared_type": "string",
+          "declared_format": "date-time",
+          "description": "The date and time the purchased goods should be delivered.\n\nFormat [ISO 8601](https://www.w3.org/TR/NOTE-datetime): YYYY-MM-DDThh:mm:ss.sssTZD\n\nExample: 2017-07-17T13:42:40.428+01:00",
+          "publisher_field_heading": "deliveryDate",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/adyen-PaymentService-v52.excerpt.json#/components/schemas/PaymentRequest/properties/deliveryDate"
+          ],
+          "publisher_extensions": {
+            "x-addedInVersion": "8"
+          },
+          "sample_kind": "publisher_documented_example",
+          "sample_citations": [
+            "rawsources/adyen-PaymentService-v52.excerpt.json#/components/schemas/PaymentRequest/properties/deliveryDate"
+          ]
+        },
+        {
+          "name": "fraudOffset",
+          "path": "/components/schemas/PaymentRequest/properties/fraudOffset",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Payment API",
+          "declared_type": "integer",
+          "declared_format": "int32",
+          "description": "An integer value that is added to the normal fraud score. The value can be either positive or negative.",
+          "publisher_field_heading": "fraudOffset",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/adyen-PaymentService-v52.excerpt.json#/components/schemas/PaymentRequest/properties/fraudOffset"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "merchantAccount",
+          "path": "/components/schemas/PaymentRequest/properties/merchantAccount",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Payment API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "The merchant account identifier, with which you want to process the transaction.",
+          "publisher_field_heading": "merchantAccount",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "The merchant account identifier, with which you want to process the transaction."
+          ],
+          "description_citations": [
+            "rawsources/adyen-PaymentService-v52.excerpt.json#/components/schemas/PaymentRequest/properties/merchantAccount"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "merchantOrderReference",
+          "path": "/components/schemas/PaymentRequest/properties/merchantOrderReference",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Payment API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "This reference allows linking multiple transactions to each other for reporting purposes (i.e. order auth-rate). The reference should be unique per billing cycle.\nThe same merchant order reference should never be reused after the first authorised attempt. If used, this field should be supplied for all incoming authorisations.\n> We strongly recommend you send the `merchantOrderReference` value to benefit from linking payment requests when authorisation retries take place. In addition, we recommend you provide `retry.orderAttemptNumber`, `retry.chainAttemptNumber`, and `retry.skipRetry` values in `PaymentRequest.additionalData`.",
+          "publisher_field_heading": "merchantOrderReference",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "This reference allows linking multiple transactions to each other for reporting purposes (i.e. order auth-rate). The reference should be unique per billing cycle.\nThe same merchant order reference should never be reused after the first authorised attempt. If used, this field should be supplied for all incoming authorisations.\n> We strongly recommend you send the `merchantOrderReference` value to benefit from linking payment requests when authorisation retries take place. In addition, we recommend you provide `retry.orderAttemptNumber`, `retry.chainAttemptNumber`, and `retry.skipRetry` values in `PaymentRequest.additionalData`."
+          ],
+          "description_citations": [
+            "rawsources/adyen-PaymentService-v52.excerpt.json#/components/schemas/PaymentRequest/properties/merchantOrderReference"
+          ],
+          "publisher_extensions": {
+            "x-addedInVersion": "9"
+          },
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "orderReference",
+          "path": "/components/schemas/PaymentRequest/properties/orderReference",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Payment API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "When you are doing multiple partial (gift card) payments, this is the `pspReference` of the first payment. We use this to link the multiple payments to each other. As your own reference for linking multiple payments, use the `merchantOrderReference`instead.",
+          "publisher_field_heading": "orderReference",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "When you are doing multiple partial (gift card) payments, this is the `pspReference` of the first payment. We use this to link the multiple payments to each other. As your own reference for linking multiple payments, use the `merchantOrderReference`instead."
+          ],
+          "description_citations": [
+            "rawsources/adyen-PaymentService-v52.excerpt.json#/components/schemas/PaymentRequest/properties/orderReference"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "recurringProcessingModel",
+          "path": "/components/schemas/PaymentRequest/properties/recurringProcessingModel",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Payment API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "Defines a recurring payment type. Required when creating a token to store payment details or using stored payment details.\nAllowed values:\n* `Subscription` – A transaction for a fixed or variable amount, which follows a fixed schedule.\n* `CardOnFile` – With a card-on-file (CoF) transaction, card details are stored to enable one-click or omnichannel journeys, or simply to streamline the checkout process. Any subscription not following a fixed schedule is also considered a card-on-file transaction.\n* `UnscheduledCardOnFile` – An unscheduled card-on-file (UCoF) transaction is a transaction that occurs on a non-fixed schedule and/or have variable amounts. For example, automatic top-ups when a cardholder's balance drops below a certain amount.\n",
+          "publisher_field_heading": "recurringProcessingModel",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "Defines a recurring payment type. Required when creating a token to store payment details or using stored payment details.\nAllowed values:\n* `Subscription` – A transaction for a fixed or variable amount, which follows a fixed schedule.\n* `CardOnFile` – With a card-on-file (CoF) transaction, card details are stored to enable one-click or omnichannel journeys, or simply to streamline the checkout process. Any subscription not following a fixed schedule is also considered a card-on-file transaction.\n* `UnscheduledCardOnFile` – An unscheduled card-on-file (UCoF) transaction is a transaction that occurs on a non-fixed schedule and/or have variable amounts. For example, automatic top-ups when a cardholder's balance drops below a certain amount.\n"
+          ],
+          "description_citations": [
+            "rawsources/adyen-PaymentService-v52.excerpt.json#/components/schemas/PaymentRequest/properties/recurringProcessingModel"
+          ],
+          "publisher_extensions": {
+            "x-addedInVersion": "30"
+          },
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "reference",
+          "path": "/components/schemas/PaymentRequest/properties/reference",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Payment API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "The reference to uniquely identify a payment. This reference is used in all communication with you about the payment status. We recommend using a unique value per payment; however, it is not a requirement.\nIf you need to provide multiple references for a transaction, separate them with hyphens (\"-\").\nMaximum length: 80 characters.",
+          "publisher_field_heading": "reference",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "The reference to uniquely identify a payment. This reference is used in all communication with you about the payment status. We recommend using a unique value per payment; however, it is not a requirement.\nIf you need to provide multiple references for a transaction, separate them with hyphens (\"-\").\nMaximum length: 80 characters."
+          ],
+          "description_citations": [
+            "rawsources/adyen-PaymentService-v52.excerpt.json#/components/schemas/PaymentRequest/properties/reference"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "shopperEmail",
+          "path": "/components/schemas/PaymentRequest/properties/shopperEmail",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Payment API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "The shopper's email address. We recommend that you provide this data, as it is used in velocity fraud checks. > Required for Visa and JCB transactions that require 3D Secure 2 authentication if you did not include the `telephoneNumber`.",
+          "publisher_field_heading": "shopperEmail",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "The shopper's email address. We recommend that you provide this data, as it is used in velocity fraud checks. > Required for Visa and JCB transactions that require 3D Secure 2 authentication if you did not include the `telephoneNumber`."
+          ],
+          "description_citations": [
+            "rawsources/adyen-PaymentService-v52.excerpt.json#/components/schemas/PaymentRequest/properties/shopperEmail"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "shopperIP",
+          "path": "/components/schemas/PaymentRequest/properties/shopperIP",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Payment API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "The shopper's IP address. We recommend that you provide this data, as it is used in a number of risk checks (for instance, number of payment attempts or location-based checks).\n> Required for Visa and JCB transactions that require 3D Secure 2 authentication for all web and mobile integrations, if you did not include the `shopperEmail`. For native mobile integrations, the field is required to support cases where authentication is routed to the redirect flow. This field is also mandatory for some merchants depending on your business model. For more information, [contact Support](https://www.adyen.help/hc/en-us/requests/new).",
+          "publisher_field_heading": "shopperIP",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "The shopper's IP address. We recommend that you provide this data, as it is used in a number of risk checks (for instance, number of payment attempts or location-based checks).\n> Required for Visa and JCB transactions that require 3D Secure 2 authentication for all web and mobile integrations, if you did not include the `shopperEmail`. For native mobile integrations, the field is required to support cases where authentication is routed to the redirect flow. This field is also mandatory for some merchants depending on your business model. For more information, [contact Support](https://www.adyen.help/hc/en-us/requests/new)."
+          ],
+          "description_citations": [
+            "rawsources/adyen-PaymentService-v52.excerpt.json#/components/schemas/PaymentRequest/properties/shopperIP"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "shopperInteraction",
+          "path": "/components/schemas/PaymentRequest/properties/shopperInteraction",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Payment API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "Specifies the sales channel, through which the shopper gives their card details, and whether the shopper is a returning customer.\nFor the web service API, Adyen assumes Ecommerce shopper interaction by default.\n\nThis field has the following possible values:\n* `Ecommerce` - Online transactions where the cardholder is present (online). For better authorisation rates, we recommend sending the card security code (CSC) along with the request.\n* `ContAuth` - Card on file and/or subscription transactions, where the cardholder is known to the merchant (returning customer). If the shopper is present (online), you can supply also the CSC to improve authorisation (one-click payment).\n* `Moto` - Mail-order and telephone-order transactions where the shopper is in contact with the merchant via email or telephone.\n* `POS` - Point-of-sale transactions where the shopper is physically present to make a payment using a secure payment terminal.",
+          "publisher_field_heading": "shopperInteraction",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "Specifies the sales channel, through which the shopper gives their card details, and whether the shopper is a returning customer.\nFor the web service API, Adyen assumes Ecommerce shopper interaction by default."
+          ],
+          "description_citations": [
+            "rawsources/adyen-PaymentService-v52.excerpt.json#/components/schemas/PaymentRequest/properties/shopperInteraction"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "shopperLocale",
+          "path": "/components/schemas/PaymentRequest/properties/shopperLocale",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Payment API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "The language for the payment. The value combines the two-letter [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) language code with the [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes) country code. For example, **nl-NL**.\n\nWhen using Drop-in/Components, the specified language appears if your front-end global configuration does not set the `locale`.",
+          "publisher_field_heading": "shopperLocale",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "The language for the payment. The value combines the two-letter [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) language code with the [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes) country code. For example, **nl-NL**."
+          ],
+          "description_citations": [
+            "rawsources/adyen-PaymentService-v52.excerpt.json#/components/schemas/PaymentRequest/properties/shopperLocale"
+          ],
+          "publisher_extensions": {
+            "x-addedInVersion": "7"
+          },
+          "sample_kind": "publisher_documented_example",
+          "sample_citations": [
+            "rawsources/adyen-PaymentService-v52.excerpt.json#/components/schemas/PaymentRequest/properties/shopperLocale"
+          ]
+        },
+        {
+          "name": "shopperReference",
+          "path": "/components/schemas/PaymentRequest/properties/shopperReference",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Payment API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "Required for recurring payments. \nYour reference to uniquely identify this shopper, for example user ID or account ID. The value is case-sensitive and must be at least three characters.\n> Your reference must not include personally identifiable information (PII) such as name or email address.",
+          "publisher_field_heading": "shopperReference",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "Required for recurring payments. \nYour reference to uniquely identify this shopper, for example user ID or account ID. The value is case-sensitive and must be at least three characters.\n> Your reference must not include personally identifiable information (PII) such as name or email address."
+          ],
+          "description_citations": [
+            "rawsources/adyen-PaymentService-v52.excerpt.json#/components/schemas/PaymentRequest/properties/shopperReference"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "shopperStatement",
+          "path": "/components/schemas/PaymentRequest/properties/shopperStatement",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Payment API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "The text to be shown on the shopper's bank statement.\n We recommend sending a maximum of 22 characters, otherwise banks might truncate the string.\n Allowed characters: **a-z**, **A-Z**, **0-9**, spaces, and special characters **. , ' _ - ? + * /**.",
+          "publisher_field_heading": "shopperStatement",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "The text to be shown on the shopper's bank statement.\n We recommend sending a maximum of 22 characters, otherwise banks might truncate the string.\n Allowed characters: **a-z**, **A-Z**, **0-9**, spaces, and special characters **. , ' _ - ? + * /**."
+          ],
+          "description_citations": [
+            "rawsources/adyen-PaymentService-v52.excerpt.json#/components/schemas/PaymentRequest/properties/shopperStatement"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "store",
+          "path": "/components/schemas/PaymentRequest/properties/store",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Payment API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "Required for Adyen for Platforms integrations if you are a platform model. This is your [reference](https://docs.adyen.com/api-explorer/Management/3/post/merchants/(merchantId)/stores#request-reference) (on [balance platform](https://docs.adyen.com/platforms)) or the [storeReference](https://docs.adyen.com/api-explorer/Account/latest/post/updateAccountHolder#request-accountHolderDetails-storeDetails-storeReference) (in the [classic integration](https://docs.adyen.com/classic-platforms/processing-payments/route-payment-to-store/#route-a-payment-to-a-store)) for the ecommerce or point-of-sale store that is processing the payment.",
+          "publisher_field_heading": "store",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "Required for Adyen for Platforms integrations if you are a platform model. This is your [reference](https://docs.adyen.com/api-explorer/Management/3/post/merchants/(merchantId)/stores#request-reference) (on [balance platform](https://docs.adyen.com/platforms)) or the [storeReference](https://docs.adyen.com/api-explorer/Account/latest/post/updateAccountHolder#request-accountHolderDetails-storeDetails-storeReference) (in the [classic integration](https://docs.adyen.com/classic-platforms/processing-payments/route-payment-to-store/#route-a-payment-to-a-store)) for the ecommerce or point-of-sale store that is processing the payment."
+          ],
+          "description_citations": [
+            "rawsources/adyen-PaymentService-v52.excerpt.json#/components/schemas/PaymentRequest/properties/store"
+          ],
+          "publisher_extensions": {
+            "x-addedInVersion": "23"
+          },
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "telephoneNumber",
+          "path": "/components/schemas/PaymentRequest/properties/telephoneNumber",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Payment API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "The shopper's telephone number.\n The phone number must include a plus sign (+) and a country code (1-3 digits), followed by the number (4-15 digits). If the value you provide does not follow the guidelines, we do not submit it for authentication.\n> Required for Visa and JCB transactions that require 3D Secure 2 authentication, if you did not include the `shopperEmail`.",
+          "publisher_field_heading": "telephoneNumber",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "The shopper's telephone number.\n The phone number must include a plus sign (+) and a country code (1-3 digits), followed by the number (4-15 digits). If the value you provide does not follow the guidelines, we do not submit it for authentication.\n> Required for Visa and JCB transactions that require 3D Secure 2 authentication, if you did not include the `shopperEmail`."
+          ],
+          "description_citations": [
+            "rawsources/adyen-PaymentService-v52.excerpt.json#/components/schemas/PaymentRequest/properties/telephoneNumber"
+          ],
+          "publisher_extensions": {
+            "x-addedInVersion": "7"
+          },
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "threeDSAuthenticationOnly",
+          "path": "/components/schemas/PaymentRequest/properties/threeDSAuthenticationOnly",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Payment API",
+          "declared_type": "boolean",
+          "declared_format": null,
+          "description": "Required to trigger the [authentication-only flow](https://docs.adyen.com/online-payments/3d-secure/authentication-only/). If set to **true**, you will only perform the 3D Secure 2 authentication, and will not proceed to the payment authorization.Default: **false**.",
+          "publisher_field_heading": "threeDSAuthenticationOnly",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "Required to trigger the [authentication-only flow](https://docs.adyen.com/online-payments/3d-secure/authentication-only/). If set to **true**, you will only perform the 3D Secure 2 authentication, and will not proceed to the payment authorization.Default: **false**."
+          ],
+          "description_citations": [
+            "rawsources/adyen-PaymentService-v52.excerpt.json#/components/schemas/PaymentRequest/properties/threeDSAuthenticationOnly"
+          ],
+          "publisher_extensions": {
+            "x-addedInVersion": "50"
+          },
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "totalsGroup",
+          "path": "/components/schemas/PaymentRequest/properties/totalsGroup",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Payment API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "The reference value to aggregate sales totals in reporting. When not specified, the store field is used (if available).",
+          "publisher_field_heading": "totalsGroup",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/adyen-PaymentService-v52.excerpt.json#/components/schemas/PaymentRequest/properties/totalsGroup"
+          ],
+          "publisher_extensions": {
+            "x-addedInVersion": "23"
+          },
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "trustedShopper",
+          "path": "/components/schemas/PaymentRequest/properties/trustedShopper",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Payment API",
+          "declared_type": "boolean",
+          "declared_format": null,
+          "description": "Set to true if the payment should be routed to a trusted MID.",
+          "publisher_field_heading": "trustedShopper",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "Set to true if the payment should be routed to a trusted MID."
+          ],
+          "description_citations": [
+            "rawsources/adyen-PaymentService-v52.excerpt.json#/components/schemas/PaymentRequest/properties/trustedShopper"
+          ],
+          "publisher_extensions": {
+            "x-addedInVersion": "37"
+          },
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "enableRealTimeUpdate",
+          "path": "/components/schemas/PaymentRequest/properties/enableRealTimeUpdate",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Payment API",
+          "declared_type": "boolean",
+          "declared_format": null,
+          "description": "Choose if a specific transaction should use the Real-time Account Updater, regardless of other settings.",
+          "publisher_field_heading": "enableRealTimeUpdate",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "Choose if a specific transaction should use the Real-time Account Updater, regardless of other settings."
+          ],
+          "description_citations": [
+            "rawsources/adyen-PaymentService-v52.excerpt.json#/components/schemas/PaymentRequest/properties/enableRealTimeUpdate"
+          ],
+          "publisher_extensions": {
+            "x-addedInVersion": "51",
+            "deprecated": true
+          },
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        }
+      ]
+    },
+    "target": {
+      "publisher": "Adyen",
+      "resource_name": "PaymentRequest",
+      "api_title": "Adyen Checkout API",
+      "schema_version": "72",
+      "projection": "Selected documented top-level scalar properties; arrays and object-valued properties are excluded.",
+      "fields": [
+        {
+          "name": "captureDelayHours",
+          "path": "/components/schemas/PaymentRequest/properties/captureDelayHours",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Checkout API",
+          "declared_type": "integer",
+          "declared_format": "int32",
+          "description": "The [delay between the authorization and automatic capture](https://docs.adyen.com/online-payments/capture?tab=delayed-individual_2#delayed-automatic-capture) of the payment, specified in hours.\n\nMaximum value: **672** (28 days).",
+          "publisher_field_heading": "captureDelayHours",
+          "units_raw": [
+            "The [delay between the authorization and automatic capture](https://docs.adyen.com/online-payments/capture?tab=delayed-individual_2#delayed-automatic-capture) of the payment, specified in hours.\n\nMaximum value: **672** (28 days)."
+          ],
+          "periods_raw": [],
+          "roles_raw": [
+            "The [delay between the authorization and automatic capture](https://docs.adyen.com/online-payments/capture?tab=delayed-individual_2#delayed-automatic-capture) of the payment, specified in hours."
+          ],
+          "description_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/captureDelayHours"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "dateOfBirth",
+          "path": "/components/schemas/PaymentRequest/properties/dateOfBirth",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Checkout API",
+          "declared_type": "string",
+          "declared_format": "date-time",
+          "description": "The shopper's date of birth.\n\nFormat [ISO-8601](https://www.w3.org/TR/NOTE-datetime): YYYY-MM-DD",
+          "publisher_field_heading": "dateOfBirth",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "The shopper's date of birth."
+          ],
+          "description_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/dateOfBirth"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "deliveryDate",
+          "path": "/components/schemas/PaymentRequest/properties/deliveryDate",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Checkout API",
+          "declared_type": "string",
+          "declared_format": "date-time",
+          "description": "The date and time the purchased goods should be delivered.\n\nFormat [ISO 8601](https://www.w3.org/TR/NOTE-datetime): YYYY-MM-DDThh:mm:ss.sssTZD\n\nExample: 2017-07-17T13:42:40.428+01:00",
+          "publisher_field_heading": "deliveryDate",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/deliveryDate"
+          ],
+          "publisher_extensions": {
+            "deprecated": true,
+            "x-deprecatedInVersion": "70",
+            "x-deprecatedMessage": "Use `deliverAt` instead."
+          },
+          "sample_kind": "publisher_documented_example",
+          "sample_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/deliveryDate"
+          ]
+        },
+        {
+          "name": "fraudOffset",
+          "path": "/components/schemas/PaymentRequest/properties/fraudOffset",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Checkout API",
+          "declared_type": "integer",
+          "declared_format": "int32",
+          "description": "An integer value that is added to the normal fraud score. The value can be either positive or negative.",
+          "publisher_field_heading": "fraudOffset",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/fraudOffset"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "merchantAccount",
+          "path": "/components/schemas/PaymentRequest/properties/merchantAccount",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Checkout API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "The merchant account identifier, with which you want to process the transaction.",
+          "publisher_field_heading": "merchantAccount",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "The merchant account identifier, with which you want to process the transaction."
+          ],
+          "description_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/merchantAccount"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "merchantOrderReference",
+          "path": "/components/schemas/PaymentRequest/properties/merchantOrderReference",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Checkout API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "You can use this reference to link multiple transactions to one another (for example, to track order authorization rate). For each billing cycle, this reference should be unique. After the first authorized payment attempt, do not reuse the reference. If you use this parameter, include it in all of the payment requests that you make. \n We strongly recommend that you:\n* Always include this parameter, so that you can benefit from linking payment requests to one another, in case of authorization retries. \n* Additionally include the following parameters in the `additionalData` object: [`retry.orderAttemptNumber`](https://docs.adyen.com/api-explorer/Checkout/latest/post/sessions#request-additionalData-AdditionalDataRetry-retry-orderAttemptNumber), [`retry.chainAttemptNumber`](https://docs.adyen.com/api-explorer/Checkout/latest/post/sessions#request-additionalData-AdditionalDataRetry-retry-chainAttemptNumber), and [`retry.skipRetry`](https://docs.adyen.com/api-explorer/Checkout/latest/post/sessions#request-additionalData-AdditionalDataRetry-retry-skipRetry)",
+          "publisher_field_heading": "merchantOrderReference",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "You can use this reference to link multiple transactions to one another (for example, to track order authorization rate). For each billing cycle, this reference should be unique. After the first authorized payment attempt, do not reuse the reference. If you use this parameter, include it in all of the payment requests that you make. \n We strongly recommend that you:\n* Always include this parameter, so that you can benefit from linking payment requests to one another, in case of authorization retries. \n* Additionally include the following parameters in the `additionalData` object: [`retry.orderAttemptNumber`](https://docs.adyen.com/api-explorer/Checkout/latest/post/sessions#request-additionalData-AdditionalDataRetry-retry-orderAttemptNumber), [`retry.chainAttemptNumber`](https://docs.adyen.com/api-explorer/Checkout/latest/post/sessions#request-additionalData-AdditionalDataRetry-retry-chainAttemptNumber), and [`retry.skipRetry`](https://docs.adyen.com/api-explorer/Checkout/latest/post/sessions#request-additionalData-AdditionalDataRetry-retry-skipRetry)"
+          ],
+          "description_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/merchantOrderReference"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "orderReference",
+          "path": "/components/schemas/PaymentRequest/properties/orderReference",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Checkout API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "When you are doing multiple partial (gift card) payments, this is the `pspReference` of the first payment. We use this to link the multiple payments to each other. As your own reference for linking multiple payments, use the `merchantOrderReference`instead.",
+          "publisher_field_heading": "orderReference",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "When you are doing multiple partial (gift card) payments, this is the `pspReference` of the first payment. We use this to link the multiple payments to each other. As your own reference for linking multiple payments, use the `merchantOrderReference`instead."
+          ],
+          "description_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/orderReference"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "recurringProcessingModel",
+          "path": "/components/schemas/PaymentRequest/properties/recurringProcessingModel",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Checkout API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "Defines a recurring payment type. Required when creating a token to store payment details or using stored payment details.\nAllowed values:\n* `Subscription` – A transaction for a fixed or variable amount, which follows a fixed schedule.\n* `CardOnFile` – With a card-on-file (CoF) transaction, card details are stored to enable one-click or omnichannel journeys, or simply to streamline the checkout process. Any subscription not following a fixed schedule is also considered a card-on-file transaction.\n* `UnscheduledCardOnFile` – An unscheduled card-on-file (UCoF) transaction is a transaction that occurs on a non-fixed schedule and/or have variable amounts. For example, automatic top-ups when a cardholder's balance drops below a certain amount.\n",
+          "publisher_field_heading": "recurringProcessingModel",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "Defines a recurring payment type. Required when creating a token to store payment details or using stored payment details.\nAllowed values:\n* `Subscription` – A transaction for a fixed or variable amount, which follows a fixed schedule.\n* `CardOnFile` – With a card-on-file (CoF) transaction, card details are stored to enable one-click or omnichannel journeys, or simply to streamline the checkout process. Any subscription not following a fixed schedule is also considered a card-on-file transaction.\n* `UnscheduledCardOnFile` – An unscheduled card-on-file (UCoF) transaction is a transaction that occurs on a non-fixed schedule and/or have variable amounts. For example, automatic top-ups when a cardholder's balance drops below a certain amount.\n"
+          ],
+          "description_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/recurringProcessingModel"
+          ],
+          "publisher_extensions": {
+            "x-addedInVersion": "32"
+          },
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "reference",
+          "path": "/components/schemas/PaymentRequest/properties/reference",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Checkout API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "The reference to uniquely identify a payment. This reference is used in all communication with you about the payment status. To provide multiple references for one transaction, separate the reference values with the hyphen (`-`) character. We strongly recommend that you use a unique value for each transaction.\nMaximum length: 80 characters.",
+          "publisher_field_heading": "reference",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "The reference to uniquely identify a payment. This reference is used in all communication with you about the payment status. To provide multiple references for one transaction, separate the reference values with the hyphen (`-`) character. We strongly recommend that you use a unique value for each transaction.\nMaximum length: 80 characters."
+          ],
+          "description_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/reference"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "shopperEmail",
+          "path": "/components/schemas/PaymentRequest/properties/shopperEmail",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Checkout API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "The shopper's email address, in valid [RFC-5322](https://www.rfc-editor.org/rfc/rfc5322) format. We recommend that you provide this data, because it is used in velocity fraud checks. > Required for Visa and JCB transactions that require 3D Secure 2 authentication if you did not include the `telephoneNumber`.",
+          "publisher_field_heading": "shopperEmail",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "The shopper's email address, in valid [RFC-5322](https://www.rfc-editor.org/rfc/rfc5322) format. We recommend that you provide this data, because it is used in velocity fraud checks. > Required for Visa and JCB transactions that require 3D Secure 2 authentication if you did not include the `telephoneNumber`."
+          ],
+          "description_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/shopperEmail"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "shopperIP",
+          "path": "/components/schemas/PaymentRequest/properties/shopperIP",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Checkout API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "The shopper's IP address. We recommend that you provide this data, as it is used in a number of risk checks (for instance, number of payment attempts or location-based checks).\n> Required for Visa and JCB transactions that require 3D Secure 2 authentication for all web and mobile integrations, if you did not include the `shopperEmail`. For native mobile integrations, the field is required to support cases where authentication is routed to the redirect flow. This field is also mandatory for some merchants depending on your business model. For more information, [contact Support](https://www.adyen.help/hc/en-us/requests/new).",
+          "publisher_field_heading": "shopperIP",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "The shopper's IP address. We recommend that you provide this data, as it is used in a number of risk checks (for instance, number of payment attempts or location-based checks).\n> Required for Visa and JCB transactions that require 3D Secure 2 authentication for all web and mobile integrations, if you did not include the `shopperEmail`. For native mobile integrations, the field is required to support cases where authentication is routed to the redirect flow. This field is also mandatory for some merchants depending on your business model. For more information, [contact Support](https://www.adyen.help/hc/en-us/requests/new)."
+          ],
+          "description_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/shopperIP"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "shopperInteraction",
+          "path": "/components/schemas/PaymentRequest/properties/shopperInteraction",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Checkout API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "Specifies the sales channel, through which the shopper gives their card details, and whether the shopper is a returning customer.\nFor the web service API, Adyen assumes Ecommerce shopper interaction by default.\n\nThis field has the following possible values:\n* `Ecommerce` - Online transactions where the cardholder is present (online). For better authorisation rates, we recommend sending the card security code (CSC) along with the request.\n* `ContAuth` - Card on file and/or subscription transactions, where the cardholder is known to the merchant (returning customer). If the shopper is present (online), you can supply also the CSC to improve authorisation (one-click payment).\n* `Moto` - Mail-order and telephone-order transactions where the shopper is in contact with the merchant via email or telephone.\n* `POS` - Point-of-sale transactions where the shopper is physically present to make a payment using a secure payment terminal.",
+          "publisher_field_heading": "shopperInteraction",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "Specifies the sales channel, through which the shopper gives their card details, and whether the shopper is a returning customer.\nFor the web service API, Adyen assumes Ecommerce shopper interaction by default."
+          ],
+          "description_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/shopperInteraction"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "shopperLocale",
+          "path": "/components/schemas/PaymentRequest/properties/shopperLocale",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Checkout API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "The language for the payment. The value combines the two-letter [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) language code with the [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes) country code. For example, **nl-NL**.\n\nWhen using Drop-in/Components, the specified language appears if your front-end global configuration does not set the `locale`.",
+          "publisher_field_heading": "shopperLocale",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "The language for the payment. The value combines the two-letter [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) language code with the [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes) country code. For example, **nl-NL**."
+          ],
+          "description_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/shopperLocale"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "publisher_documented_example",
+          "sample_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/shopperLocale"
+          ]
+        },
+        {
+          "name": "shopperReference",
+          "path": "/components/schemas/PaymentRequest/properties/shopperReference",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Checkout API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "Required for recurring payments. \nYour reference to uniquely identify this shopper, for example user ID or account ID. Minimum length: 3 characters.\n> Your reference must not include personally identifiable information (PII), for example name or email address.",
+          "publisher_field_heading": "shopperReference",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "Required for recurring payments. \nYour reference to uniquely identify this shopper, for example user ID or account ID. Minimum length: 3 characters.\n> Your reference must not include personally identifiable information (PII), for example name or email address."
+          ],
+          "description_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/shopperReference"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "shopperStatement",
+          "path": "/components/schemas/PaymentRequest/properties/shopperStatement",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Checkout API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "The text to be shown on the shopper's bank statement.\n We recommend sending a maximum of 22 characters, otherwise banks might truncate the string.\n Allowed characters: **a-z**, **A-Z**, **0-9**, spaces, and special characters **. , ' _ - ? + * /**.",
+          "publisher_field_heading": "shopperStatement",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "The text to be shown on the shopper's bank statement.\n We recommend sending a maximum of 22 characters, otherwise banks might truncate the string.\n Allowed characters: **a-z**, **A-Z**, **0-9**, spaces, and special characters **. , ' _ - ? + * /**."
+          ],
+          "description_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/shopperStatement"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "store",
+          "path": "/components/schemas/PaymentRequest/properties/store",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Checkout API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "Required for Adyen for Platforms integrations if you are a platform model. This is your [reference](https://docs.adyen.com/api-explorer/Management/3/post/merchants/(merchantId)/stores#request-reference) (on [balance platform](https://docs.adyen.com/platforms)) or the [storeReference](https://docs.adyen.com/api-explorer/Account/latest/post/updateAccountHolder#request-accountHolderDetails-storeDetails-storeReference) (in the [classic integration](https://docs.adyen.com/classic-platforms/processing-payments/route-payment-to-store/#route-a-payment-to-a-store)) for the ecommerce or point-of-sale store that is processing the payment.",
+          "publisher_field_heading": "store",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "Required for Adyen for Platforms integrations if you are a platform model. This is your [reference](https://docs.adyen.com/api-explorer/Management/3/post/merchants/(merchantId)/stores#request-reference) (on [balance platform](https://docs.adyen.com/platforms)) or the [storeReference](https://docs.adyen.com/api-explorer/Account/latest/post/updateAccountHolder#request-accountHolderDetails-storeDetails-storeReference) (in the [classic integration](https://docs.adyen.com/classic-platforms/processing-payments/route-payment-to-store/#route-a-payment-to-a-store)) for the ecommerce or point-of-sale store that is processing the payment."
+          ],
+          "description_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/store"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "telephoneNumber",
+          "path": "/components/schemas/PaymentRequest/properties/telephoneNumber",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Checkout API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "The shopper's telephone number.\n The phone number must include a plus sign (+) and a country code (1-3 digits), followed by the number (4-15 digits). If the value you provide does not follow the guidelines, we do not submit it for authentication.\n> Required for Visa and JCB transactions that require 3D Secure 2 authentication, if you did not include the `shopperEmail`.",
+          "publisher_field_heading": "telephoneNumber",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "The shopper's telephone number.\n The phone number must include a plus sign (+) and a country code (1-3 digits), followed by the number (4-15 digits). If the value you provide does not follow the guidelines, we do not submit it for authentication.\n> Required for Visa and JCB transactions that require 3D Secure 2 authentication, if you did not include the `shopperEmail`."
+          ],
+          "description_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/telephoneNumber"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "threeDSAuthenticationOnly",
+          "path": "/components/schemas/PaymentRequest/properties/threeDSAuthenticationOnly",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Checkout API",
+          "declared_type": "boolean",
+          "declared_format": null,
+          "description": "Required to trigger the [authentication-only flow](https://docs.adyen.com/online-payments/3d-secure/authentication-only/). If set to **true**, you will only perform the 3D Secure 2 authentication, and will not proceed to the payment authorisation.Default: **false**.",
+          "publisher_field_heading": "threeDSAuthenticationOnly",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "Required to trigger the [authentication-only flow](https://docs.adyen.com/online-payments/3d-secure/authentication-only/). If set to **true**, you will only perform the 3D Secure 2 authentication, and will not proceed to the payment authorisation.Default: **false**."
+          ],
+          "description_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/threeDSAuthenticationOnly"
+          ],
+          "publisher_extensions": {
+            "deprecated": true,
+            "x-addedInVersion": "50",
+            "x-deprecatedInVersion": "69",
+            "x-deprecatedMessage": "Use `authenticationData.authenticationOnly` instead."
+          },
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "trustedShopper",
+          "path": "/components/schemas/PaymentRequest/properties/trustedShopper",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Checkout API",
+          "declared_type": "boolean",
+          "declared_format": null,
+          "description": "Set to true if the payment should be routed to a trusted MID.",
+          "publisher_field_heading": "trustedShopper",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "Set to true if the payment should be routed to a trusted MID."
+          ],
+          "description_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/trustedShopper"
+          ],
+          "publisher_extensions": {
+            "x-addedInVersion": "40"
+          },
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "deliverAt",
+          "path": "/components/schemas/PaymentRequest/properties/deliverAt",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Checkout API",
+          "declared_type": "string",
+          "declared_format": "date-time",
+          "description": "The date and time the purchased goods should be delivered.\n\nFormat [ISO 8601](https://www.w3.org/TR/NOTE-datetime): YYYY-MM-DDThh:mm:ss.sssTZD\n\nExample: 2017-07-17T13:42:40.428+01:00",
+          "publisher_field_heading": "deliverAt",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/deliverAt"
+          ],
+          "publisher_extensions": {
+            "x-addedInVersion": "70"
+          },
+          "sample_kind": "publisher_documented_example",
+          "sample_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/deliverAt"
+          ]
+        },
+        {
+          "name": "countryCode",
+          "path": "/components/schemas/PaymentRequest/properties/countryCode",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Checkout API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "The shopper country code.\n\nFormat: [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)\nExample: NL or DE",
+          "publisher_field_heading": "countryCode",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "The shopper country code."
+          ],
+          "description_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/countryCode"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "publisher_documented_example",
+          "sample_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/countryCode"
+          ]
+        },
+        {
+          "name": "enableRecurring",
+          "path": "/components/schemas/PaymentRequest/properties/enableRecurring",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Checkout API",
+          "declared_type": "boolean",
+          "declared_format": null,
+          "description": "When true and `shopperReference` is provided, the payment details will be stored for [recurring payments](https://docs.adyen.com/online-payments/tokenization/#recurring-payment-types) where the shopper is not present, such as subscription or automatic top-up payments.",
+          "publisher_field_heading": "enableRecurring",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "When true and `shopperReference` is provided, the payment details will be stored for [recurring payments](https://docs.adyen.com/online-payments/tokenization/#recurring-payment-types) where the shopper is not present, such as subscription or automatic top-up payments."
+          ],
+          "description_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/enableRecurring"
+          ],
+          "publisher_extensions": {
+            "x-addedInVersion": "32"
+          },
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "storePaymentMethod",
+          "path": "/components/schemas/PaymentRequest/properties/storePaymentMethod",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Checkout API",
+          "declared_type": "boolean",
+          "declared_format": null,
+          "description": "When true and `shopperReference` is provided, the payment details will be stored for future [recurring payments](https://docs.adyen.com/online-payments/tokenization/#recurring-payment-types).",
+          "publisher_field_heading": "storePaymentMethod",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "When true and `shopperReference` is provided, the payment details will be stored for future [recurring payments](https://docs.adyen.com/online-payments/tokenization/#recurring-payment-types)."
+          ],
+          "description_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/storePaymentMethod"
+          ],
+          "publisher_extensions": {
+            "x-addedInVersion": "49"
+          },
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "checkoutAttemptId",
+          "path": "/components/schemas/PaymentRequest/properties/checkoutAttemptId",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Checkout API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "Checkout attempt ID that corresponds to the Id generated by the client SDK for tracking user payment journey.",
+          "publisher_field_heading": "checkoutAttemptId",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "Checkout attempt ID that corresponds to the Id generated by the client SDK for tracking user payment journey."
+          ],
+          "description_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/checkoutAttemptId"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "channel",
+          "path": "/components/schemas/PaymentRequest/properties/channel",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Checkout API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "The platform where a payment transaction takes place. This field is optional for filtering out payment methods that are only available on specific platforms. If this value is not set, then we will try to infer it from the `sdkVersion` or `token`.\n\nPossible values:\n* iOS\n* Android\n* Web",
+          "publisher_field_heading": "channel",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [
+            "The platform where a payment transaction takes place. This field is optional for filtering out payment methods that are only available on specific platforms. If this value is not set, then we will try to infer it from the `sdkVersion` or `token`."
+          ],
+          "description_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/channel"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        },
+        {
+          "name": "sessionValidity",
+          "path": "/components/schemas/PaymentRequest/properties/sessionValidity",
+          "resource_name": "PaymentRequest",
+          "api_title": "Adyen Checkout API",
+          "declared_type": "string",
+          "declared_format": null,
+          "description": "The date and time until when the session remains valid, in [ISO 8601](https://www.w3.org/TR/NOTE-datetime) format.\n\nFor example: 2020-07-18T15:42:40.428+01:00",
+          "publisher_field_heading": "sessionValidity",
+          "units_raw": [],
+          "periods_raw": [],
+          "roles_raw": [],
+          "description_citations": [
+            "rawsources/adyen-CheckoutService-v72.excerpt.json#/components/schemas/PaymentRequest/properties/sessionValidity"
+          ],
+          "publisher_extensions": {},
+          "sample_kind": "schema_only",
+          "sample_citations": []
+        }
+      ]
+    }
+  }
+]

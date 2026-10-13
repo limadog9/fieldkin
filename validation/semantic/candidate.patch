@@ -1,0 +1,148 @@
+diff --git a/src/engine.rs b/src/engine.rs
+index 6d349cb..6d70945 100644
+--- a/src/engine.rs
++++ b/src/engine.rs
+@@ -1,5 +1,8 @@
++use crate::algorithms::{Coma, JaccardDistanceMatcher};
++use std::collections::BTreeMap;
++
+ use crate::signals::{abbreviation_score, exact_name_match, name_score, sample_score, type_score};
+-use crate::{Candidate, Decision, Error, Field, FieldResult, MatchReport, Schema};
++use crate::{Candidate, Decision, Error, Field, FieldResult, MatchReport, Matcher, Schema, Table};
+ 
+ const NAME_WEIGHT: f64 = 0.60;
+ const TYPE_WEIGHT: f64 = 0.25;
+@@ -98,6 +101,104 @@ pub fn try_match_schemas(
+     Ok(MatchReport { fields })
+ }
+ 
++/// Opt in to corroborating original suggestions with default COMA and Jaccard.
++///
++/// An original `NoMatch` can be accepted when its top candidate already meets
++/// `min_score` and COMA's bidirectional selection retains exactly one positive
++/// correspondence to it. Other decisions change only when that sole COMA
++/// correspondence also has Jaccard's unique positive top score and meets the
++/// original minimum. Equal Jaccard scores do not establish a unique match.
++///
++/// Candidate scores, component explanations and ordering remain original; the
++/// selected target can therefore differ from the highest-ranked candidate.
++/// Decisions use all candidates before applying `max_candidates`. Agreement is
++/// additional heuristic evidence, not verified semantic equivalence. In
++/// particular, shared names or values can still describe different concepts.
++///
++/// The original suggestion APIs and defaults are unchanged. This optional call
++/// adds COMA's schema comparisons and, only when needed to change a decision,
++/// Jaccard's potentially quadratic distinct-value comparisons. It uses native
++/// table validation: empty or duplicate field names return an error, unlike the
++/// original flat API. Invalid configurations also return an error.
++pub fn try_match_schemas_corroborated(
++    source: &Schema,
++    target: &Schema,
++    config: Config,
++) -> Result<MatchReport, Error> {
++    let mut report = try_match_schemas(
++        source,
++        target,
++        Config {
++            max_candidates: usize::MAX,
++            ..config
++        },
++    )?;
++    let source = Table::from_schema("source", source);
++    let target = Table::from_schema("target", target);
++    let coma = Coma::default().get_matches(&source, &target)?;
++    let mut sole = BTreeMap::new();
++    for (pair, _) in coma.iter().filter(|(_, score)| **score > 0.0) {
++        sole.entry(pair.source_column.as_str())
++            .and_modify(|candidate| *candidate = None)
++            .or_insert(Some(pair.target_column.as_str()));
++    }
++    let needs_jaccard = report.fields.iter().any(|field| {
++        !matches!(field.decision, Decision::NoMatch { .. })
++            && sole.get(field.source.as_str()).copied().flatten().is_some_and(|target| {
++                !matches!(&field.decision, Decision::Match { target: selected, .. } if selected == target)
++                    && field.candidates.iter().any(|c| c.target == target && c.score >= config.min_score)
++            })
++    });
++    let jaccard = if needs_jaccard {
++        Some(JaccardDistanceMatcher::default().get_matches(&source, &target)?)
++    } else {
++        None
++    };
++    let mut unique_top = BTreeMap::new();
++    if let Some(jaccard) = &jaccard {
++        // MatcherResults iterates in descending score order. Exact equal-score
++        // alternatives invalidate corroboration; no floating-point margin is added.
++        for (pair, score) in jaccard.iter().filter(|(_, score)| **score > 0.0) {
++            unique_top
++                .entry(pair.source_column.as_str())
++                .and_modify(|(best, unique): &mut (f64, Option<&str>)| {
++                    if score == best {
++                        *unique = None;
++                    }
++                })
++                .or_insert((*score, Some(pair.target_column.as_str())));
++        }
++    }
++    for field in &mut report.fields {
++        if let Some(target) = sole.get(field.source.as_str()).copied().flatten() {
++            let selected = field
++                .candidates
++                .iter()
++                .find(|candidate| candidate.target == target);
++            let rescue = matches!(field.decision, Decision::NoMatch { .. })
++                && field
++                    .candidates
++                    .first()
++                    .is_some_and(|candidate| candidate.target == target);
++            let corroborated = !matches!(field.decision, Decision::NoMatch { .. })
++                && unique_top
++                    .get(field.source.as_str())
++                    .is_some_and(|(_, unique)| *unique == Some(target));
++            if (rescue || corroborated)
++                && let Some(candidate) =
++                    selected.filter(|candidate| candidate.score >= config.min_score)
++            {
++                field.decision = Decision::Match {
++                    target: candidate.target.clone(),
++                    score: candidate.score,
++                };
++            }
++        }
++        field.candidates.truncate(config.max_candidates);
++    }
++    Ok(report)
++}
++
+ fn build_candidates(
+     source_field: &Field,
+     target: &Schema,
+diff --git a/src/lib.rs b/src/lib.rs
+index d1f3c76..f2567fd 100644
+--- a/src/lib.rs
++++ b/src/lib.rs
+@@ -14,7 +14,7 @@ mod table;
+ mod types;
+ 
+ pub use algorithms::{Matcher, match_schemas_with, match_tables, valentine_match};
+-pub use engine::{Config, match_schemas, try_match_schemas};
++pub use engine::{Config, match_schemas, try_match_schemas, try_match_schemas_corroborated};
+ pub use results::{ColumnPair, MatchDetails, MatcherResults};
+ pub use table::{Error, MatchOptions, Table};
+ pub use types::{Candidate, DataType, Decision, Field, FieldResult, MatchReport, Schema};
+diff --git a/src/types.rs b/src/types.rs
+index da2ac99..a9af24c 100644
+--- a/src/types.rs
++++ b/src/types.rs
+@@ -76,8 +76,9 @@ pub struct Candidate {
+ /// A suggested correspondence for one source field, requiring caller review.
+ #[derive(Clone, Debug, PartialEq)]
+ pub enum Decision {
+-    /// The best candidate has sufficient evidence, meets the threshold and is
+-    /// outside the ambiguity margin of every other qualifying candidate.
++    /// An accepted target. The original suggestion API selects the best candidate
++    /// when it has sufficient evidence and no qualifying near tie. The optional
++    /// corroborated API can accept a lower-ranked target using additional evidence.
+     Match {
+         /// The selected target name.
+         target: String,

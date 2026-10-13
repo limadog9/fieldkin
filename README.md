@@ -344,6 +344,15 @@ These are documented publisher schemas/examples, not production observations;
 they contain no independently supported ambiguity labels. Source archives,
 field-level evidence and extraction checks are excluded from the published crate.
 
+A later semantic trial adds CFPB, Adyen and OHDSI migrations, including a
+documented ambiguity. Run `cargo run --locked --example evaluate_all -- --check-semantic`
+for the original-runtime gate, or
+`cargo run --locked --example benchmark_accuracy -- --semantic` for all five
+algorithms. The [trial report](https://github.com/limadog9/fieldkin/blob/main/validation/semantic_reliability_report.md)
+separates 55 genuinely held-out fields from 13 partially exposed fields and
+explains why the tested corroboration policy was rejected. No new runtime policy
+was accepted.
+
 For release performance/scaling measurements, run
 `cargo build --locked --release --example benchmark_performance --jobs 1`, then
 `python3 validation/benchmark_performance.py --output target/performance.json`.

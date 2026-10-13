@@ -1,0 +1,12 @@
+{
+  "frozen_at_utc": "2026-10-13T00:11:34.243675+00:00",
+  "purpose": "Freeze publisher-only schemas, context and illustrative examples before author constructing case answers; extractor never reads labels or predictions.",
+  "sha256": {
+    "SELECTION_CRITERIA.json": "4b66b66304a3b64c0b5fa8b82f51f715fc1615bcea667beaa4e8c2d1af7e8870",
+    "extract.py": "2c7920465150142c3d2d232af2a62fd64584af880f576178acba9b87dd29df07",
+    "schemas.json": "d12039fc75b19c22e7d55a8661120d97f2f000ee4570c35347ab46e0a9cd97ec",
+    "contexts.json": "da4d9ae2d8ca3780ad0bd519c0c92d23669e8c031abd3f2cead6a50f9226609e",
+    "provenance.json": "75da207a44409b8f3a230f0003102175a5f5f1bbbbf0f1a9f5ee8a5ad223df52",
+    "sample_evidence.json": "3268cdf8138fe6f1083b3c61a827ce4f1684345d7a9a482a8c6cabed9f8cee46"
+  }
+}

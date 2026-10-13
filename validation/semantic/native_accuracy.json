@@ -1,0 +1,1983 @@
+{
+  "algorithms": {
+    "COMA": {
+      "counts": {
+        "ambiguous": 1,
+        "ambiguous_all_at5": 0,
+        "ambiguous_any_at5": 1,
+        "ambiguous_automatic": 1,
+        "automatic": 63,
+        "matches": 62,
+        "no_match_automatic": 1,
+        "no_matches": 5,
+        "recall_at5_correct": 60,
+        "sources": 68,
+        "top1_correct": 56,
+        "true_positives": 56
+      },
+      "datasets": {
+        "eval_semantic/financial_01.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 15,
+            "matches": 15,
+            "no_match_automatic": 0,
+            "no_matches": 2,
+            "recall_at5_correct": 15,
+            "sources": 17,
+            "top1_correct": 15,
+            "true_positives": 15
+          },
+          "diagnostics": [],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 6,
+              "matches": 6,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 6,
+              "sources": 6,
+              "top1_correct": 6,
+              "true_positives": 6
+            },
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 9,
+              "matches": 9,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 9,
+              "sources": 9,
+              "top1_correct": 9,
+              "true_positives": 9
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 9,
+              "matches": 9,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 9,
+              "sources": 9,
+              "top1_correct": 9,
+              "true_positives": 9
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 6,
+              "matches": 6,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 6,
+              "sources": 6,
+              "top1_correct": 6,
+              "true_positives": 6
+            }
+          },
+          "scores": {
+            "coverage": 0.8823529411764706,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_semantic/financial_02.json": {
+          "counts": {
+            "ambiguous": 1,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 1,
+            "ambiguous_automatic": 1,
+            "automatic": 19,
+            "matches": 18,
+            "no_match_automatic": 0,
+            "no_matches": 2,
+            "recall_at5_correct": 18,
+            "sources": 21,
+            "top1_correct": 18,
+            "true_positives": 18
+          },
+          "diagnostics": [
+            "source \"deliveryDate\"; expected ambiguous -> [deliveryDate, deliverAt]; automatic deliveryDate (1.000000); top 5 [deliveryDate (1.000000)]"
+          ],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 17,
+              "matches": 17,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 17,
+              "sources": 17,
+              "top1_correct": 17,
+              "true_positives": 17
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 18,
+              "matches": 18,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 18,
+              "sources": 18,
+              "top1_correct": 18,
+              "true_positives": 18
+            }
+          },
+          "scores": {
+            "coverage": 0.9047619047619048,
+            "f1": 0.972972972972973,
+            "precision": 0.9473684210526315,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_semantic/healthcare_01_partially_exposed.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 12,
+            "matches": 12,
+            "no_match_automatic": 1,
+            "no_matches": 1,
+            "recall_at5_correct": 11,
+            "sources": 13,
+            "top1_correct": 10,
+            "true_positives": 10
+          },
+          "diagnostics": [
+            "source \"procedure_cost.procedure_occurrence_id\"; expected match -> cost.cost_event_id; automatic cost.cost_domain_id (0.571429); top 5 [cost.cost_domain_id (0.571429), cost.cost_event_id (0.571429)]",
+            "source \"procedure_cost.paid_by_coordination_benefits\"; expected no_match; automatic cost.paid_by_patient (0.600000); top 5 [cost.paid_by_patient (0.600000), cost.paid_by_primary (0.600000)]",
+            "source \"procedure_cost.total_out_of_pocket\"; expected match -> cost.paid_by_patient; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 11,
+              "matches": 12,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 11,
+              "sources": 12,
+              "top1_correct": 10,
+              "true_positives": 10
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 11,
+              "matches": 12,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 11,
+              "sources": 12,
+              "top1_correct": 10,
+              "true_positives": 10
+            }
+          },
+          "scores": {
+            "coverage": 0.9230769230769231,
+            "f1": 0.8333333333333334,
+            "precision": 0.8333333333333334,
+            "recall": 0.8333333333333334,
+            "recall_at5": 0.9166666666666666,
+            "top1_accuracy": 0.8333333333333334
+          }
+        },
+        "eval_semantic/healthcare_02.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 17,
+            "matches": 17,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 16,
+            "sources": 17,
+            "top1_correct": 13,
+            "true_positives": 13
+          },
+          "diagnostics": [
+            "source \"visit_occurrence.visit_start_datetime\"; expected match -> VISIT_OCCURRENCE.visit_start_datetime; automatic VISIT_OCCURRENCE.visit_start_date (1.000000); top 5 [VISIT_OCCURRENCE.visit_start_date (1.000000), VISIT_OCCURRENCE.visit_start_datetime (1.000000)]",
+            "source \"visit_occurrence.visit_end_datetime\"; expected match -> VISIT_OCCURRENCE.visit_end_datetime; automatic VISIT_OCCURRENCE.visit_end_date (1.000000); top 5 [VISIT_OCCURRENCE.visit_end_date (1.000000), VISIT_OCCURRENCE.visit_end_datetime (1.000000)]",
+            "source \"visit_occurrence.admitting_source_concept_id\"; expected match -> VISIT_OCCURRENCE.admitted_from_concept_id; automatic VISIT_OCCURRENCE.visit_source_concept_id (0.909091); top 5 [VISIT_OCCURRENCE.visit_source_concept_id (0.909091)]",
+            "source \"visit_occurrence.admitting_source_value\"; expected match -> VISIT_OCCURRENCE.admitted_from_source_value; automatic VISIT_OCCURRENCE.visit_source_value (0.888889); top 5 [VISIT_OCCURRENCE.visit_source_value (0.888889), VISIT_OCCURRENCE.admitted_from_source_value (0.820513)]"
+          ],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 17,
+              "matches": 17,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 16,
+              "sources": 17,
+              "top1_correct": 13,
+              "true_positives": 13
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 17,
+              "matches": 17,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 16,
+              "sources": 17,
+              "top1_correct": 13,
+              "true_positives": 13
+            }
+          },
+          "scores": {
+            "coverage": 1.0,
+            "f1": 0.7647058823529411,
+            "precision": 0.7647058823529411,
+            "recall": 0.7647058823529411,
+            "recall_at5": 0.9411764705882353,
+            "top1_accuracy": 0.7647058823529411
+          }
+        }
+      },
+      "match_conditions": {
+        "different_declared_type": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 7,
+          "matches": 7,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 7,
+          "sources": 7,
+          "top1_correct": 7,
+          "true_positives": 7
+        },
+        "renamed": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 37,
+          "matches": 38,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 36,
+          "sources": 38,
+          "top1_correct": 32,
+          "true_positives": 32
+        },
+        "same_declared_type": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 54,
+          "matches": 55,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 53,
+          "sources": 55,
+          "top1_correct": 49,
+          "true_positives": 49
+        },
+        "unchanged_name": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 24,
+          "matches": 24,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 24,
+          "sources": 24,
+          "top1_correct": 24,
+          "true_positives": 24
+        }
+      },
+      "scores": {
+        "coverage": 0.9264705882352942,
+        "f1": 0.896,
+        "precision": 0.8888888888888888,
+        "recall": 0.9032258064516129,
+        "recall_at5": 0.967741935483871,
+        "top1_accuracy": 0.9032258064516129
+      }
+    },
+    "Cupid": {
+      "counts": {
+        "ambiguous": 1,
+        "ambiguous_all_at5": 0,
+        "ambiguous_any_at5": 1,
+        "ambiguous_automatic": 1,
+        "automatic": 54,
+        "matches": 62,
+        "no_match_automatic": 0,
+        "no_matches": 5,
+        "recall_at5_correct": 49,
+        "sources": 68,
+        "top1_correct": 48,
+        "true_positives": 48
+      },
+      "datasets": {
+        "eval_semantic/financial_01.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 11,
+            "matches": 15,
+            "no_match_automatic": 0,
+            "no_matches": 2,
+            "recall_at5_correct": 8,
+            "sources": 17,
+            "top1_correct": 8,
+            "true_positives": 8
+          },
+          "diagnostics": [
+            "source \"Loan Amount\"; expected match -> Loan Amount; automatic Property Value (0.706506); top 5 [Property Value (0.706506)]",
+            "source \"Applicant Ethnicity\"; expected match -> Ethnicity of Applicant or Borrower: 1; automatic abstain; top 5 []",
+            "source \"Co-Applicant Ethnicity\"; expected match -> Ethnicity of Co-Applicant or Co-Borrower: 1; automatic Sex of Co-Applicant or Co-Borrower (0.741368); top 5 [Sex of Co-Applicant or Co-Borrower (0.741368)]",
+            "source \"Applicant Race: 1\"; expected match -> Race of Applicant or Borrower: 1; automatic abstain; top 5 []",
+            "source \"Co-Applicant Race: 1\"; expected match -> Race of Co-Applicant or Co-Borrower: 1; automatic Sex of Co-Applicant or Co-Borrower (0.752277); top 5 [Sex of Co-Applicant or Co-Borrower (0.752277)]",
+            "source \"Co-applicant Sex\"; expected match -> Sex of Co-Applicant or Co-Borrower; automatic abstain; top 5 []",
+            "source \"Denial Reason: 1\"; expected match -> Reason for Denial: 1; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 3,
+              "matches": 6,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 6,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 5,
+              "matches": 9,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 3,
+              "sources": 9,
+              "top1_correct": 3,
+              "true_positives": 3
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 8,
+              "matches": 9,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 8,
+              "sources": 9,
+              "top1_correct": 8,
+              "true_positives": 8
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 6,
+              "matches": 6,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 5,
+              "sources": 6,
+              "top1_correct": 5,
+              "true_positives": 5
+            }
+          },
+          "scores": {
+            "coverage": 0.6470588235294118,
+            "f1": 0.6153846153846154,
+            "precision": 0.7272727272727273,
+            "recall": 0.5333333333333333,
+            "recall_at5": 0.5333333333333333,
+            "top1_accuracy": 0.5333333333333333
+          }
+        },
+        "eval_semantic/financial_02.json": {
+          "counts": {
+            "ambiguous": 1,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 1,
+            "ambiguous_automatic": 1,
+            "automatic": 19,
+            "matches": 18,
+            "no_match_automatic": 0,
+            "no_matches": 2,
+            "recall_at5_correct": 18,
+            "sources": 21,
+            "top1_correct": 18,
+            "true_positives": 18
+          },
+          "diagnostics": [
+            "source \"deliveryDate\"; expected ambiguous -> [deliveryDate, deliverAt]; automatic deliveryDate (0.865610); top 5 [deliveryDate (0.865610), dateOfBirth (0.838943)]"
+          ],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 17,
+              "matches": 17,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 17,
+              "sources": 17,
+              "top1_correct": 17,
+              "true_positives": 17
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 18,
+              "matches": 18,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 18,
+              "sources": 18,
+              "top1_correct": 18,
+              "true_positives": 18
+            }
+          },
+          "scores": {
+            "coverage": 0.9047619047619048,
+            "f1": 0.972972972972973,
+            "precision": 0.9473684210526315,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_semantic/healthcare_01_partially_exposed.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 7,
+            "matches": 12,
+            "no_match_automatic": 0,
+            "no_matches": 1,
+            "recall_at5_correct": 6,
+            "sources": 13,
+            "top1_correct": 5,
+            "true_positives": 5
+          },
+          "diagnostics": [
+            "source \"procedure_cost.procedure_cost_id\"; expected match -> cost.cost_id; automatic abstain; top 5 []",
+            "source \"procedure_cost.procedure_occurrence_id\"; expected match -> cost.cost_event_id; automatic abstain; top 5 []",
+            "source \"procedure_cost.paid_copay\"; expected match -> cost.paid_patient_copay; automatic abstain; top 5 []",
+            "source \"procedure_cost.paid_coinsurance\"; expected match -> cost.paid_patient_coinsurance; automatic abstain; top 5 []",
+            "source \"procedure_cost.paid_toward_deductible\"; expected match -> cost.paid_patient_deductible; automatic abstain; top 5 []",
+            "source \"procedure_cost.total_out_of_pocket\"; expected match -> cost.paid_by_patient; automatic cost.total_charge (0.761610); top 5 [cost.total_charge (0.761610)]",
+            "source \"procedure_cost.total_paid\"; expected match -> cost.total_paid; automatic cost.total_charge (0.787896); top 5 [cost.total_charge (0.787896), cost.total_paid (0.737610)]"
+          ],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 7,
+              "matches": 12,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 6,
+              "sources": 12,
+              "top1_correct": 5,
+              "true_positives": 5
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 7,
+              "matches": 12,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 6,
+              "sources": 12,
+              "top1_correct": 5,
+              "true_positives": 5
+            }
+          },
+          "scores": {
+            "coverage": 0.5384615384615384,
+            "f1": 0.5263157894736842,
+            "precision": 0.7142857142857143,
+            "recall": 0.4166666666666667,
+            "recall_at5": 0.5,
+            "top1_accuracy": 0.4166666666666667
+          }
+        },
+        "eval_semantic/healthcare_02.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 17,
+            "matches": 17,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 17,
+            "sources": 17,
+            "top1_correct": 17,
+            "true_positives": 17
+          },
+          "diagnostics": [],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 17,
+              "matches": 17,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 17,
+              "sources": 17,
+              "top1_correct": 17,
+              "true_positives": 17
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 17,
+              "matches": 17,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 17,
+              "sources": 17,
+              "top1_correct": 17,
+              "true_positives": 17
+            }
+          },
+          "scores": {
+            "coverage": 1.0,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        }
+      },
+      "match_conditions": {
+        "different_declared_type": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 4,
+          "matches": 7,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 1,
+          "sources": 7,
+          "top1_correct": 1,
+          "true_positives": 1
+        },
+        "renamed": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 29,
+          "matches": 38,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 26,
+          "sources": 38,
+          "top1_correct": 25,
+          "true_positives": 25
+        },
+        "same_declared_type": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 49,
+          "matches": 55,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 48,
+          "sources": 55,
+          "top1_correct": 47,
+          "true_positives": 47
+        },
+        "unchanged_name": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 24,
+          "matches": 24,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 23,
+          "sources": 24,
+          "top1_correct": 23,
+          "true_positives": 23
+        }
+      },
+      "scores": {
+        "coverage": 0.7941176470588235,
+        "f1": 0.8275862068965517,
+        "precision": 0.8888888888888888,
+        "recall": 0.7741935483870968,
+        "recall_at5": 0.7903225806451613,
+        "top1_accuracy": 0.7741935483870968
+      }
+    },
+    "DistributionBased": {
+      "counts": {
+        "ambiguous": 1,
+        "ambiguous_all_at5": 1,
+        "ambiguous_any_at5": 1,
+        "ambiguous_automatic": 1,
+        "automatic": 2,
+        "matches": 62,
+        "no_match_automatic": 0,
+        "no_matches": 5,
+        "recall_at5_correct": 1,
+        "sources": 68,
+        "top1_correct": 1,
+        "true_positives": 1
+      },
+      "datasets": {
+        "eval_semantic/financial_01.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 15,
+            "no_match_automatic": 0,
+            "no_matches": 2,
+            "recall_at5_correct": 0,
+            "sources": 17,
+            "top1_correct": 0,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"Loan Type\"; expected match -> Loan Type; automatic abstain; top 5 []",
+            "source \"Loan Amount\"; expected match -> Loan Amount; automatic abstain; top 5 []",
+            "source \"Preapprovals\"; expected match -> Preapproval; automatic abstain; top 5 []",
+            "source \"Type of Action Taken\"; expected match -> Action Taken; automatic abstain; top 5 []",
+            "source \"Applicant Ethnicity\"; expected match -> Ethnicity of Applicant or Borrower: 1; automatic abstain; top 5 []",
+            "source \"Co-Applicant Ethnicity\"; expected match -> Ethnicity of Co-Applicant or Co-Borrower: 1; automatic abstain; top 5 []",
+            "source \"Applicant Race: 1\"; expected match -> Race of Applicant or Borrower: 1; automatic abstain; top 5 []",
+            "source \"Co-Applicant Race: 1\"; expected match -> Race of Co-Applicant or Co-Borrower: 1; automatic abstain; top 5 []",
+            "source \"Applicant Sex\"; expected match -> Sex of Applicant or Borrower; automatic abstain; top 5 []",
+            "source \"Co-applicant Sex\"; expected match -> Sex of Co-Applicant or Co-Borrower; automatic abstain; top 5 []",
+            "source \"Type of Purchaser\"; expected match -> Type of Purchaser; automatic abstain; top 5 []",
+            "source \"Denial Reason: 1\"; expected match -> Reason for Denial: 1; automatic abstain; top 5 []",
+            "source \"Rate Spread\"; expected match -> Rate Spread; automatic abstain; top 5 []",
+            "source \"HOEPA Status\"; expected match -> HOEPA Status; automatic abstain; top 5 []",
+            "source \"Lien Status\"; expected match -> Lien Status; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 6,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 6,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 9,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 9,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 9,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 9,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 6,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 6,
+              "top1_correct": 0,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 0.0,
+            "top1_accuracy": 0.0
+          }
+        },
+        "eval_semantic/financial_02.json": {
+          "counts": {
+            "ambiguous": 1,
+            "ambiguous_all_at5": 1,
+            "ambiguous_any_at5": 1,
+            "ambiguous_automatic": 1,
+            "automatic": 2,
+            "matches": 18,
+            "no_match_automatic": 0,
+            "no_matches": 2,
+            "recall_at5_correct": 1,
+            "sources": 21,
+            "top1_correct": 1,
+            "true_positives": 1
+          },
+          "diagnostics": [
+            "source \"captureDelayHours\"; expected match -> captureDelayHours; automatic abstain; top 5 []",
+            "source \"dateOfBirth\"; expected match -> dateOfBirth; automatic abstain; top 5 []",
+            "source \"deliveryDate\"; expected ambiguous -> [deliveryDate, deliverAt]; automatic deliverAt (1.000000); top 5 [deliverAt (1.000000), deliveryDate (1.000000)]",
+            "source \"fraudOffset\"; expected match -> fraudOffset; automatic abstain; top 5 []",
+            "source \"merchantAccount\"; expected match -> merchantAccount; automatic abstain; top 5 []",
+            "source \"merchantOrderReference\"; expected match -> merchantOrderReference; automatic abstain; top 5 []",
+            "source \"orderReference\"; expected match -> orderReference; automatic abstain; top 5 []",
+            "source \"recurringProcessingModel\"; expected match -> recurringProcessingModel; automatic abstain; top 5 []",
+            "source \"reference\"; expected match -> reference; automatic abstain; top 5 []",
+            "source \"shopperEmail\"; expected match -> shopperEmail; automatic abstain; top 5 []",
+            "source \"shopperIP\"; expected match -> shopperIP; automatic abstain; top 5 []",
+            "source \"shopperInteraction\"; expected match -> shopperInteraction; automatic abstain; top 5 []",
+            "source \"shopperReference\"; expected match -> shopperReference; automatic abstain; top 5 []",
+            "source \"shopperStatement\"; expected match -> shopperStatement; automatic abstain; top 5 []",
+            "source \"store\"; expected match -> store; automatic abstain; top 5 []",
+            "source \"telephoneNumber\"; expected match -> telephoneNumber; automatic abstain; top 5 []",
+            "source \"threeDSAuthenticationOnly\"; expected match -> threeDSAuthenticationOnly; automatic abstain; top 5 []",
+            "source \"trustedShopper\"; expected match -> trustedShopper; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 1,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 17,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 17,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 18,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 18,
+              "top1_correct": 1,
+              "true_positives": 1
+            }
+          },
+          "scores": {
+            "coverage": 0.09523809523809523,
+            "f1": 0.1,
+            "precision": 0.5,
+            "recall": 0.05555555555555555,
+            "recall_at5": 0.05555555555555555,
+            "top1_accuracy": 0.05555555555555555
+          }
+        },
+        "eval_semantic/healthcare_01_partially_exposed.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 12,
+            "no_match_automatic": 0,
+            "no_matches": 1,
+            "recall_at5_correct": 0,
+            "sources": 13,
+            "top1_correct": 0,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"procedure_cost.procedure_cost_id\"; expected match -> cost.cost_id; automatic abstain; top 5 []",
+            "source \"procedure_cost.procedure_occurrence_id\"; expected match -> cost.cost_event_id; automatic abstain; top 5 []",
+            "source \"procedure_cost.currency_concept_id\"; expected match -> cost.currency_concept_id; automatic abstain; top 5 []",
+            "source \"procedure_cost.paid_copay\"; expected match -> cost.paid_patient_copay; automatic abstain; top 5 []",
+            "source \"procedure_cost.paid_coinsurance\"; expected match -> cost.paid_patient_coinsurance; automatic abstain; top 5 []",
+            "source \"procedure_cost.paid_toward_deductible\"; expected match -> cost.paid_patient_deductible; automatic abstain; top 5 []",
+            "source \"procedure_cost.paid_by_payer\"; expected match -> cost.paid_by_payer; automatic abstain; top 5 []",
+            "source \"procedure_cost.total_out_of_pocket\"; expected match -> cost.paid_by_patient; automatic abstain; top 5 []",
+            "source \"procedure_cost.total_paid\"; expected match -> cost.total_paid; automatic abstain; top 5 []",
+            "source \"procedure_cost.revenue_code_concept_id\"; expected match -> cost.revenue_code_concept_id; automatic abstain; top 5 []",
+            "source \"procedure_cost.payer_plan_period_id\"; expected match -> cost.payer_plan_period_id; automatic abstain; top 5 []",
+            "source \"procedure_cost.revenue_code_source_value\"; expected match -> cost.reveue_code_source_value; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 12,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 12,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 12,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 12,
+              "top1_correct": 0,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 0.0,
+            "top1_accuracy": 0.0
+          }
+        },
+        "eval_semantic/healthcare_02.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 17,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 0,
+            "sources": 17,
+            "top1_correct": 0,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"visit_occurrence.visit_occurrence_id\"; expected match -> VISIT_OCCURRENCE.visit_occurrence_id; automatic abstain; top 5 []",
+            "source \"visit_occurrence.person_id\"; expected match -> VISIT_OCCURRENCE.person_id; automatic abstain; top 5 []",
+            "source \"visit_occurrence.visit_concept_id\"; expected match -> VISIT_OCCURRENCE.visit_concept_id; automatic abstain; top 5 []",
+            "source \"visit_occurrence.visit_start_date\"; expected match -> VISIT_OCCURRENCE.visit_start_date; automatic abstain; top 5 []",
+            "source \"visit_occurrence.visit_start_datetime\"; expected match -> VISIT_OCCURRENCE.visit_start_datetime; automatic abstain; top 5 []",
+            "source \"visit_occurrence.visit_end_date\"; expected match -> VISIT_OCCURRENCE.visit_end_date; automatic abstain; top 5 []",
+            "source \"visit_occurrence.visit_end_datetime\"; expected match -> VISIT_OCCURRENCE.visit_end_datetime; automatic abstain; top 5 []",
+            "source \"visit_occurrence.visit_type_concept_id\"; expected match -> VISIT_OCCURRENCE.visit_type_concept_id; automatic abstain; top 5 []",
+            "source \"visit_occurrence.provider_id\"; expected match -> VISIT_OCCURRENCE.provider_id; automatic abstain; top 5 []",
+            "source \"visit_occurrence.care_site_id\"; expected match -> VISIT_OCCURRENCE.care_site_id; automatic abstain; top 5 []",
+            "source \"visit_occurrence.visit_source_value\"; expected match -> VISIT_OCCURRENCE.visit_source_value; automatic abstain; top 5 []",
+            "source \"visit_occurrence.visit_source_concept_id\"; expected match -> VISIT_OCCURRENCE.visit_source_concept_id; automatic abstain; top 5 []",
+            "source \"visit_occurrence.admitting_source_concept_id\"; expected match -> VISIT_OCCURRENCE.admitted_from_concept_id; automatic abstain; top 5 []",
+            "source \"visit_occurrence.admitting_source_value\"; expected match -> VISIT_OCCURRENCE.admitted_from_source_value; automatic abstain; top 5 []",
+            "source \"visit_occurrence.discharge_to_concept_id\"; expected match -> VISIT_OCCURRENCE.discharged_to_concept_id; automatic abstain; top 5 []",
+            "source \"visit_occurrence.discharge_to_source_value\"; expected match -> VISIT_OCCURRENCE.discharged_to_source_value; automatic abstain; top 5 []",
+            "source \"visit_occurrence.preceding_visit_occurrence_id\"; expected match -> VISIT_OCCURRENCE.preceding_visit_occurrence_id; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 17,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 17,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 17,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 17,
+              "top1_correct": 0,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 0.0,
+            "top1_accuracy": 0.0
+          }
+        }
+      },
+      "match_conditions": {
+        "different_declared_type": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 0,
+          "matches": 7,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 0,
+          "sources": 7,
+          "top1_correct": 0,
+          "true_positives": 0
+        },
+        "renamed": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 0,
+          "matches": 38,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 0,
+          "sources": 38,
+          "top1_correct": 0,
+          "true_positives": 0
+        },
+        "same_declared_type": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 1,
+          "matches": 55,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 1,
+          "sources": 55,
+          "top1_correct": 1,
+          "true_positives": 1
+        },
+        "unchanged_name": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 1,
+          "matches": 24,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 1,
+          "sources": 24,
+          "top1_correct": 1,
+          "true_positives": 1
+        }
+      },
+      "scores": {
+        "coverage": 0.029411764705882353,
+        "f1": 0.03125,
+        "precision": 0.5,
+        "recall": 0.016129032258064516,
+        "recall_at5": 0.016129032258064516,
+        "top1_accuracy": 0.016129032258064516
+      }
+    },
+    "JaccardDistanceMatcher": {
+      "counts": {
+        "ambiguous": 1,
+        "ambiguous_all_at5": 1,
+        "ambiguous_any_at5": 1,
+        "ambiguous_automatic": 1,
+        "automatic": 2,
+        "matches": 62,
+        "no_match_automatic": 0,
+        "no_matches": 5,
+        "recall_at5_correct": 2,
+        "sources": 68,
+        "top1_correct": 2,
+        "true_positives": 1
+      },
+      "datasets": {
+        "eval_semantic/financial_01.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 15,
+            "no_match_automatic": 0,
+            "no_matches": 2,
+            "recall_at5_correct": 0,
+            "sources": 17,
+            "top1_correct": 0,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"Loan Type\"; expected match -> Loan Type; automatic abstain; top 5 []",
+            "source \"Loan Amount\"; expected match -> Loan Amount; automatic abstain; top 5 []",
+            "source \"Preapprovals\"; expected match -> Preapproval; automatic abstain; top 5 []",
+            "source \"Type of Action Taken\"; expected match -> Action Taken; automatic abstain; top 5 []",
+            "source \"Applicant Ethnicity\"; expected match -> Ethnicity of Applicant or Borrower: 1; automatic abstain; top 5 []",
+            "source \"Co-Applicant Ethnicity\"; expected match -> Ethnicity of Co-Applicant or Co-Borrower: 1; automatic abstain; top 5 []",
+            "source \"Applicant Race: 1\"; expected match -> Race of Applicant or Borrower: 1; automatic abstain; top 5 []",
+            "source \"Co-Applicant Race: 1\"; expected match -> Race of Co-Applicant or Co-Borrower: 1; automatic abstain; top 5 []",
+            "source \"Applicant Sex\"; expected match -> Sex of Applicant or Borrower; automatic abstain; top 5 []",
+            "source \"Co-applicant Sex\"; expected match -> Sex of Co-Applicant or Co-Borrower; automatic abstain; top 5 []",
+            "source \"Type of Purchaser\"; expected match -> Type of Purchaser; automatic abstain; top 5 []",
+            "source \"Denial Reason: 1\"; expected match -> Reason for Denial: 1; automatic abstain; top 5 []",
+            "source \"Rate Spread\"; expected match -> Rate Spread; automatic abstain; top 5 []",
+            "source \"HOEPA Status\"; expected match -> HOEPA Status; automatic abstain; top 5 []",
+            "source \"Lien Status\"; expected match -> Lien Status; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 6,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 6,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 9,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 9,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 9,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 9,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 6,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 6,
+              "top1_correct": 0,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 0.0,
+            "top1_accuracy": 0.0
+          }
+        },
+        "eval_semantic/financial_02.json": {
+          "counts": {
+            "ambiguous": 1,
+            "ambiguous_all_at5": 1,
+            "ambiguous_any_at5": 1,
+            "ambiguous_automatic": 1,
+            "automatic": 2,
+            "matches": 18,
+            "no_match_automatic": 0,
+            "no_matches": 2,
+            "recall_at5_correct": 1,
+            "sources": 21,
+            "top1_correct": 1,
+            "true_positives": 1
+          },
+          "diagnostics": [
+            "source \"captureDelayHours\"; expected match -> captureDelayHours; automatic abstain; top 5 []",
+            "source \"dateOfBirth\"; expected match -> dateOfBirth; automatic abstain; top 5 []",
+            "source \"deliveryDate\"; expected ambiguous -> [deliveryDate, deliverAt]; automatic deliverAt (1.000000); top 5 [deliverAt (1.000000), deliveryDate (1.000000)]",
+            "source \"fraudOffset\"; expected match -> fraudOffset; automatic abstain; top 5 []",
+            "source \"merchantAccount\"; expected match -> merchantAccount; automatic abstain; top 5 []",
+            "source \"merchantOrderReference\"; expected match -> merchantOrderReference; automatic abstain; top 5 []",
+            "source \"orderReference\"; expected match -> orderReference; automatic abstain; top 5 []",
+            "source \"recurringProcessingModel\"; expected match -> recurringProcessingModel; automatic abstain; top 5 []",
+            "source \"reference\"; expected match -> reference; automatic abstain; top 5 []",
+            "source \"shopperEmail\"; expected match -> shopperEmail; automatic abstain; top 5 []",
+            "source \"shopperIP\"; expected match -> shopperIP; automatic abstain; top 5 []",
+            "source \"shopperInteraction\"; expected match -> shopperInteraction; automatic abstain; top 5 []",
+            "source \"shopperReference\"; expected match -> shopperReference; automatic abstain; top 5 []",
+            "source \"shopperStatement\"; expected match -> shopperStatement; automatic abstain; top 5 []",
+            "source \"store\"; expected match -> store; automatic abstain; top 5 []",
+            "source \"telephoneNumber\"; expected match -> telephoneNumber; automatic abstain; top 5 []",
+            "source \"threeDSAuthenticationOnly\"; expected match -> threeDSAuthenticationOnly; automatic abstain; top 5 []",
+            "source \"trustedShopper\"; expected match -> trustedShopper; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 1,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 17,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 17,
+              "top1_correct": 1,
+              "true_positives": 1
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 1,
+              "matches": 18,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 18,
+              "top1_correct": 1,
+              "true_positives": 1
+            }
+          },
+          "scores": {
+            "coverage": 0.09523809523809523,
+            "f1": 0.1,
+            "precision": 0.5,
+            "recall": 0.05555555555555555,
+            "recall_at5": 0.05555555555555555,
+            "top1_accuracy": 0.05555555555555555
+          }
+        },
+        "eval_semantic/healthcare_01_partially_exposed.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 12,
+            "no_match_automatic": 0,
+            "no_matches": 1,
+            "recall_at5_correct": 0,
+            "sources": 13,
+            "top1_correct": 0,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"procedure_cost.procedure_cost_id\"; expected match -> cost.cost_id; automatic abstain; top 5 []",
+            "source \"procedure_cost.procedure_occurrence_id\"; expected match -> cost.cost_event_id; automatic abstain; top 5 []",
+            "source \"procedure_cost.currency_concept_id\"; expected match -> cost.currency_concept_id; automatic abstain; top 5 []",
+            "source \"procedure_cost.paid_copay\"; expected match -> cost.paid_patient_copay; automatic abstain; top 5 []",
+            "source \"procedure_cost.paid_coinsurance\"; expected match -> cost.paid_patient_coinsurance; automatic abstain; top 5 []",
+            "source \"procedure_cost.paid_toward_deductible\"; expected match -> cost.paid_patient_deductible; automatic abstain; top 5 []",
+            "source \"procedure_cost.paid_by_payer\"; expected match -> cost.paid_by_payer; automatic abstain; top 5 []",
+            "source \"procedure_cost.total_out_of_pocket\"; expected match -> cost.paid_by_patient; automatic abstain; top 5 []",
+            "source \"procedure_cost.total_paid\"; expected match -> cost.total_paid; automatic abstain; top 5 []",
+            "source \"procedure_cost.revenue_code_concept_id\"; expected match -> cost.revenue_code_concept_id; automatic abstain; top 5 []",
+            "source \"procedure_cost.payer_plan_period_id\"; expected match -> cost.payer_plan_period_id; automatic abstain; top 5 []",
+            "source \"procedure_cost.revenue_code_source_value\"; expected match -> cost.reveue_code_source_value; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 12,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 12,
+              "top1_correct": 0,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 12,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 0,
+              "sources": 12,
+              "top1_correct": 0,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 0.0,
+            "top1_accuracy": 0.0
+          }
+        },
+        "eval_semantic/healthcare_02.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 17,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 1,
+            "sources": 17,
+            "top1_correct": 1,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"visit_occurrence.visit_occurrence_id\"; expected match -> VISIT_OCCURRENCE.visit_occurrence_id; automatic abstain; top 5 []",
+            "source \"visit_occurrence.person_id\"; expected match -> VISIT_OCCURRENCE.person_id; automatic abstain; top 5 []",
+            "source \"visit_occurrence.visit_concept_id\"; expected match -> VISIT_OCCURRENCE.visit_concept_id; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_concept_id (0.090909)]",
+            "source \"visit_occurrence.visit_start_date\"; expected match -> VISIT_OCCURRENCE.visit_start_date; automatic abstain; top 5 []",
+            "source \"visit_occurrence.visit_start_datetime\"; expected match -> VISIT_OCCURRENCE.visit_start_datetime; automatic abstain; top 5 []",
+            "source \"visit_occurrence.visit_end_date\"; expected match -> VISIT_OCCURRENCE.visit_end_date; automatic abstain; top 5 []",
+            "source \"visit_occurrence.visit_end_datetime\"; expected match -> VISIT_OCCURRENCE.visit_end_datetime; automatic abstain; top 5 []",
+            "source \"visit_occurrence.visit_type_concept_id\"; expected match -> VISIT_OCCURRENCE.visit_type_concept_id; automatic abstain; top 5 []",
+            "source \"visit_occurrence.provider_id\"; expected match -> VISIT_OCCURRENCE.provider_id; automatic abstain; top 5 []",
+            "source \"visit_occurrence.care_site_id\"; expected match -> VISIT_OCCURRENCE.care_site_id; automatic abstain; top 5 []",
+            "source \"visit_occurrence.visit_source_value\"; expected match -> VISIT_OCCURRENCE.visit_source_value; automatic abstain; top 5 []",
+            "source \"visit_occurrence.visit_source_concept_id\"; expected match -> VISIT_OCCURRENCE.visit_source_concept_id; automatic abstain; top 5 []",
+            "source \"visit_occurrence.admitting_source_concept_id\"; expected match -> VISIT_OCCURRENCE.admitted_from_concept_id; automatic abstain; top 5 []",
+            "source \"visit_occurrence.admitting_source_value\"; expected match -> VISIT_OCCURRENCE.admitted_from_source_value; automatic abstain; top 5 []",
+            "source \"visit_occurrence.discharge_to_concept_id\"; expected match -> VISIT_OCCURRENCE.discharged_to_concept_id; automatic abstain; top 5 []",
+            "source \"visit_occurrence.discharge_to_source_value\"; expected match -> VISIT_OCCURRENCE.discharged_to_source_value; automatic abstain; top 5 []",
+            "source \"visit_occurrence.preceding_visit_occurrence_id\"; expected match -> VISIT_OCCURRENCE.preceding_visit_occurrence_id; automatic abstain; top 5 []"
+          ],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 17,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 17,
+              "top1_correct": 1,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 17,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 17,
+              "top1_correct": 1,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 0.058823529411764705,
+            "top1_accuracy": 0.058823529411764705
+          }
+        }
+      },
+      "match_conditions": {
+        "different_declared_type": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 0,
+          "matches": 7,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 0,
+          "sources": 7,
+          "top1_correct": 0,
+          "true_positives": 0
+        },
+        "renamed": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 0,
+          "matches": 38,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 1,
+          "sources": 38,
+          "top1_correct": 1,
+          "true_positives": 0
+        },
+        "same_declared_type": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 1,
+          "matches": 55,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 2,
+          "sources": 55,
+          "top1_correct": 2,
+          "true_positives": 1
+        },
+        "unchanged_name": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 1,
+          "matches": 24,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 1,
+          "sources": 24,
+          "top1_correct": 1,
+          "true_positives": 1
+        }
+      },
+      "scores": {
+        "coverage": 0.029411764705882353,
+        "f1": 0.03125,
+        "precision": 0.5,
+        "recall": 0.016129032258064516,
+        "recall_at5": 0.03225806451612903,
+        "top1_accuracy": 0.03225806451612903
+      }
+    },
+    "SimilarityFlooding": {
+      "counts": {
+        "ambiguous": 1,
+        "ambiguous_all_at5": 1,
+        "ambiguous_any_at5": 1,
+        "ambiguous_automatic": 0,
+        "automatic": 0,
+        "matches": 62,
+        "no_match_automatic": 0,
+        "no_matches": 5,
+        "recall_at5_correct": 60,
+        "sources": 68,
+        "top1_correct": 54,
+        "true_positives": 0
+      },
+      "datasets": {
+        "eval_semantic/financial_01.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 15,
+            "no_match_automatic": 0,
+            "no_matches": 2,
+            "recall_at5_correct": 15,
+            "sources": 17,
+            "top1_correct": 15,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"Loan Type\"; expected match -> Loan Type; automatic abstain; top 5 [Loan Type (0.106553), Occupancy Type (0.060878), Loan Amount (0.058557), Type of Purchaser (0.051743), Lien Status (0.038041)]",
+            "source \"Loan Amount\"; expected match -> Loan Amount; automatic abstain; top 5 [Loan Amount (0.105112), Loan Type (0.058942), Lien Status (0.036104), Action Taken (0.028187), Legal Entity Identifier (LEI) (0.022350)]",
+            "source \"Preapprovals\"; expected match -> Preapproval; automatic abstain; top 5 [Preapproval (0.091963), Property Value (0.021330), Type of Purchaser (0.018058), HOEPA Status (0.017740), Lien Status (0.017740)]",
+            "source \"Type of Action Taken\"; expected match -> Action Taken; automatic abstain; top 5 [Action Taken (0.078539), Type of Purchaser (0.069491), Loan Type (0.052217), Occupancy Type (0.048089), Race of Applicant or Borrower: 1 (0.043322)]",
+            "source \"Applicant Ethnicity\"; expected match -> Ethnicity of Applicant or Borrower: 1; automatic abstain; top 5 [Ethnicity of Applicant or Borrower: 1 (0.060239), Ethnicity of Co-Applicant or Co-Borrower: 1 (0.051104), Sex of Applicant or Borrower (0.041303), Race of Applicant or Borrower: 1 (0.037401), Sex of Co-Applicant or Co-Borrower (0.035503)]",
+            "source \"Co-Applicant Ethnicity\"; expected match -> Ethnicity of Co-Applicant or Co-Borrower: 1; automatic abstain; top 5 [Ethnicity of Co-Applicant or Co-Borrower: 1 (0.072696), Sex of Co-Applicant or Co-Borrower (0.060878), Race of Co-Applicant or Co-Borrower: 1 (0.056087), Ethnicity of Applicant or Borrower: 1 (0.055164), Sex of Applicant or Borrower (0.038041)]",
+            "source \"Applicant Race: 1\"; expected match -> Race of Applicant or Borrower: 1; automatic abstain; top 5 [Race of Applicant or Borrower: 1 (0.075464), Race of Co-Applicant or Co-Borrower: 1 (0.064391), Ethnicity of Applicant or Borrower: 1 (0.055164), Ethnicity of Co-Applicant or Co-Borrower: 1 (0.047782), Interest Rate (0.045578)]",
+            "source \"Co-Applicant Race: 1\"; expected match -> Race of Co-Applicant or Co-Borrower: 1; automatic abstain; top 5 [Race of Co-Applicant or Co-Borrower: 1 (0.083076), Race of Applicant or Borrower: 1 (0.069374), Ethnicity of Co-Applicant or Co-Borrower: 1 (0.067851), Sex of Co-Applicant or Co-Borrower (0.056726), Ethnicity of Applicant or Borrower: 1 (0.051104)]",
+            "source \"Applicant Sex\"; expected match -> Sex of Applicant or Borrower; automatic abstain; top 5 [Sex of Applicant or Borrower (0.067403), Sex of Co-Applicant or Co-Borrower (0.055803), Ethnicity of Applicant or Borrower: 1 (0.037401), Race of Applicant or Borrower: 1 (0.037401), Ethnicity of Co-Applicant or Co-Borrower: 1 (0.032834)]",
+            "source \"Co-applicant Sex\"; expected match -> Sex of Co-Applicant or Co-Borrower; automatic abstain; top 5 [Sex of Co-Applicant or Co-Borrower (0.077118), Sex of Applicant or Borrower (0.058341), Ethnicity of Co-Applicant or Co-Borrower: 1 (0.054241), Race of Co-Applicant or Co-Borrower: 1 (0.054241), Ethnicity of Applicant or Borrower: 1 (0.032608)]",
+            "source \"Type of Purchaser\"; expected match -> Type of Purchaser; automatic abstain; top 5 [Type of Purchaser (0.106553), Loan Type (0.051743), Occupancy Type (0.051743), Race of Applicant or Borrower: 1 (0.049024), Sex of Applicant or Borrower (0.048261)]",
+            "source \"Denial Reason: 1\"; expected match -> Reason for Denial: 1; automatic abstain; top 5 [Reason for Denial: 1 (0.091567), Race of Applicant or Borrower: 1 (0.036760), Ethnicity of Applicant or Borrower: 1 (0.034504), Race of Co-Applicant or Co-Borrower: 1 (0.032659), Ethnicity of Co-Applicant or Co-Borrower: 1 (0.030814)]",
+            "source \"Rate Spread\"; expected match -> Rate Spread; automatic abstain; top 5 [Rate Spread (0.105555), Interest Rate (0.059880), State (0.047666), Race of Applicant or Borrower: 1 (0.031333), Debt-to-Income Ratio (0.030512)]",
+            "source \"HOEPA Status\"; expected match -> HOEPA Status; automatic abstain; top 5 [HOEPA Status (0.106553), Lien Status (0.060878), State (0.048397), Census Tract (0.029789), Rate Spread (0.022176)]",
+            "source \"Lien Status\"; expected match -> Lien Status; automatic abstain; top 5 [Lien Status (0.106553), HOEPA Status (0.060878), State (0.048397), Loan Type (0.038041), Loan Amount (0.035720)]"
+          ],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 6,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 6,
+              "sources": 6,
+              "top1_correct": 6,
+              "true_positives": 0
+            },
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 9,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 9,
+              "sources": 9,
+              "top1_correct": 9,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 9,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 9,
+              "sources": 9,
+              "top1_correct": 9,
+              "true_positives": 0
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 6,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 6,
+              "sources": 6,
+              "top1_correct": 6,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_semantic/financial_02.json": {
+          "counts": {
+            "ambiguous": 1,
+            "ambiguous_all_at5": 1,
+            "ambiguous_any_at5": 1,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 18,
+            "no_match_automatic": 0,
+            "no_matches": 2,
+            "recall_at5_correct": 18,
+            "sources": 21,
+            "top1_correct": 18,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"captureDelayHours\"; expected match -> captureDelayHours; automatic abstain; top 5 [captureDelayHours (0.095686), deliveryDate (0.018475), store (0.018343), countryCode (0.017680), threeDSAuthenticationOnly (0.017064)]",
+            "source \"dateOfBirth\"; expected match -> dateOfBirth; automatic abstain; top 5 [dateOfBirth (0.094970), deliveryDate (0.039100), countryCode (0.018180), threeDSAuthenticationOnly (0.016671), store (0.016555)]",
+            "source \"deliveryDate\"; expected ambiguous -> [deliveryDate, deliverAt]; automatic abstain; top 5 [deliveryDate (0.094970), deliverAt (0.044814), dateOfBirth (0.039100), countryCode (0.029100), store (0.018722)]",
+            "source \"fraudOffset\"; expected match -> fraudOffset; automatic abstain; top 5 [fraudOffset (0.095686), storePaymentMethod (0.018546), checkoutAttemptId (0.018155), merchantAccount (0.016931), merchantOrderReference (0.016089)]",
+            "source \"merchantAccount\"; expected match -> merchantAccount; automatic abstain; top 5 [merchantAccount (0.094071), merchantOrderReference (0.048867), checkoutAttemptId (0.026156), storePaymentMethod (0.025648), shopperStatement (0.024343)]",
+            "source \"merchantOrderReference\"; expected match -> merchantOrderReference; automatic abstain; top 5 [merchantOrderReference (0.094071), orderReference (0.071317), shopperReference (0.051946), reference (0.048924), merchantAccount (0.048867)]",
+            "source \"orderReference\"; expected match -> orderReference; automatic abstain; top 5 [orderReference (0.094071), merchantOrderReference (0.071317), shopperReference (0.061731), reference (0.060963), telephoneNumber (0.028607)]",
+            "source \"recurringProcessingModel\"; expected match -> recurringProcessingModel; automatic abstain; top 5 [recurringProcessingModel (0.094071), enableRecurring (0.046088), reference (0.021835), channel (0.021098), shopperEmail (0.019307)]",
+            "source \"reference\"; expected match -> reference; automatic abstain; top 5 [reference (0.094071), orderReference (0.060963), shopperReference (0.060963), merchantOrderReference (0.048924), recurringProcessingModel (0.021835)]",
+            "source \"shopperEmail\"; expected match -> shopperEmail; automatic abstain; top 5 [shopperEmail (0.094071), shopperIP (0.053438), shopperInteraction (0.053438), shopperLocale (0.053438), shopperReference (0.053438)]",
+            "source \"shopperIP\"; expected match -> shopperIP; automatic abstain; top 5 [shopperIP (0.094071), shopperInteraction (0.054110), shopperEmail (0.053438), shopperLocale (0.053438), shopperReference (0.053438)]",
+            "source \"shopperInteraction\"; expected match -> shopperInteraction; automatic abstain; top 5 [shopperInteraction (0.094071), shopperIP (0.054110), shopperEmail (0.053438), shopperLocale (0.053438), shopperReference (0.053438)]",
+            "source \"shopperLocale\"; expected match -> shopperLocale; automatic abstain; top 5 [shopperLocale (0.094071), shopperReference (0.056448), shopperEmail (0.053438), shopperIP (0.053438), shopperInteraction (0.053438)]",
+            "source \"shopperReference\"; expected match -> shopperReference; automatic abstain; top 5 [shopperReference (0.094071), orderReference (0.061731), reference (0.060963), shopperLocale (0.056448), shopperEmail (0.053438)]",
+            "source \"shopperStatement\"; expected match -> shopperStatement; automatic abstain; top 5 [shopperStatement (0.094071), shopperEmail (0.053438), shopperIP (0.053438), shopperInteraction (0.053438), shopperLocale (0.053438)]",
+            "source \"store\"; expected match -> store; automatic abstain; top 5 [store (0.094071), storePaymentMethod (0.053438), shopperLocale (0.023094), countryCode (0.021474), enableRecurring (0.020330)]",
+            "source \"telephoneNumber\"; expected match -> telephoneNumber; automatic abstain; top 5 [telephoneNumber (0.094071), orderReference (0.028607), shopperReference (0.027271), trustedShopper (0.026268), shopperLocale (0.025766)]",
+            "source \"threeDSAuthenticationOnly\"; expected match -> threeDSAuthenticationOnly; automatic abstain; top 5 [threeDSAuthenticationOnly (0.094071), countryCode (0.019351), store (0.019307), shopperInteraction (0.018887), merchantOrderReference (0.017954)]",
+            "source \"trustedShopper\"; expected match -> trustedShopper; automatic abstain; top 5 [trustedShopper (0.094071), shopperStatement (0.049389), shopperEmail (0.047634), shopperIP (0.047634), shopperInteraction (0.047634)]"
+          ],
+          "match_conditions": {
+            "different_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 1,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 1,
+              "sources": 1,
+              "top1_correct": 1,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 17,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 17,
+              "sources": 17,
+              "top1_correct": 17,
+              "true_positives": 0
+            },
+            "unchanged_name": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 18,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 18,
+              "sources": 18,
+              "top1_correct": 18,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 1.0,
+            "top1_accuracy": 1.0
+          }
+        },
+        "eval_semantic/healthcare_01_partially_exposed.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 12,
+            "no_match_automatic": 0,
+            "no_matches": 1,
+            "recall_at5_correct": 11,
+            "sources": 13,
+            "top1_correct": 10,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"procedure_cost.procedure_cost_id\"; expected match -> cost.cost_id; automatic abstain; top 5 [cost.cost_id (0.070224), cost.cost_event_id (0.065367), cost.cost_domain_id (0.062471), cost.cost_type_concept_id (0.062023), cost.revenue_code_concept_id (0.059141)]",
+            "source \"procedure_cost.procedure_occurrence_id\"; expected match -> cost.cost_event_id; automatic abstain; top 5 [cost.cost_id (0.060963), cost.cost_event_id (0.057135), cost.cost_type_concept_id (0.054910), cost.cost_domain_id (0.054239), cost.revenue_code_concept_id (0.052251)]",
+            "source \"procedure_cost.currency_concept_id\"; expected match -> cost.currency_concept_id; automatic abstain; top 5 [cost.currency_concept_id (0.080514), cost.cost_type_concept_id (0.068062), cost.drg_concept_id (0.064950), cost.revenue_code_concept_id (0.064906), cost.cost_id (0.063810)]",
+            "source \"procedure_cost.paid_copay\"; expected match -> cost.paid_patient_copay; automatic abstain; top 5 [cost.paid_patient_copay (0.072655), cost.paid_ingredient_cost (0.064873), cost.total_paid (0.061022), cost.paid_by_payer (0.059060), cost.paid_by_primary (0.058726)]",
+            "source \"procedure_cost.paid_coinsurance\"; expected match -> cost.paid_patient_coinsurance; automatic abstain; top 5 [cost.paid_patient_coinsurance (0.072655), cost.paid_ingredient_cost (0.062522), cost.total_paid (0.058335), cost.paid_patient_copay (0.057862), cost.paid_by_payer (0.055968)]",
+            "source \"procedure_cost.paid_toward_deductible\"; expected match -> cost.paid_patient_deductible; automatic abstain; top 5 [cost.paid_patient_deductible (0.067168), cost.paid_ingredient_cost (0.057587), cost.total_paid (0.057423), cost.paid_patient_copay (0.053309), cost.paid_patient_coinsurance (0.052035)]",
+            "source \"procedure_cost.paid_by_payer\"; expected match -> cost.paid_by_payer; automatic abstain; top 5 [cost.paid_by_payer (0.081141), cost.paid_by_primary (0.069649), cost.paid_by_patient (0.069194), cost.paid_ingredient_cost (0.059306), cost.paid_patient_copay (0.056023)]",
+            "source \"procedure_cost.total_out_of_pocket\"; expected match -> cost.paid_by_patient; automatic abstain; top 5 [cost.total_cost (0.058395), cost.total_charge (0.051687), cost.total_paid (0.051484), cost.paid_ingredient_cost (0.040848), cost.cost_id (0.040743)]",
+            "source \"procedure_cost.total_paid\"; expected match -> cost.total_paid; automatic abstain; top 5 [cost.total_paid (0.078804), cost.total_cost (0.067697), cost.paid_ingredient_cost (0.061909), cost.total_charge (0.059072), cost.paid_patient_copay (0.057096)]",
+            "source \"procedure_cost.revenue_code_concept_id\"; expected match -> cost.revenue_code_concept_id; automatic abstain; top 5 [cost.revenue_code_concept_id (0.082593), cost.cost_type_concept_id (0.067739), cost.currency_concept_id (0.063625), cost.drg_concept_id (0.062815), cost.cost_id (0.061950)]",
+            "source \"procedure_cost.payer_plan_period_id\"; expected match -> cost.payer_plan_period_id; automatic abstain; top 5 [cost.payer_plan_period_id (0.082510), cost.cost_id (0.056275), cost.cost_event_id (0.053299), cost.cost_domain_id (0.052181), cost.paid_by_payer (0.051323)]",
+            "source \"procedure_cost.revenue_code_source_value\"; expected match -> cost.reveue_code_source_value; automatic abstain; top 5 [cost.reveue_code_source_value (0.080056), cost.drg_source_value (0.065996), cost.revenue_code_concept_id (0.057470), cost.cost_type_concept_id (0.042242), cost.cost_domain_id (0.041708)]"
+          ],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 12,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 11,
+              "sources": 12,
+              "top1_correct": 10,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 12,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 11,
+              "sources": 12,
+              "top1_correct": 10,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 0.9166666666666666,
+            "top1_accuracy": 0.8333333333333334
+          }
+        },
+        "eval_semantic/healthcare_02.json": {
+          "counts": {
+            "ambiguous": 0,
+            "ambiguous_all_at5": 0,
+            "ambiguous_any_at5": 0,
+            "ambiguous_automatic": 0,
+            "automatic": 0,
+            "matches": 17,
+            "no_match_automatic": 0,
+            "no_matches": 0,
+            "recall_at5_correct": 16,
+            "sources": 17,
+            "top1_correct": 11,
+            "true_positives": 0
+          },
+          "diagnostics": [
+            "source \"visit_occurrence.visit_occurrence_id\"; expected match -> VISIT_OCCURRENCE.visit_occurrence_id; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_occurrence_id (0.081346), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.075485), VISIT_OCCURRENCE.visit_concept_id (0.057991), VISIT_OCCURRENCE.visit_source_concept_id (0.056890), VISIT_OCCURRENCE.visit_type_concept_id (0.055132)]",
+            "source \"visit_occurrence.person_id\"; expected match -> VISIT_OCCURRENCE.person_id; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_occurrence_id (0.070601), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.066422), VISIT_OCCURRENCE.person_id (0.057169), VISIT_OCCURRENCE.visit_concept_id (0.053605), VISIT_OCCURRENCE.visit_source_concept_id (0.051866)]",
+            "source \"visit_occurrence.visit_concept_id\"; expected match -> VISIT_OCCURRENCE.visit_concept_id; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_occurrence_id (0.074109), VISIT_OCCURRENCE.visit_concept_id (0.073287), VISIT_OCCURRENCE.visit_source_concept_id (0.069917), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.068906), VISIT_OCCURRENCE.visit_type_concept_id (0.068744)]",
+            "source \"visit_occurrence.visit_start_date\"; expected match -> VISIT_OCCURRENCE.visit_start_date; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_start_date (0.073317), VISIT_OCCURRENCE.visit_start_datetime (0.061550), VISIT_OCCURRENCE.visit_end_date (0.058810), VISIT_OCCURRENCE.visit_occurrence_id (0.056780), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.052941)]",
+            "source \"visit_occurrence.visit_start_datetime\"; expected match -> VISIT_OCCURRENCE.visit_start_datetime; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_start_datetime (0.073639), VISIT_OCCURRENCE.visit_start_date (0.061228), VISIT_OCCURRENCE.visit_end_datetime (0.059133), VISIT_OCCURRENCE.visit_occurrence_id (0.057102), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.053234)]",
+            "source \"visit_occurrence.visit_end_date\"; expected match -> VISIT_OCCURRENCE.visit_end_date; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_end_date (0.073317), VISIT_OCCURRENCE.visit_end_datetime (0.061550), VISIT_OCCURRENCE.visit_start_date (0.058810), VISIT_OCCURRENCE.visit_occurrence_id (0.058750), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.054732)]",
+            "source \"visit_occurrence.visit_end_datetime\"; expected match -> VISIT_OCCURRENCE.visit_end_datetime; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_end_datetime (0.073639), VISIT_OCCURRENCE.visit_end_date (0.061228), VISIT_OCCURRENCE.visit_start_datetime (0.059133), VISIT_OCCURRENCE.visit_occurrence_id (0.059072), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.055025)]",
+            "source \"visit_occurrence.visit_type_concept_id\"; expected match -> VISIT_OCCURRENCE.visit_type_concept_id; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_type_concept_id (0.077585), VISIT_OCCURRENCE.visit_occurrence_id (0.069199), VISIT_OCCURRENCE.visit_concept_id (0.068158), VISIT_OCCURRENCE.visit_source_concept_id (0.066243), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.064838)]",
+            "source \"visit_occurrence.provider_id\"; expected match -> VISIT_OCCURRENCE.provider_id; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_occurrence_id (0.070601), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.068412), VISIT_OCCURRENCE.provider_id (0.057169), VISIT_OCCURRENCE.visit_concept_id (0.053605), VISIT_OCCURRENCE.visit_source_concept_id (0.051866)]",
+            "source \"visit_occurrence.care_site_id\"; expected match -> VISIT_OCCURRENCE.care_site_id; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_occurrence_id (0.065872), VISIT_OCCURRENCE.care_site_id (0.065550), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.061418), VISIT_OCCURRENCE.visit_type_concept_id (0.052714), VISIT_OCCURRENCE.visit_source_concept_id (0.051876)]",
+            "source \"visit_occurrence.visit_source_value\"; expected match -> VISIT_OCCURRENCE.visit_source_value; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_source_value (0.074280), VISIT_OCCURRENCE.visit_occurrence_id (0.057186), VISIT_OCCURRENCE.visit_source_concept_id (0.054036), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.053289), VISIT_OCCURRENCE.admitted_from_source_value (0.050015)]",
+            "source \"visit_occurrence.visit_source_concept_id\"; expected match -> VISIT_OCCURRENCE.visit_source_concept_id; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_source_concept_id (0.078122), VISIT_OCCURRENCE.visit_occurrence_id (0.069785), VISIT_OCCURRENCE.visit_concept_id (0.068158), VISIT_OCCURRENCE.visit_type_concept_id (0.065646), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.065376)]",
+            "source \"visit_occurrence.admitting_source_concept_id\"; expected match -> VISIT_OCCURRENCE.admitted_from_concept_id; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_source_concept_id (0.071406), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.063137), VISIT_OCCURRENCE.visit_occurrence_id (0.062459), VISIT_OCCURRENCE.visit_concept_id (0.060832), VISIT_OCCURRENCE.visit_type_concept_id (0.058930)]",
+            "source \"visit_occurrence.admitting_source_value\"; expected match -> VISIT_OCCURRENCE.admitted_from_source_value; automatic abstain; top 5 [VISIT_OCCURRENCE.visit_source_value (0.066221), VISIT_OCCURRENCE.admitted_from_source_value (0.057233), VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.050847), VISIT_OCCURRENCE.visit_occurrence_id (0.049127), VISIT_OCCURRENCE.discharged_to_source_value (0.048550)]",
+            "source \"visit_occurrence.discharge_to_concept_id\"; expected match -> VISIT_OCCURRENCE.discharged_to_concept_id; automatic abstain; top 5 [VISIT_OCCURRENCE.discharged_to_concept_id (0.068734), VISIT_OCCURRENCE.visit_occurrence_id (0.062239), VISIT_OCCURRENCE.visit_concept_id (0.060832), VISIT_OCCURRENCE.visit_type_concept_id (0.059448), VISIT_OCCURRENCE.visit_source_concept_id (0.059278)]",
+            "source \"visit_occurrence.discharge_to_source_value\"; expected match -> VISIT_OCCURRENCE.discharged_to_source_value; automatic abstain; top 5 [VISIT_OCCURRENCE.discharged_to_source_value (0.070224), VISIT_OCCURRENCE.visit_source_value (0.062280), VISIT_OCCURRENCE.visit_occurrence_id (0.046622), VISIT_OCCURRENCE.admitted_from_source_value (0.046409), VISIT_OCCURRENCE.visit_source_concept_id (0.044507)]",
+            "source \"visit_occurrence.preceding_visit_occurrence_id\"; expected match -> VISIT_OCCURRENCE.preceding_visit_occurrence_id; automatic abstain; top 5 [VISIT_OCCURRENCE.preceding_visit_occurrence_id (0.084032), VISIT_OCCURRENCE.visit_occurrence_id (0.075485), VISIT_OCCURRENCE.visit_concept_id (0.054253), VISIT_OCCURRENCE.visit_source_concept_id (0.053556), VISIT_OCCURRENCE.visit_type_concept_id (0.051944)]"
+          ],
+          "match_conditions": {
+            "renamed": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 17,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 16,
+              "sources": 17,
+              "top1_correct": 11,
+              "true_positives": 0
+            },
+            "same_declared_type": {
+              "ambiguous": 0,
+              "ambiguous_all_at5": 0,
+              "ambiguous_any_at5": 0,
+              "ambiguous_automatic": 0,
+              "automatic": 0,
+              "matches": 17,
+              "no_match_automatic": 0,
+              "no_matches": 0,
+              "recall_at5_correct": 16,
+              "sources": 17,
+              "top1_correct": 11,
+              "true_positives": 0
+            }
+          },
+          "scores": {
+            "coverage": 0.0,
+            "f1": 0.0,
+            "precision": null,
+            "recall": 0.0,
+            "recall_at5": 0.9411764705882353,
+            "top1_accuracy": 0.6470588235294118
+          }
+        }
+      },
+      "match_conditions": {
+        "different_declared_type": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 0,
+          "matches": 7,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 7,
+          "sources": 7,
+          "top1_correct": 7,
+          "true_positives": 0
+        },
+        "renamed": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 0,
+          "matches": 38,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 36,
+          "sources": 38,
+          "top1_correct": 30,
+          "true_positives": 0
+        },
+        "same_declared_type": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 0,
+          "matches": 55,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 53,
+          "sources": 55,
+          "top1_correct": 47,
+          "true_positives": 0
+        },
+        "unchanged_name": {
+          "ambiguous": 0,
+          "ambiguous_all_at5": 0,
+          "ambiguous_any_at5": 0,
+          "ambiguous_automatic": 0,
+          "automatic": 0,
+          "matches": 24,
+          "no_match_automatic": 0,
+          "no_matches": 0,
+          "recall_at5_correct": 24,
+          "sources": 24,
+          "top1_correct": 24,
+          "true_positives": 0
+        }
+      },
+      "scores": {
+        "coverage": 0.0,
+        "f1": 0.0,
+        "precision": null,
+        "recall": 0.0,
+        "recall_at5": 0.967741935483871,
+        "top1_accuracy": 0.8709677419354839
+      }
+    }
+  },
+  "automatic_cutoff": 0.5,
+  "corpus_status": "Semantic corpus: 3 fully held-out cases (55 fields), 1 partly exposed case (13 fields); see validation/semantic_reliability_report.md.",
+  "datasets": {
+    "eval_semantic/financial_01.json": {
+      "name": "cfpb_hmda_modified_lar_2017_to_2018",
+      "sha256": "f325e5b76a6ef35f88ea64792d3258f0af312f7d82b905e3cc0431f1e6edfedd"
+    },
+    "eval_semantic/financial_02.json": {
+      "name": "adyen_classic_payment52_to_checkout72",
+      "sha256": "3b1fd44a1c635d0aaf27aee36a511af1834078744b4fa02c0ec321ff8b3bcbdd"
+    },
+    "eval_semantic/healthcare_01_partially_exposed.json": {
+      "name": "omop_v5_0_1_procedure_cost_to_v5_2_2_cost",
+      "sha256": "e81fb759fa743abe5030e209ea86393086fd4b27a4ae33441e74f4a449c11ca8"
+    },
+    "eval_semantic/healthcare_02.json": {
+      "name": "omop_v5_2_2_visit_occurrence_to_v5_4_1_visit_occurrence",
+      "sha256": "a0d9acef79de10cf72d1989256f706310f1419deac62147f215e89f90aa654dc"
+    }
+  },
+  "protocol": "validation/semantic_reliability_report.md"
+}

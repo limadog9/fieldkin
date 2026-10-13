@@ -1,0 +1,29 @@
+{
+  "sealed_at_utc": "2026-10-12T23:58:07.284404+00:00",
+  "case_count": 1,
+  "source_field_count": 13,
+  "target_field_count": 22,
+  "schema_only": true,
+  "independence": "Source-only author; candidate implementation, matcher, predictions, runtime proposals and existing fixture labels were not inspected. Selection criteria and context were frozen before labels.",
+  "sha256": {
+    "README.md": "7bd82f3bc9f6e7d13d598accda4eef281d3031b5e2d5e5f452984475a647f97a",
+    "SELECTION_CRITERIA.json": "284d5fd85fbce9e77bccf657a5d54332df9d484b3ed84ccd69be0c1b7bd87f41",
+    "SELECTION_CRITERIA.sha256": "4178b649ab0b3ec69506d9ae0318acda6aabde97bb278f077cdfd1fc845e6947",
+    "SOURCE_CONTEXT_FROZEN.json": "e817478851e9d6b26e26e214f292018686ba0a3d8688e85796e60bde82b76d22",
+    "assemble.py": "c2410187b895ebb63c06f71384bb06944d30b916c34b50bf61b3484f770ac2d8",
+    "case.json": "1233f7d42ad773fa1384905dceec7dd7c240d9f814a8a8478fba5f01aa48f156",
+    "contexts.json": "7080a7749299b4bc591c0382fcad19dd786d94b5a28a14bd17160636c8941be3",
+    "evidence.json": "ac81578e8087942a19bafcdcabfe33edb107f2eecee4edb66b91155a3136d445",
+    "extract.py": "4ea43115458d3f79d6fd2705768d240539ccd7a85f4d39865505687ef7175195",
+    "labels.json": "f7936035a777af9ec18589cd3cac21e8444dd0868f82611c40eb0bf3d4ddf048",
+    "provenance.json": "2534fdb1efdad953a2d8bcbe92859be977d73f7f31491c603a50c92124df2f76",
+    "raw/source_pdf_license_excerpt.txt": "47148025fda97b0e7f16fad5914825ff7a04969c62d6b7da4c8c437f0f3ece32",
+    "raw/source_procedure_cost_ddl.sql": "c2a7b286c60bf38e269e866664599d91d5056dbeb56643d470befdda73dc2f66",
+    "raw/source_procedure_cost_pdf_excerpt.txt": "11b0a598d761a45ebe3bea37ff7db0d8087e7c969fbfe7457d34271906c01c93",
+    "raw/source_repository_LICENSE.txt": "cb5e8e7e5f4a3988e1063c142c60dc2df75605f4c46515e776e3aca6df976e14",
+    "raw/target_cost_ddl.sql": "67b04a3dbde131777d6e0491bd36815a88eba7c8f9c64c3902cecb5d0b462c48",
+    "raw/target_cost_documentation.md": "de7fa61b0973366650f7b05b4c4c3617c07b7b2f567a1ca6ebc8002736b09a54",
+    "raw/target_documentation_license.md": "47916d758df3abf2a5a80d76dddf8632711a34cc2865c8edf0b25116790a1c4a",
+    "schemas.json": "36364f20971e6259fd1b7ec2370e867ebb8094ad0a89bd27f60d5dfbb6d599ed"
+  }
+}

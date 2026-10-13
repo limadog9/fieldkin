@@ -1,0 +1,66 @@
+[
+  {
+    "source": "procedure_cost.procedure_cost_id",
+    "kind": "match",
+    "target": "cost.cost_id"
+  },
+  {
+    "source": "procedure_cost.procedure_occurrence_id",
+    "kind": "match",
+    "target": "cost.cost_event_id"
+  },
+  {
+    "source": "procedure_cost.currency_concept_id",
+    "kind": "match",
+    "target": "cost.currency_concept_id"
+  },
+  {
+    "source": "procedure_cost.paid_copay",
+    "kind": "match",
+    "target": "cost.paid_patient_copay"
+  },
+  {
+    "source": "procedure_cost.paid_coinsurance",
+    "kind": "match",
+    "target": "cost.paid_patient_coinsurance"
+  },
+  {
+    "source": "procedure_cost.paid_toward_deductible",
+    "kind": "match",
+    "target": "cost.paid_patient_deductible"
+  },
+  {
+    "source": "procedure_cost.paid_by_payer",
+    "kind": "match",
+    "target": "cost.paid_by_payer"
+  },
+  {
+    "source": "procedure_cost.paid_by_coordination_benefits",
+    "kind": "no_match"
+  },
+  {
+    "source": "procedure_cost.total_out_of_pocket",
+    "kind": "match",
+    "target": "cost.paid_by_patient"
+  },
+  {
+    "source": "procedure_cost.total_paid",
+    "kind": "match",
+    "target": "cost.total_paid"
+  },
+  {
+    "source": "procedure_cost.revenue_code_concept_id",
+    "kind": "match",
+    "target": "cost.revenue_code_concept_id"
+  },
+  {
+    "source": "procedure_cost.payer_plan_period_id",
+    "kind": "match",
+    "target": "cost.payer_plan_period_id"
+  },
+  {
+    "source": "procedure_cost.revenue_code_source_value",
+    "kind": "match",
+    "target": "cost.reveue_code_source_value"
+  }
+]

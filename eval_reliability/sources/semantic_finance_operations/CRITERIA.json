@@ -1,0 +1,33 @@
+{
+  "created_at_utc": "2026-10-12T23:51:10.941133+00:00",
+  "author_role": "independent_source_only",
+  "pre_field_inspection": true,
+  "sources": {
+    "preferred": "Official finance or operational publisher schemas with published version migrations, crosswalks, or explicit role definitions. Prefer CFPB HMDA and official operational provider schemas.",
+    "excluded_publishers": [
+      "Stripe",
+      "US Treasury",
+      "GBFS",
+      "DCSA",
+      "HL7"
+    ]
+  },
+  "selection_rules": [
+    "Select 2–3 distinct schema pairs and roughly 10–30 source fields per pair, with quality preferred over count.",
+    "Preserve actual publisher field names and documented types. If a structural path is needed, retain it independently in metadata.",
+    "Select renamed equivalent concepts where descriptions, migration documentation, or explicit shared identifiers establish identity.",
+    "Select hard semantic negatives only when official definitions distinguish roles, periods, entities, or dimensions, and the complete selected target schema lacks an equivalent field.",
+    "Exclude fields whose source or target meaning cannot be established independently."
+  ],
+  "annotation_rules": [
+    "Freeze labels using official sources only, never matcher implementation or output.",
+    "A match requires equivalent documented concept, entity, and role; differing declared units may be documented as equivalent measurement with conversion required.",
+    "Use no_match only when no target candidate expresses the source concept under the selected target schema; cite the source definition and target role evidence.",
+    "Use ambiguous only when official schema evidence permits two or more target candidates for one source concept; list all supported alternatives.",
+    "Samples must be actual publisher observations/examples and otherwise must be empty and marked schema-only. Do not invent synthetic samples.",
+    "Keep publisher context independent of answer labels: verbatim descriptions, resource/table/path identity, and explicit units/periods/roles only.",
+    "Maintain one independently evidenced label per included source field; unsupported labels are excluded."
+  ],
+  "blindness": "No matcher code, predictions, proposed changes, prior case labels, or implementation agent material may be read. No evaluation may be run. Keep fields, labels and case names private until parent confirms candidate frozen.",
+  "artifacts": "Concise rawsource excerpts with exact original URLs, immutable commit IDs when applicable, retrieval time, publisher license, SHA256; deterministic extraction script; cases.json, context.json, evidence.json, README.md; final FROZEN.json SHA256 manifest."
+}

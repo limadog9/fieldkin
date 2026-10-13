@@ -1,0 +1,6 @@
+{
+  "bound_at_utc": "2026-10-13T00:15:36.348077+00:00",
+  "packet_freeze_sha256": "a90115f1b11df7e4a0a35ec1d093097726ef992081e24979508c506f98e7e429",
+  "candidate_first_freeze_sha256": "42de6140cf242e6d0b312d91c5c845ccc621f87ea43adcbd15f128f1290b7a0d",
+  "independence": "New healthcare case source, labels and context sealed after candidate runtime freeze; root has not accessed new case fields/labels before binding. Runtime policy unchanged."
+}

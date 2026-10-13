@@ -1,0 +1,20 @@
+[
+  {
+    "bundle": "semantic_finance_operations",
+    "frozen_files": 22,
+    "seconds": 0.04017112997826189,
+    "source_extraction_and_case_reassembly_byte_identical": true
+  },
+  {
+    "bundle": "semantic_healthcare",
+    "frozen_files": 20,
+    "seconds": 4.703325195994694,
+    "source_extraction_and_case_reassembly_byte_identical": true
+  },
+  {
+    "bundle": "semantic_healthcare_new",
+    "frozen_files": 24,
+    "seconds": 4.087542238004971,
+    "source_extraction_and_case_reassembly_byte_identical": true
+  }
+]

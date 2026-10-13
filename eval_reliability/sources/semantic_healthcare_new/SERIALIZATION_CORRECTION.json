@@ -1,0 +1,41 @@
+{
+  "corrected_at_utc": "2026-10-13T00:21:38.602170+00:00",
+  "reason": "Root reported the strict Fieldkin input parser rejected numeric samples because Field.samples is Vec<String>. Parsing failed before matching; root reported no new-case predictions had run.",
+  "scope": "Source-only serialization correction. Convert each official numeric vocabulary illustration to its exact decimal string in the standard field samples arrays. No names, data types, labels, descriptions, evidence, selection, official sample values, or source sample provenance changed.",
+  "original_seal": {
+    "file": "FROZEN.original.json",
+    "sha256": "a90115f1b11df7e4a0a35ec1d093097726ef992081e24979508c506f98e7e429"
+  },
+  "changed_files": {
+    "case.json": {
+      "original_sha256": "25cc9657675c8a9e44a3f2e7df2f8870c64b27976ccceb203ee9bd0d7012f63b",
+      "corrected_sha256": "4bb4db497b7464922ec532b5ec61ab71e7ebd4e69d612a4b10741b0182adfc90"
+    },
+    "extract.py": {
+      "original_sha256": "2c7920465150142c3d2d232af2a62fd64584af880f576178acba9b87dd29df07",
+      "corrected_sha256": "feeb817722bff47b160c3ac9626a1bc5fae63fb5fca88148115aab3766059048"
+    },
+    "schemas.json": {
+      "original_sha256": "d12039fc75b19c22e7d55a8661120d97f2f000ee4570c35347ab46e0a9cd97ec",
+      "corrected_sha256": "c8204c066fc031f5bc3cbabb4e96af9465b514adc0cdf97832d750d2119193de"
+    }
+  },
+  "change_counts": {
+    "illustration_values_per_case_or_schema": 12,
+    "total_json_sample_literals_serialized": 24,
+    "extractor_changes": "One expression: str(value) at the field-sample serialization boundary."
+  },
+  "validation": {
+    "standard_shape_and_enum_check": "passed",
+    "samples_all_strings": "passed",
+    "exact_decimal_string_values": "passed",
+    "full_source_coverage_and_target_references": "passed",
+    "original_schema_names_types_and_case_answers": "byte-identical after reversing only the samples serialization",
+    "unchanged_labels_context_evidence_and_selection": "all original hashes verified",
+    "extractor_reproduction": "exact bytes match for schemas, contexts, provenance, sample evidence and all raw excerpts",
+    "original_13_field_packet": "all hashes unchanged",
+    "actual_strict_parser": "Root will run its existing strict parse-only corpus-integrity test after updating the wrapper and before new-case predictions; not run by this source-only author."
+  },
+  "historical_context_seal": "SOURCE_CONTEXT_FROZEN.json is intentionally preserved as the original pre-answer publisher-input snapshot. Its historical schemas.json/extract.py hashes are linked to the corrected hashes above; all context, provenance and source-example evidence hashes remain current and unchanged.",
+  "prediction_feedback": "None; correction was requested after an input-type parse rejection before matching."
+}

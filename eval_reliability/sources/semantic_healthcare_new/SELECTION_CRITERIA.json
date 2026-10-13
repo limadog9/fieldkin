@@ -1,0 +1,18 @@
+{
+  "frozen_at_utc": "2026-10-12T23:50:49.966106+00:00",
+  "author_scope": "Independent source-only held-out evaluation; no matcher, predictions, runtime proposals, or existing labels inspected.",
+  "publisher": "OHDSI/CommonDataModel",
+  "selection_rule": {
+    "versions": "Select official tagged schema releases, preferring CDM 5.2.x to 5.4.x; use an earlier official release only if later migration has no meaningfully changed fields.",
+    "cases": "Up to 3 bounded complete clinical/health-administrative tables, preferentially COST and PAYER_PLAN_PERIOD where official documentation describes migrations. Include all actual source fields in selected tables, aiming 10\u201330 fields per case. Target includes corresponding complete table plus at most 2 related tables or predeclared role-based distractor subsets if needed to stay bounded.",
+    "ground_truth": "Match only an equivalent published semantic role in the counterpart schema. Use no_match when the target has no directly equivalent published role; derivation, splitting, aggregation, or reassignment of a role is insufficient. Use ambiguous only if official docs support several alternative equivalents. Names/sample equality alone cannot establish any label.",
+    "hard_negatives": "Retain actual fields with related but distinct published roles, including standardized vs source values, event identifiers vs event type identifiers, and dates with different roles. Never fabricate fields or observations.",
+    "samples": "Extract actual official example values when attributable to the exact field; otherwise samples=[] and mark schema-only.",
+    "context": "Separately extract verbatim official descriptions, table identity, declared type, and explicit role/units/period metadata where published. No answer-derived context.",
+    "abort": "Exclude a case if authoritative definitions or release identity cannot be verified; no padding or fake ambiguity."
+  },
+  "additional_packet_frozen_at_utc": "2026-10-13T00:07:14.576100+00:00",
+  "original_criteria_sha256": "284d5fd85fbce9e77bccf657a5d54332df9d484b3ed84ccd69be0c1b7bd87f41",
+  "candidate_freeze_notice": "Root reported runtime frozen before new extraction; original packet remains unchanged.",
+  "additional_selection_scope": "One complete clinical encounter/event table under the existing complete clinical-table rule, excluding the previously reviewed economics tables and field roles. Prefer 5.2.2 to 5.4.1 as originally declared; use the original earlier-release fallback only if later versions have no meaningful schema change. Prioritize encounter transition roles with published before/after declarations, retain every actual source field and the complete counterpart target. No field or label from this new case has been disclosed to root."
+}

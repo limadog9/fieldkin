@@ -1,0 +1,282 @@
+{
+  "name": "omop_v5_2_2_visit_occurrence_to_v5_4_1_visit_occurrence",
+  "source": {
+    "fields": [
+      {
+        "name": "visit_occurrence.visit_occurrence_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "visit_occurrence.person_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "visit_occurrence.visit_concept_id",
+        "data_type": "integer",
+        "samples": [
+          "262"
+        ]
+      },
+      {
+        "name": "visit_occurrence.visit_start_date",
+        "data_type": "date",
+        "samples": []
+      },
+      {
+        "name": "visit_occurrence.visit_start_datetime",
+        "data_type": "timestamp",
+        "samples": []
+      },
+      {
+        "name": "visit_occurrence.visit_end_date",
+        "data_type": "date",
+        "samples": []
+      },
+      {
+        "name": "visit_occurrence.visit_end_datetime",
+        "data_type": "timestamp",
+        "samples": []
+      },
+      {
+        "name": "visit_occurrence.visit_type_concept_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "visit_occurrence.provider_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "visit_occurrence.care_site_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "visit_occurrence.visit_source_value",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "visit_occurrence.visit_source_concept_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "visit_occurrence.admitting_source_concept_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "visit_occurrence.admitting_source_value",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "visit_occurrence.discharge_to_concept_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "visit_occurrence.discharge_to_source_value",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "visit_occurrence.preceding_visit_occurrence_id",
+        "data_type": "integer",
+        "samples": []
+      }
+    ]
+  },
+  "target": {
+    "fields": [
+      {
+        "name": "VISIT_OCCURRENCE.visit_occurrence_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "VISIT_OCCURRENCE.person_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "VISIT_OCCURRENCE.visit_concept_id",
+        "data_type": "integer",
+        "samples": [
+          "9201",
+          "9203",
+          "262",
+          "42898160",
+          "9202",
+          "581476",
+          "5083",
+          "581458",
+          "32036",
+          "581478",
+          "38004193"
+        ]
+      },
+      {
+        "name": "VISIT_OCCURRENCE.visit_start_date",
+        "data_type": "date",
+        "samples": []
+      },
+      {
+        "name": "VISIT_OCCURRENCE.visit_start_datetime",
+        "data_type": "timestamp",
+        "samples": []
+      },
+      {
+        "name": "VISIT_OCCURRENCE.visit_end_date",
+        "data_type": "date",
+        "samples": []
+      },
+      {
+        "name": "VISIT_OCCURRENCE.visit_end_datetime",
+        "data_type": "timestamp",
+        "samples": []
+      },
+      {
+        "name": "VISIT_OCCURRENCE.visit_type_concept_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "VISIT_OCCURRENCE.provider_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "VISIT_OCCURRENCE.care_site_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "VISIT_OCCURRENCE.visit_source_value",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "VISIT_OCCURRENCE.visit_source_concept_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "VISIT_OCCURRENCE.admitted_from_concept_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "VISIT_OCCURRENCE.admitted_from_source_value",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "VISIT_OCCURRENCE.discharged_to_concept_id",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "VISIT_OCCURRENCE.discharged_to_source_value",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "VISIT_OCCURRENCE.preceding_visit_occurrence_id",
+        "data_type": "integer",
+        "samples": []
+      }
+    ]
+  },
+  "answers": [
+    {
+      "source": "visit_occurrence.visit_occurrence_id",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.visit_occurrence_id"
+    },
+    {
+      "source": "visit_occurrence.person_id",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.person_id"
+    },
+    {
+      "source": "visit_occurrence.visit_concept_id",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.visit_concept_id"
+    },
+    {
+      "source": "visit_occurrence.visit_start_date",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.visit_start_date"
+    },
+    {
+      "source": "visit_occurrence.visit_start_datetime",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.visit_start_datetime"
+    },
+    {
+      "source": "visit_occurrence.visit_end_date",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.visit_end_date"
+    },
+    {
+      "source": "visit_occurrence.visit_end_datetime",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.visit_end_datetime"
+    },
+    {
+      "source": "visit_occurrence.visit_type_concept_id",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.visit_type_concept_id"
+    },
+    {
+      "source": "visit_occurrence.provider_id",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.provider_id"
+    },
+    {
+      "source": "visit_occurrence.care_site_id",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.care_site_id"
+    },
+    {
+      "source": "visit_occurrence.visit_source_value",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.visit_source_value"
+    },
+    {
+      "source": "visit_occurrence.visit_source_concept_id",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.visit_source_concept_id"
+    },
+    {
+      "source": "visit_occurrence.admitting_source_concept_id",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.admitted_from_concept_id"
+    },
+    {
+      "source": "visit_occurrence.admitting_source_value",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.admitted_from_source_value"
+    },
+    {
+      "source": "visit_occurrence.discharge_to_concept_id",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.discharged_to_concept_id"
+    },
+    {
+      "source": "visit_occurrence.discharge_to_source_value",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.discharged_to_source_value"
+    },
+    {
+      "source": "visit_occurrence.preceding_visit_occurrence_id",
+      "kind": "match",
+      "target": "VISIT_OCCURRENCE.preceding_visit_occurrence_id"
+    }
+  ]
+}

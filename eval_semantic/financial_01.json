@@ -1,0 +1,314 @@
+{
+  "name": "cfpb_hmda_modified_lar_2017_to_2018",
+  "source": {
+    "fields": [
+      {
+        "name": "Agency Code",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "Loan Type",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "Loan Amount",
+        "data_type": "text",
+        "samples": [
+          "111"
+        ]
+      },
+      {
+        "name": "Preapprovals",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "Type of Action Taken",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "Metropolitan Statistical Area/Metropolitan Division",
+        "data_type": "text",
+        "samples": [
+          "40900"
+        ]
+      },
+      {
+        "name": "Applicant Ethnicity",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "Co-Applicant Ethnicity",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "Applicant Race: 1",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "Co-Applicant Race: 1",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "Applicant Sex",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "Co-applicant Sex",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "Type of Purchaser",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "Denial Reason: 1",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "Rate Spread",
+        "data_type": "text",
+        "samples": [
+          "03.29"
+        ]
+      },
+      {
+        "name": "HOEPA Status",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "Lien Status",
+        "data_type": "integer",
+        "samples": []
+      }
+    ]
+  },
+  "target": {
+    "fields": [
+      {
+        "name": "Loan Type",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "Loan Amount",
+        "data_type": "decimal",
+        "samples": [
+          "115000"
+        ]
+      },
+      {
+        "name": "Preapproval",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "Action Taken",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "Ethnicity of Applicant or Borrower: 1",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "Ethnicity of Co-Applicant or Co-Borrower: 1",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "Race of Applicant or Borrower: 1",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "Race of Co-Applicant or Co-Borrower: 1",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "Sex of Applicant or Borrower",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "Sex of Co-Applicant or Co-Borrower",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "Type of Purchaser",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "Reason for Denial: 1",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "Rate Spread",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "HOEPA Status",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "Lien Status",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "Legal Entity Identifier (LEI)",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "Construction Method",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "Occupancy Type",
+        "data_type": "integer",
+        "samples": []
+      },
+      {
+        "name": "State",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "County",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "Census Tract",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "Income",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "Interest Rate",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "Property Value",
+        "data_type": "text",
+        "samples": []
+      },
+      {
+        "name": "Debt-to-Income Ratio",
+        "data_type": "text",
+        "samples": []
+      }
+    ]
+  },
+  "answers": [
+    {
+      "source": "Agency Code",
+      "kind": "no_match"
+    },
+    {
+      "source": "Loan Type",
+      "kind": "match",
+      "target": "Loan Type"
+    },
+    {
+      "source": "Loan Amount",
+      "kind": "match",
+      "target": "Loan Amount"
+    },
+    {
+      "source": "Preapprovals",
+      "kind": "match",
+      "target": "Preapproval"
+    },
+    {
+      "source": "Type of Action Taken",
+      "kind": "match",
+      "target": "Action Taken"
+    },
+    {
+      "source": "Metropolitan Statistical Area/Metropolitan Division",
+      "kind": "no_match"
+    },
+    {
+      "source": "Applicant Ethnicity",
+      "kind": "match",
+      "target": "Ethnicity of Applicant or Borrower: 1"
+    },
+    {
+      "source": "Co-Applicant Ethnicity",
+      "kind": "match",
+      "target": "Ethnicity of Co-Applicant or Co-Borrower: 1"
+    },
+    {
+      "source": "Applicant Race: 1",
+      "kind": "match",
+      "target": "Race of Applicant or Borrower: 1"
+    },
+    {
+      "source": "Co-Applicant Race: 1",
+      "kind": "match",
+      "target": "Race of Co-Applicant or Co-Borrower: 1"
+    },
+    {
+      "source": "Applicant Sex",
+      "kind": "match",
+      "target": "Sex of Applicant or Borrower"
+    },
+    {
+      "source": "Co-applicant Sex",
+      "kind": "match",
+      "target": "Sex of Co-Applicant or Co-Borrower"
+    },
+    {
+      "source": "Type of Purchaser",
+      "kind": "match",
+      "target": "Type of Purchaser"
+    },
+    {
+      "source": "Denial Reason: 1",
+      "kind": "match",
+      "target": "Reason for Denial: 1"
+    },
+    {
+      "source": "Rate Spread",
+      "kind": "match",
+      "target": "Rate Spread"
+    },
+    {
+      "source": "HOEPA Status",
+      "kind": "match",
+      "target": "HOEPA Status"
+    },
+    {
+      "source": "Lien Status",
+      "kind": "match",
+      "target": "Lien Status"
+    }
+  ]
+}
