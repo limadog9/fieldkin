@@ -512,7 +512,7 @@ fn levenshtein_pruning_and_cached_patterns_preserve_unicode_and_cutoff_boundarie
         1.0,
     ] {
         let threshold = f64::from(threshold_dist as f32);
-        // No finite length makes a positive edit bound useless at cutoff one.
+        // Cutoff one has no useful boundary at these bounded lengths.
         let mut boundary = if threshold == 1.0 {
             256
         } else {

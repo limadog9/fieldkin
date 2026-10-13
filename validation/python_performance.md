@@ -1,6 +1,169 @@
 # Python Valentine comparison and measured Rust optimizations
 
-## Current follow-up: exact COMA document reuse and Jaccard rejection bounds
+## Jaccard long-string follow-up (2026-10-13)
+
+Starting main: `88d64384827069742f217e097cf91dab705ee391` (v0.2.1).
+Retained runtime: `2229a06`, branch `perf/jaccard-long-string-overhead`.
+[Compact measurements](jaccard_fingerprint_overhead_results.json) preserve source,
+input and binary SHA256s, every fresh-process summary, variability, warmups,
+exact output identities, rejected experiments and diagnostic counters.
+
+Temporary instrumentation isolates original long-prefix/suffix preparation at
+**0.546→0.153 ms**: 512 hashed values / 266,792 hashed scalars become **zero**
+while all **1,020 scorer calls** and ordered outputs remain identical. Mixed columns hash only their 256 short
+values (4,096 scalars); length information remains available for every value.
+At cutoff 0.99, the new disjoint 544-scalar control still builds all 512
+fingerprints and avoids all but one of 65,536 possible scorer calls, as main does.
+Stage timings are diagnostic, not the headline benchmark.
+
+The guard retains the scorer's `f64 → f32 → f64` cutoff and checks
+`n == 0 || 1.0 - 32.0 / (n as f64) >= cutoff`, using Unicode scalar counts.
+For a pair containing that value, maximum length is at least `n`. Both real and
+zero bitmaps contribute at most 32 edits, so neither can reject that pair unless
+the unchanged length bound already does. The original strict rejection and
+inclusive threshold remain intact. Default 0.8 rounds upward: length 160 still
+hashes, 161 skips. No arbitrary length cutoff, scoring change, sample reduction,
+new state, dependency or public API is introduced; metadata remains 24 bytes/value.
+
+A plain `chars().count()` variant caused a repeatable **14–16% dense slowdown**.
+Outlining the initializer and replacing its caller closure did not fix it.
+The retained explicit scalar fold recovered that control; the exact compiler
+layout mechanism is unproven. Assembly differences alone did not establish
+causality, and GNU profiling warned about unreliable interval-timer data.
+Rejected measurements remain in the evidence, including unfavorable results.
+
+Release Rust 1.99.0 / LLVM 23.1.1, Python 3.12.14; shared Xeon Platinum 8573C,
+Linux 6.18.44, five visible CPUs, four-CPU quota, 32 GiB memory limit. Independent
+Cargo target directories produced immutable before/after binaries, one matcher
+worker and no concurrent builds/profiles during timing. Each workload uses five
+alternating fresh-process pairs and one recorded first-call warmup. CPU 0 used
+51 timed calls (large: five); a predeclared focused recheck used CPU 1 and 101
+calls because CPU 0 varied substantially. Both runtimes use the same CPU in each
+pair. Native-only timing runs do not execute Python or imply Python speedups.
+`get_matches` includes sampling/preparation, comparisons and result construction;
+loading, constructors, disposal, selection, hashing and serialization are outside
+both timers. Memory is lifetime Linux process `VmHWM`, including setup and
+verification, sampled before final serialization—not incremental matcher memory.
+
+Medians of process medians; † marks CPU 0 controls not in the CPU 1 recheck.
+All ranges and paired ratios are retained in JSON, including the noisy first batch.
+
+| Control | Main ms | Candidate ms | Lifetime peak MiB main→candidate |
+|---|---:|---:|---:|
+| jaccard_long | 5.671 | 5.241 | 3.71→3.76 |
+| long160 | 1.406 | 1.453 | 3.20→3.19 |
+| long161 | 1.418 | 1.307 | 3.23→3.27 |
+| long256 † | 2.346 | 2.146 | 3.38→3.37 |
+| long1024 | 13.139 | 12.250 | 4.50→4.50 |
+| long_low † | 7.475 | 6.950 | 3.79→3.65 |
+| long_high | 5.493 | 5.357 | 3.80→3.76 |
+| long_one | 1.960 | 1.875 | 3.75→3.80 |
+| long_zero | 8.394 | 8.416 | 3.76→3.65 |
+| high_disjoint | 1.651 | 1.525 | 3.75→3.74 |
+| mixed | 5.905 | 5.550 | 3.37→3.36 |
+| unicode_long | 6.579 | 6.492 | 4.91→4.91 |
+| jaccard_unicode † | 1.755 | 1.771 | 3.21→3.16 |
+| jaccard_dense | 12.061 | 12.239 | 4.40→4.45 |
+| jaccard_disjoint | 4.680 | 4.684 | 3.24→3.24 |
+| disjoint_long † | 190.227 | 200.281 | 3.65→3.75 |
+| identical_long † | 0.041 | 0.042 | 3.78→3.75 |
+| medium | 22.398 | 22.363 | 6.73→6.84 |
+| large † | 6246.459 | 6136.660 | 65.22→65.22 |
+
+Original long strings improve **7.6%** (main 5.655–5.676 ms, candidate
+5.237–5.272); mixed values improve **6.0%**, length 161 **7.8%**, length 1,024
+**6.8%**. Unicode-long gains only **1.3%**. Dense costs **1.5%**, and length 160
+costs **3.3% / 47 µs** because useful fingerprints still require the counting pass.
+Short disjoint and medium stay effectively unchanged, preserving their previous
+wins. Large ranges overlap: 5.888–8.068 s / 5.684–8.451 s; no additional large
+speedup is claimed. High-cutoff gains with retained hashes cannot be attributed
+to skipped hashing. Medium peak varies by +116 KiB; allocation layout is unchanged.
+Long disjoint remains inconclusive: CPU 0 medians regress 5.3%, CPU 1 regress
+12.7%, while the longer CPU 2 recheck improves 4.7% (150.994→143.911 ms).
+Ranges reach 143–235 ms; all three batches remain recorded, with no gain claimed.
+Worst-case comparisons remain quadratic, particularly with collisions or long
+strings where this bound cannot reject. No implicit resource budget is added.
+
+Validation: formatting, default/Polars/all-feature tests, doctests, strict Clippy,
+warning-free all-feature docs and every existing accuracy/reliability gate pass.
+All five algorithms' checked-in reference tests remain green. Live unmodified
+Valentine 1.0.0 at `d8fa9ee6d312b49ce2c45b62824df1fd31b94a72` agrees exactly on
+all 15 existing Jaccard cases; seven custom/default/null cutoff controls also
+pass native identity and Python parity, with actual configuration metadata checked.
+No tolerance, label, baseline or reference patch changed. The real-model ONNX
+test remains explicitly ignored; embedding-provider controls run. An initial
+Polars link exhausted the workspace; clearing only regenerable package debug
+outputs allowed the complete checks to pass. `cargo package --locked` also verifies
+the extracted crate successfully; excluded evaluation examples produce the existing
+packaging notices. Branch CI is checked separately after pushing for review.
+
+Reproduce with the existing harness; generate the four `jaccard_*` inputs using
+the existing control-generation block below. For the extra controls, run:
+
+```sh
+python - <<'PY_CASES'
+import hashlib, json, pathlib, sys
+sys.path.insert(0, "validation")
+from benchmark_valentine import synthetic, SIZES
+out = pathlib.Path("target/performance-controls")
+out.mkdir(parents=True, exist_ok=True)
+profiles = {"long160": (160,.8), "long161": (161,.8), "long256": (256,.8),
+            "long1024": (1024,.8), "long_low": (544,.5), "long_high": (544,.99),
+            "long_one": (544,1.), "long_zero": (544,0.), "unicode_long": (544,.8),
+            "mixed": (544,.8), "disjoint_long": (544,.8),
+            "identical_long": (544,.8), "high_disjoint": (544,.99)}
+for name, (length, cutoff) in profiles.items():
+    case = synthetic(name, 2, 128, 128)
+    case["jaccard_threshold"] = cutoff
+    for side, schema in enumerate((case["source"], case["target"])):
+        for column, field in enumerate(schema["fields"]):
+            field["data_type"] = "text"
+            values = []
+            for i in range(128):
+                key = (column*2 + (side if i >= 96 else 0))*128 + i
+                token = hashlib.sha256(str(i if name == "identical_long" else key).encode()).hexdigest()[:16]
+                prefix = (length-16)//2
+                value = ("界" if name == "unicode_long" else "a")*prefix + token + "b"*(length-16-prefix)
+                if name == "mixed" and i % 2 == 0:
+                    value = token
+                elif name == "disjoint_long":
+                    value = "".join(hashlib.sha256(f"{side}:{column}:{i}:{j}".encode()).hexdigest() for j in range(9))[:length]
+                elif name == "high_disjoint":
+                    alphabet = "abcdefghi" if side == 0 else "JKLMNOPQR"
+                    value = "".join(alphabet[b % 9] for b in hashlib.sha256(f"{side}:{column}:{i}".encode()).digest())*17
+                values.append(value)
+            field["samples"] = values
+    (out / f"{name}.json").write_text(json.dumps(case, separators=(",", ":")) + "\n")
+for name in ("medium", "large"):
+    (out / f"{name}.json").write_text(json.dumps(synthetic(name, *SIZES[name]), separators=(",", ":")) + "\n")
+PY_CASES
+PERF_BEFORE="$(mktemp -d)/fieldkin"
+git worktree add --detach "$PERF_BEFORE" 88d64384827069742f217e097cf91dab705ee391
+cp examples/valentine_parity.rs "$PERF_BEFORE/examples/"
+cp examples/support/performance.rs "$PERF_BEFORE/examples/support/"
+cargo build --locked --release --jobs 1 --manifest-path "$PERF_BEFORE/Cargo.toml" \
+  --target-dir "$PWD/target/jaccard-before" --example valentine_parity
+cargo build --locked --release --jobs 1 --target-dir target/jaccard-after --example valentine_parity
+set --
+for name in jaccard_long jaccard_dense jaccard_disjoint medium mixed unicode_long \
+  long160 long161 long1024 long_high high_disjoint long_one long_zero; do
+  set -- "$@" --dataset "target/performance-controls/$name.json"
+done
+taskset -c 1 python validation/benchmark_valentine.py --native-only \
+  --baseline-binary target/jaccard-before/release/examples/valentine_parity \
+  --baseline-revision 88d64384827069742f217e097cf91dab705ee391 \
+  --binary target/jaccard-after/release/examples/valentine_parity --algorithm jaccard \
+  --rounds 5 --warmups 1 --repetitions 101 --timeout 180 "$@" \
+  --output target/jaccard-focus.json
+```
+
+For the initial full CPU 0 batch use all 18 non-large Jaccard controls, 51
+repetitions; run `large.json` separately with five repetitions. Recheck
+`disjoint_long.json` on CPU 1 with 21 repetitions and CPU 2 with 51. Remove `--native-only` and add
+`--upstream` for the unmodified pinned Python comparison (install via the existing
+PORTING setup); validation used one repetition, not performance claims.
+
+## Previous follow-up: exact COMA document reuse and Jaccard rejection bounds
 
 Measured **2026-10-13**, starting from `origin/main` at
 `e82bdc5b901fc2ddefa0976a275a2046be6c38a9`, on branch
