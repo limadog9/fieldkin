@@ -236,8 +236,11 @@ def main():
                         for name, parameter in
                         inspect.signature(type(MATCHERS[algorithm]())).parameters.items()
                         if parameter.default is not inspect.Parameter.empty}
-            report.setdefault("configurations", {})[algorithm] = {
-                "defaults": defaults, "overrides": {"use_instances": True} if algorithm == "coma_instances" else {}}
+            overrides = {"use_instances": True} if algorithm == "coma_instances" else {}
+            if algorithm == "jaccard" and data.get("jaccard_threshold") is not None:
+                overrides["threshold_dist"] = data["jaccard_threshold"]
+            configuration = {"defaults": defaults, "overrides": overrides}
+            report.setdefault("configurations", {})[algorithm] = configuration
             measured, warmups, preparation = [], [], []
             previous = None
             matches = None
@@ -250,8 +253,8 @@ def main():
                 started = time.perf_counter()
                 source = InputTable("source", data["source"]["fields"])
                 target = InputTable("target", data["target"]["fields"])
-                matcher = (JaccardDistanceMatcher(threshold_dist=data["jaccard_threshold"])
-                           if algorithm == "jaccard" and "jaccard_threshold" in data
+                matcher = (JaccardDistanceMatcher(**overrides)
+                           if algorithm == "jaccard"
                            else MATCHERS[algorithm]())
                 preparation.append(time.perf_counter() - started)
                 started = time.perf_counter()
@@ -268,7 +271,8 @@ def main():
                 previous = identity
                 (warmups if iteration < args.warmups else measured).append(elapsed)
             result.update(elapsed_seconds=elapsed, matching_seconds=measured,
-                          warmup_seconds=warmups, preparation_seconds=preparation)
+                          warmup_seconds=warmups, preparation_seconds=preparation,
+                          configuration=configuration)
             dataset["algorithms"][algorithm] = result
             save(destination, report)
             status = f"{len(result['matches'])} pairs" if result["error"] is None else str(result["error"])

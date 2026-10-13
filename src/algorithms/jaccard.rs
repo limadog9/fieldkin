@@ -421,6 +421,8 @@ impl<'a> PreparedValues<'a> {
     }
 
     // The rounded cutoff is fixed throughout this matching call, including workers.
+    // Keep the metadata initializer out of the pair-comparison hot loop.
+    #[inline(never)]
     fn bounds(&self, threshold: f64) -> &[(usize, [u64; 2])] {
         self.bounds.get_or_init(|| {
             self.values
