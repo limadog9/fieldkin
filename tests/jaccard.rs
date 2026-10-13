@@ -430,8 +430,24 @@ fn lexical_hit_skipping_is_bitwise_identical_to_full_cartesian_comparison() {
 #[test]
 fn levenshtein_pruning_and_cached_patterns_preserve_unicode_and_cutoff_boundaries() {
     let mut source = values(&["", "a", "abcd", "abcdefghij", "é", "東京🙂"]);
+    source.extend(values(&[
+        "abcdefghijklmnop",
+        "abcdwxyzijklmnop",
+        "abcdefghijklmnoé",
+        "東京🙂abcdefghijkl",
+        "repeated repeated",
+        "abcdefghijklmnop",
+    ]));
     source.push("a".repeat(200));
     let mut target = values(&["", "ab", "abcde", "abcdefghi🙂", "éé", "東京"]);
+    target.extend(values(&[
+        "abcdefghijklmnop",
+        "abcdpqrsijklmnop",
+        "abcdefghijklmno🙂",
+        "東京🙂abcdefghijkX",
+        "repeated repeatedly",
+        "abcdpqrsijklmnop",
+    ]));
     target.push("a".repeat(160));
     for length in [31, 32, 33, 63, 64, 65, 127, 128, 129, 255, 256, 257] {
         let value: String = "é界🙂\0e\u{301}".chars().cycle().take(length).collect();
@@ -579,6 +595,58 @@ fn column_matching_omits_zero_scores_and_threads_preserve_results() {
     );
     assert_eq!(single.iter().count(), 1);
     close(*single.iter().next().unwrap().1, 1.0 / 3.0);
+}
+
+#[test]
+fn fuzzy_columns_share_prepared_bounds_across_workers_and_batches() {
+    let tables = ['a', 'b', 'c'].map(|suffix| {
+        Table::new(
+            suffix.to_string(),
+            (0..4)
+                .map(|column| Field {
+                    name: format!("column{column}"),
+                    data_type: DataType::Text,
+                    samples: if column == 3 {
+                        values(&["", ""])
+                    } else {
+                        let stem = char::from(b'a' + column).to_string().repeat(16);
+                        vec![
+                            format!("{stem}-{suffix}"),
+                            format!("東京🙂{column}-long-{suffix}"),
+                            format!("shared-value-{suffix}"),
+                        ]
+                    },
+                })
+                .collect(),
+        )
+        .unwrap()
+    });
+    let serial = JaccardDistanceMatcher::default();
+    let parallel = JaccardDistanceMatcher::new(JaccardConfig {
+        process_num: 4,
+        ..Default::default()
+    })
+    .unwrap();
+    for (serial, parallel) in [
+        (
+            serial.get_matches(&tables[0], &tables[1]).unwrap(),
+            parallel.get_matches(&tables[0], &tables[1]).unwrap(),
+        ),
+        (
+            serial.get_matches_batch(&tables).unwrap(),
+            parallel.get_matches_batch(&tables).unwrap(),
+        ),
+    ] {
+        assert!(!serial.is_empty());
+        let bits = |results: &fieldkin::MatcherResults| {
+            results
+                .iter()
+                .map(|(pair, score)| (pair.clone(), score.to_bits()))
+                .collect::<Vec<_>>()
+        };
+        assert_eq!(bits(&serial), bits(&parallel));
+        assert_eq!(serial.details(), parallel.details());
+    }
 }
 
 #[test]

@@ -3,7 +3,8 @@
 
 python validation/benchmark_valentine.py --output target/valentine-performance.json
 Uses the existing pinned reference and explicit reference-fix overlay. No accuracy
-labels are used. Linux /proc VmHWM measures process peak RSS through matching, excluding children.
+labels are used. Linux /proc VmHWM measures lifetime process peak RSS, including
+setup and output verification/reporting, excluding child processes.
 wait4 RSS is retained separately: it also includes inherited pre-exec memory.
 """
 
@@ -53,20 +54,41 @@ def summary(values):
     return {"median": statistics.median(values), "min": min(values), "max": max(values)}
 
 
+def side_order(baseline, round_number):
+    sides = ("rust_before", "rust", "python") if baseline else ("rust", "python")
+    offset = round_number % len(sides)
+    return sides[offset:] + sides[:offset]
+
+
+def native_identity(result):
+    identity = result["output_sha256"]
+    if (not isinstance(identity, str) or len(identity) != 64
+            or any(character not in "0123456789abcdef" for character in identity)):
+        raise ValueError("missing or invalid native exact-output fingerprint; rebuild the parity example")
+    return identity
+
+
 def markdown(report):
+    baseline = report.get("settings", {}).get("baseline_revision") is not None
+    sides = ("rust_before", "rust", "python") if baseline else ("rust", "python")
     lines = ["# Rust versus Python Valentine", "", "Matching medians are medians of fresh-process medians; ranges span those medians.",
-             "RSS is median process VmHWM in MiB through matching, including setup but excluding child processes.",
-             "Speedups require every run to succeed, repeat exactly within each runtime, and pass pair/score/ranking parity.", "",
-             "| Case | Algorithm | Rust ms [range] | Python ms [range] | Rust/Python peak MiB | Speedup | Status |",
-             "|---|---|---:|---:|---:|---:|---|"]
+             "RSS is median lifetime process VmHWM in MiB, including setup, inputs, matching and output verification/reporting; child processes are excluded.",
+             "Rust samples before final serialization; Python after preceding checkpoint serialization. This is not incremental matcher or process-tree memory.",
+             "Speedups require every run to succeed, repeat exactly within each runtime, and pass pair/score/ranking parity.",
+             *(["Rust before/after also require identical ordered score/detail bits and result selections."] if baseline else []), "",
+             ("| Case | Algorithm | Rust before ms [range] | Rust after ms [range] | Python ms [range] | Before/after/Python peak MiB | Python/after | Before/after | Status |" if baseline else
+              "| Case | Algorithm | Rust ms [range] | Python ms [range] | Rust/Python peak MiB | Speedup | Status |"),
+             "|---|---|---:|---:|---:|---:|---:|---:|---|" if baseline else "|---|---|---:|---:|---:|---:|---|"]
     for item in report["comparisons"]:
         cells = []
-        for side in ("rust", "python"):
+        for side in sides:
             result = item.get(side)
             cells.append(f"{result['matching_ms']['median']:.3f} [{result['matching_ms']['min']:.3f}, {result['matching_ms']['max']:.3f}]" if result else "unavailable")
-        rss = "/".join(f"{item[side]['peak_rss_kib']['median']/1024:.1f}" if side in item else "n/a" for side in ("rust", "python"))
+        rss = "/".join(f"{item[side]['peak_rss_kib']['median']/1024:.1f}" if side in item else "n/a" for side in sides)
         speedup = f"{item['speedup']:.2f}x" if item.get("speedup") is not None else "withheld"
-        lines.append(f"| {item['case']} | {item['algorithm']} | {' | '.join(cells)} | {rss} | {speedup} | {item['status']} |")
+        improvement = f"{item['native_speedup']:.2f}x" if item.get("native_speedup") is not None else "withheld"
+        lines.append(f"| {item['case']} | {item['algorithm']} | {' | '.join(cells)} | {rss} | {speedup} | "
+                     + (f"{improvement} | " if baseline else "") + f"{item['status']} |")
     return "\n".join(lines) + "\n"
 
 
@@ -74,7 +96,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--binary", type=Path, default=ROOT / "target/release/examples/valentine_parity")
+    parser.add_argument("--baseline-binary", type=Path, help="Unchanged Rust library built with the same parity example")
+    parser.add_argument("--baseline-revision", help="Exact Git revision used to build --baseline-binary")
     parser.add_argument("--case", choices=(*SIZES, *REAL), action="append")
+    parser.add_argument("--dataset", type=Path, action="append", help="Additional repository-relative schema JSON; supplied paths replace default cases")
     parser.add_argument("--algorithm", choices=ALGORITHMS, action="append")
     parser.add_argument("--rounds", type=int, default=3)
     parser.add_argument("--repetitions", type=int, default=3)
@@ -84,8 +109,18 @@ def main():
     args = parser.parse_args()
     if min(args.rounds, args.repetitions, args.timeout) <= 0 or args.warmups < 0 or not math.isfinite(args.timeout):
         parser.error("rounds, repetitions, timeout must be positive; warmups nonnegative")
-    if sys.platform != "linux" or not args.binary.is_file():
-        parser.error("requires Linux wait4 RSS accounting and a built release parity example")
+    if bool(args.baseline_binary) != bool(args.baseline_revision):
+        parser.error("--baseline-binary and --baseline-revision must be supplied together")
+    if args.baseline_revision:
+        revision = command(["git", "rev-parse", "--verify", f"{args.baseline_revision}^{{commit}}"])
+        if revision is None:
+            parser.error("--baseline-revision must identify an existing commit in this repository")
+        args.baseline_revision = revision
+    binaries = {"rust": args.binary.resolve()}
+    if args.baseline_binary:
+        binaries = {"rust_before": args.baseline_binary.resolve(), **binaries}
+    if sys.platform != "linux" or any(not path.is_file() or not os.access(path, os.X_OK) for path in binaries.values()):
+        parser.error("requires Linux wait4 RSS accounting and executable release parity examples")
     destination = args.output.resolve()
     directory = destination.with_suffix("")
     try:
@@ -94,11 +129,20 @@ def main():
         parser.error("output must be inside the repository (input hashes are verified there)")
     directory.mkdir(parents=True, exist_ok=True)
     paths = {}
-    for name in args.case or (*SIZES, *REAL):
+    for name in args.case or (() if args.dataset else (*SIZES, *REAL)):
         path = directory / f"{name}.json" if name in SIZES else ROOT / f"eval_independent/{name}.json"
         if name in SIZES:
             path.write_text(json.dumps(synthetic(name, *SIZES[name]), separators=(",", ":")) + "\n")
         paths[name] = path.relative_to(ROOT).as_posix()
+    for index, requested in enumerate(args.dataset or []):
+        path = (ROOT / requested).resolve()
+        try:
+            relative = path.relative_to(ROOT).as_posix()
+        except ValueError:
+            parser.error(f"dataset must be inside the repository: {requested}")
+        if not path.is_file() or relative in paths.values():
+            parser.error(f"dataset must be an existing, distinct file: {requested}")
+        paths[f"dataset_{index:03}_{path.stem}"] = relative
     cpu = read("/proc/cpuinfo") or ""
     environment = {"PYTHONHASHSEED": "0", "OMP_NUM_THREADS": "1", "OPENBLAS_NUM_THREADS": "1", "MKL_NUM_THREADS": "1"}
     corpora = [ROOT / ".upstream/nltk_data" / path for path in
@@ -108,38 +152,49 @@ def main():
                 "thread_environment": environment,"revision": command(["git", "rev-parse", "HEAD"]), "working_tree": command(["git", "status", "--short"]),
                 "platform": platform.platform(), "python": sys.version, "rustc": command(["rustc", "-Vv"]),
                 "cpu_model": next((line.split(":", 1)[1].strip() for line in cpu.splitlines() if line.startswith("model name")), None),
-                "cpu_count": os.cpu_count(), "cpu_max": read("/sys/fs/cgroup/cpu.max"), "memory_max": read("/sys/fs/cgroup/memory.max"),
+                "cpu_count": os.cpu_count(), "cpu_affinity": sorted(os.sched_getaffinity(0)),
+                "cpu_max": read("/sys/fs/cgroup/cpu.max"), "memory_max": read("/sys/fs/cgroup/memory.max"),
                 "input_sha256": {path: hashlib.sha256((ROOT / path).read_bytes()).hexdigest() for path in paths.values()},
                 "started_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "command": sys.argv,
                 "binary_sha256": hashlib.sha256(args.binary.read_bytes()).hexdigest(),
+                "rust_binaries": {side: {"path": str(path), "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+                                         "revision": args.baseline_revision if side == "rust_before" else command(["git", "rev-parse", "HEAD"])}
+                                  for side, path in binaries.items()},
+                "baseline_build": ("Caller supplies the pinned baseline library built in a separate worktree/target directory, "
+                                   "with this working tree's examples/valentine_parity.rs and examples/support/performance.rs copied unchanged. "
+                                   "Binary-to-revision association is declared, not inferred from executable contents."
+                                   if args.baseline_binary else None),
                 "source_sha256": {path: hashlib.sha256((ROOT / path).read_bytes()).hexdigest() for path in
-                                  ("Cargo.lock", "examples/valentine_parity.rs", "scripts/run_valentine_parity.py", "scripts/compare_valentine_parity.py", "scripts/valentine_reference.py",
+                                  ("Cargo.lock", "examples/valentine_parity.rs", "examples/support/performance.rs", "scripts/run_valentine_parity.py", "scripts/compare_valentine_parity.py", "scripts/valentine_reference.py",
                                    "validation/benchmark_valentine.py", "validation/benchmark_performance.py",
                                    *(path.relative_to(ROOT).as_posix() for path in sorted((ROOT / "src").rglob("*.rs"))))}}
     report = {"metadata": metadata, "settings": {"rounds": args.rounds, "repetitions": args.repetitions, "warmups": args.warmups,
               "timeout_seconds": args.timeout, "reference": "upstream" if args.upstream else "fixed", "datasets": paths,
-              "matching_api": "get_matches on both sides; loading, canonicalization, construction and serialization excluded",
-              "rss_scope": "Linux VmHWM through matching, excluding children; wait4 maximum is separate and includes inherited pre-exec watermark; neither is aggregate process-tree memory",
+              "baseline_revision": args.baseline_revision,
+              "matching_api": "get_matches on every side; loading, canonicalization, construction, result disposal, selection, hashing and serialization excluded",
+              "rss_scope": "Linux lifetime process VmHWM including setup, inputs, matching, output verification and report construction; "
+                           "Rust samples before final serialization, Python after preceding checkpoint serialization; excludes children (including CBC); "
+                           "wait4 maximum is separate and includes inherited pre-exec watermark; neither is incremental matcher or aggregate process-tree memory",
               "configuration": "existing parity constructors, defaults plus COMA instances; all nonempty samples; one worker"},
               "runs": [], "comparisons": []}
     for name, path in paths.items():
         for algorithm in args.algorithm or ALGORITHMS:
-            originals, comparisons = {}, []
+            originals, comparisons, native_comparisons = {}, [], []
             runs = []
             for round_number in range(args.rounds):
                 documents = {}
-                for side in (("rust", "python") if round_number % 2 == 0 else ("python", "rust")):
+                for side in side_order(args.baseline_binary is not None, round_number):
                     stem = directory / f"{name}-{algorithm}-{side}-{round_number}"
-                    output = stem.with_suffix(".json")
+                    output = Path(str(stem) + ".json")
                     flags = ["--dataset", path, "--algorithm", algorithm, "--repetitions", str(args.repetitions), "--warmups", str(args.warmups)]
-                    invocation = ([str(args.binary.resolve()), str(output), "--direct", *flags] if side == "rust" else
+                    invocation = ([str(binaries[side]), str(output), "--direct", *flags] if side != "python" else
                                   [sys.executable, "scripts/run_valentine_parity.py", "--output", str(output), *flags,
                                    *([] if args.upstream else ["--reference-fixes"])])
                     run = {"case": name, "algorithm": algorithm, "side": side, "round": round_number + 1,
                            "command": invocation, "raw_report": output.relative_to(ROOT).as_posix()}
                     output.unlink(missing_ok=True)
                     started = time.perf_counter()
-                    with stem.with_suffix(".log").open("w") as log:
+                    with Path(str(stem) + ".log").open("w") as log:
                         process = subprocess.Popen(invocation,
                                                    cwd=ROOT, stdout=log, stderr=log, start_new_session=True, env=os.environ | environment)
                         try:
@@ -160,7 +215,8 @@ def main():
                             times = result["matching_seconds"]
                             if len(times) != args.repetitions or len(result["warmup_seconds"]) != args.warmups or result["error"]:
                                 raise ValueError("failed or incomplete repeated matching")
-                            identity = hashlib.sha256(json.dumps(result["matches"], sort_keys=True).encode()).hexdigest()
+                            identity = (native_identity(result) if side != "python" else
+                                        hashlib.sha256(json.dumps(result["matches"], sort_keys=True).encode()).hexdigest())
                             if originals.setdefault(side, identity) != identity:
                                 raise ValueError("nondeterministic output across fresh processes")
                             run.update(matching_seconds=times, warmup_seconds=result["warmup_seconds"], matching=summary(times),
@@ -183,20 +239,31 @@ def main():
                     runs.append(run)
                     report["runs"].append(run)
                     destination.write_text(json.dumps(report, indent=2) + "\n")
-                if len(documents) == 2:
-                    rust, python = (documents[side]["datasets"][0] for side in ("rust", "python"))
+                if "rust_before" in documents and "rust" in documents:
+                    before = documents["rust_before"]["datasets"][0]
+                    after = documents["rust"]["datasets"][0]
+                    native_comparisons.append({"round": round_number + 1,
+                        "equivalent": before["input_sha256"] == after["input_sha256"]
+                        and documents["rust_before"]["dtype_mapping"] == documents["rust"]["dtype_mapping"]
+                        and native_identity(before["algorithms"][algorithm]) == native_identity(after["algorithms"][algorithm])})
+                for side in binaries:
+                    if side not in documents or "python" not in documents:
+                        continue
+                    rust, python = (documents[key]["datasets"][0] for key in (side, "python"))
                     context = (reference_provenance(documents["python"])["verified"] and
-                               documents["rust"]["dtype_mapping"] == documents["python"]["dtype_mapping"])
+                               documents[side]["dtype_mapping"] == documents["python"]["dtype_mapping"])
                     comparison = compare_case(path, algorithm, rust, python, input_checks(path, rust, python), context)
-                    comparison_path = directory / f"{name}-{algorithm}-comparison-{round_number}.json"
+                    comparison_path = directory / f"{name}-{algorithm}-{side}-comparison-{round_number}.json"
                     comparison_path.write_text(json.dumps(comparison, indent=2) + "\n")
                     comparisons.append({key: value for key, value in comparison.items() if not isinstance(value, (list, dict))} |
-                                       {"details": comparison_path.relative_to(ROOT).as_posix()})
-            valid = len(comparisons) == args.rounds and all(case["equivalent"] for case in comparisons) and all("error" not in run for run in runs)
+                                       {"side": side, "details": comparison_path.relative_to(ROOT).as_posix()})
+            native_valid = not args.baseline_binary or (len(native_comparisons) == args.rounds and all(case["equivalent"] for case in native_comparisons))
+            valid = (len(comparisons) == args.rounds * len(binaries) and all(case["equivalent"] for case in comparisons)
+                     and native_valid and all("error" not in run for run in runs))
             item = {"case": name, "algorithm": algorithm, "status": ("equivalent" if valid else "incomplete (execution failure)"
                                if any("error" in run for run in runs) else "non-equivalent"),
-                    "parity": comparisons, "speedup": None}
-            for side in ("rust", "python"):
+                    "parity": comparisons, "native_equivalence": native_comparisons, "speedup": None, "native_speedup": None}
+            for side in (*binaries, "python"):
                 successful = [run for run in runs if run["side"] == side and "error" not in run]
                 if successful:
                     item[side] = {"matching_ms": summary([run["matching"]["median"] * 1000 for run in successful]),
@@ -204,6 +271,8 @@ def main():
                                   "process_wall_seconds": summary([run["process_wall_seconds"] for run in successful])}
             if valid:
                 item["speedup"] = item["python"]["matching_ms"]["median"] / item["rust"]["matching_ms"]["median"]
+                if args.baseline_binary:
+                    item["native_speedup"] = item["rust_before"]["matching_ms"]["median"] / item["rust"]["matching_ms"]["median"]
             report["comparisons"].append(item)
             destination.write_text(json.dumps(report, indent=2) + "\n")
             destination.with_suffix(".md").write_text(markdown(report))

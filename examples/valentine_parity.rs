@@ -9,6 +9,10 @@ use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
 use std::{collections::BTreeMap, fs, path::PathBuf, time::Instant};
 
+#[path = "support/performance.rs"]
+mod performance;
+use performance::results_digest;
+
 #[derive(Deserialize)]
 struct Dataset {
     name: String,
@@ -126,6 +130,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 let elapsed = started.elapsed().as_secs_f64();
                 let mut report = match result {
                     Ok(matches) => {
+                        let output_sha256 = results_digest(&matches)?;
                         let mut entries: Vec<_> = matches.iter().collect();
                         entries.sort_by_key(|(pair, _)| (*pair).clone());
                         let entries: Vec<Value> = entries
@@ -137,15 +142,18 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                             path.display(),
                             entries.len()
                         );
-                        json!({"matches":entries,"error":null,"elapsed_seconds":elapsed})
+                        json!({"matches":entries,"output_sha256":output_sha256,"error":null,"elapsed_seconds":elapsed})
                     }
                     Err(error) => {
                         eprintln!("{} {name}: ERROR {error}", path.display());
                         json!({"matches":[],"error":{"type":"fieldkin::Error","message":error.to_string()},"elapsed_seconds":elapsed})
                     }
                 };
-                let identity =
-                    Sha256::digest(serde_json::to_vec(&(&report["matches"], &report["error"]))?);
+                let identity = Sha256::digest(serde_json::to_vec(&(
+                    &report["matches"],
+                    &report["output_sha256"],
+                    &report["error"],
+                ))?);
                 if previous
                     .as_ref()
                     .is_some_and(|previous| previous != &identity)

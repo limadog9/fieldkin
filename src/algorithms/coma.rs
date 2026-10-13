@@ -2,7 +2,7 @@
 //! bidirectional multiple-match selection. Flat tables use self-node context,
 //! exactly as the current Valentine implementation does.
 
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::{BTreeMap, BTreeSet, HashMap};
 
 use serde::{Deserialize, Serialize};
 
@@ -191,49 +191,74 @@ fn document_tokens(text: &str) -> Vec<String> {
 
 type Vector = BTreeMap<String, f64>;
 
+struct TfidfColumn {
+    vectors: Vec<Vector>,
+    // Keep original document order and multiplicity for IDF and score sums.
+    occurrences: Vec<usize>,
+}
+
 struct TfidfCorpus {
-    columns: Vec<Vec<Vec<Vector>>>,
+    columns: Vec<Vec<TfidfColumn>>,
 }
 
 impl TfidfCorpus {
     fn new(tables: &[&Table]) -> Self {
-        let docs: Vec<Vec<Vec<Vec<String>>>> = tables
+        let docs: Vec<Vec<_>> = tables
             .iter()
             .map(|table| {
                 table
                     .columns
                     .iter()
                     .map(|column| {
-                        column
-                            .samples
-                            .iter()
-                            .filter(|s| !s.is_empty())
-                            .map(|s| document_tokens(s))
-                            .filter(|tokens| !tokens.is_empty())
-                            .collect()
+                        let mut documents = Vec::new();
+                        let mut occurrences = Vec::new();
+                        // Lookup only; vector indices follow sample order.
+                        let mut indices = HashMap::new();
+                        for sample in column.samples.iter().filter(|s| !s.is_empty()) {
+                            let index = if let Some(&index) = indices.get(sample.as_str()) {
+                                index
+                            } else {
+                                let tokens = document_tokens(sample);
+                                if tokens.is_empty() {
+                                    continue;
+                                }
+                                let index = documents.len();
+                                documents.push(tokens);
+                                indices.insert(sample.as_str(), index);
+                                index
+                            };
+                            occurrences.push(index);
+                        }
+                        (documents, occurrences)
                     })
                     .collect()
             })
             .collect();
-        let mut document_frequency = BTreeMap::<String, usize>::new();
+        let mut document_frequency = BTreeMap::<&str, usize>::new();
         let mut count = 0;
-        for doc in docs.iter().flatten().flatten() {
-            count += 1;
-            for token in doc.iter().collect::<BTreeSet<_>>() {
-                *document_frequency.entry(token.clone()).or_default() += 1;
+        for (documents, occurrences) in docs.iter().flatten() {
+            count += occurrences.len();
+            let mut multiplicities = vec![0; documents.len()];
+            for &index in occurrences {
+                multiplicities[index] += 1;
+            }
+            for (doc, multiplicity) in documents.iter().zip(multiplicities) {
+                for token in doc.iter().collect::<BTreeSet<_>>() {
+                    *document_frequency.entry(token.as_str()).or_default() += multiplicity;
+                }
             }
         }
         let idf: BTreeMap<_, _> = document_frequency
             .into_iter()
-            .map(|(token, freq)| (token, (count as f64 / freq as f64).ln()))
+            .map(|(token, freq)| (token.to_owned(), (count as f64 / freq as f64).ln()))
             .collect();
         let columns = docs
             .into_iter()
             .map(|table| {
                 table
                     .into_iter()
-                    .map(|column| {
-                        column
+                    .map(|(documents, occurrences)| {
+                        let vectors = documents
                             .into_iter()
                             .map(|doc| {
                                 let mut tf = BTreeMap::<String, f64>::new();
@@ -256,7 +281,11 @@ impl TfidfCorpus {
                                 }
                                 vector
                             })
-                            .collect()
+                            .collect();
+                        TfidfColumn {
+                            vectors,
+                            occurrences,
+                        }
                     })
                     .collect()
             })
@@ -267,15 +296,20 @@ impl TfidfCorpus {
     fn similarity(&self, source: usize, s: usize, target: usize, t: usize) -> f64 {
         let a = &self.columns[source][s];
         let b = &self.columns[target][t];
-        if a.is_empty() || b.is_empty() {
+        if a.vectors.is_empty() || b.vectors.is_empty() {
             return 0.0;
         }
         // A shared token already rules out the disjoint-vocabulary fast path.
-        if !a[0].keys().any(|token| b[0].contains_key(token)) {
-            let vocabulary: BTreeSet<_> = a.iter().flat_map(|vector| vector.keys()).collect();
+        if !a.vectors[0]
+            .keys()
+            .any(|token| b.vectors[0].contains_key(token))
+        {
+            let vocabulary: BTreeSet<_> =
+                a.vectors.iter().flat_map(|vector| vector.keys()).collect();
             // Preserve signed zero from the original loop for empty source vectors.
             if !vocabulary.is_empty()
                 && !b
+                    .vectors
                     .iter()
                     .flat_map(|vector| vector.keys())
                     .any(|token| vocabulary.contains(token))
@@ -283,10 +317,10 @@ impl TfidfCorpus {
                 return 0.0;
             }
         }
-        let mut row_max: Vec<f64> = vec![0.0; a.len()];
-        let mut col_max: Vec<f64> = vec![0.0; b.len()];
-        for (i, av) in a.iter().enumerate() {
-            for (j, bv) in b.iter().enumerate() {
+        let mut row_max: Vec<f64> = vec![0.0; a.vectors.len()];
+        let mut col_max: Vec<f64> = vec![0.0; b.vectors.len()];
+        for (i, av) in a.vectors.iter().enumerate() {
+            for (j, bv) in b.vectors.iter().enumerate() {
                 let cosine = av
                     .iter()
                     .map(|(token, value)| value * bv.get(token).unwrap_or(&0.0))
@@ -296,13 +330,114 @@ impl TfidfCorpus {
                 col_max[j] = col_max[j].max(cosine);
             }
         }
-        (row_max.iter().sum::<f64>() + col_max.iter().sum::<f64>()) / (a.len() + b.len()) as f64
+        // Expanding only the maxima preserves the former floating-point addition
+        // order, without repeating tokenization, normalization or cosine work.
+        (a.occurrences.iter().map(|&i| row_max[i]).sum::<f64>()
+            + b.occurrences.iter().map(|&j| col_max[j]).sum::<f64>())
+            / (a.occurrences.len() + b.occurrences.len()) as f64
     }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    // Keep the original expanded document preparation as a bounded oracle:
+    // every occurrence contributes independently to global IDF and its vector.
+    fn expanded_vectors(tables: &[&Table]) -> Vec<Vec<Vec<Vector>>> {
+        let documents: Vec<Vec<Vec<Vec<String>>>> = tables
+            .iter()
+            .map(|table| {
+                table
+                    .columns
+                    .iter()
+                    .map(|column| {
+                        column
+                            .samples
+                            .iter()
+                            .filter(|sample| !sample.is_empty())
+                            .map(|sample| document_tokens(sample))
+                            .filter(|tokens| !tokens.is_empty())
+                            .collect()
+                    })
+                    .collect()
+            })
+            .collect();
+        let mut frequency = BTreeMap::<&str, usize>::new();
+        let mut count = 0;
+        for document in documents.iter().flatten().flatten() {
+            count += 1;
+            for token in document.iter().map(String::as_str).collect::<BTreeSet<_>>() {
+                *frequency.entry(token).or_default() += 1;
+            }
+        }
+        documents
+            .iter()
+            .map(|table| {
+                table
+                    .iter()
+                    .map(|column| {
+                        column
+                            .iter()
+                            .map(|document| {
+                                let mut terms = BTreeMap::<String, f64>::new();
+                                for token in document {
+                                    *terms.entry(token.clone()).or_default() += 1.0;
+                                }
+                                let mut vector: Vector = terms
+                                    .into_iter()
+                                    .map(|(token, count_in_doc)| {
+                                        let idf =
+                                            (count as f64 / frequency[token.as_str()] as f64).ln();
+                                        (token, count_in_doc.sqrt() * idf)
+                                    })
+                                    .filter(|(_, value)| *value > 0.0)
+                                    .collect();
+                                let norm = vector
+                                    .values()
+                                    .map(|value| value * value)
+                                    .sum::<f64>()
+                                    .sqrt();
+                                if norm > 0.0 {
+                                    for value in vector.values_mut() {
+                                        *value /= norm;
+                                    }
+                                }
+                                vector
+                            })
+                            .collect()
+                    })
+                    .collect()
+            })
+            .collect()
+    }
+
+    fn expanded_similarity(a: &[Vector], b: &[Vector]) -> f64 {
+        if a.is_empty() || b.is_empty() {
+            return 0.0;
+        }
+        let matrix: Vec<Vec<f64>> = a
+            .iter()
+            .map(|av| {
+                b.iter()
+                    .map(|bv| {
+                        av.iter()
+                            .map(|(token, value)| value * bv.get(token).unwrap_or(&0.0))
+                            .sum::<f64>()
+                            .clamp(0.0, 1.0)
+                    })
+                    .collect()
+            })
+            .collect();
+        let rows: f64 = matrix
+            .iter()
+            .map(|row| row.iter().copied().fold(0.0, f64::max))
+            .sum();
+        let columns: f64 = (0..b.len())
+            .map(|j| matrix.iter().map(|row| row[j]).fold(0.0, f64::max))
+            .sum();
+        (rows + columns) / (a.len() + b.len()) as f64
+    }
 
     #[test]
     fn selection_is_bidirectional_retains_ties_and_delta_zero_disables_filter() {
@@ -329,7 +464,7 @@ mod tests {
     fn instance_scores_preserve_zero_and_overlapping_document_cosines() {
         let a = BTreeMap::from([("a".into(), 1.0)]);
         let b = BTreeMap::from([("b".into(), 1.0)]);
-        let cases = vec![
+        let cases = [
             vec![],
             vec![BTreeMap::new()],
             vec![a.clone()],
@@ -341,42 +476,177 @@ mod tests {
             ],
             vec![BTreeMap::new(), a, b],
         ];
+        let columns = || {
+            cases
+                .iter()
+                .map(|vectors| TfidfColumn {
+                    occurrences: (0..vectors.len()).collect(),
+                    vectors: vectors.clone(),
+                })
+                .collect()
+        };
         let corpus = TfidfCorpus {
-            columns: vec![cases.clone(), cases.clone()],
+            columns: vec![columns(), columns()],
         };
         for (i, a) in cases.iter().enumerate() {
             for (j, b) in cases.iter().enumerate() {
-                let expected = if a.is_empty() || b.is_empty() {
-                    0.0
-                } else {
-                    let matrix: Vec<Vec<f64>> = a
-                        .iter()
-                        .map(|av| {
-                            b.iter()
-                                .map(|bv| {
-                                    av.iter()
-                                        .map(|(token, value)| value * bv.get(token).unwrap_or(&0.0))
-                                        .sum::<f64>()
-                                        .clamp(0.0, 1.0)
-                                })
-                                .collect()
-                        })
-                        .collect();
-                    let rows: f64 = matrix
-                        .iter()
-                        .map(|row| row.iter().copied().fold(0.0, f64::max))
-                        .sum();
-                    let columns: f64 = (0..b.len())
-                        .map(|j| matrix.iter().map(|row| row[j]).fold(0.0, f64::max))
-                        .sum();
-                    (rows + columns) / (a.len() + b.len()) as f64
-                };
+                let expected = expanded_similarity(a, b);
                 assert_eq!(
                     corpus.similarity(0, i, 1, j).to_bits(),
                     expected.to_bits(),
                     "case {i}, {j}"
                 );
             }
+        }
+    }
+
+    #[test]
+    fn repeated_documents_preserve_expanded_idf_scores_details_and_selection() {
+        let samples = [
+            vec!["alpha alpha beta", "alpha gamma", "alpha alpha beta"],
+            vec!["beta delta", "alpha gamma", "beta delta", "", "the"],
+            vec![
+                "gamma gamma",
+                "zeta alpha beta",
+                "gamma gamma",
+                "gamma gamma",
+            ],
+            vec!["", "the", "東京", "🙂", "", "the"],
+            vec![
+                "ALPHA_beta",
+                "alpha beta",
+                "β alpha",
+                "İstanbul gamma",
+                "ALPHA_beta",
+            ],
+            vec!["single", "single", "single"],
+            vec!["other vocabulary", "other vocabulary", "isolated"],
+        ];
+        let tables: Vec<_> = (0..3)
+            .map(|table| {
+                Table::new(
+                    format!("table_{table}"),
+                    (0..samples.len())
+                        .map(|column| crate::Field {
+                            name: format!("column_{column}"),
+                            data_type: crate::DataType::Text,
+                            samples: samples[(column + table) % samples.len()]
+                                .iter()
+                                .map(|value| (*value).into())
+                                .collect(),
+                        })
+                        .collect(),
+                )
+                .unwrap()
+            })
+            .collect();
+        let references: Vec<_> = tables.iter().collect();
+        let expected = expanded_vectors(&references);
+        let corpus = TfidfCorpus::new(&references);
+        assert_eq!(corpus.columns[0][0].vectors.len(), 2);
+        assert_eq!(corpus.columns[0][0].occurrences, [0, 1, 0]);
+        assert!(corpus.columns[0][3].vectors.is_empty());
+        for (i, table) in expected.iter().enumerate() {
+            for (s, vectors) in table.iter().enumerate() {
+                let compressed = &corpus.columns[i][s];
+                for (position, &index) in compressed.occurrences.iter().enumerate() {
+                    let bits = |vector: &Vector| {
+                        vector
+                            .iter()
+                            .map(|(token, value)| (token.clone(), value.to_bits()))
+                            .collect::<Vec<_>>()
+                    };
+                    assert_eq!(bits(&compressed.vectors[index]), bits(&vectors[position]));
+                }
+                for (j, other) in expected.iter().enumerate() {
+                    for (t, target) in other.iter().enumerate() {
+                        assert_eq!(
+                            corpus.similarity(i, s, j, t).to_bits(),
+                            expanded_similarity(vectors, target).to_bits(),
+                            "tables {i}/{j}, columns {s}/{t}"
+                        );
+                    }
+                }
+            }
+        }
+        for (schema, max_n, delta, threshold, instance_weight) in [
+            (false, 0, 0.0, 0.0, 1.0),
+            (true, 0, 0.15, 0.0, 1.0),
+            (true, 1, 0.0, 0.25, 0.75),
+            (true, 1, 1.0, 1.0, 0.0),
+        ] {
+            let config = ComaConfig {
+                use_instances: true,
+                use_schema: schema,
+                max_n,
+                delta,
+                threshold,
+                instance_weight,
+            };
+            let mut matches = Vec::new();
+            let mut details = BTreeMap::new();
+            for i in 0..tables.len() {
+                for j in i + 1..tables.len() {
+                    let mut pair_details = BTreeMap::new();
+                    let matrix: Vec<Vec<_>> = tables[i]
+                        .columns
+                        .iter()
+                        .enumerate()
+                        .map(|(s, source)| {
+                            tables[j]
+                                .columns
+                                .iter()
+                                .enumerate()
+                                .map(|(t, target)| {
+                                    let instance =
+                                        expanded_similarity(&expected[i][s], &expected[j][t]);
+                                    let name = trigram_similarity(&source.name, &target.name)
+                                        .max(tokens_similarity(&source.name, &target.name));
+                                    let mut scores =
+                                        BTreeMap::from([("InstancesCM".into(), instance)]);
+                                    if schema {
+                                        scores.insert("NameCM".into(), name);
+                                    }
+                                    pair_details.insert((s, t), scores);
+                                    let weight = if schema { 1.0 } else { 0.0 } + instance_weight;
+                                    if weight == 0.0 {
+                                        0.0
+                                    } else {
+                                        (if schema { name } else { 0.0 }
+                                            + instance_weight * instance)
+                                            / weight
+                                    }
+                                })
+                                .collect()
+                        })
+                        .collect();
+                    for (s, t, score) in select_both_multiple(&matrix, &config) {
+                        let pair = ColumnPair::new(
+                            &tables[i].name,
+                            &tables[i].columns[s].name,
+                            &tables[j].name,
+                            &tables[j].columns[t].name,
+                        );
+                        matches.push((pair.clone(), score));
+                        details.insert(pair, pair_details.remove(&(s, t)).unwrap());
+                    }
+                }
+            }
+            let old = MatcherResults::with_details(matches, details).unwrap();
+            let actual = Coma::new(config)
+                .unwrap()
+                .get_matches_batch(&tables)
+                .unwrap();
+            assert_eq!(
+                actual
+                    .iter()
+                    .map(|(p, s)| (p, s.to_bits()))
+                    .collect::<Vec<_>>(),
+                old.iter()
+                    .map(|(p, s)| (p, s.to_bits()))
+                    .collect::<Vec<_>>()
+            );
+            assert_eq!(actual.details(), old.details());
         }
     }
 }

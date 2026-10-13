@@ -3,7 +3,7 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
     fmt,
-    sync::Arc,
+    sync::{Arc, OnceLock},
 };
 
 use rapidfuzz::distance::levenshtein::{Args, BatchComparator};
@@ -161,9 +161,10 @@ impl JaccardDistanceMatcher {
     /// Compare two value collections directly. Duplicates are ignored and empty
     /// collections have similarity zero, including when both are empty.
     pub fn set_similarity(&self, source: &[String], target: &[String]) -> Result<f64, Error> {
-        let source = unique_values(source);
-        let target = unique_values(target);
-        let embeddings = self.prepare_embeddings(source.iter().chain(&target).copied())?;
+        let source = PreparedValues::new(unique_values(source));
+        let target = PreparedValues::new(unique_values(target));
+        let embeddings =
+            self.prepare_embeddings(source.values.iter().chain(&target.values).copied())?;
         Ok(self.compare_sets(&source, &target, embeddings.as_ref()))
     }
 
@@ -189,32 +190,33 @@ impl JaccardDistanceMatcher {
 
     fn compare_sets(
         &self,
-        source: &[&str],
-        target: &[&str],
+        source: &PreparedValues<'_>,
+        target: &PreparedValues<'_>,
         embeddings: Option<&BTreeMap<String, Vec<f64>>>,
     ) -> f64 {
-        if source.is_empty() || target.is_empty() {
+        if source.values.is_empty() || target.values.is_empty() {
             return 0.0;
         }
-        let (a, b) = if source.len() <= target.len() {
+        let (a, b) = if source.values.len() <= target.values.len() {
             (source, target)
         } else {
             (target, source)
         };
         if embeddings.is_none() && self.config.distance_fun == StringDistanceFunction::Exact {
             let intersection = a
+                .values
                 .iter()
-                .filter(|value| b.binary_search(value).is_ok())
+                .filter(|value| b.values.binary_search(value).is_ok())
                 .count();
-            return self.aggregate(intersection, intersection, a.len(), b.len());
+            return self.aggregate(intersection, intersection, a.values.len(), b.values.len());
         }
         // Sorted identical lexical sets already give every value a partner.
         // Cosine must retain its actual rounded dot products, even for equality.
-        if embeddings.is_none() && a == b {
+        if embeddings.is_none() && a.values == b.values {
             return 1.0;
         }
         let mut a_match = 0;
-        let mut b_hits = vec![false; b.len()];
+        let mut b_hits = vec![false; b.values.len()];
         let mut b_match = 0;
         // RapidFuzz's Cython scorer converts score_cutoff through a C float
         // before comparing its f64 similarity. Its cdist result also uses f32.
@@ -224,40 +226,39 @@ impl JaccardDistanceMatcher {
         } else {
             f64::from(self.config.threshold_dist as f32)
         };
-        let b_lengths = (embeddings.is_none()
+        let bounds = (embeddings.is_none()
             && self.config.distance_fun == StringDistanceFunction::Levenshtein
             && threshold > 0.0)
-            .then(|| {
-                b.iter()
-                    .map(|value| value.chars().count())
-                    .collect::<Vec<_>>()
-            });
+            .then(|| (a.bounds(), b.bounds()));
         let levenshtein_args = Args::default().score_cutoff(threshold);
-        for value_a in a {
+        for (i, value_a) in a.values.iter().enumerate() {
             // Reuse the pattern for one-to-many comparisons and stop scoring
             // below the same rounded cutoff used to count qualifying partners.
             let levenshtein = (embeddings.is_none()
                 && self.config.distance_fun == StringDistanceFunction::Levenshtein
-                && b.len() > 1
-                && b_match < b.len())
+                && b.values.len() > 1
+                && b_match < b.values.len())
             .then(|| BatchComparator::new(value_a.chars()));
             let mut a_hit = false;
-            let a_length = b_lengths.as_ref().map_or(0, |_| value_a.chars().count());
-            for (j, value_b) in b.iter().enumerate() {
+            let (a_length, a_bigrams) = bounds.map_or((0, [0; 2]), |(a, _)| a[i]);
+            for (j, value_b) in b.values.iter().enumerate() {
                 // Only the existence of a qualifying partner matters. A pair
                 // whose endpoints both have partners cannot change the counts.
                 if a_hit && b_hits[j] {
                     continue;
                 }
-                if let Some(lengths) = &b_lengths {
-                    let b_length = lengths[j];
-                    // Levenshtein distance is at least the length difference.
-                    // Use character counts and the scorer's normalization so
-                    // this bound also preserves rounded cutoff boundaries.
-                    if a_length != b_length
-                        && 1.0
-                            - a_length.abs_diff(b_length) as f64 / (a_length.max(b_length) as f64)
-                            < threshold
+                if let Some((_, b_bounds)) = bounds {
+                    let (b_length, b_bigrams) = b_bounds[j];
+                    // An edit changes at most four bigram-presence bits. Hash
+                    // collisions only weaken this lower bound. Combine it with
+                    // the length bound and retain the scorer's normalization.
+                    let changed_bits = (a_bigrams[0] ^ b_bigrams[0]).count_ones()
+                        + (a_bigrams[1] ^ b_bigrams[1]).count_ones();
+                    let distance_bound = a_length
+                        .abs_diff(b_length)
+                        .max(changed_bits.div_ceil(4) as usize);
+                    if distance_bound > 0
+                        && 1.0 - distance_bound as f64 / (a_length.max(b_length) as f64) < threshold
                     {
                         continue;
                     }
@@ -283,14 +284,14 @@ impl JaccardDistanceMatcher {
                         b_hits[j] = true;
                         b_match += 1;
                     }
-                    if b_match == b.len() {
+                    if b_match == b.values.len() {
                         break;
                     }
                 }
             }
             a_match += usize::from(a_hit);
         }
-        self.aggregate(a_match, b_match, a.len(), b.len())
+        self.aggregate(a_match, b_match, a.values.len(), b.values.len())
     }
 
     fn aggregate(&self, a_match: usize, b_match: usize, a_size: usize, b_size: usize) -> f64 {
@@ -318,22 +319,29 @@ impl JaccardDistanceMatcher {
     fn match_tables(&self, tables: &[&Table]) -> Result<MatcherResults, Error> {
         self.config.validate()?;
         super::validate_tables(tables.iter().copied())?;
-        let values: Vec<Vec<Vec<&str>>> = tables
+        let values: Vec<Vec<PreparedValues<'_>>> = tables
             .iter()
             .map(|table| {
                 table
                     .columns
                     .iter()
                     .map(|column| {
-                        unique_values(&column.samples)
-                            .into_iter()
-                            .filter(|value| !value.is_empty())
-                            .collect()
+                        PreparedValues::new(
+                            unique_values(&column.samples)
+                                .into_iter()
+                                .filter(|value| !value.is_empty())
+                                .collect(),
+                        )
                     })
                     .collect()
             })
             .collect();
-        let embeddings = self.prepare_embeddings(values.iter().flatten().flatten().copied())?;
+        let embeddings = self.prepare_embeddings(
+            values
+                .iter()
+                .flatten()
+                .flat_map(|column| column.values.iter().copied()),
+        )?;
         let mut pairs = Vec::new();
         for (i, source) in tables.iter().enumerate() {
             for (j, target) in tables.iter().enumerate().skip(i + 1) {
@@ -346,14 +354,14 @@ impl JaccardDistanceMatcher {
                                 target.name.clone(),
                                 target_column.name.clone(),
                             ),
-                            values[i][source_index].as_slice(),
-                            values[j][target_index].as_slice(),
+                            &values[i][source_index],
+                            &values[j][target_index],
                         ));
                     }
                 }
             }
         }
-        let score_chunk = |chunk: &[(ColumnPair, &[&str], &[&str])]| {
+        let score_chunk = |chunk: &[(ColumnPair, &PreparedValues<'_>, &PreparedValues<'_>)]| {
             chunk
                 .iter()
                 .filter_map(|(pair, source, target)| {
@@ -398,6 +406,30 @@ impl Matcher for JaccardDistanceMatcher {
     }
 }
 
+struct PreparedValues<'a> {
+    values: Vec<&'a str>,
+    // Shared only during this matching call, including its scoring workers.
+    bounds: OnceLock<Vec<(usize, [u64; 2])>>,
+}
+
+impl<'a> PreparedValues<'a> {
+    fn new(values: Vec<&'a str>) -> Self {
+        Self {
+            values,
+            bounds: OnceLock::new(),
+        }
+    }
+
+    fn bounds(&self) -> &[(usize, [u64; 2])] {
+        self.bounds.get_or_init(|| {
+            self.values
+                .iter()
+                .map(|value| levenshtein_metadata(value))
+                .collect()
+        })
+    }
+}
+
 fn unique_values(values: &[String]) -> Vec<&str> {
     values
         .iter()
@@ -405,6 +437,24 @@ fn unique_values(values: &[String]) -> Vec<&str> {
         .collect::<BTreeSet<_>>()
         .into_iter()
         .collect()
+}
+
+fn levenshtein_metadata(value: &str) -> (usize, [u64; 2]) {
+    let mut length = 0;
+    let mut bigrams = [0; 2];
+    let mut previous = None;
+    for character in value.chars() {
+        let character = u64::from(u32::from(character));
+        if let Some(previous) = previous.replace(character) {
+            let pair = (previous << 32) | character;
+            // The hash need not be collision-free: merged bits cannot make
+            // one edit change more than four bits in the presence bitmap.
+            let bucket = (pair.wrapping_mul(0x9e37_79b9_7f4a_7c15) >> 57) as usize;
+            bigrams[bucket >> 6] |= 1 << (bucket & 63);
+        }
+        length += 1;
+    }
+    (length, bigrams)
 }
 
 fn normalize_vectors(
@@ -445,4 +495,60 @@ fn normalize_vectors(
         normalized.push(scaled.into_iter().map(|value| value / norm).collect());
     }
     Ok(normalized)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn edit_distance(a: &str, b: &str) -> usize {
+        let b: Vec<_> = b.chars().collect();
+        let mut row: Vec<_> = (0..=b.len()).collect();
+        for (i, a) in a.chars().enumerate() {
+            let mut next = vec![i + 1];
+            for (j, b) in b.iter().enumerate() {
+                next.push(
+                    (next[j] + 1)
+                        .min(row[j + 1] + 1)
+                        .min(row[j] + usize::from(a != *b)),
+                );
+            }
+            row = next;
+        }
+        row[b.len()]
+    }
+
+    #[test]
+    fn bigram_bound_is_below_exhaustive_unicode_edit_distance() {
+        let alphabet = ['a', 'é', '🙂'];
+        let mut values = vec![String::new()];
+        for length in 1..=4 {
+            for mut index in 0..alphabet.len().pow(length) {
+                values.push(
+                    (0..length)
+                        .map(|_| {
+                            let character = alphabet[index % alphabet.len()];
+                            index /= alphabet.len();
+                            character
+                        })
+                        .collect(),
+                );
+            }
+        }
+        // More distinct bigrams than bits also exercises hash collisions.
+        values.extend((0..=255).map(|character| format!("a{}", char::from(character))));
+        for a in &values {
+            let (a_length, a_bigrams) = levenshtein_metadata(a);
+            assert_eq!(a_length, a.chars().count());
+            for b in &values {
+                let (b_length, b_bigrams) = levenshtein_metadata(b);
+                let changed_bits = (a_bigrams[0] ^ b_bigrams[0]).count_ones()
+                    + (a_bigrams[1] ^ b_bigrams[1]).count_ones();
+                let bound = a_length
+                    .abs_diff(b_length)
+                    .max(changed_bits.div_ceil(4) as usize);
+                assert!(bound <= edit_distance(a, b), "{a:?} / {b:?}: {bound}");
+            }
+        }
+    }
 }

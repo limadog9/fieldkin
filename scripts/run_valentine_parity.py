@@ -240,7 +240,11 @@ def main():
                 "defaults": defaults, "overrides": {"use_instances": True} if algorithm == "coma_instances" else {}}
             measured, warmups, preparation = [], [], []
             previous = None
+            matches = None
             for iteration in range(args.warmups + args.repetitions):
+                # Rust drops the preceding results outside its matching timer.
+                # Release Python's mapping here instead of during timed assignment.
+                matches = None
                 # Fresh adapters and matcher prevent mutable per-matcher caches
                 # from benefiting later runs. Constructors are outside matching.
                 started = time.perf_counter()
