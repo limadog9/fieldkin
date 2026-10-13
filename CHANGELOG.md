@@ -1,6 +1,14 @@
 # Changelog
 
-## Unreleased
+## 0.2.1 - 2026-10-13
+
+- Reuse identical COMA instance documents while preserving global IDF, sample
+  multiplicity and floating-point summation order. Large repeat-heavy matching
+  measured 43.5 times faster with 75% lower process peak memory.
+- Reject impossible Jaccard Levenshtein comparisons using a proven Unicode
+  bigram bound, preserving cutoff behavior and exact matching results. Large
+  matching measured 8.1 times faster; difficult clustering and long-string
+  tradeoffs remain documented in the reproducible performance report.
 
 - Require sufficient name/type evidence when suggestions lack samples, preventing
   missing observations from promoting weak matches without changing the ranking formula.

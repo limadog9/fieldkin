@@ -21,7 +21,7 @@ Install the release from [crates.io](https://crates.io/crates/fieldkin):
 
 ```toml
 [dependencies]
-fieldkin = "0.2.0"
+fieldkin = "0.2.1"
 ```
 
 Optional features: `polars` for native Polars DataFrames and `embeddings` for
