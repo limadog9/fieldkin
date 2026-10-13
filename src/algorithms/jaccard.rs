@@ -445,7 +445,8 @@ fn unique_values(values: &[String]) -> Vec<&str> {
 }
 
 fn levenshtein_metadata(value: &str, threshold: f64) -> (usize, [u64; 2]) {
-    let length = value.chars().count();
+    // An explicit scalar fold avoids a measured dense-scoring codegen regression.
+    let length = value.chars().fold(0_usize, |length, _| length + 1);
     let mut bigrams = [0; 2];
     // A 128-bit fingerprint contributes at most 32 edits. For any pair
     // containing this value, the maximum length is at least this length:
