@@ -226,10 +226,14 @@ impl JaccardDistanceMatcher {
         } else {
             f64::from(self.config.threshold_dist as f32)
         };
-        let bounds = (embeddings.is_none()
+        let bounds = if embeddings.is_none()
             && self.config.distance_fun == StringDistanceFunction::Levenshtein
-            && threshold > 0.0)
-            .then(|| (a.bounds(threshold), b.bounds(threshold)));
+            && threshold > 0.0
+        {
+            Some((a.bounds(threshold), b.bounds(threshold)))
+        } else {
+            None
+        };
         let levenshtein_args = Args::default().score_cutoff(threshold);
         for (i, value_a) in a.values.iter().enumerate() {
             // Reuse the pattern for one-to-many comparisons and stop scoring
@@ -421,8 +425,6 @@ impl<'a> PreparedValues<'a> {
     }
 
     // The rounded cutoff is fixed throughout this matching call, including workers.
-    // Keep the metadata initializer out of the pair-comparison hot loop.
-    #[inline(never)]
     fn bounds(&self, threshold: f64) -> &[(usize, [u64; 2])] {
         self.bounds.get_or_init(|| {
             self.values
