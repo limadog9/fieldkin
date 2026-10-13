@@ -589,12 +589,24 @@ mod tests {
         values.bounds(threshold);
         assert_eq!(FINGERPRINT_BUILDS.with(|count| count.get()), 2);
         // A new operation with a high cutoff still builds useful long fingerprints.
-        let high = PreparedValues::new(vec![&long]);
-        assert_ne!(high.bounds(f64::from(0.99_f32))[0].1, [0; 2]);
-        assert_eq!(FINGERPRINT_BUILDS.with(|count| count.get()), 3);
+        let diverse = |alphabet: &str| {
+            alphabet
+                .chars()
+                .flat_map(|a| alphabet.chars().flat_map(move |b| [a, b]))
+                .collect::<String>()
+                .repeat(4)
+        };
+        let left = diverse("abcdefghi");
+        let right = diverse("JKLMNOPQR");
+        let high = PreparedValues::new(vec![&left, &right]);
+        let bounds = high.bounds(f64::from(0.99_f32));
+        let changed_bits = (bounds[0].1[0] ^ bounds[1].1[0]).count_ones()
+            + (bounds[0].1[1] ^ bounds[1].1[1]).count_ones();
+        assert!(1.0 - f64::from(changed_bits.div_ceil(4)) / (bounds[0].0 as f64) < 0.99);
+        assert_eq!(FINGERPRINT_BUILDS.with(|count| count.get()), 4);
         // Equality at the derived bound must pass, without hashing.
         assert_eq!(levenshtein_metadata(&"é".repeat(128), 0.75).1, [0; 2]);
-        assert_eq!(FINGERPRINT_BUILDS.with(|count| count.get()), 3);
+        assert_eq!(FINGERPRINT_BUILDS.with(|count| count.get()), 4);
         let a = PreparedValues::new(vec!["short", &long]);
         let b = PreparedValues::new(vec![&beyond, "shorter"]);
         for distance_fun in [
@@ -619,6 +631,6 @@ mod tests {
         JaccardDistanceMatcher::default().compare_sets(&a, &b, Some(&embeddings));
         JaccardDistanceMatcher::default().compare_sets(&a, &a, None);
         assert!(a.bounds.get().is_none() && b.bounds.get().is_none());
-        assert_eq!(FINGERPRINT_BUILDS.with(|count| count.get()), 3);
+        assert_eq!(FINGERPRINT_BUILDS.with(|count| count.get()), 4);
     }
 }
