@@ -18,6 +18,8 @@ struct Dataset {
     name: String,
     source: Schema,
     target: Schema,
+    #[serde(default)]
+    jaccard_threshold: Option<f64>,
 }
 
 fn canonical_schema(mut schema: Schema) -> Schema {
@@ -89,6 +91,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             Table::from_schema("target", &canonical_schema(dataset.target)),
         ];
         let input_loading_seconds = loading_started.elapsed().as_secs_f64();
+        let mut jaccard_config = JaccardConfig::default();
+        if let Some(threshold) = dataset.jaccard_threshold {
+            jaccard_config.threshold_dist = threshold;
+        }
         let matchers: Vec<(&str, Box<dyn Matcher>)> = vec![
             ("coma", Box::new(Coma::default())),
             (
@@ -103,7 +109,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             ("flooding", Box::new(SimilarityFlooding::default())),
             (
                 "jaccard",
-                Box::new(JaccardDistanceMatcher::new(JaccardConfig::default())?),
+                Box::new(JaccardDistanceMatcher::new(jaccard_config)?),
             ),
         ];
         if let Some(unknown) = selected

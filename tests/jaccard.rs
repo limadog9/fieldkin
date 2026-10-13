@@ -429,6 +429,30 @@ fn lexical_hit_skipping_is_bitwise_identical_to_full_cartesian_comparison() {
 
 #[test]
 fn levenshtein_pruning_and_cached_patterns_preserve_unicode_and_cutoff_boundaries() {
+    let check = |source: &[String], target: &[String], threshold_dist| {
+        let config = JaccardConfig {
+            threshold_dist,
+            tversky_alpha: 2.0,
+            tversky_beta: 0.5,
+            ..Default::default()
+        };
+        let expected = cartesian_set_similarity(
+            source,
+            target,
+            &config,
+            f64::from(threshold_dist as f32),
+            |a, b| similarity(a, b, Distance::Levenshtein),
+        );
+        let actual = JaccardDistanceMatcher::new(config)
+            .unwrap()
+            .set_similarity(source, target)
+            .unwrap();
+        assert_eq!(
+            actual.to_bits(),
+            expected.to_bits(),
+            "cutoff {threshold_dist}: {source:?} / {target:?}"
+        );
+    };
     let mut source = values(&["", "a", "abcd", "abcdefghij", "é", "東京🙂"]);
     source.extend(values(&[
         "abcdefghijklmnop",
@@ -465,25 +489,75 @@ fn levenshtein_pruning_and_cached_patterns_preserve_unicode_and_cutoff_boundarie
         1.0,
     ] {
         for (source, target) in [(&source, &target), (&target, &source)] {
-            let config = JaccardConfig {
-                threshold_dist,
-                tversky_alpha: 2.0,
-                tversky_beta: 0.5,
-                ..Default::default()
-            };
-            let expected = cartesian_set_similarity(
-                source,
-                target,
-                &config,
-                f64::from(threshold_dist as f32),
-                |a, b| similarity(a, b, Distance::Levenshtein),
-            );
-            let actual = JaccardDistanceMatcher::new(config)
-                .unwrap()
-                .set_similarity(source, target)
-                .unwrap();
-            assert_eq!(actual.to_bits(), expected.to_bits());
+            check(source, target, threshold_dist);
         }
+    }
+    // The 128-bit fingerprint can establish at most 32 edits. Exercise both
+    // sides of its usefulness boundary after the scorer's f32 cutoff rounding,
+    // including equality at exactly representable cutoffs and the midpoint
+    // between adjacent f32 values. Keep these sets small for the long cases.
+    let midpoint = (f64::from(0.8_f32) + f64::from(0.8_f32.next_down())) / 2.0;
+    for threshold_dist in [
+        0.0,
+        0.25,
+        0.5,
+        0.75,
+        midpoint.next_down(),
+        midpoint,
+        midpoint.next_up(),
+        0.8,
+        f64::from(0.8_f32.next_up()),
+        0.875,
+        0.99,
+        1.0,
+    ] {
+        let threshold = f64::from(threshold_dist as f32);
+        // No finite length makes a positive edit bound useless at cutoff one.
+        let mut boundary = if threshold == 1.0 {
+            256
+        } else {
+            (32.0 / (1.0 - threshold)).ceil() as usize
+        };
+        if threshold < 1.0 {
+            while 1.0 - 32.0 / (boundary as f64) < threshold {
+                boundary += 1;
+            }
+            while boundary > 1 && 1.0 - 32.0 / ((boundary - 1) as f64) >= threshold {
+                boundary -= 1;
+            }
+        }
+        for length in [boundary - 1, boundary, boundary + 1] {
+            let ascii: String = "abcdefghijklmnop".chars().cycle().take(length).collect();
+            let unicode: String = "é界🙂\0e\u{301}".chars().cycle().take(length).collect();
+            let changed: String =
+                "Z".repeat(length.min(32)) + &ascii.chars().skip(32).collect::<String>();
+            let source = vec![
+                String::new(),
+                "short".to_owned(),
+                ascii.clone(),
+                ascii,
+                unicode,
+            ];
+            let target = vec![
+                String::new(),
+                "shorter".to_owned(),
+                changed,
+                "Ω".repeat(length),
+                format!("{}X", "a".repeat(length.saturating_sub(1))),
+            ];
+            check(&source, &target, threshold_dist);
+            check(&target, &source, threshold_dist);
+        }
+        // Long shared affixes and disjoint multibyte strings still admit useful
+        // fingerprint bounds at a high cutoff, even though the default cutoff
+        // cannot benefit at these lengths.
+        let source = vec![format!("{}middle{}", "a".repeat(128), "b".repeat(128))];
+        let target = vec![
+            format!("{}muddle{}", "a".repeat(128), "b".repeat(128)),
+            "東京🙂".repeat(88),
+        ];
+        check(&source, &target, threshold_dist);
+        check(&target, &source, threshold_dist);
     }
     // Character counts admit this match; a bound using UTF-8 byte lengths
     // would incorrectly reject it because the emoji occupies four bytes.
@@ -614,6 +688,11 @@ fn fuzzy_columns_share_prepared_bounds_across_workers_and_batches() {
                             format!("{stem}-{suffix}"),
                             format!("東京🙂{column}-long-{suffix}"),
                             format!("shared-value-{suffix}"),
+                            // At the rounded default cutoff, scalar lengths
+                            // 160 and 161 straddle fingerprint eligibility.
+                            format!("{}{}", "é".repeat(159), suffix),
+                            format!("{}{}", "界".repeat(160), suffix),
+                            format!("{}-{suffix}-{}", "a".repeat(128), "b".repeat(128)),
                         ]
                     },
                 })
@@ -621,31 +700,38 @@ fn fuzzy_columns_share_prepared_bounds_across_workers_and_batches() {
         )
         .unwrap()
     });
-    let serial = JaccardDistanceMatcher::default();
-    let parallel = JaccardDistanceMatcher::new(JaccardConfig {
-        process_num: 4,
-        ..Default::default()
-    })
-    .unwrap();
-    for (serial, parallel) in [
-        (
-            serial.get_matches(&tables[0], &tables[1]).unwrap(),
-            parallel.get_matches(&tables[0], &tables[1]).unwrap(),
-        ),
-        (
-            serial.get_matches_batch(&tables).unwrap(),
-            parallel.get_matches_batch(&tables).unwrap(),
-        ),
-    ] {
-        assert!(!serial.is_empty());
-        let bits = |results: &fieldkin::MatcherResults| {
-            results
-                .iter()
-                .map(|(pair, score)| (pair.clone(), score.to_bits()))
-                .collect::<Vec<_>>()
-        };
-        assert_eq!(bits(&serial), bits(&parallel));
-        assert_eq!(serial.details(), parallel.details());
+    for threshold_dist in [0.8, 0.99] {
+        let serial = JaccardDistanceMatcher::new(JaccardConfig {
+            threshold_dist,
+            ..Default::default()
+        })
+        .unwrap();
+        let parallel = JaccardDistanceMatcher::new(JaccardConfig {
+            threshold_dist,
+            process_num: 4,
+            ..Default::default()
+        })
+        .unwrap();
+        for (serial, parallel) in [
+            (
+                serial.get_matches(&tables[0], &tables[1]).unwrap(),
+                parallel.get_matches(&tables[0], &tables[1]).unwrap(),
+            ),
+            (
+                serial.get_matches_batch(&tables).unwrap(),
+                parallel.get_matches_batch(&tables).unwrap(),
+            ),
+        ] {
+            assert!(!serial.is_empty());
+            let bits = |results: &fieldkin::MatcherResults| {
+                results
+                    .iter()
+                    .map(|(pair, score)| (pair.clone(), score.to_bits()))
+                    .collect::<Vec<_>>()
+            };
+            assert_eq!(bits(&serial), bits(&parallel));
+            assert_eq!(serial.details(), parallel.details());
+        }
     }
 }
 

@@ -38,6 +38,8 @@ class BenchmarkTests(unittest.TestCase):
         self.assertEqual(side_order(True, 3), orders[0])
         self.assertEqual(side_order(False, 0), ("rust", "python"))
         self.assertEqual(side_order(False, 1), ("python", "rust"))
+        self.assertEqual(side_order(True, 0, native_only=True), ("rust_before", "rust"))
+        self.assertEqual(side_order(True, 1, native_only=True), ("rust", "rust_before"))
 
     def test_native_identity_requires_an_exact_output_fingerprint(self):
         self.assertEqual(native_identity({"output_sha256": "a" * 64}), "a" * 64)

@@ -229,7 +229,7 @@ impl JaccardDistanceMatcher {
         let bounds = (embeddings.is_none()
             && self.config.distance_fun == StringDistanceFunction::Levenshtein
             && threshold > 0.0)
-            .then(|| (a.bounds(), b.bounds()));
+            .then(|| (a.bounds(threshold), b.bounds(threshold)));
         let levenshtein_args = Args::default().score_cutoff(threshold);
         for (i, value_a) in a.values.iter().enumerate() {
             // Reuse the pattern for one-to-many comparisons and stop scoring
@@ -420,11 +420,12 @@ impl<'a> PreparedValues<'a> {
         }
     }
 
-    fn bounds(&self) -> &[(usize, [u64; 2])] {
+    // The rounded cutoff is fixed throughout this matching call, including workers.
+    fn bounds(&self, threshold: f64) -> &[(usize, [u64; 2])] {
         self.bounds.get_or_init(|| {
             self.values
                 .iter()
-                .map(|value| levenshtein_metadata(value))
+                .map(|value| levenshtein_metadata(value, threshold))
                 .collect()
         })
     }
@@ -439,9 +440,18 @@ fn unique_values(values: &[String]) -> Vec<&str> {
         .collect()
 }
 
-fn levenshtein_metadata(value: &str) -> (usize, [u64; 2]) {
-    let mut length = 0;
+fn levenshtein_metadata(value: &str, threshold: f64) -> (usize, [u64; 2]) {
+    let length = value.chars().count();
     let mut bigrams = [0; 2];
+    // A 128-bit fingerprint contributes at most 32 edits. For any pair
+    // containing this value, the maximum length is at least this length:
+    // neither the real nor zero bitmap can reject unless length alone does.
+    // Retain the rejection expression's arithmetic and inclusive cutoff.
+    if length == 0 || 1.0 - 32.0 / (length as f64) >= threshold {
+        return (length, bigrams);
+    }
+    #[cfg(test)]
+    tests::FINGERPRINT_BUILDS.with(|count| count.set(count.get() + 1));
     let mut previous = None;
     for character in value.chars() {
         let character = u64::from(u32::from(character));
@@ -452,7 +462,6 @@ fn levenshtein_metadata(value: &str) -> (usize, [u64; 2]) {
             let bucket = (pair.wrapping_mul(0x9e37_79b9_7f4a_7c15) >> 57) as usize;
             bigrams[bucket >> 6] |= 1 << (bucket & 63);
         }
-        length += 1;
     }
     (length, bigrams)
 }
@@ -501,6 +510,10 @@ fn normalize_vectors(
 mod tests {
     use super::*;
 
+    thread_local! {
+        pub(super) static FINGERPRINT_BUILDS: std::cell::Cell<usize> = const { std::cell::Cell::new(0) };
+    }
+
     fn edit_distance(a: &str, b: &str) -> usize {
         let b: Vec<_> = b.chars().collect();
         let mut row: Vec<_> = (0..=b.len()).collect();
@@ -538,10 +551,10 @@ mod tests {
         // More distinct bigrams than bits also exercises hash collisions.
         values.extend((0..=255).map(|character| format!("a{}", char::from(character))));
         for a in &values {
-            let (a_length, a_bigrams) = levenshtein_metadata(a);
+            let (a_length, a_bigrams) = levenshtein_metadata(a, 1.0);
             assert_eq!(a_length, a.chars().count());
             for b in &values {
-                let (b_length, b_bigrams) = levenshtein_metadata(b);
+                let (b_length, b_bigrams) = levenshtein_metadata(b, 1.0);
                 let changed_bits = (a_bigrams[0] ^ b_bigrams[0]).count_ones()
                     + (a_bigrams[1] ^ b_bigrams[1]).count_ones();
                 let bound = a_length
@@ -550,5 +563,57 @@ mod tests {
                 assert!(bound <= edit_distance(a, b), "{a:?} / {b:?}: {bound}");
             }
         }
+    }
+
+    #[test]
+    fn unnecessary_fingerprints_are_not_constructed() {
+        let long = "界".repeat(544);
+        let near = "a".repeat(160);
+        let beyond = "a".repeat(161);
+        let threshold = f64::from(0.8_f32);
+        FINGERPRINT_BUILDS.with(|count| count.set(0));
+        let values = PreparedValues::new(vec!["", "short", &near, &beyond, &long]);
+        let bounds = values.bounds(threshold);
+        assert_eq!(
+            bounds.iter().map(|(length, _)| *length).collect::<Vec<_>>(),
+            [0, 5, 160, 161, 544]
+        );
+        assert_eq!(FINGERPRINT_BUILDS.with(|count| count.get()), 2);
+        assert_eq!(bounds[3].1, [0; 2]);
+        assert_eq!(bounds[4].1, [0; 2]);
+        values.bounds(threshold);
+        assert_eq!(FINGERPRINT_BUILDS.with(|count| count.get()), 2);
+        // A new operation with a high cutoff still builds useful long fingerprints.
+        let high = PreparedValues::new(vec![&long]);
+        assert_ne!(high.bounds(f64::from(0.99_f32))[0].1, [0; 2]);
+        assert_eq!(FINGERPRINT_BUILDS.with(|count| count.get()), 3);
+        // Equality at the derived bound must pass, without hashing.
+        assert_eq!(levenshtein_metadata(&"é".repeat(128), 0.75).1, [0; 2]);
+        assert_eq!(FINGERPRINT_BUILDS.with(|count| count.get()), 3);
+        let a = PreparedValues::new(vec!["short", &long]);
+        let b = PreparedValues::new(vec![&beyond, "shorter"]);
+        for distance_fun in [
+            StringDistanceFunction::Exact,
+            StringDistanceFunction::Jaro,
+            StringDistanceFunction::Levenshtein,
+        ] {
+            let matcher = JaccardDistanceMatcher::new(JaccardConfig {
+                threshold_dist: 0.0,
+                distance_fun,
+                ..Default::default()
+            })
+            .unwrap();
+            matcher.compare_sets(&a, &b, None);
+        }
+        let embeddings = a
+            .values
+            .iter()
+            .chain(&b.values)
+            .map(|value| ((*value).to_owned(), vec![1.0]))
+            .collect();
+        JaccardDistanceMatcher::default().compare_sets(&a, &b, Some(&embeddings));
+        JaccardDistanceMatcher::default().compare_sets(&a, &a, None);
+        assert!(a.bounds.get().is_none() && b.bounds.get().is_none());
+        assert_eq!(FINGERPRINT_BUILDS.with(|count| count.get()), 3);
     }
 }

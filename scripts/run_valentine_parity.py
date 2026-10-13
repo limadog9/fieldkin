@@ -250,7 +250,9 @@ def main():
                 started = time.perf_counter()
                 source = InputTable("source", data["source"]["fields"])
                 target = InputTable("target", data["target"]["fields"])
-                matcher = MATCHERS[algorithm]()
+                matcher = (JaccardDistanceMatcher(threshold_dist=data["jaccard_threshold"])
+                           if algorithm == "jaccard" and "jaccard_threshold" in data
+                           else MATCHERS[algorithm]())
                 preparation.append(time.perf_counter() - started)
                 started = time.perf_counter()
                 try:

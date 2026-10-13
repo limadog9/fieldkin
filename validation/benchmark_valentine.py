@@ -54,8 +54,8 @@ def summary(values):
     return {"median": statistics.median(values), "min": min(values), "max": max(values)}
 
 
-def side_order(baseline, round_number):
-    sides = ("rust_before", "rust", "python") if baseline else ("rust", "python")
+def side_order(baseline, round_number, native_only=False):
+    sides = ("rust_before", "rust") if native_only else ("rust_before", "rust", "python") if baseline else ("rust", "python")
     offset = round_number % len(sides)
     return sides[offset:] + sides[:offset]
 
@@ -74,7 +74,9 @@ def markdown(report):
     lines = ["# Rust versus Python Valentine", "", "Matching medians are medians of fresh-process medians; ranges span those medians.",
              "RSS is median lifetime process VmHWM in MiB, including setup, inputs, matching and output verification/reporting; child processes are excluded.",
              "Rust samples before final serialization; Python after preceding checkpoint serialization. This is not incremental matcher or process-tree memory.",
-             "Speedups require every run to succeed, repeat exactly within each runtime, and pass pair/score/ranking parity.",
+             ("Native-only: Python is not executed. Native ratios require every run to succeed and exact before/after outputs."
+              if report.get("settings", {}).get("native_only") else
+              "Speedups require every run to succeed, repeat exactly within each runtime, and pass pair/score/ranking parity."),
              *(["Rust before/after also require identical ordered score/detail bits and result selections."] if baseline else []), "",
              ("| Case | Algorithm | Rust before ms [range] | Rust after ms [range] | Python ms [range] | Before/after/Python peak MiB | Python/after | Before/after | Status |" if baseline else
               "| Case | Algorithm | Rust ms [range] | Python ms [range] | Rust/Python peak MiB | Speedup | Status |"),
@@ -106,11 +108,14 @@ def main():
     parser.add_argument("--warmups", type=int, default=1)
     parser.add_argument("--timeout", type=float, default=180)
     parser.add_argument("--upstream", action="store_true", help="Original unpatched reference (default: recorded fixes)")
+    parser.add_argument("--native-only", action="store_true", help="Compare two Rust binaries without running Python")
     args = parser.parse_args()
     if min(args.rounds, args.repetitions, args.timeout) <= 0 or args.warmups < 0 or not math.isfinite(args.timeout):
         parser.error("rounds, repetitions, timeout must be positive; warmups nonnegative")
     if bool(args.baseline_binary) != bool(args.baseline_revision):
         parser.error("--baseline-binary and --baseline-revision must be supplied together")
+    if args.native_only and not args.baseline_binary:
+        parser.error("--native-only requires --baseline-binary and --baseline-revision")
     if args.baseline_revision:
         revision = command(["git", "rev-parse", "--verify", f"{args.baseline_revision}^{{commit}}"])
         if revision is None:
@@ -175,7 +180,8 @@ def main():
               "rss_scope": "Linux lifetime process VmHWM including setup, inputs, matching, output verification and report construction; "
                            "Rust samples before final serialization, Python after preceding checkpoint serialization; excludes children (including CBC); "
                            "wait4 maximum is separate and includes inherited pre-exec watermark; neither is incremental matcher or aggregate process-tree memory",
-              "configuration": "existing parity constructors, defaults plus COMA instances; all nonempty samples; one worker"},
+              "native_only": args.native_only,
+              "configuration": "existing parity constructors, defaults plus COMA instances and optional per-dataset jaccard_threshold; all nonempty samples; one worker"},
               "runs": [], "comparisons": []}
     for name, path in paths.items():
         for algorithm in args.algorithm or ALGORITHMS:
@@ -183,7 +189,7 @@ def main():
             runs = []
             for round_number in range(args.rounds):
                 documents = {}
-                for side in side_order(args.baseline_binary is not None, round_number):
+                for side in side_order(args.baseline_binary is not None, round_number, args.native_only):
                     stem = directory / f"{name}-{algorithm}-{side}-{round_number}"
                     output = Path(str(stem) + ".json")
                     flags = ["--dataset", path, "--algorithm", algorithm, "--repetitions", str(args.repetitions), "--warmups", str(args.warmups)]
@@ -258,7 +264,7 @@ def main():
                     comparisons.append({key: value for key, value in comparison.items() if not isinstance(value, (list, dict))} |
                                        {"side": side, "details": comparison_path.relative_to(ROOT).as_posix()})
             native_valid = not args.baseline_binary or (len(native_comparisons) == args.rounds and all(case["equivalent"] for case in native_comparisons))
-            valid = (len(comparisons) == args.rounds * len(binaries) and all(case["equivalent"] for case in comparisons)
+            valid = ((args.native_only or (len(comparisons) == args.rounds * len(binaries) and all(case["equivalent"] for case in comparisons)))
                      and native_valid and all("error" not in run for run in runs))
             item = {"case": name, "algorithm": algorithm, "status": ("equivalent" if valid else "incomplete (execution failure)"
                                if any("error" in run for run in runs) else "non-equivalent"),
@@ -270,14 +276,15 @@ def main():
                                   "peak_rss_kib": summary([run["peak_rss_kib"] for run in successful]),
                                   "process_wall_seconds": summary([run["process_wall_seconds"] for run in successful])}
             if valid:
-                item["speedup"] = item["python"]["matching_ms"]["median"] / item["rust"]["matching_ms"]["median"]
+                if not args.native_only:
+                    item["speedup"] = item["python"]["matching_ms"]["median"] / item["rust"]["matching_ms"]["median"]
                 if args.baseline_binary:
                     item["native_speedup"] = item["rust_before"]["matching_ms"]["median"] / item["rust"]["matching_ms"]["median"]
             report["comparisons"].append(item)
             destination.write_text(json.dumps(report, indent=2) + "\n")
             destination.with_suffix(".md").write_text(markdown(report))
             print(f"{name}/{algorithm}: {item['status']}; speedup {item['speedup']}", flush=True)
-    return int(any(item["speedup"] is None for item in report["comparisons"]))
+    return int(any(item["status"] != "equivalent" for item in report["comparisons"]))
 
 
 if __name__ == "__main__":
