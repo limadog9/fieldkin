@@ -40,7 +40,7 @@ alternating fresh-process pairs and one recorded first-call warmup. CPU 0 used
 51 timed calls (large: five); a predeclared focused recheck used CPU 1 and 101
 calls because CPU 0 varied substantially. Both runtimes use the same CPU in each
 pair. Native-only timing runs do not execute Python or imply Python speedups.
-`get_matches` includes sampling/preparation, comparisons and result construction;
+`get_matches` includes value preparation, comparisons and result construction;
 loading, constructors, disposal, selection, hashing and serialization are outside
 both timers. Memory is lifetime Linux process `VmHWM`, including setup and
 verification, sampled before final serialization—not incremental matcher memory.
