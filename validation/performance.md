@@ -8,6 +8,150 @@ The [difficult-input follow-up](adversarial_performance_report.md) measures exac
 Jaccard overlap and conflicting distribution clusters under explicit child
 process resource limits, including failed baseline allocations and noisy controls.
 
+## Result, metric, Jaccard and assignment follow-up (2026-10-14)
+
+Baseline main: `88d64384827069742f217e097cf91dab705ee391`; measured runtime:
+`b2ee2f6bdb738c4aa1c8fd3bdd9f5ca1578a5ea4`, on
+`perf/results-jaccard-assignment`. The earlier Jaccard long-string branch remains
+separate. [Machine-readable evidence](result_operations_performance.json) records
+all final timed calls, process peaks, paired ratios, exact-output fingerprints,
+source/binary/harness hashes, preliminary accessor results, heap profiles and checks.
+
+The retained changes remove work without changing scoring or public APIs:
+
+- Top-N copies its prefix, score filtering uses `partition_point`, and validated
+  subsequences retain their details without another map/validation/sort pass.
+  Arbitrary predicates still visit every entry; public constructors still validate.
+- The built-in core report selects once rather than four times; precision curves
+  select once rather than ten times. Counts are shared for precision/recall/F1.
+  Core MRR and recall-at-ground-truth-size still use raw candidates. Generic custom
+  metric dispatch is unchanged.
+- Jaccard traverses checked integer ranges over borrowed columns. Only nonzero
+  outputs allocate identities. Preparation, batch-wide embedding vocabulary, one
+  encode call, worker chunk order and every value-comparison path are preserved.
+- Hungarian stores only real rectangular costs and reads padded cells as zero.
+  General traversal, lexicographic cardinality/similarity costs and floating-point
+  arithmetic remain unchanged. One-source inputs and wholly excluded scores have
+  exact shortcuts. A row lookup is resolved outside the inner column scan.
+
+Release Rust 1.99.0 / LLVM 23.1.1, Python 3.12.14, Linux 6.18.44/glibc 2.41,
+Xeon Platinum 8573C, five visible CPUs, four-CPU quota and 32 GiB memory limit.
+Before/after builds use separate worktrees **and** Cargo target directories, with
+the identical harness copied into the baseline. Both ELF compiler comments and
+SHA256s are recorded. The runner's rustc query returned null because its shell
+omitted `RUSTUP_HOME`; build activation and ELF comments independently establish
+the actual compiler version. No builds or profiles ran during timing.
+
+Five alternating fresh-process pairs per case, seven timed calls and one untimed
+warmup per process: **25 cases, 250 processes, 1,750 timed calls**. Below are medians
+of process medians. Single-worker cases use CPU 1; four-worker cases separately
+allow CPUs 1–4. All compared process outputs agree exactly, including ordered
+identities, score/detail bits, selection fingerprints and metric values. Matching
+times include preparation/result construction through `valentine_match`; result
+and metric modes time their named public calls. Generation, disposal and hashing
+are outside both timers. These are Rust-before/after measurements, not Python gains.
+
+| Public operation / input | Before ms | After ms | Lifetime peak RSS MiB before→after |
+|---|---:|---:|---:|
+| Top 0 / 50,000 detailed candidates | 0.027926 | ≈0.000045 | 61.21→61.18 |
+| Top 10 / 50,000 | 0.109006 | 0.004001 | 61.24→61.27 |
+| Filter ≥0.9 / 50,000 | 8.656543 | 5.597972 | 61.25→61.32 |
+| Top 1 per source / 50,000 | 6.948064 | 6.957070 | 61.24→61.31 |
+| Core metrics / 64×64 | 9.848227 | 3.394343 | 7.43→7.52 |
+| Precision curve / 64×64 | 22.026992 | 2.569707 | 7.46→7.52 |
+| Legacy Hungarian / 1×256 | 19.925607 | 0.001247 | 4.02→3.03 |
+| Legacy Hungarian / 256×1 | 20.116782 | 20.126258 | 4.05→3.06 |
+| Legacy Hungarian / 8×128 | 2.837838 | 2.812801 | 4.05→3.85 |
+| Legacy Hungarian / 128×8 | 3.120248 | 3.167834 | 4.03→3.86 |
+| Jaccard empty / 512×768 | 65.690189 | 1.592054 | 92.54→2.80 |
+| Exact Jaccard disjoint / 128×192, 8 values | 8.070564 | 3.700808 | 9.21→2.90 |
+| Dense Jaccard / 64×96, 2 values | 7.555941 | 6.859495 | 6.82→5.44 |
+| Empty Jaccard batch / four 64-column tables | 4.501938 | 0.106508 | 9.00→2.60 |
+| Empty Jaccard / 512×768, four workers | 84.738841 | 1.113245 | 92.77→2.96 |
+
+Top-10 is 96.3% faster, filtering 35.3%, core metrics 65.5%, precision curves
+88.3%, empty Jaccard 97.6%, exact-disjoint 54.1% and dense output 9.2%. Top-0 is
+near timer resolution: the important change is removing its full scan, not a
+precise speedup ratio. RSS is process-lifetime `VmHWM` **before** verification,
+including inputs/warmup/allocator retention, not incremental matcher memory.
+Large retained input storage dominates subset RSS; small metric RSS increases
+are reported rather than described as memory savings.
+
+Variation and unfavorable controls are retained. Empty Jaccard process medians
+span 65.548–66.849 ms before / 1.591–1.618 after; core metrics span 9.816–10.419 /
+3.364–3.407. Per-source selection and the existing dense `jaccard-codes512` control
+are effectively unchanged. Both 128×8 selectors cost approximately 1.5% more,
+with overlapping ranges (legacy 3.079–3.173 / 3.076–3.236 ms). The first accessor
+variant cost about 10% on 256×1; hoisting the row lookup recovered that cost.
+No general rectangular CPU speedup is claimed. Four-worker before/after gains
+are reported separately; extra cores are not presented as an algorithmic speedup.
+
+Separate GNU heap tracing (`-p off -H on -S off -a off`) measures allocation
+events, cumulative requested bytes and peak live traced heap. Each profile
+includes input creation, one warmup, one timed call, disposal and verification;
+its timings/RSS are not used above. No collector warnings occurred. Whole-process
+allocation counts for empty 128×192 Jaccard fall **197,614→978**; requested bytes
+**17,133,257→105,544**, peak traced heap **12,002,247→45,441** bytes. Exact-disjoint
+falls **203,783→7,147** events. At 32×32, core metric requested bytes fall
+4,768,191→2,998,332, curves 8,124,361→2,936,568. The 8×128 Hungarian profile requests
+3,310,275→2,809,010 bytes, but input construction dominates its peak. These counts
+are scoped process measurements, not incremental per-call allocation counts.
+
+Compatibility limits are deliberate. Native counterexamples prove that
+transposition can change legacy threshold survivors from two to one, omitting
+dummy rows can change near-ULP ties, and a simple maximum shortcut for a tall
+14×1 input can select the wrong tied source. Those alternatives were rejected.
+Only one-real-row augmentation has the zero-delta invariant needed for its shortcut.
+General CPU cost remains `O(max(rows,cols)^3)`; storage is `O(rows*cols)` plus solver
+vectors. Tests allocate actual 1×10,000, 10,000×1 and 8×10,000 cost storage and
+verify 10,000/10,000/80,000 real cells, without running enormous legacy solves.
+The normal public 1×10,000 shortcut is exercised; 10,000×1 is only publicly solved
+when all scores are excluded. No unmeasured huge-input timing is claimed.
+
+Native regression coverage includes 7,200 bounded old-solver comparisons,
+15,600 exhaustive singleton comparisons, independent brute-force objectives,
+signed-zero/threshold/detail preservation, unequal and multi-table Jaccard,
+workers and a counting embedding provider. All 17 checks pass: formatting,
+default/Polars/all-feature tests (155/167/209 passes, one explicitly ignored
+real-model ONNX test in all-features), doctests, strict Clippy, warning-free docs,
+parity-helper tests, every frozen quality gate, extraction checks and verified
+`cargo package --locked`. Existing excluded-example packaging notices remain.
+All five checked-in Valentine reference suites pass. Linux checks ran locally;
+Windows/remote branch CI was not executed because this branch was not pushed.
+No frozen data, reference tolerance, dependency or package version changed.
+
+Reproduce using the same harness in independent worktrees/targets:
+
+```sh
+git worktree add --detach /tmp/fieldkin-operations-before 88d64384827069742f217e097cf91dab705ee391
+cp examples/benchmark_performance.rs /tmp/fieldkin-operations-before/examples/
+cp examples/support/performance.rs /tmp/fieldkin-operations-before/examples/support/
+cargo build --locked --release --jobs 1 --manifest-path /tmp/fieldkin-operations-before/Cargo.toml \
+  --target-dir /tmp/fieldkin-operations-before/target --example benchmark_performance
+cargo build --locked --release --jobs 1 --target-dir target/operations-after --example benchmark_performance
+taskset -c 1 python validation/benchmark_performance.py --rounds 5 --repetitions 7 \
+  --baseline-binary /tmp/fieldkin-operations-before/target/release/examples/benchmark_performance \
+  --binary target/operations-after/release/examples/benchmark_performance \
+  --case results-top0 --case results-top10 --case results-filter --case results-per-source \
+  --case results-metrics --case results-curve --case hungarian-1x256 --case hungarian-256x1 \
+  --case hungarian-8x128 --case hungarian-128x8 --case hungarian-aware-1x256 \
+  --case hungarian-aware-256x1 --case hungarian-aware-8x128 --case hungarian-aware-128x8 \
+  --case jaccard-empty-workers1 --case jaccard-exact-disjoint-workers1 \
+  --case jaccard-dense-workers1 --case jaccard-batch-workers1 \
+  --case jaccard-base --case jaccard-width --case jaccard-codes512 --output target/operations.json
+taskset -c 1-4 python validation/benchmark_performance.py --rounds 5 --repetitions 7 \
+  --baseline-binary /tmp/fieldkin-operations-before/target/release/examples/benchmark_performance \
+  --binary target/operations-after/release/examples/benchmark_performance \
+  --case jaccard-empty-workers4 --case jaccard-exact-disjoint-workers4 \
+  --case jaccard-dense-workers4 --case jaccard-batch-workers4 --output target/operations-parallel.json
+gprofng collect app -p off -H on -S off -a off -o /tmp/fieldkin-allocation.er \
+  target/operations-after/release/examples/benchmark_performance \
+  --algorithm jaccard --columns 128 --target-columns 192 --rows 0 --repetitions 1
+gprofng display text -heapstat /tmp/fieldkin-allocation.er
+```
+
+The sections below describe earlier measurements and retain their original scope.
+
 ## Reproduce
 
 ```sh
