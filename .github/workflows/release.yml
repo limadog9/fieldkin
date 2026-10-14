@@ -81,9 +81,12 @@ jobs:
           TOOLCHAIN=$(python -c 'import json; print(json.load(open("target/release-evidence/package.json"))["rustc"].splitlines()[0].split()[1])')
           rustup toolchain install "$TOOLCHAIN" --profile minimal
           rustup override set "$TOOLCHAIN"
-          cargo publish --locked --dry-run
           VERSION=$(python -c 'import json; print(json.load(open("target/release-evidence/package.json"))["version"])')
-          python scripts/release_evidence.py check-package --sha "$GITHUB_SHA" --archive "target/package/fieldkin-$VERSION.crate" --expected target/release-evidence/package.json --output target/release-evidence/dry-run-package.json
+          # Cargo publish prepares this scratch archive; cargo package alone
+          # copies it to target/package. Require a fresh publication archive.
+          rm -f "target/package/tmp-crate/fieldkin-$VERSION.crate"
+          cargo publish --locked --dry-run
+          python scripts/release_evidence.py check-package --sha "$GITHUB_SHA" --archive "target/package/tmp-crate/fieldkin-$VERSION.crate" --expected target/release-evidence/package.json --output target/release-evidence/dry-run-package.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -124,18 +127,20 @@ jobs:
           RELEASE_TAG: ${{ inputs.tag }}
         run: |
           python scripts/release_evidence.py preflight --sha "$GITHUB_SHA" --tag "$RELEASE_TAG" --publish true --output target/release-evidence/publication-preflight.json
-          cargo publish --locked --dry-run
           VERSION=$(python -c 'import json; print(json.load(open("target/release-evidence/package.json"))["version"])')
-          python scripts/release_evidence.py check-package --sha "$GITHUB_SHA" --archive "target/package/fieldkin-$VERSION.crate" --expected target/release-evidence/package.json --output target/release-evidence/repackaging.json
+          rm -f "target/package/tmp-crate/fieldkin-$VERSION.crate"
+          cargo publish --locked --dry-run
+          python scripts/release_evidence.py check-package --sha "$GITHUB_SHA" --archive "target/package/tmp-crate/fieldkin-$VERSION.crate" --expected target/release-evidence/package.json --output target/release-evidence/repackaging.json
       - uses: rust-lang/crates-io-auth-action@c6f97d42243bad5fab37ca0427f495c86d5b1a18 # v1.0.5
         id: registry-auth
       - name: Publish with Cargo, then verify the uploaded archive checksum
         env:
           CARGO_REGISTRY_TOKEN: ${{ steps.registry-auth.outputs.token }}
         run: |
-          cargo publish --locked
           VERSION=$(python -c 'import json; print(json.load(open("target/release-evidence/package.json"))["version"])')
-          python scripts/release_evidence.py check-package --sha "$GITHUB_SHA" --archive "target/package/fieldkin-$VERSION.crate" --expected target/release-evidence/package.json --output target/release-evidence/publication-package.json
+          rm -f "target/package/tmp-crate/fieldkin-$VERSION.crate"
+          cargo publish --locked
+          python scripts/release_evidence.py check-package --sha "$GITHUB_SHA" --archive "target/package/tmp-crate/fieldkin-$VERSION.crate" --expected target/release-evidence/package.json --output target/release-evidence/publication-package.json
           curl --fail --location --retry 8 --retry-all-errors --retry-delay 5 "https://static.crates.io/crates/fieldkin/fieldkin-$VERSION.crate" -o target/release-evidence/registry.crate
           python scripts/release_evidence.py check-package --sha "$GITHUB_SHA" --archive target/release-evidence/registry.crate --expected target/release-evidence/package.json --output target/release-evidence/registry-package.json
       - name: Retain compact evidence with the release

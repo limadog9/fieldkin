@@ -21,7 +21,7 @@ Install the release from [crates.io](https://crates.io/crates/fieldkin):
 
 ```toml
 [dependencies]
-fieldkin = "0.2.2"
+fieldkin = "0.2.3"
 ```
 
 Optional features: `polars` for native Polars DataFrames and `embeddings` for
@@ -150,7 +150,7 @@ scores A→X=0.90, A→Y=0.80, B→X=0.81 and B→Y=0.79, threshold 0.80 yields 
 A→X through the original selector, while the alternative selects A→Y and B→X.
 Metrics continue to use the original Valentine-compatible selectors.
 
-Since 0.2.2, `one_to_one_rectangular` and
+Since 0.2.3, `one_to_one_rectangular` and
 `one_to_one_rectangular_threshold_aware` offer the same respective objectives
 with genuinely rectangular assignment. Both have `_with_limits` variants.
 For `r` sources and `c` targets, solver work is O(min(r,c)² max(r,c)), cost
@@ -174,7 +174,7 @@ component details.
 
 ### Opt-in work limits
 
-Since 0.2.2, use `match_tables_with_limits` for checked ranked raw matches, then
+Since 0.2.3, use `match_tables_with_limits` for checked ranked raw matches, then
 an explicit checked selector. It supports only Jaccard and DistributionBased
 and never falls back to unchecked matching. The existing
 `match_tables_one_to_one_with_limits` still combines checked matching with legacy
@@ -334,7 +334,7 @@ cargo clippy --locked --all-targets --all-features --jobs 1 -- -D warnings
 The CLI writes ranked JSON to stdout and errors to stderr. Existing positional
 commands retain all samples and their existing behavior.
 
-Since 0.2.2, `--bounded` supports only `jaccard` and `distribution`; unsupported
+Since 0.2.3, `--bounded` supports only `jaccard` and `distribution`; unsupported
 algorithms and invalid options fail before opening inputs. For example:
 
 ```sh
