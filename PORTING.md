@@ -174,12 +174,33 @@ Rust regression tests cover canonical WordNet ties, changed Cupid weights and
 worker counts, and distinct column names that would collide after solver
 sanitization. Python regressions check the actual patched matcher and solver.
 
-## Manual release validation
+## Release verification
 
-Before publishing, run the **Release validation** GitHub Actions workflow on the
-intended revision and require all jobs to pass. This is a manual pre-release
-check, not an enforced publishing gate: this repository has no publication
-workflow. Ordinary offline tests still download neither models nor Python data.
+Use the manual **Release** workflow for the repository's gated release path. It
+defaults to validation only: ordinary CI and **Release validation** run together
+on the dispatch's immutable commit. The evidence job requires both to succeed,
+checks their same-run artifacts, and records the tested package checksum, file
+hashes, toolchains, reference/model provenance and executed checks. A dry run
+without a tag validates a candidate; it does not authorize publication.
+
+Publication additionally requires the explicit `publish` choice and an existing
+`vVERSION` tag resolving to that exact commit and `Cargo.toml` version. The
+publish job uses Cargo and the tested package's compiler, verifies dry-run
+repackaging against the tested archive, and checks the local and registry
+archives after publication. The compact JSON evidence is attached to the GitHub
+release, beyond the Actions artifact retention period. A registry checksum
+mismatch fails verification after upload; a published crate cannot be rolled
+back by that check. Models and large logs are not release attachments.
+
+Maintainers must configure crates.io trusted publishing for this repository,
+`release.yml` and the `crates-io` environment, and configure environment reviewers
+and allowed refs in GitHub if approval/ref restrictions are required. Merely
+naming that environment in YAML does not enable these protections. Direct local
+`cargo publish` remains outside this workflow; control registry publisher
+permissions separately. This task does not enable external settings or publish.
+
+**Release validation** also remains independently runnable for diagnostics.
+Ordinary offline tests still download neither models nor Python data.
 
 The workflow runs the complete live corrected-reference comparison, the actual
 source-patch regressions, and the separately ignored native MiniLM/ONNX test.

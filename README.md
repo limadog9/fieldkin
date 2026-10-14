@@ -223,7 +223,7 @@ a 30-second deadline and an illustrative 1-GiB virtual-address-space limit:
 
 ```sh
 cargo build --locked --example valentine
-timeout --kill-after=5s 30s bash -c 'ulimit -v 1048576; exec "$@"' _ target/debug/examples/valentine
+timeout --kill-after=5s 30s bash -c 'ulimit -v 1048576 && exec "$@"' _ target/debug/examples/valentine
 ```
 
 The OS address-space limit includes mappings, not just resident matcher memory;

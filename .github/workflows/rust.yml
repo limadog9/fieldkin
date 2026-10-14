@@ -5,6 +5,7 @@ defaults:
   run:
     shell: bash
 on:
+  workflow_call:
   push:
   pull_request:
 jobs:
@@ -55,6 +56,7 @@ jobs:
         run: |
           python scripts/test_compare_valentine_parity.py
           python scripts/test_distribution_solver_diagnostic.py
+          python scripts/test_release_evidence.py
           python validation/test_benchmark_valentine.py
       - name: Check suggestion quality against frozen ground truth
         run: cargo run --locked --example evaluate_all -- --check
