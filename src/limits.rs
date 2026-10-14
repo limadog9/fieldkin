@@ -7,7 +7,7 @@ use crate::Error;
 /// Use an isolated process when hard memory or time containment is required.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct WorkLimits {
-    /// Maximum unique source/target dimension of a Hungarian assignment.
+    /// Maximum unique source/target dimension of each assignment.
     pub max_assignment_dimension: usize,
     /// Maximum cells in each assignment/distribution matrix, or total Jaccard
     /// column-pair slots across a batch. This is a count, not a byte limit.
