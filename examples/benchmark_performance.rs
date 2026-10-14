@@ -1,20 +1,26 @@
 //! One reproducible workload per process: run with `--release` and `--help`.
-//! Timings include table preparation, but exclude generation, hashing, and selection.
+//! Timings exclude input generation, output hashing, and result disposal.
+//! Matching includes preparation; selection/metric modes time those public calls.
 //! Linux VmHWM is a process lifetime peak, including inputs and the warmup; it is
 //! not incremental allocation usage. Compare fresh processes on the same machine.
 
 use fieldkin::{
-    DataType, Field, MatchOptions, Matcher, Table,
-    algorithms::{Coma, Cupid, DistributionBased, JaccardDistanceMatcher, SimilarityFlooding},
-    match_tables, valentine_match,
+    ColumnPair, DataType, Field, MatchDetails, MatchOptions, Matcher, MatcherResults, Table,
+    algorithms::{
+        Coma, Cupid, DistributionBased, JaccardConfig, JaccardDistanceMatcher, SimilarityFlooding,
+        StringDistanceFunction,
+    },
+    match_tables,
+    metrics::{GroundTruth, OneToOneMethod, get_metrics, precision_increasing_n},
+    valentine_match,
 };
 use serde::Serialize;
 use sha2::{Digest, Sha256};
-use std::{error::Error, fmt::Write, hint::black_box, time::Instant};
+use std::{collections::BTreeMap, error::Error, fmt::Write, hint::black_box, time::Instant};
 
 #[path = "support/performance.rs"]
 mod performance;
-use performance::results_digest;
+use performance::{ordered_results_digest, results_digest};
 
 type BenchResult<T> = Result<T, Box<dyn Error>>;
 
@@ -23,6 +29,8 @@ struct Args {
     algorithm: String,
     values: String,
     columns: usize,
+    target_columns: Option<usize>,
+    workers: usize,
     rows: usize,
     distinct: usize,
     tables: usize,
@@ -40,6 +48,8 @@ impl Default for Args {
             algorithm: "jaccard".into(),
             values: "mixed".into(),
             columns: 8,
+            target_columns: None,
+            workers: 1,
             rows: 128,
             distinct: 32,
             tables: 2,
@@ -63,6 +73,8 @@ fn parse(args: impl IntoIterator<Item = String>) -> BenchResult<Args> {
             "--algorithm" => parsed.algorithm = value,
             "--values" => parsed.values = value,
             "--columns" => parsed.columns = value.parse()?,
+            "--target-columns" => parsed.target_columns = Some(value.parse()?),
+            "--workers" => parsed.workers = value.parse()?,
             "--rows" => parsed.rows = value.parse()?,
             "--distinct" => parsed.distinct = value.parse()?,
             "--tables" => parsed.tables = value.parse()?,
@@ -82,6 +94,15 @@ fn parse(args: impl IntoIterator<Item = String>) -> BenchResult<Args> {
         "flooding",
         "csv",
         "json",
+        "jaccard-exact",
+        "top0",
+        "top10",
+        "filter",
+        "per-source",
+        "metrics",
+        "curve",
+        "hungarian",
+        "hungarian-aware",
     ]
     .contains(&parsed.algorithm.as_str())
     {
@@ -93,17 +114,19 @@ fn parse(args: impl IntoIterator<Item = String>) -> BenchResult<Args> {
     if parsed.columns == 0
         || parsed.distinct == 0
         || parsed.repetitions == 0
+        || parsed.workers == 0
+        || parsed.target_columns == Some(0)
         || parsed.tables < 2
         || parsed.overlap > 100
         || parsed.schema_overlap > 100
     {
         return Err(
-            "columns, distinct, repetitions must be positive; tables >= 2; overlap and schema-overlap <= 100".into(),
+            "columns, target-columns, distinct, repetitions, workers must be positive; tables >= 2; overlap and schema-overlap <= 100".into(),
         );
     }
     parsed
         .tables
-        .checked_mul(parsed.columns)
+        .checked_mul(parsed.columns.max(parsed.target_columns.unwrap_or(0)))
         .and_then(|n| n.checked_mul(parsed.rows.max(parsed.distinct)))
         .ok_or("workload dimensions overflow usize")?;
     if matches!(parsed.algorithm.as_str(), "csv" | "json") && parsed.sample_size.is_some() {
@@ -169,7 +192,11 @@ fn tables(args: &Args) -> BenchResult<Vec<Table>> {
         .map(|table| {
             Ok(Table::new(
                 format!("table_{table:04}"),
-                (0..args.columns)
+                (0..if table == 0 {
+                    args.columns
+                } else {
+                    args.target_columns.unwrap_or(args.columns)
+                })
                     .map(|column| Field {
                         name: column_name(args, table, column),
                         data_type: if (args.values == "mixed" && column.is_multiple_of(2))
@@ -231,16 +258,24 @@ fn encoded_input(args: &Args) -> String {
     input
 }
 
-fn matcher(algorithm: &str) -> Box<dyn Matcher> {
-    // No threshold/accuracy tuning: use each algorithm's existing default config.
-    match algorithm {
+fn matcher(args: &Args) -> BenchResult<Box<dyn Matcher>> {
+    // Default configurations, apart from explicit Jaccard worker/exact controls.
+    Ok(match args.algorithm.as_str() {
         "coma" => Box::new(Coma::default()),
         "cupid" => Box::new(Cupid::default()),
         "distribution" => Box::new(DistributionBased::default()),
-        "jaccard" => Box::new(JaccardDistanceMatcher::default()),
+        "jaccard" | "jaccard-exact" => Box::new(JaccardDistanceMatcher::new(JaccardConfig {
+            process_num: args.workers,
+            distance_fun: if args.algorithm == "jaccard-exact" {
+                StringDistanceFunction::Exact
+            } else {
+                StringDistanceFunction::Levenshtein
+            },
+            ..JaccardConfig::default()
+        })?),
         "flooding" => Box::new(SimilarityFlooding::default()),
         _ => unreachable!("validated matching algorithm"),
-    }
+    })
 }
 
 fn measure<T>(
@@ -273,19 +308,145 @@ fn peak_rss_kib() -> Option<u64> {
         })
 }
 
+fn result_operation(algorithm: &str) -> bool {
+    matches!(
+        algorithm,
+        "top0"
+            | "top10"
+            | "filter"
+            | "per-source"
+            | "metrics"
+            | "curve"
+            | "hungarian"
+            | "hungarian-aware"
+    )
+}
+
+// Detailed, deterministic candidates with ties and both signs of zero. Subset
+// modes use rows entries; metric/assignment modes use the full rectangular grid.
+fn scored_results(args: &Args) -> BenchResult<MatcherResults> {
+    let count = if matches!(
+        args.algorithm.as_str(),
+        "top0" | "top10" | "filter" | "per-source"
+    ) {
+        args.rows
+    } else {
+        args.columns
+            .checked_mul(args.target_columns.unwrap_or(args.columns))
+            .ok_or("result dimensions overflow usize")?
+    };
+    let mut details = MatchDetails::new();
+    let entries = (0..count)
+        .map(|index| {
+            let pair = ColumnPair::new(
+                "source",
+                format!("column_{:05}", index % args.columns),
+                "target",
+                format!("column_{:05}", index / args.columns),
+            );
+            let score = match index {
+                0 => -0.0,
+                1 => 0.0,
+                _ => (mix(index as u64) % 4096) as f64 / 4096.0,
+            };
+            details.insert(
+                pair.clone(),
+                BTreeMap::from([
+                    ("similarity".into(), score),
+                    ("component".into(), score * 0.5),
+                ]),
+            );
+            (pair, score)
+        })
+        .collect();
+    Ok(MatcherResults::with_details(entries, details)?)
+}
+
+fn measure_result_operation(args: &Args) -> BenchResult<(Vec<f64>, Option<u64>, usize, String)> {
+    let input = scored_results(args)?;
+    let (timings, peak, count, output_hash) =
+        if matches!(args.algorithm.as_str(), "metrics" | "curve") {
+            let truth = GroundTruth::Columns(
+                (0..args
+                    .columns
+                    .min(args.target_columns.unwrap_or(args.columns)))
+                    .map(|column| {
+                        ColumnPair::new(
+                            "source",
+                            format!("column_{column:05}"),
+                            "target",
+                            format!("column_{column:05}"),
+                        )
+                    })
+                    .collect(),
+            );
+            let (timings, output) = measure(args.repetitions, || {
+                Ok(if args.algorithm == "metrics" {
+                    get_metrics(&input, &truth)?
+                } else {
+                    precision_increasing_n(&input, &truth, OneToOneMethod::Hungarian)?
+                })
+            })?;
+            let peak = peak_rss_kib();
+            let bits: Vec<_> = output
+                .iter()
+                .map(|(name, value)| (name, value.to_bits()))
+                .collect();
+            (
+                timings,
+                peak,
+                output.len(),
+                format!("{:x}", Sha256::digest(serde_json::to_vec(&bits)?)),
+            )
+        } else {
+            let (timings, output) = measure(args.repetitions, || {
+                Ok(match args.algorithm.as_str() {
+                    "top0" => input.take_top_n(0),
+                    "top10" => input.take_top_n(10),
+                    "filter" => input.filter(0.9)?,
+                    "per-source" => input.take_top_n_per_source(1),
+                    "hungarian" => input.one_to_one_hungarian(Some(0.5))?,
+                    "hungarian-aware" => input.one_to_one_hungarian_threshold_aware(Some(0.5))?,
+                    _ => unreachable!("validated result operation"),
+                })
+            })?;
+            let peak = peak_rss_kib();
+            (
+                timings,
+                peak,
+                output.len(),
+                ordered_results_digest(&output)?,
+            )
+        };
+    let input_hash = ordered_results_digest(&input)?;
+    Ok((
+        timings,
+        peak,
+        count,
+        format!(
+            "{:x}",
+            Sha256::digest(format!("{input_hash}:{output_hash}"))
+        ),
+    ))
+}
+
 fn main() -> BenchResult<()> {
     let arguments: Vec<_> = std::env::args().skip(1).collect();
     if arguments.iter().any(|argument| argument == "--help") {
         println!(
             "Run in release mode. One workload per process; JSON output.\n\
-            --algorithm coma|cupid|distribution|jaccard|flooding|csv|json (jaccard)\n\
+            --algorithm coma|cupid|distribution|jaccard|jaccard-exact|flooding|csv|json (jaccard)\n\
+            Result operations: top0|top10|filter|per-source|metrics|curve|hungarian|hungarian-aware\n\
             --values mixed|codes|hashes|interleaved|ring (mixed); codes creates dense fuzzy hits;\n\
             hashes uses all high-entropy text; interleaved/ring stress distribution clustering\n\
             --columns N (8) --rows N (128) --distinct N (32) --tables N (2)\n\
+            --target-columns N (default: columns) --workers N (1; Jaccard only)\n\
             --overlap PERCENT (50) --schema-overlap PERCENT (100) --repetitions N (5) --sample-size N (default: all)\n\
             CSV/JSON ingest one table; --tables and overlap settings do not affect ingestion.\n\
             Actual distinct count is min(rows, distinct); zero rows are supported.\n\
-            Peak RSS includes generated inputs and warmup; hashing/selection follow measurement.\n\
+            Subset modes use rows detailed candidates; metrics/assignment use columns x target-columns.\n\
+            Filter keeps score >= 0.9; per-source keeps one; assignment uses threshold 0.5.\n\
+            Peak RSS includes generated inputs and warmup; output hashing follows measurement.\n\
             --dump-input PATH exports an unsampled two-table matching workload without executing it."
         );
         return Ok(());
@@ -294,6 +455,7 @@ fn main() -> BenchResult<()> {
     if let Some(path) = &args.dump_input {
         if args.tables != 2
             || args.sample_size.is_some()
+            || result_operation(&args.algorithm)
             || matches!(args.algorithm.as_str(), "csv" | "json")
         {
             return Err("--dump-input requires unsampled matching with two tables".into());
@@ -309,38 +471,39 @@ fn main() -> BenchResult<()> {
         )?;
         return Ok(());
     }
-    let (timings, peak_rss, count, fingerprint) =
-        if matches!(args.algorithm.as_str(), "csv" | "json") {
-            let input = encoded_input(&args);
-            let (timings, table) = measure(args.repetitions, || {
-                Ok(if args.algorithm == "csv" {
-                    Table::from_csv("input", input.as_bytes())?
-                } else {
-                    Table::from_json("input", input.as_bytes())?
-                })
-            })?;
-            let peak = peak_rss_kib();
-            let fingerprint = format!("{:x}", Sha256::digest(serde_json::to_vec(&table)?));
-            (timings, peak, table.columns.len(), fingerprint)
-        } else {
-            let tables = tables(&args)?;
-            let matcher = matcher(&args.algorithm);
-            let (timings, results) = measure(args.repetitions, || {
-                Ok(if args.sample_size.is_some() {
-                    match_tables(
-                        &tables,
-                        matcher.as_ref(),
-                        MatchOptions {
-                            instance_sample_size: args.sample_size,
-                        },
-                    )?
-                } else {
-                    valentine_match(&tables, matcher.as_ref())?
-                })
-            })?;
-            let peak = peak_rss_kib();
-            (timings, peak, results.len(), results_digest(&results)?)
-        };
+    let (timings, peak_rss, count, fingerprint) = if result_operation(&args.algorithm) {
+        measure_result_operation(&args)?
+    } else if matches!(args.algorithm.as_str(), "csv" | "json") {
+        let input = encoded_input(&args);
+        let (timings, table) = measure(args.repetitions, || {
+            Ok(if args.algorithm == "csv" {
+                Table::from_csv("input", input.as_bytes())?
+            } else {
+                Table::from_json("input", input.as_bytes())?
+            })
+        })?;
+        let peak = peak_rss_kib();
+        let fingerprint = format!("{:x}", Sha256::digest(serde_json::to_vec(&table)?));
+        (timings, peak, table.columns.len(), fingerprint)
+    } else {
+        let tables = tables(&args)?;
+        let matcher = matcher(&args)?;
+        let (timings, results) = measure(args.repetitions, || {
+            Ok(if args.sample_size.is_some() {
+                match_tables(
+                    &tables,
+                    matcher.as_ref(),
+                    MatchOptions {
+                        instance_sample_size: args.sample_size,
+                    },
+                )?
+            } else {
+                valentine_match(&tables, matcher.as_ref())?
+            })
+        })?;
+        let peak = peak_rss_kib();
+        (timings, peak, results.len(), results_digest(&results)?)
+    };
     let mut sorted = timings.clone();
     sorted.sort_by(f64::total_cmp);
     let middle = sorted.len() / 2;
@@ -372,12 +535,49 @@ mod tests {
             ["--overlap", "101"],
             ["--schema-overlap", "101"],
             ["--repetitions", "0"],
+            ["--target-columns", "0"],
+            ["--workers", "0"],
             ["--algorithm", "unknown"],
             ["--values", "unknown"],
         ] {
             assert!(parse(args.map(str::to_owned)).is_err());
         }
         assert!(parse(["--rows".to_owned()]).is_err());
+    }
+
+    #[test]
+    fn operation_inputs_have_unique_detailed_pairs_and_both_zero_signs() {
+        let args = Args {
+            algorithm: "top10".into(),
+            columns: 3,
+            rows: 20,
+            ..Args::default()
+        };
+        let results = scored_results(&args).unwrap();
+        assert_eq!(results.len(), 20);
+        assert_eq!(results.details().len(), 20);
+        assert_eq!(
+            ordered_results_digest(&results).unwrap(),
+            ordered_results_digest(&scored_results(&args).unwrap()).unwrap()
+        );
+        for (source, expected) in [(0, -0.0_f64), (1, 0.0_f64)] {
+            let pair = ColumnPair::new(
+                "source",
+                format!("column_{source:05}"),
+                "target",
+                "column_00000",
+            );
+            assert_eq!(results.get(&pair).unwrap().to_bits(), expected.to_bits());
+        }
+        let args = Args {
+            algorithm: "hungarian".into(),
+            target_columns: Some(5),
+            ..args
+        };
+        assert_eq!(scored_results(&args).unwrap().len(), 15);
+        let generated = tables(&args).unwrap();
+        assert_eq!(generated[0].columns.len(), 3);
+        assert_eq!(generated[1].columns.len(), 5);
     }
 
     #[test]

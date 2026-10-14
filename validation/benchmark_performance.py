@@ -52,6 +52,25 @@ def cases():
     for algorithm in ("csv", "json"):
         for rows in (10000, 100000):
             suite[f"{algorithm}-rows{rows}"] = dict(base, algorithm=algorithm, rows=rows, distinct=256)
+    for algorithm in ("top0", "top10", "filter", "per-source"):
+        suite[f"results-{algorithm}"] = dict(base, algorithm=algorithm, columns=64, rows=50000)
+    for algorithm in ("metrics", "curve"):
+        suite[f"results-{algorithm}"] = dict(base, algorithm=algorithm, columns=64)
+    for algorithm in ("hungarian", "hungarian-aware"):
+        for columns, target_columns in ((1, 256), (256, 1), (8, 128), (128, 8)):
+            suite[f"{algorithm}-{columns}x{target_columns}"] = dict(
+                base, algorithm=algorithm, columns=columns, target_columns=target_columns)
+    for workers in (1, 4):
+        suite[f"jaccard-empty-workers{workers}"] = dict(
+            base, algorithm="jaccard", columns=512, target_columns=768, rows=0, workers=workers)
+        suite[f"jaccard-exact-disjoint-workers{workers}"] = dict(
+            base, algorithm="jaccard-exact", columns=128, target_columns=192,
+            rows=8, distinct=8, overlap=0, workers=workers)
+        suite[f"jaccard-dense-workers{workers}"] = dict(
+            base, algorithm="jaccard", columns=64, target_columns=96, rows=2, distinct=2,
+            values="codes", workers=workers)
+        suite[f"jaccard-batch-workers{workers}"] = dict(
+            base, algorithm="jaccard", columns=64, rows=0, tables=4, workers=workers)
     return suite
 
 
@@ -128,6 +147,8 @@ def main():
             continue
         expected = dict(parameters, repetitions=args.repetitions)
         expected.setdefault("sample_size", None)
+        expected.setdefault("target_columns", None)
+        expected.setdefault("workers", 1)
         for round_number in range(args.rounds):
             versions = list(binaries) if round_number % 2 == 0 else list(reversed(binaries))
             for version in versions:
