@@ -131,14 +131,9 @@ impl MatcherResults {
     pub fn get_copy(&self) -> Self {
         self.clone()
     }
-    fn select(&self, mut keep: impl FnMut(&(ColumnPair, f64)) -> bool) -> Self {
-        // Entries and details have already passed validation.
-        let entries: Vec<_> = self
-            .entries
-            .iter()
-            .filter(|entry| keep(entry))
-            .cloned()
-            .collect();
+    // Callers supply a subsequence of the validated, sorted entries.
+    fn subset<'a>(&self, entries: impl Iterator<Item = &'a (ColumnPair, f64)>) -> Self {
+        let entries: Vec<_> = entries.cloned().collect();
         let details = entries
             .iter()
             .filter_map(|(pair, _)| {
@@ -147,19 +142,20 @@ impl MatcherResults {
                     .map(|details| (pair.clone(), details.clone()))
             })
             .collect();
-        Self::with_details(entries, details).expect("validated result subset")
+        Self { entries, details }
+    }
+    fn select(&self, mut keep: impl FnMut(&(ColumnPair, f64)) -> bool) -> Self {
+        self.subset(self.entries.iter().filter(|entry| keep(entry)))
     }
     pub fn filter(&self, min_score: f64) -> Result<Self, Error> {
         finite_threshold(min_score)?;
-        Ok(self.select(|(_, s)| *s >= min_score))
+        let end = self
+            .entries
+            .partition_point(|(_, score)| *score >= min_score);
+        Ok(self.subset(self.entries[..end].iter()))
     }
     pub fn take_top_n(&self, n: usize) -> Self {
-        let mut left = n;
-        self.select(|_| {
-            let keep = left > 0;
-            left = left.saturating_sub(1);
-            keep
-        })
+        self.subset(self.entries[..n.min(self.len())].iter())
     }
     pub fn take_top_percent(&self, percent: f64) -> Result<Self, Error> {
         if !percent.is_finite() || !(0.0..=100.0).contains(&percent) {

@@ -528,6 +528,84 @@ fn selecting_no_entries_discards_all_details_without_changing_original() {
 }
 
 #[test]
+fn prefix_subsets_preserve_score_and_detail_bits_at_boundaries() {
+    let entries = vec![
+        (pair("z", "zero"), -0.0),
+        (pair("b", "tie"), 0.5),
+        (pair("a", "tie"), 0.5),
+        (pair("p", "zero"), 0.0),
+        (pair("one", "one"), 1.0),
+    ];
+    let mut details: fieldkin::MatchDetails = entries
+        .iter()
+        .map(|(pair, score)| {
+            (
+                pair.clone(),
+                [("score".into(), *score), ("negative".into(), -0.0)].into(),
+            )
+        })
+        .collect();
+    let orphan = pair("absent", "absent");
+    details.insert(orphan.clone(), [("discarded".into(), f64::NAN)].into());
+    let results = MatcherResults::with_details(entries, details).unwrap();
+    let snapshot = |results: &MatcherResults| {
+        results
+            .iter()
+            .map(|(pair, score)| {
+                (
+                    pair.clone(),
+                    score.to_bits(),
+                    results.get_details(pair).map(|details| {
+                        details
+                            .iter()
+                            .map(|(name, score)| (name.clone(), score.to_bits()))
+                            .collect::<Vec<_>>()
+                    }),
+                )
+            })
+            .collect::<Vec<_>>()
+    };
+    let original = snapshot(&results);
+    assert_eq!(original[1].0, pair("a", "tie"));
+    assert_eq!(original[3].1, 0.0f64.to_bits());
+    assert_eq!(original[4].1, (-0.0f64).to_bits());
+    for results in [&results, &MatcherResults::default()] {
+        for n in [0, 1, 2, results.len(), results.len() + 1, usize::MAX] {
+            let selected = results.take_top_n(n);
+            assert_eq!(
+                snapshot(&selected),
+                snapshot(results)[..n.min(results.len())]
+            );
+            assert_eq!(selected.details().len(), selected.len());
+            assert!(!selected.details().contains_key(&orphan));
+        }
+        for threshold in [
+            f64::MIN,
+            -1.0,
+            -0.0,
+            0.0,
+            f64::MIN_POSITIVE,
+            0.5,
+            1.0,
+            1.1,
+            f64::MAX,
+        ] {
+            let expected: Vec<_> = snapshot(results)
+                .into_iter()
+                .filter(|(_, bits, _)| f64::from_bits(*bits) >= threshold)
+                .collect();
+            let selected = results.filter(threshold).unwrap();
+            assert_eq!(snapshot(&selected), expected);
+            assert_eq!(selected.details().len(), selected.len());
+        }
+        for threshold in [f64::NAN, f64::INFINITY, f64::NEG_INFINITY] {
+            assert!(results.filter(threshold).is_err());
+        }
+    }
+    assert_eq!(snapshot(&results), original);
+}
+
+#[test]
 fn known_metrics_and_source_local_reciprocal_rank() {
     let results = MatcherResults::new(vec![
         (pair("a", "wrong"), 0.95),
