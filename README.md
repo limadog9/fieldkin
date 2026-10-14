@@ -162,15 +162,16 @@ component details.
 
 ### Opt-in work limits
 
-Use `WorkLimits` with Jaccard's or DistributionBased's
-`get_matches_with_limits` / `get_matches_batch_with_limits`, and the Hungarian
-selectors' `_with_limits` variants, to reject excessive work before constructing
-the relevant matrices, comparison work, or integer models:
+Use `match_tables_one_to_one_with_limits` to carry the same explicit limits through
+Jaccard or DistributionBased batch matching and legacy Hungarian selection. This
+path supports only those two checked matchers; it never falls back to unchecked
+matching. Individual `get_matches_with_limits` / `get_matches_batch_with_limits`
+and Hungarian `_with_limits` calls remain available for other compositions.
 
 The caps below are illustrative; choose them for your workload.
 
 ```rust
-use fieldkin::{Table, WorkLimits};
+use fieldkin::{CheckedMatcher, MatchOptions, Table, WorkLimits, match_tables_one_to_one_with_limits};
 use fieldkin::algorithms::JaccardDistanceMatcher;
 # fn main() -> Result<(), fieldkin::Error> {
 let limits = WorkLimits {
@@ -182,9 +183,14 @@ let limits = WorkLimits {
 };
 let source = Table::from_csv("source", "id\n1\n".as_bytes())?;
 let target = Table::from_csv("target", "id\n1\n".as_bytes())?;
-let matches = JaccardDistanceMatcher::default()
-    .get_matches_with_limits(&source, &target, &limits)?;
-let selected = matches.one_to_one_hungarian_with_limits(Some(0.5), &limits)?;
+let matcher = JaccardDistanceMatcher::default();
+let selected = match_tables_one_to_one_with_limits(
+    &[source, target],
+    CheckedMatcher::Jaccard(&matcher),
+    MatchOptions { instance_sample_size: None },
+    Some(0.5),
+    &limits,
+)?;
 # assert_eq!(selected.len(), 1);
 # Ok(())
 # }
@@ -196,21 +202,33 @@ Assignment checks the maximum source/target identity count and their product,
 including candidates below the threshold. Jaccard checks total column-pair slots
 and distinct-value Cartesian comparisons across the whole batch before scoring
 shortcuts. For example, two tables with two columns and two distinct nonempty
-values per column require four slots and at most 16 comparisons. Value
-deduplication precedes that check; string lengths and embedding-provider work
-are not capped.
+values per column require four slots and at most 16 comparisons. Input parsing,
+sampling and value deduplication precede that check; string lengths,
+preparation allocations and embedding-provider work are not capped.
 
 Distribution limits apply to each distance matrix over populated columns and each
 conflicting clustering model: a component of size `n` has `n*(n-1)` directed
 binary variables and `n*(n-1)*(n-2)` triangle constraints. These are not
 cumulative batch limits. Row sampling alone does not bound assignment dimensions
-or clustering complexity. Existing matching, selection, and metric entry points
-remain unbounded; checking matching does not automatically limit later selection
-or metrics. Choose the checked calls explicitly. The packaged
+or clustering complexity. These scopes also apply to the combined checked path;
+they do not become cumulative budgets. Existing matching, selection, and metric
+entry points remain unbounded. The combined path computes no metrics;
+`get_metrics` afterward can perform an unchecked assignment. The packaged
 [`valentine` example](https://github.com/limadog9/fieldkin/blob/main/examples/valentine.rs)
 demonstrates finite limits for both
 matching and assignment (`cargo run --locked --example valentine`).
 Use an isolated process with external memory/time limits for hard containment.
+For example, on Linux with GNU `timeout`, build first, then run the example with
+a 30-second deadline and an illustrative 1-GiB virtual-address-space limit:
+
+```sh
+cargo build --locked --example valentine
+timeout --kill-after=5s 30s bash -c 'ulimit -v 1048576; exec "$@"' _ target/debug/examples/valentine
+```
+
+The OS address-space limit includes mappings, not just resident matcher memory;
+choose limits for the whole application. Other platforms need their own process
+containment. This recipe does not turn unguarded library calls into checked calls.
 
 ## Polars and sentence embeddings
 
