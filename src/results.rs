@@ -259,6 +259,22 @@ impl MatcherResults {
                 .expect("nonempty results");
             return Ok(self.subset(std::iter::once(best)));
         }
+        if self
+            .entries
+            .iter()
+            .all(|(pair, score)| pair.target() == first.target() && score == highest)
+        {
+            // With one target and equal numeric costs, the first sorted source
+            // keeps that target: later augmentations have equal reduced costs
+            // and strict comparisons leave its predecessor unchanged. Varied
+            // costs cannot use this shortcut, even when maxima are tied.
+            let best = self
+                .entries
+                .iter()
+                .min_by(|(a, _), (b, _)| a.cmp(b))
+                .expect("nonempty results");
+            return Ok(self.subset(std::iter::once(best)));
+        }
         let [sources, targets] = indexed.unwrap_or_else(|| self.assignment_identities());
         // Compare cardinality before similarity without rounding away score
         // differences by adding a large floating-point bonus. Padded cells are
@@ -654,5 +670,50 @@ mod assignment_storage_tests {
             assert_eq!(costs.iter().map(Vec::len).sum::<usize>(), rows * cols);
             assert_eq!(costs.iter().map(Vec::capacity).sum::<usize>(), rows * cols);
         }
+    }
+
+    #[test]
+    fn uniform_single_target_shortcut_avoids_matrix_after_guard_checks() {
+        let results = MatcherResults::new(
+            (0..10_000)
+                .map(|row| (ColumnPair::new("s", row.to_string(), "t", "one"), 0.75))
+                .collect(),
+        )
+        .unwrap();
+        let limits = WorkLimits {
+            max_assignment_dimension: 10_000,
+            max_matrix_cells: 10_000,
+            ..Default::default()
+        };
+        MATRIX_BUILDS.with(|count| count.set(0));
+        for selected in [
+            results.one_to_one_hungarian(None).unwrap(),
+            results.one_to_one_hungarian_threshold_aware(None).unwrap(),
+            results
+                .one_to_one_hungarian_with_limits(None, &limits)
+                .unwrap(),
+            results
+                .one_to_one_hungarian_threshold_aware_with_limits(None, &limits)
+                .unwrap(),
+        ] {
+            assert_eq!(selected.len(), 1);
+            assert_eq!(selected.iter().next().unwrap().0.source_column, "0");
+        }
+        assert_eq!(MATRIX_BUILDS.with(|count| count.get()), 0);
+        let too_small = WorkLimits {
+            max_assignment_dimension: 9_999,
+            ..limits
+        };
+        assert!(
+            results
+                .one_to_one_hungarian_with_limits(None, &too_small)
+                .is_err()
+        );
+        assert!(
+            results
+                .one_to_one_hungarian_threshold_aware_with_limits(None, &too_small)
+                .is_err()
+        );
+        assert_eq!(MATRIX_BUILDS.with(|count| count.get()), 0);
     }
 }

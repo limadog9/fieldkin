@@ -457,6 +457,72 @@ fn tall_singleton_float_ties_need_square_traversal() {
 }
 
 #[test]
+fn uniform_single_target_scores_preserve_square_ties_and_bits() {
+    for rows in 2..=12 {
+        for score in [
+            -0.0_f64,
+            0.0,
+            f64::from_bits(1),
+            f64::MIN_POSITIVE,
+            0.1,
+            f64::from_bits(0.7_f64.to_bits() + 1),
+            1.0,
+        ] {
+            let entries: Vec<_> = (0..rows)
+                .rev()
+                .map(|row| {
+                    // Numeric zero equality must not replace the selected
+                    // original score's sign or its retained detail bits.
+                    let score = if score == 0.0 && row % 2 == 0 {
+                        -score
+                    } else {
+                        score
+                    };
+                    (pair(row, 0), score)
+                })
+                .collect();
+            let details = entries
+                .iter()
+                .map(|(key, score)| {
+                    (
+                        key.clone(),
+                        BTreeMap::from([("score".into(), *score), ("zero".into(), -0.0)]),
+                    )
+                })
+                .collect();
+            let results = MatcherResults::with_details(entries, details).unwrap();
+            let original = results.clone();
+            for threshold in [None, Some(-1.0), Some(0.0), Some(score), Some(1.1)] {
+                for cardinality_first in [false, true] {
+                    let expected = square_selection(&results, threshold, cardinality_first);
+                    let selected = if cardinality_first {
+                        results.one_to_one_hungarian_threshold_aware(threshold)
+                    } else {
+                        results.one_to_one_hungarian(threshold)
+                    }
+                    .unwrap();
+                    assert_eq!(
+                        selected
+                            .iter()
+                            .map(|(key, _)| key.clone())
+                            .collect::<Vec<_>>(),
+                        expected
+                    );
+                    for (key, value) in &selected {
+                        assert_eq!(value.to_bits(), results.get(key).unwrap().to_bits());
+                        let expected = results.get_details(key).unwrap();
+                        for (name, value) in selected.get_details(key).unwrap() {
+                            assert_eq!(value.to_bits(), expected[name].to_bits());
+                        }
+                    }
+                }
+            }
+            assert_eq!(results, original);
+        }
+    }
+}
+
+#[test]
 fn highly_rectangular_single_row_and_excluded_tall_selection_avoid_dummy_solves() {
     for transposed in [false, true] {
         let identity = |index| {

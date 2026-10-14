@@ -39,6 +39,7 @@ struct Args {
     schema_overlap: usize,
     repetitions: usize,
     sample_size: Option<usize>,
+    result_scores: String,
     #[serde(skip)]
     dump_input: Option<String>,
 }
@@ -58,6 +59,7 @@ impl Default for Args {
             schema_overlap: 100,
             repetitions: 5,
             sample_size: None,
+            result_scores: "mixed".into(),
             dump_input: None,
         }
     }
@@ -83,6 +85,7 @@ fn parse(args: impl IntoIterator<Item = String>) -> BenchResult<Args> {
             "--schema-overlap" => parsed.schema_overlap = value.parse()?,
             "--repetitions" => parsed.repetitions = value.parse()?,
             "--sample-size" => parsed.sample_size = Some(value.parse()?),
+            "--result-scores" => parsed.result_scores = value,
             "--dump-input" => parsed.dump_input = Some(value),
             _ => return Err(format!("unknown option {flag}").into()),
         }
@@ -119,6 +122,9 @@ fn parse(args: impl IntoIterator<Item = String>) -> BenchResult<Args> {
     }
     if !["mixed", "codes", "hashes", "interleaved", "ring"].contains(&parsed.values.as_str()) {
         return Err("values must be mixed, codes, hashes, interleaved, or ring".into());
+    }
+    if !["mixed", "tied"].contains(&parsed.result_scores.as_str()) {
+        return Err("result-scores must be mixed or tied".into());
     }
     if parsed.columns == 0
         || parsed.distinct == 0
@@ -355,9 +361,10 @@ fn scored_results(args: &Args) -> BenchResult<MatcherResults> {
                 "target",
                 format!("column_{:05}", index / args.columns),
             );
-            let score = match index {
-                0 => -0.0,
-                1 => 0.0,
+            let score = match (args.result_scores.as_str(), index) {
+                ("tied", _) => 0.75,
+                (_, 0) => -0.0,
+                (_, 1) => 0.0,
                 _ => (mix(index as u64) % 4096) as f64 / 4096.0,
             };
             details.insert(
@@ -501,6 +508,7 @@ fn main() -> BenchResult<()> {
             CSV/JSON ingest one table; --tables and overlap settings do not affect ingestion.\n\
             Actual distinct count is min(rows, distinct); zero rows are supported.\n\
             Subset modes use rows detailed candidates; metrics/assignment use columns x target-columns.\n\
+            --result-scores mixed|tied (mixed) chooses varied or uniform 0.75 result-operation scores.\n\
             Filter keeps score >= 0.9; per-source keeps one; assignment uses threshold 0.5.\n\
             Peak RSS includes generated inputs and warmup; output hashing follows measurement.\n\
             --dump-input PATH exports an unsampled two-table matching workload without executing it."
@@ -608,6 +616,7 @@ mod tests {
             ["--workers", "0"],
             ["--algorithm", "unknown"],
             ["--values", "unknown"],
+            ["--result-scores", "unknown"],
         ] {
             assert!(parse(args.map(str::to_owned)).is_err());
         }
@@ -647,6 +656,13 @@ mod tests {
         let generated = tables(&args).unwrap();
         assert_eq!(generated[0].columns.len(), 3);
         assert_eq!(generated[1].columns.len(), 5);
+        let tied = scored_results(&Args {
+            result_scores: "tied".into(),
+            ..args
+        })
+        .unwrap();
+        assert_eq!(tied.len(), 15);
+        assert!(tied.iter().all(|(_, score)| *score == 0.75));
     }
 
     #[test]
