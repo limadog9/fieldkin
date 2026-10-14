@@ -17,7 +17,13 @@ use fieldkin::{
 };
 use serde::Serialize;
 use sha2::{Digest, Sha256};
-use std::{collections::BTreeMap, error::Error, fmt::Write, hint::black_box, time::Instant};
+use std::{
+    collections::{BTreeMap, BTreeSet},
+    error::Error,
+    fmt::Write,
+    hint::black_box,
+    time::Instant,
+};
 
 #[path = "support/performance.rs"]
 mod performance;
@@ -109,6 +115,10 @@ fn parse(args: impl IntoIterator<Item = String>) -> BenchResult<Args> {
         "hungarian-aware",
         "hungarian-guarded",
         "hungarian-aware-guarded",
+        "rectangular",
+        "rectangular-aware",
+        "rectangular-guarded",
+        "rectangular-aware-guarded",
         "jaccard-direct",
         "jaccard-guarded",
         "jaccard-exact-direct",
@@ -123,8 +133,8 @@ fn parse(args: impl IntoIterator<Item = String>) -> BenchResult<Args> {
     if !["mixed", "codes", "hashes", "interleaved", "ring"].contains(&parsed.values.as_str()) {
         return Err("values must be mixed, codes, hashes, interleaved, or ring".into());
     }
-    if !["mixed", "tied"].contains(&parsed.result_scores.as_str()) {
-        return Err("result-scores must be mixed or tied".into());
+    if !["mixed", "tied", "sparse"].contains(&parsed.result_scores.as_str()) {
+        return Err("result-scores must be mixed, tied, or sparse".into());
     }
     if parsed.columns == 0
         || parsed.distinct == 0
@@ -336,6 +346,10 @@ fn result_operation(algorithm: &str) -> bool {
             | "hungarian-aware"
             | "hungarian-guarded"
             | "hungarian-aware-guarded"
+            | "rectangular"
+            | "rectangular-aware"
+            | "rectangular-guarded"
+            | "rectangular-aware-guarded"
     )
 }
 
@@ -354,6 +368,14 @@ fn scored_results(args: &Args) -> BenchResult<MatcherResults> {
     };
     let mut details = MatchDetails::new();
     let entries = (0..count)
+        // Retain every row/column identity, but leave most edges absent. The
+        // backbone also keeps singleton-dimension controls genuinely rectangular.
+        .filter(|index| {
+            args.result_scores != "sparse"
+                || index % args.columns == 0
+                || index / args.columns == 0
+                || mix(*index as u64).is_multiple_of(8)
+        })
         .map(|index| {
             let pair = ColumnPair::new(
                 "source",
@@ -380,8 +402,87 @@ fn scored_results(args: &Args) -> BenchResult<MatcherResults> {
     Ok(MatcherResults::with_details(entries, details)?)
 }
 
-fn measure_result_operation(args: &Args) -> BenchResult<(Vec<f64>, Option<u64>, usize, String)> {
+fn assignment_result(
+    input: &MatcherResults,
+    algorithm: &str,
+    threshold: f64,
+) -> BenchResult<MatcherResults> {
+    let limits = WorkLimits::default();
+    Ok(match algorithm {
+        "hungarian" => input.one_to_one_hungarian(Some(threshold))?,
+        "hungarian-aware" => input.one_to_one_hungarian_threshold_aware(Some(threshold))?,
+        "hungarian-guarded" => input.one_to_one_hungarian_with_limits(Some(threshold), &limits)?,
+        "hungarian-aware-guarded" => {
+            input.one_to_one_hungarian_threshold_aware_with_limits(Some(threshold), &limits)?
+        }
+        "rectangular" => input.one_to_one_rectangular(Some(threshold))?,
+        "rectangular-aware" => input.one_to_one_rectangular_threshold_aware(Some(threshold))?,
+        "rectangular-guarded" => {
+            input.one_to_one_rectangular_with_limits(Some(threshold), &limits)?
+        }
+        "rectangular-aware-guarded" => {
+            input.one_to_one_rectangular_threshold_aware_with_limits(Some(threshold), &limits)?
+        }
+        _ => return Err("not an assignment operation".into()),
+    })
+}
+
+#[derive(Debug, Serialize)]
+struct AssignmentValidation {
+    input_sha256: String,
+    objective: &'static str,
+    eligible_pair_count: Option<usize>,
+    score_units: u64,
+    selected_sha256: String,
+}
+
+// Outside timing: check real-edge membership, score/detail bits, and feasibility.
+// The workload uses an exactly representable 1/4096 grid, so objective sums are
+// compared as integers without tolerances or dependence on summation order.
+fn assignment_score_units(input: &MatcherResults, output: &MatcherResults) -> BenchResult<u64> {
+    let mut sources = BTreeSet::new();
+    let mut targets = BTreeSet::new();
+    let mut units = 0_u64;
+    for (pair, score) in output.iter() {
+        if !sources.insert(pair.source()) || !targets.insert(pair.target()) {
+            return Err("assignment repeats a source or target identity".into());
+        }
+        if input.get(pair).map(f64::to_bits) != Some(score.to_bits()) {
+            return Err("assignment changed an input score or invented an edge".into());
+        }
+        let detail_bits = |results: &MatcherResults| {
+            results.get_details(pair).map(|details| {
+                details
+                    .iter()
+                    .map(|(name, value)| (name.clone(), value.to_bits()))
+                    .collect::<Vec<_>>()
+            })
+        };
+        if detail_bits(input) != detail_bits(output) {
+            return Err("assignment changed input component detail bits".into());
+        }
+        let scaled = score * 4096.0;
+        if scaled.fract() != 0.0 {
+            return Err("assignment benchmark score is outside its exact grid".into());
+        }
+        units = units
+            .checked_add(scaled as u64)
+            .ok_or("assignment objective overflows u64")?;
+    }
+    Ok(units)
+}
+
+type ResultMeasurement = (
+    Vec<f64>,
+    Option<u64>,
+    usize,
+    String,
+    Option<AssignmentValidation>,
+);
+
+fn measure_result_operation(args: &Args) -> BenchResult<ResultMeasurement> {
     let input = scored_results(args)?;
+    let mut assignment_validation = None;
     let (timings, peak, count, output_hash) =
         if matches!(args.algorithm.as_str(), "metrics" | "curve") {
             let truth = GroundTruth::Columns(
@@ -423,20 +524,38 @@ fn measure_result_operation(args: &Args) -> BenchResult<(Vec<f64>, Option<u64>, 
                     "top10" => input.take_top_n(10),
                     "filter" => input.filter(0.9)?,
                     "per-source" => input.take_top_n_per_source(1),
-                    "hungarian" => input.one_to_one_hungarian(Some(0.5))?,
-                    "hungarian-aware" => input.one_to_one_hungarian_threshold_aware(Some(0.5))?,
-                    "hungarian-guarded" => {
-                        input.one_to_one_hungarian_with_limits(Some(0.5), &WorkLimits::default())?
-                    }
-                    "hungarian-aware-guarded" => input
-                        .one_to_one_hungarian_threshold_aware_with_limits(
-                            Some(0.5),
-                            &WorkLimits::default(),
-                        )?,
-                    _ => unreachable!("validated result operation"),
+                    algorithm => assignment_result(&input, algorithm, 0.5)?,
                 })
             })?;
             let peak = peak_rss_kib();
+            if args.algorithm.starts_with("hungarian") || args.algorithm.starts_with("rectangular")
+            {
+                let aware = args.algorithm.contains("aware");
+                // Maximum-score selection is optimized BEFORE filtering. An
+                // equal filtered sum does not establish objective equivalence.
+                let objective = if aware {
+                    None
+                } else {
+                    Some(assignment_result(&input, &args.algorithm, -1.0)?)
+                };
+                let score_units =
+                    assignment_score_units(&input, objective.as_ref().unwrap_or(&output))?;
+                assignment_score_units(&input, &output)?;
+                if output.iter().any(|(_, score)| *score < 0.5) {
+                    return Err("assignment retained a below-threshold pair".into());
+                }
+                assignment_validation = Some(AssignmentValidation {
+                    input_sha256: ordered_results_digest(&input)?,
+                    objective: if aware {
+                        "eligible-cardinality-then-score"
+                    } else {
+                        "score-before-filter"
+                    },
+                    eligible_pair_count: aware.then_some(output.len()),
+                    score_units,
+                    selected_sha256: ordered_results_digest(&output)?,
+                });
+            }
             (
                 timings,
                 peak,
@@ -453,6 +572,7 @@ fn measure_result_operation(args: &Args) -> BenchResult<(Vec<f64>, Option<u64>, 
             "{:x}",
             Sha256::digest(format!("{input_hash}:{output_hash}"))
         ),
+        assignment_validation,
     ))
 }
 
@@ -497,9 +617,9 @@ fn main() -> BenchResult<()> {
         println!(
             "Run in release mode. One workload per process; JSON output.\n\
             --algorithm coma|cupid|distribution|jaccard|jaccard-exact|flooding|csv|json (jaccard)\n\
-            Result operations: top0|top10|filter|per-source|metrics|curve|hungarian|hungarian-aware\n\
+            Result operations: top0|top10|filter|per-source|metrics|curve|hungarian|hungarian-aware|rectangular|rectangular-aware\n\
             Guard controls: jaccard[-exact]|distribution with -direct or -guarded suffix;\n\
-            hungarian[-aware]-guarded. Guard controls use unlimited checked work counts.\n\
+            hungarian[-aware]-guarded or rectangular[-aware]-guarded. Guard controls use unlimited checked work counts.\n\
             --values mixed|codes|hashes|interleaved|ring (mixed); codes creates dense fuzzy hits;\n\
             hashes uses all high-entropy text; interleaved/ring stress distribution clustering\n\
             --columns N (8) --rows N (128) --distinct N (32) --tables N (2)\n\
@@ -508,7 +628,7 @@ fn main() -> BenchResult<()> {
             CSV/JSON ingest one table; --tables and overlap settings do not affect ingestion.\n\
             Actual distinct count is min(rows, distinct); zero rows are supported.\n\
             Subset modes use rows detailed candidates; metrics/assignment use columns x target-columns.\n\
-            --result-scores mixed|tied (mixed) chooses varied or uniform 0.75 result-operation scores.\n\
+            --result-scores mixed|tied|sparse (mixed): varied grid, uniform 0.75, or sparse varied edges.\n\
             Filter keeps score >= 0.9; per-source keeps one; assignment uses threshold 0.5.\n\
             Peak RSS includes generated inputs and warmup; output hashing follows measurement.\n\
             --dump-input PATH exports an unsampled two-table matching workload without executing it."
@@ -535,8 +655,11 @@ fn main() -> BenchResult<()> {
         )?;
         return Ok(());
     }
+    let mut assignment_validation = None;
     let (timings, peak_rss, count, fingerprint) = if result_operation(&args.algorithm) {
-        measure_result_operation(&args)?
+        let (timings, peak, count, fingerprint, validation) = measure_result_operation(&args)?;
+        assignment_validation = validation;
+        (timings, peak, count, fingerprint)
     } else if matches!(args.algorithm.as_str(), "csv" | "json") {
         let input = encoded_input(&args);
         let (timings, table) = measure(args.repetitions, || {
@@ -594,6 +717,7 @@ fn main() -> BenchResult<()> {
         serde_json::to_string(&serde_json::json!({
             "parameters": args, "milliseconds": timings, "median_ms": median,
             "peak_rss_kib": peak_rss, "result_count": count, "output_sha256": fingerprint,
+            "assignment_validation": assignment_validation,
         }))?
     );
     Ok(())
@@ -663,6 +787,62 @@ mod tests {
         .unwrap();
         assert_eq!(tied.len(), 15);
         assert!(tied.iter().all(|(_, score)| *score == 0.75));
+        let sparse = scored_results(&Args {
+            result_scores: "sparse".into(),
+            columns: 16,
+            target_columns: Some(8),
+            ..Args::default()
+        })
+        .unwrap();
+        assert!(sparse.len() < 16 * 8);
+        assert_eq!(
+            sparse
+                .iter()
+                .map(|(pair, _)| pair.source())
+                .collect::<BTreeSet<_>>()
+                .len(),
+            16
+        );
+        assert_eq!(
+            sparse
+                .iter()
+                .map(|(pair, _)| pair.target())
+                .collect::<BTreeSet<_>>()
+                .len(),
+            8
+        );
+    }
+
+    #[test]
+    fn assignment_validation_checks_bits_and_real_edge_feasibility() {
+        let input = scored_results(&Args {
+            algorithm: "hungarian".into(),
+            columns: 3,
+            target_columns: Some(2),
+            ..Args::default()
+        })
+        .unwrap();
+        let selected = input.one_to_one_hungarian(Some(-1.0)).unwrap();
+        assert!(assignment_score_units(&input, &selected).is_ok());
+        assert!(assignment_score_units(&input, &input).is_err());
+        let without_details = MatcherResults::new(
+            selected
+                .iter()
+                .map(|(pair, score)| (pair.clone(), *score))
+                .collect(),
+        )
+        .unwrap();
+        assert!(assignment_score_units(&input, &without_details).is_err());
+        let invented =
+            MatcherResults::new(vec![(ColumnPair::new("a", "b", "c", "d"), 0.5)]).unwrap();
+        assert!(assignment_score_units(&input, &invented).is_err());
+        let pair = ColumnPair::new("source", "column_00000", "target", "column_00000");
+        let wrong_zero = MatcherResults::with_details(
+            vec![(pair.clone(), 0.0)],
+            MatchDetails::from([(pair.clone(), input.get_details(&pair).unwrap().clone())]),
+        )
+        .unwrap();
+        assert!(assignment_score_units(&input, &wrong_zero).is_err());
     }
 
     #[test]

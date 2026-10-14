@@ -58,6 +58,7 @@ jobs:
           python scripts/test_distribution_solver_diagnostic.py
           python scripts/test_release_evidence.py
           python validation/test_benchmark_valentine.py
+          python validation/test_benchmark_performance.py
       - name: Check suggestion quality against frozen ground truth
         run: cargo run --locked --example evaluate_all -- --check
       - name: Check independent accuracy against frozen quality baselines

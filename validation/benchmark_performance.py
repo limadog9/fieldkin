@@ -62,6 +62,19 @@ def cases():
                 base, algorithm=algorithm, columns=columns, target_columns=target_columns)
         suite[f"{algorithm}-tied512x1"] = dict(
             base, algorithm=algorithm, columns=512, target_columns=1, result_scores="tied")
+        for columns, target_columns in ((512, 1), (1, 512), (1024, 8), (8, 1024),
+                                        (4096, 16), (16, 4096), (10000, 1), (1, 10000),
+                                        (64, 64), (128, 128)):
+            suite[f"{algorithm}-varied{columns}x{target_columns}"] = dict(
+                base, algorithm=algorithm, columns=columns, target_columns=target_columns)
+        for scores in ("tied", "sparse"):
+            for columns, target_columns in ((1024, 8), (8, 1024), (64, 64)):
+                suite[f"{algorithm}-{scores}{columns}x{target_columns}"] = dict(
+                    base, algorithm=algorithm, columns=columns, target_columns=target_columns,
+                    result_scores=scores)
+        for columns, target_columns in ((1024, 8), (8, 1024), (64, 64)):
+            suite[f"{algorithm}-guarded{columns}x{target_columns}"] = dict(
+                base, algorithm=f"{algorithm}-guarded", columns=columns, target_columns=target_columns)
     for workers in (1, 4):
         suite[f"jaccard-empty-workers{workers}"] = dict(
             base, algorithm="jaccard", columns=512, target_columns=768, rows=0, workers=workers)
@@ -90,11 +103,45 @@ def command(args):
         return None
 
 
+def rectangular_algorithm(algorithm):
+    """Explicit opt-in mapping; other operations must not silently pass through."""
+    if algorithm not in ("hungarian", "hungarian-aware", "hungarian-guarded", "hungarian-aware-guarded"):
+        raise ValueError("rectangular comparison requires a Hungarian assignment case")
+    return algorithm.replace("hungarian", "rectangular", 1)
+
+
+def assignment_identity(report):
+    """Compare exact input/objective, rather than equating optimal tied pairs."""
+    validation = report["assignment_validation"]
+    if not isinstance(validation, dict):
+        raise ValueError("missing assignment validation")
+    for key in ("input_sha256", "selected_sha256"):
+        value = validation[key]
+        if not isinstance(value, str) or len(value) != 64 or any(c not in "0123456789abcdef" for c in value):
+            raise ValueError(f"invalid assignment {key}")
+    objective = validation["objective"]
+    cardinality = validation["eligible_pair_count"]
+    units = validation["score_units"]
+    if type(units) is not int or units < 0:
+        raise ValueError("invalid exact-grid objective sum")
+    if objective == "eligible-cardinality-then-score":
+        if type(cardinality) is not int or cardinality < 0 or cardinality != report["result_count"]:
+            raise ValueError("invalid eligible assignment cardinality")
+    elif objective == "score-before-filter":
+        if cardinality is not None:
+            raise ValueError("maximum-score objective must be checked before threshold filtering")
+    else:
+        raise ValueError("unknown assignment objective")
+    return validation["input_sha256"], objective, cardinality, units
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     executable = "benchmark_performance.exe" if os.name == "nt" else "benchmark_performance"
     parser.add_argument("--binary", type=Path, default=ROOT / "target/release/examples" / executable)
     parser.add_argument("--baseline-binary", type=Path)
+    parser.add_argument("--compare-rectangular", action="store_true",
+                        help="explicitly compare legacy before/new rectangular after: exact objective, allowing optimal tied pairs")
     parser.add_argument("--output", type=Path)
     parser.add_argument("--repetitions", type=int, default=5)
     parser.add_argument("--rounds", type=int, default=3)
@@ -106,6 +153,14 @@ def main():
     if args.list:
         print("\n".join(cases()))
         return 0
+    if args.compare_rectangular:
+        if args.baseline_binary is None or not args.case:
+            parser.error("--compare-rectangular requires --baseline-binary and explicit --case selections")
+        try:
+            for name in args.case:
+                rectangular_algorithm(cases()[name]["algorithm"])
+        except ValueError as error:
+            parser.error(str(error))
     if (args.output is None or min(args.repetitions, args.rounds, args.timeout) <= 0
             or not math.isfinite(args.timeout)):
         parser.error("--output is required; repetitions, rounds, and timeout must be positive")
@@ -144,6 +199,7 @@ def main():
                   "output": str(args.output)}, runs=[], failures=[])
     args.output.parent.mkdir(parents=True, exist_ok=True)
     reference = {}
+    selected_hashes = {}
     for name, parameters in cases().items():
         if args.case and name not in args.case:
             continue
@@ -155,7 +211,10 @@ def main():
         for round_number in range(args.rounds):
             versions = list(binaries) if round_number % 2 == 0 else list(reversed(binaries))
             for version in versions:
-                flags = [item for key, value in expected.items() if value is not None
+                actual = dict(expected)
+                if args.compare_rectangular and version == "after":
+                    actual["algorithm"] = rectangular_algorithm(actual["algorithm"])
+                flags = [item for key, value in actual.items() if value is not None
                          for item in ("--" + key.replace("_", "-"), str(value))]
                 run = dict(case=name, round=round_number + 1, version=version)
                 try:
@@ -169,11 +228,21 @@ def main():
                     if (not math.isfinite(report["median_ms"]) or report["median_ms"] < 0
                             or len(report["milliseconds"]) != args.repetitions):
                         raise ValueError("invalid or incomplete timing measurements")
-                    if report["parameters"] != expected:
-                        raise ValueError(f"parameters differ: expected {expected}, got {report['parameters']}")
-                    identity = (report["output_sha256"], report["result_count"], report["parameters"])
+                    if report["parameters"] != actual:
+                        raise ValueError(f"parameters differ: expected {actual}, got {report['parameters']}")
+                    if args.compare_rectangular:
+                        identity = assignment_identity(report)
+                        hashes = selected_hashes.setdefault(name, {})
+                        selected = report["assignment_validation"]["selected_sha256"]
+                        if hashes.setdefault(version, selected) != selected:
+                            raise ValueError("selected pairs/bits differ across repeated runs of the same solver")
+                        run["comparison"] = "exact objective; tied selected pairs may differ"
+                    else:
+                        # Existing exact-output gate remains the default.
+                        identity = (report["output_sha256"], report["result_count"], report["parameters"])
                     if reference.setdefault(name, identity) != identity:
-                        raise ValueError("output fingerprint or result count differs across versions/rounds")
+                        raise ValueError("assignment input/objective differs across versions/rounds" if args.compare_rectangular
+                                         else "output fingerprint or result count differs across versions/rounds")
                 except (OSError, ValueError, KeyError, TypeError, subprocess.SubprocessError) as error:
                     run["error"] = str(error)
                     if isinstance(error, subprocess.TimeoutExpired):
@@ -192,6 +261,14 @@ def main():
                 median = statistics.median(report["median_ms"] for report in reports)
                 rss = [report["peak_rss_kib"] for report in reports if report["peak_rss_kib"] is not None]
                 summary.append(f"{version}: {median:.3f} ms, RSS {statistics.median(rss) if rss else 'n/a'} KiB")
+        if args.compare_rectangular:
+            hashes = selected_hashes.get(name, {})
+            case_runs = [run for run in output["runs"] if run["case"] == name]
+            if any("error" in run for run in case_runs):
+                summary.append("comparison incomplete/failed; no speedup established")
+            elif len(hashes) == 2:
+                summary.append("identical ordered pairs/bits" if len(set(hashes.values())) == 1
+                               else "different tied pairs; identical exact objective")
         print(f"{name}: {'; '.join(summary) or 'failed'}", flush=True)
     return int(bool(output["failures"]))
 
