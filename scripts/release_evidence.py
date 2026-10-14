@@ -119,17 +119,31 @@ def collect(root, inputs, revision, jobs, tag="", publish=False):
             "invalid model provenance")
     require("test result: ok. 1 passed; 0 failed; 0 ignored;" in native,
             "real native MiniLM test did not execute exactly once")
+    consumers = {}
     for compiler in ("1.94.0", "stable"):
         log = (artifact(f"packaged-consumer-{compiler}") / "packaged-consumer.log").read_text()
         require(f"{revision}\n" in log and
                 "Packaged default execution and optional-feature compilation passed" in log,
                 f"missing successful packaged consumption on {compiler}")
+        rustc = re.findall(r"^rustc .+$", log, re.MULTILINE)
+        cargo = re.findall(r"^cargo .+$", log, re.MULTILINE)
+        checksum = re.findall(r"^SHA256: ([0-9a-f]{64})$", log, re.MULTILINE)
+        dependencies = {name: {"version": version, "rust_version": minimum}
+                        for name, version, minimum in re.findall(
+                            r"^  (fastembed|ort|ort-sys|polars-core|good_lp|microlp) ([^ ]+) \(rust-version=([^)]*)\)$",
+                            log, re.MULTILINE)}
+        require(len(rustc) == len(cargo) == len(checksum) == 1
+                and len(dependencies) == 6, f"incomplete packaged consumer provenance on {compiler}")
+        consumers[compiler] = {"rustc": rustc[0], "cargo": cargo[0],
+                               "archive_sha256": checksum[0], "dependencies": dependencies}
     package_path = artifact("validated-package")
     package = json.loads((package_path / "package.json").read_text())
     archive = package_path / package["archive"]
     require(package["source_commit"] == revision and package["version"] == source["version"],
             "validated package revision/version differs from release")
     require(package["sha256"] == sha256(archive), "validated package checksum mismatch")
+    require(consumers["stable"]["archive_sha256"] == package["sha256"],
+            "stable consumer did not consume the validated package")
     actual = archive_record(root, archive, revision)
     for key in ("source_commit", "version", "sha256", "files"):
         require(package[key] == actual[key], f"validated package {key} mismatch")
@@ -143,7 +157,7 @@ def collect(root, inputs, revision, jobs, tag="", publish=False):
     pins = ["Cargo.lock", "validation/release-requirements.txt", "validation/release-model.sha256",
             "validation/release-nltk.sha256"]
     return {**source, "workflow_run": None, "required_jobs": {key: jobs[key]["result"] for key in jobs},
-            "package": package, "corrected_reference": fixed["aggregate"],
+            "package": package, "packaged_consumers": consumers, "corrected_reference": fixed["aggregate"],
             "reference_provenance": provenance, "unmodified_upstream": upstream["upstream_diagnostic"],
             "executed": {"distribution_patch_regressions": True, "cupid_lookup_orders": len(cupid["runs"]),
                          "native_minilm_tests": 1, "packaged_consumers": ["1.94.0", "stable"],

@@ -72,7 +72,10 @@ class ReleaseEvidenceTests(unittest.TestCase):
         self.write(native / "model.json", {"source_commit": self.sha, "revision": "b" * 40})
         for compiler in ("1.94.0", "stable"):
             (self.artifact(f"packaged-consumer-{compiler}") / "packaged-consumer.log").write_text(
-                self.sha + "\nPackaged default execution and optional-feature compilation passed\n")
+                self.sha + "\nrustc 1.99.0 (fixture)\ncargo 1.99.0 (fixture)\nSHA256: " + self.package["sha256"]
+                + "\n" + "".join(f"  {name} 1.0.0 (rust-version=1.94)\n" for name in
+                                    ("fastembed", "ort", "ort-sys", "polars-core", "good_lp", "microlp"))
+                + "Packaged default execution and optional-feature compilation passed\n")
 
     def git(self, *arguments):
         return subprocess.check_output(["git", *arguments], cwd=self.root, text=True,
@@ -170,6 +173,16 @@ class ReleaseEvidenceTests(unittest.TestCase):
             "aggregate": {"case_count": 6}, "upstream_diagnostic": {"passed": False}})
         with self.assertRaisesRegex(ValueError, "upstream diagnostic"):
             self.collect()
+
+    def test_missing_or_mismatched_consumer_provenance_is_rejected(self):
+        path = self.artifact("packaged-consumer-stable") / "packaged-consumer.log"
+        original = path.read_text()
+        for invalid in (original.replace("rustc 1.99.0 (fixture)\n", ""),
+                        original.replace("  ort 1.0.0 (rust-version=1.94)\n", ""),
+                        original.replace(self.package["sha256"], "f" * 64)):
+            path.write_text(invalid)
+            with self.assertRaisesRegex(ValueError, "provenance|validated package"):
+                self.collect()
 
     def test_package_revision_version_checksum_inventory_and_toolchain_must_match(self):
         release.check_package(self.package, copy.deepcopy(self.package))
