@@ -1,0 +1,2110 @@
+{
+  "baseline_revision": "2644fe8a2f4e7495a915d26a32c1dc939995d68e",
+  "candidate_revision": "852f18a70adcf40f81fec6aaac7ca3e276e66781",
+  "scope": "Native Rust full public selection; no Python performance comparison. Per-process lifetime VmHWM includes inputs and warmup, not incremental solver memory.",
+  "baseline_source_verified": true,
+  "baseline_harness_adaptation": "Identical current harness, replacing .one_to_one_rectangular by .one_to_one_hungarian only to compile new, unexecuted selector arms against old API. Before processes use hungarian modes.",
+  "harness_sha256": {
+    "/workspace/fieldkin-final-hardening/examples/benchmark_performance.rs": "9e49fda825a2af1fc5d230ac666ebe7768b1bf021d9e505487b930960007cc4e",
+    "/tmp/fieldkin-rectangular-baseline/examples/benchmark_performance.rs": "20090162102b2f201d6d7338e3b55e1178ebbf47e29f38ede9794f7fe3f526c9"
+  },
+  "batches": {
+    "headline": {
+      "settings": {
+        "compare_rectangular": true,
+        "repetitions": 3,
+        "rounds": 5,
+        "timeout": 30.0
+      },
+      "cases": [
+        {
+          "case": "hungarian-varied512x1",
+          "parameters": {
+            "algorithm": "rectangular",
+            "columns": 512,
+            "repetitions": 3,
+            "result_scores": "mixed",
+            "target_columns": 1
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [232.921317, 207.89469899999997, 217.566824, 233.899311, 193.119788],
+              "median_ms": 217.566824,
+              "range_ms": [193.119788, 233.899311],
+              "peak_rss_kib": [3236, 3264, 3404, 3308, 3416],
+              "output_sha256": "b4dbe765235224aeb6648fe2511cda2fbc1a4f39f13c04ee18b28228347ef47c",
+              "result_count": 1
+            },
+            "after": {
+              "process_medians_ms": [0.140487, 0.14583200000000002, 0.14629, 0.147204, 0.146686],
+              "median_ms": 0.14629,
+              "range_ms": [0.140487, 0.147204],
+              "peak_rss_kib": [3372, 3340, 3340, 3344, 3296],
+              "output_sha256": "b4dbe765235224aeb6648fe2511cda2fbc1a4f39f13c04ee18b28228347ef47c",
+              "result_count": 1
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": null,
+            "input_sha256": "e3315ccdc866e747afec3e9d359cf8566a829ad4ea49f0cf1b51ee25da7f8fda",
+            "objective": "score-before-filter",
+            "score_units": 4088,
+            "selected_sha256": "ebaefaaaf45724e105245f3014d7fefbf5b841a88002c574968b16eb6da27233"
+          }
+        },
+        {
+          "case": "hungarian-varied1x512",
+          "parameters": {
+            "algorithm": "rectangular",
+            "columns": 1,
+            "repetitions": 3,
+            "result_scores": "mixed",
+            "target_columns": 512
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [0.002738, 0.002535, 0.0026089999999999998, 0.002675, 0.002689],
+              "median_ms": 0.002675,
+              "range_ms": [0.002535, 0.002738],
+              "peak_rss_kib": [3344, 3304, 3328, 3320, 3292],
+              "output_sha256": "bc65073df5a1b045ed4a3645612d2414fa967775ea43cc410530cdec167a44b9",
+              "result_count": 1
+            },
+            "after": {
+              "process_medians_ms": [0.14091900000000002, 0.14499099999999998, 0.139591, 0.142873, 0.147229],
+              "median_ms": 0.142873,
+              "range_ms": [0.139591, 0.147229],
+              "peak_rss_kib": [3284, 3360, 3448, 3368, 3288],
+              "output_sha256": "bc65073df5a1b045ed4a3645612d2414fa967775ea43cc410530cdec167a44b9",
+              "result_count": 1
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": null,
+            "input_sha256": "c7cfe8d61d5edb8fedf705fb38563212059dc6c7c5b8e3ca7e8462ebdcc35b59",
+            "objective": "score-before-filter",
+            "score_units": 4088,
+            "selected_sha256": "18fb0ea7776269089d4289d824d9be165686a29d10c15cbb58ae51ab33abbc23"
+          }
+        },
+        {
+          "case": "hungarian-varied1024x8",
+          "parameters": {
+            "algorithm": "rectangular",
+            "columns": 1024,
+            "repetitions": 3,
+            "result_scores": "mixed",
+            "target_columns": 8
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [1491.39377, 1468.33583, 2017.405665, 1730.599819, 1431.496911],
+              "median_ms": 1491.39377,
+              "range_ms": [1431.496911, 2017.405665],
+              "peak_rss_kib": [12096, 12052, 12080, 11968, 12092],
+              "output_sha256": "7ff656a1a7a0a2c93eca446f9baa9d1cfc3f18a0c5669e81825677caeb8c7685",
+              "result_count": 8
+            },
+            "after": {
+              "process_medians_ms": [4.404222, 4.113848, 3.895366, 3.894618, 4.016801],
+              "median_ms": 4.016801,
+              "range_ms": [3.894618, 4.404222],
+              "peak_rss_kib": [12076, 12072, 12032, 12120, 12072],
+              "output_sha256": "7ff656a1a7a0a2c93eca446f9baa9d1cfc3f18a0c5669e81825677caeb8c7685",
+              "result_count": 8
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": null,
+            "input_sha256": "7c0dde1ee7b8aa3c613b7a210d0348e2271ba4079491693aa5b86061d4c239c5",
+            "objective": "score-before-filter",
+            "score_units": 32713,
+            "selected_sha256": "195f4721e994f6b882cbd36447d5275574fe51067f59bcf581d18d5a48d0052d"
+          }
+        },
+        {
+          "case": "hungarian-varied8x1024",
+          "parameters": {
+            "algorithm": "rectangular",
+            "columns": 8,
+            "repetitions": 3,
+            "result_scores": "mixed",
+            "target_columns": 1024
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [1627.8220700000002, 1575.3062, 1321.7973000000002, 1716.466355, 1977.230135],
+              "median_ms": 1627.8220700000002,
+              "range_ms": [1321.7973000000002, 1977.230135],
+              "peak_rss_kib": [12616, 12612, 12620, 12592, 12628],
+              "output_sha256": "a6482bbba8fb5aaf3f78825d4a235ab602bfba4357387b72690e126b5ec4495c",
+              "result_count": 8
+            },
+            "after": {
+              "process_medians_ms": [3.892173, 4.76687, 5.573227, 6.2037, 7.635392],
+              "median_ms": 5.573227,
+              "range_ms": [3.892173, 7.635392],
+              "peak_rss_kib": [12620, 12672, 12660, 12676, 12668],
+              "output_sha256": "a6482bbba8fb5aaf3f78825d4a235ab602bfba4357387b72690e126b5ec4495c",
+              "result_count": 8
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": null,
+            "input_sha256": "49038a589c71a231e45fc42471a879b671412a8ea129f18c89abe42a657e7541",
+            "objective": "score-before-filter",
+            "score_units": 32730,
+            "selected_sha256": "087125ed6426083e03da0ad91798cec20008fc82c9112dd8049f92a44de4a392"
+          }
+        },
+        {
+          "case": "hungarian-varied64x64",
+          "parameters": {
+            "algorithm": "rectangular",
+            "columns": 64,
+            "repetitions": 3,
+            "result_scores": "mixed",
+            "target_columns": 64
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [3.543781, 2.2528740000000003, 2.149822, 2.183342, 2.176345],
+              "median_ms": 2.183342,
+              "range_ms": [2.149822, 3.543781],
+              "peak_rss_kib": [7592, 7628, 7584, 7480, 7592],
+              "output_sha256": "5b23e9da76e34fd85e361865d1ca209eba293a7ef1c744b7988520b0c723f1f5",
+              "result_count": 64
+            },
+            "after": {
+              "process_medians_ms": [4.690594, 1.9092060000000002, 1.657138, 1.696838, 1.647662],
+              "median_ms": 1.696838,
+              "range_ms": [1.647662, 4.690594],
+              "peak_rss_kib": [7576, 7632, 7680, 7664, 7624],
+              "output_sha256": "5b23e9da76e34fd85e361865d1ca209eba293a7ef1c744b7988520b0c723f1f5",
+              "result_count": 64
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": null,
+            "input_sha256": "7de99f5fe4b2153bde2c9906795f36352ece025c7338a9f0794f9a329651ba08",
+            "objective": "score-before-filter",
+            "score_units": 256159,
+            "selected_sha256": "4a1ab405dcd47982545185d18d1015aa4b8e3a809d8b9c2a355c829a209b76fd"
+          }
+        },
+        {
+          "case": "hungarian-varied128x128",
+          "parameters": {
+            "algorithm": "rectangular",
+            "columns": 128,
+            "repetitions": 3,
+            "result_scores": "mixed",
+            "target_columns": 128
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [18.388835999999998, 11.808623, 12.215883999999999, 12.104097, 12.096635],
+              "median_ms": 12.104097,
+              "range_ms": [11.808623, 18.388835999999998],
+              "peak_rss_kib": [22096, 22176, 22188, 22148, 22100],
+              "output_sha256": "fb3d07d5c4a7fd250cc3343170c2538aae208077ca1e05875cb5b7f24a669f8f",
+              "result_count": 128
+            },
+            "after": {
+              "process_medians_ms": [10.564972000000001, 10.464946, 10.279703, 10.491252, 10.302766],
+              "median_ms": 10.464946,
+              "range_ms": [10.279703, 10.564972000000001],
+              "peak_rss_kib": [22224, 22176, 22176, 22224, 22176],
+              "output_sha256": "fb3d07d5c4a7fd250cc3343170c2538aae208077ca1e05875cb5b7f24a669f8f",
+              "result_count": 128
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": null,
+            "input_sha256": "36123466b0631614f55ebe9d497e775495f88b751288c91fad77c9598417b93f",
+            "objective": "score-before-filter",
+            "score_units": 517267,
+            "selected_sha256": "c269a0d07f0ca59649bd03c1fd418193db602064687b1cc67a68337800b7c4e6"
+          }
+        },
+        {
+          "case": "hungarian-aware-varied512x1",
+          "parameters": {
+            "algorithm": "rectangular-aware",
+            "columns": 512,
+            "repetitions": 3,
+            "result_scores": "mixed",
+            "target_columns": 1
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [169.779353, 173.366541, 171.830604, 169.102688, 204.80873699999998],
+              "median_ms": 171.830604,
+              "range_ms": [169.102688, 204.80873699999998],
+              "peak_rss_kib": [3344, 3304, 3252, 3308, 3400],
+              "output_sha256": "b4dbe765235224aeb6648fe2511cda2fbc1a4f39f13c04ee18b28228347ef47c",
+              "result_count": 1
+            },
+            "after": {
+              "process_medians_ms": [0.114217, 0.117217, 0.115951, 0.122025, 0.120296],
+              "median_ms": 0.117217,
+              "range_ms": [0.114217, 0.122025],
+              "peak_rss_kib": [3288, 3332, 3356, 3332, 3448],
+              "output_sha256": "b4dbe765235224aeb6648fe2511cda2fbc1a4f39f13c04ee18b28228347ef47c",
+              "result_count": 1
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": 1,
+            "input_sha256": "e3315ccdc866e747afec3e9d359cf8566a829ad4ea49f0cf1b51ee25da7f8fda",
+            "objective": "eligible-cardinality-then-score",
+            "score_units": 4088,
+            "selected_sha256": "ebaefaaaf45724e105245f3014d7fefbf5b841a88002c574968b16eb6da27233"
+          }
+        },
+        {
+          "case": "hungarian-aware-varied1x512",
+          "parameters": {
+            "algorithm": "rectangular-aware",
+            "columns": 1,
+            "repetitions": 3,
+            "result_scores": "mixed",
+            "target_columns": 512
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [0.002785, 0.0027, 0.0026460000000000003, 0.002741, 0.002673],
+              "median_ms": 0.0027,
+              "range_ms": [0.0026460000000000003, 0.002785],
+              "peak_rss_kib": [3248, 3256, 3252, 3324, 3304],
+              "output_sha256": "bc65073df5a1b045ed4a3645612d2414fa967775ea43cc410530cdec167a44b9",
+              "result_count": 1
+            },
+            "after": {
+              "process_medians_ms": [0.11738100000000001, 0.11566900000000001, 0.120448, 0.114604, 0.114222],
+              "median_ms": 0.11566900000000001,
+              "range_ms": [0.114222, 0.120448],
+              "peak_rss_kib": [3376, 3388, 3388, 3324, 3288],
+              "output_sha256": "bc65073df5a1b045ed4a3645612d2414fa967775ea43cc410530cdec167a44b9",
+              "result_count": 1
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": 1,
+            "input_sha256": "c7cfe8d61d5edb8fedf705fb38563212059dc6c7c5b8e3ca7e8462ebdcc35b59",
+            "objective": "eligible-cardinality-then-score",
+            "score_units": 4088,
+            "selected_sha256": "18fb0ea7776269089d4289d824d9be165686a29d10c15cbb58ae51ab33abbc23"
+          }
+        },
+        {
+          "case": "hungarian-aware-varied1024x8",
+          "parameters": {
+            "algorithm": "rectangular-aware",
+            "columns": 1024,
+            "repetitions": 3,
+            "result_scores": "mixed",
+            "target_columns": 8
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [1983.248197, 1767.0590690000001, 1472.984045, 1879.652914, 1421.467104],
+              "median_ms": 1767.0590690000001,
+              "range_ms": [1421.467104, 1983.248197],
+              "peak_rss_kib": [12056, 12000, 11924, 11972, 11932],
+              "output_sha256": "7ff656a1a7a0a2c93eca446f9baa9d1cfc3f18a0c5669e81825677caeb8c7685",
+              "result_count": 8
+            },
+            "after": {
+              "process_medians_ms": [3.236475, 3.1955500000000003, 3.3058419999999997, 3.14761, 3.328874],
+              "median_ms": 3.236475,
+              "range_ms": [3.14761, 3.328874],
+              "peak_rss_kib": [12076, 12032, 12028, 12072, 12128],
+              "output_sha256": "7ff656a1a7a0a2c93eca446f9baa9d1cfc3f18a0c5669e81825677caeb8c7685",
+              "result_count": 8
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": 8,
+            "input_sha256": "7c0dde1ee7b8aa3c613b7a210d0348e2271ba4079491693aa5b86061d4c239c5",
+            "objective": "eligible-cardinality-then-score",
+            "score_units": 32713,
+            "selected_sha256": "195f4721e994f6b882cbd36447d5275574fe51067f59bcf581d18d5a48d0052d"
+          }
+        },
+        {
+          "case": "hungarian-aware-varied8x1024",
+          "parameters": {
+            "algorithm": "rectangular-aware",
+            "columns": 8,
+            "repetitions": 3,
+            "result_scores": "mixed",
+            "target_columns": 1024
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [1685.95246, 2023.5946509999999, 1284.188113, 1290.660903, 1301.725291],
+              "median_ms": 1301.725291,
+              "range_ms": [1284.188113, 2023.5946509999999],
+              "peak_rss_kib": [12624, 12628, 12592, 12616, 12628],
+              "output_sha256": "a6482bbba8fb5aaf3f78825d4a235ab602bfba4357387b72690e126b5ec4495c",
+              "result_count": 8
+            },
+            "after": {
+              "process_medians_ms": [3.168069, 3.420857, 3.2265979999999996, 3.259459, 3.2106719999999997],
+              "median_ms": 3.2265979999999996,
+              "range_ms": [3.168069, 3.420857],
+              "peak_rss_kib": [12676, 12576, 12672, 12632, 12588],
+              "output_sha256": "a6482bbba8fb5aaf3f78825d4a235ab602bfba4357387b72690e126b5ec4495c",
+              "result_count": 8
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": 8,
+            "input_sha256": "49038a589c71a231e45fc42471a879b671412a8ea129f18c89abe42a657e7541",
+            "objective": "eligible-cardinality-then-score",
+            "score_units": 32730,
+            "selected_sha256": "087125ed6426083e03da0ad91798cec20008fc82c9112dd8049f92a44de4a392"
+          }
+        },
+        {
+          "case": "hungarian-aware-varied64x64",
+          "parameters": {
+            "algorithm": "rectangular-aware",
+            "columns": 64,
+            "repetitions": 3,
+            "result_scores": "mixed",
+            "target_columns": 64
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [1.711321, 1.6492390000000001, 1.610967, 1.6352929999999999, 1.651336],
+              "median_ms": 1.6492390000000001,
+              "range_ms": [1.610967, 1.711321],
+              "peak_rss_kib": [7624, 7516, 7636, 7636, 7596],
+              "output_sha256": "5b23e9da76e34fd85e361865d1ca209eba293a7ef1c744b7988520b0c723f1f5",
+              "result_count": 64
+            },
+            "after": {
+              "process_medians_ms": [1.511776, 1.4815049999999998, 1.461244, 1.50915, 1.484826],
+              "median_ms": 1.484826,
+              "range_ms": [1.461244, 1.511776],
+              "peak_rss_kib": [7600, 7668, 7624, 7596, 7584],
+              "output_sha256": "5b23e9da76e34fd85e361865d1ca209eba293a7ef1c744b7988520b0c723f1f5",
+              "result_count": 64
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": 64,
+            "input_sha256": "7de99f5fe4b2153bde2c9906795f36352ece025c7338a9f0794f9a329651ba08",
+            "objective": "eligible-cardinality-then-score",
+            "score_units": 256159,
+            "selected_sha256": "4a1ab405dcd47982545185d18d1015aa4b8e3a809d8b9c2a355c829a209b76fd"
+          }
+        },
+        {
+          "case": "hungarian-aware-varied128x128",
+          "parameters": {
+            "algorithm": "rectangular-aware",
+            "columns": 128,
+            "repetitions": 3,
+            "result_scores": "mixed",
+            "target_columns": 128
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [9.642559, 9.599958, 9.753326999999999, 9.649279, 9.561923],
+              "median_ms": 9.642559,
+              "range_ms": [9.561923, 9.753326999999999],
+              "peak_rss_kib": [22136, 22164, 22100, 22180, 22100],
+              "output_sha256": "fb3d07d5c4a7fd250cc3343170c2538aae208077ca1e05875cb5b7f24a669f8f",
+              "result_count": 128
+            },
+            "after": {
+              "process_medians_ms": [9.216076, 9.188417000000001, 9.221187, 9.284039, 9.174352],
+              "median_ms": 9.216076,
+              "range_ms": [9.174352, 9.284039],
+              "peak_rss_kib": [22128, 22168, 22152, 22176, 22128],
+              "output_sha256": "fb3d07d5c4a7fd250cc3343170c2538aae208077ca1e05875cb5b7f24a669f8f",
+              "result_count": 128
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": 128,
+            "input_sha256": "36123466b0631614f55ebe9d497e775495f88b751288c91fad77c9598417b93f",
+            "objective": "eligible-cardinality-then-score",
+            "score_units": 517267,
+            "selected_sha256": "c269a0d07f0ca59649bd03c1fd418193db602064687b1cc67a68337800b7c4e6"
+          }
+        }
+      ]
+    },
+    "controls": {
+      "settings": {
+        "compare_rectangular": true,
+        "repetitions": 1,
+        "rounds": 5,
+        "timeout": 20.0
+      },
+      "cases": [
+        {
+          "case": "hungarian-tied1024x8",
+          "parameters": {
+            "algorithm": "rectangular",
+            "columns": 1024,
+            "repetitions": 1,
+            "result_scores": "tied",
+            "target_columns": 8
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [1372.5956059999999, 1304.168753, 1290.2841299999998, 1300.112981, 1283.852809],
+              "median_ms": 1300.112981,
+              "range_ms": [1283.852809, 1372.5956059999999],
+              "peak_rss_kib": [12084, 11968, 12040, 12084, 12064],
+              "output_sha256": "d37eb71c5e25ca0cb48d69eac43c37806df6111899bc7ad7fd9181351a4c58fe",
+              "result_count": 8
+            },
+            "after": {
+              "process_medians_ms": [3.394955, 3.372659, 3.367891, 3.503631, 3.454257],
+              "median_ms": 3.394955,
+              "range_ms": [3.367891, 3.503631],
+              "peak_rss_kib": [12024, 12084, 12040, 12040, 12120],
+              "output_sha256": "d37eb71c5e25ca0cb48d69eac43c37806df6111899bc7ad7fd9181351a4c58fe",
+              "result_count": 8
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": null,
+            "input_sha256": "799b70a06d0d2b996a83038ebcafff84db5d7b8237fc83b5e5737e3d61928b03",
+            "objective": "score-before-filter",
+            "score_units": 24576,
+            "selected_sha256": "d6502407df35f4ce7fa918f24b695f8897f24d15a4d12be71afbfb715ba1878b"
+          }
+        },
+        {
+          "case": "hungarian-tied8x1024",
+          "parameters": {
+            "algorithm": "rectangular",
+            "columns": 8,
+            "repetitions": 1,
+            "result_scores": "tied",
+            "target_columns": 1024
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [1299.703813, 1273.2333680000002, 1317.843352, 1290.848303, 1292.339728],
+              "median_ms": 1292.339728,
+              "range_ms": [1273.2333680000002, 1317.843352],
+              "peak_rss_kib": [12512, 12628, 12584, 12596, 12516],
+              "output_sha256": "f63fd4ac70d1875d7f52ef09e6e18cd2f63a68adf7874a0046c54b78b05f3fb6",
+              "result_count": 8
+            },
+            "after": {
+              "process_medians_ms": [3.35443, 3.63742, 3.2816099999999997, 3.5963649999999996, 3.663008],
+              "median_ms": 3.5963649999999996,
+              "range_ms": [3.2816099999999997, 3.663008],
+              "peak_rss_kib": [12556, 12596, 12656, 12612, 12508],
+              "output_sha256": "f63fd4ac70d1875d7f52ef09e6e18cd2f63a68adf7874a0046c54b78b05f3fb6",
+              "result_count": 8
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": null,
+            "input_sha256": "e198ae7a8ad3ca0ef69444faeeb0a693371f81173ccf983ec590ac262a1e937f",
+            "objective": "score-before-filter",
+            "score_units": 24576,
+            "selected_sha256": "d6502407df35f4ce7fa918f24b695f8897f24d15a4d12be71afbfb715ba1878b"
+          }
+        },
+        {
+          "case": "hungarian-tied64x64",
+          "parameters": {
+            "algorithm": "rectangular",
+            "columns": 64,
+            "repetitions": 1,
+            "result_scores": "tied",
+            "target_columns": 64
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [1.8390609999999998, 1.789306, 1.800243, 1.9381599999999999, 1.8030089999999999],
+              "median_ms": 1.8030089999999999,
+              "range_ms": [1.789306, 1.9381599999999999],
+              "peak_rss_kib": [7476, 7512, 7640, 7580, 7616],
+              "output_sha256": "491ef290dc35418446c73bd2cb41c030bbd5a8c1de79016a1ebdb3cc61200d82",
+              "result_count": 64
+            },
+            "after": {
+              "process_medians_ms": [2.068145, 2.1759560000000002, 2.047998, 2.5004799999999996, 2.036899],
+              "median_ms": 2.068145,
+              "range_ms": [2.036899, 2.5004799999999996],
+              "peak_rss_kib": [7552, 7516, 7556, 7556, 7608],
+              "output_sha256": "491ef290dc35418446c73bd2cb41c030bbd5a8c1de79016a1ebdb3cc61200d82",
+              "result_count": 64
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": null,
+            "input_sha256": "834e7af15de7478a65d92843609abb71b8a3a7dcd27992c7d61962af08c9e8d7",
+            "objective": "score-before-filter",
+            "score_units": 196608,
+            "selected_sha256": "b6afa7661f178aff946114cf2592731891ef17ea2b9d95dfa472ef885d57dcf2"
+          }
+        },
+        {
+          "case": "hungarian-sparse1024x8",
+          "parameters": {
+            "algorithm": "rectangular",
+            "columns": 1024,
+            "repetitions": 1,
+            "result_scores": "sparse",
+            "target_columns": 8
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [1325.0043119999998, 1348.3745959999999, 1318.25288, 1323.2318570000002, 1317.641863],
+              "median_ms": 1323.2318570000002,
+              "range_ms": [1317.641863, 1348.3745959999999],
+              "peak_rss_kib": [5024, 5016, 5020, 5032, 5024],
+              "output_sha256": "d0e3b05fe871673b114ebcd6002aee68f0c125fdfdc631c0bec2d822c734af61",
+              "result_count": 8
+            },
+            "after": {
+              "process_medians_ms": [0.949159, 0.830195, 0.830136, 0.817383, 0.848628],
+              "median_ms": 0.830195,
+              "range_ms": [0.817383, 0.949159],
+              "peak_rss_kib": [4960, 4960, 4916, 4996, 5000],
+              "output_sha256": "d0e3b05fe871673b114ebcd6002aee68f0c125fdfdc631c0bec2d822c734af61",
+              "result_count": 8
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": null,
+            "input_sha256": "035691637648d4898719f5f007604610a173dd5e7aab5721dcf92c63e2f67f22",
+            "objective": "score-before-filter",
+            "score_units": 32483,
+            "selected_sha256": "2ef901c0c0bfbbb313ebeef481a2459a50744a19c12eed6645c0baf6d6cc1122"
+          }
+        },
+        {
+          "case": "hungarian-sparse8x1024",
+          "parameters": {
+            "algorithm": "rectangular",
+            "columns": 8,
+            "repetitions": 1,
+            "result_scores": "sparse",
+            "target_columns": 1024
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [1269.0527769999999, 1270.083557, 1280.640821, 1283.428795, 1281.558891],
+              "median_ms": 1280.640821,
+              "range_ms": [1269.0527769999999, 1283.428795],
+              "peak_rss_kib": [5104, 4956, 4956, 5120, 5116],
+              "output_sha256": "e7afaecb22ea2036d236abd191918333a291aabd21799a024fb93c2219820df1",
+              "result_count": 8
+            },
+            "after": {
+              "process_medians_ms": [0.833606, 0.849916, 0.8615769999999999, 0.847239, 0.920638],
+              "median_ms": 0.849916,
+              "range_ms": [0.833606, 0.920638],
+              "peak_rss_kib": [5116, 5160, 5076, 5148, 5064],
+              "output_sha256": "e7afaecb22ea2036d236abd191918333a291aabd21799a024fb93c2219820df1",
+              "result_count": 8
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": null,
+            "input_sha256": "9d9312eec495a321e317bedf127e36a9aa66ea97ad5e65fdf80b6e865016362e",
+            "objective": "score-before-filter",
+            "score_units": 32582,
+            "selected_sha256": "7a9f64aebd9ec689d8f8cf85f548f452c6bc4caa2a5bf07311a9a23bfeeaf702"
+          }
+        },
+        {
+          "case": "hungarian-sparse64x64",
+          "parameters": {
+            "algorithm": "rectangular",
+            "columns": 64,
+            "repetitions": 1,
+            "result_scores": "sparse",
+            "target_columns": 64
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [0.448514, 0.428141, 0.455248, 0.429152, 0.447745],
+              "median_ms": 0.447745,
+              "range_ms": [0.428141, 0.455248],
+              "peak_rss_kib": [3540, 3564, 3420, 3492, 3460],
+              "output_sha256": "b6ec77f53f669f706f52f09477283e25f1eec9b71c0e88f8c120009a672aa55c",
+              "result_count": 57
+            },
+            "after": {
+              "process_medians_ms": [0.520172, 0.513409, 0.510953, 0.542038, 0.520362],
+              "median_ms": 0.520172,
+              "range_ms": [0.510953, 0.542038],
+              "peak_rss_kib": [3580, 3528, 3600, 3508, 3560],
+              "output_sha256": "b6ec77f53f669f706f52f09477283e25f1eec9b71c0e88f8c120009a672aa55c",
+              "result_count": 57
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": null,
+            "input_sha256": "7d3609797d9f3de21a1b74e071d00c640a36a2307ffe5937406618bc652bdd0f",
+            "objective": "score-before-filter",
+            "score_units": 209249,
+            "selected_sha256": "3b9bd738bf19c3f91c3c05be5ac2233d93854e14b741fced4ecdfa35ff985522"
+          }
+        },
+        {
+          "case": "hungarian-guarded1024x8",
+          "parameters": {
+            "algorithm": "rectangular-guarded",
+            "columns": 1024,
+            "repetitions": 1,
+            "result_scores": "mixed",
+            "target_columns": 8
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [1332.936033, 1343.507958, 1336.528248, 1340.264425, 1333.043782],
+              "median_ms": 1336.528248,
+              "range_ms": [1332.936033, 1343.507958],
+              "peak_rss_kib": [12044, 12088, 11928, 11972, 12040],
+              "output_sha256": "7ff656a1a7a0a2c93eca446f9baa9d1cfc3f18a0c5669e81825677caeb8c7685",
+              "result_count": 8
+            },
+            "after": {
+              "process_medians_ms": [3.891248, 3.876262, 3.922523, 3.9144239999999995, 3.8738409999999996],
+              "median_ms": 3.891248,
+              "range_ms": [3.8738409999999996, 3.922523],
+              "peak_rss_kib": [12052, 12024, 12040, 12104, 12084],
+              "output_sha256": "7ff656a1a7a0a2c93eca446f9baa9d1cfc3f18a0c5669e81825677caeb8c7685",
+              "result_count": 8
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": null,
+            "input_sha256": "7c0dde1ee7b8aa3c613b7a210d0348e2271ba4079491693aa5b86061d4c239c5",
+            "objective": "score-before-filter",
+            "score_units": 32713,
+            "selected_sha256": "195f4721e994f6b882cbd36447d5275574fe51067f59bcf581d18d5a48d0052d"
+          }
+        },
+        {
+          "case": "hungarian-guarded8x1024",
+          "parameters": {
+            "algorithm": "rectangular-guarded",
+            "columns": 8,
+            "repetitions": 1,
+            "result_scores": "mixed",
+            "target_columns": 1024
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [1296.6857400000001, 1283.633164, 1299.963355, 1287.442019, 1278.6417079999999],
+              "median_ms": 1287.442019,
+              "range_ms": [1278.6417079999999, 1299.963355],
+              "peak_rss_kib": [12628, 12612, 12592, 12596, 12632],
+              "output_sha256": "a6482bbba8fb5aaf3f78825d4a235ab602bfba4357387b72690e126b5ec4495c",
+              "result_count": 8
+            },
+            "after": {
+              "process_medians_ms": [4.034484, 3.9306769999999998, 3.937624, 3.8582460000000003, 3.9550829999999997],
+              "median_ms": 3.937624,
+              "range_ms": [3.8582460000000003, 4.034484],
+              "peak_rss_kib": [12572, 12632, 12572, 12668, 12628],
+              "output_sha256": "a6482bbba8fb5aaf3f78825d4a235ab602bfba4357387b72690e126b5ec4495c",
+              "result_count": 8
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": null,
+            "input_sha256": "49038a589c71a231e45fc42471a879b671412a8ea129f18c89abe42a657e7541",
+            "objective": "score-before-filter",
+            "score_units": 32730,
+            "selected_sha256": "087125ed6426083e03da0ad91798cec20008fc82c9112dd8049f92a44de4a392"
+          }
+        },
+        {
+          "case": "hungarian-guarded64x64",
+          "parameters": {
+            "algorithm": "rectangular-guarded",
+            "columns": 64,
+            "repetitions": 1,
+            "result_scores": "mixed",
+            "target_columns": 64
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [2.027011, 2.411607, 2.030346, 2.0447159999999998, 2.014518],
+              "median_ms": 2.030346,
+              "range_ms": [2.014518, 2.411607],
+              "peak_rss_kib": [7516, 7540, 7600, 7596, 7548],
+              "output_sha256": "5b23e9da76e34fd85e361865d1ca209eba293a7ef1c744b7988520b0c723f1f5",
+              "result_count": 64
+            },
+            "after": {
+              "process_medians_ms": [1.6982869999999999, 1.9626930000000002, 1.631822, 1.6568150000000001, 1.718483],
+              "median_ms": 1.6982869999999999,
+              "range_ms": [1.631822, 1.9626930000000002],
+              "peak_rss_kib": [7580, 7664, 7672, 7580, 7632],
+              "output_sha256": "5b23e9da76e34fd85e361865d1ca209eba293a7ef1c744b7988520b0c723f1f5",
+              "result_count": 64
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": null,
+            "input_sha256": "7de99f5fe4b2153bde2c9906795f36352ece025c7338a9f0794f9a329651ba08",
+            "objective": "score-before-filter",
+            "score_units": 256159,
+            "selected_sha256": "4a1ab405dcd47982545185d18d1015aa4b8e3a809d8b9c2a355c829a209b76fd"
+          }
+        },
+        {
+          "case": "hungarian-aware-tied1024x8",
+          "parameters": {
+            "algorithm": "rectangular-aware",
+            "columns": 1024,
+            "repetitions": 1,
+            "result_scores": "tied",
+            "target_columns": 8
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [1306.117712, 1315.887193, 1293.6435740000002, 1302.280103, 1315.710573],
+              "median_ms": 1306.117712,
+              "range_ms": [1293.6435740000002, 1315.887193],
+              "peak_rss_kib": [12044, 12092, 12076, 12048, 12072],
+              "output_sha256": "d37eb71c5e25ca0cb48d69eac43c37806df6111899bc7ad7fd9181351a4c58fe",
+              "result_count": 8
+            },
+            "after": {
+              "process_medians_ms": [3.4001859999999997, 3.396528, 3.422157, 3.36639, 3.364327],
+              "median_ms": 3.396528,
+              "range_ms": [3.364327, 3.422157],
+              "peak_rss_kib": [12080, 12080, 11972, 12024, 12120],
+              "output_sha256": "d37eb71c5e25ca0cb48d69eac43c37806df6111899bc7ad7fd9181351a4c58fe",
+              "result_count": 8
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": 8,
+            "input_sha256": "799b70a06d0d2b996a83038ebcafff84db5d7b8237fc83b5e5737e3d61928b03",
+            "objective": "eligible-cardinality-then-score",
+            "score_units": 24576,
+            "selected_sha256": "d6502407df35f4ce7fa918f24b695f8897f24d15a4d12be71afbfb715ba1878b"
+          }
+        },
+        {
+          "case": "hungarian-aware-tied8x1024",
+          "parameters": {
+            "algorithm": "rectangular-aware",
+            "columns": 8,
+            "repetitions": 1,
+            "result_scores": "tied",
+            "target_columns": 1024
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [1275.628741, 1271.243738, 1314.7096179999999, 1408.434385, 1275.665729],
+              "median_ms": 1275.665729,
+              "range_ms": [1271.243738, 1408.434385],
+              "peak_rss_kib": [12620, 12632, 12584, 12620, 12624],
+              "output_sha256": "f63fd4ac70d1875d7f52ef09e6e18cd2f63a68adf7874a0046c54b78b05f3fb6",
+              "result_count": 8
+            },
+            "after": {
+              "process_medians_ms": [3.3581879999999997, 3.2838659999999997, 3.2887630000000003, 3.318137, 3.789243],
+              "median_ms": 3.318137,
+              "range_ms": [3.2838659999999997, 3.789243],
+              "peak_rss_kib": [12584, 12548, 12592, 12652, 12508],
+              "output_sha256": "f63fd4ac70d1875d7f52ef09e6e18cd2f63a68adf7874a0046c54b78b05f3fb6",
+              "result_count": 8
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": 8,
+            "input_sha256": "e198ae7a8ad3ca0ef69444faeeb0a693371f81173ccf983ec590ac262a1e937f",
+            "objective": "eligible-cardinality-then-score",
+            "score_units": 24576,
+            "selected_sha256": "d6502407df35f4ce7fa918f24b695f8897f24d15a4d12be71afbfb715ba1878b"
+          }
+        },
+        {
+          "case": "hungarian-aware-tied64x64",
+          "parameters": {
+            "algorithm": "rectangular-aware",
+            "columns": 64,
+            "repetitions": 1,
+            "result_scores": "tied",
+            "target_columns": 64
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [1.785857, 1.776121, 1.7707860000000002, 1.930432, 1.9029179999999999],
+              "median_ms": 1.785857,
+              "range_ms": [1.7707860000000002, 1.930432],
+              "peak_rss_kib": [7584, 7608, 7596, 7632, 7620],
+              "output_sha256": "491ef290dc35418446c73bd2cb41c030bbd5a8c1de79016a1ebdb3cc61200d82",
+              "result_count": 64
+            },
+            "after": {
+              "process_medians_ms": [2.183682, 2.0496809999999996, 2.174783, 2.0661680000000002, 2.2861000000000002],
+              "median_ms": 2.174783,
+              "range_ms": [2.0496809999999996, 2.2861000000000002],
+              "peak_rss_kib": [7568, 7604, 7612, 7656, 7588],
+              "output_sha256": "491ef290dc35418446c73bd2cb41c030bbd5a8c1de79016a1ebdb3cc61200d82",
+              "result_count": 64
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": 64,
+            "input_sha256": "834e7af15de7478a65d92843609abb71b8a3a7dcd27992c7d61962af08c9e8d7",
+            "objective": "eligible-cardinality-then-score",
+            "score_units": 196608,
+            "selected_sha256": "b6afa7661f178aff946114cf2592731891ef17ea2b9d95dfa472ef885d57dcf2"
+          }
+        },
+        {
+          "case": "hungarian-aware-sparse1024x8",
+          "parameters": {
+            "algorithm": "rectangular-aware",
+            "columns": 1024,
+            "repetitions": 1,
+            "result_scores": "sparse",
+            "target_columns": 8
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [1340.435595, 1337.0747139999999, 1336.73778, 1346.406732, 1368.9492070000001],
+              "median_ms": 1340.435595,
+              "range_ms": [1336.73778, 1368.9492070000001],
+              "peak_rss_kib": [5016, 5016, 4976, 4988, 5032],
+              "output_sha256": "d0e3b05fe871673b114ebcd6002aee68f0c125fdfdc631c0bec2d822c734af61",
+              "result_count": 8
+            },
+            "after": {
+              "process_medians_ms": [0.6578849999999999, 0.66766, 0.680234, 0.67862, 0.673638],
+              "median_ms": 0.673638,
+              "range_ms": [0.6578849999999999, 0.680234],
+              "peak_rss_kib": [5000, 5000, 4964, 4960, 4948],
+              "output_sha256": "d0e3b05fe871673b114ebcd6002aee68f0c125fdfdc631c0bec2d822c734af61",
+              "result_count": 8
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": 8,
+            "input_sha256": "035691637648d4898719f5f007604610a173dd5e7aab5721dcf92c63e2f67f22",
+            "objective": "eligible-cardinality-then-score",
+            "score_units": 32483,
+            "selected_sha256": "2ef901c0c0bfbbb313ebeef481a2459a50744a19c12eed6645c0baf6d6cc1122"
+          }
+        },
+        {
+          "case": "hungarian-aware-sparse8x1024",
+          "parameters": {
+            "algorithm": "rectangular-aware",
+            "columns": 8,
+            "repetitions": 1,
+            "result_scores": "sparse",
+            "target_columns": 1024
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [1261.958658, 1268.215675, 1271.91996, 1286.20029, 1286.9801490000002],
+              "median_ms": 1271.91996,
+              "range_ms": [1261.958658, 1286.9801490000002],
+              "peak_rss_kib": [5104, 5120, 5120, 4964, 5100],
+              "output_sha256": "e7afaecb22ea2036d236abd191918333a291aabd21799a024fb93c2219820df1",
+              "result_count": 8
+            },
+            "after": {
+              "process_medians_ms": [0.790674, 0.733134, 0.701165, 0.694386, 0.6779820000000001],
+              "median_ms": 0.701165,
+              "range_ms": [0.6779820000000001, 0.790674],
+              "peak_rss_kib": [5156, 5148, 5160, 5064, 5080],
+              "output_sha256": "e7afaecb22ea2036d236abd191918333a291aabd21799a024fb93c2219820df1",
+              "result_count": 8
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": 8,
+            "input_sha256": "9d9312eec495a321e317bedf127e36a9aa66ea97ad5e65fdf80b6e865016362e",
+            "objective": "eligible-cardinality-then-score",
+            "score_units": 32582,
+            "selected_sha256": "7a9f64aebd9ec689d8f8cf85f548f452c6bc4caa2a5bf07311a9a23bfeeaf702"
+          }
+        },
+        {
+          "case": "hungarian-aware-sparse64x64",
+          "parameters": {
+            "algorithm": "rectangular-aware",
+            "columns": 64,
+            "repetitions": 1,
+            "result_scores": "sparse",
+            "target_columns": 64
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [0.466799, 0.479774, 0.46238300000000004, 0.457636, 0.465013],
+              "median_ms": 0.465013,
+              "range_ms": [0.457636, 0.479774],
+              "peak_rss_kib": [3576, 3580, 3572, 3556, 3564],
+              "output_sha256": "d6af94a88e68d6269316c7c0eb251298d6297c3fbf35a3a7e58765056e4a0dee",
+              "result_count": 61
+            },
+            "after": {
+              "process_medians_ms": [0.581338, 0.622794, 0.604188, 0.6069060000000001, 0.573947],
+              "median_ms": 0.604188,
+              "range_ms": [0.573947, 0.622794],
+              "peak_rss_kib": [3604, 3504, 3548, 3524, 3556],
+              "output_sha256": "d6af94a88e68d6269316c7c0eb251298d6297c3fbf35a3a7e58765056e4a0dee",
+              "result_count": 61
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": 61,
+            "input_sha256": "7d3609797d9f3de21a1b74e071d00c640a36a2307ffe5937406618bc652bdd0f",
+            "objective": "eligible-cardinality-then-score",
+            "score_units": 204263,
+            "selected_sha256": "f050c49c53133ca6243f2a6e7f5838e546a97d97910fec229202f9f0057b7036"
+          }
+        },
+        {
+          "case": "hungarian-aware-guarded1024x8",
+          "parameters": {
+            "algorithm": "rectangular-aware-guarded",
+            "columns": 1024,
+            "repetitions": 1,
+            "result_scores": "mixed",
+            "target_columns": 8
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [1356.168475, 1346.152393, 1360.404782, 1341.7938060000001, 1350.452365],
+              "median_ms": 1350.452365,
+              "range_ms": [1341.7938060000001, 1360.404782],
+              "peak_rss_kib": [12076, 12048, 12040, 12092, 12092],
+              "output_sha256": "7ff656a1a7a0a2c93eca446f9baa9d1cfc3f18a0c5669e81825677caeb8c7685",
+              "result_count": 8
+            },
+            "after": {
+              "process_medians_ms": [3.2796040000000004, 3.255826, 3.221772, 3.2519519999999997, 3.281902],
+              "median_ms": 3.255826,
+              "range_ms": [3.221772, 3.281902],
+              "peak_rss_kib": [12128, 12048, 12036, 12048, 12080],
+              "output_sha256": "7ff656a1a7a0a2c93eca446f9baa9d1cfc3f18a0c5669e81825677caeb8c7685",
+              "result_count": 8
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": 8,
+            "input_sha256": "7c0dde1ee7b8aa3c613b7a210d0348e2271ba4079491693aa5b86061d4c239c5",
+            "objective": "eligible-cardinality-then-score",
+            "score_units": 32713,
+            "selected_sha256": "195f4721e994f6b882cbd36447d5275574fe51067f59bcf581d18d5a48d0052d"
+          }
+        },
+        {
+          "case": "hungarian-aware-guarded8x1024",
+          "parameters": {
+            "algorithm": "rectangular-aware-guarded",
+            "columns": 8,
+            "repetitions": 1,
+            "result_scores": "mixed",
+            "target_columns": 1024
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [1291.543189, 1284.5771790000001, 1287.529291, 1279.131155, 1322.677165],
+              "median_ms": 1287.529291,
+              "range_ms": [1279.131155, 1322.677165],
+              "peak_rss_kib": [12472, 12516, 12588, 12540, 12540],
+              "output_sha256": "a6482bbba8fb5aaf3f78825d4a235ab602bfba4357387b72690e126b5ec4495c",
+              "result_count": 8
+            },
+            "after": {
+              "process_medians_ms": [3.4921599999999997, 3.4374789999999997, 3.2766319999999998, 3.46868, 3.575449],
+              "median_ms": 3.46868,
+              "range_ms": [3.2766319999999998, 3.575449],
+              "peak_rss_kib": [12592, 12648, 12664, 12624, 12624],
+              "output_sha256": "a6482bbba8fb5aaf3f78825d4a235ab602bfba4357387b72690e126b5ec4495c",
+              "result_count": 8
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": 8,
+            "input_sha256": "49038a589c71a231e45fc42471a879b671412a8ea129f18c89abe42a657e7541",
+            "objective": "eligible-cardinality-then-score",
+            "score_units": 32730,
+            "selected_sha256": "087125ed6426083e03da0ad91798cec20008fc82c9112dd8049f92a44de4a392"
+          }
+        },
+        {
+          "case": "hungarian-aware-guarded64x64",
+          "parameters": {
+            "algorithm": "rectangular-aware-guarded",
+            "columns": 64,
+            "repetitions": 1,
+            "result_scores": "mixed",
+            "target_columns": 64
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [1.65421, 1.650156, 1.671816, 1.757127, 2.1578280000000003],
+              "median_ms": 1.671816,
+              "range_ms": [1.650156, 2.1578280000000003],
+              "peak_rss_kib": [7596, 7548, 7588, 7612, 7624],
+              "output_sha256": "5b23e9da76e34fd85e361865d1ca209eba293a7ef1c744b7988520b0c723f1f5",
+              "result_count": 64
+            },
+            "after": {
+              "process_medians_ms": [1.53517, 1.4623570000000001, 1.520778, 1.4799559999999998, 1.468151],
+              "median_ms": 1.4799559999999998,
+              "range_ms": [1.4623570000000001, 1.53517],
+              "peak_rss_kib": [7572, 7620, 7664, 7576, 7576],
+              "output_sha256": "5b23e9da76e34fd85e361865d1ca209eba293a7ef1c744b7988520b0c723f1f5",
+              "result_count": 64
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": 64,
+            "input_sha256": "7de99f5fe4b2153bde2c9906795f36352ece025c7338a9f0794f9a329651ba08",
+            "objective": "eligible-cardinality-then-score",
+            "score_units": 256159,
+            "selected_sha256": "4a1ab405dcd47982545185d18d1015aa4b8e3a809d8b9c2a355c829a209b76fd"
+          }
+        }
+      ]
+    },
+    "large": {
+      "settings": {
+        "compare_rectangular": true,
+        "repetitions": 3,
+        "rounds": 5,
+        "timeout": 3.0
+      },
+      "cases": [
+        {
+          "case": "hungarian-varied4096x16",
+          "parameters": {
+            "algorithm": "rectangular",
+            "columns": 4096,
+            "repetitions": 3,
+            "result_scores": "mixed",
+            "target_columns": 16
+          },
+          "versions": {
+            "after": {
+              "process_medians_ms": [59.851418, 58.151748000000005, 57.436067, 58.633722, 57.332012],
+              "median_ms": 58.151748000000005,
+              "range_ms": [57.332012, 59.851418],
+              "peak_rss_kib": [77548, 77592, 77584, 77532, 77588],
+              "output_sha256": "7e1158d81e1e1baa5f8ff644f980c4d619791069d079b644f8ee33e358860be3",
+              "result_count": 16
+            }
+          },
+          "failures": [
+            {
+              "version": "before",
+              "round": 1,
+              "error": "whole process exceeded three-second deadline"
+            },
+            {
+              "version": "before",
+              "round": 2,
+              "error": "whole process exceeded three-second deadline"
+            },
+            {
+              "version": "before",
+              "round": 3,
+              "error": "whole process exceeded three-second deadline"
+            },
+            {
+              "version": "before",
+              "round": 4,
+              "error": "whole process exceeded three-second deadline"
+            },
+            {
+              "version": "before",
+              "round": 5,
+              "error": "whole process exceeded three-second deadline"
+            }
+          ],
+          "assignment_validation": {
+            "eligible_pair_count": null,
+            "input_sha256": "2a20672b65d2ec6d25a9db5490a428b847dd54edc015effb033e86a28dda1577",
+            "objective": "score-before-filter",
+            "score_units": 65506,
+            "selected_sha256": "3e41c292fc7492fb4b9bf4037b0cdfff466cd805ca61dc78fdb7557bdc3c247a"
+          }
+        },
+        {
+          "case": "hungarian-varied16x4096",
+          "parameters": {
+            "algorithm": "rectangular",
+            "columns": 16,
+            "repetitions": 3,
+            "result_scores": "mixed",
+            "target_columns": 4096
+          },
+          "versions": {
+            "after": {
+              "process_medians_ms": [54.275344000000004, 55.387431, 54.910615, 55.351812, 56.110482000000005],
+              "median_ms": 55.351812,
+              "range_ms": [54.275344000000004, 56.110482000000005],
+              "peak_rss_kib": [81548, 81524, 81476, 81560, 81476],
+              "output_sha256": "a04491b370f9bba702452d356fd706e6c9d4cfa26e3457fc3821226a462b3771",
+              "result_count": 16
+            }
+          },
+          "failures": [
+            {
+              "version": "before",
+              "round": 1,
+              "error": "whole process exceeded three-second deadline"
+            },
+            {
+              "version": "before",
+              "round": 2,
+              "error": "whole process exceeded three-second deadline"
+            },
+            {
+              "version": "before",
+              "round": 3,
+              "error": "whole process exceeded three-second deadline"
+            },
+            {
+              "version": "before",
+              "round": 4,
+              "error": "whole process exceeded three-second deadline"
+            },
+            {
+              "version": "before",
+              "round": 5,
+              "error": "whole process exceeded three-second deadline"
+            }
+          ],
+          "assignment_validation": {
+            "eligible_pair_count": null,
+            "input_sha256": "d4ea70fb4b373f562ae00a7aafb6b69c41bffa892c05ea6541d6b965d16cedb0",
+            "objective": "score-before-filter",
+            "score_units": 65497,
+            "selected_sha256": "fd0c91370c9793d7ad110643a46dd0248c8adc0c32a15f8f23907a1fe21eb825"
+          }
+        },
+        {
+          "case": "hungarian-varied10000x1",
+          "parameters": {
+            "algorithm": "rectangular",
+            "columns": 10000,
+            "repetitions": 3,
+            "result_scores": "mixed",
+            "target_columns": 1
+          },
+          "versions": {
+            "after": {
+              "process_medians_ms": [6.426538, 6.343867, 6.237201000000001, 6.430223, 6.755809],
+              "median_ms": 6.426538,
+              "range_ms": [6.237201000000001, 6.755809],
+              "peak_rss_kib": [14796, 14756, 14700, 14756, 14772],
+              "output_sha256": "448c59a86c730e79020c48f23af1c4ec7d8d4302bd1c4c3c01c775406e99384a",
+              "result_count": 1
+            }
+          },
+          "failures": [
+            {
+              "version": "before",
+              "round": 1,
+              "error": "whole process exceeded three-second deadline"
+            },
+            {
+              "version": "before",
+              "round": 2,
+              "error": "whole process exceeded three-second deadline"
+            },
+            {
+              "version": "before",
+              "round": 3,
+              "error": "whole process exceeded three-second deadline"
+            },
+            {
+              "version": "before",
+              "round": 4,
+              "error": "whole process exceeded three-second deadline"
+            },
+            {
+              "version": "before",
+              "round": 5,
+              "error": "whole process exceeded three-second deadline"
+            }
+          ],
+          "assignment_validation": {
+            "eligible_pair_count": null,
+            "input_sha256": "428a360bbe84da7000f929d3c8a50e934114da0a93e5faea796abe19f55d0da6",
+            "objective": "score-before-filter",
+            "score_units": 4095,
+            "selected_sha256": "f0a93852e41058ee4b8e11e4b8a34bdb29d9589b16a0dda23df3164ac1bf6c9f"
+          }
+        },
+        {
+          "case": "hungarian-varied1x10000",
+          "parameters": {
+            "algorithm": "rectangular",
+            "columns": 1,
+            "repetitions": 3,
+            "result_scores": "mixed",
+            "target_columns": 10000
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [0.07733000000000001, 0.073975, 0.074362, 0.07365100000000001, 0.07443000000000001],
+              "median_ms": 0.074362,
+              "range_ms": [0.07365100000000001, 0.07733000000000001],
+              "peak_rss_kib": [14704, 14744, 14636, 14664, 14720],
+              "output_sha256": "1e99b85d49d10622dd6a5be78750912bee05f94aa4e6ae4556fcf2de0af1e8ed",
+              "result_count": 1
+            },
+            "after": {
+              "process_medians_ms": [5.904185, 6.098192, 6.113258, 5.8876349999999995, 5.871417999999999],
+              "median_ms": 5.904185,
+              "range_ms": [5.871417999999999, 6.113258],
+              "peak_rss_kib": [14756, 14696, 14752, 14780, 14860],
+              "output_sha256": "1e99b85d49d10622dd6a5be78750912bee05f94aa4e6ae4556fcf2de0af1e8ed",
+              "result_count": 1
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": null,
+            "input_sha256": "8fc3ad8f5bf500aa0325815070dc21de9a537b464d2f669a76d69c5f966bfed7",
+            "objective": "score-before-filter",
+            "score_units": 4095,
+            "selected_sha256": "5ad7c10aafa331270ee9d935ddac9d294cc1d1d8eecb2cd3c868de8dbdd31749"
+          }
+        },
+        {
+          "case": "hungarian-aware-varied4096x16",
+          "parameters": {
+            "algorithm": "rectangular-aware",
+            "columns": 4096,
+            "repetitions": 3,
+            "result_scores": "mixed",
+            "target_columns": 16
+          },
+          "versions": {
+            "after": {
+              "process_medians_ms": [45.129527, 44.956501, 45.882789, 44.994562, 44.992141],
+              "median_ms": 44.994562,
+              "range_ms": [44.956501, 45.882789],
+              "peak_rss_kib": [77500, 77588, 77576, 77508, 77540],
+              "output_sha256": "7e1158d81e1e1baa5f8ff644f980c4d619791069d079b644f8ee33e358860be3",
+              "result_count": 16
+            }
+          },
+          "failures": [
+            {
+              "version": "before",
+              "round": 1,
+              "error": "whole process exceeded three-second deadline"
+            },
+            {
+              "version": "before",
+              "round": 2,
+              "error": "whole process exceeded three-second deadline"
+            },
+            {
+              "version": "before",
+              "round": 3,
+              "error": "whole process exceeded three-second deadline"
+            },
+            {
+              "version": "before",
+              "round": 4,
+              "error": "whole process exceeded three-second deadline"
+            },
+            {
+              "version": "before",
+              "round": 5,
+              "error": "whole process exceeded three-second deadline"
+            }
+          ],
+          "assignment_validation": {
+            "eligible_pair_count": 16,
+            "input_sha256": "2a20672b65d2ec6d25a9db5490a428b847dd54edc015effb033e86a28dda1577",
+            "objective": "eligible-cardinality-then-score",
+            "score_units": 65506,
+            "selected_sha256": "3e41c292fc7492fb4b9bf4037b0cdfff466cd805ca61dc78fdb7557bdc3c247a"
+          }
+        },
+        {
+          "case": "hungarian-aware-varied16x4096",
+          "parameters": {
+            "algorithm": "rectangular-aware",
+            "columns": 16,
+            "repetitions": 3,
+            "result_scores": "mixed",
+            "target_columns": 4096
+          },
+          "versions": {
+            "after": {
+              "process_medians_ms": [48.081176000000006, 43.911472, 44.146808, 44.360558000000005, 45.045719],
+              "median_ms": 44.360558000000005,
+              "range_ms": [43.911472, 48.081176000000006],
+              "peak_rss_kib": [81484, 81472, 81492, 81576, 81520],
+              "output_sha256": "a04491b370f9bba702452d356fd706e6c9d4cfa26e3457fc3821226a462b3771",
+              "result_count": 16
+            }
+          },
+          "failures": [
+            {
+              "version": "before",
+              "round": 1,
+              "error": "whole process exceeded three-second deadline"
+            },
+            {
+              "version": "before",
+              "round": 2,
+              "error": "whole process exceeded three-second deadline"
+            },
+            {
+              "version": "before",
+              "round": 3,
+              "error": "whole process exceeded three-second deadline"
+            },
+            {
+              "version": "before",
+              "round": 4,
+              "error": "whole process exceeded three-second deadline"
+            },
+            {
+              "version": "before",
+              "round": 5,
+              "error": "whole process exceeded three-second deadline"
+            }
+          ],
+          "assignment_validation": {
+            "eligible_pair_count": 16,
+            "input_sha256": "d4ea70fb4b373f562ae00a7aafb6b69c41bffa892c05ea6541d6b965d16cedb0",
+            "objective": "eligible-cardinality-then-score",
+            "score_units": 65497,
+            "selected_sha256": "fd0c91370c9793d7ad110643a46dd0248c8adc0c32a15f8f23907a1fe21eb825"
+          }
+        },
+        {
+          "case": "hungarian-aware-varied10000x1",
+          "parameters": {
+            "algorithm": "rectangular-aware",
+            "columns": 10000,
+            "repetitions": 3,
+            "result_scores": "mixed",
+            "target_columns": 1
+          },
+          "versions": {
+            "after": {
+              "process_medians_ms": [4.811419, 4.802027000000001, 4.906422, 7.517476, 4.868244],
+              "median_ms": 4.868244,
+              "range_ms": [4.802027000000001, 7.517476],
+              "peak_rss_kib": [14844, 14852, 14748, 14696, 14776],
+              "output_sha256": "448c59a86c730e79020c48f23af1c4ec7d8d4302bd1c4c3c01c775406e99384a",
+              "result_count": 1
+            }
+          },
+          "failures": [
+            {
+              "version": "before",
+              "round": 1,
+              "error": "whole process exceeded three-second deadline"
+            },
+            {
+              "version": "before",
+              "round": 2,
+              "error": "whole process exceeded three-second deadline"
+            },
+            {
+              "version": "before",
+              "round": 3,
+              "error": "whole process exceeded three-second deadline"
+            },
+            {
+              "version": "before",
+              "round": 4,
+              "error": "whole process exceeded three-second deadline"
+            },
+            {
+              "version": "before",
+              "round": 5,
+              "error": "whole process exceeded three-second deadline"
+            }
+          ],
+          "assignment_validation": {
+            "eligible_pair_count": 1,
+            "input_sha256": "428a360bbe84da7000f929d3c8a50e934114da0a93e5faea796abe19f55d0da6",
+            "objective": "eligible-cardinality-then-score",
+            "score_units": 4095,
+            "selected_sha256": "f0a93852e41058ee4b8e11e4b8a34bdb29d9589b16a0dda23df3164ac1bf6c9f"
+          }
+        },
+        {
+          "case": "hungarian-aware-varied1x10000",
+          "parameters": {
+            "algorithm": "rectangular-aware",
+            "columns": 1,
+            "repetitions": 3,
+            "result_scores": "mixed",
+            "target_columns": 10000
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [0.079362, 0.07448099999999999, 0.073561, 0.08009100000000001, 0.084077],
+              "median_ms": 0.079362,
+              "range_ms": [0.073561, 0.084077],
+              "peak_rss_kib": [14756, 14640, 14756, 14708, 14740],
+              "output_sha256": "1e99b85d49d10622dd6a5be78750912bee05f94aa4e6ae4556fcf2de0af1e8ed",
+              "result_count": 1
+            },
+            "after": {
+              "process_medians_ms": [4.73876, 4.692307, 4.672619, 4.59937, 4.657489],
+              "median_ms": 4.672619,
+              "range_ms": [4.59937, 4.73876],
+              "peak_rss_kib": [14756, 14852, 14764, 14800, 14784],
+              "output_sha256": "1e99b85d49d10622dd6a5be78750912bee05f94aa4e6ae4556fcf2de0af1e8ed",
+              "result_count": 1
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": 1,
+            "input_sha256": "8fc3ad8f5bf500aa0325815070dc21de9a537b464d2f669a76d69c5f966bfed7",
+            "objective": "eligible-cardinality-then-score",
+            "score_units": 4095,
+            "selected_sha256": "5ad7c10aafa331270ee9d935ddac9d294cc1d1d8eecb2cd3c868de8dbdd31749"
+          }
+        }
+      ]
+    },
+    "legacy": {
+      "settings": {
+        "compare_rectangular": false,
+        "repetitions": 3,
+        "rounds": 5,
+        "timeout": 30.0
+      },
+      "cases": [
+        {
+          "case": "hungarian-varied512x1",
+          "parameters": {
+            "algorithm": "hungarian",
+            "columns": 512,
+            "repetitions": 3,
+            "result_scores": "mixed",
+            "target_columns": 1
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [169.402483, 165.840096, 162.501145, 163.331322, 162.723799],
+              "median_ms": 163.331322,
+              "range_ms": [162.501145, 169.402483],
+              "peak_rss_kib": [3312, 3408, 3320, 3336, 3260],
+              "output_sha256": "b4dbe765235224aeb6648fe2511cda2fbc1a4f39f13c04ee18b28228347ef47c",
+              "result_count": 1
+            },
+            "after": {
+              "process_medians_ms": [156.56115, 155.982068, 153.69825, 154.45589900000002, 157.452127],
+              "median_ms": 155.982068,
+              "range_ms": [153.69825, 157.452127],
+              "peak_rss_kib": [3396, 3296, 3452, 3348, 3296],
+              "output_sha256": "b4dbe765235224aeb6648fe2511cda2fbc1a4f39f13c04ee18b28228347ef47c",
+              "result_count": 1
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": null,
+            "input_sha256": "e3315ccdc866e747afec3e9d359cf8566a829ad4ea49f0cf1b51ee25da7f8fda",
+            "objective": "score-before-filter",
+            "score_units": 4088,
+            "selected_sha256": "ebaefaaaf45724e105245f3014d7fefbf5b841a88002c574968b16eb6da27233"
+          }
+        },
+        {
+          "case": "hungarian-varied64x64",
+          "parameters": {
+            "algorithm": "hungarian",
+            "columns": 64,
+            "repetitions": 3,
+            "result_scores": "mixed",
+            "target_columns": 64
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [2.089833, 2.308898, 2.060573, 2.051352, 2.061852],
+              "median_ms": 2.061852,
+              "range_ms": [2.051352, 2.308898],
+              "peak_rss_kib": [7612, 7480, 7584, 7616, 7636],
+              "output_sha256": "5b23e9da76e34fd85e361865d1ca209eba293a7ef1c744b7988520b0c723f1f5",
+              "result_count": 64
+            },
+            "after": {
+              "process_medians_ms": [2.006497, 2.1627170000000002, 2.17155, 2.065723, 2.137388],
+              "median_ms": 2.137388,
+              "range_ms": [2.006497, 2.17155],
+              "peak_rss_kib": [7632, 7576, 7676, 7612, 7572],
+              "output_sha256": "5b23e9da76e34fd85e361865d1ca209eba293a7ef1c744b7988520b0c723f1f5",
+              "result_count": 64
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": null,
+            "input_sha256": "7de99f5fe4b2153bde2c9906795f36352ece025c7338a9f0794f9a329651ba08",
+            "objective": "score-before-filter",
+            "score_units": 256159,
+            "selected_sha256": "4a1ab405dcd47982545185d18d1015aa4b8e3a809d8b9c2a355c829a209b76fd"
+          }
+        },
+        {
+          "case": "hungarian-varied128x128",
+          "parameters": {
+            "algorithm": "hungarian",
+            "columns": 128,
+            "repetitions": 3,
+            "result_scores": "mixed",
+            "target_columns": 128
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [12.739258999999999, 11.779127, 11.953113, 11.779539, 11.842349],
+              "median_ms": 11.842349,
+              "range_ms": [11.779127, 12.739258999999999],
+              "peak_rss_kib": [22032, 22188, 22144, 22180, 22184],
+              "output_sha256": "fb3d07d5c4a7fd250cc3343170c2538aae208077ca1e05875cb5b7f24a669f8f",
+              "result_count": 128
+            },
+            "after": {
+              "process_medians_ms": [12.128068, 13.781145, 12.155703, 11.841577000000001, 11.624338],
+              "median_ms": 12.128068,
+              "range_ms": [11.624338, 13.781145],
+              "peak_rss_kib": [22164, 22188, 22168, 22176, 22176],
+              "output_sha256": "fb3d07d5c4a7fd250cc3343170c2538aae208077ca1e05875cb5b7f24a669f8f",
+              "result_count": 128
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": null,
+            "input_sha256": "36123466b0631614f55ebe9d497e775495f88b751288c91fad77c9598417b93f",
+            "objective": "score-before-filter",
+            "score_units": 517267,
+            "selected_sha256": "c269a0d07f0ca59649bd03c1fd418193db602064687b1cc67a68337800b7c4e6"
+          }
+        },
+        {
+          "case": "hungarian-aware-varied64x64",
+          "parameters": {
+            "algorithm": "hungarian-aware",
+            "columns": 64,
+            "repetitions": 3,
+            "result_scores": "mixed",
+            "target_columns": 64
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [1.6820030000000001, 1.614586, 1.620089, 1.630831, 1.586169],
+              "median_ms": 1.620089,
+              "range_ms": [1.586169, 1.6820030000000001],
+              "peak_rss_kib": [7596, 7472, 7636, 7516, 7520],
+              "output_sha256": "5b23e9da76e34fd85e361865d1ca209eba293a7ef1c744b7988520b0c723f1f5",
+              "result_count": 64
+            },
+            "after": {
+              "process_medians_ms": [1.6177279999999998, 1.6385079999999999, 1.623567, 1.6237190000000001, 1.632668],
+              "median_ms": 1.6237190000000001,
+              "range_ms": [1.6177279999999998, 1.6385079999999999],
+              "peak_rss_kib": [7672, 7624, 7592, 7680, 7668],
+              "output_sha256": "5b23e9da76e34fd85e361865d1ca209eba293a7ef1c744b7988520b0c723f1f5",
+              "result_count": 64
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": 64,
+            "input_sha256": "7de99f5fe4b2153bde2c9906795f36352ece025c7338a9f0794f9a329651ba08",
+            "objective": "eligible-cardinality-then-score",
+            "score_units": 256159,
+            "selected_sha256": "4a1ab405dcd47982545185d18d1015aa4b8e3a809d8b9c2a355c829a209b76fd"
+          }
+        },
+        {
+          "case": "hungarian-aware-varied128x128",
+          "parameters": {
+            "algorithm": "hungarian-aware",
+            "columns": 128,
+            "repetitions": 3,
+            "result_scores": "mixed",
+            "target_columns": 128
+          },
+          "versions": {
+            "before": {
+              "process_medians_ms": [9.586743, 9.47568, 10.452725, 9.60512, 9.467435],
+              "median_ms": 9.586743,
+              "range_ms": [9.467435, 10.452725],
+              "peak_rss_kib": [22164, 22032, 22168, 22152, 22188],
+              "output_sha256": "fb3d07d5c4a7fd250cc3343170c2538aae208077ca1e05875cb5b7f24a669f8f",
+              "result_count": 128
+            },
+            "after": {
+              "process_medians_ms": [9.367116, 9.416105, 9.376731, 9.362033, 9.472785],
+              "median_ms": 9.376731,
+              "range_ms": [9.362033, 9.472785],
+              "peak_rss_kib": [22176, 22228, 22220, 22228, 22184],
+              "output_sha256": "fb3d07d5c4a7fd250cc3343170c2538aae208077ca1e05875cb5b7f24a669f8f",
+              "result_count": 128
+            }
+          },
+          "failures": [],
+          "identical_ordered_outputs": true,
+          "same_objective": true,
+          "assignment_validation": {
+            "eligible_pair_count": 128,
+            "input_sha256": "36123466b0631614f55ebe9d497e775495f88b751288c91fad77c9598417b93f",
+            "objective": "eligible-cardinality-then-score",
+            "score_units": 517267,
+            "selected_sha256": "c269a0d07f0ca59649bd03c1fd418193db602064687b1cc67a68337800b7c4e6"
+          }
+        }
+      ]
+    }
+  },
+  "prototype_experiments": {
+    "zero-recheck": {
+      "settings": {
+        "compare_rectangular": false,
+        "repetitions": 21,
+        "rounds": 5,
+        "timeout": 30.0
+      },
+      "cases": [
+        {
+          "case": "rectangular-tied64x64",
+          "identical_ordered_outputs": true,
+          "medians_ms": {
+            "before": [5.69435, 3.010196, 3.027012, 2.886405, 3.017431],
+            "after": [2.203258, 2.0352970000000004, 3.6851570000000002, 2.632852, 2.089773]
+          },
+          "median_peak_rss_kib": {
+            "before": 7512,
+            "after": 7508
+          }
+        },
+        {
+          "case": "rectangular-sparse64x64",
+          "identical_ordered_outputs": true,
+          "medians_ms": {
+            "before": [0.559387, 0.551363, 0.555484, 0.593608, 0.5497650000000001],
+            "after": [0.542924, 0.545955, 0.5338930000000001, 0.5415570000000001, 0.5115620000000001]
+          },
+          "median_peak_rss_kib": {
+            "before": 3540,
+            "after": 3584
+          }
+        },
+        {
+          "case": "rectangular-varied64x64",
+          "identical_ordered_outputs": true,
+          "medians_ms": {
+            "before": [1.689669, 1.697792, 1.6997939999999998, 1.732089, 1.702163],
+            "after": [1.814445, 1.639723, 1.6674229999999999, 1.6343340000000002, 1.644948]
+          },
+          "median_peak_rss_kib": {
+            "before": 7596,
+            "after": 7612
+          }
+        },
+        {
+          "case": "rectangular-varied1024x8",
+          "identical_ordered_outputs": true,
+          "medians_ms": {
+            "before": [3.9867490000000005, 3.9796500000000004, 3.98675, 4.038359, 4.0285269999999995],
+            "after": [4.0691939999999995, 3.924388, 4.027808, 3.88727, 4.058466999999999]
+          },
+          "median_peak_rss_kib": {
+            "before": 12044,
+            "after": 12068
+          }
+        },
+        {
+          "case": "rectangular-aware-tied64x64",
+          "identical_ordered_outputs": true,
+          "medians_ms": {
+            "before": [2.8854029999999997, 2.925631, 2.890413, 2.8873670000000002, 2.928252],
+            "after": [2.0428960000000003, 2.042373, 2.049801, 2.098726, 2.0380599999999998]
+          },
+          "median_peak_rss_kib": {
+            "before": 7548,
+            "after": 7584
+          }
+        },
+        {
+          "case": "rectangular-aware-sparse64x64",
+          "identical_ordered_outputs": true,
+          "medians_ms": {
+            "before": [0.6423180000000001, 0.635758, 0.6352289999999999, 0.64923, 0.6415649999999999],
+            "after": [0.5912390000000001, 0.598546, 0.587931, 0.591933, 0.5935159999999999]
+          },
+          "median_peak_rss_kib": {
+            "before": 3540,
+            "after": 3616
+          }
+        },
+        {
+          "case": "rectangular-aware-varied64x64",
+          "identical_ordered_outputs": true,
+          "medians_ms": {
+            "before": [1.581479, 1.457789, 1.493962, 3.619485, 1.515792],
+            "after": [1.454757, 1.464361, 1.491187, 3.672977, 1.477108]
+          },
+          "median_peak_rss_kib": {
+            "before": 7576,
+            "after": 7628
+          }
+        },
+        {
+          "case": "rectangular-aware-varied1024x8",
+          "identical_ordered_outputs": true,
+          "medians_ms": {
+            "before": [5.444519, 3.246755, 5.575025, 3.2553970000000003, 3.333008],
+            "after": [7.371057, 3.413937, 5.412661, 3.262249, 3.269767]
+          },
+          "median_peak_rss_kib": {
+            "before": 12028,
+            "after": 12076
+          }
+        }
+      ]
+    },
+    "wide-recheck": {
+      "settings": {
+        "compare_rectangular": false,
+        "repetitions": 21,
+        "rounds": 5,
+        "timeout": 30.0
+      },
+      "cases": [
+        {
+          "case": "rectangular-varied8x1024",
+          "identical_ordered_outputs": true,
+          "medians_ms": {
+            "before": [3.9452769999999995, 3.915397, 4.089927, 3.923903, 3.929213],
+            "after": [3.9464360000000003, 3.824436, 3.994681, 3.9634960000000006, 3.992346]
+          },
+          "median_peak_rss_kib": {
+            "before": 12556,
+            "after": 12616
+          }
+        },
+        {
+          "case": "rectangular-aware-varied8x1024",
+          "identical_ordered_outputs": true,
+          "medians_ms": {
+            "before": [3.177735, 3.212132, 3.299309, 3.1846069999999997, 3.197639],
+            "after": [3.131468, 3.133864, 3.169159, 3.220806, 3.2255360000000004]
+          },
+          "median_peak_rss_kib": {
+            "before": 12588,
+            "after": 12660
+          }
+        },
+        {
+          "case": "rectangular-varied128x128",
+          "identical_ordered_outputs": true,
+          "medians_ms": {
+            "before": [10.648598999999999, 10.857113, 13.704025, 21.219932, 11.136086],
+            "after": [10.513042, 21.078621, 12.559692, 16.515537000000002, 17.640372000000003]
+          },
+          "median_peak_rss_kib": {
+            "before": 22140,
+            "after": 22184
+          }
+        },
+        {
+          "case": "rectangular-aware-varied128x128",
+          "identical_ordered_outputs": true,
+          "medians_ms": {
+            "before": [12.765593, 12.284695, 9.431541, 15.402878, 10.472660999999999],
+            "after": [9.423345, 15.578123, 10.847475000000001, 15.494203, 9.433511000000001]
+          },
+          "median_peak_rss_kib": {
+            "before": 22120,
+            "after": 22184
+          }
+        }
+      ]
+    },
+    "cpu0-recheck": {
+      "settings": {
+        "compare_rectangular": false,
+        "repetitions": 31,
+        "rounds": 5,
+        "timeout": 30.0
+      },
+      "cases": [
+        {
+          "case": "rectangular-varied128x128",
+          "identical_ordered_outputs": true,
+          "medians_ms": {
+            "before": [11.07116, 10.799881000000001, 10.939818, 10.810051, 14.005876],
+            "after": [10.635774000000001, 10.536101, 10.490427, 13.499106000000001, 11.077595]
+          },
+          "median_peak_rss_kib": {
+            "before": 22124,
+            "after": 22168
+          }
+        },
+        {
+          "case": "rectangular-aware-varied128x128",
+          "identical_ordered_outputs": true,
+          "medians_ms": {
+            "before": [9.524337000000001, 9.546021, 9.599651000000001, 10.083874, 11.099214],
+            "after": [9.530869000000001, 9.617134, 12.504055, 15.003987, 12.468722]
+          },
+          "median_peak_rss_kib": {
+            "before": 22120,
+            "after": 22128
+          }
+        },
+        {
+          "case": "rectangular-tied64x64",
+          "identical_ordered_outputs": true,
+          "medians_ms": {
+            "before": [5.001018999999999, 2.892833, 2.933738, 2.97635, 2.963025],
+            "after": [2.208027, 2.067457, 2.074046, 2.12372, 2.125966]
+          },
+          "median_peak_rss_kib": {
+            "before": 7504,
+            "after": 7532
+          }
+        },
+        {
+          "case": "rectangular-aware-tied64x64",
+          "identical_ordered_outputs": true,
+          "medians_ms": {
+            "before": [2.8698930000000002, 2.906229, 2.887877, 2.9410730000000003, 2.874644],
+            "after": [2.122808, 2.041734, 2.041495, 3.631849, 2.033221]
+          },
+          "median_peak_rss_kib": {
+            "before": 7580,
+            "after": 7584
+          }
+        }
+      ]
+    },
+    "description": "Before is initial compensated kernel c12742a, after adds only exact zero/cancellation arithmetic shortcuts. zero-recheck after binary precedes a comment-only rebuild; final later batches use committed 852f18a. All prototype ordered-output gates remain exact. CPU 2 except cpu0-recheck on CPU 0. Sampled profiling found inlined rectangular_selection costs but did not separately resolve every preparation/kernel phase."
+  },
+  "checked_overhead": {
+    "repetitions": 31,
+    "rounds": 5,
+    "scope": "Alternating fresh processes on CPU 2; existing harness uses WorkLimits::default() for guarded modes. This measures accepted guarded entry points/overflow checks, not every finite-cap configuration.",
+    "cases": [
+      {
+        "rows": 1024,
+        "columns": 8,
+        "aware": false,
+        "process_medians_ms": {
+          "rectangular": [8.271188, 3.889942, 4.063412, 4.041622, 3.903336],
+          "rectangular-guarded": [4.037065, 3.9195510000000002, 3.9263910000000006, 3.896866, 3.9232499999999995]
+        },
+        "output_sha256": "7ff656a1a7a0a2c93eca446f9baa9d1cfc3f18a0c5669e81825677caeb8c7685"
+      },
+      {
+        "rows": 1024,
+        "columns": 8,
+        "aware": true,
+        "process_medians_ms": {
+          "rectangular-aware": [3.32175, 3.205174, 3.312065, 3.184352, 3.351963],
+          "rectangular-aware-guarded": [3.228493, 3.147215, 3.134953, 3.166509, 3.8683530000000004]
+        },
+        "output_sha256": "7ff656a1a7a0a2c93eca446f9baa9d1cfc3f18a0c5669e81825677caeb8c7685"
+      },
+      {
+        "rows": 8,
+        "columns": 1024,
+        "aware": false,
+        "process_medians_ms": {
+          "rectangular": [7.308451, 3.8606190000000002, 3.916391, 4.424709, 3.9780279999999997],
+          "rectangular-guarded": [7.380023, 4.004719000000001, 3.961264, 4.210931, 3.91924]
+        },
+        "output_sha256": "a6482bbba8fb5aaf3f78825d4a235ab602bfba4357387b72690e126b5ec4495c"
+      },
+      {
+        "rows": 8,
+        "columns": 1024,
+        "aware": true,
+        "process_medians_ms": {
+          "rectangular-aware": [3.145686, 3.0946939999999996, 3.244725, 3.142377, 3.1466],
+          "rectangular-aware-guarded": [3.1296589999999997, 3.260567, 3.252336, 3.1828659999999998, 3.163094]
+        },
+        "output_sha256": "a6482bbba8fb5aaf3f78825d4a235ab602bfba4357387b72690e126b5ec4495c"
+      },
+      {
+        "rows": 64,
+        "columns": 64,
+        "aware": false,
+        "process_medians_ms": {
+          "rectangular": [1.7340929999999999, 4.339172, 3.416601, 1.666075, 1.691791],
+          "rectangular-guarded": [1.665068, 1.711319, 3.875437, 1.65947, 1.683535]
+        },
+        "output_sha256": "5b23e9da76e34fd85e361865d1ca209eba293a7ef1c744b7988520b0c723f1f5"
+      },
+      {
+        "rows": 64,
+        "columns": 64,
+        "aware": true,
+        "process_medians_ms": {
+          "rectangular-aware": [1.606199, 1.468589, 1.4655930000000001, 1.4613230000000001, 1.55886],
+          "rectangular-aware-guarded": [1.45063, 1.463128, 1.485318, 1.49854, 1.467406]
+        },
+        "output_sha256": "5b23e9da76e34fd85e361865d1ca209eba293a7ef1c744b7988520b0c723f1f5"
+      }
+    ]
+  },
+  "neutral_arithmetic_exact_output_cases": 30,
+  "environment": {
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+    "python": "3.12.14",
+    "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
+    "revision": "852f18a70adcf40f81fec6aaac7ca3e276e66781",
+    "working_tree": "",
+    "cpu_count": 5,
+    "cpu_model": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "cpu_max": "400000 100000",
+    "memory_max": "34359738368",
+    "started_utc": "2026-10-14T22:20:14Z",
+    "binaries": {
+      "before": {
+        "path": "/tmp/fieldkin-rectangular-before-target/release/examples/benchmark_performance",
+        "sha256": "f8a7e57178c2f7e634611f3a8f3be76b8651827aefc64ea15f15000840d1add2"
+      },
+      "after": {
+        "path": "/tmp/fieldkin-rectangular-after-target/release/examples/benchmark_performance",
+        "sha256": "fb0bf41508ccd0e2007bf1cedcd948ee97710c08ada40a74c15bb805c25b0447"
+      }
+    }
+  },
+  "common_assignment_parameters": {
+    "values": "mixed",
+    "workers": 1,
+    "rows": 128,
+    "distinct": 32,
+    "tables": 2,
+    "overlap": 50,
+    "schema_overlap": 100,
+    "sample_size": null,
+    "assignment_threshold": 0.5,
+    "score_grid": "multiples of 1/4096; signed zero first entries"
+  }
+}

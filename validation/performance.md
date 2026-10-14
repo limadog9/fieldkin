@@ -8,6 +8,137 @@ The [difficult-input follow-up](adversarial_performance_report.md) measures exac
 Jaccard overlap and conflicting distribution clusters under explicit child
 process resource limits, including failed baseline allocations and noisy controls.
 
+## Opt-in rectangular assignment (2026-10-14)
+
+Baseline main: `2644fe8a2f4e7495a915d26a32c1dc939995d68e`; measured candidate:
+`852f18a70adcf40f81fec6aaac7ca3e276e66781`. These are native Rust comparisons,
+not Python speedups. [Compact evidence](rectangular_performance.json) retains
+all process medians/RSS values, objectives, ordered-output hashes, binary/harness
+hashes, timeouts, unfavorable controls, and prototype rechecks. Original baseline
+production files and lockfile were verified unchanged; release builds used separate
+worktrees and Cargo target directories. The baseline harness differs only in
+new-selector arms mapped to existing method names so it compiles; measured baseline
+processes invoke legacy selectors.
+
+The new `one_to_one_rectangular` selectors augment the smaller identity set:
+O(min(r,c)² max(r,c)) solver work, O(r*c) costs and O(r+c) workspace. Sorting/indexing
+`k` candidates additionally costs O(k log k + r*c). Legacy selectors and metrics
+still use their existing solver and tie choices. New ties use sorted identities,
+sources on square problems, and strict first-predecessor/column comparisons.
+Neutral completion slots never become output pairs. Cardinality-first uses a
+separate integer coordinate, not a floating-point score bonus.
+
+Independent enumeration caught a real near-tie loss in the first ordinary-f64
+prototype: a 2×3 assignment scored 1.2499999999999998 instead of 1.25. Compensated
+two-component potentials/minima fix that case; original cost cells and returned
+score/detail bits are untouched. This is floating-point numerical stabilization,
+not arbitrary-precision arithmetic. The oracle includes 2,134 exhaustive/seeded
+small problems and 257 exact-integer near-tie matrices, both orientations and
+objectives, sparse/zero/subnormal cases and input permutations. A permanent test
+also demonstrates equally optimal pre-filter totals of 1.0 retaining two legacy
+matches versus one rectangular match at 0.5; cardinality-first retains two.
+
+Linux x86-64, Xeon Platinum 8573C, Rust 1.99.0, five visible CPUs/four-CPU quota,
+32-GiB cgroup limit. Headline runs pin one worker to CPU 2, use one warmup and
+five alternating fresh-process rounds. Each process measures three calls for
+varied/large/unchanged-legacy cases and one for costly equal/sparse/guarded controls.
+Timing includes full public selection preparation and result construction;
+input construction, output disposal and verification are outside the timer.
+Memory is lifetime Linux VmHWM, sampled before untimed verification, including
+inputs, warmup and allocator retention: it is not incremental solver memory.
+No concurrent builds ran during measurement.
+
+The table shows median ms [range of five process medians] and median peak KiB.
+`score` means maximum score before filtering; `eligible` means cardinality first.
+
+| Selection / input | Legacy ms [range] | Rectangular ms [range] | Peak KiB before / after |
+|---|---:|---:|---:|
+| score / varied 512×1 | 217.567 [193.120–233.899] | 0.146 [0.140–0.147] | 3308 / 3340 |
+| score / varied 1×512 | 0.002675 [0.002535–0.002738] | 0.143 [0.140–0.147] | 3320 / 3360 |
+| score / varied 1024×8 | 1491.394 [1431.497–2017.406] | 4.017 [3.895–4.404] | 12080 / 12072 |
+| score / varied 8×1024 | 1627.822 [1321.797–1977.230] | 5.573 [3.892–7.635] | 12616 / 12668 |
+| eligible / varied 1024×8 | 1767.059 [1421.467–1983.248] | 3.236 [3.148–3.329] | 11972 / 12072 |
+| eligible / varied 8×1024 | 1301.725 [1284.188–2023.595] | 3.227 [3.168–3.421] | 12624 / 12632 |
+| score / varied 64×64 | 2.183 [2.150–3.544] | 1.697 [1.648–4.691] | 7592 / 7632 |
+| score / varied 128×128 | 12.104 [11.809–18.389] | 10.465 [10.280–10.565] | 22148 / 22176 |
+| score / equal 64×64 | 1.803 [1.789–1.938] | 2.068 [2.037–2.500] | 7580 / 7556 |
+| score / sparse 64×64 | 0.448 [0.428–0.455] | 0.520 [0.511–0.542] | 3492 / 3560 |
+| score / varied 4096×16 | process deadline | 58.152 [57.332–59.851] | n/a / 77584 |
+| score / varied 16×4096 | process deadline | 55.352 [54.275–56.110] | n/a / 81524 |
+| score / varied 10000×1 | process deadline | 6.427 [6.237–6.756] | n/a / 14756 |
+| score / varied 1×10000 | 0.074 [0.074–0.077] | 5.904 [5.871–6.113] | 14704 / 14756 |
+
+All 32 completed cross-selector cases have identical ordered pairs, score bits
+and detail bits as well as exact 1/4096-grid objectives. Maximum-score objectives
+are checked before filtering. The benchmark's explicit `--compare-rectangular`
+mode permits different optimal pairs only after matching objectives; ordinary
+before/after runs retain the existing exact-output gate. All 30 neutral-arithmetic
+prototype cases also retain exact ordered outputs. Five unchanged-legacy controls
+pass that gate, with median changes from -4.5% to +3.7%; no material new legacy
+regression is established.
+
+Targets are met: varied 512×1 improves about 1,487× (1,466× eligible), and
+1024×8/8×1024 improve 292–546×. Large candidate calls finish in 44–58 ms for
+4096×16/16×4096 and 4.9–6.4 ms for 10000×1 across both objectives. All 30 legacy
+processes for those six cases exceeded the **whole-process** three-second
+deadline; there is no completed legacy timing/objective comparison or precise
+speedup ratio for them. Inputs, warmup, calls and verification share that deadline.
+No general RSS improvement is established.
+
+Unfavorable controls matter. The existing one-source shortcut is substantially
+faster (1×512: 0.002675 vs 0.142873 ms; 1×10000: 0.074362 vs 5.904185 ms).
+Equal 64×64 is 15–22% slower and sparse 64×64 16–30% slower, depending on objective.
+Sampling located costs in the inlined rectangular selection path; compensated
+arithmetic on degenerate zero-delta paths was then isolated by changing only
+exact-zero/cancellation operations. Nine private lines reduce the initial equal-
+square overhead by about 27%, preserve the numerical oracle, and add no matrix
+storage. Remaining costs are not hidden by a different objective or tie policy.
+Keep legacy selection when its tie contract or these shortcuts matter.
+
+Shared-host variation prevents fine-grained square-performance claims. A paired
+128×128 prototype recheck gave a 48% higher score-first median on CPU 2; CPU 0
+then gave -2.8%. Eligible medians moved in the opposite direction (-11.7%, then
++29.9%). Distributions overlap substantially; all are retained, with no claim
+that these small square changes are reliable wins. Uniform-square improvements
+repeat on both CPUs. Checked/unchecked fresh-process medians differ by -4.4% to
++1.2% on representative rectangles/squares. Those harness modes use
+`WorkLimits::default()` (overflow checks and accepted guarded entry points), not
+every finite-cap configuration. Functional tests separately verify finite exact
+limits, rejection before cost construction and guarded equivalence.
+
+Reproduce from this checkout with Rust 1.99.0 (choose an available CPU):
+
+```sh
+git worktree add --detach /tmp/fieldkin-rectangular-before 2644fe8a2f4e7495a915d26a32c1dc939995d68e
+python - <<'PYCODE'
+from pathlib import Path
+harness = Path("examples/benchmark_performance.rs").read_text()
+Path("/tmp/fieldkin-rectangular-before/examples/benchmark_performance.rs").write_text(
+    harness.replace(".one_to_one_rectangular", ".one_to_one_hungarian"))
+PYCODE
+CARGO_TARGET_DIR=/tmp/fieldkin-rectangular-before-build cargo build --locked --release --jobs 1 \
+  --manifest-path /tmp/fieldkin-rectangular-before/Cargo.toml --example benchmark_performance
+CARGO_TARGET_DIR=/tmp/fieldkin-rectangular-after-build cargo build --locked --release --jobs 1 \
+  --example benchmark_performance
+taskset -c 2 python validation/benchmark_performance.py --compare-rectangular \
+  --baseline-binary /tmp/fieldkin-rectangular-before-build/release/examples/benchmark_performance \
+  --binary /tmp/fieldkin-rectangular-after-build/release/examples/benchmark_performance \
+  --case hungarian-varied512x1 --case hungarian-varied1024x8 --case hungarian-varied8x1024 \
+  --case hungarian-varied64x64 --case hungarian-varied128x128 \
+  --rounds 5 --repetitions 3 --timeout 30 --output /tmp/rectangular.json
+```
+
+Add `hungarian-aware-*` for the other objective; `--list` includes all measured
+varied/equal/sparse/guarded dimensions. Use one repetition for the costly controls,
+three with a three-second process deadline for the large cases (nonzero exit on
+incomplete comparisons), and omit `--compare-rectangular` for unchanged-legacy
+exact-output controls. Guard-overhead runs alternate `--algorithm rectangular`
+and `rectangular-guarded` (also `-aware` variants) directly in the same native
+harness, five fresh rounds/31 repetitions. Expensive benchmarks remain outside CI;
+small independent oracles and validation-helper tests run in the existing matrix.
+Windows and GitHub Actions execution were not performed locally; no branch push
+was authorized.
+
 ## Result, metric, Jaccard and assignment follow-up (2026-10-14)
 
 Baseline main: `88d64384827069742f217e097cf91dab705ee391`; measured runtime:
