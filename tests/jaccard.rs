@@ -10,7 +10,7 @@ use fieldkin::algorithms::strings::{
     StringDistanceFunction as Distance, is_abbreviation, similarity, tokens, tokens_similarity,
     trigram_similarity, type_similarity,
 };
-use fieldkin::{DataType, Error, Field, Matcher, Table};
+use fieldkin::{ColumnPair, DataType, Error, Field, Matcher, MatcherResults, Table};
 
 fn values(values: &[&str]) -> Vec<String> {
     values.iter().map(|value| (*value).to_owned()).collect()
@@ -598,6 +598,156 @@ fn column_matching_omits_zero_scores_and_threads_preserve_results() {
 }
 
 #[test]
+fn rectangular_batch_ranges_preserve_full_cartesian_scores() {
+    let tables: Vec<_> = [0, 1, 3, 7]
+        .into_iter()
+        .enumerate()
+        .map(|(index, width)| {
+            Table::new(
+                format!("table{}", 4 - index),
+                (0..width)
+                    .map(|column| Field {
+                        name: format!("column{}", width - column),
+                        data_type: DataType::Text,
+                        samples: if column % 3 == 2 {
+                            values(&["", ""])
+                        } else {
+                            vec!["shared".into(), format!("value{index}-{column}")]
+                        },
+                    })
+                    .collect(),
+            )
+            .unwrap()
+        })
+        .collect();
+    let serial = JaccardDistanceMatcher::new(JaccardConfig {
+        distance_fun: Distance::Exact,
+        ..Default::default()
+    })
+    .unwrap();
+    let mut entries = Vec::new();
+    for (i, source) in tables.iter().enumerate() {
+        for target in &tables[i + 1..] {
+            for source_column in &source.columns {
+                for target_column in &target.columns {
+                    let source_values: Vec<_> = source_column
+                        .samples
+                        .iter()
+                        .filter(|value| !value.is_empty())
+                        .cloned()
+                        .collect();
+                    let target_values: Vec<_> = target_column
+                        .samples
+                        .iter()
+                        .filter(|value| !value.is_empty())
+                        .cloned()
+                        .collect();
+                    let score = serial
+                        .set_similarity(&source_values, &target_values)
+                        .unwrap();
+                    if score > 0.0 {
+                        entries.push((
+                            ColumnPair::new(
+                                &source.name,
+                                &source_column.name,
+                                &target.name,
+                                &target_column.name,
+                            ),
+                            score,
+                        ));
+                    }
+                }
+            }
+        }
+    }
+    let expected = MatcherResults::new(entries).unwrap();
+    let bits = |results: &MatcherResults| {
+        results
+            .iter()
+            .map(|(pair, score)| (pair.clone(), score.to_bits()))
+            .collect::<Vec<_>>()
+    };
+    assert!(!expected.is_empty());
+    for process_num in [1, 2, 4, 64] {
+        let matcher = JaccardDistanceMatcher::new(JaccardConfig {
+            distance_fun: Distance::Exact,
+            process_num,
+            ..Default::default()
+        })
+        .unwrap();
+        let actual = matcher.get_matches_batch(&tables).unwrap();
+        assert_eq!(bits(&actual), bits(&expected));
+        assert_eq!(actual.details(), expected.details());
+        for (i, source) in tables.iter().enumerate() {
+            for target in &tables[i + 1..] {
+                let actual = matcher.get_matches(source, target).unwrap();
+                let expected: Vec<_> = bits(&expected)
+                    .into_iter()
+                    .filter(|(pair, _)| {
+                        pair.source_table == source.name && pair.target_table == target.name
+                    })
+                    .collect();
+                assert_eq!(bits(&actual), expected);
+            }
+        }
+    }
+}
+
+#[test]
+fn wide_empty_disjoint_and_dense_outputs_preserve_pair_identities() {
+    for (source_width, target_width, mode) in [(257, 129, 0), (65, 33, 1), (17, 9, 2)] {
+        let make_table = |name: &str, width| {
+            Table::new(
+                name,
+                (0..width)
+                    .map(|column| Field {
+                        name: format!("column{column}"),
+                        data_type: DataType::Text,
+                        samples: match mode {
+                            0 => values(&["", ""]),
+                            1 => vec![format!("{name}-{column}")],
+                            _ => values(&["shared", "shared"]),
+                        },
+                    })
+                    .collect(),
+            )
+            .unwrap()
+        };
+        let source = make_table("source", source_width);
+        let target = make_table("target", target_width);
+        for process_num in [1, 4] {
+            let results = JaccardDistanceMatcher::new(JaccardConfig {
+                distance_fun: Distance::Exact,
+                process_num,
+                ..Default::default()
+            })
+            .unwrap()
+            .get_matches(&source, &target)
+            .unwrap();
+            assert!(results.details().is_empty());
+            if mode < 2 {
+                assert!(results.is_empty());
+            } else {
+                assert_eq!(results.len(), source_width * target_width);
+                let expected = MatcherResults::new(
+                    source
+                        .columns
+                        .iter()
+                        .flat_map(|a| {
+                            target.columns.iter().map(|b| {
+                                (ColumnPair::new("source", &a.name, "target", &b.name), 1.0)
+                            })
+                        })
+                        .collect(),
+                )
+                .unwrap();
+                assert_eq!(results, expected);
+            }
+        }
+    }
+}
+
+#[test]
 fn fuzzy_columns_share_prepared_bounds_across_workers_and_batches() {
     let tables = ['a', 'b', 'c'].map(|suffix| {
         Table::new(
@@ -699,21 +849,36 @@ impl EmbeddingProvider for RecordingProvider {
 
 #[test]
 fn batch_embeddings_encode_global_vocabulary_once() {
-    let provider = Arc::new(RecordingProvider::default());
-    let matcher = JaccardDistanceMatcher::default().with_embedding_provider(provider.clone());
     let tables = [
-        table("a", &[("v", &["cat", "cat", "dog"])]),
-        table("b", &[("v", &["cat", "cats"])]),
+        table("empty", &[]),
+        table("a", &[("v", &["cat", "cat", "dog"]), ("w", &["cat"])]),
+        table(
+            "b",
+            &[("v", &["cat", "cats"]), ("empty", &[""]), ("w", &["dog"])],
+        ),
         table("c", &[("v", &["dogs", "dog"])]),
     ];
-    assert_eq!(
-        matcher.get_matches_batch(&tables).unwrap().iter().count(),
-        3
-    );
-    assert_eq!(
-        *provider.calls.lock().unwrap(),
-        vec![values(&["cat", "cats", "dog", "dogs"])]
-    );
+    for process_num in [1, 4, 64] {
+        let provider = Arc::new(RecordingProvider::default());
+        let matcher = JaccardDistanceMatcher::new(JaccardConfig {
+            process_num,
+            ..Default::default()
+        })
+        .unwrap()
+        .with_embedding_provider(provider.clone());
+        assert_eq!(matcher.get_matches_batch(&tables).unwrap().len(), 8);
+        assert_eq!(
+            *provider.calls.lock().unwrap(),
+            vec![values(&["cat", "cats", "dog", "dogs"])]
+        );
+        assert!(
+            matcher
+                .get_matches_batch(&[table("empty_a", &[("v", &[""])]), table("empty_b", &[])])
+                .unwrap()
+                .is_empty()
+        );
+        assert_eq!(provider.calls.lock().unwrap().len(), 1);
+    }
 }
 
 #[test]

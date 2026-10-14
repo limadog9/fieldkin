@@ -3,6 +3,7 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
     fmt,
+    ops::Range,
     sync::{Arc, OnceLock},
 };
 
@@ -342,56 +343,80 @@ impl JaccardDistanceMatcher {
                 .flatten()
                 .flat_map(|column| column.values.iter().copied()),
         )?;
-        let mut pairs = Vec::new();
+        let mut pair_count = 0_usize;
         for (i, source) in tables.iter().enumerate() {
-            for (j, target) in tables.iter().enumerate().skip(i + 1) {
-                for (source_index, source_column) in source.columns.iter().enumerate() {
-                    for (target_index, target_column) in target.columns.iter().enumerate() {
-                        pairs.push((
-                            ColumnPair::new(
-                                source.name.clone(),
-                                source_column.name.clone(),
-                                target.name.clone(),
-                                target_column.name.clone(),
-                            ),
-                            &values[i][source_index],
-                            &values[j][target_index],
-                        ));
-                    }
-                }
+            for target in &tables[i + 1..] {
+                pair_count = source
+                    .columns
+                    .len()
+                    .checked_mul(target.columns.len())
+                    .and_then(|count| pair_count.checked_add(count))
+                    .ok_or_else(|| Error::Algorithm("Jaccard column-pair count overflow".into()))?;
             }
         }
-        let score_chunk = |chunk: &[(ColumnPair, &PreparedValues<'_>, &PreparedValues<'_>)]| {
-            chunk
-                .iter()
-                .filter_map(|(pair, source, target)| {
-                    let score = self.compare_sets(source, target, embeddings.as_ref());
-                    (score > 0.0).then(|| (pair.clone(), score))
-                })
-                .collect::<Vec<_>>()
-        };
-        let matches = if self.config.process_num == 1 || pairs.len() < 2 {
-            score_chunk(&pairs)
-        } else {
-            std::thread::scope(|scope| {
-                let workers = self.config.process_num.min(pairs.len());
-                let chunks = pairs.chunks(pairs.len().div_ceil(workers));
-                let handles: Vec<_> = chunks
-                    .map(|chunk| {
-                        std::thread::Builder::new().spawn_scoped(scope, move || score_chunk(chunk))
-                    })
-                    .collect::<Result<_, _>>()?;
-                let mut matches = Vec::new();
-                for handle in handles {
-                    matches.extend(
-                        handle.join().map_err(|_| {
-                            Error::Algorithm("Jaccard scoring worker panicked".into())
-                        })?,
-                    );
+        let score_range = |range: Range<usize>| {
+            let mut matches = Vec::new();
+            let mut pair_start = 0;
+            for (i, source) in tables.iter().enumerate() {
+                for (j, target) in tables.iter().enumerate().skip(i + 1) {
+                    if pair_start >= range.end {
+                        return matches;
+                    }
+                    // The checked total above bounds each product and offset.
+                    let pair_end = pair_start + source.columns.len() * target.columns.len();
+                    if pair_end > range.start {
+                        let start = range.start.saturating_sub(pair_start);
+                        let end = range.end.min(pair_end) - pair_start;
+                        for index in start..end {
+                            let source_index = index / target.columns.len();
+                            let target_index = index % target.columns.len();
+                            let score = self.compare_sets(
+                                &values[i][source_index],
+                                &values[j][target_index],
+                                embeddings.as_ref(),
+                            );
+                            if score > 0.0 {
+                                matches.push((
+                                    ColumnPair::new(
+                                        &source.name,
+                                        &source.columns[source_index].name,
+                                        &target.name,
+                                        &target.columns[target_index].name,
+                                    ),
+                                    score,
+                                ));
+                            }
+                        }
+                    }
+                    pair_start = pair_end;
                 }
-                Ok::<_, Error>(matches)
-            })?
+            }
+            matches
         };
+        let matches =
+            if self.config.process_num == 1 || pair_count < 2 {
+                score_range(0..pair_count)
+            } else {
+                std::thread::scope(|scope| {
+                    let workers = self.config.process_num.min(pair_count);
+                    let chunk_size = pair_count.div_ceil(workers);
+                    let handles: Vec<_> = (0..pair_count)
+                        .step_by(chunk_size)
+                        .map(|start| {
+                            let end = start.saturating_add(chunk_size).min(pair_count);
+                            std::thread::Builder::new()
+                                .spawn_scoped(scope, move || score_range(start..end))
+                        })
+                        .collect::<Result<_, _>>()?;
+                    let mut matches = Vec::new();
+                    for handle in handles {
+                        matches.extend(handle.join().map_err(|_| {
+                            Error::Algorithm("Jaccard scoring worker panicked".into())
+                        })?);
+                    }
+                    Ok::<_, Error>(matches)
+                })?
+            };
         MatcherResults::new(matches)
     }
 }
