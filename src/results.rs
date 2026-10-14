@@ -1,4 +1,4 @@
-use crate::Error;
+use crate::{Error, WorkLimits, limits::check_work};
 use serde::{Deserialize, Serialize};
 use std::{
     collections::{BTreeMap, BTreeSet, btree_map::Entry},
@@ -183,7 +183,19 @@ impl MatcherResults {
     /// produce a true one-to-one assignment, fixing the upstream tie shortcut.
     pub fn one_to_one_hungarian(&self, threshold: Option<f64>) -> Result<Self, Error> {
         let threshold = self.selection_threshold(threshold)?;
-        Ok(self.hungarian_selection(threshold, false))
+        self.hungarian_selection(threshold, false, None)
+    }
+
+    /// Legacy assignment with opt-in dimension and real cost-cell limits.
+    /// Limits include all candidate identities, even when a shortcut could apply.
+    /// They bound work counts, not solver time or process memory.
+    pub fn one_to_one_hungarian_with_limits(
+        &self,
+        threshold: Option<f64>,
+        limits: &WorkLimits,
+    ) -> Result<Self, Error> {
+        let threshold = self.selection_threshold(threshold)?;
+        self.hungarian_selection(threshold, false, Some(limits))
     }
 
     /// Select the most one-to-one matches at or above the threshold, then
@@ -196,16 +208,40 @@ impl MatcherResults {
         threshold: Option<f64>,
     ) -> Result<Self, Error> {
         let threshold = self.selection_threshold(threshold)?;
-        Ok(self.hungarian_selection(threshold, true))
+        self.hungarian_selection(threshold, true, None)
     }
 
-    fn hungarian_selection(&self, threshold: f64, cardinality_first: bool) -> Self {
+    /// Threshold-aware assignment with the same work limits as
+    /// [`Self::one_to_one_hungarian_with_limits`]. The cardinality-first objective
+    /// and existing tie behavior are preserved for accepted calls.
+    pub fn one_to_one_hungarian_threshold_aware_with_limits(
+        &self,
+        threshold: Option<f64>,
+        limits: &WorkLimits,
+    ) -> Result<Self, Error> {
+        let threshold = self.selection_threshold(threshold)?;
+        self.hungarian_selection(threshold, true, Some(limits))
+    }
+
+    fn hungarian_selection(
+        &self,
+        threshold: f64,
+        cardinality_first: bool,
+        limits: Option<&WorkLimits>,
+    ) -> Result<Self, Error> {
+        let indexed = if let Some(limits) = limits {
+            let [sources, targets] = self.assignment_identities();
+            check_assignment_work(sources.len(), targets.len(), limits)?;
+            Some([sources, targets])
+        } else {
+            None
+        };
         if self.is_empty() {
-            return self.clone();
+            return Ok(self.clone());
         }
         let (first, highest) = &self.entries[0];
         if *highest < threshold {
-            return Self::default();
+            return Ok(Self::default());
         }
         if self
             .entries
@@ -221,22 +257,9 @@ impl MatcherResults {
                 .take_while(|(_, score)| score == highest)
                 .min_by(|(a, _), (b, _)| a.cmp(b))
                 .expect("nonempty results");
-            return self.subset(std::iter::once(best));
+            return Ok(self.subset(std::iter::once(best)));
         }
-        let sources: Vec<_> = self
-            .entries
-            .iter()
-            .map(|(p, _)| p.source())
-            .collect::<BTreeSet<_>>()
-            .into_iter()
-            .collect();
-        let targets: Vec<_> = self
-            .entries
-            .iter()
-            .map(|(p, _)| p.target())
-            .collect::<BTreeSet<_>>()
-            .into_iter()
-            .collect();
+        let [sources, targets] = indexed.unwrap_or_else(|| self.assignment_identities());
         // Compare cardinality before similarity without rounding away score
         // differences by adding a large floating-point bonus. Padded cells are
         // read as zero by the solver instead of occupying square storage.
@@ -261,7 +284,25 @@ impl MatcherResults {
             .enumerate()
             .filter_map(|(row, col)| lookup.get(&(row, col)).copied())
             .collect();
-        self.select(|(p, s)| chosen.contains(p) && *s >= threshold)
+        Ok(self.select(|(p, s)| chosen.contains(p) && *s >= threshold))
+    }
+
+    fn assignment_identities(&self) -> [Vec<(&str, &str)>; 2] {
+        let sources = self
+            .entries
+            .iter()
+            .map(|(p, _)| p.source())
+            .collect::<BTreeSet<_>>()
+            .into_iter()
+            .collect();
+        let targets = self
+            .entries
+            .iter()
+            .map(|(p, _)| p.target())
+            .collect::<BTreeSet<_>>()
+            .into_iter()
+            .collect();
+        [sources, targets]
     }
     pub fn one_to_one_greedy(&self, threshold: Option<f64>) -> Result<Self, Error> {
         let threshold = self.selection_threshold(threshold)?;
@@ -442,12 +483,167 @@ fn hungarian(cost: &[Vec<(isize, f64)>]) -> Vec<usize> {
 }
 
 fn assignment_costs(rows: usize, cols: usize) -> Vec<Vec<(isize, f64)>> {
+    #[cfg(test)]
+    assignment_storage_tests::MATRIX_BUILDS.with(|count| count.set(count.get() + 1));
     vec![vec![(0, 0.0); cols]; rows]
+}
+
+fn check_assignment_work(rows: usize, cols: usize, limits: &WorkLimits) -> Result<(), Error> {
+    check_work(
+        "Hungarian assignment dimension",
+        Some(rows.max(cols)),
+        limits.max_assignment_dimension,
+    )?;
+    check_work(
+        "Hungarian cost matrix cells",
+        rows.checked_mul(cols),
+        limits.max_matrix_cells,
+    )
 }
 
 #[cfg(test)]
 mod assignment_storage_tests {
-    use super::assignment_costs;
+    use super::*;
+
+    thread_local! {
+        pub(super) static MATRIX_BUILDS: std::cell::Cell<usize> = const { std::cell::Cell::new(0) };
+    }
+
+    #[test]
+    fn guarded_assignment_rejects_before_cost_allocation() {
+        let results = MatcherResults::new(
+            (0..6)
+                .map(|i| {
+                    (
+                        ColumnPair::new("s", (i / 2).to_string(), "t", (i % 2).to_string()),
+                        0.5,
+                    )
+                })
+                .collect(),
+        )
+        .unwrap();
+        for limits in [
+            WorkLimits {
+                max_assignment_dimension: 2,
+                ..Default::default()
+            },
+            WorkLimits {
+                max_matrix_cells: 5,
+                ..Default::default()
+            },
+        ] {
+            MATRIX_BUILDS.with(|count| count.set(0));
+            assert!(
+                results
+                    .one_to_one_hungarian_with_limits(None, &limits)
+                    .is_err()
+            );
+            assert!(
+                results
+                    .one_to_one_hungarian_threshold_aware_with_limits(None, &limits)
+                    .is_err()
+            );
+            assert_eq!(MATRIX_BUILDS.with(|count| count.get()), 0);
+        }
+        let limits = WorkLimits {
+            max_assignment_dimension: 3,
+            max_matrix_cells: 6,
+            ..Default::default()
+        };
+        MATRIX_BUILDS.with(|count| count.set(0));
+        assert_eq!(
+            results
+                .one_to_one_hungarian_with_limits(None, &limits)
+                .unwrap(),
+            results.one_to_one_hungarian(None).unwrap()
+        );
+        assert_eq!(MATRIX_BUILDS.with(|count| count.get()), 2);
+        assert!(
+            check_assignment_work(usize::MAX, 2, &WorkLimits::default())
+                .unwrap_err()
+                .to_string()
+                .contains("overflows")
+        );
+    }
+
+    #[test]
+    fn guarded_empty_singleton_and_rectangular_shortcuts_validate_limits() {
+        let empty = MatcherResults::default();
+        let zero = WorkLimits {
+            max_assignment_dimension: 0,
+            max_matrix_cells: 0,
+            ..Default::default()
+        };
+        assert!(
+            empty
+                .one_to_one_hungarian_with_limits(None, &zero)
+                .unwrap()
+                .is_empty()
+        );
+        let key = ColumnPair::new("s", "one", "t", "one");
+        let singleton = MatcherResults::with_details(
+            vec![(key.clone(), -0.0)],
+            [(key.clone(), [("detail".into(), -0.0)].into())].into(),
+        )
+        .unwrap();
+        let one = WorkLimits {
+            max_assignment_dimension: 1,
+            max_matrix_cells: 1,
+            ..Default::default()
+        };
+        for selected in [
+            singleton
+                .one_to_one_hungarian_with_limits(None, &one)
+                .unwrap(),
+            singleton
+                .one_to_one_hungarian_threshold_aware_with_limits(Some(-1.0), &one)
+                .unwrap(),
+        ] {
+            assert_eq!(selected.get(&key).unwrap().to_bits(), (-0.0f64).to_bits());
+            assert_eq!(
+                selected.get_details(&key).unwrap()["detail"].to_bits(),
+                (-0.0f64).to_bits()
+            );
+        }
+        for transposed in [false, true] {
+            let results = MatcherResults::new(
+                (0..10_000)
+                    .map(|i| {
+                        (
+                            if transposed {
+                                ColumnPair::new("s", i.to_string(), "t", "one")
+                            } else {
+                                ColumnPair::new("s", "one", "t", i.to_string())
+                            },
+                            0.5,
+                        )
+                    })
+                    .collect(),
+            )
+            .unwrap();
+            MATRIX_BUILDS.with(|count| count.set(0));
+            let message = results
+                .one_to_one_hungarian_with_limits(None, &one)
+                .unwrap_err()
+                .to_string();
+            for word in ["Hungarian", "10000", "limit 1"] {
+                assert!(message.contains(word), "{message}");
+            }
+            assert_eq!(MATRIX_BUILDS.with(|count| count.get()), 0);
+        }
+        for threshold in [f64::NAN, f64::INFINITY, f64::NEG_INFINITY] {
+            assert!(
+                singleton
+                    .one_to_one_hungarian_with_limits(Some(threshold), &one)
+                    .is_err()
+            );
+            assert!(
+                singleton
+                    .one_to_one_hungarian_threshold_aware_with_limits(Some(threshold), &one)
+                    .is_err()
+            );
+        }
+    }
 
     #[test]
     fn rectangular_cost_storage_contains_only_real_cells() {

@@ -10,7 +10,7 @@ use std::{
 use rapidfuzz::distance::levenshtein::{Args, BatchComparator};
 use serde::{Deserialize, Serialize};
 
-use crate::{ColumnPair, Error, Matcher, MatcherResults, Table};
+use crate::{ColumnPair, Error, Matcher, MatcherResults, Table, WorkLimits};
 
 use super::strings::{StringDistanceFunction, similarity};
 
@@ -123,7 +123,9 @@ impl EmbeddingProvider for PrecomputedEmbeddings {
 /// Valentine's fuzzy-set behavior. The larger directional score is returned.
 /// Fuzzy comparisons can still require the Cartesian product of distinct values
 /// for each column pair. Use explicit table sampling to limit value counts;
-/// this matcher does not enforce a time or memory budget.
+/// [`Self::get_matches_with_limits`] can reject excessive column-pair and
+/// distinct-value comparison counts before scoring. These counts do not bound
+/// string lengths, model execution, process memory, or wall-clock time.
 #[derive(Clone, Default)]
 pub struct JaccardDistanceMatcher {
     config: JaccardConfig,
@@ -151,6 +153,29 @@ impl JaccardDistanceMatcher {
 
     pub fn config(&self) -> &JaccardConfig {
         &self.config
+    }
+
+    /// Match two tables with opt-in limits on column pairs and the conservative
+    /// Cartesian product of distinct, nonempty sample values. The latter is
+    /// checked after value preparation, before embedding inference or scoring.
+    /// Exact and identical-set shortcuts may do less work than this estimate.
+    pub fn get_matches_with_limits(
+        &self,
+        source: &Table,
+        target: &Table,
+        limits: &WorkLimits,
+    ) -> Result<MatcherResults, Error> {
+        self.match_tables(&[source, target], Some(limits))
+    }
+
+    /// Apply the same limits to the aggregate work across every table pair.
+    /// Accepted calls retain batch-wide vocabulary preparation and encoding.
+    pub fn get_matches_batch_with_limits(
+        &self,
+        tables: &[Table],
+        limits: &WorkLimits,
+    ) -> Result<MatcherResults, Error> {
+        self.match_tables(&tables.iter().collect::<Vec<_>>(), Some(limits))
     }
 
     /// Activate cosine embedding comparisons in place of `distance_fun`.
@@ -317,9 +342,23 @@ impl JaccardDistanceMatcher {
         ab.max(ba)
     }
 
-    fn match_tables(&self, tables: &[&Table]) -> Result<MatcherResults, Error> {
+    fn match_tables(
+        &self,
+        tables: &[&Table],
+        limits: Option<&WorkLimits>,
+    ) -> Result<MatcherResults, Error> {
         self.config.validate()?;
         super::validate_tables(tables.iter().copied())?;
+        let pair_count = checked_product_sum(tables.iter().enumerate().flat_map(|(i, source)| {
+            tables[i + 1..]
+                .iter()
+                .map(move |target| (source.columns.len(), target.columns.len()))
+        }));
+        if let Some(limits) = limits {
+            crate::limits::check_work("Jaccard column pairs", pair_count, limits.max_matrix_cells)?;
+        }
+        let pair_count = pair_count
+            .ok_or_else(|| Error::Algorithm("Jaccard column-pair count overflow".into()))?;
         let values: Vec<Vec<PreparedValues<'_>>> = tables
             .iter()
             .map(|table| {
@@ -337,23 +376,27 @@ impl JaccardDistanceMatcher {
                     .collect()
             })
             .collect();
+        if let Some(limits) = limits {
+            let comparisons =
+                checked_product_sum(values.iter().enumerate().flat_map(|(i, source)| {
+                    values[i + 1..].iter().flat_map(move |target| {
+                        source.iter().flat_map(move |a| {
+                            target.iter().map(move |b| (a.values.len(), b.values.len()))
+                        })
+                    })
+                }));
+            crate::limits::check_work(
+                "Jaccard distinct-value comparisons",
+                comparisons,
+                limits.max_jaccard_comparisons,
+            )?;
+        }
         let embeddings = self.prepare_embeddings(
             values
                 .iter()
                 .flatten()
                 .flat_map(|column| column.values.iter().copied()),
         )?;
-        let mut pair_count = 0_usize;
-        for (i, source) in tables.iter().enumerate() {
-            for target in &tables[i + 1..] {
-                pair_count = source
-                    .columns
-                    .len()
-                    .checked_mul(target.columns.len())
-                    .and_then(|count| pair_count.checked_add(count))
-                    .ok_or_else(|| Error::Algorithm("Jaccard column-pair count overflow".into()))?;
-            }
-        }
         let score_range = |range: Range<usize>| {
             let mut matches = Vec::new();
             let mut pair_start = 0;
@@ -423,12 +466,18 @@ impl JaccardDistanceMatcher {
 
 impl Matcher for JaccardDistanceMatcher {
     fn get_matches(&self, source: &Table, target: &Table) -> Result<MatcherResults, Error> {
-        self.match_tables(&[source, target])
+        self.match_tables(&[source, target], None)
     }
 
     fn get_matches_batch(&self, tables: &[Table]) -> Result<MatcherResults, Error> {
-        self.match_tables(&tables.iter().collect::<Vec<_>>())
+        self.match_tables(&tables.iter().collect::<Vec<_>>(), None)
     }
+}
+
+fn checked_product_sum(pairs: impl IntoIterator<Item = (usize, usize)>) -> Option<usize> {
+    pairs.into_iter().try_fold(0_usize, |total, (a, b)| {
+        a.checked_mul(b).and_then(|count| total.checked_add(count))
+    })
 }
 
 struct PreparedValues<'a> {
@@ -525,6 +574,244 @@ fn normalize_vectors(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn table(name: &str, columns: &[(&str, &[&str])]) -> Table {
+        Table::new(
+            name,
+            columns
+                .iter()
+                .map(|(name, samples)| crate::Field {
+                    name: (*name).into(),
+                    data_type: crate::DataType::Text,
+                    samples: samples.iter().map(|value| (*value).into()).collect(),
+                })
+                .collect(),
+        )
+        .unwrap()
+    }
+
+    fn assert_same_results(actual: &MatcherResults, expected: &MatcherResults) {
+        let bits = |results: &MatcherResults| {
+            results
+                .iter()
+                .map(|(pair, score)| (pair.clone(), score.to_bits()))
+                .collect::<Vec<_>>()
+        };
+        assert_eq!(bits(actual), bits(expected));
+        assert_eq!(actual.details(), expected.details());
+    }
+
+    #[test]
+    fn guarded_work_counts_check_products_and_sums_without_allocating() {
+        assert_eq!(checked_product_sum([]), Some(0));
+        assert_eq!(checked_product_sum([(1, 10_000)]), Some(10_000));
+        assert_eq!(checked_product_sum([(usize::MAX, 0)]), Some(0));
+        assert_eq!(checked_product_sum([(usize::MAX, 1)]), Some(usize::MAX));
+        assert_eq!(checked_product_sum([(usize::MAX, 2)]), None);
+        assert_eq!(checked_product_sum([(usize::MAX, 1), (1, 1)]), None);
+        assert!(
+            crate::limits::check_work(
+                "Jaccard distinct-value comparisons",
+                checked_product_sum([(usize::MAX, 2)]),
+                usize::MAX,
+            )
+            .is_err()
+        );
+    }
+
+    #[test]
+    fn guarded_direct_and_batch_calls_preserve_scores_and_aggregate_limits() {
+        let tables = [
+            table("a", &[("v", &["cat", "cat", "dog", ""]), ("empty", &[""])]),
+            table("b", &[("v", &["cat", "cats"]), ("w", &["dog"])]),
+            table("c", &[("v", &["dogs", "dog"])]),
+        ];
+        // Duplicates and empty strings do not increase distinct-value work:
+        // table totals 2, 3, 2 give 2*3 + 2*2 + 3*2 = 16 comparisons.
+        let limits = WorkLimits {
+            max_matrix_cells: 8,
+            max_jaccard_comparisons: 16,
+            ..Default::default()
+        };
+        for process_num in [1, 4] {
+            for distance_fun in [
+                StringDistanceFunction::Exact,
+                StringDistanceFunction::Levenshtein,
+            ] {
+                let matcher = JaccardDistanceMatcher::new(JaccardConfig {
+                    process_num,
+                    distance_fun,
+                    ..Default::default()
+                })
+                .unwrap();
+                assert_same_results(
+                    &matcher
+                        .get_matches_batch_with_limits(&tables, &limits)
+                        .unwrap(),
+                    &matcher.get_matches_batch(&tables).unwrap(),
+                );
+                let direct_limits = WorkLimits {
+                    max_matrix_cells: 4,
+                    max_jaccard_comparisons: 6,
+                    ..Default::default()
+                };
+                assert_same_results(
+                    &matcher
+                        .get_matches_with_limits(&tables[0], &tables[1], &direct_limits)
+                        .unwrap(),
+                    &matcher.get_matches(&tables[0], &tables[1]).unwrap(),
+                );
+                for limits in [
+                    WorkLimits {
+                        max_matrix_cells: 7,
+                        ..limits
+                    },
+                    WorkLimits {
+                        max_jaccard_comparisons: 15,
+                        ..limits
+                    },
+                ] {
+                    assert!(
+                        matcher
+                            .get_matches_batch_with_limits(&tables, &limits)
+                            .is_err()
+                    );
+                }
+                assert!(
+                    matcher
+                        .get_matches_with_limits(
+                            &tables[0],
+                            &tables[1],
+                            &WorkLimits {
+                                max_jaccard_comparisons: 5,
+                                ..Default::default()
+                            }
+                        )
+                        .is_err()
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn guarded_calls_reject_before_encoding_and_encode_accepted_batch_once() {
+        #[derive(Default)]
+        struct CountingProvider(std::sync::Mutex<Vec<Vec<String>>>);
+        impl EmbeddingProvider for CountingProvider {
+            fn encode(&self, values: &[String]) -> Result<Vec<Vec<f64>>, Error> {
+                self.0.lock().unwrap().push(values.to_vec());
+                Ok(values.iter().map(|_| vec![1.0, 0.0]).collect())
+            }
+        }
+        let provider = Arc::new(CountingProvider::default());
+        let matcher = JaccardDistanceMatcher::new(JaccardConfig {
+            process_num: 4,
+            ..Default::default()
+        })
+        .unwrap()
+        .with_embedding_provider(provider.clone());
+        let tables = [
+            table("a", &[("v", &["a", "a", "", "b"])]),
+            table("b", &[("v", &["b", "c"])]),
+            table("c", &[("v", &["a", "d"])]),
+        ];
+        let limits = WorkLimits {
+            max_matrix_cells: 3,
+            max_jaccard_comparisons: 12,
+            ..Default::default()
+        };
+        let error = matcher
+            .get_matches_batch_with_limits(
+                &tables,
+                &WorkLimits {
+                    max_jaccard_comparisons: 11,
+                    ..limits
+                },
+            )
+            .unwrap_err();
+        let message = error.to_string();
+        assert!(
+            message.contains("Jaccard distinct-value comparisons"),
+            "{message}"
+        );
+        assert!(
+            message.contains("11") && message.contains("12"),
+            "{message}"
+        );
+        assert!(
+            matcher
+                .get_matches_with_limits(
+                    &tables[0],
+                    &tables[1],
+                    &WorkLimits {
+                        max_jaccard_comparisons: 3,
+                        ..limits
+                    }
+                )
+                .is_err()
+        );
+        assert!(provider.0.lock().unwrap().is_empty());
+        let actual = matcher
+            .get_matches_batch_with_limits(&tables, &limits)
+            .unwrap();
+        assert_eq!(
+            *provider.0.lock().unwrap(),
+            vec![vec![
+                "a".to_owned(),
+                "b".to_owned(),
+                "c".to_owned(),
+                "d".to_owned()
+            ]]
+        );
+        assert_same_results(&actual, &matcher.get_matches_batch(&tables).unwrap());
+
+        let zero = WorkLimits {
+            max_matrix_cells: 0,
+            max_jaccard_comparisons: 0,
+            ..Default::default()
+        };
+        assert!(
+            matcher
+                .get_matches_batch_with_limits(&[], &zero)
+                .unwrap()
+                .is_empty()
+        );
+        assert!(
+            matcher
+                .get_matches_batch_with_limits(&[table("empty", &[])], &zero)
+                .unwrap()
+                .is_empty()
+        );
+        assert!(
+            JaccardDistanceMatcher::default()
+                .get_matches_batch_with_limits(&tables[..1], &zero)
+                .unwrap()
+                .is_empty()
+        );
+        let empty_columns = [
+            table("empty_a", &[("a", &[""])]),
+            table("empty_b", &[("b", &[]), ("c", &[""])]),
+        ];
+        assert!(
+            matcher
+                .get_matches_batch_with_limits(&empty_columns, &zero)
+                .is_err()
+        );
+        assert!(
+            matcher
+                .get_matches_batch_with_limits(
+                    &empty_columns,
+                    &WorkLimits {
+                        max_matrix_cells: 2,
+                        ..zero
+                    }
+                )
+                .unwrap()
+                .is_empty()
+        );
+        // Empty vocabularies do not invoke the provider.
+        assert_eq!(provider.0.lock().unwrap().len(), 2);
+    }
 
     fn edit_distance(a: &str, b: &str) -> usize {
         let b: Vec<_> = b.chars().collect();

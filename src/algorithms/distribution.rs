@@ -6,7 +6,7 @@ use std::cmp::Ordering;
 use std::collections::{BTreeMap, BTreeSet};
 
 use super::Matcher;
-use crate::{ColumnPair, Error, MatcherResults, Table};
+use crate::{ColumnPair, Error, MatcherResults, Table, WorkLimits};
 
 /// Distribution-based matching from *Automatic Discovery of Attributes in
 /// Relational Databases* (Zhang et al., SIGMOD 2011).
@@ -72,9 +72,58 @@ impl DistributionBased {
         Ok(())
     }
 
-    fn match_tables(&self, tables: &[&Table]) -> Result<MatcherResults, Error> {
+    /// Match with opt-in bounds on distance-matrix cells and each conflicting
+    /// clustering model's variables and triangle constraints. These counts do
+    /// not bound total process memory or solver running time.
+    pub fn get_matches_with_limits(
+        &self,
+        source: &Table,
+        target: &Table,
+        limits: &WorkLimits,
+    ) -> Result<MatcherResults, Error> {
+        self.match_tables(&[source, target], Some(limits))
+    }
+
+    /// Match all tables using batch-wide ranks, with the same work limits as
+    /// [`Self::get_matches_with_limits`]. Limits apply to each matrix/model.
+    pub fn get_matches_batch_with_limits(
+        &self,
+        tables: &[Table],
+        limits: &WorkLimits,
+    ) -> Result<MatcherResults, Error> {
+        self.match_tables(&tables.iter().collect::<Vec<_>>(), Some(limits))
+    }
+
+    fn match_tables(
+        &self,
+        tables: &[&Table],
+        limits: Option<&WorkLimits>,
+    ) -> Result<MatcherResults, Error> {
         self.validate()?;
         super::validate_tables(tables.iter().copied())?;
+        if let Some(limits) = limits {
+            // A nonempty, non-NaN parsed value always receives a global rank.
+            // Count those columns before collecting ranks or histograms.
+            let populated = tables.iter().flat_map(|table| &table.columns).try_fold(
+                0_usize,
+                |count, column| {
+                    let populated = column
+                        .samples
+                        .iter()
+                        .any(|value| !value.is_empty() && Value::parse(value).is_some());
+                    count.checked_add(usize::from(populated))
+                },
+            );
+            match populated {
+                Some(n) if n < 2 => {}
+                Some(n) => check_distance_work(n, limits)?,
+                None => crate::limits::check_work(
+                    "DistributionBased distance-matrix cells",
+                    None,
+                    limits.max_matrix_cells,
+                )?,
+            }
+        }
         // Empty strings are missing samples and receive no value rank.
         let raw_corpus: BTreeSet<&str> = tables
             .iter()
@@ -121,7 +170,7 @@ impl DistributionBased {
             return MatcherResults::new(Vec::new());
         }
         let all: Vec<usize> = (0..columns.len()).collect();
-        let distribution_distances = self.distance_matrix(&columns, &all, false)?;
+        let distribution_distances = self.distance_matrix(&columns, &all, false, limits)?;
         let distribution_edges = neighbours(&distribution_distances, self.threshold1);
         let components = connected_components(&distribution_edges);
         let mut matches = Vec::new();
@@ -141,7 +190,8 @@ impl DistributionBased {
                         tables[cb.table].columns[cb.column].name.as_str(),
                     ))
             });
-            let intersection_distances = self.distance_matrix(&columns, &component, true)?;
+            let intersection_distances =
+                self.distance_matrix(&columns, &component, true, limits)?;
             let adjacent = neighbours(&intersection_distances, self.threshold2);
             let n = component.len();
             // Attribute graph is sign(E + E^2), including both direct and
@@ -153,7 +203,7 @@ impl DistributionBased {
                         && (adjacent[i][j] || (0..n).any(|k| adjacent[i][k] && adjacent[k][j]));
                 }
             }
-            for cluster in correlation_clusters(&positive)? {
+            for cluster in correlation_clusters(&positive, limits)? {
                 for (position, &i) in cluster.iter().enumerate() {
                     for &j in &cluster[position + 1..] {
                         let c1 = &columns[component[i]];
@@ -195,8 +245,14 @@ impl DistributionBased {
         columns: &[Column<'_>],
         indices: &[usize],
         intersection: bool,
+        limits: Option<&WorkLimits>,
     ) -> Result<Vec<Vec<f64>>, Error> {
         let n = indices.len();
+        if let Some(limits) = limits {
+            check_distance_work(n, limits)?;
+        }
+        #[cfg(test)]
+        tests::MATRIX_BUILDS.with(|count| count.set(count.get() + 1));
         let distance = |i: usize, j: usize| {
             let a = &columns[indices[i]];
             let b = &columns[indices[j]];
@@ -269,11 +325,11 @@ impl DistributionBased {
 
 impl Matcher for DistributionBased {
     fn get_matches(&self, source: &Table, target: &Table) -> Result<MatcherResults, Error> {
-        self.match_tables(&[source, target])
+        self.match_tables(&[source, target], None)
     }
 
     fn get_matches_batch(&self, tables: &[Table]) -> Result<MatcherResults, Error> {
-        self.match_tables(&tables.iter().collect::<Vec<_>>())
+        self.match_tables(&tables.iter().collect::<Vec<_>>(), None)
     }
 }
 
@@ -346,6 +402,8 @@ impl<'a> Column<'a> {
         quantiles: usize,
         use_bloom: bool,
     ) -> Self {
+        #[cfg(test)]
+        tests::COLUMN_BUILDS.with(|count| count.set(count.get() + 1));
         let mut ranks: Vec<usize> = data.iter().map(|(_, rank)| *rank).collect();
         ranks.sort_unstable();
         let histogram = Histogram::new(&ranks, quantiles);
@@ -544,7 +602,32 @@ fn connected_components(edges: &[Vec<bool>]) -> Vec<Vec<usize>> {
     result
 }
 
-fn correlation_clusters(positive: &[Vec<bool>]) -> Result<Vec<Vec<usize>>, Error> {
+fn check_distance_work(n: usize, limits: &WorkLimits) -> Result<(), Error> {
+    crate::limits::check_work(
+        "DistributionBased distance-matrix cells",
+        n.checked_mul(n),
+        limits.max_matrix_cells,
+    )
+}
+
+fn check_clustering_work(n: usize, limits: &WorkLimits) -> Result<(), Error> {
+    let variables = n.checked_mul(n.saturating_sub(1));
+    crate::limits::check_work(
+        "DistributionBased clustering binary variables",
+        variables,
+        limits.max_clustering_variables,
+    )?;
+    crate::limits::check_work(
+        "DistributionBased clustering triangle constraints",
+        variables.and_then(|variables| variables.checked_mul(n.saturating_sub(2))),
+        limits.max_clustering_constraints,
+    )
+}
+
+fn correlation_clusters(
+    positive: &[Vec<bool>],
+    limits: Option<&WorkLimits>,
+) -> Result<Vec<Vec<usize>>, Error> {
     let n = positive.len();
     // Disjoint complete cliques have a unique zero-cost separation matrix.
     // Recognize that partition before allocating the cubic triangle constraints.
@@ -558,6 +641,11 @@ fn correlation_clusters(positive: &[Vec<bool>]) -> Result<Vec<Vec<usize>>, Error
     }) {
         return Ok(components);
     }
+    if let Some(limits) = limits {
+        check_clustering_work(n, limits)?;
+    }
+    #[cfg(test)]
+    tests::MODEL_BUILDS.with(|count| count.set(count.get() + 1));
     let mut variables = ProblemVariables::new();
     let mut x = vec![vec![None; n]; n];
     let mut objective = Expression::from(0.0);
@@ -643,6 +731,203 @@ impl BloomFilter {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::cell::Cell;
+
+    thread_local! {
+        pub(super) static COLUMN_BUILDS: Cell<usize> = const { Cell::new(0) };
+        pub(super) static MATRIX_BUILDS: Cell<usize> = const { Cell::new(0) };
+        pub(super) static MODEL_BUILDS: Cell<usize> = const { Cell::new(0) };
+    }
+
+    #[test]
+    fn guarded_work_counts_check_boundaries_and_overflow_without_allocating() {
+        let limits = WorkLimits {
+            max_matrix_cells: 9,
+            max_clustering_variables: 6,
+            max_clustering_constraints: 6,
+            ..WorkLimits::default()
+        };
+        for n in 0..=3 {
+            check_distance_work(n, &limits).unwrap();
+            check_clustering_work(n, &limits).unwrap();
+        }
+        assert!(check_distance_work(4, &limits).is_err());
+        assert!(check_clustering_work(4, &limits).is_err());
+        let unlimited = WorkLimits::default();
+        let error = check_distance_work(usize::MAX, &unlimited).unwrap_err();
+        assert!(error.to_string().contains("overflow"));
+        let error = check_clustering_work(usize::MAX, &unlimited).unwrap_err();
+        assert!(error.to_string().contains("binary variables"));
+        assert!(error.to_string().contains("overflow"));
+        // Squaring fits, but the cubic triangle count does not, on 32/64-bit.
+        let n = 1_usize << (usize::BITS.div_ceil(3));
+        let error = check_clustering_work(n, &unlimited).unwrap_err();
+        assert!(error.to_string().contains("triangle constraints"));
+        assert!(error.to_string().contains("overflow"));
+    }
+
+    #[test]
+    fn guarded_clustering_rejects_before_constructing_a_model() {
+        let graph = vec![
+            vec![false, true, false],
+            vec![false, false, true],
+            vec![false, false, false],
+        ];
+        let limits = WorkLimits {
+            max_clustering_variables: 6,
+            max_clustering_constraints: 6,
+            ..WorkLimits::default()
+        };
+        for rejected in [
+            WorkLimits {
+                max_clustering_variables: 5,
+                ..limits
+            },
+            WorkLimits {
+                max_clustering_constraints: 5,
+                ..limits
+            },
+        ] {
+            MODEL_BUILDS.with(|count| count.set(0));
+            let error = correlation_clusters(&graph, Some(&rejected)).unwrap_err();
+            assert!(error.to_string().contains("limit 5"));
+            assert!(error.to_string().contains('6'));
+            MODEL_BUILDS.with(|count| assert_eq!(count.get(), 0));
+        }
+        MODEL_BUILDS.with(|count| count.set(0));
+        let guarded = correlation_clusters(&graph, Some(&limits)).unwrap();
+        MODEL_BUILDS.with(|count| assert_eq!(count.get(), 1));
+        assert_eq!(guarded, correlation_clusters(&graph, None).unwrap());
+        // The existing exact clique shortcut builds no MILP at all.
+        let zero = WorkLimits {
+            max_clustering_variables: 0,
+            max_clustering_constraints: 0,
+            ..WorkLimits::default()
+        };
+        MODEL_BUILDS.with(|count| count.set(0));
+        assert_eq!(
+            correlation_clusters(&[vec![false, true], vec![true, false]], Some(&zero)).unwrap(),
+            [vec![0, 1]]
+        );
+        MODEL_BUILDS.with(|count| assert_eq!(count.get(), 0));
+    }
+
+    #[test]
+    fn guarded_batches_reject_before_histograms_or_matrices_are_constructed() {
+        let field = |name: String, samples: &[&str]| crate::Field {
+            name,
+            data_type: crate::DataType::Text,
+            samples: samples.iter().map(|value| (*value).into()).collect(),
+        };
+        let source = Table::new("source", vec![field("only".into(), &["value"])]).unwrap();
+        let target = Table::new(
+            "target",
+            (0..10_000)
+                .map(|i| field(format!("c{i}"), &["value"]))
+                .collect(),
+        )
+        .unwrap();
+        let matcher = DistributionBased::default();
+        let limits = WorkLimits {
+            max_matrix_cells: 100,
+            ..WorkLimits::default()
+        };
+        for tables in [
+            [source.clone(), target.clone()],
+            [target.clone(), source.clone()],
+        ] {
+            COLUMN_BUILDS.with(|count| count.set(0));
+            MATRIX_BUILDS.with(|count| count.set(0));
+            let error = matcher
+                .get_matches_with_limits(&tables[0], &tables[1], &limits)
+                .unwrap_err();
+            assert!(error.to_string().contains("100020001"));
+            assert!(error.to_string().contains("limit 100"));
+            assert!(
+                matcher
+                    .get_matches_batch_with_limits(&tables, &limits)
+                    .is_err()
+            );
+            COLUMN_BUILDS.with(|count| assert_eq!(count.get(), 0));
+            MATRIX_BUILDS.with(|count| assert_eq!(count.get(), 0));
+        }
+        let empty = Table::new("empty", vec![field("missing".into(), &["", "NaN"])]).unwrap();
+        let zero = WorkLimits {
+            max_matrix_cells: 0,
+            ..WorkLimits::default()
+        };
+        assert!(
+            matcher
+                .get_matches_batch_with_limits(&[], &zero)
+                .unwrap()
+                .is_empty()
+        );
+        assert!(
+            matcher
+                .get_matches_with_limits(&empty, &source, &zero)
+                .unwrap()
+                .is_empty()
+        );
+        assert!(
+            matcher
+                .get_matches_batch_with_limits(&[source], &zero)
+                .unwrap()
+                .is_empty()
+        );
+    }
+
+    #[test]
+    fn guarded_direct_and_batch_outputs_preserve_global_ranks_and_score_bits() {
+        let tables = [
+            Table::from_csv(
+                "source",
+                "a,b,empty\n1,same,\n1.0,same,\n2,same,\nNaN,same,\n".as_bytes(),
+            )
+            .unwrap(),
+            Table::from_csv("target", "a,b\n1.0,same\n2,same\n2,same\n".as_bytes()).unwrap(),
+            Table::from_csv("other", "a\n100\n200\n".as_bytes()).unwrap(),
+        ];
+        let limits = WorkLimits {
+            max_matrix_cells: 25,
+            ..WorkLimits::default()
+        };
+        let bits = |results: &MatcherResults| {
+            results
+                .iter()
+                .map(|(pair, score)| (pair.clone(), score.to_bits()))
+                .collect::<Vec<_>>()
+        };
+        for process_num in [1, 3] {
+            for use_bloom_filters in [false, true] {
+                let matcher = DistributionBased {
+                    process_num,
+                    use_bloom_filters,
+                    ..DistributionBased::default()
+                };
+                let expected = matcher.get_matches_batch(&tables).unwrap();
+                let actual = matcher
+                    .get_matches_batch_with_limits(&tables, &limits)
+                    .unwrap();
+                assert_eq!(bits(&actual), bits(&expected));
+                assert_eq!(actual.details(), expected.details());
+                let expected = matcher.get_matches(&tables[0], &tables[1]).unwrap();
+                let actual = matcher
+                    .get_matches_with_limits(&tables[0], &tables[1], &limits)
+                    .unwrap();
+                assert_eq!(bits(&actual), bits(&expected));
+                assert_eq!(actual.details(), expected.details());
+                let rejected = WorkLimits {
+                    max_matrix_cells: 24,
+                    ..limits
+                };
+                assert!(
+                    matcher
+                        .get_matches_batch_with_limits(&tables, &rejected)
+                        .is_err()
+                );
+            }
+        }
+    }
 
     #[test]
     fn inclusive_quantile_histogram_and_transport() {
@@ -683,11 +968,11 @@ mod tests {
             vec![false, false, true, false],
         ];
         assert_eq!(
-            correlation_clusters(&graph).unwrap(),
+            correlation_clusters(&graph, None).unwrap(),
             [vec![0, 1], vec![2, 3]]
         );
         assert_eq!(
-            correlation_clusters(&[vec![false, true], vec![true, false]]).unwrap(),
+            correlation_clusters(&[vec![false, true], vec![true, false]], None).unwrap(),
             [vec![0, 1]]
         );
         // Noncontiguous groups and isolated nodes retain the solver's unique
@@ -705,7 +990,7 @@ mod tests {
             })
             .collect();
         assert_eq!(
-            correlation_clusters(&graph).unwrap(),
+            correlation_clusters(&graph, None).unwrap(),
             [vec![0, 2], vec![1, 4], vec![3, 5], vec![6], vec![7]]
         );
     }
@@ -758,7 +1043,7 @@ mod tests {
                             ..DistributionBased::default()
                         };
                         let actual = matcher
-                            .distance_matrix(&columns, &indices, intersection)
+                            .distance_matrix(&columns, &indices, intersection, None)
                             .unwrap();
                         let actual: Vec<Vec<_>> = actual
                             .into_iter()

@@ -167,6 +167,29 @@ fn rectangular_selectors_preserve_square_oracle_pairs_scores_and_details() {
                             results.one_to_one_hungarian(threshold)
                         }
                         .unwrap();
+                        let guarded = if cardinality_first {
+                            results.one_to_one_hungarian_threshold_aware_with_limits(
+                                threshold,
+                                &fieldkin::WorkLimits::default(),
+                            )
+                        } else {
+                            results.one_to_one_hungarian_with_limits(
+                                threshold,
+                                &fieldkin::WorkLimits::default(),
+                            )
+                        }
+                        .unwrap();
+                        assert_eq!(
+                            guarded
+                                .iter()
+                                .map(|(pair, score)| (pair, score.to_bits()))
+                                .collect::<Vec<_>>(),
+                            actual
+                                .iter()
+                                .map(|(pair, score)| (pair, score.to_bits()))
+                                .collect::<Vec<_>>()
+                        );
+                        assert_eq!(guarded.details(), actual.details());
                         let expected = square_selection(&results, threshold, cardinality_first);
                         assert_eq!(
                             actual

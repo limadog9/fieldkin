@@ -149,6 +149,41 @@ separately when constraints and default cutoffs should apply independently.
 Serialization emits a `matches` array containing each pair, score and any
 component details.
 
+### Opt-in work limits
+
+Use `WorkLimits` with Jaccard's or DistributionBased's
+`get_matches_with_limits` / `get_matches_batch_with_limits`, and the Hungarian
+selectors' `_with_limits` variants, to reject excessive work before constructing
+the relevant matrices, comparison work, or integer models:
+
+```rust
+use fieldkin::{Table, WorkLimits};
+use fieldkin::algorithms::JaccardDistanceMatcher;
+# fn main() -> Result<(), fieldkin::Error> {
+let limits = WorkLimits {
+    max_assignment_dimension: 256,
+    max_matrix_cells: 65_536,
+    max_clustering_variables: 4_096,
+    max_clustering_constraints: 262_144,
+    max_jaccard_comparisons: 1_000_000,
+};
+let source = Table::from_csv("source", "id\n1\n".as_bytes())?;
+let target = Table::from_csv("target", "id\n1\n".as_bytes())?;
+let matches = JaccardDistanceMatcher::default()
+    .get_matches_with_limits(&source, &target, &limits)?;
+let selected = matches.one_to_one_hungarian_with_limits(Some(0.5), &limits)?;
+# assert_eq!(selected.len(), 1);
+# Ok(())
+# }
+```
+
+These are checked work counts, not hard memory limits or solver deadlines.
+Distribution limits apply to each matrix/model; Jaccard comparison counts cover
+the whole batch before scoring shortcuts. Row sampling alone does not bound
+assignment dimensions or clustering complexity. Existing matching, selection,
+and metric entry points remain unbounded; choose the checked calls explicitly.
+Use an isolated process with external memory/time limits for hard containment.
+
 ## Polars and sentence embeddings
 
 With `features = ["polars"]`, `Table::from_polars(name, &frame)` supports native
