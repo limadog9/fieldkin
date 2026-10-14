@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.2.2 - 2026-10-14
 
 - Add opt-in rectangular assignment selectors, including cardinality-first and
   checked variants, without changing legacy Hungarian selection or metrics.
