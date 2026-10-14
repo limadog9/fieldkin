@@ -16,7 +16,7 @@ mod types;
 
 pub use algorithms::{
     CheckedMatcher, Matcher, match_schemas_with, match_tables, match_tables_one_to_one_with_limits,
-    valentine_match,
+    match_tables_with_limits, valentine_match,
 };
 pub use engine::{Config, match_schemas, try_match_schemas};
 pub use limits::WorkLimits;

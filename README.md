@@ -150,6 +150,18 @@ scores A→X=0.90, A→Y=0.80, B→X=0.81 and B→Y=0.79, threshold 0.80 yields 
 A→X through the original selector, while the alternative selects A→Y and B→X.
 Metrics continue to use the original Valentine-compatible selectors.
 
+Unreleased: `one_to_one_rectangular` and
+`one_to_one_rectangular_threshold_aware` offer the same respective objectives
+with genuinely rectangular assignment. Both have `_with_limits` variants.
+For `r` sources and `c` targets, solver work is O(min(r,c)² max(r,c)), cost
+storage O(r*c), and workspace O(r+c); sorting/indexing `k` candidates additionally
+costs O(k log k + r*c). They augment the smaller side in sorted full-identity
+order (sources on square inputs), retaining the first predecessor/column on equal
+reduced costs. Input permutations give identical results. Equally optimal ties
+can differ from legacy Hungarian; for maximum-score selection, equally optimal
+assignments **before filtering** can even retain different counts after filtering.
+Existing selectors, metrics, and the combined legacy checked helper are unchanged.
+
 Hungarian and greedy selectors constrain each source and target (table, column)
 identity once across the entire collection. A column shared by multiple table pairs
 can therefore retain a correspondence for only one pair. Mutual-top selection
@@ -162,16 +174,17 @@ component details.
 
 ### Opt-in work limits
 
-Use `match_tables_one_to_one_with_limits` to carry the same explicit limits through
-Jaccard or DistributionBased batch matching and legacy Hungarian selection. This
-path supports only those two checked matchers; it never falls back to unchecked
-matching. Individual `get_matches_with_limits` / `get_matches_batch_with_limits`
-and Hungarian `_with_limits` calls remain available for other compositions.
+Unreleased: use `match_tables_with_limits` for checked ranked raw matches, then
+an explicit checked selector. It supports only Jaccard and DistributionBased
+and never falls back to unchecked matching. The existing
+`match_tables_one_to_one_with_limits` still combines checked matching with legacy
+Hungarian selection. Individual `get_matches_with_limits` /
+`get_matches_batch_with_limits` and selector `_with_limits` calls remain available.
 
 The caps below are illustrative; choose them for your workload.
 
 ```rust
-use fieldkin::{CheckedMatcher, MatchOptions, Table, WorkLimits, match_tables_one_to_one_with_limits};
+use fieldkin::{CheckedMatcher, MatchOptions, Table, WorkLimits, match_tables_with_limits};
 use fieldkin::algorithms::JaccardDistanceMatcher;
 # fn main() -> Result<(), fieldkin::Error> {
 let limits = WorkLimits {
@@ -184,13 +197,13 @@ let limits = WorkLimits {
 let source = Table::from_csv("source", "id\n1\n".as_bytes())?;
 let target = Table::from_csv("target", "id\n1\n".as_bytes())?;
 let matcher = JaccardDistanceMatcher::default();
-let selected = match_tables_one_to_one_with_limits(
+let raw = match_tables_with_limits(
     &[source, target],
     CheckedMatcher::Jaccard(&matcher),
     MatchOptions { instance_sample_size: None },
-    Some(0.5),
     &limits,
 )?;
+let selected = raw.one_to_one_rectangular_with_limits(Some(0.5), &limits)?;
 # assert_eq!(selected.len(), 1);
 # Ok(())
 # }
@@ -318,7 +331,43 @@ cargo test --locked --doc
 cargo clippy --locked --all-targets --all-features --jobs 1 -- -D warnings
 ```
 
-The CLI writes ranked JSON to stdout and errors to stderr. Builds with embeddings
+The CLI writes ranked JSON to stdout and errors to stderr. Existing positional
+commands retain all samples and their existing behavior.
+
+Unreleased: `--bounded` supports only `jaccard` and `distribution`; unsupported
+algorithms and invalid options fail before opening inputs. For example:
+
+```sh
+# Checked ranked raw matches; defaults shown by --help.
+cargo run --bin fieldkin -- --bounded jaccard source.csv target.csv
+# Checked rectangular selection, with explicit sampling and byte caps per file.
+cargo run --bin fieldkin -- --bounded distribution source.json target.json \
+  --max-input-bytes 8388608 --sample-size 1000 \
+  --assignment rectangular-threshold-aware --threshold 0.8
+```
+
+Bounded defaults are 8,388,608 serialized bytes **per file**, 1,000 nonempty
+samples per column, assignment dimension 1,024, matrix cells 1,048,576, clustering
+variables 4,096, clustering constraints 262,144, and Jaccard comparisons
+10,000,000. Each has a corresponding `--max-*` flag (sampling uses
+`--sample-size`). `--assignment` defaults to `none`; `rectangular` maximizes
+score before filtering, and `rectangular-threshold-aware` maximizes eligible
+cardinality first. Without `--threshold`, both use the existing distinct-score
+cutoff. Thresholds must be finite, and require assignment. Options apply only
+to bounded mode; inapplicable, duplicate, malformed and unknown flags fail.
+
+Reading stops with an error on the first byte beyond either file cap; no partial
+document is matched. Full parsing/type inference precedes existing deterministic,
+evenly spaced sampling (`--sample-size 0` clears samples). Parsing structures can
+exceed serialized size. Sampling alone does not bound loading memory, and sampled
+matching can differ from unsampled matching. Matching/model counts retain the
+scopes documented above; none of these caps guarantees RSS or a wall-clock
+deadline. The finite defaults are starting budgets, not universal safe settings.
+Assignment limits are checked after raw matching, before assignment costs are
+allocated. Use `--` before positional paths beginning with option-like names.
+Use external process limits for hard containment.
+
+Builds with embeddings
 download ONNX Runtime. The explicit model test is excluded from offline runs:
 
 ```sh

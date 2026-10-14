@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- Add opt-in rectangular assignment selectors, including cardinality-first and
+  checked variants, without changing legacy Hungarian selection or metrics.
+- Add checked raw batch matching and an opt-in bounded CLI for Jaccard and
+  DistributionBased, with per-file byte caps, deterministic sampling, explicit
+  work limits, and optional rectangular selection.
+
 ## 0.2.1 - 2026-10-13
 
 - Reuse identical COMA instance documents while preserving global IDF, sample

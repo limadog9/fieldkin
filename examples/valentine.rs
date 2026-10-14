@@ -1,8 +1,7 @@
 use fieldkin::algorithms::{Coma, ComaConfig, JaccardDistanceMatcher};
 use fieldkin::metrics::GroundTruth;
 use fieldkin::{
-    CheckedMatcher, MatchOptions, Table, WorkLimits, match_tables_one_to_one_with_limits,
-    valentine_match,
+    CheckedMatcher, MatchOptions, Table, WorkLimits, match_tables_with_limits, valentine_match,
 };
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -33,7 +32,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     ]);
     println!("{:?}", matches.get_metrics(&truth)?);
 
-    // The combined checked path carries these limits through matching AND
+    // Carry the same explicit limits through matching AND rectangular
     // assignment. The COMA and metric calls above remain unbounded.
     // These two-column tables have four column-pair slots
     // and 4 * (2 * 2) = 16 distinct-value comparisons before scoring shortcuts.
@@ -45,15 +44,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         max_jaccard_comparisons: 16,
     };
     let value_matcher = JaccardDistanceMatcher::default();
-    let selected = match_tables_one_to_one_with_limits(
+    let raw = match_tables_with_limits(
         &tables,
         CheckedMatcher::Jaccard(&value_matcher),
         MatchOptions {
             instance_sample_size: None,
         },
-        Some(0.5),
         &limits,
     )?;
+    let selected = raw.one_to_one_rectangular_with_limits(Some(0.5), &limits)?;
     assert_eq!(selected.len(), 2);
     println!("Bounded value matches: {}", selected.len());
     // Count limits are not deadlines or process-memory limits. Use external

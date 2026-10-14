@@ -559,10 +559,16 @@ fn cli_rejects_malformed_inputs_and_unknown_algorithms_with_nonzero_exit() {
         vec!["unknown", good.to_str().unwrap(), good.to_str().unwrap()],
         vec!["jaccard"],
     ] {
-        let output = cli(&arguments);
-        assert!(!output.status.success());
-        assert!(output.stdout.is_empty());
-        assert!(String::from_utf8_lossy(&output.stderr).starts_with("fieldkin: "));
+        for bounded in [false, true] {
+            let mut arguments = arguments.clone();
+            if bounded {
+                arguments.push("--bounded");
+            }
+            let output = cli(&arguments);
+            assert!(!output.status.success());
+            assert!(output.stdout.is_empty());
+            assert!(String::from_utf8_lossy(&output.stderr).starts_with("fieldkin: "));
+        }
     }
 }
 
@@ -581,18 +587,16 @@ fn cli_accepts_non_utf8_file_paths_and_rejects_non_utf8_text_arguments() {
         source.as_os_str(),
         target.as_os_str(),
     ];
-    let output = Command::new(env!("CARGO_BIN_EXE_fieldkin"))
-        .args(arguments)
-        .output()
-        .unwrap();
-    assert!(
-        output.status.success(),
-        "{}",
-        String::from_utf8_lossy(&output.stderr)
-    );
-    let json: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
-    assert_eq!(json["matches"].as_array().unwrap().len(), 1);
-    assert_eq!(json["matches"][0]["score"], 1.0);
+    for flags in [&[][..], &["--bounded"][..]] {
+        let output = Command::new(env!("CARGO_BIN_EXE_fieldkin"))
+            .args(arguments)
+            .args(flags)
+            .output()
+            .unwrap();
+        let json = successful_json(output);
+        assert_eq!(json["matches"].as_array().unwrap().len(), 1);
+        assert_eq!(json["matches"][0]["score"], 1.0);
+    }
 
     for index in [0, 3, 4] {
         let mut arguments = arguments.to_vec();
@@ -633,5 +637,369 @@ fn cli_output_errors_exit_without_panicking() {
         if close_stdout {
             assert!(String::from_utf8_lossy(&output.stderr).starts_with("fieldkin: "));
         }
+    }
+}
+
+fn bounded_cli(algorithm: &str, source: &Path, target: &Path, options: &[&str]) -> Output {
+    let mut arguments = vec![
+        algorithm,
+        source.to_str().unwrap(),
+        target.to_str().unwrap(),
+        "--bounded",
+    ];
+    arguments.extend_from_slice(options);
+    cli(&arguments)
+}
+
+fn successful_json(output: Output) -> serde_json::Value {
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    serde_json::from_slice(&output.stdout).unwrap()
+}
+
+fn failed_cli(output: Output, expected: &str) -> String {
+    assert!(!output.status.success(), "unexpected success: {output:?}");
+    assert!(output.stdout.is_empty(), "partial result JSON: {output:?}");
+    let error = String::from_utf8(output.stderr).unwrap();
+    assert!(error.starts_with("fieldkin: "), "{error}");
+    assert!(error.contains(expected), "expected {expected:?}: {error}");
+    error
+}
+
+#[test]
+fn bounded_cli_matches_equivalent_sampled_csv_and_json_inputs() {
+    let fixtures = Fixtures::new("bounded samples with spaces");
+    let source_csv = "value\nalpha\nbravo\ncharlie\ndelta\necho\n";
+    let target_json = r#"[{"renamed":"alpha"},{"renamed":"charlie"}]"#;
+    let source = fixtures.write("source with spaces.csv", source_csv);
+    let target = fixtures.write("target with spaces.JSON", target_json);
+    let tables = [
+        Table::from_csv("aaa", source_csv.as_bytes()).unwrap(),
+        Table::from_json("bbb", target_json.as_bytes()).unwrap(),
+    ];
+    for (algorithm, matcher) in [
+        (
+            "jaccard",
+            &JaccardDistanceMatcher::default() as &dyn Matcher,
+        ),
+        (
+            "distribution",
+            &DistributionBased::default() as &dyn Matcher,
+        ),
+    ] {
+        for size in [0, 2, 1000] {
+            let size_arg = size.to_string();
+            let expected = match_tables(
+                &tables,
+                matcher,
+                MatchOptions {
+                    instance_sample_size: Some(size),
+                },
+            )
+            .unwrap();
+            let actual = successful_json(bounded_cli(
+                algorithm,
+                &source,
+                &target,
+                &["--sample-size", &size_arg],
+            ));
+            assert_eq!(actual, serde_json::to_value(&expected).unwrap());
+            if size == 2 {
+                // Even spacing chooses alpha/charlie, not the first two rows.
+                assert_eq!(actual["matches"][0]["score"], 1.0);
+            }
+        }
+        let expected = match_tables(
+            &tables,
+            matcher,
+            MatchOptions {
+                instance_sample_size: Some(1000),
+            },
+        )
+        .unwrap();
+        assert_eq!(
+            successful_json(bounded_cli(algorithm, &source, &target, &[])),
+            serde_json::to_value(expected).unwrap()
+        );
+    }
+}
+
+#[test]
+fn bounded_cli_rectangular_modes_match_the_public_selectors() {
+    let fixtures = Fixtures::new("bounded assignment");
+    let csv = "first,second\nshared,shared\n";
+    let json = r#"[{"renamed":"shared"}]"#;
+    let source = fixtures.write("source.csv", csv);
+    let target = fixtures.write("target.json", json);
+    let tables = [
+        Table::from_csv("Source", csv.as_bytes()).unwrap(),
+        Table::from_json("Target", json.as_bytes()).unwrap(),
+    ];
+    for (algorithm, matcher) in [
+        (
+            "jaccard",
+            &JaccardDistanceMatcher::default() as &dyn Matcher,
+        ),
+        (
+            "distribution",
+            &DistributionBased::default() as &dyn Matcher,
+        ),
+    ] {
+        let raw = match_tables(&tables, matcher, MatchOptions::default()).unwrap();
+        for (mode, expected) in [
+            (
+                "rectangular",
+                raw.one_to_one_rectangular(Some(0.0)).unwrap(),
+            ),
+            (
+                "rectangular-threshold-aware",
+                raw.one_to_one_rectangular_threshold_aware(Some(0.0))
+                    .unwrap(),
+            ),
+        ] {
+            let actual = successful_json(bounded_cli(
+                algorithm,
+                &source,
+                &target,
+                &[
+                    "Source",
+                    "Target",
+                    "--assignment",
+                    mode,
+                    "--threshold",
+                    "0",
+                    "--max-assignment-dimension",
+                    "2",
+                ],
+            ));
+            assert_eq!(actual, serde_json::to_value(expected).unwrap());
+        }
+    }
+}
+
+#[test]
+fn bounded_cli_enforces_per_file_bytes_without_accepting_valid_prefixes() {
+    let fixtures = Fixtures::new("bounded byte cap");
+    for (extension, document) in [
+        ("csv", "value\nshared\n"),
+        ("json", r#"[{"value":"shared"}]"#),
+    ] {
+        let source = fixtures.write(&format!("source.{extension}"), document);
+        let target = fixtures.write(&format!("target.{extension}"), document);
+        for cap in [document.len(), document.len() + 1] {
+            let cap = cap.to_string();
+            let actual = successful_json(bounded_cli(
+                "jaccard",
+                &source,
+                &target,
+                &["--max-input-bytes", &cap],
+            ));
+            assert_eq!(actual["matches"][0]["score"], 1.0);
+        }
+        let cap = (document.len() - 1).to_string();
+        let error = failed_cli(
+            bounded_cli("jaccard", &source, &target, &["--max-input-bytes", &cap]),
+            "--max-input-bytes",
+        );
+        assert!(error.contains(&source.display().to_string()));
+        assert!(error.contains(&cap));
+        // The prefix is a complete valid document; the extra whitespace must
+        // still count toward the serialized byte cap, in either input file.
+        let oversized = fixtures.write(&format!("oversized.{extension}"), &format!("{document}\n"));
+        let cap = document.len().to_string();
+        for (source, target) in [(&oversized, &target), (&source, &oversized)] {
+            let error = failed_cli(
+                bounded_cli("jaccard", source, target, &["--max-input-bytes", &cap]),
+                "--max-input-bytes",
+            );
+            assert!(error.contains(&oversized.display().to_string()));
+        }
+    }
+    let bad = fixtures.write("trailing.json", r#"[{"value":"shared"}]garbage"#);
+    let good = fixtures.write("good.json", r#"[{"value":"shared"}]"#);
+    failed_cli(bounded_cli("jaccard", &bad, &good, &[]), "trailing");
+}
+
+#[test]
+fn bounded_cli_rejects_unsupported_and_invalid_options_before_input_access() {
+    let absent = Path::new("definitely absent input.csv");
+    for algorithm in ["coma", "cupid", "flooding"] {
+        failed_cli(
+            bounded_cli(algorithm, absent, absent, &[]),
+            "bounded mode supports only",
+        );
+    }
+    let overflow = usize::MAX.to_string();
+    for (algorithm, options, expected) in [
+        ("jaccard", vec!["--bounded"], "duplicate"),
+        (
+            "jaccard",
+            vec!["--sample-size", "1", "--sample-size", "2"],
+            "duplicate",
+        ),
+        ("jaccard", vec!["--unknown", "1"], "unknown"),
+        ("jaccard", vec!["--sample-size"], "--sample-size"),
+        ("jaccard", vec!["--sample-size", "-1"], "--sample-size"),
+        (
+            "jaccard",
+            vec!["--sample-size", "18446744073709551616"],
+            "--sample-size",
+        ),
+        ("jaccard", vec!["--max-input-bytes", &overflow], "overflows"),
+        ("jaccard", vec!["--assignment", "unknown"], "--assignment"),
+        ("jaccard", vec!["--threshold", "0.5"], "--threshold"),
+        (
+            "jaccard",
+            vec!["--assignment", "none", "--threshold", "0.5"],
+            "--threshold",
+        ),
+        (
+            "jaccard",
+            vec!["--assignment", "rectangular", "--threshold", "NaN"],
+            "--threshold",
+        ),
+        (
+            "jaccard",
+            vec!["--assignment", "rectangular", "--threshold", "inf"],
+            "--threshold",
+        ),
+        (
+            "jaccard",
+            vec!["--max-assignment-dimension", "1"],
+            "--max-assignment-dimension",
+        ),
+        (
+            "jaccard",
+            vec!["--max-clustering-variables", "1"],
+            "--max-clustering-variables",
+        ),
+        (
+            "jaccard",
+            vec!["--max-clustering-constraints", "1"],
+            "--max-clustering-constraints",
+        ),
+        (
+            "distribution",
+            vec!["--max-jaccard-comparisons", "1"],
+            "--max-jaccard-comparisons",
+        ),
+    ] {
+        failed_cli(bounded_cli(algorithm, absent, absent, &options), expected);
+    }
+    for options in [
+        vec!["--sample-size", "1"],
+        vec!["--assignment", "rectangular"],
+        vec!["--max-input-bytes", "8"],
+    ] {
+        let mut arguments = vec!["jaccard", "missing.csv", "missing.csv"];
+        arguments.extend(options);
+        failed_cli(cli(&arguments), "--bounded");
+    }
+}
+
+#[test]
+fn bounded_cli_forwards_matching_and_assignment_work_limits() {
+    let fixtures = Fixtures::new("bounded work counts");
+    let input = "first,second\nshared,shared\nother,other\n";
+    let source = fixtures.write("source.csv", input);
+    let target = fixtures.write("target.csv", input);
+    let boundary = successful_json(bounded_cli(
+        "jaccard",
+        &source,
+        &target,
+        &[
+            "--max-matrix-cells",
+            "4",
+            "--max-jaccard-comparisons",
+            "16",
+            "--assignment",
+            "rectangular",
+            "--max-assignment-dimension",
+            "2",
+        ],
+    ));
+    assert_eq!(boundary["matches"].as_array().unwrap().len(), 2);
+    for (options, expected) in [
+        (vec!["--max-matrix-cells", "3"], "Jaccard column pairs"),
+        (
+            vec!["--max-jaccard-comparisons", "15"],
+            "Jaccard distinct-value comparisons",
+        ),
+        (
+            vec![
+                "--assignment",
+                "rectangular",
+                "--max-assignment-dimension",
+                "1",
+            ],
+            "assignment",
+        ),
+        (
+            vec![
+                "--assignment",
+                "rectangular-threshold-aware",
+                "--max-assignment-dimension",
+                "1",
+            ],
+            "assignment",
+        ),
+    ] {
+        failed_cli(bounded_cli("jaccard", &source, &target, &options), expected);
+    }
+    for cap in ["15", "16"] {
+        let output = bounded_cli(
+            "distribution",
+            &source,
+            &target,
+            &["--max-matrix-cells", cap],
+        );
+        if cap == "16" {
+            assert!(
+                !successful_json(output)["matches"]
+                    .as_array()
+                    .unwrap()
+                    .is_empty()
+            );
+        } else {
+            failed_cli(output, "DistributionBased distance-matrix cells");
+        }
+    }
+
+    // Circular overlapping windows produce a conflicting component rather
+    // than the no-model clique shortcut. Limits reject before solver creation.
+    let mix = |mut value: u64| {
+        value = (value ^ (value >> 30)).wrapping_mul(0xbf58_476d_1ce4_e5b9);
+        value = (value ^ (value >> 27)).wrapping_mul(0x94d0_49bb_1331_11eb);
+        value ^ (value >> 31)
+    };
+    let records: Vec<_> = (0..128)
+        .map(|row| {
+            (0..8)
+                .map(|column| {
+                    (
+                        format!("column{column}"),
+                        mix(((column * 64 + row) % 512) as u64).to_string(),
+                    )
+                })
+                .collect::<BTreeMap<_, _>>()
+        })
+        .collect();
+    let ring = serde_json::to_string(&records).unwrap();
+    let source = fixtures.write("ring-source.json", &ring);
+    let target = fixtures.write("ring-target.json", &ring);
+    for (flag, expected) in [
+        ("--max-clustering-variables", "clustering binary variables"),
+        (
+            "--max-clustering-constraints",
+            "clustering triangle constraints",
+        ),
+    ] {
+        failed_cli(
+            bounded_cli("distribution", &source, &target, &[flag, "0"]),
+            expected,
+        );
     }
 }

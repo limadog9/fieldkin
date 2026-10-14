@@ -3,7 +3,7 @@ use std::sync::{Arc, Mutex};
 use fieldkin::algorithms::{DistributionBased, EmbeddingProvider, JaccardDistanceMatcher};
 use fieldkin::{
     CheckedMatcher, DataType, Error, Field, MatchOptions, MatcherResults, Table, WorkLimits,
-    match_tables, match_tables_one_to_one_with_limits,
+    match_tables, match_tables_one_to_one_with_limits, match_tables_with_limits,
 };
 
 fn table(name: &str, width: usize) -> Table {
@@ -82,10 +82,26 @@ fn checked_composition_preserves_sampling_batch_statistics_and_selection_bits() 
                 let options = MatchOptions {
                     instance_sample_size: sample_size,
                 };
-                let expected = match_tables(&tables, unchecked, options)
-                    .unwrap()
-                    .one_to_one_hungarian(threshold)
-                    .unwrap();
+                let expected = match_tables(&tables, unchecked, options).unwrap();
+                let raw = match_tables_with_limits(&tables, checked, options, &limits).unwrap();
+                assert_identical(&raw, &expected);
+                for cardinality_first in [false, true] {
+                    let (actual, expected) = if cardinality_first {
+                        (
+                            raw.one_to_one_rectangular_threshold_aware_with_limits(
+                                threshold, &limits,
+                            ),
+                            expected.one_to_one_rectangular_threshold_aware(threshold),
+                        )
+                    } else {
+                        (
+                            raw.one_to_one_rectangular_with_limits(threshold, &limits),
+                            expected.one_to_one_rectangular(threshold),
+                        )
+                    };
+                    assert_identical(&actual.unwrap(), &expected.unwrap());
+                }
+                let expected = expected.one_to_one_hungarian(threshold).unwrap();
                 let actual = match_tables_one_to_one_with_limits(
                     &tables, checked, options, threshold, &limits,
                 )
@@ -239,6 +255,24 @@ fn checked_composition_rejects_before_encoding_and_keeps_batch_wide_limits() {
             limits,
         )
     };
+    let raw = |limits: &WorkLimits| {
+        match_tables_with_limits(
+            &tables,
+            CheckedMatcher::Jaccard(&matcher),
+            MatchOptions {
+                instance_sample_size: None,
+            },
+            limits,
+        )
+    };
+    assert!(
+        raw(&WorkLimits {
+            max_jaccard_comparisons: 11,
+            ..limits
+        })
+        .is_err()
+    );
+    assert_eq!(*provider.0.lock().unwrap(), 0);
     assert!(
         run(&WorkLimits {
             max_jaccard_comparisons: 11,
@@ -258,4 +292,25 @@ fn checked_composition_rejects_before_encoding_and_keeps_batch_wide_limits() {
         .is_err()
     );
     assert_eq!(*provider.0.lock().unwrap(), 2);
+    // Raw matching does not secretly run assignment. Each optional checked
+    // selector enforces its own limits without encoding the vocabulary again.
+    let raw_results = raw(&WorkLimits {
+        max_assignment_dimension: 0,
+        ..limits
+    })
+    .unwrap();
+    assert_eq!(*provider.0.lock().unwrap(), 3);
+    assert_eq!(raw_results.len(), 3);
+    assert!(
+        raw_results
+            .one_to_one_rectangular_with_limits(
+                None,
+                &WorkLimits {
+                    max_assignment_dimension: 0,
+                    ..limits
+                }
+            )
+            .is_err()
+    );
+    assert_eq!(*provider.0.lock().unwrap(), 3);
 }

@@ -19,8 +19,9 @@ pub use strings::StringDistanceFunction;
 use crate::{Error, MatchOptions, MatcherResults, Schema, Table, WorkLimits};
 
 /// Matchers with checked implementations supported by
-/// [`match_tables_one_to_one_with_limits`]. Other matchers are deliberately not
-/// accepted: this path never falls back to unchecked matching.
+/// [`match_tables_with_limits`] and [`match_tables_one_to_one_with_limits`].
+/// Other matchers are deliberately not accepted: this path never falls back to
+/// unchecked matching.
 #[derive(Clone, Copy, Debug)]
 pub enum CheckedMatcher<'a> {
     Jaccard(&'a JaccardDistanceMatcher),
@@ -44,6 +45,28 @@ pub fn match_tables_one_to_one_with_limits(
     matcher: CheckedMatcher<'_>,
     options: MatchOptions,
     threshold: Option<f64>,
+    limits: &WorkLimits,
+) -> Result<MatcherResults, Error> {
+    match_tables_with_limits(tables, matcher, options, limits)?
+        .one_to_one_hungarian_with_limits(threshold, limits)
+}
+
+/// Match tables with explicit work limits, retaining ranked raw matches.
+///
+/// Sampling and batch-wide statistics are identical to [`match_tables`]. Only
+/// the checked implementations in [`CheckedMatcher`] are accepted; there is no
+/// unchecked fallback. Limits retain their existing per-matrix, per-model and
+/// batch-wide scopes. Assignment is not performed: follow this call with a
+/// checked selector to bound that separate operation, too.
+/// Metrics may perform unchecked assignment; this function does not compute them.
+///
+/// Input validation, sampling, value preparation, string lengths and embedding
+/// execution are not bounded by these counts. Limits are not process-memory
+/// limits or deadlines; use external isolation for hard containment.
+pub fn match_tables_with_limits(
+    tables: &[Table],
+    matcher: CheckedMatcher<'_>,
+    options: MatchOptions,
     limits: &WorkLimits,
 ) -> Result<MatcherResults, Error> {
     struct Checked<'a> {
@@ -73,8 +96,7 @@ pub fn match_tables_one_to_one_with_limits(
             }
         }
     }
-    match_tables(tables, &Checked { matcher, limits }, options)?
-        .one_to_one_hungarian_with_limits(threshold, limits)
+    match_tables(tables, &Checked { matcher, limits }, options)
 }
 
 /// Implement this trait to plug a custom algorithm into batch matching.
