@@ -249,6 +249,37 @@ fn rectangular_threshold_policy_and_default_cutoff_are_distinct() {
 }
 
 #[test]
+fn rectangular_and_legacy_optimal_ties_can_filter_to_different_counts() {
+    // Reuse the legacy transposition regression without changing its contract.
+    // Both pre-filter objectives are exactly 1.0, but .75+.25 and .5+.5
+    // retain different cardinalities at .5. This is explicitly opt-in behavior.
+    let results = MatcherResults::new(vec![
+        (pair(0, 1), 0.0),
+        (pair(1, 0), 0.5),
+        (pair(1, 1), 0.25),
+        (pair(2, 0), 0.75),
+        (pair(2, 1), 0.5),
+    ])
+    .unwrap();
+    for raw in [
+        results.one_to_one_hungarian(Some(0.0)).unwrap(),
+        results.one_to_one_rectangular(Some(0.0)).unwrap(),
+    ] {
+        assert_eq!(raw.iter().map(|(_, score)| score).sum::<f64>(), 1.0);
+        assert_eq!(optimum(&results, 0.0, false).1, 1.0);
+    }
+    assert_eq!(results.one_to_one_hungarian(Some(0.5)).unwrap().len(), 2);
+    assert_eq!(results.one_to_one_rectangular(Some(0.5)).unwrap().len(), 1);
+    assert_eq!(
+        results
+            .one_to_one_rectangular_threshold_aware(Some(0.5))
+            .unwrap()
+            .len(),
+        2
+    );
+}
+
+#[test]
 fn rectangular_threshold_aware_counts_real_zero_edges_but_not_missing_slots() {
     let results = MatcherResults::new(vec![
         (pair(0, 0), 0.0),

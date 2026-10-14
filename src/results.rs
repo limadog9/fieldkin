@@ -709,6 +709,13 @@ impl From<f64> for AssignmentScore {
 }
 impl AssignmentScore {
     fn add(self, other: Self) -> Self {
+        // Neutral dual updates need no compensation, especially on tied paths.
+        if other == Self::from(0.0) {
+            return self;
+        }
+        if self == Self::from(0.0) {
+            return other;
+        }
         fn two_sum(a: f64, b: f64) -> (f64, f64) {
             let sum = a + b;
             let b_rounded = sum - a;
@@ -723,6 +730,9 @@ impl AssignmentScore {
     }
 
     fn sub(self, other: Self) -> Self {
+        if self == other {
+            return Self::from(0.0);
+        }
         self.add(Self {
             high: -other.high,
             low: -other.low,
