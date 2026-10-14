@@ -60,6 +60,8 @@ def cases():
         for columns, target_columns in ((1, 256), (256, 1), (8, 128), (128, 8)):
             suite[f"{algorithm}-{columns}x{target_columns}"] = dict(
                 base, algorithm=algorithm, columns=columns, target_columns=target_columns)
+        suite[f"{algorithm}-tied512x1"] = dict(
+            base, algorithm=algorithm, columns=512, target_columns=1, result_scores="tied")
     for workers in (1, 4):
         suite[f"jaccard-empty-workers{workers}"] = dict(
             base, algorithm="jaccard", columns=512, target_columns=768, rows=0, workers=workers)
@@ -149,6 +151,7 @@ def main():
         expected.setdefault("sample_size", None)
         expected.setdefault("target_columns", None)
         expected.setdefault("workers", 1)
+        expected.setdefault("result_scores", "mixed")
         for round_number in range(args.rounds):
             versions = list(binaries) if round_number % 2 == 0 else list(reversed(binaries))
             for version in versions:

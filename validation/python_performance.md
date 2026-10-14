@@ -1,5 +1,160 @@
 # Python Valentine comparison and measured Rust optimizations
 
+## Focused release-hardening performance checks (2026-10-14)
+
+[Machine-readable evidence](final_hardening_performance.json) records every fresh-
+process summary, input/output and binary hash, rejected Jaccard candidate, and
+both accepted-assignment batches. This is native Rust before/after evidence;
+Python was not timed. Baseline is `e45af15958626eaa7243d28a210595be5c3ec471`.
+Machine/toolchain: Xeon Platinum 8573C, five visible CPUs/four-CPU quota,
+32 GiB memory limit, Linux x86-64, Rust 1.99.0, Python 3.12.14. Headline runs
+had no concurrent builds or other local benchmark work.
+
+### Compatible equal-cost tall assignment shortcut
+
+Baseline production source was verified byte-for-byte against `e45af159`; the
+accepted candidate production source against `9018380` (Hungarian change `311c2a7`,
+plus the additive checked adapter). Both release executables were built in
+independent source/target directories with Rust 1.99.0. The candidate package was
+cleaned and actually recompiled after reverting all Jaccard experiments. The same
+benchmark harness was used; SHA-256 `94480348897ae7f56e1de06d79a1dfa7eb3c693e474fdc1e53e66177b4559864`.
+
+The retained shortcut applies only when every candidate has one common target
+and the same numeric score. After two rows, target potential equals the common
+cost and row potentials are zero; strict comparisons in subsequent zero-reduced-
+cost augmentations preserve the first sorted source. This holds for both
+lexicographic objectives and signed-zero equality. Varied scores still use the
+original square traversal, including the existing counterexample where a later
+source wins a floating-point tie. Checks still validate full dimensions before
+any shortcut. A test counter proves the accepted 10,000×1 case constructs no
+cost matrix; one-over-limit calls still reject.
+
+The table reports medians of five fresh-process medians and their ranges,
+alternating baseline/candidate order, pinned to CPU 0 unless noted. Each process
+warms up once; timed repetitions are 11 for square64, 7 for wide/tall256 and
+uniform256, 101 for singlewide512, 3 for single-target512, and 1 for uniform1024.
+The CPU 2 recheck uses 21/7 repetitions for square64/varied512. Timings include
+all selection preparation and result construction, excluding input construction,
+output hashing and disposal. Peak RSS is process-lifetime Linux VmHWM including
+inputs and warmup, not incremental selection memory. All 140 measured process
+outputs preserved complete ordered pair, score-bit and detail-bit fingerprints.
+No memory improvement is established by RSS.
+
+| Assignment workload | Before ms (range) | After ms (range) | Before / after peak KiB |
+|---|---:|---:|---:|
+| square64 | 4.295681 (2.214156–4.405527) | 2.287911 (2.161786–4.351156) | 7584 / 7620 |
+| wide8x256 | 20.539978 (20.351709–20.744901) | 20.324762 (20.197547–20.667145) | 5172 / 5252 |
+| tall256x8 | 22.212266 (21.306847–43.277703) | 21.997683 (21.459940–27.631964) | 5012 / 5108 |
+| singlewide1x512 | 0.002385 (0.002197–0.002396) | 0.002383 (0.002218–0.002400) | 3344 / 3332 |
+| singletall512mixed | 155.643399 (154.630235–203.277176) | 164.492489 (154.022477–261.317150) | 3356 / 3340 |
+| singletall256tied | 20.844485 (19.516945–36.247266) | 0.002425 (0.002424–0.002593) | 2940 / 3024 |
+| singletall512tied | 153.831692 (150.621193–159.364931) | 0.004704 (0.004638–0.004925) | 3256 / 3316 |
+| singletall1024tied | 1379.736626 (1213.676665–1544.044000) | 0.009752 (0.009513–0.010552) | 3908 / 3836 |
+| singletall512tiedaware | 150.664723 (149.613517–187.572735) | 0.004730 (0.004670–0.004753) | 3276 / 3308 |
+| singletall512tiedguarded | 156.101831 (150.205268–191.030973) | 0.021838 (0.021644–0.022197) | 3256 / 3368 |
+| wide8x256tied | 20.985858 (20.560216–22.132628) | 20.723047 (20.489148–39.751209) | 5164 / 5224 |
+| tall256x8tied | 20.315866 (20.125800–38.379402) | 20.993865 (20.585849–39.569960) | 5084 / 5104 |
+| square64 (CPU 2 recheck) | 2.176949 (2.136637–2.333224) | 2.206093 (2.171772–2.425864) | 7552 / 7616 |
+| singletall512mixed (CPU 2 recheck) | 159.735974 (157.871593–161.942652) | 159.408214 (157.032774–179.567267) | 3396 / 3388 |
+
+The CPU 0 square apparent win and varied-single-target apparent regression
+were investigated on CPU 2: +1.34% and -0.21% respectively, with overlapping
+ranges. These controls do not establish an additional speedup or a material
+regression. General rectangular assignment still uses O(max(rows,cols)^3)
+traversal: the unmodified uniform 10,000×1 process hit an external three-second
+deadline (exit 124). This is a narrow equal-cost fast path, not a general
+rectangular solver or a resource guarantee. Temporary stage profiling placed
+more than 99.8% of 512×1 uniform-call time inside the solver; those diagnostic
+runs overlapped builds and are not the headline measurements above.
+
+Reproduce with the existing runner, using the same current benchmark harness
+in each independently built baseline/candidate tree:
+
+```sh
+python3 validation/benchmark_performance.py \
+  --binary /tmp/fieldkin-final-jaccard-target/release/examples/benchmark_performance \
+  --baseline-binary /tmp/fieldkin-final-baseline-target/release/examples/benchmark_performance \
+  --case hungarian-tied512x1 --case hungarian-aware-tied512x1 \
+  --rounds 5 --repetitions 3 --timeout 30 --output /tmp/assignment-check.json
+# General controls, or change dimensions/score mode for the other table rows:
+taskset -c 0 /tmp/fieldkin-final-jaccard-target/release/examples/benchmark_performance \
+  --algorithm hungarian --columns 512 --target-columns 1 \
+  --result-scores mixed --rows 0 --workers 1 --repetitions 3
+```
+
+Release binary SHA-256: baseline `5f6757129ea11a7a8a83e4f51b1bd6c1b8fd95d73a607f8fbbd75e59ae2942a3`; accepted candidate `53266a5e5a70620de8acd0b3b99884cf4f79f6eb679b18ef13ddd9cd11bdf0d3`.
+
+### Jaccard experiments rejected
+
+Current main still constructs fingerprints for long values even where their
+128 bits can contribute at most 32 edits and cannot reject a pair at the rounded
+cutoff. Temporary counters measured 512 hashed values/266,792 scalars for the
+original long-prefix control, with 1,020 actual scorer calls. A selective variant
+reduced metadata preparation from 0.528 to 0.088 ms while retaining those scorer
+calls. This stage measurement includes instrumentation and is diagnostic only.
+
+Three designs were tested: count every value before hashing; first consult a
+conservative byte-length upper bound; and route uniformly useful columns through
+the unchanged combined count/hash kernel. All completed comparisons preserved
+ordered scores, details and selections exactly. The first CPU 1 batch was highly
+variable (before long medians 6.189–8.865 ms; candidate 5.714–12.199 ms); all
+measurements remain in the evidence, including unfavorable results. The final
+CPU 2 design used five alternating fresh-process pairs, one recorded warmup and
+101 timed calls each:
+
+| Rejected column-routing design | Main ms (range) | Candidate ms (range) | Main/candidate peak KiB |
+|---|---:|---:|---:|
+| jaccard_long | 5.773 (5.751–5.902) | 5.322 (5.303–5.489) | 3856/3844 |
+| high_disjoint | 1.429 (1.425–1.436) | 1.575 (1.559–1.585) | 3836/3744 |
+| jaccard_dense | 12.115 (12.104–12.187) | 12.147 (12.110–12.270) | 4488/4500 |
+| unicode160 | 1.655 (1.644–1.658) | 1.736 (1.735–1.757) | 3592/3632 |
+
+The target improved 7.8%, but useful high-cutoff disjoint comparisons regressed
+10.2%, and the adverse 160-scalar Unicode case regressed 4.9%. Profiling also
+found extra comparison time, so fingerprint construction alone did not explain
+the whole regression; no compiler-layout cause was proven. The designs were
+rejected, including their eligibility-only tests: **no Jaccard runtime change is
+retained**. Further large-case timing was stopped once required controls failed.
+The existing long-string overhead and Cartesian worst case remain limitations.
+
+The existing parity example now accepts optional `jaccard_threshold` in synthetic
+inputs and records the actual configuration. The existing runner's `--native-only`
+mode alternates two native binaries, validates custom-cutoff metadata, requires
+exact output digests, and makes no Python speedup claim. Nondefault custom cutoffs
+are rejected in Python mode, whose reference constructors still use defaults.
+For a focused baseline long-string reproduction, reuse the existing synthetic
+helper (no labels), then run the existing native runner:
+
+```sh
+python - <<'PY_CASE'
+import json, pathlib, sys
+sys.path.insert(0, "validation")
+from benchmark_valentine import synthetic
+case = synthetic("jaccard_long", 2, 128, 128)
+for schema in (case["source"], case["target"]):
+    for field in schema["fields"]:
+        field["data_type"] = "text"
+        field["samples"] = ["a"*256 + v + "b"*256 for v in field["samples"]]
+p = pathlib.Path("target/jaccard-long.json")
+p.parent.mkdir(parents=True, exist_ok=True)
+p.write_text(json.dumps(case, separators=(",", ":")) + "\n")
+PY_CASE
+taskset -c 2 python validation/benchmark_valentine.py --native-only \
+  --baseline-binary /tmp/fieldkin-final-baseline-target/release/examples/valentine_parity \
+  --baseline-revision e45af15958626eaa7243d28a210595be5c3ec471 \
+  --binary /tmp/fieldkin-final-jaccard-target/release/examples/valentine_parity \
+  --dataset target/jaccard-long.json --algorithm jaccard \
+  --rounds 5 --warmups 1 --repetitions 101 --timeout 120 \
+  --output target/jaccard-long-recheck.json
+```
+
+Both libraries must be built independently. For example, create a detached e45
+worktree, copy the current `examples/valentine_parity.rs`,
+`examples/benchmark_performance.rs` and `examples/support/performance.rs` into it,
+then build the two examples with `cargo build --locked --release --jobs 1` and
+separate `--target-dir` paths matching the commands above. The reproduction now
+compares the retained implementation; it does not ship the rejected designs.
+
 ## Opt-in resource-check overhead (2026-10-14)
 
 This hardening adds checked work counts, not a matching optimization. Baseline is

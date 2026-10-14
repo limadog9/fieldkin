@@ -38,6 +38,15 @@ class BenchmarkTests(unittest.TestCase):
         self.assertEqual(side_order(True, 3), orders[0])
         self.assertEqual(side_order(False, 0), ("rust", "python"))
         self.assertEqual(side_order(False, 1), ("python", "rust"))
+        self.assertEqual(side_order(True, 0, native_only=True), ("rust_before", "rust"))
+        self.assertEqual(side_order(True, 1, native_only=True), ("rust", "rust_before"))
+
+    def test_native_only_report_does_not_claim_python_execution(self):
+        text = markdown({"settings": {"native_only": True, "baseline_revision": "e45af159"},
+                         "comparisons": []})
+        self.assertIn("# Native Rust before/after", text)
+        self.assertIn("Python is not executed", text)
+        self.assertIn("exact before/after outputs", text)
 
     def test_native_identity_requires_an_exact_output_fingerprint(self):
         self.assertEqual(native_identity({"output_sha256": "a" * 64}), "a" * 64)
@@ -46,6 +55,13 @@ class BenchmarkTests(unittest.TestCase):
                 native_identity({"output_sha256": value})
         with self.assertRaises(KeyError):
             native_identity({"matches": []})
+
+    def test_custom_cutoff_requires_actual_native_configuration(self):
+        report = {"output_sha256": "a" * 64}
+        for configuration in (None, {}, {"threshold_dist": 0.8}):
+            with self.assertRaisesRegex(ValueError, "Jaccard threshold"):
+                native_identity(report | {"configuration": configuration}, 0.99)
+        self.assertEqual(native_identity(report | {"configuration": {"threshold_dist": 0.99}}, 0.99), "a" * 64)
 
     def test_three_way_failures_withhold_both_speedups(self):
         report = {"settings": {"baseline_revision": "e82bdc5"}, "comparisons": [
