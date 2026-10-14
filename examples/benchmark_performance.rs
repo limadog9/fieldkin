@@ -6,6 +6,7 @@
 
 use fieldkin::{
     ColumnPair, DataType, Field, MatchDetails, MatchOptions, Matcher, MatcherResults, Table,
+    WorkLimits,
     algorithms::{
         Coma, Cupid, DistributionBased, JaccardConfig, JaccardDistanceMatcher, SimilarityFlooding,
         StringDistanceFunction,
@@ -103,6 +104,14 @@ fn parse(args: impl IntoIterator<Item = String>) -> BenchResult<Args> {
         "curve",
         "hungarian",
         "hungarian-aware",
+        "hungarian-guarded",
+        "hungarian-aware-guarded",
+        "jaccard-direct",
+        "jaccard-guarded",
+        "jaccard-exact-direct",
+        "jaccard-exact-guarded",
+        "distribution-direct",
+        "distribution-guarded",
     ]
     .contains(&parsed.algorithm.as_str())
     {
@@ -319,6 +328,8 @@ fn result_operation(algorithm: &str) -> bool {
             | "curve"
             | "hungarian"
             | "hungarian-aware"
+            | "hungarian-guarded"
+            | "hungarian-aware-guarded"
     )
 }
 
@@ -407,6 +418,14 @@ fn measure_result_operation(args: &Args) -> BenchResult<(Vec<f64>, Option<u64>, 
                     "per-source" => input.take_top_n_per_source(1),
                     "hungarian" => input.one_to_one_hungarian(Some(0.5))?,
                     "hungarian-aware" => input.one_to_one_hungarian_threshold_aware(Some(0.5))?,
+                    "hungarian-guarded" => {
+                        input.one_to_one_hungarian_with_limits(Some(0.5), &WorkLimits::default())?
+                    }
+                    "hungarian-aware-guarded" => input
+                        .one_to_one_hungarian_threshold_aware_with_limits(
+                            Some(0.5),
+                            &WorkLimits::default(),
+                        )?,
                     _ => unreachable!("validated result operation"),
                 })
             })?;
@@ -430,6 +449,41 @@ fn measure_result_operation(args: &Args) -> BenchResult<(Vec<f64>, Option<u64>, 
     ))
 }
 
+// Guard overhead uses identical direct batch APIs, without the high-level
+// table preparation included in the historical matching modes above.
+fn measure_direct_matching(
+    args: &Args,
+    tables: &[Table],
+) -> BenchResult<(Vec<f64>, MatcherResults)> {
+    let limits = WorkLimits::default();
+    let distribution = DistributionBased {
+        process_num: args.workers,
+        ..DistributionBased::default()
+    };
+    let jaccard = JaccardDistanceMatcher::new(JaccardConfig {
+        process_num: args.workers,
+        distance_fun: if args.algorithm.starts_with("jaccard-exact-") {
+            StringDistanceFunction::Exact
+        } else {
+            StringDistanceFunction::Levenshtein
+        },
+        ..JaccardConfig::default()
+    })?;
+    measure(args.repetitions, || {
+        Ok(match args.algorithm.as_str() {
+            "jaccard-direct" | "jaccard-exact-direct" => jaccard.get_matches_batch(tables)?,
+            "jaccard-guarded" | "jaccard-exact-guarded" => {
+                jaccard.get_matches_batch_with_limits(tables, &limits)?
+            }
+            "distribution-direct" => distribution.get_matches_batch(tables)?,
+            "distribution-guarded" => {
+                distribution.get_matches_batch_with_limits(tables, &limits)?
+            }
+            _ => unreachable!("validated direct matching mode"),
+        })
+    })
+}
+
 fn main() -> BenchResult<()> {
     let arguments: Vec<_> = std::env::args().skip(1).collect();
     if arguments.iter().any(|argument| argument == "--help") {
@@ -437,10 +491,12 @@ fn main() -> BenchResult<()> {
             "Run in release mode. One workload per process; JSON output.\n\
             --algorithm coma|cupid|distribution|jaccard|jaccard-exact|flooding|csv|json (jaccard)\n\
             Result operations: top0|top10|filter|per-source|metrics|curve|hungarian|hungarian-aware\n\
+            Guard controls: jaccard[-exact]|distribution with -direct or -guarded suffix;\n\
+            hungarian[-aware]-guarded. Guard controls use unlimited checked work counts.\n\
             --values mixed|codes|hashes|interleaved|ring (mixed); codes creates dense fuzzy hits;\n\
             hashes uses all high-entropy text; interleaved/ring stress distribution clustering\n\
             --columns N (8) --rows N (128) --distinct N (32) --tables N (2)\n\
-            --target-columns N (default: columns) --workers N (1; Jaccard only)\n\
+            --target-columns N (default: columns) --workers N (1; Jaccard/direct Distribution)\n\
             --overlap PERCENT (50) --schema-overlap PERCENT (100) --repetitions N (5) --sample-size N (default: all)\n\
             CSV/JSON ingest one table; --tables and overlap settings do not affect ingestion.\n\
             Actual distinct count is min(rows, distinct); zero rows are supported.\n\
@@ -487,22 +543,35 @@ fn main() -> BenchResult<()> {
         (timings, peak, table.columns.len(), fingerprint)
     } else {
         let tables = tables(&args)?;
-        let matcher = matcher(&args)?;
-        let (timings, results) = measure(args.repetitions, || {
-            Ok(if args.sample_size.is_some() {
-                match_tables(
-                    &tables,
-                    matcher.as_ref(),
-                    MatchOptions {
-                        instance_sample_size: args.sample_size,
-                    },
-                )?
-            } else {
-                valentine_match(&tables, matcher.as_ref())?
-            })
-        })?;
-        let peak = peak_rss_kib();
-        (timings, peak, results.len(), results_digest(&results)?)
+        if args.algorithm.ends_with("-direct") || args.algorithm.ends_with("-guarded") {
+            if args.sample_size.is_some() {
+                return Err("direct/guarded matching controls require unsampled inputs".into());
+            }
+            let (timings, results) = measure_direct_matching(&args, &tables)?;
+            (
+                timings,
+                peak_rss_kib(),
+                results.len(),
+                results_digest(&results)?,
+            )
+        } else {
+            let matcher = matcher(&args)?;
+            let (timings, results) = measure(args.repetitions, || {
+                Ok(if args.sample_size.is_some() {
+                    match_tables(
+                        &tables,
+                        matcher.as_ref(),
+                        MatchOptions {
+                            instance_sample_size: args.sample_size,
+                        },
+                    )?
+                } else {
+                    valentine_match(&tables, matcher.as_ref())?
+                })
+            })?;
+            let peak = peak_rss_kib();
+            (timings, peak, results.len(), results_digest(&results)?)
+        }
     };
     let mut sorted = timings.clone();
     sorted.sort_by(f64::total_cmp);

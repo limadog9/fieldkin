@@ -1,5 +1,94 @@
 # Python Valentine comparison and measured Rust optimizations
 
+## Opt-in resource-check overhead (2026-10-14)
+
+This hardening adds checked work counts, not a matching optimization. Baseline is
+`7d21f37fbaeaacc55ca6cdfb3f63864a8d0415ab`; candidate is that revision plus the
+additive `WorkLimits` changes committed in `92b31dd` (diagnostic hooks are
+`cfg(test)` only). Both were built independently with Rust/Cargo
+1.99.0, release defaults, one worker, no optional features. Machine: Xeon Platinum
+8573C, five visible CPUs, four-CPU container quota, 32 GiB memory limit. There
+were no concurrent builds/reference runs during measurement.
+
+Each entry is the median of **five fresh-process medians**, alternating comparison
+order, pinned to CPU 0. Each process warms up once, then times 7 calls for the
+small conflicting Distribution case, 11 for wide assignments/empty Jaccard,
+101 for the singleton assignment, and 21 otherwise (31 for exact Jaccard).
+Matching includes preparation; inputs, output verification and disposal are
+outside timing. Historical modes still include high-level table preparation;
+new `-direct`/`-guarded` modes both use the direct batch APIs, so their boundaries
+are comparable. `WorkLimits::default()` exercises checked arithmetic and all
+preflights without rejecting work. C/R/D mean columns/rows/distinct values per
+table; two tables and 50% overlap unless specified.
+
+| Workload | Baseline/current unguarded ms | Current direct/guarded ms | Peak KiB baseline/current/guarded |
+|---|---:|---:|---:|
+| Jaccard 8C/128R/32D, hashes | 0.7706 / 0.7755 | 0.7787 / 0.7775 | 3024 / 3088 / 3084 |
+| Jaccard 256C/0R | 0.3038 / 0.2990 | 0.2673 / 0.3144 | 2740 / 2704 / 2644 |
+| Jaccard 3 tables × 8C/64R/16D | 0.7178 / 0.7212 | 0.7248 / 0.7257 | 3020 / 3052 / 3028 |
+| Exact Jaccard 16C/128R/64D, disjoint hashes | 0.7317 / 0.7337 | 0.7248 / 0.7329 | 3092 / 3112 / 3112 |
+| Distribution 8C/128R/32D | 1.9019 / 1.8833 | 1.8802 / 1.8628 | 3348 / 3360 / 3356 |
+| Distribution 16C/64R/32D, 100% overlap | 3.7319 / 3.7454 | 3.7240 / 3.7253 | 3528 / 3504 / 3492 |
+| Distribution ring4, 4C/64R/64D | 0.8509 / 0.8320 | 0.8242 / 0.8123 | 3088 / 3108 / 3116 |
+| Hungarian 64×64 | 2.1740 / 2.2452 | 2.2153 / 2.1893 | 7716 / 7584 / 7584 |
+| Hungarian 8×256 | 20.8730 / 20.6878 | 20.6358 / 20.7238 | 5308 / 5204 / 5216 |
+| Hungarian 1×256 | 0.0012 / 0.0011 | 0.0011 / 0.0196 | 3076 / 3064 / 3052 |
+| Threshold-aware Hungarian 8×256 | 21.0973 / 20.4357 | 20.6290 / 20.8101 | 5252 / 5172 / 5216 |
+
+Peak RSS is Linux process-lifetime `VmHWM` measured before output hashing,
+including input generation, warmup and retained results; it is **not incremental
+matcher memory**. These small differences do not establish a memory improvement.
+All 220 process comparisons across the initial unrestricted run and pinned
+recheck preserved the complete ordered pair/score-bit/detail-bit and selection
+digests, not merely the top correspondence.
+
+The checks are opt-in. Empty-wide Jaccard pays about **47 µs (+18%)** for conservative
+pair counting; the 1×256 assignment shortcut pays about **18 µs** for unique
+identity/dimension checks that the unchecked shortcut avoids. Other accepted
+checks were small relative to measurement variation. The original unrestricted
+run showed large timing variation (Distribution-identical 3.68–8.19 ms and
+Hungarian-wide 20–37 ms process medians), so the entire set was repeated on CPU 0.
+The pinned 64×64 unchecked assignment median was 3.3% higher, with overlapping
+process-median ranges (baseline 2.168–2.287 ms, current 2.150–2.287 ms). Wide
+assignment outliers remained up to 33.8 ms. No speedup or universal zero-overhead
+claim is made; guarded calls buy early rejection, not faster accepted execution.
+
+Exact timed harness SHA-256: `24c328b7bee827486bd5c5230bdfc2f7d5951c5cd1dff22175770d03d193b876`.
+The final harness also honors `--workers` for direct Distribution calls; the
+measured calls all used one worker, so their work is unchanged.
+
+Exact benchmark binary SHA-256 values:
+
+- Baseline: `b85f831e8a7eda929dacf16be8eeeee64cbcee65c86094fd70f95db1dc3b216a`.
+- Candidate: `fc52e6b5480c0c3230c50fbf29c776b789e9c2afc042322c71d1ae1290b1862b`.
+
+Reproduce with separate source/target directories; the baseline uses its original
+harness, whose existing modes have unchanged timing boundaries. For example:
+
+```sh
+mkdir -p target/hardening/before
+git archive 7d21f37fbaeaacc55ca6cdfb3f63864a8d0415ab | tar -x -C target/hardening/before
+CARGO_TARGET_DIR=/tmp/fieldkin-hardening-before-target cargo build --locked --release \
+  --manifest-path target/hardening/before/Cargo.toml --example benchmark_performance --jobs 1
+CARGO_TARGET_DIR=/tmp/fieldkin-hardening-after-target cargo build --locked --release \
+  --example benchmark_performance --jobs 1
+# Five fresh-process pairs, alternating order; repeat for the table's dimensions.
+for round in 1 2 3 4 5; do
+  order="before after"; [ $((round % 2)) = 0 ] && order="after before"
+  for version in $order; do
+    taskset -c 0 /tmp/fieldkin-hardening-$version-target/release/examples/benchmark_performance \
+      --algorithm jaccard --columns 8 --rows 128 --distinct 32 --values hashes \
+      --workers 1 --repetitions 21
+  done
+done
+# Same candidate binary/direct batch boundaries; alternate these modes likewise.
+for mode in jaccard-direct jaccard-guarded; do
+  taskset -c 0 /tmp/fieldkin-hardening-after-target/release/examples/benchmark_performance \
+    --algorithm "$mode" --columns 8 --rows 128 --distinct 32 --values hashes \
+    --workers 1 --repetitions 21
+done
+```
+
 ## Distribution solver diagnosis (2026-10-14)
 
 Fresh captures close the previously incomplete ring8/ring16 investigation on
