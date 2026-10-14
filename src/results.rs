@@ -203,6 +203,26 @@ impl MatcherResults {
         if self.is_empty() {
             return self.clone();
         }
+        let (first, highest) = &self.entries[0];
+        if *highest < threshold {
+            return Self::default();
+        }
+        if self
+            .entries
+            .iter()
+            .all(|(pair, _)| pair.source() == first.source())
+        {
+            // With one real row, every dummy-row augmentation has delta zero:
+            // strict comparisons preserve the first numeric maximum, including
+            // signed-zero ties. Multiple real rows do not share this guarantee.
+            let best = self
+                .entries
+                .iter()
+                .take_while(|(_, score)| score == highest)
+                .min_by(|(a, _), (b, _)| a.cmp(b))
+                .expect("nonempty results");
+            return self.subset(std::iter::once(best));
+        }
         let sources: Vec<_> = self
             .entries
             .iter()
@@ -217,10 +237,10 @@ impl MatcherResults {
             .collect::<BTreeSet<_>>()
             .into_iter()
             .collect();
-        let n = sources.len().max(targets.len());
         // Compare cardinality before similarity without rounding away score
-        // differences by adding a large floating-point bonus. Filler costs are zero.
-        let mut costs = vec![vec![(0isize, 0.0); n]; n];
+        // differences by adding a large floating-point bonus. Padded cells are
+        // read as zero by the solver instead of occupying square storage.
+        let mut costs = assignment_costs(sources.len(), targets.len());
         let mut lookup = BTreeMap::new();
         for (pair, score) in &self.entries {
             if cardinality_first && *score < threshold {
@@ -356,7 +376,8 @@ fn finite_threshold(t: f64) -> Result<(), Error> {
 /// Costs compare lexicographically: negative cardinality, then negative similarity.
 /// The original selector uses zero cardinality costs throughout.
 fn hungarian(cost: &[Vec<(isize, f64)>]) -> Vec<usize> {
-    let n = cost.len();
+    // Keep dummy-row traversal: omitting it can change floating-point tie choices.
+    let n = cost.len().max(cost.first().map_or(0, Vec::len));
     let mut u = vec![(0isize, 0.0); n + 1];
     let mut v = vec![(0isize, 0.0); n + 1];
     let mut p = vec![0; n + 1];
@@ -373,7 +394,11 @@ fn hungarian(cost: &[Vec<(isize, f64)>]) -> Vec<usize> {
             let mut j1 = 0;
             for j in 1..=n {
                 if !used[j] {
-                    let (count, score) = cost[i0 - 1][j - 1];
+                    let (count, score) = cost
+                        .get(i0 - 1)
+                        .and_then(|row| row.get(j - 1))
+                        .copied()
+                        .unwrap_or((0, 0.0));
                     let cur = (count - u[i0].0 - v[j].0, score - u[i0].1 - v[j].1);
                     if cur < minv[j] {
                         minv[j] = cur;
@@ -417,4 +442,24 @@ fn hungarian(cost: &[Vec<(isize, f64)>]) -> Vec<usize> {
         }
     }
     assignment
+}
+
+fn assignment_costs(rows: usize, cols: usize) -> Vec<Vec<(isize, f64)>> {
+    vec![vec![(0, 0.0); cols]; rows]
+}
+
+#[cfg(test)]
+mod assignment_storage_tests {
+    use super::assignment_costs;
+
+    #[test]
+    fn rectangular_cost_storage_contains_only_real_cells() {
+        for (rows, cols) in [(1, 10_000), (10_000, 1), (8, 10_000)] {
+            let costs = assignment_costs(rows, cols);
+            assert_eq!(costs.len(), rows);
+            assert!(costs.iter().all(|row| row.len() == cols));
+            assert_eq!(costs.iter().map(Vec::len).sum::<usize>(), rows * cols);
+            assert_eq!(costs.iter().map(Vec::capacity).sum::<usize>(), rows * cols);
+        }
+    }
 }
