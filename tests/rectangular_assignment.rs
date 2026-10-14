@@ -209,7 +209,7 @@ fn rectangular_objectives_match_seeded_sparse_problems() {
                 for row in 0..rows {
                     for col in 0..cols {
                         state = state.wrapping_mul(6364136223846793005).wrapping_add(1);
-                        if state % 5 != 0 {
+                        if !state.is_multiple_of(5) {
                             let score = (state.rotate_right(32) % 9) as f64 / 8.0;
                             entries.push((pair(row, col), score));
                         }
@@ -299,7 +299,7 @@ fn rectangular_preserves_bits_details_and_determinism_across_permutations() {
         for offset in 0..entries.len() {
             let mut permuted = entries.clone();
             permuted.rotate_left(offset);
-            if offset % 2 == 0 {
+            if offset.is_multiple_of(2) {
                 permuted.reverse();
             }
             let permuted = MatcherResults::with_details(permuted, details.clone()).unwrap();
