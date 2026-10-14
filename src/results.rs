@@ -390,15 +390,12 @@ fn hungarian(cost: &[Vec<(isize, f64)>]) -> Vec<usize> {
         loop {
             used[j0] = true;
             let i0 = p[j0];
+            let row = cost.get(i0 - 1).map_or(&[][..], Vec::as_slice);
             let mut delta = (isize::MAX, f64::INFINITY);
             let mut j1 = 0;
             for j in 1..=n {
                 if !used[j] {
-                    let (count, score) = cost
-                        .get(i0 - 1)
-                        .and_then(|row| row.get(j - 1))
-                        .copied()
-                        .unwrap_or((0, 0.0));
+                    let (count, score) = row.get(j - 1).copied().unwrap_or((0, 0.0));
                     let cur = (count - u[i0].0 - v[j].0, score - u[i0].1 - v[j].1);
                     if cur < minv[j] {
                         minv[j] = cur;
