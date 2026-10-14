@@ -50,6 +50,8 @@ pub enum OneToOneMethod {
 }
 impl OneToOneMethod {
     fn select(self, results: &MatcherResults) -> Result<MatcherResults, Error> {
+        #[cfg(test)]
+        tests::SELECT_CALLS.with(|calls| calls.set(calls.get() + 1));
         match self {
             Self::Hungarian => results.one_to_one_hungarian(None),
             Self::Greedy => results.one_to_one_greedy(None),
@@ -337,7 +339,30 @@ pub fn get_metrics(
     matches: &MatcherResults,
     truth: &GroundTruth,
 ) -> Result<BTreeMap<String, f64>, Error> {
-    matches.get_metrics_with(truth, &METRICS_CORE, OneToOneMethod::Hungarian)
+    let method = OneToOneMethod::Hungarian;
+    let selected = method.select(matches)?;
+    let (tp, fp, fn_) = counts(&selected, truth);
+    Ok(BTreeMap::from([
+        ("Precision".into(), ratio(tp, tp + fp)),
+        ("Recall".into(), ratio(tp, tp + fn_)),
+        ("F1Score".into(), ratio(2 * tp, 2 * tp + fp + fn_)),
+        (
+            "PrecisionTop10Percent".into(),
+            PrecisionTopNPercent {
+                one_to_one: false,
+                n: 10,
+            }
+            .apply(&selected, truth, method)?,
+        ),
+        (
+            "RecallAtSizeofGroundTruth".into(),
+            RecallAtSizeofGroundTruth::default().apply(matches, truth, method)?,
+        ),
+        (
+            "MeanReciprocalRank".into(),
+            MeanReciprocalRank::default().apply(matches, truth, method)?,
+        ),
+    ]))
 }
 
 pub fn precision_increasing_n(
@@ -345,16 +370,118 @@ pub fn precision_increasing_n(
     truth: &GroundTruth,
     method: OneToOneMethod,
 ) -> Result<BTreeMap<String, f64>, Error> {
+    let selected = method.select(matches)?;
     (10..=100)
         .step_by(10)
         .map(|n| {
             let metric = PrecisionTopNPercent {
                 n,
-                one_to_one: true,
+                one_to_one: false,
             };
             metric
-                .apply(matches, truth, method)
+                .apply(&selected, truth, method)
                 .map(|s| (metric.name(), s))
         })
         .collect()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::cell::Cell;
+
+    thread_local! {
+        pub(super) static SELECT_CALLS: Cell<usize> = const { Cell::new(0) };
+    }
+
+    #[test]
+    fn fixed_reports_select_once_and_preserve_metric_bits() {
+        let matches = MatcherResults::new(vec![
+            (ColumnPair::new("source", "a", "target", "wrong"), 0.95),
+            (ColumnPair::new("source", "a", "target", "yes"), 0.94),
+            (ColumnPair::new("source", "b", "target", "yes"), 0.9),
+            (ColumnPair::new("source", "c", "target", "spare"), 0.9),
+            (ColumnPair::new("other", "a", "target", "yes"), 0.8),
+            (ColumnPair::new("source", "d", "target", "zero"), -0.0),
+            (ColumnPair::new("source", "e", "target", "zero"), 0.0),
+        ])
+        .unwrap();
+        let truths = [
+            GroundTruth::Names(vec![
+                ("a".into(), "yes".into()),
+                ("a".into(), "yes".into()),
+                ("c".into(), "absent".into()),
+            ]),
+            GroundTruth::Columns(vec![
+                ColumnPair::new("source", "a", "target", "yes"),
+                ColumnPair::new("other", "a", "target", "yes"),
+                ColumnPair::new("source", "c", "target", "absent"),
+            ]),
+            GroundTruth::Names(vec![]),
+            GroundTruth::Columns(vec![]),
+        ];
+        for matches in [matches, MatcherResults::default()] {
+            let original = matches.clone();
+            for truth in &truths {
+                let expected = matches
+                    .get_metrics_with(truth, &METRICS_CORE, OneToOneMethod::Hungarian)
+                    .unwrap();
+                SELECT_CALLS.with(|calls| calls.set(0));
+                let actual = get_metrics(&matches, truth).unwrap();
+                assert_eq!(SELECT_CALLS.with(Cell::get), 1);
+                assert_eq!(metric_bits(&actual), metric_bits(&expected));
+                for method in [
+                    OneToOneMethod::Hungarian,
+                    OneToOneMethod::Greedy,
+                    OneToOneMethod::MutualTop,
+                ] {
+                    let expected = matches
+                        .get_metrics_with(truth, &METRICS_PRECISION_INCREASING_N, method)
+                        .unwrap();
+                    SELECT_CALLS.with(|calls| calls.set(0));
+                    let actual = precision_increasing_n(&matches, truth, method).unwrap();
+                    assert_eq!(SELECT_CALLS.with(Cell::get), 1);
+                    assert_eq!(metric_bits(&actual), metric_bits(&expected));
+                }
+                assert_eq!(matches, original);
+            }
+        }
+    }
+
+    #[test]
+    fn core_ranking_metrics_still_use_unselected_candidates() {
+        let matches = MatcherResults::new(vec![
+            (ColumnPair::new("source", "a", "target", "wrong"), 0.95),
+            (ColumnPair::new("source", "a", "target", "yes"), 0.94),
+            (ColumnPair::new("source", "b", "target", "yes"), 0.9),
+        ])
+        .unwrap();
+        let truth = GroundTruth::Names(vec![
+            ("a".into(), "yes".into()),
+            ("c".into(), "absent".into()),
+        ]);
+        let actual = get_metrics(&matches, &truth).unwrap();
+        assert_eq!(actual["MeanReciprocalRank"], 0.25);
+        assert_eq!(actual["RecallAtSizeofGroundTruth"], 0.5);
+        let selected = OneToOneMethod::Hungarian.select(&matches).unwrap();
+        assert_eq!(
+            MeanReciprocalRank::default()
+                .apply(&selected, &truth, OneToOneMethod::Hungarian)
+                .unwrap(),
+            0.0
+        );
+        assert_eq!(
+            RecallAtSizeofGroundTruth::default()
+                .apply(&selected, &truth, OneToOneMethod::Hungarian)
+                .unwrap(),
+            0.0
+        );
+    }
+
+    fn metric_bits(values: &BTreeMap<String, f64>) -> BTreeMap<&str, u64> {
+        values
+            .iter()
+            .map(|(name, value)| (name.as_str(), value.to_bits()))
+            .collect()
+    }
 }
