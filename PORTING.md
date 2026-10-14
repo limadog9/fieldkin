@@ -177,12 +177,16 @@ sanitization. Python regressions check the actual patched matcher and solver.
 ## Manual release validation
 
 Before publishing, run the **Release validation** GitHub Actions workflow on the
-intended revision and require both jobs to pass. This is a manual pre-release
+intended revision and require all jobs to pass. This is a manual pre-release
 check, not an enforced publishing gate: this repository has no publication
 workflow. Ordinary offline tests still download neither models nor Python data.
 
 The workflow runs the complete live corrected-reference comparison, the actual
 source-patch regressions, and the separately ignored native MiniLM/ONNX test.
+It also verifies the actual `.crate` on Rust 1.94 and current stable: a temporary
+downstream consumer resolves its own lockfile, runs the packaged `valentine`
+example with default features, and compile-checks Polars and embeddings. These
+optional-feature checks do not execute inference or download model weights.
 Python 3.12.14 and every reference dependency's Linux x86_64 wheel hash are pinned in
 `validation/release-requirements.txt`; the reference revision remains the commit
 above. NLTK archives are downloaded at revision
@@ -202,3 +206,5 @@ difference or incomplete run fails. Its raw per-case equivalence flags stay
 unchanged: a successful diagnostic is not exact upstream parity. The strict
 corrected-reference gate does not use this allowlist. Logs and JSON reports are
 retained for 30 days, including on failure; model weights are not uploaded.
+That gate uses `--require-reference-fixes` so legacy reports without recorded
+package/patch provenance cannot count as a verified corrected-reference run.

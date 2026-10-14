@@ -593,11 +593,17 @@ def main() -> int:
     parser.add_argument("--output", type=Path, default=ROOT / "target/parity/comparison.json")
     parser.add_argument("--upstream-diagnostic", action="store_true",
                         help="Fail on unexpected upstream differences, separately from strict corrected-reference parity")
+    parser.add_argument("--require-reference-fixes", action="store_true",
+                        help="Require verified provenance for the two documented reference source fixes")
     arguments = parser.parse_args()
     try:
         rust = json.loads(arguments.rust.read_text(encoding="utf-8-sig"))
         python = json.loads(arguments.python.read_text(encoding="utf-8-sig"))
         report = compare(rust, python)
+        if arguments.require_reference_fixes and not (
+                report["metadata"]["reference_provenance"]["mode"] == "fixed"
+                and report["metadata"]["reference_provenance"]["verified"]):
+            raise ValueError("Corrected-reference validation requires verified fixed-reference provenance")
         if report["metadata"]["reference_provenance"]["mode"] == "fixed" and arguments.output.resolve() == (ROOT / "target/parity/comparison.json").resolve():
             raise ValueError("Fixed-reference comparisons require an explicit separate --output; comparison.json preserves the original upstream baseline")
     except (OSError, ValueError, TypeError, KeyError) as error:

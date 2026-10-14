@@ -48,14 +48,48 @@ def check_solution(positive, separation):
             "variables": n * (n - 1), "triangles": n * (n - 1) * (n - 2)}
 
 
-def certify_lower_bound(positive):
-    """Verify a rational LP dual certificate, not just a solver's status string.
+def check_lower_bound(positive, certificate):
+    """Check the stored rational dual without SciPy or a solver installation.
 
     For min c*x with A*x<=0, 0<=x<=1, a feasible dual has y<=0,
     lower>=0, upper<=0 and A.T*y+lower+upper=c. Its bound is sum(upper)
-    plus the objective constant. Exact rational equality makes the certificate
-    independent of HiGHS' numerical primal objective/termination claim.
+    plus the objective constant. Exact equality establishes a lower bound
+    independently of the numerical solver's termination claim.
     """
+    n = len(positive)
+    arcs = [(i, j) for i in range(n) for j in range(n) if i != j]
+    indices = {pair: i for i, pair in enumerate(arcs)}
+    triangles = [(u, v, w) for u in range(n) for v in range(n)
+                 for w in range(n) if len({u, v, w}) == 3]
+
+    def dense(name, length):
+        values, seen = [Fraction(0)] * length, set()
+        for index, numerator, denominator in certificate[name]:
+            if (not all(type(value) is int for value in (index, numerator, denominator))
+                    or not 0 <= index < length or index in seen or denominator <= 0):
+                raise ValueError(f"Invalid sparse dual entry in {name}")
+            seen.add(index)
+            values[index] = Fraction(numerator, denominator)
+        return values
+
+    dual = dense("triangle_dual", len(triangles))
+    lower, upper = (dense(name, len(arcs)) for name in ("lower_dual", "upper_dual"))
+    if any(value > 0 for value in dual + upper) or any(value < 0 for value in lower):
+        raise ValueError("Invalid dual signs")
+    stationarity = [a + b for a, b in zip(lower, upper)]
+    for (u, v, w), multiplier in zip(triangles, dual):
+        for pair, coefficient in (((u, w), 1), ((u, v), -1), ((v, w), -1)):
+            stationarity[indices[pair]] += multiplier * coefficient
+    if stationarity != [1 if positive[i][j] else -1 for i, j in arcs]:
+        raise ValueError("Rational LP dual does not satisfy exact stationarity")
+    bound = sum(upper) + sum(not positive[i][j] for i, j in arcs)
+    if bound != Fraction(certificate["exact_bound"]):
+        raise ValueError("Rational LP dual bound differs from recorded bound")
+    return bound
+
+
+def certify_lower_bound(positive):
+    """Generate an LP dual, then independently verify its exact rational form."""
     from scipy.optimize import linprog
     from scipy.sparse import coo_matrix
 
@@ -77,20 +111,14 @@ def certify_lower_bound(positive):
         raise ValueError(f"Independent LP bound unavailable: {result.message}")
     rational = lambda values: [Fraction(float(value)).limit_denominator(1_000_000) for value in values]
     dual, lower, upper = map(rational, (result.ineqlin.marginals, result.lower.marginals, result.upper.marginals))
-    if any(value > 0 for value in dual + upper) or any(value < 0 for value in lower):
-        raise ValueError("Invalid dual signs")
-    stationarity = [a + b for a, b in zip(lower, upper)]
-    for (u, v, w), multiplier in zip(triangles, dual):
-        for pair, coefficient in (((u, w), 1), ((u, v), -1), ((v, w), -1)):
-            stationarity[indices[pair]] += multiplier * coefficient
-    if stationarity != objective:
-        raise ValueError("Rational LP dual does not satisfy exact stationarity")
     bound = sum(upper) + sum(not positive[i][j] for i, j in arcs)
     def sparse(values):
         return [[i, value.numerator, value.denominator] for i, value in enumerate(values) if value]
-    return {"exact_bound": str(bound), "verified_with_exact_rationals": True,
-            "highs_message": result.message, "triangle_dual": sparse(dual),
-            "lower_dual": sparse(lower), "upper_dual": sparse(upper)}
+    certificate = {"exact_bound": str(bound), "verified_with_exact_rationals": True,
+                   "highs_message": result.message, "triangle_dual": sparse(dual),
+                   "lower_dual": sparse(lower), "upper_dual": sparse(upper)}
+    check_lower_bound(positive, certificate)
+    return certificate
 
 
 def main():

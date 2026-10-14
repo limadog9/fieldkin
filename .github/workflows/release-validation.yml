@@ -61,7 +61,7 @@ jobs:
       - name: Compare corrected reference strictly
         run: |
           python scripts/run_valentine_parity.py --reference-fixes --output target/release-validation/python-fixed.json 2>&1 | tee target/release-validation/python-fixed.log
-          python scripts/compare_valentine_parity.py --rust target/release-validation/rust.json --python target/release-validation/python-fixed.json --output target/release-validation/comparison-fixed.json 2>&1 | tee target/release-validation/comparison-fixed.log
+          python scripts/compare_valentine_parity.py --require-reference-fixes --rust target/release-validation/rust.json --python target/release-validation/python-fixed.json --output target/release-validation/comparison-fixed.json 2>&1 | tee target/release-validation/comparison-fixed.log
           python scripts/test_distribution_reference_patch.py 2>&1 | tee target/release-validation/distribution-patch.log
           REFERENCE=$(python -c 'import json; print(json.load(open("target/release-validation/python-fixed.json"))["reference"]["source_root"])')
           python scripts/test_cupid_reference_fix.py --reference-dir "$REFERENCE" 2>&1 | tee target/release-validation/cupid-patch.log
@@ -114,6 +114,41 @@ jobs:
         if: always()
         with:
           name: native-minilm-${{ github.sha }}
+          path: target/release-validation/
+          if-no-files-found: error
+          retention-days: 30
+
+  packaged-consumer:
+    strategy:
+      fail-fast: false
+      matrix:
+        rust: ['1.94.0', stable]
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12.14'
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.rust }}
+      - name: Verify packaged downstream consumption with fresh resolution
+        run: |
+          mkdir -p target/release-validation
+          {
+            git rev-parse HEAD
+            rustc -Vv
+            cargo -V
+            python -VV
+            cargo package --locked
+            FIELDKIN_PACKAGE_ARCHIVE=$(cargo metadata --locked --no-deps --format-version 1 | python -c 'import json, pathlib, sys; metadata = json.load(sys.stdin); package = metadata["packages"][0]; print(pathlib.Path(metadata["target_directory"]) / "package" / "{}-{}.crate".format(package["name"], package["version"]))')
+            python scripts/check_packaged_consumer.py "$FIELDKIN_PACKAGE_ARCHIVE"
+          } 2>&1 | tee target/release-validation/packaged-consumer.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: packaged-consumer-${{ matrix.rust }}-${{ github.sha }}
           path: target/release-validation/
           if-no-files-found: error
           retention-days: 30

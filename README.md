@@ -92,6 +92,11 @@ values and zero clears samples. See [PORTING.md](https://github.com/limadog9/fie
 | `JaccardDistanceMatcher` | Exact/fuzzy value sets with six lexical distances or cosine embeddings; Tversky penalties support Dice and containment. |
 | `SimilarityFlooding` | Labelled schema graphs, both coefficient policies, all four fixpoint formulas and three initial string matchers. |
 
+DistributionBased uses microlp instead of Python's CBC solver. Conflicting graphs
+can have multiple optimal directed solutions that produce different correspondence
+sets. Equal objectives do not establish output parity; see the
+[documented solver boundary](https://github.com/limadog9/fieldkin/blob/main/PORTING.md#interface-and-behavior-differences).
+
 All implement `Matcher`; applications can implement custom algorithms.
 Invalid input/configuration returns `Error`. Configure matchers using `Default`
 and struct updates or validated constructors. Native worker counts default to one.
@@ -162,6 +167,8 @@ Use `WorkLimits` with Jaccard's or DistributionBased's
 selectors' `_with_limits` variants, to reject excessive work before constructing
 the relevant matrices, comparison work, or integer models:
 
+The caps below are illustrative; choose them for your workload.
+
 ```rust
 use fieldkin::{Table, WorkLimits};
 use fieldkin::algorithms::JaccardDistanceMatcher;
@@ -185,10 +192,24 @@ let selected = matches.one_to_one_hungarian_with_limits(Some(0.5), &limits)?;
 
 `WorkLimits::default()` leaves counts uncapped but still checks overflow.
 These are work counts, not hard memory limits or solver deadlines.
-Distribution limits apply to each matrix/model; Jaccard comparison counts cover
-the whole batch before scoring shortcuts. Row sampling alone does not bound
-assignment dimensions or clustering complexity. Existing matching, selection,
-and metric entry points remain unbounded; choose the checked calls explicitly.
+Assignment checks the maximum source/target identity count and their product,
+including candidates below the threshold. Jaccard checks total column-pair slots
+and distinct-value Cartesian comparisons across the whole batch before scoring
+shortcuts. For example, two tables with two columns and two distinct nonempty
+values per column require four slots and at most 16 comparisons. Value
+deduplication precedes that check; string lengths and embedding-provider work
+are not capped.
+
+Distribution limits apply to each distance matrix over populated columns and each
+conflicting clustering model: a component of size `n` has `n*(n-1)` directed
+binary variables and `n*(n-1)*(n-2)` triangle constraints. These are not
+cumulative batch limits. Row sampling alone does not bound assignment dimensions
+or clustering complexity. Existing matching, selection, and metric entry points
+remain unbounded; checking matching does not automatically limit later selection
+or metrics. Choose the checked calls explicitly. The packaged
+[`valentine` example](https://github.com/limadog9/fieldkin/blob/main/examples/valentine.rs)
+demonstrates finite limits for both
+matching and assignment (`cargo run --locked --example valentine`).
 Use an isolated process with external memory/time limits for hard containment.
 
 ## Polars and sentence embeddings

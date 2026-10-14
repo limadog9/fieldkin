@@ -1,6 +1,9 @@
 name: Rust
 env:
   CARGO_BUILD_JOBS: 1
+defaults:
+  run:
+    shell: bash
 on:
   push:
   pull_request:
