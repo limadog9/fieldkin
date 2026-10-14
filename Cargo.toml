@@ -2,6 +2,7 @@
 name = "fieldkin"
 version = "0.2.1"
 edition = "2024"
+rust-version = "1.94"
 description = "Native Rust schema and instance matching: Valentine algorithms and Fieldkin suggestions"
 license = "MIT AND Apache-2.0 AND WordNet"
 repository = "https://github.com/limadog9/fieldkin"

@@ -173,3 +173,32 @@ python scripts/test_cupid_reference_fix.py --reference-dir PATH_TO_PATCHED_REFER
 Rust regression tests cover canonical WordNet ties, changed Cupid weights and
 worker counts, and distinct column names that would collide after solver
 sanitization. Python regressions check the actual patched matcher and solver.
+
+## Manual release validation
+
+Before publishing, run the **Release validation** GitHub Actions workflow on the
+intended revision and require both jobs to pass. This is a manual pre-release
+check, not an enforced publishing gate: this repository has no publication
+workflow. Ordinary offline tests still download neither models nor Python data.
+
+The workflow runs the complete live corrected-reference comparison, the actual
+source-patch regressions, and the separately ignored native MiniLM/ONNX test.
+Python 3.12.14 and every reference dependency's Linux x86_64 wheel hash are pinned in
+`validation/release-requirements.txt`; the reference revision remains the commit
+above. NLTK archives are downloaded at revision
+`550b6625bcef1f2abff2ff770a5a0d272c9c6b2a` and checked against
+`validation/release-nltk.sha256`. The five MiniLM files are downloaded from
+`Qdrant/all-MiniLM-L6-v2-onnx` revision
+`d13954661f83248295ba75c1ed411eef3b7b936e`, checked against
+`validation/release-model.sha256`, and placed in an isolated complete cache.
+The test then exercises native inference using those files. A failed download,
+checksum, reference setup, comparison or inference fails the corresponding job.
+
+Unmodified upstream runs separately. The comparator's opt-in
+`--upstream-diagnostic` accepts only the recorded customers `balance` to
+`account_balance` Cupid score-orientation difference and the three USGS
+Distribution coordinate-name sanitizations, with structural checks. Any other
+difference or incomplete run fails. Its raw per-case equivalence flags stay
+unchanged: a successful diagnostic is not exact upstream parity. The strict
+corrected-reference gate does not use this allowlist. Logs and JSON reports are
+retained for 30 days, including on failure; model weights are not uploaded.

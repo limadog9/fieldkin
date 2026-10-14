@@ -302,6 +302,10 @@ def compare_case(
         "shared_pair_count": len(shared),
         "missing_from_rust": [pair_dict(key) for key in missing],
         "extra_in_rust": [pair_dict(key) for key in extra],
+        "unshared_scores": {
+            "rust": [{"pair": pair_dict(key), "score": rust_matches[key]} for key in extra],
+            "python": [{"pair": pair_dict(key), "score": python_matches[key]} for key in missing],
+        },
         "shared_score_differences": score_differences,
         "max_absolute_error": max((difference["absolute_error"] for difference in score_differences), default=0.0),
         "pair_sets_equal": pair_sets_equal,
@@ -519,11 +523,76 @@ def print_summary(report: dict[str, Any], output: Path) -> None:
           f"{report['aggregate']['exact_case_count']} exactly equal. Report: {output}")
 
 
+def upstream_diagnostic(report: dict[str, Any]) -> dict[str, Any]:
+    """Classify only the two recorded upstream defects; never claim parity.
+
+    The strict corrected-reference comparison remains a separate release check.
+    Unknown differences, incomplete runs and setup failures are not allowlisted.
+    """
+    unexpected = []
+    expected = []
+    if not (report["metadata"]["context_verified"]
+            and report["metadata"]["reference_provenance"]["mode"] == "upstream"
+            and report["coverage"]["complete"] and report["cases"]
+            and len(report["cases"]) == report["coverage"]["expected_case_count"]):
+        unexpected.append("unverified upstream context or incomplete dataset coverage")
+    balance = pair_dict(("source", "balance", "target", "account_balance"))
+    coordinates = [pair_dict(("source", source, "target", f"geometry.coordinates[{index}]"))
+                   for source, index in (("depth", 2), ("latitude", 1), ("longitude", 0))]
+
+    def sanitized(pair):
+        return {key: value.replace("[", "_").replace("]", "_") for key, value in pair.items()}
+
+    for case in report["cases"]:
+        if case["equivalent"]:
+            continue
+        common = (case["inputs_verified"] and case["context_verified"]
+                  and case["both_succeeded"] and not case["schema_issues"])
+        score_changes = [change for change in case["shared_score_differences"]
+                         if not change["within_tolerance"]]
+        # The two recorded default-configuration outcomes, not an arbitrary
+        # tolerance allowance for every future score on this correspondence.
+        cupid = (case["path"] == "eval/customers.json" and case["algorithm"] == "cupid"
+                 and case["identifiers_valid"] and case["pair_sets_equal"]
+                 and bool(score_changes)
+                 and all(change["pair"] == balance
+                         and abs(change["rust_score"] - 0.7767211111111111) <= TOLERANCES["cupid"]
+                         and abs(change["python_score"] - 0.7630458974358975) <= TOLERANCES["cupid"]
+                         for change in score_changes)
+                 and all(change["source_column"] == "balance"
+                         and all(balance in (item["first"], item["second"])
+                                 for item in change["inversions"])
+                         for change in case["ranking_differences"]))
+        distribution = (
+            case["path"] == "eval_realworld/usgs_earthquakes.json"
+            and case["algorithm"] == "distribution" and not score_changes
+            and case["extra_in_rust"] == coordinates
+            and case["missing_from_rust"] == [sanitized(pair) for pair in coordinates]
+            and case["identifier_issues"] == {
+                "rust": [], "python": [{"pair": sanitized(pair), "invalid_fields": ["target_column"]}
+                                        for pair in coordinates]}
+            and len(case["unshared_scores"]["rust"]) == len(case["unshared_scores"]["python"]) == 3
+            and all(sanitized(rust["pair"]) == python["pair"]
+                    and abs(rust["score"] - python["score"]) <= TOLERANCES["distribution"]
+                    for rust, python in zip(case["unshared_scores"]["rust"],
+                                            case["unshared_scores"]["python"]))
+            and all([sanitized(pair) for pair in change["rust_order"]] == change["python_order"]
+                    for change in case["ranking_differences"]))
+        if common and (cupid or distribution):
+            expected.append({"path": case["path"], "algorithm": case["algorithm"],
+                             "reason": "upstream WordNet orientation" if cupid else "upstream identifier sanitization"})
+        else:
+            unexpected.append(f"unexpected difference: {case['path']} / {case['algorithm']}")
+    return {"passed": not unexpected, "expected_differences": expected, "unexpected": unexpected}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--rust", type=Path, default=ROOT / "target/parity/rust_results.json")
     parser.add_argument("--python", type=Path, default=ROOT / "target/parity/python_results.json")
     parser.add_argument("--output", type=Path, default=ROOT / "target/parity/comparison.json")
+    parser.add_argument("--upstream-diagnostic", action="store_true",
+                        help="Fail on unexpected upstream differences, separately from strict corrected-reference parity")
     arguments = parser.parse_args()
     try:
         rust = json.loads(arguments.rust.read_text(encoding="utf-8-sig"))
@@ -535,9 +604,15 @@ def main() -> int:
         print(f"Cannot compare matcher results: {error}", file=sys.stderr)
         return 2
     report["result_files"] = {"rust": str(arguments.rust), "python": str(arguments.python)}
+    if arguments.upstream_diagnostic:
+        report["upstream_diagnostic"] = upstream_diagnostic(report)
     arguments.output.parent.mkdir(parents=True, exist_ok=True)
     arguments.output.write_text(json.dumps(report, ensure_ascii=False, indent=2, allow_nan=False) + "\n", encoding="utf-8")
     print_summary(report, arguments.output)
+    if arguments.upstream_diagnostic:
+        diagnostic = report["upstream_diagnostic"]
+        print(f"Upstream diagnostic: {diagnostic}; this does not establish exact upstream parity.")
+        return 0 if diagnostic["passed"] else 1
     return 0 if report["aggregate"]["all_equivalent"] else 1
 
 

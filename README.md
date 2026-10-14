@@ -27,6 +27,12 @@ fieldkin = "0.2.1"
 Optional features: `polars` for native Polars DataFrames and `embeddings` for
 FastEmbed model inference. Both are disabled by default.
 
+The supported minimum Rust version is 1.94, including optional features. CI runs
+default-feature tests and checks all targets with all features on that compiler,
+using the committed `Cargo.lock`. Current stable Rust is also tested on Linux and
+Windows. Dependency updates may raise this minimum; Polars 0.55 currently uses
+standard-library APIs introduced in Rust 1.94.
+
 ## Match tables
 
 ```rust
@@ -177,7 +183,8 @@ let selected = matches.one_to_one_hungarian_with_limits(Some(0.5), &limits)?;
 # }
 ```
 
-These are checked work counts, not hard memory limits or solver deadlines.
+`WorkLimits::default()` leaves counts uncapped but still checks overflow.
+These are work counts, not hard memory limits or solver deadlines.
 Distribution limits apply to each matrix/model; Jaccard comparison counts cover
 the whole batch before scoring shortcuts. Row sampling alone does not bound
 assignment dimensions or clustering complexity. Existing matching, selection,

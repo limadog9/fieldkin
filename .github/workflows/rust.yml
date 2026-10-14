@@ -31,6 +31,14 @@ jobs:
       - run: cargo doc --locked --no-deps
         env:
           RUSTDOCFLAGS: -D warnings
+  minimum-rust:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dtolnay/rust-toolchain@1.94.0
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo test --locked
+      - run: cargo check --locked --all-targets --all-features --jobs 1
   tests:
     strategy:
       matrix:
@@ -43,6 +51,7 @@ jobs:
       - name: Test parity and benchmark validation helpers
         run: |
           python scripts/test_compare_valentine_parity.py
+          python scripts/test_distribution_solver_diagnostic.py
           python validation/test_benchmark_valentine.py
       - name: Check suggestion quality against frozen ground truth
         run: cargo run --locked --example evaluate_all -- --check
@@ -60,15 +69,19 @@ jobs:
       - name: Check newly sourced semantic cases against the original runtime
         run: cargo run --locked --example evaluate_all -- --check-semantic
       - run: cargo test --locked --all-targets --all-features
+      - name: Test documented default features
+        run: cargo test --locked
       - run: cargo test --locked --doc
       - run: cargo package --locked
-  # Keep the required status independent of matrix labels and require both OSes.
+  # Keep the required status independent of matrix labels and require both OSes
+  # and the documented minimum compiler.
   test:
-    needs: tests
+    needs: [tests, minimum-rust]
     if: always()
     runs-on: ubuntu-latest
     steps:
       - name: Require every platform test to pass
         env:
           TEST_RESULT: ${{ needs.tests.result }}
-        run: test "$TEST_RESULT" = success
+          MINIMUM_RUST_RESULT: ${{ needs.minimum-rust.result }}
+        run: test "$TEST_RESULT" = success && test "$MINIMUM_RUST_RESULT" = success
