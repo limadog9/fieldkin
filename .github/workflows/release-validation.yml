@@ -1,9 +1,9 @@
 name: Release validation
 
-# Manual pre-release verification, not an enforced publishing gate. There is no
-# automated publication workflow; maintainers must require this run before release.
+# Reusable release checks; also available independently for manual diagnosis.
 on:
   workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: read
@@ -64,7 +64,7 @@ jobs:
           python scripts/compare_valentine_parity.py --require-reference-fixes --rust target/release-validation/rust.json --python target/release-validation/python-fixed.json --output target/release-validation/comparison-fixed.json 2>&1 | tee target/release-validation/comparison-fixed.log
           python scripts/test_distribution_reference_patch.py 2>&1 | tee target/release-validation/distribution-patch.log
           REFERENCE=$(python -c 'import json; print(json.load(open("target/release-validation/python-fixed.json"))["reference"]["source_root"])')
-          python scripts/test_cupid_reference_fix.py --reference-dir "$REFERENCE" 2>&1 | tee target/release-validation/cupid-patch.log
+          python scripts/test_cupid_reference_fix.py --reference-dir "$REFERENCE" --output target/release-validation/cupid-regression.json 2>&1 | tee target/release-validation/cupid-patch.log
       - name: Diagnose unmodified upstream separately
         # Run even after a corrected-reference failure, without hiding that failure.
         if: ${{ !cancelled() && hashFiles('target/release-validation/rust.json') != '' }}
@@ -110,6 +110,7 @@ jobs:
           cargo test --locked --features embeddings --lib embeddings::tests::real_minilm_model_encodes_and_matches_related_values -- --ignored --exact --nocapture 2>&1 | tee target/release-validation/native-minilm.log
           # A renamed/removed test must not silently turn this into a zero-test pass.
           grep -F 'test result: ok. 1 passed; 0 failed; 0 ignored;' target/release-validation/native-minilm.log
+          python -c 'import json, os, pathlib; pathlib.Path("target/release-validation/model.json").write_text(json.dumps({"repository": "Qdrant/all-MiniLM-L6-v2-onnx", "revision": os.environ["MODEL_REVISION"], "source_commit": os.environ["GITHUB_SHA"]}, indent=2) + "\n")'
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -145,6 +146,19 @@ jobs:
             FIELDKIN_PACKAGE_ARCHIVE=$(cargo metadata --locked --no-deps --format-version 1 | python -c 'import json, pathlib, sys; metadata = json.load(sys.stdin); package = metadata["packages"][0]; print(pathlib.Path(metadata["target_directory"]) / "package" / "{}-{}.crate".format(package["name"], package["version"]))')
             python scripts/check_packaged_consumer.py "$FIELDKIN_PACKAGE_ARCHIVE"
           } 2>&1 | tee target/release-validation/packaged-consumer.log
+      - name: Record the validated stable package
+        if: matrix.rust == 'stable'
+        run: |
+          FIELDKIN_PACKAGE_ARCHIVE=$(cargo metadata --locked --no-deps --format-version 1 | python -c 'import json, pathlib, sys; metadata = json.load(sys.stdin); package = metadata["packages"][0]; print(pathlib.Path(metadata["target_directory"]) / "package" / "{}-{}.crate".format(package["name"], package["version"]))')
+          python scripts/release_evidence.py package --sha "$GITHUB_SHA" --archive "$FIELDKIN_PACKAGE_ARCHIVE" --output target/release-package/package.json
+          cp "$FIELDKIN_PACKAGE_ARCHIVE" target/release-package/
+      - uses: actions/upload-artifact@v4
+        if: matrix.rust == 'stable'
+        with:
+          name: validated-package-${{ github.sha }}
+          path: target/release-package/
+          if-no-files-found: error
+          retention-days: 30
       - uses: actions/upload-artifact@v4
         if: always()
         with:
