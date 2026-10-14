@@ -680,6 +680,8 @@ fn correlation_clusters(
             }
         }
     }
+    #[cfg(test)]
+    distribution_solver_tests::record_problem(&model);
     let solution = model
         .solve()
         .map_err(|error| Error::Algorithm(format!("correlation clustering failed: {error}")))?;
@@ -691,8 +693,14 @@ fn correlation_clusters(
             }
         }
     }
+    #[cfg(test)]
+    distribution_solver_tests::record(positive, &x, solution);
     Ok(connected_components(&joined))
 }
+
+#[cfg(test)]
+#[path = "distribution_solver_tests.rs"]
+mod distribution_solver_tests;
 
 struct BloomFilter {
     bits: Vec<bool>,

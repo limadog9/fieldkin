@@ -1,6 +1,90 @@
 # Python Valentine comparison and measured Rust optimizations
 
-## Current follow-up: exact COMA document reuse and Jaccard rejection bounds
+## Distribution solver diagnosis (2026-10-14)
+
+Fresh captures close the previously incomplete ring8/ring16 investigation on
+`7d21f37` plus the additive guarded-call changes. No clustering formula or
+search option changed; diagnostic logging was enabled. The default path uses
+good_lp 1.15.3 / microlp
+0.6.0. The Python reference is pinned to `d8fa9ee6d312b49ce2c45b62824df1fd31b94a72`,
+with Python 3.12.14, PuLP 3.3.2 and CBC 2.10.3. Unmodified and explicitly corrected
+reference captures are separate; the identity patch changes neither solution
+on these punctuation-free inputs.
+
+| Existing control | Nodes | Actual binary variables / triangles | Directed optimum | Native / CBC pairs | Differing directed arcs |
+|---|---:|---:|---:|---:|---:|
+| ring8 | 16 | 240 / 3,360 | 64 | 64 / 32 | 112 |
+| ring16 | 32 | 992 / 29,760 | 128 | 256 / 64 | 160 |
+
+The captured node order and sign matrices agree. PuLP's actual coefficients,
+binary bounds and every constraint were checked against the directed formulation;
+test-only native captures record the actual solver model counts, separation
+matrix and termination evidence. CBC reports optimal, and microlp reports
+`ProvenOptimal`, zero gap and best bounds -32/-576 before the objective constants
+96/704 are restored. Independently, every binary solution satisfies every
+directed triangle. An LP relaxation supplies **exact rational dual certificates**:
+checked signs and stationarity prove lower bounds 64/128, attained by all four
+Python and both native solutions. Equal reported objectives alone were not used
+as proof of optimality. No exponential enumeration of the large rings was run.
+
+These are different valid optimal **directed separation matrices**. Upstream
+converts their zero arcs to undirected edges and takes weak components. Native
+has one component in each case; CBC has two/four. The returned pairs are exactly
+the cross-table expansions of those components. The directed objective is not
+the cost of that final weak-component partition. Adding symmetry or forcing a
+particular tied optimum would alter compatibility; neither is warranted here.
+These controls remain **non-equivalent outputs**, excluded from equivalent-output
+speedup claims, including against the corrected reference.
+
+[Compact evidence](distribution_solver_diagnosis.json) records the graph,
+separation matrices, partitions, ordered output score bits, rational duals,
+versions and hashes. Full LP/model/log captures remain under the ignored
+`target/solver-diagnosis`; the evidence records their hashes. Ordinary tests
+exhaust all directed assignments on three nodes for 59 non-shortcut sign graphs,
+check feasibility/objectives and repeat a conflicting eight-node solve. The
+manual full-ring capture is ignored by normal offline tests.
+
+Reproduce after the pinned reference setup in PORTING.md (use an external process
+deadline; this is diagnosis, not a performance benchmark):
+
+```sh
+cargo build --locked --release --example benchmark_performance
+mkdir -p target/solver-diagnosis
+for n in 8 16; do
+  target/release/examples/benchmark_performance --algorithm distribution --values ring \
+    --columns "$n" --rows 128 --distinct 128 --overlap 100 \
+    --dump-input "target/solver-diagnosis/ring$n.json"
+done
+# Preserve the historical byte-level input fingerprints, including JSON order.
+python - <<'PYGEN'
+import json
+from pathlib import Path
+for n in (8, 16):
+    p = Path(f"target/solver-diagnosis/ring{n}.json")
+    data = json.loads(p.read_text())
+    ordered = {"name": f"generator_ring{n}"}
+    for side in ("source", "target"):
+        ordered[side] = {"fields": [{key: f[key] for key in ("name", "data_type", "samples")}
+                                   for f in data[side]["fields"]]}
+    p.write_text(json.dumps(ordered, separators=(",", ":")) + "\n")
+PYGEN
+for n in 8 16; do
+  FIELDKIN_DISTRIBUTION_INPUT="target/solver-diagnosis/ring$n.json" \
+  FIELDKIN_DISTRIBUTION_OUTPUT="target/solver-diagnosis/ring$n-native.json" \
+    timeout 180s cargo test --locked --lib capture_distribution_problem -- --ignored
+  timeout 180s python scripts/diagnose_distribution_solver.py \
+    --dataset "target/solver-diagnosis/ring$n.json" \
+    --native "target/solver-diagnosis/ring$n-native.json" \
+    --output "target/solver-diagnosis/ring$n-upstream"
+  timeout 180s python scripts/diagnose_distribution_solver.py --reference-fixes \
+    --dataset "target/solver-diagnosis/ring$n.json" \
+    --native "target/solver-diagnosis/ring$n-native.json" \
+    --output "target/solver-diagnosis/ring$n-fixed"
+done
+python scripts/test_distribution_solver_diagnostic.py
+```
+
+## Previous follow-up: exact COMA document reuse and Jaccard rejection bounds
 
 Measured **2026-10-13**, starting from `origin/main` at
 `e82bdc5b901fc2ddefa0976a275a2046be6c38a9`, on branch
@@ -160,7 +244,7 @@ binary variables, 3,360 triangles, both optimal statuses, exactly feasible binar
 solutions and recomputed objective **64** on both sides. Different tied optima
 (112 differing directed arcs) produce different weak zero-edge components.
 This is pre-existing solver-dependent behavior, not a performance regression.
-Ring16's cause was not separately instrumented. Adding symmetry or changing the
+That historical probe did not separately instrument ring16; the follow-up above now does. Adding symmetry or changing the
 objective would change established behavior, so neither is included here.
 The interleaved32 control is equivalent: Python **18,624 ms**, Rust before/after
 **46.484/45.558 ms**; Distribution code is unchanged. Process peaks were

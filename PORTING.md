@@ -58,7 +58,9 @@ Python is development tooling only.
   fix orders pairs by canonical WordNet names, matching Rust's bundled index.
 - COMA uses f64 instead of float32 instance matrices, so reference comparisons
   allow small rounding differences. Flooding/Distribution use tight f64
-  tolerances. Equal-optimum integer clusters may differ between microlp and CBC.
+  tolerances. Equal-optimum directed integer clusters may differ between microlp
+  and CBC; the [ring diagnosis](validation/python_performance.md#distribution-solver-diagnosis-2026-10-14)
+  independently proves optimality while documenting different returned pairs.
 - Distribution preserves original column identifiers. Upstream decodes
   identifiers from PuLP variable names, which can replace punctuation such as
   square brackets with underscores. The optional reference source fix gives
