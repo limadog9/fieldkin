@@ -26,11 +26,19 @@ const BOUNDED_FLAGS: &[&str] = &[
     "--threshold",
 ];
 
-const HELP: &str = "Usage: fieldkin <coma|cupid|distribution|jaccard|flooding> <source.csv|json> <target.csv|json> [source_name] [target_name] [options]
+const HELP: &str = "Usage: fieldkin <coma|cupid|distribution|jaccard|flooding> <source.csv|json> <target.csv|json> [source_name [target_name]] [options]
+       fieldkin <algorithm> <source.csv|json> <target.csv|json> -- [source_name [target_name]]
 Outputs ranked table-aware matches and component scores as JSON.
 Without --bounded, all instance values and the existing unchecked matching path are retained.
+Before the -- separator, optional names starting with -- are options; unknown or malformed options
+fail before inputs are opened. Option values must be separate tokens (--flag=value is unsupported).
+The separator makes remaining positional arguments literal; at most two table names are allowed in total.
+It never disables --bounded specified earlier. Compatibility: table names starting with -- now require it.
+Examples:
+  fieldkin jaccard source.csv target.csv -- --bounded --target
+  fieldkin --bounded jaccard source.csv target.csv --max-input-bytes 8388608 -- --source --target
 
-Bounded mode (jaccard and distribution only; options may precede positional arguments):
+Bounded mode (jaccard and distribution only; options may precede or interleave positionals before --):
   --bounded                              Enable byte-bounded loading and checked matching.
   --max-input-bytes N                     Serialized bytes per input file (default: 8388608).
   --sample-size N                         Evenly spaced nonempty values per column (default: 1000; 0 clears samples).
@@ -41,7 +49,7 @@ Bounded mode (jaccard and distribution only; options may precede positional argu
   --max-jaccard-comparisons N             Batch-wide distinct-value Cartesian comparisons (default: 10000000; jaccard only).
   --assignment MODE                      none (default), rectangular, or rectangular-threshold-aware.
   --threshold FLOAT                      Finite assignment cutoff; otherwise the existing distinct-score cutoff is used.
-  --                                     End options, allowing positional paths beginning with --.
+  --                                     End options, allowing literal table names and bounded positional paths beginning with --.
 
 Bounded defaults are illustrative conservative budgets, not universal safe settings.
 The byte cap is per file, not combined. Parsing and complete-data type inference precede sampling;
@@ -311,17 +319,41 @@ fn run_bounded(args: &[OsString]) -> Result<MatcherResults, Box<dyn std::error::
 }
 
 fn run() -> Result<(), Box<dyn std::error::Error>> {
-    let args: Vec<_> = std::env::args_os().skip(1).collect();
+    let mut args: Vec<_> = std::env::args_os().skip(1).collect();
     if args.is_empty() || args[0] == "--help" || args[0] == "-h" {
         writeln!(io::stdout().lock(), "{HELP}")?;
         return Ok(());
     }
     let has_bounded_options = args
         .iter()
+        .take_while(|arg| *arg != "--")
         .any(|arg| BOUNDED_FLAGS.iter().any(|flag| arg == flag));
     let matches = if has_bounded_options {
         run_bounded(&args)?
     } else {
+        // Keep required legacy paths positional, but never treat unescaped
+        // option-like names as permission to run unchecked matching.
+        let separator = args
+            .iter()
+            .skip(3)
+            .position(|arg| arg == "--")
+            .map(|i| i + 3);
+        let names_end = separator.unwrap_or(args.len());
+        if let Some(option) = args
+            .get(3..names_end)
+            .unwrap_or_default()
+            .iter()
+            .find(|arg| arg.as_encoded_bytes().starts_with(b"--"))
+        {
+            return Err(format!(
+                "unknown option: {}; use -- before literal table names",
+                option.to_string_lossy()
+            )
+            .into());
+        }
+        if let Some(index) = separator {
+            args.remove(index);
+        }
         run_legacy(&args)?
     };
     writeln!(

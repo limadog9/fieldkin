@@ -331,11 +331,34 @@ cargo test --locked --doc
 cargo clippy --locked --all-targets --all-features --jobs 1 -- -D warnings
 ```
 
-The CLI writes ranked JSON to stdout and errors to stderr. Existing positional
-commands retain all samples and their existing behavior.
+The CLI writes ranked JSON to stdout and errors to stderr. Positional invocations
+retain all samples and use the existing unchecked matching path:
+
+```text
+fieldkin ALGORITHM SOURCE TARGET [SOURCE_NAME [TARGET_NAME]]
+fieldkin ALGORITHM SOURCE TARGET -- [SOURCE_NAME [TARGET_NAME]]
+```
+
+There are at most two optional table names in total. Before `--`, tokens beginning
+with `--` in optional-name positions are options: unknown or malformed options
+fail before either input is opened. Options take separate values, such as
+`--max-input-bytes 8388608`; equals forms such as `--bounded=true` and
+`--max-input-bytes=8388608` are unsupported and rejected.
+
+**Compatibility change in the source checkout:** legacy table names beginning
+with `--` now require the separator. Tokens after it are literal remaining
+positionals, including names exactly equal to `--bounded`. Ordinary invocations
+with zero, one or two names and required legacy input paths retain their behavior.
+
+```sh
+# Literal table names; matching is intentionally unbounded.
+cargo run --bin fieldkin -- jaccard source.csv target.csv -- --bounded --target
+```
 
 Since 0.2.3, `--bounded` supports only `jaccard` and `distribution`; unsupported
-algorithms and invalid options fail before opening inputs. For example:
+algorithms and invalid options fail before opening inputs. Bounded options may
+precede or interleave positional arguments before the separator. A separator
+never disables `--bounded` specified before it. For example:
 
 ```sh
 # Checked ranked raw matches; defaults shown by --help.
@@ -344,6 +367,9 @@ cargo run --bin fieldkin -- --bounded jaccard source.csv target.csv
 cargo run --bin fieldkin -- --bounded distribution source.json target.json \
   --max-input-bytes 8388608 --sample-size 1000 \
   --assignment rectangular-threshold-aware --threshold 0.8
+# Bounded matching with literal option-like names; the byte cap remains active.
+cargo run --bin fieldkin -- --bounded jaccard source.csv target.csv \
+  --max-input-bytes 8388608 -- --source --target
 ```
 
 Bounded defaults are 8,388,608 serialized bytes **per file**, 1,000 nonempty
@@ -364,7 +390,8 @@ matching can differ from unsampled matching. Matching/model counts retain the
 scopes documented above; none of these caps guarantees RSS or a wall-clock
 deadline. The finite defaults are starting budgets, not universal safe settings.
 Assignment limits are checked after raw matching, before assignment costs are
-allocated. Use `--` before positional paths beginning with option-like names.
+allocated. In bounded mode, `--` also escapes remaining positional paths that
+begin with option-like names (for example, `--bounded -- jaccard --source.csv --target.csv`).
 Use external process limits for hard containment.
 
 Builds with embeddings

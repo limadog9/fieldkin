@@ -612,6 +612,19 @@ fn cli_accepts_non_utf8_file_paths_and_rejects_non_utf8_text_arguments() {
         assert!(error.starts_with("fieldkin: "), "{error}");
         assert!(error.contains("UTF-8"), "{error}");
     }
+    for index in [0, 1] {
+        for bounded in [false, true] {
+            let mut names = [OsStr::new("Source"), OsStr::new("Target")];
+            names[index] = OsStr::from_bytes(b"invalid-\xff");
+            let mut command = Command::new(env!("CARGO_BIN_EXE_fieldkin"));
+            command.args(arguments);
+            if bounded {
+                command.arg("--bounded");
+            }
+            let output = command.arg("--").args(names).output().unwrap();
+            failed_cli(output, "table name must be valid UTF-8");
+        }
+    }
 }
 
 #[cfg(unix)]
@@ -667,6 +680,223 @@ fn failed_cli(output: Output, expected: &str) -> String {
     assert!(error.starts_with("fieldkin: "), "{error}");
     assert!(error.contains(expected), "expected {expected:?}: {error}");
     error
+}
+
+#[test]
+fn cli_rejects_unescaped_option_like_names_before_input_access() {
+    let fixtures = Fixtures::new("option-like names");
+    let absent = fixtures.0.join("absent.csv");
+    let present = fixtures.write("present.csv", "value\nshared\n");
+    for option in [
+        "--unknown",
+        "--bouned",
+        "--bounded=true",
+        "--max-input-bytes=8388608",
+    ] {
+        for names in [vec![option], vec![option, "Target"], vec!["Source", option]] {
+            for (input, bounded) in [
+                (&absent, false),
+                (&absent, true),
+                (&present, false),
+                (&present, true),
+            ] {
+                let mut arguments =
+                    vec!["jaccard", input.to_str().unwrap(), input.to_str().unwrap()];
+                if bounded {
+                    arguments.push("--bounded");
+                }
+                arguments.extend_from_slice(&names);
+                let error = failed_cli(cli(&arguments), option);
+                assert!(error.contains("unknown"), "{error}");
+            }
+        }
+    }
+}
+
+#[test]
+fn cli_rejects_missing_invalid_and_overflowing_option_values_before_input_access() {
+    let fixtures = Fixtures::new("invalid option values");
+    let absent = fixtures.0.join("absent.csv");
+    let byte_overflow = usize::MAX.to_string();
+    let integer_overflow = format!("{}0", usize::MAX);
+    for (options, expected) in [
+        (vec!["--sample-size"], "requires a value"),
+        (vec!["--max-input-bytes"], "requires a value"),
+        (vec!["--assignment"], "requires a value"),
+        (vec!["--threshold"], "requires a value"),
+        (vec!["--sample-size", "-1"], "nonnegative integer"),
+        (vec!["--max-input-bytes", "invalid"], "nonnegative integer"),
+        (vec!["--sample-size", &integer_overflow], "too large"),
+        (vec!["--max-input-bytes", &byte_overflow], "overflows"),
+        (vec!["--assignment", "invalid"], "--assignment requires"),
+        (vec!["--threshold", "NaN"], "finite floating-point"),
+    ] {
+        for bounded in [false, true] {
+            let mut arguments = vec![
+                "jaccard",
+                absent.to_str().unwrap(),
+                absent.to_str().unwrap(),
+            ];
+            if bounded {
+                arguments.push("--bounded");
+            }
+            arguments.extend_from_slice(&options);
+            let error = failed_cli(cli(&arguments), if bounded { expected } else { "--" });
+            assert!(
+                error.contains(options[0]) || (!bounded && error.contains("--bounded")),
+                "{error}"
+            );
+        }
+    }
+}
+
+#[test]
+fn cli_preserves_optional_names_and_escapes_literal_option_like_names() {
+    let fixtures = Fixtures::new("literal option-like names");
+    let source = fixtures.write("source.csv", "value\nshared\n");
+    let target = fixtures.write("target.csv", "value\nshared\n");
+    for (names, source_name, target_name) in [
+        (vec![], "aaa", "bbb"),
+        (vec!["Source"], "Source", "bbb"),
+        (vec!["Source", "Target"], "Source", "Target"),
+        (vec!["--"], "aaa", "bbb"),
+        (vec!["--", "--"], "--", "bbb"),
+        (vec!["--", "Source", "--"], "Source", "--"),
+        (vec!["--", "--bounded"], "--bounded", "bbb"),
+        (
+            vec!["--", "--bounded", "--sample-size"],
+            "--bounded",
+            "--sample-size",
+        ),
+        (
+            vec!["--", "--bouned", "--max-input-bytes=8388608"],
+            "--bouned",
+            "--max-input-bytes=8388608",
+        ),
+        (vec!["Source", "--", "--bounded"], "Source", "--bounded"),
+    ] {
+        for bounded in [false, true] {
+            let mut arguments = vec![
+                "jaccard",
+                source.to_str().unwrap(),
+                target.to_str().unwrap(),
+            ];
+            if bounded {
+                arguments.push("--bounded");
+            }
+            arguments.extend_from_slice(&names);
+            let actual = successful_json(cli(&arguments));
+            assert_eq!(actual["matches"].as_array().unwrap().len(), 1);
+            assert_eq!(
+                serde_json::from_value::<ColumnPair>(actual["matches"][0]["pair"].clone()).unwrap(),
+                ColumnPair::new(source_name, "value", target_name, "value")
+            );
+        }
+    }
+    for (names, expected) in [
+        (vec!["--", ""], "table name must be nonempty"),
+        (vec!["--", "same", "same"], "duplicate table name"),
+        (
+            vec!["--", "first", "second", "third"],
+            "expected an algorithm and two input files",
+        ),
+        (
+            vec!["Source", "--", "Target", "third"],
+            "expected an algorithm and two input files",
+        ),
+    ] {
+        for bounded in [false, true] {
+            let mut arguments = vec![
+                "jaccard",
+                source.to_str().unwrap(),
+                target.to_str().unwrap(),
+            ];
+            if bounded {
+                arguments.push("--bounded");
+            }
+            arguments.extend_from_slice(&names);
+            failed_cli(cli(&arguments), expected);
+        }
+    }
+}
+
+#[test]
+fn cli_preserves_option_like_input_paths_and_bounded_flag_placement() {
+    let fixtures = Fixtures::new("option-like paths");
+    for name in [
+        "source.csv",
+        "target.csv",
+        "--source.csv",
+        "--target.csv",
+        "--bounded",
+        "--",
+    ] {
+        fixtures.write(name, "value\nshared\n");
+    }
+    for arguments in [
+        vec!["jaccard", "--source.csv", "--target.csv"],
+        vec!["jaccard", "--", "target.csv"],
+        vec!["jaccard", "source.csv", "--"],
+        vec!["--bounded", "jaccard", "source.csv", "target.csv"],
+        vec!["jaccard", "--bounded", "source.csv", "target.csv"],
+        vec!["jaccard", "source.csv", "--bounded", "target.csv"],
+        vec!["jaccard", "source.csv", "target.csv", "--bounded"],
+        vec!["--bounded", "--", "jaccard", "--bounded", "--target.csv"],
+        vec!["--bounded", "--", "jaccard", "--source.csv", "--bounded"],
+    ] {
+        let output = Command::new(env!("CARGO_BIN_EXE_fieldkin"))
+            .current_dir(&fixtures.0)
+            .args(&arguments)
+            .output()
+            .unwrap();
+        let actual = successful_json(output);
+        assert_eq!(actual["matches"].as_array().unwrap().len(), 1);
+        assert_eq!(actual["matches"][0]["score"], 1.0);
+    }
+}
+
+#[test]
+fn bounded_cli_options_before_separator_remain_active() {
+    let fixtures = Fixtures::new("bounded separator");
+    let input = "value\nshared\n";
+    let source = fixtures.write("source.csv", input);
+    let target = fixtures.write("target.csv", input);
+    let byte_cap = input.len().to_string();
+    let actual = successful_json(bounded_cli(
+        "jaccard",
+        &source,
+        &target,
+        &[
+            "--max-input-bytes",
+            &byte_cap,
+            "--max-jaccard-comparisons",
+            "1",
+            "--",
+            "--bounded",
+            "--sample-size",
+        ],
+    ));
+    assert_eq!(
+        serde_json::from_value::<ColumnPair>(actual["matches"][0]["pair"].clone()).unwrap(),
+        ColumnPair::new("--bounded", "value", "--sample-size", "value")
+    );
+    for (flag, expected) in [
+        ("--max-input-bytes", "--max-input-bytes"),
+        (
+            "--max-jaccard-comparisons",
+            "Jaccard distinct-value comparisons",
+        ),
+    ] {
+        failed_cli(
+            bounded_cli(
+                "jaccard",
+                &source,
+                &target,
+                &[flag, "0", "--", "--bounded", "--sample-size"],
+            ),
+            expected,
+        );
+    }
 }
 
 #[test]
