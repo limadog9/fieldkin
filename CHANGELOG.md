@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.4 - 2026-10-15
+
+- Reject malformed or unknown options in optional table-name positions before
+  opening inputs, preventing accidental unchecked matching.
+- Support `--` for literal optional table names without disabling bounded mode.
+  Names beginning with `--` now require this separator; equals-form options remain
+  unsupported.
+
 ## 0.2.3 - 2026-10-14
 
 - Verify Cargo's freshly prepared publication archive in the release workflow.

@@ -21,7 +21,7 @@ Install the release from [crates.io](https://crates.io/crates/fieldkin):
 
 ```toml
 [dependencies]
-fieldkin = "0.2.3"
+fieldkin = "0.2.4"
 ```
 
 Optional features: `polars` for native Polars DataFrames and `embeddings` for
@@ -345,7 +345,7 @@ fail before either input is opened. Options take separate values, such as
 `--max-input-bytes 8388608`; equals forms such as `--bounded=true` and
 `--max-input-bytes=8388608` are unsupported and rejected.
 
-**Compatibility change in the source checkout:** legacy table names beginning
+**Compatibility change in 0.2.4:** legacy table names beginning
 with `--` now require the separator. Tokens after it are literal remaining
 positionals, including names exactly equal to `--bounded`. Ordinary invocations
 with zero, one or two names and required legacy input paths retain their behavior.
