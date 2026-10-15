@@ -60,6 +60,9 @@ jobs:
         run: cargo run --locked --release --example valentine_parity -- target/release-validation/rust.json 2>&1 | tee target/release-validation/rust.log
       - name: Compare corrected reference strictly
         run: |
+          # rust-cache can restore empty reference directories after pruning Python files.
+          # Rebuild this generated copy from the verified upstream source and patches.
+          rm -rf target/parity/reference
           python scripts/run_valentine_parity.py --reference-fixes --output target/release-validation/python-fixed.json 2>&1 | tee target/release-validation/python-fixed.log
           python scripts/compare_valentine_parity.py --require-reference-fixes --rust target/release-validation/rust.json --python target/release-validation/python-fixed.json --output target/release-validation/comparison-fixed.json 2>&1 | tee target/release-validation/comparison-fixed.log
           python scripts/test_distribution_reference_patch.py 2>&1 | tee target/release-validation/distribution-patch.log
