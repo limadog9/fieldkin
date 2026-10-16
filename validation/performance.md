@@ -8,6 +8,67 @@ The [difficult-input follow-up](adversarial_performance_report.md) measures exac
 Jaccard overlap and conflicting distribution clusters under explicit child
 process resource limits, including failed baseline allocations and noisy controls.
 
+## Sparse JSON ingestion (2026-10-16)
+
+Main baseline: `6fe6d82721be83293fde57f34f7dc58a4bcf5e35`. The measured before
+commit `d009b061130b850356dfcc0db35407b65d554a9a` adds only tests and the shared
+benchmark inputs; production code is unchanged. After: `0801212e52efcbda437b1b4a0215c3cc52799ac8`.
+`from_json` now builds one column-name/index lookup and consumes present entries,
+instead of probing every union column in every record. Deserialization, sorted
+columns, scalar conversion, sample order, full-data inference and validation stay
+unchanged. Nested errors still select the first offending row and its smallest
+key, explicitly independent of `serde_json/preserve_order`.
+
+Release builds used separate target directories, Rust/Cargo 1.99.0, Linux x86-64,
+Xeon Platinum 8573C, and a shared environment limited to four CPU cores. Each
+case used five alternating before/after fresh-process rounds, one untimed warmup
+and three timed calls per process. No concurrent builds or tests ran. Timings
+include parsing from an in-memory byte reader, conversion, inference and validation;
+input generation, output hashing and output disposal are excluded. These are
+Rust-before/after measurements, not Python comparisons.
+
+| JSON workload (rows × possible columns; present per row) | Before ms, median [range] | After ms, median [range] | Time change | Peak RSS KiB, before / after |
+|---|---:|---:|---:|---:|
+| Disjoint 10,000 × 10,000; 1 | 459.13 [436.04–613.38] | 6.78 [6.49–11.39] | −98.5% (67.7×) | 11200 / 12076 |
+| Sparse 100,000 × 1,000; 10 | 1054.43 [1018.93–1283.15] | 653.73 [637.52–728.31] | −38.0% (1.61×) | 198332 / 198428 |
+| Dense 10,000 × 8; 8 | 21.77 [20.91–35.17] | 22.05 [20.44–44.61] | +1.3% | 20800 / 20836 |
+| Dense 100,000 × 8; 8 | 340.12 [224.52–363.62] | 236.24 [212.63–285.11] | −30.5% | 187976 / 188116 |
+| Dense 1,000 × 1,000; 1,000 | 810.59 [767.38–872.12] | 752.25 [728.38–775.13] | −7.2% | 239156 / 239204 |
+
+Medians and ranges describe the five process medians; RSS is the median process
+lifetime high-water mark, including encoded input, parsing and warmup, not
+incremental conversion memory. The extra index costs O(columns) storage; the
+disjoint control adds 876 KiB peak RSS. No memory reduction is claimed. The small
+dense control is 1.3% slower amid substantial shared-host variation; there is no
+material dense regression established by these runs. All 50 processes had matching
+complete-table SHA256 fingerprints, including types and ordered samples.
+
+The before/after binary SHA256 values were
+`b1b9b8510769529e4fadd1969b58530e98e7927e98f96cf5507182c49ad55108` /
+`53528b2022d5a5b945ff4f27bdb9907c55e4f1e19adae9b08dd9129a5ad6b351`.
+The eight ingestion tests compare results and errors to the previous row-matrix
+oracle. They also passed through a temporary downstream consumer enabling
+`serde_json/preserve_order`, with an additional assertion verifying insertion
+order was actually enabled. No dependency declarations or lockfile changed.
+JSON still deserializes the entire array; this is not streaming or bounded ingestion.
+
+Reproduce with the same harness on both revisions (no Python matcher required):
+
+```sh
+mkdir -p /tmp/fieldkin-json-before
+git archive d009b061130b850356dfcc0db35407b65d554a9a | tar -x -C /tmp/fieldkin-json-before
+cargo build --locked --release --example benchmark_performance --jobs 1 \
+  --manifest-path /tmp/fieldkin-json-before/Cargo.toml --target-dir /tmp/fieldkin-json-before-target
+cargo build --locked --release --example benchmark_performance --jobs 1 \
+  --target-dir target/json-after
+python3 validation/benchmark_performance.py \
+  --baseline-binary /tmp/fieldkin-json-before-target/release/examples/benchmark_performance \
+  --binary target/json-after/release/examples/benchmark_performance \
+  --case json-disjoint10000 --case json-sparse100000 \
+  --case json-rows10000 --case json-rows100000 --case json-dense1000x1000 \
+  --rounds 5 --repetitions 3 --timeout 120 --output /tmp/json-ingestion.json
+```
+
 ## Opt-in rectangular assignment (2026-10-14)
 
 Baseline main: `2644fe8a2f4e7495a915d26a32c1dc939995d68e`; measured candidate:
