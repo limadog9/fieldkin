@@ -174,6 +174,9 @@ fn json_matches_previous_conversion_including_order_types_and_missing_values() {
         r#"[{"id":18446744073709551615,"signed":-9223372036854775808,"float":1e3,"flag":true},{"id":"00042","signed":" -7 ","float":-0.0,"flag":false}]"#,
         r#"[{"number":1,"number":2},{"number":1.25},{"number":"text"}]"#,
         r#"[{"blank":null},{"blank":""},{"text":"null","boolean":" FALSE "}]"#,
+        r#"[{"z":1},{},{"a":"first","z":null},{"a":"","m":false},{"z":2,"a":"last"},{"late":1.25}]"#,
+        r#"[{"z":null,"a":""},{"a":null,"z":""},{},{"a":" ","z":"null"}]"#,
+        r#"[{"key":{},"key":1},{"key":[],"key":null},{"key":"","key":"last"}]"#,
     ] {
         assert_eq!(
             Table::from_json("json", input.as_bytes()).unwrap(),
@@ -191,6 +194,42 @@ fn json_matches_previous_conversion_including_order_types_and_missing_values() {
 }
 
 #[test]
+fn sparse_json_matches_previous_conversion() {
+    let disjoint = (0..128)
+        .rev()
+        .map(|index| serde_json::json!({format!("key_{index:03}"): index}))
+        .collect::<Vec<_>>();
+    let partial = (0..128)
+        .map(|row| {
+            let mut record = serde_json::Map::new();
+            for offset in 0..3 {
+                let column = (row * 3 + offset) % 17;
+                record.insert(
+                    format!("key_{column:03}"),
+                    match row % 5 {
+                        0 => serde_json::Value::Null,
+                        1 => serde_json::json!(""),
+                        2 => serde_json::json!(format!("row_{row}")),
+                        3 => serde_json::json!(row),
+                        _ => serde_json::json!(false),
+                    },
+                );
+            }
+            record
+        })
+        .collect::<Vec<_>>();
+    for input in [
+        serde_json::to_string(&disjoint).unwrap(),
+        serde_json::to_string(&partial).unwrap(),
+    ] {
+        assert_eq!(
+            Table::from_json("sparse", input.as_bytes()).unwrap(),
+            json_via_rows("sparse", &input).unwrap()
+        );
+    }
+}
+
+#[test]
 fn json_preserves_errors_and_validation_precedence() {
     for name in ["json", " "] {
         for input in [
@@ -203,6 +242,13 @@ fn json_preserves_errors_and_validation_precedence() {
             r#"[{"z":[]},{"a":{}}]"#,
             r#"[{" ":1}]"#,
             r#"[{" ":1,"z":{}}]"#,
+            r#"[{"":null}]"#,
+            r#"[{" ":""},{}]"#,
+            r#"[{"z":[],"m":{},"a":[]},{"":{}}]"#,
+            r#"[{"z":1},{"z":{},"a":[]," ":null}]"#,
+            r#"[{"z":[],"a":{},"z":1}]"#,
+            r#"[{"z":1,"a":[],"z":{}}]"#,
+            r#"[{"東京":[],"é":{},"a":{}}]"#,
         ] {
             let actual = Table::from_json(name, input.as_bytes()).unwrap_err();
             let expected = json_via_rows(name, input).unwrap_err();

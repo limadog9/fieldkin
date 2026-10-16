@@ -52,6 +52,11 @@ def cases():
     for algorithm in ("csv", "json"):
         for rows in (10000, 100000):
             suite[f"{algorithm}-rows{rows}"] = dict(base, algorithm=algorithm, rows=rows, distinct=256)
+    suite["json-disjoint10000"] = dict(base, algorithm="json", columns=10000, rows=10000,
+                                       populated_columns=1)
+    suite["json-sparse100000"] = dict(base, algorithm="json", columns=1000, rows=100000,
+                                       populated_columns=10)
+    suite["json-dense1000x1000"] = dict(base, algorithm="json", columns=1000, rows=1000)
     for algorithm in ("top0", "top10", "filter", "per-source"):
         suite[f"results-{algorithm}"] = dict(base, algorithm=algorithm, columns=64, rows=50000)
     for algorithm in ("metrics", "curve"):
@@ -208,6 +213,7 @@ def main():
         expected.setdefault("target_columns", None)
         expected.setdefault("workers", 1)
         expected.setdefault("result_scores", "mixed")
+        expected.setdefault("populated_columns", None)
         for round_number in range(args.rounds):
             versions = list(binaries) if round_number % 2 == 0 else list(reversed(binaries))
             for version in versions:

@@ -39,6 +39,7 @@ struct Args {
     target_columns: Option<usize>,
     workers: usize,
     rows: usize,
+    populated_columns: Option<usize>,
     distinct: usize,
     tables: usize,
     overlap: usize,
@@ -59,6 +60,7 @@ impl Default for Args {
             target_columns: None,
             workers: 1,
             rows: 128,
+            populated_columns: None,
             distinct: 32,
             tables: 2,
             overlap: 50,
@@ -85,6 +87,7 @@ fn parse(args: impl IntoIterator<Item = String>) -> BenchResult<Args> {
             "--target-columns" => parsed.target_columns = Some(value.parse()?),
             "--workers" => parsed.workers = value.parse()?,
             "--rows" => parsed.rows = value.parse()?,
+            "--populated-columns" => parsed.populated_columns = Some(value.parse()?),
             "--distinct" => parsed.distinct = value.parse()?,
             "--tables" => parsed.tables = value.parse()?,
             "--overlap" => parsed.overlap = value.parse()?,
@@ -156,6 +159,11 @@ fn parse(args: impl IntoIterator<Item = String>) -> BenchResult<Args> {
         .ok_or("workload dimensions overflow usize")?;
     if matches!(parsed.algorithm.as_str(), "csv" | "json") && parsed.sample_size.is_some() {
         return Err("--sample-size applies only to matching".into());
+    }
+    if let Some(populated) = parsed.populated_columns
+        && (parsed.algorithm != "json" || populated == 0 || populated > parsed.columns)
+    {
+        return Err("--populated-columns requires JSON and 1..=columns".into());
     }
     Ok(parsed)
 }
@@ -264,8 +272,15 @@ fn encoded_input(args: &Args) -> String {
             }
             input.push('{');
         }
-        for column in 0..args.columns {
-            if column > 0 {
+        let populated = args.populated_columns.unwrap_or(args.columns);
+        for offset in 0..populated {
+            // Rotate consecutive populated keys; singleton rows can be disjoint.
+            let column = if args.populated_columns.is_some() {
+                (row * populated + offset) % args.columns
+            } else {
+                offset
+            };
+            if offset > 0 {
                 input.push(',');
             }
             let value = value(args, 0, column, row);
@@ -626,6 +641,7 @@ fn main() -> BenchResult<()> {
             --target-columns N (default: columns) --workers N (1; Jaccard/direct Distribution)\n\
             --overlap PERCENT (50) --schema-overlap PERCENT (100) --repetitions N (5) --sample-size N (default: all)\n\
             CSV/JSON ingest one table; --tables and overlap settings do not affect ingestion.\n\
+            --populated-columns N (JSON only): rotate N present keys per row; default is dense.\n\
             Actual distinct count is min(rows, distinct); zero rows are supported.\n\
             Subset modes use rows detailed candidates; metrics/assignment use columns x target-columns.\n\
             --result-scores mixed|tied|sparse (mixed): varied grid, uniform 0.75, or sparse varied edges.\n\
@@ -745,6 +761,43 @@ mod tests {
             assert!(parse(args.map(str::to_owned)).is_err());
         }
         assert!(parse(["--rows".to_owned()]).is_err());
+        for (algorithm, populated) in [("csv", "1"), ("json", "0"), ("json", "9")] {
+            assert!(
+                parse(
+                    ["--algorithm", algorithm, "--populated-columns", populated].map(str::to_owned)
+                )
+                .is_err()
+            );
+        }
+    }
+
+    #[test]
+    fn sparse_json_generator_rotates_only_present_keys() {
+        for populated in [1, 3] {
+            let args = Args {
+                algorithm: "json".into(),
+                columns: 7,
+                rows: 14,
+                populated_columns: Some(populated),
+                ..Args::default()
+            };
+            let input = encoded_input(&args);
+            let records: Vec<serde_json::Map<String, serde_json::Value>> =
+                serde_json::from_str(&input).unwrap();
+            assert!(records.iter().all(|record| record.len() == populated));
+            let table = Table::from_json("input", input.as_bytes()).unwrap();
+            assert_eq!(table.columns.len(), args.columns);
+            for (column, actual) in table.columns.iter().enumerate() {
+                let expected: Vec<_> = (0..args.rows)
+                    .filter(|row| {
+                        (0..populated)
+                            .any(|offset| (row * populated + offset) % args.columns == column)
+                    })
+                    .map(|row| value(&args, 0, column, row))
+                    .collect();
+                assert_eq!(actual.samples, expected);
+            }
+        }
     }
 
     #[test]
