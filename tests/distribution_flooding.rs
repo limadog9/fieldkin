@@ -59,6 +59,35 @@ fn assert_reference(fixture: &Fixture, actual: &MatcherResults) {
 }
 
 #[test]
+fn flooding_treats_synthetic_looking_and_nul_prefixed_names_as_literals() {
+    let matcher = SimilarityFlooding {
+        string_matcher: StringMatcher::Levenshtein,
+        ..Default::default()
+    };
+    let names = [
+        "ordinary", "\0NID2", "\0NID9", "\0OTHER", "\0NID1", "\0NID3", "\0",
+    ];
+    let scores: Vec<_> = names
+        .iter()
+        .map(|name| {
+            let tables = [
+                table("source", vec![field(name, DataType::Text, &[])]),
+                table("target", vec![field(name, DataType::Text, &[])]),
+            ];
+            let pair = ColumnPair::new("source", *name, "target", *name);
+            let direct = matcher.get_matches(&tables[0], &tables[1]).unwrap();
+            let batch = matcher.get_matches_batch(&tables).unwrap();
+            assert_eq!(direct.len(), 1);
+            assert_eq!(batch.len(), 1);
+            let score = direct.get(&pair).unwrap();
+            assert_eq!(batch.get(&pair).unwrap().to_bits(), score.to_bits());
+            score
+        })
+        .collect();
+    assert_eq!(scores, vec![1.0; names.len()], "literal names: {names:?}");
+}
+
+#[test]
 fn all_policies_formulas_string_matchers_and_distribution_phases_match_python() {
     // Generated directly by the pinned upstream implementation. The fixtures
     // exercise all 24 Flooding configurations, global/corpus IDF, both attribute

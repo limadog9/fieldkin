@@ -4,6 +4,8 @@
 
 - Return empty results for validated empty/single-table Jaccard and DistributionBased
   batches before embedding inference, value preparation or matrix-limit checks.
+- Separate Similarity Flooding structural IDs from literal labels, preserving
+  accepted NUL-prefixed names and sharing of equal literal strings.
 
 ## 0.2.4 - 2026-10-15
 

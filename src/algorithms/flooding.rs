@@ -91,15 +91,15 @@ impl SimilarityFlooding {
         g2: &Graph,
         idf: Option<&BTreeMap<String, f64>>,
     ) -> Vec<(ColumnPair, f64)> {
-        let width = g2.names.len();
+        let width = g2.nodes.len();
         let initial: Vec<f64> = g1
-            .names
+            .nodes
             .iter()
             .flat_map(|a| {
-                g2.names.iter().map(move |b| {
-                    if a.starts_with('\0') || b.starts_with('\0') {
+                g2.nodes.iter().map(move |b| {
+                    let (Some(a), Some(b)) = (a.literal(), b.literal()) else {
                         return 0.0;
-                    }
+                    };
                     match self.string_matcher {
                         StringMatcher::PrefixSuffix => prefix_suffix(a, b, None),
                         StringMatcher::PrefixSuffixTfidf => prefix_suffix(a, b, idf),
@@ -224,19 +224,34 @@ struct Edge {
     label: Label,
 }
 
+#[derive(PartialEq, Eq)]
+enum Node {
+    Structural(usize),
+    Literal(String),
+}
+
+impl Node {
+    fn literal(&self) -> Option<&str> {
+        match self {
+            Self::Literal(name) => Some(name),
+            Self::Structural(_) => None,
+        }
+    }
+}
+
 struct Graph {
-    names: Vec<String>,
+    nodes: Vec<Node>,
     edges: Vec<Edge>,
     columns: Vec<(usize, usize)>,
 }
 
 impl Graph {
-    fn node(&mut self, name: String) -> usize {
-        if let Some(index) = self.names.iter().position(|old| old == &name) {
+    fn node(&mut self, node: Node) -> usize {
+        if let Some(index) = self.nodes.iter().position(|old| old == &node) {
             return index;
         }
-        self.names.push(name);
-        self.names.len() - 1
+        self.nodes.push(node);
+        self.nodes.len() - 1
     }
 
     fn edge(&mut self, from: usize, to: usize, label: Label) {
@@ -249,22 +264,22 @@ impl Graph {
 
     fn new(table: &Table) -> Self {
         let mut graph = Self {
-            names: Vec::new(),
+            nodes: Vec::new(),
             edges: Vec::new(),
             columns: Vec::new(),
         };
-        let table_class = graph.node("Table".into());
-        let column_class = graph.node("Column".into());
-        let type_class = graph.node("ColumnType".into());
+        let table_class = graph.node(Node::Literal("Table".into()));
+        let column_class = graph.node(Node::Literal("Column".into()));
+        let type_class = graph.node(Node::Literal("ColumnType".into()));
         let mut unique_id = 1;
-        let table_node = graph.node(format!("\0NID{unique_id}"));
-        let name = graph.node(table.name.clone());
+        let table_node = graph.node(Node::Structural(unique_id));
+        let name = graph.node(Node::Literal(table.name.clone()));
         graph.edge(table_node, name, Label::Name);
         graph.edge(table_node, table_class, Label::Type);
         for (column_index, column) in table.columns.iter().enumerate() {
             unique_id += 1;
-            let column_node = graph.node(format!("\0NID{unique_id}"));
-            let attribute = graph.node(column.name.clone());
+            let column_node = graph.node(Node::Structural(unique_id));
+            let attribute = graph.node(Node::Literal(column.name.clone()));
             graph.columns.push((column_node, column_index));
             graph.edge(column_node, column_class, Label::Type);
             graph.edge(table_node, column_node, Label::Column);
@@ -276,7 +291,10 @@ impl Graph {
                 DataType::Unknown | DataType::Boolean | DataType::Text => "varchar",
             };
             // Literal nodes are interned by name, as in Valentine's networkx graph.
-            let existing_type = graph.names.iter().position(|n| n == type_name);
+            let existing_type = graph
+                .nodes
+                .iter()
+                .position(|n| n.literal() == Some(type_name));
             if let Some(type_literal) = existing_type
                 && let Some(type_node) = graph
                     .edges
@@ -288,8 +306,8 @@ impl Graph {
                 continue;
             }
             unique_id += 1;
-            let type_node = graph.node(format!("\0NID{unique_id}"));
-            let type_literal = graph.node(type_name.into());
+            let type_node = graph.node(Node::Structural(unique_id));
+            let type_literal = graph.node(Node::Literal(type_name.into()));
             graph.edge(type_node, type_class, Label::Type);
             graph.edge(type_node, type_literal, Label::Name);
             graph.edge(column_node, type_node, Label::SqlType);
@@ -320,9 +338,9 @@ struct Propagation {
 
 impl Propagation {
     fn new(g1: &Graph, g2: &Graph, policy: Policy) -> Self {
-        let width = g2.names.len();
+        let width = g2.nodes.len();
         let [source_edges, target_edges] = [g1, g2].map(|graph| {
-            let mut adjacent = vec![[Vec::new(), Vec::new()]; graph.names.len()];
+            let mut adjacent = vec![[Vec::new(), Vec::new()]; graph.nodes.len()];
             for &edge in &graph.edges {
                 adjacent[edge.to][0].push(edge);
                 adjacent[edge.from][1].push(edge);
@@ -487,7 +505,7 @@ fn compute_idf<'a>(graphs: impl Iterator<Item = &'a Graph>) -> BTreeMap<String, 
     let mut count = 0usize;
     let mut frequency = BTreeMap::<String, usize>::new();
     for graph in graphs {
-        for name in graph.names.iter().filter(|name| !name.starts_with('\0')) {
+        for name in graph.nodes.iter().filter_map(Node::literal) {
             count += 1;
             let document: BTreeSet<String> = split_words(name)
                 .into_iter()
@@ -525,6 +543,48 @@ mod tests {
     }
 
     #[test]
+    fn structural_ids_are_disjoint_from_shared_literal_labels() {
+        let table = Table::new(
+            "\0NID2",
+            ["\0NID2", "Table"]
+                .into_iter()
+                .map(|name| crate::Field {
+                    name: name.into(),
+                    data_type: DataType::Text,
+                    samples: Vec::new(),
+                })
+                .collect(),
+        )
+        .unwrap();
+        let mut graph = Graph::new(&table);
+        let table_node = graph.node(Node::Structural(1));
+        let column_node = graph.columns[0].0;
+        let literal = graph.node(Node::Literal("\0NID2".into()));
+        for structural in [table_node, column_node] {
+            assert_ne!(structural, literal);
+            assert!(graph.edges.iter().any(|edge| edge.from == structural
+                && edge.to == literal
+                && edge.label == Label::Name));
+        }
+        let class_literal = graph.node(Node::Literal("Table".into()));
+        assert!(graph.edges.iter().any(|edge| edge.from == table_node
+            && edge.to == class_literal
+            && edge.label == Label::Type));
+        assert!(
+            graph
+                .edges
+                .iter()
+                .any(|edge| edge.from == graph.columns[1].0
+                    && edge.to == class_literal
+                    && edge.label == Label::Name)
+        );
+        // Three class literals, one shared table/column label, and "varchar".
+        let idf = compute_idf(std::iter::once(&graph));
+        assert_eq!(idf["nid"].to_bits(), 5_f64.ln().to_bits());
+        assert_eq!(idf["2"].to_bits(), 5_f64.ln().to_bits());
+    }
+
+    #[test]
     fn sql_type_branches_are_shared_and_coefficients_follow_both_policies() {
         let table = |name: &str| Table {
             name: name.into(),
@@ -554,16 +614,16 @@ mod tests {
             .map(|edge| edge.to)
             .collect();
         assert_eq!(type_targets.len(), 1);
-        let width = target.names.len();
+        let width = target.nodes.len();
         let s_table = source
-            .names
+            .nodes
             .iter()
-            .position(|name| name == "\0NID1")
+            .position(|node| *node == Node::Structural(1))
             .unwrap();
         let t_table = target
-            .names
+            .nodes
             .iter()
-            .position(|name| name == "\0NID1")
+            .position(|node| *node == Node::Structural(1))
             .unwrap();
         let from = s_table * width + t_table;
         let to = source.columns[0].0 * width + target.columns[0].0;
@@ -628,8 +688,8 @@ mod tests {
                     ("date", DataType::Unknown),
                 ],
             ),
-            // Literal/structural identifier collisions can create self-loops
-            // and reversed edges; their coefficient overwrite order matters.
+            // Literal labels can contain former synthetic ID strings alongside
+            // shared type labels; retain the propagation-order coverage.
             table(
                 "\0NID1",
                 &[
@@ -708,10 +768,10 @@ mod tests {
         }
     }
 
-    // The pre-optimization implementation is an oracle for graph construction,
-    // coefficient overwrite order, and bit-for-bit final score compatibility.
+    // The pre-optimization propagation checks coefficient overwrite order and
+    // bit-for-bit final scores on the same typed input graphs.
     fn previous_propagation(g1: &Graph, g2: &Graph, policy: Policy) -> Propagation {
-        let width = g2.names.len();
+        let width = g2.nodes.len();
         let mut connectivity: Vec<Edge> = Vec::new();
         let mut nodes = BTreeSet::new();
         let mut insertion_order = Vec::new();
@@ -824,15 +884,15 @@ mod tests {
         g2: &Graph,
         idf: Option<&BTreeMap<String, f64>>,
     ) -> Vec<(ColumnPair, f64)> {
-        let width = g2.names.len();
+        let width = g2.nodes.len();
         let initial: Vec<f64> = g1
-            .names
+            .nodes
             .iter()
             .flat_map(|a| {
-                g2.names.iter().map(move |b| {
-                    if a.starts_with('\0') || b.starts_with('\0') {
+                g2.nodes.iter().map(move |b| {
+                    let (Some(a), Some(b)) = (a.literal(), b.literal()) else {
                         return 0.0;
-                    }
+                    };
                     match matcher.string_matcher {
                         StringMatcher::PrefixSuffix => prefix_suffix(a, b, None),
                         StringMatcher::PrefixSuffixTfidf => prefix_suffix(a, b, idf),
