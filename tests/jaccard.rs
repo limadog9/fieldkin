@@ -10,7 +10,7 @@ use fieldkin::algorithms::strings::{
     StringDistanceFunction as Distance, is_abbreviation, similarity, tokens, tokens_similarity,
     trigram_similarity, type_similarity,
 };
-use fieldkin::{ColumnPair, DataType, Error, Field, Matcher, MatcherResults, Table};
+use fieldkin::{ColumnPair, DataType, Error, Field, Matcher, MatcherResults, Table, WorkLimits};
 
 fn values(values: &[&str]) -> Vec<String> {
     values.iter().map(|value| (*value).to_owned()).collect()
@@ -844,6 +844,82 @@ impl EmbeddingProvider for RecordingProvider {
     fn encode(&self, values: &[String]) -> Result<Vec<Vec<f64>>, Error> {
         self.calls.lock().unwrap().push(values.to_vec());
         Ok(values.iter().map(|_| vec![2.0, 0.0]).collect())
+    }
+}
+
+#[test]
+fn empty_and_singleton_batches_do_not_encode_embeddings() {
+    let provider = Arc::new(RecordingProvider::default());
+    let matcher = JaccardDistanceMatcher::default().with_embedding_provider(provider.clone());
+    let singleton = [table("only", &[("v", &["a"])])];
+    let zero = WorkLimits {
+        max_matrix_cells: 0,
+        max_jaccard_comparisons: 0,
+        ..Default::default()
+    };
+    for batch in [&singleton[..0], &singleton[..]] {
+        assert!(matcher.get_matches_batch(batch).unwrap().is_empty());
+        assert!(
+            matcher
+                .get_matches_batch_with_limits(batch, &zero)
+                .unwrap()
+                .is_empty()
+        );
+    }
+    assert!(provider.calls.lock().unwrap().is_empty());
+
+    let pair = [singleton[0].clone(), table("target", &[("v", &["a"])])];
+    let error = matcher
+        .get_matches_batch_with_limits(&pair, &zero)
+        .unwrap_err();
+    assert!(error.to_string().contains("Jaccard column pairs"));
+    assert!(provider.calls.lock().unwrap().is_empty());
+    let limits = WorkLimits {
+        max_matrix_cells: 1,
+        max_jaccard_comparisons: 1,
+        ..zero
+    };
+    for results in [
+        matcher.get_matches_batch(&pair).unwrap(),
+        matcher
+            .get_matches_batch_with_limits(&pair, &limits)
+            .unwrap(),
+    ] {
+        assert_eq!(results.len(), 1);
+        assert_eq!(
+            results.get(&ColumnPair::new("only", "v", "target", "v")),
+            Some(1.0)
+        );
+    }
+    assert_eq!(
+        *provider.calls.lock().unwrap(),
+        vec![values(&["a"]), values(&["a"])]
+    );
+}
+
+#[test]
+fn empty_and_singleton_batches_accept_empty_precomputed_embeddings() {
+    let matcher = JaccardDistanceMatcher::default()
+        .with_embedding_provider(Arc::new(PrecomputedEmbeddings::new([]).unwrap()));
+    let singleton = [table("only", &[("v", &["a"])])];
+    let limits = WorkLimits::default();
+    for batch in [&singleton[..0], &singleton[..]] {
+        assert!(matcher.get_matches_batch(batch).unwrap().is_empty());
+        assert!(
+            matcher
+                .get_matches_batch_with_limits(batch, &limits)
+                .unwrap()
+                .is_empty()
+        );
+    }
+    let pair = [singleton[0].clone(), table("target", &[("v", &["a"])])];
+    for result in [
+        matcher.get_matches_batch(&pair),
+        matcher.get_matches_batch_with_limits(&pair, &limits),
+    ] {
+        assert!(
+            matches!(result, Err(Error::InvalidConfig(message)) if message == "missing embedding for \"a\"")
+        );
     }
 }
 

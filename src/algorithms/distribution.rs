@@ -101,6 +101,9 @@ impl DistributionBased {
     ) -> Result<MatcherResults, Error> {
         self.validate()?;
         super::validate_tables(tables.iter().copied())?;
+        if tables.len() < 2 {
+            return MatcherResults::new(Vec::new());
+        }
         if let Some(limits) = limits {
             // A nonempty, non-NaN parsed value always receives a global rank.
             // Count those columns before collecting ranks or histograms.

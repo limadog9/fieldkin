@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Return empty results for validated empty/single-table Jaccard and DistributionBased
+  batches before embedding inference, value preparation or matrix-limit checks.
+
 ## 0.2.4 - 2026-10-15
 
 - Reject malformed or unknown options in optional table-name positions before

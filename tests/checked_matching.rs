@@ -2,8 +2,8 @@ use std::sync::{Arc, Mutex};
 
 use fieldkin::algorithms::{DistributionBased, EmbeddingProvider, JaccardDistanceMatcher};
 use fieldkin::{
-    CheckedMatcher, DataType, Error, Field, MatchOptions, MatcherResults, Table, WorkLimits,
-    match_tables, match_tables_one_to_one_with_limits, match_tables_with_limits,
+    CheckedMatcher, DataType, Error, Field, MatchOptions, Matcher, MatcherResults, Table,
+    WorkLimits, match_tables, match_tables_one_to_one_with_limits, match_tables_with_limits,
 };
 
 fn table(name: &str, width: usize) -> Table {
@@ -47,6 +47,91 @@ fn assert_identical(actual: &MatcherResults, expected: &MatcherResults) {
             .collect::<Vec<_>>()
     };
     assert_eq!(detail_bits(actual), detail_bits(expected));
+}
+
+#[test]
+fn empty_and_singleton_distribution_batches_skip_matrix_work() {
+    let matcher = DistributionBased::default();
+    let singleton = [table("only", 2)];
+    let zero = WorkLimits {
+        max_matrix_cells: 0,
+        ..Default::default()
+    };
+    for batch in [&singleton[..0], &singleton[..]] {
+        assert!(matcher.get_matches_batch(batch).unwrap().is_empty());
+        assert!(
+            matcher
+                .get_matches_batch_with_limits(batch, &zero)
+                .unwrap()
+                .is_empty()
+        );
+    }
+    let pair = [singleton[0].clone(), table("target", 2)];
+    let expected = matcher.get_matches_batch(&pair).unwrap();
+    assert_eq!(expected.len(), 4);
+    let limits = WorkLimits {
+        max_matrix_cells: 16,
+        ..zero
+    };
+    assert_identical(
+        &matcher
+            .get_matches_batch_with_limits(&pair, &limits)
+            .unwrap(),
+        &expected,
+    );
+    let error = matcher
+        .get_matches_batch_with_limits(
+            &pair,
+            &WorkLimits {
+                max_matrix_cells: 15,
+                ..limits
+            },
+        )
+        .unwrap_err();
+    assert!(
+        error
+            .to_string()
+            .contains("distance-matrix cells workload 16 exceeds configured limit 15")
+    );
+}
+
+#[test]
+fn noop_batch_validation_still_rejects_invalid_tables_and_configuration() {
+    let jaccard = JaccardDistanceMatcher::default();
+    let distribution = DistributionBased::default();
+    let limits = WorkLimits::default();
+    let mut invalid_name = table("only", 2);
+    invalid_name.name.clear();
+    let mut invalid_column = table("only", 2);
+    invalid_column.columns[0].name.clear();
+    let mut duplicate_column = table("only", 2);
+    duplicate_column.columns[1] = duplicate_column.columns[0].clone();
+    for invalid in [invalid_name, invalid_column, duplicate_column] {
+        let batch = std::slice::from_ref(&invalid);
+        for result in [
+            jaccard.get_matches_batch(batch),
+            jaccard.get_matches_batch_with_limits(batch, &limits),
+            distribution.get_matches_batch(batch),
+            distribution.get_matches_batch_with_limits(batch, &limits),
+        ] {
+            assert!(matches!(result, Err(Error::InvalidInput(_))));
+        }
+    }
+    let invalid = DistributionBased {
+        quantiles: 0,
+        ..Default::default()
+    };
+    let singleton = [table("only", 2)];
+    for batch in [&singleton[..0], &singleton[..]] {
+        for result in [
+            invalid.get_matches_batch(batch),
+            invalid.get_matches_batch_with_limits(batch, &limits),
+        ] {
+            assert!(
+                matches!(result, Err(Error::InvalidConfig(message)) if message == "quantiles must be >= 1")
+            );
+        }
+    }
 }
 
 #[test]

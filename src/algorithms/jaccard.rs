@@ -349,6 +349,9 @@ impl JaccardDistanceMatcher {
     ) -> Result<MatcherResults, Error> {
         self.config.validate()?;
         super::validate_tables(tables.iter().copied())?;
+        if tables.len() < 2 {
+            return MatcherResults::new(Vec::new());
+        }
         let pair_count = checked_product_sum(tables.iter().enumerate().flat_map(|(i, source)| {
             tables[i + 1..]
                 .iter()
