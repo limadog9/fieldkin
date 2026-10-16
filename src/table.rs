@@ -1,6 +1,10 @@
 use crate::{DataType, Field, Schema};
 use serde::{Deserialize, Serialize};
-use std::{collections::BTreeSet, fmt, io::Read};
+use std::{
+    collections::{BTreeSet, HashMap},
+    fmt,
+    io::Read,
+};
 
 /// Recoverable input, configuration, I/O, and algorithm failures.
 #[derive(Debug)]
@@ -182,23 +186,35 @@ impl Table {
                 samples: Vec::new(),
             })
             .collect();
-        for mut record in records {
-            for column in &mut columns {
-                let value = match record.remove(&column.name) {
-                    None | Some(serde_json::Value::Null) => continue,
-                    Some(serde_json::Value::String(s)) => s,
-                    Some(serde_json::Value::Bool(b)) => b.to_string(),
-                    Some(serde_json::Value::Number(n)) => n.to_string(),
+        let column_indices: HashMap<_, _> = columns
+            .iter()
+            .enumerate()
+            .map(|(index, column)| (column.name.clone(), index))
+            .collect();
+        for record in records {
+            let mut nested_column: Option<String> = None;
+            for (name, value) in record {
+                let value = match value {
+                    serde_json::Value::Null => continue,
+                    serde_json::Value::String(s) => s,
+                    serde_json::Value::Bool(b) => b.to_string(),
+                    serde_json::Value::Number(n) => n.to_string(),
                     _ => {
-                        return Err(Error::InvalidInput(format!(
-                            "nested JSON value in column {}",
-                            column.name
-                        )));
+                        // Map order may be insertion order under serde_json's preserve_order.
+                        if nested_column.as_ref().is_none_or(|first| name < *first) {
+                            nested_column = Some(name);
+                        }
+                        continue;
                     }
                 };
                 if !value.is_empty() {
-                    column.samples.push(value);
+                    columns[column_indices[&name]].samples.push(value);
                 }
+            }
+            if let Some(name) = nested_column {
+                return Err(Error::InvalidInput(format!(
+                    "nested JSON value in column {name}"
+                )));
             }
         }
         for column in &mut columns {
